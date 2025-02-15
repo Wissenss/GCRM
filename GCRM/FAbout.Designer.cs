@@ -119,6 +119,7 @@
 			MaximizeBox = false;
 			MaximumSize = new Size(320, 150);
 			MinimizeBox = false;
+			MinimumSize = new Size(300, 147);
 			Name = "FAbout";
 			ShowIcon = false;
 			ShowInTaskbar = false;

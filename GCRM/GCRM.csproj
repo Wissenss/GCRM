@@ -7,17 +7,29 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <Title>gcrm</Title>
-    <Version>$(VersionPrefix)0.0.7-alpha</Version>
+    <Version>$(VersionPrefix)0.0.7.1-alpha</Version>
     <ApplicationIcon>Fatcow-Farm-Fresh-Bookmark.ico</ApplicationIcon>
     <Copyright>Leonardo Merino</Copyright>
     <StartupObject>GCRM.Program</StartupObject>
     <Description>Gobernment Citizen Relationship Manager</Description>
     <UseWPF>False</UseWPF>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+		<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+		<Authors>$(AssemblyName), Leonardo Merino Garfias</Authors>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/Wissenss/GCRM</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
     <Content Include="Fatcow-Farm-Fresh-Bookmark.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
