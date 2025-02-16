@@ -30,7 +30,7 @@ PASSWORD: m$!g+38ke~v5NrbXKH'^Zu
 ## 2 client setup
 
 - 2.1 download the binary files, prefered/default installation path is C:\Program Files\GCRM\
-- 2.2 (optional) create a .lnk direct access file of GCRM.exe and place it on desktop and or starup folder
+- 2.2 (optional) create a .lnk direct access file of GCRM.exe and place it on desktop and or startup folder
 - 2.3 (optional) disable security warning for the application
 - 2.3.1 first time the app ir runned, a security warning will show advaicing not to run, click more and run anyway
 - 2.4 login with superuser to create all users, the credentials are:
