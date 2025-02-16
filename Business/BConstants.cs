@@ -4,6 +4,8 @@ namespace Business
 {
 	public enum TSocietySector
 	{
+		None = 0,
+
 		Health = 1,
 		Government = 2,
 		Business = 3,
@@ -62,6 +64,7 @@ namespace Business
 		{
 			Dictionary<TSocietySector, string> mapping = new Dictionary<TSocietySector, string>()
 			{
+				{ TSocietySector.None, "Ninguno" },
 				{ TSocietySector.Health, "Salud" },
 				{ TSocietySector.Government, "Gobierno" },
 				{ TSocietySector.Business, "Empresarial" },

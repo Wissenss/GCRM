@@ -163,6 +163,39 @@ namespace Business
 			return error;
 		}
 
+		public static Error GetNullInstitution(out TInstitution institution)
+		{
+			TInstitution null_institution = new TInstitution()
+			{
+				Id = 0,
+				Name = "Desconocida",
+				Sector = TSocietySector.None
+			};
+
+			GetNullInstitutionRoles(out null_institution.Roles);
+
+			institution = null_institution;
+
+			return 0;
+		}
+
+		public static Error GetNullInstitutionRoles(out List<TInstitutionRole> institution_roles)
+		{
+			List<TInstitutionRole> null_institution_roles = new List<TInstitutionRole>()
+			{
+				new TInstitutionRole()
+				{
+					Id = 0,
+					Name = "Desconocido",
+					Description = ""
+				}
+			};
+
+			institution_roles = null_institution_roles;
+
+			return 0;	
+		}
+
 		public static Error GetInstitutions(out List<TInstitution> institution_list)
 		{
 			institution_list = new List<TInstitution>();

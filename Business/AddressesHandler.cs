@@ -52,6 +52,7 @@ namespace Business
 
 			using (var cmd = new NpgsqlCommand(sql, conn))
 			{
+				cmd.Parameters.AddWithValue("@id", address.Id);
 				cmd.Parameters.AddWithValue("@street", address.Street);
 				cmd.Parameters.AddWithValue("@number", address.Number);
 				cmd.Parameters.AddWithValue("@interior_number", address.InteriorNumber);

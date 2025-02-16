@@ -16,6 +16,7 @@ namespace GCRM
 	{
 		DataSet DSCitizen;
 		DataTable DTCitizens;
+		DataTable DTInstitution;
 		DataTable DTInstitutionRoles;
 
 		FAccessMode AccessMode = FAccessMode.Create;
@@ -32,6 +33,11 @@ namespace GCRM
 			DTCitizens.Columns.Add("id", typeof(int));
 			DTCitizens.Columns.Add("name", typeof(string));
 			DSCitizen.Tables.Add(DTCitizens);
+
+			DTInstitution = new DataTable("DTInstitutions");
+			DTInstitution.Columns.Add("id", typeof(int));
+			DTInstitution.Columns.Add("name", typeof(string));
+			DSCitizen.Tables.Add(DTInstitution);
 
 			DTInstitutionRoles = new DataTable("DTInstitutionRoles");
 			DTInstitutionRoles.Columns.Add("id", typeof(int));
@@ -58,7 +64,7 @@ namespace GCRM
 			ComboBoxCountry.ValueMember = "value";
 			ComboBoxCountry.DisplayMember = "text";
 
-			ComboBoxInstitution.DataSource = Catalogs.DTInstitutions;
+			ComboBoxInstitution.DataSource = DTInstitution;
 			ComboBoxInstitution.ValueMember = "id";
 			ComboBoxInstitution.DisplayMember = "name";
 
@@ -70,16 +76,54 @@ namespace GCRM
 			LAssistantPhone.Text = "";
 			LAssitantCellphone.Text = "";
 
+			LoadDTInstitutions();
+			LoadDTInstitutionRoles();
 			LoadDTCitizens();
 
-			Catalogs.LoadDTInstitutions();
+			LInstitutionSectorAndCategory.Text = "";
+			LInstitutionRoleDescription.Text = "";
 
 			ComboBoxInstitution.SelectedIndex = 0;
 		}
 
-		private void LoadInstitutions()
+		private void LoadDTInstitutions()
 		{
-			Catalogs.LoadDTInstitutions();
+			List<TInstitution> institutions_list;
+
+			Error error = InstitutionsHandler.GetInstitutions(out institutions_list);
+
+			if (error != 0)
+			{
+				Utilities.ShowErrorDialog(error);
+				return;
+			}
+
+			TInstitution null_institution;
+
+			error = InstitutionsHandler.GetNullInstitution(out null_institution);
+
+			if (error != 0)
+			{
+				Utilities.ShowErrorDialog(error);
+				return;
+			}
+
+			institutions_list.Insert(0, null_institution);
+
+			DTInstitution.BeginLoadData();
+			DTInstitution.Clear();	
+
+			foreach (TInstitution institution in institutions_list)
+			{
+				DataRow row = DTInstitution.NewRow();
+
+				row["id"] = institution.Id;
+				row["name"] = institution.Name;
+
+				DTInstitution.Rows.Add(row);
+			}
+
+			DTInstitution.EndLoadData();
 		}
 
 		private void LoadDTCitizens()
@@ -199,7 +243,6 @@ namespace GCRM
 
 		private void FCitizenData_Load(object sender, EventArgs e)
 		{
-			//LoadDTCitizens();
 		}
 
 		private void ComboBoxTitle_SelectedIndexChanged(object sender, EventArgs e)
@@ -336,6 +379,16 @@ namespace GCRM
 				*/
 			}
 
+			if ((int)ComboBoxInstitution.SelectedValue == 0)
+			{
+				errors.AppendLine("Debe especificar la institución a la que pertenece el ciudadano");
+			}
+
+			if ((int)ComboBoxInstitutionRole.SelectedValue == 0)
+			{
+				errors.AppendLine("Debe especificar el cargo del ciudadano");
+			}
+
 			if (errors.Length > 0)
 			{
 				Utilities.ShowValidationErrorDialog(errors);
@@ -421,7 +474,16 @@ namespace GCRM
 
 			List<TInstitutionRole> role_list;
 
-			Error error = InstitutionsHandler.GetInstitutionRoles(institution_id, out role_list);
+			Error error = 0;
+
+			if (institution_id == 0)
+			{
+				error = InstitutionsHandler.GetNullInstitutionRoles(out role_list);	
+			}
+			else
+			{
+				error = InstitutionsHandler.GetInstitutionRoles(institution_id, out role_list);
+			}
 
 			if (error != 0)
 			{
@@ -467,21 +529,26 @@ namespace GCRM
 
 			try
 			{
-
-
 				int id = (int)ComboBoxInstitution.SelectedValue;
 
-				TInstitution institution;
-
-				Error error = InstitutionsHandler.GetInstitutionById(id, out institution);
-
-				if (error != 0)
+				if (id == 0)
 				{
-					Utilities.ShowErrorDialog(error);
-					return;
+					LInstitutionSectorAndCategory.Text = "";
 				}
+				else
+				{
+					TInstitution institution;
 
-				LInstitutionSectorAndCategory.Text = $"{BConstants.GetSocietySectorName(institution.Sector)} - {institution.Category.Name}";
+					Error error = InstitutionsHandler.GetInstitutionById(id, out institution);
+
+					if (error != 0)
+					{
+						Utilities.ShowErrorDialog(error);
+						return;
+					}
+
+					LInstitutionSectorAndCategory.Text = $"{BConstants.GetSocietySectorName(institution.Sector)} - {institution.Category.Name}";
+				}
 
 				LoadDTInstitutionRoles();
 			}
@@ -501,8 +568,14 @@ namespace GCRM
 			{
 				int id = (int)ComboBoxInstitutionRole.SelectedValue;
 
-				TInstitutionRole role;
+				if (id == 0)
+				{
+					LInstitutionRoleDescription.Text = "";
+					return;
+				}
 
+				TInstitutionRole role;
+					
 				Error error = InstitutionsHandler.GetInstitutionRoleById(id, out role);
 
 				if (error != 0)
@@ -513,7 +586,10 @@ namespace GCRM
 
 				LInstitutionRoleDescription.Text = role.Description;
 			}
-			catch { }
+			catch 
+			{ 
+			
+			}
 		}
 	}
 }

@@ -39,7 +39,13 @@ namespace GCRM
 			AddColumnToDataGrid(DataGridCitizens, "colBirthday", "Nacimiento", "birthday", false);
 			AddColumnToDataGrid(DataGridCitizens, "colObservations", "Observaciones", "observations", false);
 			AddColumnToDataGrid(DataGridCitizens, "colSex", "Id Sexo", "sex", false);
+
 			AddColumnToDataGrid(DataGridCitizens, "colAssistantId", "Id Asistente", "assistant_id", false);
+			AddColumnToDataGrid(DataGridCitizens, "colAssistantPhone", "Teléfono Asistente", "assistant_phone", false);
+			AddColumnToDataGrid(DataGridCitizens, "colAssistantPhoneExtension", "Extensión Teléfono Asistente", "assistant_phone_extension", false);
+			AddColumnToDataGrid(DataGridCitizens, "colAssistantPhoneAndExtension", "Tel. Asistente", "assistant_phone_full", false);
+			AddColumnToDataGrid(DataGridCitizens, "colAssistantCellphone", "Cel. Asistente", "assistant_cellphone", false);
+
 			AddColumnToDataGrid(DataGridCitizens, "colPhone", "Teléfono", "phone", false);
 			AddColumnToDataGrid(DataGridCitizens, "colPoliticalParty", "Id Partido", "political_party", false);
 			AddColumnToDataGrid(DataGridCitizens, "colPhoneExtension", "Extensión Teléfono", "phone_extension", false);
@@ -89,6 +95,10 @@ namespace GCRM
 			DTCitizens.Columns.Add("sex_name", typeof(string));
 			DTCitizens.Columns.Add("assistant_id", typeof(int));
 			DTCitizens.Columns.Add("assistant_name", typeof(string));
+			DTCitizens.Columns.Add("assistant_phone", typeof(string));
+			DTCitizens.Columns.Add("assistant_phone_extension", typeof(string));
+			DTCitizens.Columns.Add("assistant_phone_full", typeof(string));
+			DTCitizens.Columns.Add("assistant_cellphone", typeof(string));
 			DTCitizens.Columns.Add("phone", typeof(string));
 			DTCitizens.Columns.Add("phone_extension", typeof(string));
 			DTCitizens.Columns.Add("phone_full", typeof(string));
@@ -193,8 +203,26 @@ namespace GCRM
 				row["observations"] = citizen.Observations;
 				row["sex"] = citizen.Sex;
 				row["sex_name"] = BConstants.GetSexName(citizen.Sex);
-				row["assistant_id"] = citizen.Assistant.Id;
-				row["assistant_name"] = $"{citizen.Assistant.Name} {citizen.Assistant.PaternalName} {citizen.Assistant.MaternalName}";
+				
+				if (citizen.Assistant.Id != 0)
+				{
+					row["assistant_id"] = citizen.Assistant.Id;
+					row["assistant_name"] = $"{citizen.Assistant.Name} {citizen.Assistant.PaternalName} {citizen.Assistant.MaternalName}";
+					row["assistant_phone"] = citizen.Assistant.Phone;
+					row["assistant_phone_extension"] = citizen.Assistant.PhoneExtension;
+					row["assistant_phone_full"] = $"{citizen.Assistant.Phone}" + (citizen.Assistant.PhoneExtension.Length > 0 ? $" Ext. {citizen.Assistant.PhoneExtension}" : "");
+					row["assistant_cellphone"] = citizen.Assistant.Cellphone;
+				}
+				else
+				{
+					row["assistant_id"] = 0;
+					row["assistant_name"] = "";
+					row["assistant_phone"] = "";
+					row["assistant_phone_extension"] = "";
+					row["assistant_phone_full"] = "";
+					row["assistant_cellphone"] = "";
+				}
+				
 				row["phone"] = citizen.Phone;
 				row["phone_extension"] = citizen.PhoneExtension;
 				row["phone_full"] = $"{citizen.Phone}" + (citizen.PhoneExtension.Length > 0 ? $" Ext. {citizen.PhoneExtension}" : "");
@@ -496,6 +524,10 @@ namespace GCRM
 					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Celular", headers_color, 20);
 					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Partido", headers_color, 10);
 
+					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Asistente", headers_color, 30);
+					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Tel. Asistente", headers_color, 25);
+					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Cel. Asistente", headers_color, 20);
+
 					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Sector", headers_color, 10);
 					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Categoría", headers_color, 20);
 					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Institución", headers_color, 10);
@@ -524,6 +556,10 @@ namespace GCRM
 						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colPhoneAndExtension"].Value);
 						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colCellphone"].Value);
 						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colPoliticalPartyName"].Value);
+
+						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colAssistantName"].Value);
+						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colAssistantPhoneAndExtension"].Value);
+						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colAssistantCellphone"].Value);
 
 						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colInstitutionSectorName"].Value);
 						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colInstitutionCategoryName"].Value);

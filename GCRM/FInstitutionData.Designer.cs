@@ -318,6 +318,7 @@
 			Name = "FInstitutionData";
 			ShowIcon = false;
 			ShowInTaskbar = false;
+			SizeGripStyle = SizeGripStyle.Hide;
 			Text = "Institución - Nueva";
 			Load += FInstitutionData_Load;
 			TabGeneral.ResumeLayout(false);

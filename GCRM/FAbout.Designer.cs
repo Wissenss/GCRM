@@ -119,7 +119,7 @@
 			Controls.Add(panel1);
 			Icon = (Icon)resources.GetObject("$this.Icon");
 			MaximizeBox = false;
-			MaximumSize = new Size(320, 150);
+			MaximumSize = new Size(320, 170);
 			MinimizeBox = false;
 			MinimumSize = new Size(300, 147);
 			Name = "FAbout";

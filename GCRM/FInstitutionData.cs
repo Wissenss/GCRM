@@ -136,6 +136,11 @@ namespace GCRM
 				errors.AppendLine("La institución debe tener al menos un cargo definido");
 			}
 
+			if ((TSocietySector)ComboBoxSocietySector.SelectedValue == TSocietySector.None)
+			{
+				errors.AppendLine("Debe especificar el sector social al que pertenece la institución");
+			}
+
 			if (errors.Length > 0)
 			{
 				Utilities.ShowValidationErrorDialog(errors);

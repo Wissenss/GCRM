@@ -108,6 +108,7 @@
 			MaximumSize = new Size(360, 220);
 			Name = "FInstitutionCategoryData";
 			ShowIcon = false;
+			SizeGripStyle = SizeGripStyle.Hide;
 			Text = "Categoría - Nueva";
 			ResumeLayout(false);
 			PerformLayout();
