@@ -503,7 +503,7 @@
 			BPrint.Padding = new Padding(2, 8, 2, 8);
 			BPrint.Size = new Size(77, 36);
 			BPrint.Text = "&Imprimir";
-			BPrint.Visible = false;
+			BPrint.Click += BPrint_Click;
 			// 
 			// toolStripSeparator4
 			// 

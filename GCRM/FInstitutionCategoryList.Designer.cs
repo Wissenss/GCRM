@@ -31,6 +31,7 @@
 			DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
 			DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
 			DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FInstitutionCategoryList));
 			toolStrip1 = new ToolStrip();
 			BAdd = new ToolStripButton();
 			BEdit = new ToolStripButton();
@@ -186,6 +187,7 @@
 			ClientSize = new Size(380, 356);
 			Controls.Add(DataGridInstitutionCategories);
 			Controls.Add(toolStrip1);
+			Icon = (Icon)resources.GetObject("$this.Icon");
 			Name = "FInstitutionCategoryList";
 			ShowIcon = false;
 			Text = "Categorías de instituciones";

@@ -31,6 +31,7 @@
 			DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
 			DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
 			DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FUserList));
 			toolStrip1 = new ToolStrip();
 			BAdd = new ToolStripButton();
 			BEdit = new ToolStripButton();
@@ -193,6 +194,7 @@
 			ClientSize = new Size(521, 329);
 			Controls.Add(DataGridUsers);
 			Controls.Add(toolStrip1);
+			Icon = (Icon)resources.GetObject("$this.Icon");
 			Name = "FUserList";
 			ShowIcon = false;
 			Text = "Usuarios";

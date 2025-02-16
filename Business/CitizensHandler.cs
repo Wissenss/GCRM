@@ -333,7 +333,7 @@ namespace Business
 
 			return 0;
 		}
-	
+
 		public static Error GetCitizensWhosBirhdayFallsOn(DateTime birthday, out List<TCitizen> citizen_list)
 		{
 			var conn = ConnectionPool.GetConnection();

@@ -361,7 +361,7 @@ namespace GCRM
 				MaternalName = TextBoxMaternalName.Text.Trim(),
 				Sex = (TSex)ComboBoxSex.SelectedValue,
 				Birthday = DatePickerBirthday.Value,
-				CURP = TextBoxCURP.Text.Trim(),
+				CURP = TextBoxCURP.Text.Trim().ToUpper(),
 				Observations = TextBoxObservations.Text.Trim(),
 				PoliticalParty = (TPoliticalParty)ComboBoxPoliticalParty.SelectedValue,
 

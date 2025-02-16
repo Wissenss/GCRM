@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FAbout));
 			panel1 = new Panel();
 			LDescription = new Label();
 			LTitle = new Label();
@@ -116,6 +117,7 @@
 			Controls.Add(LCopyright);
 			Controls.Add(LVersion);
 			Controls.Add(panel1);
+			Icon = (Icon)resources.GetObject("$this.Icon");
 			MaximizeBox = false;
 			MaximumSize = new Size(320, 150);
 			MinimizeBox = false;

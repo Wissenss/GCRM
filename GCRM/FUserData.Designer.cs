@@ -30,6 +30,7 @@
 		{
 			DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
 			DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FUserData));
 			BCancel = new Button();
 			BAccept = new Button();
 			TextBoxName = new TextBox();
@@ -239,6 +240,7 @@
 			Controls.Add(TabControlUser);
 			Controls.Add(BCancel);
 			Controls.Add(BAccept);
+			Icon = (Icon)resources.GetObject("$this.Icon");
 			Name = "FUserData";
 			ShowIcon = false;
 			SizeGripStyle = SizeGripStyle.Hide;

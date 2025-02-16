@@ -8,14 +8,12 @@ namespace GCRM
 		[STAThread]
 		static void Main()
 		{
+			QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
+
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			Application.SetHighDpiMode(HighDpiMode.SystemAware);
-			//Application.
-			//ApplicationConfiguration.Initialize();
-			//Application.SetCompatibleTextRenderingDefault(true);
-			//Application.SetHighDpiMode(HighDpiMode.SystemAware);
-			//Application.
+
 			Application.Run(new FLogin());
 		}
 	}

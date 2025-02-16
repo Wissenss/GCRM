@@ -1,6 +1,7 @@
 ﻿using Business;
 using ClosedXML.Excel;
 using DocumentFormat.OpenXml.Spreadsheet;
+using Reporter;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,6 +11,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
+using QuestPDF.Fluent;
+using QuestPDF.Companion;
 
 namespace GCRM
 {
@@ -27,44 +31,44 @@ namespace GCRM
 			DataGridCitizens.AutoGenerateColumns = false;
 
 			// DataGridCitizensColumns
-			AddColumnToDataGrid(DataGridCitizens, "colId",											"Id",									"id",												false);
-			AddColumnToDataGrid(DataGridCitizens, "colTitle",										"Id Título",					"title",										false);
-			AddColumnToDataGrid(DataGridCitizens, "colName",										"Nombre",							"name",											false);
-			AddColumnToDataGrid(DataGridCitizens, "colPaternalName",						"Apellido paterno",		"paternal_name",						false);
-			AddColumnToDataGrid(DataGridCitizens, "colMaternalName",						"Apellido materno",		"maternal_name",						false);
-			AddColumnToDataGrid(DataGridCitizens, "colBirthday",								"Nacimiento",					"birthday",									false);
-			AddColumnToDataGrid(DataGridCitizens, "colObservations",						"Observaciones",			"observations",							false);
-			AddColumnToDataGrid(DataGridCitizens, "colSex",											"Id Sexo",						"sex",											false);
-			AddColumnToDataGrid(DataGridCitizens, "colAssistantId",							"Id Asistente",				"assistant_id",							false);
-			AddColumnToDataGrid(DataGridCitizens, "colPhone",										"Teléfono",						"phone",										false);
-			AddColumnToDataGrid(DataGridCitizens, "colPoliticalParty",					"Id Partido",					"political_party",					false);
-			AddColumnToDataGrid(DataGridCitizens, "colPhoneExtension",					"Extensión Teléfono", "phone_extension",					false);
-			AddColumnToDataGrid(DataGridCitizens, "colInstitutionId",						"Id Institución",			"institution_id",						false);
-			AddColumnToDataGrid(DataGridCitizens, "colInstitutionCategoryId",		"Id Categoría",				"institution_category_id",	false);
-			AddColumnToDataGrid(DataGridCitizens, "colInstitutionSector",				"Id Sector",					"institution_sector",				false);
-			AddColumnToDataGrid(DataGridCitizens, "colAddressId",								"Id Dirección",				"address_id",								false);
-			AddColumnToDataGrid(DataGridCitizens, "colAddressStreet",						"Calle",							"address_street",						false);
-			AddColumnToDataGrid(DataGridCitizens, "colAddressNumber",						"Número",							"address_number",						false);
-			AddColumnToDataGrid(DataGridCitizens, "colAddressInteriorNumber",		"Número interior",		"address_interior_number",	false);
-			AddColumnToDataGrid(DataGridCitizens, "colAddressPostalCode",				"Código postal",			"address_postal_code",			false);
-			AddColumnToDataGrid(DataGridCitizens, "colAddressState",						"Estado",							"address_state",						false);
-			AddColumnToDataGrid(DataGridCitizens, "colAddressCity",							"Ciudad",							"address_city",							false);
-			AddColumnToDataGrid(DataGridCitizens, "colAddressCountry",					"Id país",						"address_country",					false);
-			AddColumnToDataGrid(DataGridCitizens, "colAddressCountryName",			"País",								"address_country_name",			false);
+			AddColumnToDataGrid(DataGridCitizens, "colId", "Id", "id", false);
+			AddColumnToDataGrid(DataGridCitizens, "colTitle", "Id Título", "title", false);
+			AddColumnToDataGrid(DataGridCitizens, "colName", "Nombre", "name", false);
+			AddColumnToDataGrid(DataGridCitizens, "colPaternalName", "Apellido paterno", "paternal_name", false);
+			AddColumnToDataGrid(DataGridCitizens, "colMaternalName", "Apellido materno", "maternal_name", false);
+			AddColumnToDataGrid(DataGridCitizens, "colBirthday", "Nacimiento", "birthday", false);
+			AddColumnToDataGrid(DataGridCitizens, "colObservations", "Observaciones", "observations", false);
+			AddColumnToDataGrid(DataGridCitizens, "colSex", "Id Sexo", "sex", false);
+			AddColumnToDataGrid(DataGridCitizens, "colAssistantId", "Id Asistente", "assistant_id", false);
+			AddColumnToDataGrid(DataGridCitizens, "colPhone", "Teléfono", "phone", false);
+			AddColumnToDataGrid(DataGridCitizens, "colPoliticalParty", "Id Partido", "political_party", false);
+			AddColumnToDataGrid(DataGridCitizens, "colPhoneExtension", "Extensión Teléfono", "phone_extension", false);
+			AddColumnToDataGrid(DataGridCitizens, "colInstitutionId", "Id Institución", "institution_id", false);
+			AddColumnToDataGrid(DataGridCitizens, "colInstitutionCategoryId", "Id Categoría", "institution_category_id", false);
+			AddColumnToDataGrid(DataGridCitizens, "colInstitutionSector", "Id Sector", "institution_sector", false);
+			AddColumnToDataGrid(DataGridCitizens, "colAddressId", "Id Dirección", "address_id", false);
+			AddColumnToDataGrid(DataGridCitizens, "colAddressStreet", "Calle", "address_street", false);
+			AddColumnToDataGrid(DataGridCitizens, "colAddressNumber", "Número", "address_number", false);
+			AddColumnToDataGrid(DataGridCitizens, "colAddressInteriorNumber", "Número interior", "address_interior_number", false);
+			AddColumnToDataGrid(DataGridCitizens, "colAddressPostalCode", "Código postal", "address_postal_code", false);
+			AddColumnToDataGrid(DataGridCitizens, "colAddressState", "Estado", "address_state", false);
+			AddColumnToDataGrid(DataGridCitizens, "colAddressCity", "Ciudad", "address_city", false);
+			AddColumnToDataGrid(DataGridCitizens, "colAddressCountry", "Id país", "address_country", false);
+			AddColumnToDataGrid(DataGridCitizens, "colAddressCountryName", "País", "address_country_name", false);
 
 			int display_index = 0;
 
-			AddColumnToDataGrid(DataGridCitizens, "colTitleName",								"Título",							"title_name",									true, display_index++,  20, 20, DataGridViewAutoSizeColumnMode.AllCells);
-			AddColumnToDataGrid(DataGridCitizens, "colFullName",								"Nombre",							"name_full",									true, display_index++, 100, 80, DataGridViewAutoSizeColumnMode.Fill );
-			AddColumnToDataGrid(DataGridCitizens, "colInstitutionName",					"Institución",				"institution_name",						true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells );
-			AddColumnToDataGrid(DataGridCitizens, "colInstitutionCategoryName", "Categoría",					"institution_category_name",	true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells );
-			AddColumnToDataGrid(DataGridCitizens, "colInstitutionSectorName",		"Sector",							"institution_sector_name",		true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells );
-			AddColumnToDataGrid(DataGridCitizens, "colPhoneAndExtension",				"Teléfono",						"phone_full",									true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells );
-			AddColumnToDataGrid(DataGridCitizens, "colCellphone",								"Celular",						"cellphone",									true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells );
-			AddColumnToDataGrid(DataGridCitizens, "colCURP",										"CURP",								"curp",												true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells );
-			AddColumnToDataGrid(DataGridCitizens, "colAssistantName",						"Asistente",					"assistant_name",							true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells );
-			AddColumnToDataGrid(DataGridCitizens, "colSexName",									"Sexo",								"sex_name",										true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells );
-			AddColumnToDataGrid(DataGridCitizens, "colPoliticalPartyName",			"Partido",						"political_party_name",				true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells );
+			AddColumnToDataGrid(DataGridCitizens, "colTitleName", "Título", "title_name", true, display_index++, 20, 20, DataGridViewAutoSizeColumnMode.AllCells);
+			AddColumnToDataGrid(DataGridCitizens, "colFullName", "Nombre", "name_full", true, display_index++, 100, 80, DataGridViewAutoSizeColumnMode.Fill);
+			AddColumnToDataGrid(DataGridCitizens, "colInstitutionName", "Institución", "institution_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
+			AddColumnToDataGrid(DataGridCitizens, "colInstitutionCategoryName", "Categoría", "institution_category_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
+			AddColumnToDataGrid(DataGridCitizens, "colInstitutionSectorName", "Sector", "institution_sector_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
+			AddColumnToDataGrid(DataGridCitizens, "colPhoneAndExtension", "Teléfono", "phone_full", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
+			AddColumnToDataGrid(DataGridCitizens, "colCellphone", "Celular", "cellphone", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
+			AddColumnToDataGrid(DataGridCitizens, "colCURP", "CURP", "curp", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
+			AddColumnToDataGrid(DataGridCitizens, "colAssistantName", "Asistente", "assistant_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
+			AddColumnToDataGrid(DataGridCitizens, "colSexName", "Sexo", "sex_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
+			AddColumnToDataGrid(DataGridCitizens, "colPoliticalPartyName", "Partido", "political_party_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
 
 			FiltersDlg = new FCitizenListFilters();
 
@@ -137,7 +141,7 @@ namespace GCRM
 			// defaults
 			column.Resizable = DataGridViewTriState.True;
 			column.DividerWidth = 1;
-			column.FillWeight = auto_size_mode == DataGridViewAutoSizeColumnMode.Fill? 100 : 1;
+			column.FillWeight = auto_size_mode == DataGridViewAutoSizeColumnMode.Fill ? 100 : 1;
 			column.Frozen = false;
 
 			data_grid.Columns.Add(column);
@@ -450,21 +454,21 @@ namespace GCRM
 			}
 
 			// set the borders
-			worksheet.Cell(row, col).Style.Border.RightBorder				= XLBorderStyleValues.Thin;
-			worksheet.Cell(row, col).Style.Border.LeftBorder				= XLBorderStyleValues.Thin;
-			worksheet.Cell(row, col).Style.Border.TopBorder					= XLBorderStyleValues.Thin;
-			worksheet.Cell(row, col).Style.Border.BottomBorder			= XLBorderStyleValues.Thin;
-			worksheet.Cell(row, col).Style.Border.RightBorderColor	= XLColor.Black;
-			worksheet.Cell(row, col).Style.Border.LeftBorderColor		= XLColor.Black;
-			worksheet.Cell(row, col).Style.Border.TopBorderColor		= XLColor.Black;
+			worksheet.Cell(row, col).Style.Border.RightBorder = XLBorderStyleValues.Thin;
+			worksheet.Cell(row, col).Style.Border.LeftBorder = XLBorderStyleValues.Thin;
+			worksheet.Cell(row, col).Style.Border.TopBorder = XLBorderStyleValues.Thin;
+			worksheet.Cell(row, col).Style.Border.BottomBorder = XLBorderStyleValues.Thin;
+			worksheet.Cell(row, col).Style.Border.RightBorderColor = XLColor.Black;
+			worksheet.Cell(row, col).Style.Border.LeftBorderColor = XLColor.Black;
+			worksheet.Cell(row, col).Style.Border.TopBorderColor = XLColor.Black;
 			worksheet.Cell(row, col).Style.Border.BottomBorderColor = XLColor.Black;
 		}
 
 		private void FExcelExport_Click(object sender, EventArgs e)
 		{
 			SaveFileDialog.DefaultExt = $".xlsx";
-			SaveFileDialog.FileName   = $"listado_ciudadanos_{DateTime.Now.ToString("yyyyMMdd")}";
-			SaveFileDialog.Filter     = $"Excel (*.xlsx) | Todos (*.*)";
+			SaveFileDialog.FileName = $"listado_ciudadanos_{DateTime.Now.ToString("yyyyMMdd")}";
+			SaveFileDialog.Filter = $"Excel (*.xlsx) | Todos (*.*)";
 
 			if (SaveFileDialog.ShowDialog() != DialogResult.OK)
 			{
@@ -507,19 +511,19 @@ namespace GCRM
 					// fill the workseet
 					for (int i = 0; i < DataGridCitizens.Rows.Count; i++)
 					{
-						DataGridViewRow row = DataGridCitizens.Rows[i]; 
+						DataGridViewRow row = DataGridCitizens.Rows[i];
 
 						row_index = 1;
 
-						SetWorksheetCell(worksheet, i + 2, row_index++,  i.ToString());
-						SetWorksheetCell(worksheet, i + 2, row_index++,  ((int)row.Cells["colId"].Value).ToString());
-						SetWorksheetCell(worksheet, i + 2, row_index++,  (string)row.Cells["colTitleName"].Value);
-						SetWorksheetCell(worksheet, i + 2, row_index++,  (string)row.Cells["colFullName"].Value);
-						SetWorksheetCell(worksheet, i + 2, row_index++,  ((DateTime)row.Cells["colBirthday"].Value).ToString("yyyy/MM/dd"), "yyyy/MM/dd");
-						SetWorksheetCell(worksheet, i + 2, row_index++,  (string)row.Cells["colCURP"].Value);
-						SetWorksheetCell(worksheet, i + 2, row_index++,  (string)row.Cells["colPhoneAndExtension"].Value);
-						SetWorksheetCell(worksheet, i + 2, row_index++,  (string)row.Cells["colCellphone"].Value);
-						SetWorksheetCell(worksheet, i + 2, row_index++,  (string)row.Cells["colPoliticalPartyName"].Value);
+						SetWorksheetCell(worksheet, i + 2, row_index++, i.ToString());
+						SetWorksheetCell(worksheet, i + 2, row_index++, ((int)row.Cells["colId"].Value).ToString());
+						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colTitleName"].Value);
+						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colFullName"].Value);
+						SetWorksheetCell(worksheet, i + 2, row_index++, ((DateTime)row.Cells["colBirthday"].Value).ToString("yyyy/MM/dd"), "yyyy/MM/dd");
+						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colCURP"].Value);
+						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colPhoneAndExtension"].Value);
+						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colCellphone"].Value);
+						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colPoliticalPartyName"].Value);
 
 						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colInstitutionSectorName"].Value);
 						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colInstitutionCategoryName"].Value);
@@ -536,6 +540,28 @@ namespace GCRM
 
 					workbook.SaveAs(SaveFileDialog.FileName);
 				}
+			}
+			catch (Exception ex)
+			{
+				Utilities.ShowExceptionDialog(ex);
+			}
+		}
+
+		private void BPrint_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				R001 rep_001 = new R001()
+				{
+					InstitutionId = FiltersDlg.FilterInstitution ? FiltersDlg.InstitutionId : 0,
+					InstitutionCategoryId = FiltersDlg.FilterCategory ? FiltersDlg.CategoryId : 0,
+					PoliticalParty = FiltersDlg.FilterParty ? FiltersDlg.Party : null,
+					Sex = FiltersDlg.FilterSex ? FiltersDlg.Sex : null,
+					CitizenTitle = FiltersDlg.FilterCitizenTitle ? FiltersDlg.CitizenTitle : null,
+					SocietySector = FiltersDlg.FilterSector ? FiltersDlg.Sector : null,
+				};
+
+				rep_001.GeneratePdfAndShow();
 			}
 			catch (Exception ex)
 			{

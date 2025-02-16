@@ -699,6 +699,7 @@
 			MaximumSize = new Size(440, 410);
 			Name = "FCitizenData";
 			ShowIcon = false;
+			ShowInTaskbar = false;
 			SizeGripStyle = SizeGripStyle.Hide;
 			Text = "Ciudadano - Nuevo ";
 			Load += FCitizenData_Load;

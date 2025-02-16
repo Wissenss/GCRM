@@ -317,6 +317,7 @@
 			MaximumSize = new Size(420, 450);
 			Name = "FInstitutionData";
 			ShowIcon = false;
+			ShowInTaskbar = false;
 			Text = "Institución - Nueva";
 			Load += FInstitutionData_Load;
 			TabGeneral.ResumeLayout(false);

@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FConnection));
 			LHost = new Label();
 			TextBoxHost = new TextBox();
 			TextBoxDatabase = new TextBox();
@@ -137,6 +138,7 @@
 			Controls.Add(LDatabase);
 			Controls.Add(TextBoxHost);
 			Controls.Add(LHost);
+			Icon = (Icon)resources.GetObject("$this.Icon");
 			MaximumSize = new Size(280, 190);
 			MinimumSize = new Size(280, 190);
 			Name = "FConnection";
