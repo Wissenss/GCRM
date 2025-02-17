@@ -2,12 +2,12 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows10.0.17763.0</TargetFramework>
+    <TargetFramework>net8.0-windows7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <Title>gcrm</Title>
-    <Version>$(VersionPrefix)0.0.8.2-alpha</Version>
+    <Version>$(VersionPrefix)0.0.8.3-alpha</Version>
     <ApplicationIcon>Fatcow-Farm-Fresh-Bookmark.ico</ApplicationIcon>
     <Copyright>Leonardo Merino</Copyright>
     <StartupObject>GCRM.Program</StartupObject>
@@ -20,6 +20,12 @@
 		<RepositoryUrl>https://github.com/Wissenss/GCRM</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="NewFolder\**" />
+    <EmbeddedResource Remove="NewFolder\**" />
+    <None Remove="NewFolder\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <Content Include="Fatcow-Farm-Fresh-Bookmark.ico" />
@@ -55,10 +61,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="NewFolder\" />
   </ItemGroup>
 
 </Project>

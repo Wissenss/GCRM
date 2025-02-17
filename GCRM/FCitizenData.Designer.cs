@@ -40,7 +40,7 @@
 			LPoliticalParty = new Label();
 			LTitleFull = new Label();
 			TextBoxCURP = new TextBox();
-			label3 = new Label();
+			LCURP = new Label();
 			TextBoxObservations = new TextBox();
 			label1 = new Label();
 			ComboBoxSex = new ComboBox();
@@ -143,7 +143,7 @@
 			tabPage1.Controls.Add(LPoliticalParty);
 			tabPage1.Controls.Add(LTitleFull);
 			tabPage1.Controls.Add(TextBoxCURP);
-			tabPage1.Controls.Add(label3);
+			tabPage1.Controls.Add(LCURP);
 			tabPage1.Controls.Add(TextBoxObservations);
 			tabPage1.Controls.Add(label1);
 			tabPage1.Controls.Add(ComboBoxSex);
@@ -229,14 +229,16 @@
 			TextBoxCURP.Size = new Size(311, 23);
 			TextBoxCURP.TabIndex = 6;
 			// 
-			// label3
+			// LCURP
 			// 
-			label3.AutoSize = true;
-			label3.Location = new Point(7, 152);
-			label3.Name = "label3";
-			label3.Size = new Size(37, 15);
-			label3.TabIndex = 33;
-			label3.Text = "CURP";
+			LCURP.AutoSize = true;
+			LCURP.Font = new Font("Segoe UI", 9F, FontStyle.Underline, GraphicsUnit.Point, 0);
+			LCURP.Location = new Point(7, 152);
+			LCURP.Name = "LCURP";
+			LCURP.Size = new Size(37, 15);
+			LCURP.TabIndex = 33;
+			LCURP.Text = "CURP";
+			LCURP.Click += LCURP_Click;
 			// 
 			// TextBoxObservations
 			// 
@@ -696,6 +698,7 @@
 			Controls.Add(TabControlCitizen);
 			Controls.Add(BCancel);
 			Controls.Add(BAccept);
+			KeyPreview = true;
 			MaximumSize = new Size(440, 410);
 			Name = "FCitizenData";
 			ShowIcon = false;
@@ -703,6 +706,7 @@
 			SizeGripStyle = SizeGripStyle.Hide;
 			Text = "Ciudadano - Nuevo ";
 			Load += FCitizenData_Load;
+			KeyDown += FCitizenData_KeyDown;
 			TabControlCitizen.ResumeLayout(false);
 			tabPage1.ResumeLayout(false);
 			tabPage1.PerformLayout();
@@ -727,7 +731,7 @@
 		private Label LPoliticalParty;
 		private Label LTitleFull;
 		private TextBox TextBoxCURP;
-		private Label label3;
+		private Label LCURP;
 		private TextBox TextBoxObservations;
 		private Label label1;
 		private ComboBox ComboBoxSex;

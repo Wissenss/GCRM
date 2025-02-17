@@ -233,8 +233,9 @@
 			BAbout.ImageTransparentColor = Color.Magenta;
 			BAbout.Name = "BAbout";
 			BAbout.Size = new Size(63, 52);
-			BAbout.Text = "Acerca de";
+			BAbout.Text = "&Acerca de";
 			BAbout.TextImageRelation = TextImageRelation.ImageAboveText;
+			BAbout.ToolTipText = "Acerca de";
 			BAbout.Click += BAbout_Click;
 			// 
 			// ListBoxBirhdays

@@ -3,8 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Security.Policy;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -111,7 +114,7 @@ namespace GCRM
 			institutions_list.Insert(0, null_institution);
 
 			DTInstitution.BeginLoadData();
-			DTInstitution.Clear();	
+			DTInstitution.Clear();
 
 			foreach (TInstitution institution in institutions_list)
 			{
@@ -340,12 +343,12 @@ namespace GCRM
 			else
 			{
 				string re_curp = @"^([A-Z][AEIOUX][A-Z]{2}\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])[HM](?:AS|B[CS]|C[CLMSH]|D[FG]|G[TR]|HG|JC|M[CNS]|N[ETL]|OC|PL|Q[TR]|S[PLR]|T[CSL]|VZ|YN|ZS)[B-DF-HJ-NP-TV-Z]{3}[A-Z\d])(\d)$";
-				
+
 				Regex rx = new Regex(re_curp, RegexOptions.Compiled | RegexOptions.IgnoreCase);
-				
+
 				if (rx.IsMatch(curp) == false)
 				{
-					errors.Append("El CURP no es adecuado. Asegurese que cumple con el formato especificado por la RENAPO, por ejemplo: \"KOHI710516HTCFIB63\"");		
+					errors.Append("El CURP no es adecuado. Asegurese que cumple con el formato especificado por la RENAPO, por ejemplo: \"KOHI710516HTCFIB63\"");
 				}
 			}
 
@@ -478,7 +481,7 @@ namespace GCRM
 
 			if (institution_id == 0)
 			{
-				error = InstitutionsHandler.GetNullInstitutionRoles(out role_list);	
+				error = InstitutionsHandler.GetNullInstitutionRoles(out role_list);
 			}
 			else
 			{
@@ -575,7 +578,7 @@ namespace GCRM
 				}
 
 				TInstitutionRole role;
-					
+
 				Error error = InstitutionsHandler.GetInstitutionRoleById(id, out role);
 
 				if (error != 0)
@@ -586,9 +589,24 @@ namespace GCRM
 
 				LInstitutionRoleDescription.Text = role.Description;
 			}
-			catch 
-			{ 
-			
+			catch
+			{
+
+			}
+		}
+
+		private void LCURP_Click(object sender, EventArgs e)
+		{
+			string url = "https://www.gob.mx/curp/";
+
+			Utilities.OpenUrl(url);
+		}
+
+		private void FCitizenData_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Escape)
+			{
+				BCancel_Click(this, null);
 			}
 		}
 	}

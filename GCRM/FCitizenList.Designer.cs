@@ -594,6 +594,8 @@
 			DataGridCitizens.Size = new Size(901, 366);
 			DataGridCitizens.StandardTab = true;
 			DataGridCitizens.TabIndex = 7;
+			DataGridCitizens.CellDoubleClick += DataGridCitizens_CellDoubleClick;
+			DataGridCitizens.KeyDown += DataGridCitizens_KeyDown;
 			// 
 			// statusStrip1
 			// 
@@ -628,10 +630,12 @@
 			Controls.Add(PanelSearch);
 			Controls.Add(ToolStrip);
 			Icon = (Icon)resources.GetObject("$this.Icon");
+			KeyPreview = true;
 			Name = "FCitizenList";
 			Padding = new Padding(2);
 			Text = "Ciudadanos";
 			Load += FCitizenList_Load;
+			KeyDown += FCitizenList_KeyDown;
 			ToolStrip.ResumeLayout(false);
 			ToolStrip.PerformLayout();
 			PanelSearch.ResumeLayout(false);

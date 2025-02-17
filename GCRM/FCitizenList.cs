@@ -1,19 +1,7 @@
 ﻿using Business;
 using ClosedXML.Excel;
-using DocumentFormat.OpenXml.Spreadsheet;
 using Reporter;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.IO;
-using QuestPDF.Fluent;
-using QuestPDF.Companion;
 
 namespace GCRM
 {
@@ -203,7 +191,7 @@ namespace GCRM
 				row["observations"] = citizen.Observations;
 				row["sex"] = citizen.Sex;
 				row["sex_name"] = BConstants.GetSexName(citizen.Sex);
-				
+
 				if (citizen.Assistant.Id != 0)
 				{
 					row["assistant_id"] = citizen.Assistant.Id;
@@ -222,7 +210,7 @@ namespace GCRM
 					row["assistant_phone_full"] = "";
 					row["assistant_cellphone"] = "";
 				}
-				
+
 				row["phone"] = citizen.Phone;
 				row["phone_extension"] = citizen.PhoneExtension;
 				row["phone_full"] = $"{citizen.Phone}" + (citizen.PhoneExtension.Length > 0 ? $" Ext. {citizen.PhoneExtension}" : "");
@@ -602,6 +590,27 @@ namespace GCRM
 			catch (Exception ex)
 			{
 				Utilities.ShowExceptionDialog(ex);
+			}
+		}
+
+		private void DataGridCitizens_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+		{
+			BRead_Click(this, null);
+		}
+
+		private void DataGridCitizens_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Enter)
+			{
+				BRead_Click(this, null);
+			}
+		}
+
+		private void FCitizenList_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Escape)
+			{
+				this.Close();
 			}
 		}
 	}
