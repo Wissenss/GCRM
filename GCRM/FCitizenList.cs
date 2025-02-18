@@ -506,7 +506,12 @@ namespace GCRM
 					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Id", headers_color, 3);
 					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Título", headers_color, 10);
 					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Nombre", headers_color, 30);
+
 					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Nacimiento", headers_color, 15);
+					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Año Nacimiento", headers_color, 15);
+					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Mes Nacimiento", headers_color, 15);
+					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Día Nacimiento", headers_color, 15);
+
 					SetWorksheetHeaderCell(worksheet, 1, row_index++, "CURP", headers_color, 30);
 					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Teléfono", headers_color, 25);
 					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Celular", headers_color, 20);
@@ -539,7 +544,14 @@ namespace GCRM
 						SetWorksheetCell(worksheet, i + 2, row_index++, ((int)row.Cells["colId"].Value).ToString());
 						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colTitleName"].Value);
 						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colFullName"].Value);
-						SetWorksheetCell(worksheet, i + 2, row_index++, ((DateTime)row.Cells["colBirthday"].Value).ToString("yyyy/MM/dd"), "yyyy/MM/dd");
+
+						DateTime birthday = (DateTime)row.Cells["colBirthday"].Value;
+
+						SetWorksheetCell(worksheet, i + 2, row_index++, birthday.ToString("yyyy/MM/dd"), "yyyy/MM/dd");
+						SetWorksheetCell(worksheet, i + 2, row_index++, birthday.ToString("yyyy"));
+						SetWorksheetCell(worksheet, i + 2, row_index++, birthday.ToString("MMMM"));
+						SetWorksheetCell(worksheet, i + 2, row_index++, birthday.Day.ToString());
+
 						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colCURP"].Value);
 						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colPhoneAndExtension"].Value);
 						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colCellphone"].Value);
