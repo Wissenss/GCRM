@@ -141,10 +141,10 @@ namespace Reporter
 				{
 					columns.ConstantColumn(50);
 					columns.ConstantColumn(120);
-					columns.ConstantColumn(100);
 					columns.RelativeColumn();
 					columns.RelativeColumn();
 					columns.RelativeColumn();
+					columns.ConstantColumn(50); 
 				});
 
 				table.Header(header =>
@@ -153,10 +153,10 @@ namespace Reporter
 
 					header.Cell().Element(CellStyle).Text("Título").FontSize(header_font_size).SemiBold();
 					header.Cell().Element(CellStyle).Text("Nombre").FontSize(header_font_size).SemiBold();
-					header.Cell().Element(CellStyle).Text("CURP").FontSize(header_font_size).SemiBold();
 					header.Cell().Element(CellStyle).Text("Institución").FontSize(header_font_size).SemiBold();
 					header.Cell().Element(CellStyle).Text("Teléfono").FontSize(header_font_size).SemiBold();
 					header.Cell().Element(CellStyle).Text("Celular").FontSize(header_font_size).SemiBold();
+					header.Cell().Element(CellStyle).Text("Nacimiento").FontSize(header_font_size).SemiBold();
 						
 					static IContainer CellStyle(IContainer container)
 					{
@@ -170,7 +170,6 @@ namespace Reporter
 
 					table.Cell().Element(CellStyle).Text(BConstants.GetCitizenBriefTitle(citizen.Title)).FontSize(row_font_size);
 					table.Cell().Element(CellStyle).Text($"{citizen.Name} {citizen.PaternalName} {citizen.MaternalName}").FontSize(row_font_size);
-					table.Cell().Element(CellStyle).Text(citizen.CURP).FontSize(row_font_size);
 					table.Cell().Element(CellStyle).Text(citizen.Institution.Name).FontSize(row_font_size);
 
 					if (citizen.PhoneExtension.Trim().Length > 0)
@@ -179,6 +178,7 @@ namespace Reporter
 						table.Cell().Element(CellStyle).Text($"{citizen.Phone}").FontSize(row_font_size);
 
 					table.Cell().Element(CellStyle).Text(citizen.Cellphone).FontSize(row_font_size);
+					table.Cell().Element(CellStyle).Text(citizen.Birthday.ToString("dd/MM/yyyy")).FontSize(row_font_size);
 
 					static IContainer CellStyle(IContainer container)
 					{
@@ -190,7 +190,14 @@ namespace Reporter
 
 		void ComposeFooter(IContainer container)
 		{
-			container.AlignRight().Text($"Fecha: {DateTime.Now.ToString("dd/MM/yyyy")}").FontSize(6);
+			float footer_font_size = 6;
+
+			container.Row(row =>
+			{
+				row.RelativeItem().Element(e => e.AlignLeft().Text($"GCRM - Generado por: {Session.User.Name}").FontSize(footer_font_size));
+				row.RelativeItem().Element(e => e.AlignRight().Text($"Fecha: {DateTime.Now.ToString("dd/MM/yyyy")}").FontSize(footer_font_size));
+			});
+			//container.AlignRight().Text().FontSize(6);
 			//container.AlignCenter().Text(x =>
 			//{
 			//	x.CurrentPageNumber();
