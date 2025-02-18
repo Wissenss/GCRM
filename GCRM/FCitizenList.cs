@@ -2,6 +2,7 @@
 using ClosedXML.Excel;
 using Reporter;
 using System.Data;
+using System.Globalization;
 
 namespace GCRM
 {
@@ -77,7 +78,12 @@ namespace GCRM
 			DTCitizens.Columns.Add("title", typeof(TCitizenTitle));
 			DTCitizens.Columns.Add("title_name", typeof(string));
 			DTCitizens.Columns.Add("curp", typeof(string));
+
 			DTCitizens.Columns.Add("birthday", typeof(DateTime));
+			DTCitizens.Columns.Add("birthday_year", typeof(int));
+			DTCitizens.Columns.Add("birthday_month", typeof(int));
+			DTCitizens.Columns.Add("birthday_day", typeof(int));
+
 			DTCitizens.Columns.Add("observations", typeof(string));
 			DTCitizens.Columns.Add("sex", typeof(TSex));
 			DTCitizens.Columns.Add("sex_name", typeof(string));
@@ -187,7 +193,12 @@ namespace GCRM
 				row["title"] = citizen.Title;
 				row["title_name"] = BConstants.GetCitizenBriefTitle(citizen.Title);
 				row["curp"] = citizen.CURP;
+
 				row["birthday"] = citizen.Birthday;
+				row["birthday_year"] = citizen.Birthday.Year;
+				row["birthday_month"] = citizen.Birthday.Month;
+				row["birthday_day"] = citizen.Birthday.Day;
+				
 				row["observations"] = citizen.Observations;
 				row["sex"] = citizen.Sex;
 				row["sex_name"] = BConstants.GetSexName(citizen.Sex);
@@ -323,38 +334,35 @@ namespace GCRM
 			string filtros = "";
 
 			if (FiltersDlg.FilterCategory)
-			{
 				filtros += $"Categoría = {FiltersDlg.CategoryId}, ";
-			}
 
 			if (FiltersDlg.FilterInstitution)
-			{
 				filtros += $"Institución = {FiltersDlg.InstitutionId}, "; // todo: make the institution and category not appear as Id but with his actual name
-			}
 
 			if (FiltersDlg.FilterSector)
-			{
 				filtros += $"Sector = {BConstants.GetSocietySectorName(FiltersDlg.Sector)}, ";
-			}
 
 			if (FiltersDlg.FilterParty)
-			{
 				filtros += $"Partido = {BConstants.GetPoliticalPartyCommonName(FiltersDlg.Party)}, ";
-			}
 
 			if (FiltersDlg.FilterSex)
-			{
 				filtros += $"Sexo = {BConstants.GetSexName(FiltersDlg.Sex)}, ";
-			}
 
 			if (FiltersDlg.FilterCitizenTitle)
-			{
-				filtros += $"Título = {BConstants.GetCitizenFullTitle(FiltersDlg.CitizenTitle)}";
-			}
+				filtros += $"Título = {BConstants.GetCitizenFullTitle(FiltersDlg.CitizenTitle)}, ";
+
+			if (FiltersDlg.FilterBirthdayYear)
+				filtros += $"Año Nac = {FiltersDlg.BirthdayYear}, ";
+
+			if (FiltersDlg.FilterBirthdayMonth)
+				filtros += $"Mes Nac = {DateTimeFormatInfo.CurrentInfo.MonthNames[FiltersDlg.BirthdayMonth - 1]}, ";
+
+			if (FiltersDlg.FilterBirthdayDay)
+				filtros += $"Día Nac = {FiltersDlg.BirthdayDay}, ";
 
 			if (filtros.Length > 0)
 			{
-				TSSLFilters.Text = $"  Filtros: {filtros.TrimEnd(',')}";
+				TSSLFilters.Text = $"  Filtros: {filtros.TrimEnd(',',' ')}";
 			}
 			else
 			{
@@ -374,34 +382,31 @@ namespace GCRM
 			}
 
 			if (FiltersDlg.FilterSex)
-			{
 				filter += $" and sex = {(int)FiltersDlg.Sex}";
-			}
 
 			if (FiltersDlg.FilterParty)
-			{
 				filter += $" and political_party = {(int)FiltersDlg.Party}";
-			}
 
 			if (FiltersDlg.FilterCitizenTitle)
-			{
 				filter += $" and title = {(int)FiltersDlg.CitizenTitle}";
-			}
 
 			if (FiltersDlg.FilterInstitution)
-			{
 				filter += $" and institution_id = {FiltersDlg.InstitutionId}";
-			}
 
 			if (FiltersDlg.FilterSector)
-			{
 				filter += $" and institution_sector = {(int)FiltersDlg.Sector}";
-			}
 
 			if (FiltersDlg.FilterCategory)
-			{
 				filter += $" and institution_category_id = {(int)FiltersDlg.CategoryId}";
-			}
+
+			if (FiltersDlg.FilterBirthdayYear)
+				filter += $" and birthday_year = {FiltersDlg.BirthdayYear}";
+
+			if (FiltersDlg.FilterBirthdayMonth)
+				filter += $" and birthday_month = {FiltersDlg.BirthdayMonth}";
+
+			if (FiltersDlg.FilterBirthdayDay)
+				filter += $" and birthday_day = {FiltersDlg.BirthdayDay}";
 
 			DTCitizens.DefaultView.RowFilter = filter;
 
@@ -595,6 +600,9 @@ namespace GCRM
 					Sex = FiltersDlg.FilterSex ? FiltersDlg.Sex : null,
 					CitizenTitle = FiltersDlg.FilterCitizenTitle ? FiltersDlg.CitizenTitle : null,
 					SocietySector = FiltersDlg.FilterSector ? FiltersDlg.Sector : null,
+					BirthdayYear = FiltersDlg.FilterBirthdayYear ? FiltersDlg.BirthdayYear : null,
+					BirthdayMonth = FiltersDlg.FilterBirthdayMonth ? FiltersDlg.BirthdayMonth : null,
+					BirthdayDay = FiltersDlg.FilterBirthdayDay ? FiltersDlg.BirthdayDay : null,
 				};
 
 				rep_001.GeneratePdfAndShow();

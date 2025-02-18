@@ -42,6 +42,12 @@
 			CheckBoxFilterSector = new CheckBox();
 			ComboBoxCategory = new ComboBox();
 			CheckBoxFilterCategory = new CheckBox();
+			ComboBoxBirthdayYear = new ComboBox();
+			CheckBoxFilterBirthdayYear = new CheckBox();
+			ComboBoxBirthdayMonth = new ComboBox();
+			CheckBoxFilterBirthdayMonth = new CheckBox();
+			ComboBoxBirthdayDay = new ComboBox();
+			CheckBoxFilterBirthdayDay = new CheckBox();
 			SuspendLayout();
 			// 
 			// CheckBoxFilterParty
@@ -57,17 +63,18 @@
 			// 
 			// ComboBoxPoliticalParty
 			// 
+			ComboBoxPoliticalParty.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 			ComboBoxPoliticalParty.Enabled = false;
 			ComboBoxPoliticalParty.FormattingEnabled = true;
 			ComboBoxPoliticalParty.Location = new Point(100, 10);
 			ComboBoxPoliticalParty.Name = "ComboBoxPoliticalParty";
-			ComboBoxPoliticalParty.Size = new Size(172, 23);
+			ComboBoxPoliticalParty.Size = new Size(232, 23);
 			ComboBoxPoliticalParty.TabIndex = 1;
 			// 
 			// BCancel
 			// 
 			BCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-			BCancel.Location = new Point(197, 206);
+			BCancel.Location = new Point(257, 276);
 			BCancel.Name = "BCancel";
 			BCancel.Size = new Size(75, 23);
 			BCancel.TabIndex = 3;
@@ -78,7 +85,7 @@
 			// BAccept
 			// 
 			BAccept.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-			BAccept.Location = new Point(116, 206);
+			BAccept.Location = new Point(176, 276);
 			BAccept.Name = "BAccept";
 			BAccept.Size = new Size(75, 23);
 			BAccept.TabIndex = 2;
@@ -88,11 +95,12 @@
 			// 
 			// ComboBoxSex
 			// 
+			ComboBoxSex.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 			ComboBoxSex.Enabled = false;
 			ComboBoxSex.FormattingEnabled = true;
 			ComboBoxSex.Location = new Point(100, 39);
 			ComboBoxSex.Name = "ComboBoxSex";
-			ComboBoxSex.Size = new Size(172, 23);
+			ComboBoxSex.Size = new Size(232, 23);
 			ComboBoxSex.TabIndex = 5;
 			// 
 			// CheckBoxFilterSex
@@ -108,11 +116,12 @@
 			// 
 			// ComboBoxCitizenTitle
 			// 
+			ComboBoxCitizenTitle.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 			ComboBoxCitizenTitle.Enabled = false;
 			ComboBoxCitizenTitle.FormattingEnabled = true;
 			ComboBoxCitizenTitle.Location = new Point(100, 68);
 			ComboBoxCitizenTitle.Name = "ComboBoxCitizenTitle";
-			ComboBoxCitizenTitle.Size = new Size(172, 23);
+			ComboBoxCitizenTitle.Size = new Size(232, 23);
 			ComboBoxCitizenTitle.TabIndex = 7;
 			// 
 			// CheckBoxFilterTitle
@@ -128,11 +137,12 @@
 			// 
 			// ComboBoxInstitucion
 			// 
+			ComboBoxInstitucion.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 			ComboBoxInstitucion.Enabled = false;
 			ComboBoxInstitucion.FormattingEnabled = true;
 			ComboBoxInstitucion.Location = new Point(100, 97);
 			ComboBoxInstitucion.Name = "ComboBoxInstitucion";
-			ComboBoxInstitucion.Size = new Size(172, 23);
+			ComboBoxInstitucion.Size = new Size(232, 23);
 			ComboBoxInstitucion.TabIndex = 9;
 			// 
 			// CheckBoxFilterInstitution
@@ -148,11 +158,12 @@
 			// 
 			// ComboBoxSector
 			// 
+			ComboBoxSector.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 			ComboBoxSector.Enabled = false;
 			ComboBoxSector.FormattingEnabled = true;
 			ComboBoxSector.Location = new Point(100, 126);
 			ComboBoxSector.Name = "ComboBoxSector";
-			ComboBoxSector.Size = new Size(172, 23);
+			ComboBoxSector.Size = new Size(232, 23);
 			ComboBoxSector.TabIndex = 11;
 			// 
 			// CheckBoxFilterSector
@@ -168,11 +179,12 @@
 			// 
 			// ComboBoxCategory
 			// 
+			ComboBoxCategory.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 			ComboBoxCategory.Enabled = false;
 			ComboBoxCategory.FormattingEnabled = true;
 			ComboBoxCategory.Location = new Point(100, 155);
 			ComboBoxCategory.Name = "ComboBoxCategory";
-			ComboBoxCategory.Size = new Size(172, 23);
+			ComboBoxCategory.Size = new Size(232, 23);
 			ComboBoxCategory.TabIndex = 13;
 			// 
 			// CheckBoxFilterCategory
@@ -186,12 +198,81 @@
 			CheckBoxFilterCategory.UseVisualStyleBackColor = true;
 			CheckBoxFilterCategory.CheckedChanged += CheckBoxFilterCategory_CheckedChanged;
 			// 
+			// ComboBoxBirthdayYear
+			// 
+			ComboBoxBirthdayYear.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+			ComboBoxBirthdayYear.Enabled = false;
+			ComboBoxBirthdayYear.FormattingEnabled = true;
+			ComboBoxBirthdayYear.Location = new Point(100, 184);
+			ComboBoxBirthdayYear.Name = "ComboBoxBirthdayYear";
+			ComboBoxBirthdayYear.Size = new Size(232, 23);
+			ComboBoxBirthdayYear.TabIndex = 15;
+			// 
+			// CheckBoxFilterBirthdayYear
+			// 
+			CheckBoxFilterBirthdayYear.AutoSize = true;
+			CheckBoxFilterBirthdayYear.Location = new Point(12, 186);
+			CheckBoxFilterBirthdayYear.Name = "CheckBoxFilterBirthdayYear";
+			CheckBoxFilterBirthdayYear.Size = new Size(75, 19);
+			CheckBoxFilterBirthdayYear.TabIndex = 14;
+			CheckBoxFilterBirthdayYear.Text = "Año Nac.";
+			CheckBoxFilterBirthdayYear.UseVisualStyleBackColor = true;
+			CheckBoxFilterBirthdayYear.CheckedChanged += CheckBoxFilterBirthdayYear_CheckedChanged;
+			// 
+			// ComboBoxBirthdayMonth
+			// 
+			ComboBoxBirthdayMonth.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+			ComboBoxBirthdayMonth.Enabled = false;
+			ComboBoxBirthdayMonth.FormattingEnabled = true;
+			ComboBoxBirthdayMonth.Location = new Point(100, 213);
+			ComboBoxBirthdayMonth.Name = "ComboBoxBirthdayMonth";
+			ComboBoxBirthdayMonth.Size = new Size(232, 23);
+			ComboBoxBirthdayMonth.TabIndex = 17;
+			// 
+			// CheckBoxFilterBirthdayMonth
+			// 
+			CheckBoxFilterBirthdayMonth.AutoSize = true;
+			CheckBoxFilterBirthdayMonth.Location = new Point(12, 215);
+			CheckBoxFilterBirthdayMonth.Name = "CheckBoxFilterBirthdayMonth";
+			CheckBoxFilterBirthdayMonth.Size = new Size(75, 19);
+			CheckBoxFilterBirthdayMonth.TabIndex = 16;
+			CheckBoxFilterBirthdayMonth.Text = "Mes Nac.";
+			CheckBoxFilterBirthdayMonth.UseVisualStyleBackColor = true;
+			CheckBoxFilterBirthdayMonth.CheckedChanged += CheckBoxBirthdayMonth_CheckedChanged;
+			// 
+			// ComboBoxBirthdayDay
+			// 
+			ComboBoxBirthdayDay.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+			ComboBoxBirthdayDay.Enabled = false;
+			ComboBoxBirthdayDay.FormattingEnabled = true;
+			ComboBoxBirthdayDay.Location = new Point(100, 242);
+			ComboBoxBirthdayDay.Name = "ComboBoxBirthdayDay";
+			ComboBoxBirthdayDay.Size = new Size(232, 23);
+			ComboBoxBirthdayDay.TabIndex = 19;
+			// 
+			// CheckBoxFilterBirthdayDay
+			// 
+			CheckBoxFilterBirthdayDay.AutoSize = true;
+			CheckBoxFilterBirthdayDay.Location = new Point(12, 244);
+			CheckBoxFilterBirthdayDay.Name = "CheckBoxFilterBirthdayDay";
+			CheckBoxFilterBirthdayDay.Size = new Size(70, 19);
+			CheckBoxFilterBirthdayDay.TabIndex = 18;
+			CheckBoxFilterBirthdayDay.Text = "Día Nac.";
+			CheckBoxFilterBirthdayDay.UseVisualStyleBackColor = true;
+			CheckBoxFilterBirthdayDay.CheckedChanged += CheckBoxBirthdayDay_CheckedChanged;
+			// 
 			// FCitizenListFilters
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
-			ClientSize = new Size(284, 241);
+			ClientSize = new Size(344, 311);
 			ControlBox = false;
+			Controls.Add(ComboBoxBirthdayDay);
+			Controls.Add(CheckBoxFilterBirthdayDay);
+			Controls.Add(ComboBoxBirthdayMonth);
+			Controls.Add(CheckBoxFilterBirthdayMonth);
+			Controls.Add(ComboBoxBirthdayYear);
+			Controls.Add(CheckBoxFilterBirthdayYear);
 			Controls.Add(BAccept);
 			Controls.Add(BCancel);
 			Controls.Add(ComboBoxCategory);
@@ -206,8 +287,8 @@
 			Controls.Add(CheckBoxFilterSex);
 			Controls.Add(ComboBoxPoliticalParty);
 			Controls.Add(CheckBoxFilterParty);
-			MaximumSize = new Size(300, 280);
-			MinimumSize = new Size(300, 280);
+			MaximumSize = new Size(380, 370);
+			MinimumSize = new Size(360, 350);
 			Name = "FCitizenListFilters";
 			ShowIcon = false;
 			ShowInTaskbar = false;
@@ -235,5 +316,11 @@
 		private CheckBox CheckBoxFilterSector;
 		private ComboBox ComboBoxCategory;
 		private CheckBox CheckBoxFilterCategory;
+		private ComboBox ComboBoxBirthdayYear;
+		private CheckBox CheckBoxFilterBirthdayYear;
+		private ComboBox ComboBoxBirthdayMonth;
+		private CheckBox CheckBoxFilterBirthdayMonth;
+		private ComboBox ComboBoxBirthdayDay;
+		private CheckBox CheckBoxFilterBirthdayDay;
 	}
 }

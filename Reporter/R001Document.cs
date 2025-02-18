@@ -3,6 +3,7 @@ using QuestPDF.Drawing;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
+using System.Globalization;
 using System.Reflection;
 
 namespace Reporter
@@ -16,6 +17,10 @@ namespace Reporter
 		
 		public TInstitution? Institution;
 		public TInstitutionCategory? InstitutionCategory;
+
+		public int? BirthdayYear;
+		public int? BirthdayMonth;
+		public int? BirthdayDay;
 
 		public List<TCitizen> CitizenList;
 	}
@@ -78,6 +83,10 @@ namespace Reporter
 			string str_institution = "Institución: Cualquiera";
 			string str_sector = "Sector: Cualquiera";
 			string str_category = "Categoría: Cualquiera";
+
+			string str_birthday_year = "Año de nacimiento: Cualquiera";
+			string str_birthday_month = "Mes de nacimiento: Cualquiera";
+			string str_birthday_day = "Día de nacimiento: Cualquiera";
 			
 			float filter_font_size = 9;
 
@@ -117,6 +126,24 @@ namespace Reporter
 				{
 					str_category = $"Categoría: {Model.InstitutionCategory.Name}";
 					column.Item().PaddingLeft(1).Text(str_category).FontSize(filter_font_size);
+				}
+
+				if (Model.BirthdayYear != null)
+				{
+					str_birthday_year = $"Año de nacimiento: {Model.BirthdayYear}";
+					column.Item().PaddingLeft(1).Text(str_birthday_year).FontSize(filter_font_size);
+				}
+
+				if (Model.BirthdayMonth != null)
+				{
+					str_birthday_month = $"Mes de nacimiento: {DateTimeFormatInfo.CurrentInfo.MonthNames[(int)Model.BirthdayMonth - 1]}";
+					column.Item().PaddingLeft(1).Text(str_birthday_month).FontSize(filter_font_size);
+				}
+
+				if (Model.BirthdayDay != null)
+				{
+					str_birthday_day = $"Día de nacimiento: {Model.BirthdayDay}";
+					column.Item().PaddingLeft(1).Text(str_birthday_day).FontSize(filter_font_size);
 				}
 			});
 		}

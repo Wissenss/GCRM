@@ -15,6 +15,9 @@ namespace Reporter
 		public TSex? Sex;
 		public TPoliticalParty? PoliticalParty;
 		public TSocietySector? SocietySector;
+		public int? BirthdayYear;
+		public int? BirthdayMonth;
+		public int? BirthdayDay;
 
 		R001DocumentModel Model;
 
@@ -49,6 +52,9 @@ namespace Reporter
 			Model.PoliticalParty = PoliticalParty;
 			Model.Sex = Sex;
 			Model.SocietySector = SocietySector;
+			Model.BirthdayYear = BirthdayYear;
+			Model.BirthdayMonth = BirthdayMonth;
+			Model.BirthdayDay = BirthdayDay;
 
 			// filter the citizen list, probably could be done directley with a query...
 			Model.CitizenList = new List<TCitizen>();
@@ -65,7 +71,10 @@ namespace Reporter
 					CitizenTitle != null && citizen.Title != CitizenTitle ||
 					Sex != null && citizen.Sex != Sex ||
 					PoliticalParty != null && citizen.PoliticalParty != PoliticalParty ||
-					SocietySector != null && citizen.Institution.Sector != SocietySector
+					SocietySector != null && citizen.Institution.Sector != SocietySector ||
+					BirthdayYear != null && citizen.Birthday.Year != BirthdayYear ||
+					BirthdayMonth != null && citizen.Birthday.Month != BirthdayYear ||
+					BirthdayDay != null && citizen.Birthday.Day != BirthdayDay
 					)
 				{
 					continue;

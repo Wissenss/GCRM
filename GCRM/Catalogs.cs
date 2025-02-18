@@ -57,8 +57,8 @@ namespace GCRM
 			DTSex.Columns.Add("text", typeof(string));
 			DSCatalogs.Tables.Add(DTSex);
 
-			// institution categories
-			DTInstitutionCategories = new DataTable("DTInstitutionCategories");
+		// institution categories
+		DTInstitutionCategories = new DataTable("DTInstitutionCategories");
 			DTInstitutionCategories.Columns.Add("id", typeof(int));
 			DTInstitutionCategories.Columns.Add("name", typeof(string));
 			DTInstitutionCategories.Columns.Add("description", typeof(string));

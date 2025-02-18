@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,14 +26,46 @@ namespace GCRM
 		public TSocietySector Sector;
 		public bool FilterCategory;
 		public int CategoryId;
+		public bool FilterBirthdayYear;
+		public int BirthdayYear;
+		public bool FilterBirthdayMonth;
+		public int BirthdayMonth;
+		public bool FilterBirthdayDay;
+		public int BirthdayDay;
+
+		DataSet DSFilters;
+		DataTable DTYears;
+		DataTable DTMonths;
+		DataTable DTDays;
 
 		public FCitizenListFilters()
 		{
 			InitializeComponent();
 
+			// load the datasource
 			Catalogs.LoadDTInstitutions();
 			Catalogs.LoadDTInstitutionCategories();
 
+			DSFilters = new DataSet();
+
+			DTYears = new DataTable("DTYears");
+			DTYears.Columns.Add("value", typeof(int));
+			DSFilters.Tables.Add(DTYears);
+
+			DTMonths = new DataTable("DTMonths");
+			DTMonths.Columns.Add("value", typeof(int));
+			DTMonths.Columns.Add("text", typeof(string));
+			DSFilters.Tables.Add(DTMonths);
+
+			DTDays = new DataTable("DTDays");
+			DTDays.Columns.Add("value", typeof(int));
+			DSFilters.Tables.Add(DTDays);
+
+			LoadDTYears();
+			LoadDTMonths();
+			LoadDTDays();
+
+			// bind the comboboxes
 			ComboBoxCitizenTitle.DataSource = Catalogs.DTCitizenTitles;
 			ComboBoxCitizenTitle.ValueMember = "value";
 			ComboBoxCitizenTitle.DisplayMember = "text";
@@ -56,26 +89,72 @@ namespace GCRM
 			ComboBoxCategory.DataSource = Catalogs.DTInstitutionCategories;
 			ComboBoxCategory.ValueMember = "id";
 			ComboBoxCategory.DisplayMember = "name";
+
+			ComboBoxBirthdayYear.DataSource = DTYears;
+			ComboBoxBirthdayYear.ValueMember = "value";
+			ComboBoxBirthdayYear.DisplayMember = "value";
+
+			ComboBoxBirthdayMonth.DataSource = DTMonths;
+			ComboBoxBirthdayMonth.ValueMember = "value";
+			ComboBoxBirthdayMonth.DisplayMember = "text";
+
+			ComboBoxBirthdayDay.DataSource = DTDays;
+			ComboBoxBirthdayDay.ValueMember = "value";
+			ComboBoxBirthdayDay.DisplayMember = "value";
 		}
 
-		private void CheckBoxFilterParty_CheckedChanged(object sender, EventArgs e)
+		private void LoadDTYears()
 		{
-			ComboBoxPoliticalParty.Enabled = CheckBoxFilterParty.Checked;
+			int start_year = 1950;
+
+			DTYears.BeginLoadData();
+			DTYears.Clear();
+
+			for (int i = start_year; i <= DateTime.Now.Year; i++)
+			{
+				DataRow row = DTYears.NewRow();
+
+				row["value"] = i;
+
+				DTYears.Rows.Add(row);
+			}
+
+			DTYears.EndLoadData();
 		}
 
-		private void CheckBoxFilterSex_CheckedChanged(object sender, EventArgs e)
+		private void LoadDTMonths()
 		{
-			ComboBoxSex.Enabled = CheckBoxFilterSex.Checked;
+			DTMonths.BeginLoadData();
+			DTMonths.Clear();
+
+			for (int i = 1; i <= 12; i++)
+			{
+				DataRow row = DTMonths.NewRow();
+
+				row["value"] = i;
+				row["text"] = DateTimeFormatInfo.CurrentInfo.MonthNames[i - 1];
+
+				DTMonths.Rows.Add(row);
+			}
+
+			DTMonths.EndLoadData();
 		}
 
-		private void CheckBoxFilterTitle_CheckedChanged(object sender, EventArgs e)
+		private void LoadDTDays()
 		{
-			ComboBoxCitizenTitle.Enabled = CheckBoxFilterTitle.Checked;
-		}
+			DTDays.BeginLoadData();
+			DTDays.Clear();
 
-		private void BCancel_Click(object sender, EventArgs e)
-		{
-			DialogResult = DialogResult.Cancel;
+			for (int i = 1; i <= 31; i++)
+			{
+				DataRow row = DTDays.NewRow();
+
+				row["value"] = i;
+
+				DTDays.Rows.Add(row);
+			}
+
+			DTDays.EndLoadData();
 		}
 
 		private bool ValidateInput()
@@ -97,7 +176,7 @@ namespace GCRM
 				errors.AppendLine("Debe especificar la categoría a filtrar");
 			}
 
-			if (errors.Length > 0) 
+			if (errors.Length > 0)
 			{
 				Utilities.ShowValidationErrorDialog(errors);
 				return false;
@@ -134,6 +213,15 @@ namespace GCRM
 			if (ComboBoxCategory.SelectedValue != null)
 				CategoryId = (int)ComboBoxCategory.SelectedValue;
 
+			FilterBirthdayYear = CheckBoxFilterBirthdayYear.Checked;
+			BirthdayYear = (int)ComboBoxBirthdayYear.SelectedValue;
+
+			FilterBirthdayMonth = CheckBoxFilterBirthdayMonth.Checked;
+			BirthdayMonth = (int)ComboBoxBirthdayMonth.SelectedValue;
+
+			FilterBirthdayDay = CheckBoxFilterBirthdayDay.Checked;
+			BirthdayDay = (int)ComboBoxBirthdayDay.SelectedValue;
+
 			DialogResult = DialogResult.OK;
 		}
 
@@ -151,6 +239,14 @@ namespace GCRM
 			ComboBoxSector.SelectedValue = Sector;
 			CheckBoxFilterCategory.Checked = FilterCategory;
 			ComboBoxCategory.SelectedValue = CategoryId;
+			ComboBoxBirthdayYear.SelectedValue = DateTime.Now.Year;
+			ComboBoxBirthdayMonth.SelectedValue = DateTime.Now.Month;
+			ComboBoxBirthdayDay.SelectedValue = DateTime.Now.Day;	
+		}
+
+		private void BCancel_Click(object sender, EventArgs e)
+		{
+			DialogResult = DialogResult.Cancel;
 		}
 
 		private void CheckBoxFilterInstitution_CheckedChanged(object sender, EventArgs e)
@@ -166,6 +262,36 @@ namespace GCRM
 		private void CheckBoxFilterCategory_CheckedChanged(object sender, EventArgs e)
 		{
 			ComboBoxCategory.Enabled = CheckBoxFilterCategory.Checked;
+		}
+
+		private void CheckBoxFilterBirthdayYear_CheckedChanged(object sender, EventArgs e)
+		{
+			ComboBoxBirthdayYear.Enabled = CheckBoxFilterBirthdayYear.Checked;
+		}
+
+		private void CheckBoxBirthdayMonth_CheckedChanged(object sender, EventArgs e)
+		{
+			ComboBoxBirthdayMonth.Enabled = CheckBoxFilterBirthdayMonth.Checked;
+		}
+
+		private void CheckBoxBirthdayDay_CheckedChanged(object sender, EventArgs e)
+		{
+			ComboBoxBirthdayDay.Enabled = CheckBoxFilterBirthdayDay.Checked;
+		}
+
+		private void CheckBoxFilterParty_CheckedChanged(object sender, EventArgs e)
+		{
+			ComboBoxPoliticalParty.Enabled = CheckBoxFilterParty.Checked;
+		}
+
+		private void CheckBoxFilterSex_CheckedChanged(object sender, EventArgs e)
+		{
+			ComboBoxSex.Enabled = CheckBoxFilterSex.Checked;
+		}
+
+		private void CheckBoxFilterTitle_CheckedChanged(object sender, EventArgs e)
+		{
+			ComboBoxCitizenTitle.Enabled = CheckBoxFilterTitle.Checked;
 		}
 	}
 }
