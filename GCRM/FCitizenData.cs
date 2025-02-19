@@ -407,6 +407,8 @@ namespace GCRM
 				return;
 			}
 
+			DateTime now = DateTime.Now;
+
 			using (new CursorWait())
 			{
 				TCitizen citizen = new TCitizen()
@@ -426,6 +428,11 @@ namespace GCRM
 					PhoneExtension = TextBoxPhoneExtension.Text.Trim(),
 					Cellphone = TextBoxCellphone.Text.Trim(),
 					Email = TextBoxEmail.Text.Trim(),
+
+					CreatedById = Session.User.Id,
+					CreatedDate = now,
+					EditById = Session.User.Id,
+					EditDate = now
 				};
 
 				citizen.Assistant = new TCitizen();

@@ -1,4 +1,5 @@
 ﻿using Business;
+using Business.Business;
 using Connection;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,37 @@ namespace GCRM
 		public FLogin()
 		{
 			InitializeComponent();
+		}
+		private void FLogin_Load(object sender, EventArgs e)
+		{
+			ConnectionSettings.LoadSettings();
+
+			if (ConnectionSettings.TestSettings() == false)
+			{
+				using (FConnection connection_dlg = new FConnection())
+				{
+					connection_dlg.SetAccessMode(FAccessMode.Update);
+
+					if (connection_dlg.ShowDialog() == DialogResult.Cancel)
+					{
+						Application.Exit();
+					}
+				}
+			}
+
+			// check client version number
+
+			string client_version = Utilities.GetProductVersion();
+			string necessary_client_version = SettingsHandler.GetSetting("client_version", client_version);
+
+			if (necessary_client_version != client_version)
+			{
+				Utilities.ShowExceptionDialog(new ApplicationException($"La versión del cliente \"{client_version}\" es distinta a la necesaria \"{necessary_client_version}\" \n Actualize su sistema a la última versión"));
+			
+				Application.Exit();
+			}
+
+			Catalogs.LoadAll();
 		}
 
 		private void BAccept_Click(object sender, EventArgs e)
@@ -69,24 +101,5 @@ namespace GCRM
 			}
 		}
 
-		private void FLogin_Load(object sender, EventArgs e)
-		{
-			ConnectionSettings.LoadSettings();
-
-			if (ConnectionSettings.TestSettings() == false)
-			{
-				using (FConnection connection_dlg = new FConnection())
-				{
-					connection_dlg.SetAccessMode(FAccessMode.Update);
-
-					if (connection_dlg.ShowDialog() == DialogResult.Cancel)
-					{
-						Application.Exit();
-					}
-				}
-			}
-
-			Catalogs.LoadAll();
-		}
 	}
 }

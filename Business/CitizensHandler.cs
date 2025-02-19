@@ -31,6 +31,10 @@ namespace Business
 		public TPoliticalParty PoliticalParty;
 		public TInstitution Institution;
 		public TInstitutionRole Role;
+		public int CreatedById;
+		public DateTime CreatedDate;
+		public int EditById;
+		public DateTime EditDate;
 
 		public void FillFromReader(DbDataReader reader)
 		{
@@ -56,6 +60,10 @@ namespace Business
 			Institution.Id = reader.GetInt32(15);
 			Role.Id = reader.GetInt32(16);
 			Email = reader.GetString(17);
+			CreatedById = reader.GetInt32(18);
+			CreatedDate = reader.GetDateTime(19);
+			EditById = reader.GetInt32(20);
+			EditDate = reader.GetDateTime(21);
 		}
 	}
 
@@ -167,6 +175,7 @@ namespace Business
 
 			Error error = 0;
 
+			// ensure one CURP is not used more than once
 			using (var cmd = new NpgsqlCommand("SELECT COUNT(*) FROM citizens WHERE curp = @curp AND id <> @id;", conn))
 			{
 				cmd.Parameters.AddWithValue("@id", citizen.Id);
@@ -180,11 +189,13 @@ namespace Business
 				}	
 			}
 
+			// save address
 			if (error == 0)
 			{
 				error = AddressesHandler.SaveAddress(citizen.Address, is_update, out citizen.Address.Id);
 			}
 
+			// save citizen record
 			if (error == 0)
 			{
 				using (var cmd = new NpgsqlCommand("", conn))
@@ -211,7 +222,9 @@ namespace Business
 								political_party_type=@political_party,
 								institution_id=@institution_id,
 								institution_role_id=@institution_role_id,
-								email=@email
+								email=@email,
+								edit_by_id=@edit_by_id,
+								edit_Date=@edit_date
 							WHERE
 								id=@id;";
 					}
@@ -235,7 +248,11 @@ namespace Business
 								political_party_type,
 								institution_id,
 								institution_role_id,
-								email
+								email,
+								created_by_id,
+								created_date,
+								edit_by_id,
+								edit_date
 							)
 							VALUES(
 								@name, 
@@ -254,7 +271,11 @@ namespace Business
 								@political_party,
 								@institution_id,
 								@institution_role_id,
-								@email)
+								@email,
+								@created_by_id,
+								@created_date,
+								@edit_by_id,
+								@edit_date)
 							RETURNING id;";
 					}
 
@@ -276,6 +297,10 @@ namespace Business
 					cmd.Parameters.AddWithValue("@institution_id", citizen.Institution.Id);
 					cmd.Parameters.AddWithValue("@institution_role_id", citizen.Role.Id);
 					cmd.Parameters.AddWithValue("@email", citizen.Email);
+					cmd.Parameters.AddWithValue("@created_by_id", citizen.CreatedById);
+					cmd.Parameters.AddWithValue("@created_date", citizen.CreatedDate);
+					cmd.Parameters.AddWithValue("@edit_by_id", citizen.EditById);
+					cmd.Parameters.AddWithValue("@edit_date", citizen.EditDate);
 
 					if (is_update)
 					{

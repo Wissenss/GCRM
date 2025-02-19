@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Business;
+using DocumentFormat.OpenXml.Bibliography;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace GCRM
@@ -67,6 +69,15 @@ namespace GCRM
 					throw;
 				}
 			}
+		}
+
+		public static string GetProductVersion()
+		{
+			Assembly assembly = Assembly.GetExecutingAssembly();
+			FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
+			string version = fileVersionInfo.ProductVersion;
+
+			return version;
 		}
 	}
 }
