@@ -32,6 +32,7 @@
 			BCancel = new Button();
 			TabControlCitizen = new TabControl();
 			tabPage1 = new TabPage();
+			MaskedTextBoxCURP = new MaskedTextBox();
 			LMaternalName = new Label();
 			TextBoxMaternalName = new TextBox();
 			LPaternalName = new Label();
@@ -39,7 +40,6 @@
 			ComboBoxPoliticalParty = new ComboBox();
 			LPoliticalParty = new Label();
 			LTitleFull = new Label();
-			TextBoxCURP = new TextBox();
 			LCURP = new Label();
 			TextBoxObservations = new TextBox();
 			label1 = new Label();
@@ -135,6 +135,7 @@
 			// 
 			// tabPage1
 			// 
+			tabPage1.Controls.Add(MaskedTextBoxCURP);
 			tabPage1.Controls.Add(LMaternalName);
 			tabPage1.Controls.Add(TextBoxMaternalName);
 			tabPage1.Controls.Add(LPaternalName);
@@ -142,7 +143,6 @@
 			tabPage1.Controls.Add(ComboBoxPoliticalParty);
 			tabPage1.Controls.Add(LPoliticalParty);
 			tabPage1.Controls.Add(LTitleFull);
-			tabPage1.Controls.Add(TextBoxCURP);
 			tabPage1.Controls.Add(LCURP);
 			tabPage1.Controls.Add(TextBoxObservations);
 			tabPage1.Controls.Add(label1);
@@ -161,6 +161,15 @@
 			tabPage1.TabIndex = 0;
 			tabPage1.Text = "General";
 			tabPage1.UseVisualStyleBackColor = true;
+			// 
+			// MaskedTextBoxCURP
+			// 
+			MaskedTextBoxCURP.Location = new Point(79, 150);
+			MaskedTextBoxCURP.Mask = "LLLL000000LLLLLLL0";
+			MaskedTextBoxCURP.Name = "MaskedTextBoxCURP";
+			MaskedTextBoxCURP.PromptChar = ' ';
+			MaskedTextBoxCURP.Size = new Size(308, 23);
+			MaskedTextBoxCURP.TabIndex = 6;
 			// 
 			// LMaternalName
 			// 
@@ -222,13 +231,6 @@
 			LTitleFull.TabIndex = 35;
 			LTitleFull.Text = "- Ciudadano";
 			// 
-			// TextBoxCURP
-			// 
-			TextBoxCURP.Location = new Point(79, 150);
-			TextBoxCURP.Name = "TextBoxCURP";
-			TextBoxCURP.Size = new Size(311, 23);
-			TextBoxCURP.TabIndex = 6;
-			// 
 			// LCURP
 			// 
 			LCURP.AutoSize = true;
@@ -270,7 +272,7 @@
 			label2.AutoSize = true;
 			label2.Location = new Point(7, 124);
 			label2.Name = "label2";
-			label2.Size = new Size(32, 15);
+			label2.Size = new Size(31, 15);
 			label2.TabIndex = 27;
 			label2.Text = "Sexo";
 			// 
@@ -297,7 +299,7 @@
 			LTitle.AutoSize = true;
 			LTitle.Location = new Point(6, 9);
 			LTitle.Name = "LTitle";
-			LTitle.Size = new Size(37, 15);
+			LTitle.Size = new Size(38, 15);
 			LTitle.TabIndex = 24;
 			LTitle.Text = "Título";
 			// 
@@ -444,7 +446,7 @@
 			LPhoneExtension.AutoSize = true;
 			LPhoneExtension.Location = new Point(257, 12);
 			LPhoneExtension.Name = "LPhoneExtension";
-			LPhoneExtension.Size = new Size(26, 15);
+			LPhoneExtension.Size = new Size(25, 15);
 			LPhoneExtension.TabIndex = 16;
 			LPhoneExtension.Text = "Ext.";
 			// 
@@ -460,7 +462,7 @@
 			LPhone.AutoSize = true;
 			LPhone.Location = new Point(7, 12);
 			LPhone.Name = "LPhone";
-			LPhone.Size = new Size(52, 15);
+			LPhone.Size = new Size(53, 15);
 			LPhone.TabIndex = 14;
 			LPhone.Text = "Teléfono";
 			// 
@@ -730,7 +732,6 @@
 		private ComboBox ComboBoxPoliticalParty;
 		private Label LPoliticalParty;
 		private Label LTitleFull;
-		private TextBox TextBoxCURP;
 		private Label LCURP;
 		private TextBox TextBoxObservations;
 		private Label label1;
@@ -781,5 +782,6 @@
 		private TextBox TextBoxEmail;
 		private Label LEmail;
 		private Label LInstitutionSectorAndCategory;
+		private MaskedTextBox MaskedTextBoxCURP;
 	}
 }

@@ -1,17 +1,7 @@
 ﻿using Business;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Security.Policy;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace GCRM
 {
@@ -180,7 +170,7 @@ namespace GCRM
 			TextBoxMaternalName.Enabled = AccessMode != FAccessMode.Read;
 			ComboBoxSex.Enabled = AccessMode != FAccessMode.Read;
 			DatePickerBirthday.Enabled = AccessMode != FAccessMode.Read;
-			TextBoxCURP.Enabled = AccessMode != FAccessMode.Read;
+			MaskedTextBoxCURP.Enabled = AccessMode != FAccessMode.Read;
 			TextBoxObservations.Enabled = AccessMode != FAccessMode.Read;
 			ComboBoxPoliticalParty.Enabled = AccessMode != FAccessMode.Read;
 
@@ -227,7 +217,7 @@ namespace GCRM
 				TextBoxMaternalName.Text = citizen.MaternalName;
 				ComboBoxSex.SelectedValue = citizen.Sex;
 				DatePickerBirthday.Value = citizen.Birthday;
-				TextBoxCURP.Text = citizen.CURP;
+				MaskedTextBoxCURP.Text = citizen.CURP;
 				TextBoxObservations.Text = citizen.Observations;
 				ComboBoxPoliticalParty.SelectedValue = citizen.PoliticalParty;
 
@@ -318,7 +308,7 @@ namespace GCRM
 		{
 			StringBuilder errors = new StringBuilder();
 
-			string curp = TextBoxCURP.Text.Trim().ToLower();
+			string curp = MaskedTextBoxCURP.Text.Trim().ToLower();
 			string name = TextBoxName.Text.Trim().ToLower();
 			string paternal_name = TextBoxPaternalName.Text.Trim().ToLower();
 			string maternal_name = TextBoxMaternalName.Text.Trim().ToLower();
@@ -428,7 +418,7 @@ namespace GCRM
 					MaternalName = TextBoxMaternalName.Text.Trim(),
 					Sex = (TSex)ComboBoxSex.SelectedValue,
 					Birthday = DatePickerBirthday.Value,
-					CURP = TextBoxCURP.Text.Trim().ToUpper(),
+					CURP = MaskedTextBoxCURP.Text.Trim().ToUpper(),
 					Observations = TextBoxObservations.Text.Trim(),
 					PoliticalParty = (TPoliticalParty)ComboBoxPoliticalParty.SelectedValue,
 
