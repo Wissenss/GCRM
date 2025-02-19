@@ -91,77 +91,83 @@ namespace GCRM
 
 		private void LoadDTInstitutions()
 		{
-			List<TInstitution> institutions_list;
-
-			Error error = InstitutionsHandler.GetInstitutions(out institutions_list);
-
-			if (error != 0)
+			using (new CursorWait())
 			{
-				Utilities.ShowErrorDialog(error);
-				return;
+				List<TInstitution> institutions_list;
+
+				Error error = InstitutionsHandler.GetInstitutions(out institutions_list);
+
+				if (error != 0)
+				{
+					Utilities.ShowErrorDialog(error);
+					return;
+				}
+
+				TInstitution null_institution;
+
+				error = InstitutionsHandler.GetNullInstitution(out null_institution);
+
+				if (error != 0)
+				{
+					Utilities.ShowErrorDialog(error);
+					return;
+				}
+
+				institutions_list.Insert(0, null_institution);
+
+				DTInstitution.BeginLoadData();
+				DTInstitution.Clear();
+
+				foreach (TInstitution institution in institutions_list)
+				{
+					DataRow row = DTInstitution.NewRow();
+
+					row["id"] = institution.Id;
+					row["name"] = institution.Name;
+
+					DTInstitution.Rows.Add(row);
+				}
+
+				DTInstitution.EndLoadData();
 			}
-
-			TInstitution null_institution;
-
-			error = InstitutionsHandler.GetNullInstitution(out null_institution);
-
-			if (error != 0)
-			{
-				Utilities.ShowErrorDialog(error);
-				return;
-			}
-
-			institutions_list.Insert(0, null_institution);
-
-			DTInstitution.BeginLoadData();
-			DTInstitution.Clear();
-
-			foreach (TInstitution institution in institutions_list)
-			{
-				DataRow row = DTInstitution.NewRow();
-
-				row["id"] = institution.Id;
-				row["name"] = institution.Name;
-
-				DTInstitution.Rows.Add(row);
-			}
-
-			DTInstitution.EndLoadData();
 		}
 
 		private void LoadDTCitizens()
 		{
-			List<TCitizen> citizen_list;
-
-			Error error = CitizensHandler.GetCitizens(out citizen_list);
-
-			if (error != 0)
+			using (new CursorWait())
 			{
-				Utilities.ShowErrorDialog(error);
-				return;
-			}
+				List<TCitizen> citizen_list;
 
-			DTCitizens.BeginLoadData();
-			DTCitizens.Clear();
+				Error error = CitizensHandler.GetCitizens(out citizen_list);
 
-			DataRow row = DTCitizens.NewRow();
+				if (error != 0)
+				{
+					Utilities.ShowErrorDialog(error);
+					return;
+				}
 
-			row["id"] = 0;
-			row["name"] = "Sin Asistente";
+				DTCitizens.BeginLoadData();
+				DTCitizens.Clear();
 
-			DTCitizens.Rows.Add(row);
+				DataRow row = DTCitizens.NewRow();
 
-			foreach (TCitizen citizen in citizen_list)
-			{
-				row = DTCitizens.NewRow();
-
-				row["id"] = citizen.Id;
-				row["name"] = citizen.Name;
+				row["id"] = 0;
+				row["name"] = "Sin Asistente";
 
 				DTCitizens.Rows.Add(row);
-			}
 
-			DTCitizens.EndLoadData();
+				foreach (TCitizen citizen in citizen_list)
+				{
+					row = DTCitizens.NewRow();
+
+					row["id"] = citizen.Id;
+					row["name"] = citizen.Name;
+
+					DTCitizens.Rows.Add(row);
+				}
+
+				DTCitizens.EndLoadData();
+			}
 		}
 
 		public void SetAccessMode(FAccessMode mode)
@@ -201,47 +207,50 @@ namespace GCRM
 
 		public void SetId(int id)
 		{
-			Id = id;
-
-			TCitizen citizen;
-
-			Error error = CitizensHandler.GetCitizenById(Id, out citizen);
-
-			if (error != 0)
+			using (new CursorWait())
 			{
-				Utilities.ShowErrorDialog(error);
-				return;
+				Id = id;
+
+				TCitizen citizen;
+
+				Error error = CitizensHandler.GetCitizenById(Id, out citizen);
+
+				if (error != 0)
+				{
+					Utilities.ShowErrorDialog(error);
+					return;
+				}
+
+				ComboBoxTitle.SelectedValue = citizen.Title;
+				TextBoxName.Text = citizen.Name;
+				TextBoxPaternalName.Text = citizen.PaternalName;
+				TextBoxMaternalName.Text = citizen.MaternalName;
+				ComboBoxSex.SelectedValue = citizen.Sex;
+				DatePickerBirthday.Value = citizen.Birthday;
+				TextBoxCURP.Text = citizen.CURP;
+				TextBoxObservations.Text = citizen.Observations;
+				ComboBoxPoliticalParty.SelectedValue = citizen.PoliticalParty;
+
+				TextBoxPhone.Text = citizen.Phone;
+				TextBoxPhoneExtension.Text = citizen.PhoneExtension;
+				TextBoxCellphone.Text = citizen.Cellphone;
+				ComboBoxAssistant.SelectedValue = citizen.Assistant.Id;
+				TextBoxEmail.Text = citizen.Email;
+
+				AddressId = citizen.Address.Id;
+				TextBoxStreet.Text = citizen.Address.Street;
+				TextBoxNumber.Text = citizen.Address.Number;
+				TextBoxInteriorNumber.Text = citizen.Address.InteriorNumber;
+				TextBoxCity.Text = citizen.Address.City;
+				TextBoxState.Text = citizen.Address.State;
+				TextBoxPostalCode.Text = citizen.Address.PostalCode;
+				ComboBoxCountry.SelectedValue = citizen.Address.Country;
+
+				ComboBoxInstitution.SelectedValue = citizen.Institution.Id;
+				ComboBoxInstitutionRole.SelectedValue = citizen.Role.Id;
+
+				Text = $"Ciudadano - {citizen.Name} {citizen.PaternalName} {citizen.MaternalName}";
 			}
-
-			ComboBoxTitle.SelectedValue = citizen.Title;
-			TextBoxName.Text = citizen.Name;
-			TextBoxPaternalName.Text = citizen.PaternalName;
-			TextBoxMaternalName.Text = citizen.MaternalName;
-			ComboBoxSex.SelectedValue = citizen.Sex;
-			DatePickerBirthday.Value = citizen.Birthday;
-			TextBoxCURP.Text = citizen.CURP;
-			TextBoxObservations.Text = citizen.Observations;
-			ComboBoxPoliticalParty.SelectedValue = citizen.PoliticalParty;
-
-			TextBoxPhone.Text = citizen.Phone;
-			TextBoxPhoneExtension.Text = citizen.PhoneExtension;
-			TextBoxCellphone.Text = citizen.Cellphone;
-			ComboBoxAssistant.SelectedValue = citizen.Assistant.Id;
-			TextBoxEmail.Text = citizen.Email;
-
-			AddressId = citizen.Address.Id;
-			TextBoxStreet.Text = citizen.Address.Street;
-			TextBoxNumber.Text = citizen.Address.Number;
-			TextBoxInteriorNumber.Text = citizen.Address.InteriorNumber;
-			TextBoxCity.Text = citizen.Address.City;
-			TextBoxState.Text = citizen.Address.State;
-			TextBoxPostalCode.Text = citizen.Address.PostalCode;
-			ComboBoxCountry.SelectedValue = citizen.Address.Country;
-
-			ComboBoxInstitution.SelectedValue = citizen.Institution.Id;
-			ComboBoxInstitutionRole.SelectedValue = citizen.Role.Id;
-
-			Text = $"Ciudadano - {citizen.Name} {citizen.PaternalName} {citizen.MaternalName}";
 		}
 
 		private void FCitizenData_Load(object sender, EventArgs e)
@@ -408,118 +417,124 @@ namespace GCRM
 				return;
 			}
 
-			TCitizen citizen = new TCitizen()
+			using (new CursorWait())
 			{
-				Id = Id,
-				Title = (TCitizenTitle)ComboBoxTitle.SelectedValue,
-				Name = TextBoxName.Text.Trim(),
-				PaternalName = TextBoxPaternalName.Text.Trim(),
-				MaternalName = TextBoxMaternalName.Text.Trim(),
-				Sex = (TSex)ComboBoxSex.SelectedValue,
-				Birthday = DatePickerBirthday.Value,
-				CURP = TextBoxCURP.Text.Trim().ToUpper(),
-				Observations = TextBoxObservations.Text.Trim(),
-				PoliticalParty = (TPoliticalParty)ComboBoxPoliticalParty.SelectedValue,
+				TCitizen citizen = new TCitizen()
+				{
+					Id = Id,
+					Title = (TCitizenTitle)ComboBoxTitle.SelectedValue,
+					Name = TextBoxName.Text.Trim(),
+					PaternalName = TextBoxPaternalName.Text.Trim(),
+					MaternalName = TextBoxMaternalName.Text.Trim(),
+					Sex = (TSex)ComboBoxSex.SelectedValue,
+					Birthday = DatePickerBirthday.Value,
+					CURP = TextBoxCURP.Text.Trim().ToUpper(),
+					Observations = TextBoxObservations.Text.Trim(),
+					PoliticalParty = (TPoliticalParty)ComboBoxPoliticalParty.SelectedValue,
 
-				Phone = TextBoxPhone.Text.Trim(),
-				PhoneExtension = TextBoxPhoneExtension.Text.Trim(),
-				Cellphone = TextBoxCellphone.Text.Trim(),
-				Email = TextBoxEmail.Text.Trim(),
-			};
+					Phone = TextBoxPhone.Text.Trim(),
+					PhoneExtension = TextBoxPhoneExtension.Text.Trim(),
+					Cellphone = TextBoxCellphone.Text.Trim(),
+					Email = TextBoxEmail.Text.Trim(),
+				};
 
-			citizen.Assistant = new TCitizen();
+				citizen.Assistant = new TCitizen();
 
-			if (ComboBoxAssistant.SelectedValue != null)
-			{
-				citizen.Assistant.Id = (int)ComboBoxAssistant.SelectedValue;
+				if (ComboBoxAssistant.SelectedValue != null)
+				{
+					citizen.Assistant.Id = (int)ComboBoxAssistant.SelectedValue;
+				}
+
+				citizen.Address = new TAddress()
+				{
+					Id = AddressId,
+					Street = TextBoxStreet.Text.Trim(),
+					Number = TextBoxNumber.Text.Trim(),
+					InteriorNumber = TextBoxInteriorNumber.Text.Trim(),
+					City = TextBoxCity.Text.Trim(),
+					State = TextBoxState.Text.Trim(),
+					PostalCode = TextBoxPostalCode.Text.Trim(),
+					Country = (TCountry)ComboBoxCountry.SelectedValue
+				};
+
+				citizen.Institution = new TInstitution();
+
+				if (ComboBoxInstitution.SelectedValue != null)
+				{
+					citizen.Institution.Id = (int)ComboBoxInstitution.SelectedValue;
+				}
+
+				citizen.Role = new TInstitutionRole();
+
+				if (ComboBoxInstitutionRole.SelectedValue != null)
+				{
+					citizen.Role.Id = (int)ComboBoxInstitutionRole.SelectedValue;
+				}
+
+				Error error = CitizensHandler.SaveCitizen(citizen, AccessMode == FAccessMode.Update);
+
+				if (error != 0)
+				{
+					Utilities.ShowErrorDialog(error);
+					return;
+				}
+
+				DialogResult = DialogResult.OK;
 			}
-
-			citizen.Address = new TAddress()
-			{
-				Id = AddressId,
-				Street = TextBoxStreet.Text.Trim(),
-				Number = TextBoxNumber.Text.Trim(),
-				InteriorNumber = TextBoxInteriorNumber.Text.Trim(),
-				City = TextBoxCity.Text.Trim(),
-				State = TextBoxState.Text.Trim(),
-				PostalCode = TextBoxPostalCode.Text.Trim(),
-				Country = (TCountry)ComboBoxCountry.SelectedValue
-			};
-
-			citizen.Institution = new TInstitution();
-
-			if (ComboBoxInstitution.SelectedValue != null)
-			{
-				citizen.Institution.Id = (int)ComboBoxInstitution.SelectedValue;
-			}
-
-			citizen.Role = new TInstitutionRole();
-
-			if (ComboBoxInstitutionRole.SelectedValue != null)
-			{
-				citizen.Role.Id = (int)ComboBoxInstitutionRole.SelectedValue;
-			}
-
-			Error error = CitizensHandler.SaveCitizen(citizen, AccessMode == FAccessMode.Update);
-
-			if (error != 0)
-			{
-				Utilities.ShowErrorDialog(error);
-				return;
-			}
-
-			DialogResult = DialogResult.OK;
 		}
 
 		private void LoadDTInstitutionRoles()
 		{
-			int institution_id = (int)ComboBoxInstitution.SelectedValue;
-
-			List<TInstitutionRole> role_list;
-
-			Error error = 0;
-
-			if (institution_id == 0)
+			using (new CursorWait())
 			{
-				error = InstitutionsHandler.GetNullInstitutionRoles(out role_list);
-			}
-			else
-			{
-				error = InstitutionsHandler.GetInstitutionRoles(institution_id, out role_list);
-			}
+				int institution_id = (int)ComboBoxInstitution.SelectedValue;
 
-			if (error != 0)
-			{
-				Utilities.ShowErrorDialog(error);
-				return;
-			}
+				List<TInstitutionRole> role_list;
 
-			DTInstitutionRoles.BeginLoadData();
-			DTInstitutionRoles.Clear();
+				Error error = 0;
 
-			foreach (TInstitutionRole role in role_list)
-			{
-				DataRow row = DTInstitutionRoles.NewRow();
+				if (institution_id == 0)
+				{
+					error = InstitutionsHandler.GetNullInstitutionRoles(out role_list);
+				}
+				else
+				{
+					error = InstitutionsHandler.GetInstitutionRoles(institution_id, out role_list);
+				}
 
-				row["id"] = role.Id;
-				row["name"] = role.Name;
+				if (error != 0)
+				{
+					Utilities.ShowErrorDialog(error);
+					return;
+				}
 
-				DTInstitutionRoles.Rows.Add(row);
-			}
+				DTInstitutionRoles.BeginLoadData();
+				DTInstitutionRoles.Clear();
 
-			DTInstitutionRoles.EndLoadData();
+				foreach (TInstitutionRole role in role_list)
+				{
+					DataRow row = DTInstitutionRoles.NewRow();
 
-			ComboBoxInstitutionRole.DataSource = DTInstitutionRoles;
-			ComboBoxInstitutionRole.ValueMember = "id";
-			ComboBoxInstitutionRole.DisplayMember = "name";
+					row["id"] = role.Id;
+					row["name"] = role.Name;
 
-			if (role_list.Count > 0)
-			{
-				ComboBoxInstitutionRole.SelectedValue = role_list[0].Id;
-			}
-			else
-			{
-				ComboBoxInstitutionRole.SelectedValue = null;
+					DTInstitutionRoles.Rows.Add(row);
+				}
+
+				DTInstitutionRoles.EndLoadData();
+
+				ComboBoxInstitutionRole.DataSource = DTInstitutionRoles;
+				ComboBoxInstitutionRole.ValueMember = "id";
+				ComboBoxInstitutionRole.DisplayMember = "name";
+
+				if (role_list.Count > 0)
+				{
+					ComboBoxInstitutionRole.SelectedValue = role_list[0].Id;
+				}
+				else
+				{
+					ComboBoxInstitutionRole.SelectedValue = null;
+				}
 			}
 		}
 
@@ -530,33 +545,36 @@ namespace GCRM
 				return;
 			}
 
-			try
+			using (new CursorWait())
 			{
-				int id = (int)ComboBoxInstitution.SelectedValue;
-
-				if (id == 0)
+				try
 				{
-					LInstitutionSectorAndCategory.Text = "";
-				}
-				else
-				{
-					TInstitution institution;
+					int id = (int)ComboBoxInstitution.SelectedValue;
 
-					Error error = InstitutionsHandler.GetInstitutionById(id, out institution);
-
-					if (error != 0)
+					if (id == 0)
 					{
-						Utilities.ShowErrorDialog(error);
-						return;
+						LInstitutionSectorAndCategory.Text = "";
+					}
+					else
+					{
+						TInstitution institution;
+
+						Error error = InstitutionsHandler.GetInstitutionById(id, out institution);
+
+						if (error != 0)
+						{
+							Utilities.ShowErrorDialog(error);
+							return;
+						}
+
+						LInstitutionSectorAndCategory.Text = $"{BConstants.GetSocietySectorName(institution.Sector)} - {institution.Category.Name}";
 					}
 
-					LInstitutionSectorAndCategory.Text = $"{BConstants.GetSocietySectorName(institution.Sector)} - {institution.Category.Name}";
+					LoadDTInstitutionRoles();
 				}
-
-				LoadDTInstitutionRoles();
-			}
-			catch
-			{
+				catch
+				{
+				}
 			}
 		}
 
@@ -567,31 +585,34 @@ namespace GCRM
 				return;
 			}
 
-			try
+			using (new CursorWait())
 			{
-				int id = (int)ComboBoxInstitutionRole.SelectedValue;
-
-				if (id == 0)
+				try
 				{
-					LInstitutionRoleDescription.Text = "";
-					return;
+					int id = (int)ComboBoxInstitutionRole.SelectedValue;
+
+					if (id == 0)
+					{
+						LInstitutionRoleDescription.Text = "";
+						return;
+					}
+
+					TInstitutionRole role;
+
+					Error error = InstitutionsHandler.GetInstitutionRoleById(id, out role);
+
+					if (error != 0)
+					{
+						Utilities.ShowErrorDialog(error);
+						return;
+					}
+
+					LInstitutionRoleDescription.Text = role.Description;
 				}
-
-				TInstitutionRole role;
-
-				Error error = InstitutionsHandler.GetInstitutionRoleById(id, out role);
-
-				if (error != 0)
+				catch
 				{
-					Utilities.ShowErrorDialog(error);
-					return;
+
 				}
-
-				LInstitutionRoleDescription.Text = role.Description;
-			}
-			catch
-			{
-
 			}
 		}
 

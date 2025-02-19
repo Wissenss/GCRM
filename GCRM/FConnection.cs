@@ -22,11 +22,14 @@ namespace GCRM
 
 		private bool TestConnection()
 		{
-			string host = TextBoxHost.Text.Trim();
-			int port = (int)NumericPort.Value;
-			string database = TextBoxDatabase.Text.Trim();
+			using (new CursorWait())
+			{
+				string host = TextBoxHost.Text.Trim();
+				int port = (int)NumericPort.Value;
+				string database = TextBoxDatabase.Text.Trim();
 
-			return ConnectionSettings.TestSettings(host, port, database);
+				return ConnectionSettings.TestSettings(host, port, database);
+			}
 		}
 
 		public void SetAccessMode(FAccessMode mode)
@@ -57,32 +60,38 @@ namespace GCRM
 
 		private void BAccept_Click(object sender, EventArgs e)
 		{
-			if (TestConnection() == false)
+			using (new CursorWait())
 			{
-				Utilities.ShowValidationErrorDialog("Conexión fallida, compruebe los parámetros de conexión");
-				return;
+				if (TestConnection() == false)
+				{
+					Utilities.ShowValidationErrorDialog("Conexión fallida, compruebe los parámetros de conexión");
+					return;
+				}
+
+				string host = TextBoxHost.Text.Trim();
+				int port = (int)NumericPort.Value;
+				string database = TextBoxDatabase.Text.Trim();
+
+				ConnectionSettings.WriteSettings(host, port, database);
+
+				ConnectionPool.Refresh();
+
+				DialogResult = DialogResult.OK;
 			}
-
-			string host = TextBoxHost.Text.Trim();
-			int port = (int)NumericPort.Value;
-			string database = TextBoxDatabase.Text.Trim();
-
-			ConnectionSettings.WriteSettings(host, port, database);
-
-			ConnectionPool.Refresh();
-
-			DialogResult = DialogResult.OK;
 		}
 
 		private void FConnection_Load(object sender, EventArgs e)
 		{
 			SetAccessMode(AccessMode);
 
-			ConnectionSettings.LoadSettings();
+			using (new CursorWait())
+			{
+				ConnectionSettings.LoadSettings();
 
-			TextBoxHost.Text = ConnectionSettings.Host;
-			NumericPort.Value = (decimal)ConnectionSettings.Port;
-			TextBoxDatabase.Text = ConnectionSettings.Database;
+				TextBoxHost.Text = ConnectionSettings.Host;
+				NumericPort.Value = (decimal)ConnectionSettings.Port;
+				TextBoxDatabase.Text = ConnectionSettings.Database;
+			}
 		}
 
 		private void BCancel_Click(object sender, EventArgs e)

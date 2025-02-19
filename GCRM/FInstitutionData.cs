@@ -68,50 +68,56 @@ namespace GCRM
 
 		public void SetId(int id)
 		{
-			Id = id;
-
-			TInstitution institution;
-
-			Error error = InstitutionsHandler.GetInstitutionById(Id, out institution);
-
-			if (error != 0)
+			using (new CursorWait())
 			{
-				Utilities.ShowErrorDialog(error);
-				return;
+				Id = id;
+
+				TInstitution institution;
+
+				Error error = InstitutionsHandler.GetInstitutionById(Id, out institution);
+
+				if (error != 0)
+				{
+					Utilities.ShowErrorDialog(error);
+					return;
+				}
+
+				ComboBoxSocietySector.SelectedValue = institution.Sector;
+				ComboBoxCategory.SelectedValue = institution.Category.Id;
+				TextBoxName.Text = institution.Name;
+				TextBoxDescription.Text = institution.Description;
+
+				DTInstitutionRoles.BeginLoadData();
+				DTInstitutionRoles.Clear();
+
+				foreach (TInstitutionRole role in institution.Roles)
+				{
+					DataRow row = DTInstitutionRoles.NewRow();
+
+					row["id"] = role.Id;
+					row["name"] = role.Name;
+					row["institution_id"] = role.InstitutionId;
+					row["parent_role_id"] = role.InstitutionId;
+					row["description"] = role.Description;
+
+					DTInstitutionRoles.Rows.Add(row);
+				}
+
+				DTInstitutionRoles.EndLoadData();
 			}
-
-			ComboBoxSocietySector.SelectedValue = institution.Sector;
-			ComboBoxCategory.SelectedValue = institution.Category.Id;
-			TextBoxName.Text = institution.Name;
-			TextBoxDescription.Text = institution.Description;
-
-			DTInstitutionRoles.BeginLoadData();
-			DTInstitutionRoles.Clear();
-
-			foreach (TInstitutionRole role in institution.Roles)
-			{
-				DataRow row = DTInstitutionRoles.NewRow();
-
-				row["id"] = role.Id;
-				row["name"] = role.Name;
-				row["institution_id"] = role.InstitutionId;
-				row["parent_role_id"] = role.InstitutionId;
-				row["description"] = role.Description;
-
-				DTInstitutionRoles.Rows.Add(row);
-			}
-
-			DTInstitutionRoles.EndLoadData();
 		}
 
 		private void LoadPermissions()
 		{
-			BAddRole.Visible = Session.HasPermission("Instituciones.Roles.Crear");
-			BEditRole.Visible = Session.HasPermission("Instituciones.Roles.Editar");
-
-			if (Session.HasPermission("Instituciones.Roles.Consultar") == false)
+			using (new CursorWait())
 			{
-				TabControlInstitution.TabPages.RemoveAt(1);
+				BAddRole.Visible = Session.HasPermission("Instituciones.Roles.Crear");
+				BEditRole.Visible = Session.HasPermission("Instituciones.Roles.Editar");
+
+				if (Session.HasPermission("Instituciones.Roles.Consultar") == false)
+				{
+					TabControlInstitution.TabPages.RemoveAt(1);
+				}
 			}
 		}
 
@@ -157,42 +163,45 @@ namespace GCRM
 				return;
 			}
 
-			TInstitution institution = new TInstitution()
+			using (new CursorWait())
 			{
-				Id = Id,
-				Name = TextBoxName.Text.Trim(),
-				Sector = (TSocietySector)ComboBoxSocietySector.SelectedValue,
-				Category = new TInstitutionCategory()
+				TInstitution institution = new TInstitution()
 				{
-					Id = (int)ComboBoxCategory.SelectedValue,
-				},
-				Description = TextBoxDescription.Text.Trim(),
-				Roles = new List<TInstitutionRole>()
-			};
-
-			foreach (DataRow row in DTInstitutionRoles.Rows)
-			{
-				TInstitutionRole role = new TInstitutionRole()
-				{
-					Id = (int)row["id"],
-					Name = (string)row["name"],
-					InstitutionId = (int)row["institution_id"],
-					ParentRoleId = (int)row["parent_role_id"],
-					Description = (string)row["description"],
+					Id = Id,
+					Name = TextBoxName.Text.Trim(),
+					Sector = (TSocietySector)ComboBoxSocietySector.SelectedValue,
+					Category = new TInstitutionCategory()
+					{
+						Id = (int)ComboBoxCategory.SelectedValue,
+					},
+					Description = TextBoxDescription.Text.Trim(),
+					Roles = new List<TInstitutionRole>()
 				};
 
-				institution.Roles.Add(role);
+				foreach (DataRow row in DTInstitutionRoles.Rows)
+				{
+					TInstitutionRole role = new TInstitutionRole()
+					{
+						Id = (int)row["id"],
+						Name = (string)row["name"],
+						InstitutionId = (int)row["institution_id"],
+						ParentRoleId = (int)row["parent_role_id"],
+						Description = (string)row["description"],
+					};
+
+					institution.Roles.Add(role);
+				}
+
+				Error error = InstitutionsHandler.SaveInstitution(institution, AccessMode == FAccessMode.Update);
+
+				if (error != 0)
+				{
+					Utilities.ShowErrorDialog(error);
+					return;
+				}
+
+				DialogResult = DialogResult.OK;
 			}
-
-			Error error = InstitutionsHandler.SaveInstitution(institution, AccessMode == FAccessMode.Update);
-
-			if (error != 0)
-			{
-				Utilities.ShowErrorDialog(error);
-				return;
-			}
-
-			DialogResult = DialogResult.OK;
 		}
 
 		private void BAddRole_Click(object sender, EventArgs e)

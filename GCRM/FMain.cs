@@ -52,23 +52,26 @@ namespace GCRM
 
 		private void LoadBirhdayList()
 		{
-			List<TCitizen> citizens_on_birthday;
-
-			Error error = CitizensHandler.GetCitizensWhosBirhdayFallsOn(DateTime.Today, out citizens_on_birthday);
-
-			if (error != 0)
+			using (new CursorWait())
 			{
-				return;
-			}
+				List<TCitizen> citizens_on_birthday;
 
-			PictureBoxBirthdayList.Visible = citizens_on_birthday.Count > 0;
-			LBirthdayList.Visible = citizens_on_birthday.Count > 0;
+				Error error = CitizensHandler.GetCitizensWhosBirhdayFallsOn(DateTime.Today, out citizens_on_birthday);
 
-			ListBoxBirhdays.Items.Clear();
+				if (error != 0)
+				{
+					return;
+				}
 
-			foreach (TCitizen citizen in citizens_on_birthday)
-			{
-				ListBoxBirhdays.Items.Add($" - {citizen.Name} {citizen.PaternalName} {citizen.MaternalName}");
+				PictureBoxBirthdayList.Visible = citizens_on_birthday.Count > 0;
+				LBirthdayList.Visible = citizens_on_birthday.Count > 0;
+
+				ListBoxBirhdays.Items.Clear();
+
+				foreach (TCitizen citizen in citizens_on_birthday)
+				{
+					ListBoxBirhdays.Items.Add($" - {citizen.Name} {citizen.PaternalName} {citizen.MaternalName}");
+				}
 			}
 		}
 
@@ -83,9 +86,12 @@ namespace GCRM
 
 		private void LoadPermissions()
 		{
-			BCitizens.Visible = Session.HasPermission("Ciudadanos.Consultar");
-			BInstitutions.Visible = Session.HasPermission("Instituciones.Consultar");
-			BInstitutionCategories.Visible = Session.HasPermission("Instituciones.Categorias.Consultar");
+			using (new CursorWait())
+			{
+				BCitizens.Visible = Session.HasPermission("Ciudadanos.Consultar");
+				BInstitutions.Visible = Session.HasPermission("Instituciones.Consultar");
+				BInstitutionCategories.Visible = Session.HasPermission("Instituciones.Categorias.Consultar");
+			}
 		}
 
 		private void FMain_FormClosed(object sender, FormClosedEventArgs e)

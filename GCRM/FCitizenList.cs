@@ -18,6 +18,8 @@ namespace GCRM
 		{
 			InitializeComponent();
 
+			Cursor.Current = Cursors.WaitCursor;
+
 			DataGridCitizens.AutoGenerateColumns = false;
 
 			// DataGridCitizensColumns
@@ -129,6 +131,8 @@ namespace GCRM
 
 			DataGridCitizens.DataSource = DSCitizens;
 			DataGridCitizens.DataMember = "DTCitizens";
+
+			Cursor.Current = Cursors.Default;
 		}
 
 		private void AddColumnToDataGrid(DataGridView data_grid, string col_name, string header_text, string data_property_name, bool visible = true, int display_index = 0, int width = 100, int min_width = 100, DataGridViewAutoSizeColumnMode auto_size_mode = DataGridViewAutoSizeColumnMode.None)
@@ -163,15 +167,23 @@ namespace GCRM
 
 		public void LoadPermissions()
 		{
+			Cursor.Current = Cursors.WaitCursor;
+
 			BAdd.Visible = Session.HasPermission("Ciudadanos.Crear");
 			BEdit.Visible = Session.HasPermission("Ciudadanos.Editar");
 			BRead.Visible = Session.HasPermission("Ciudadanos.Consultar");
+
+			Cursor.Current = Cursors.Default;
 		}
 
 		private void FCitizenList_Load(object sender, EventArgs e)
 		{
+			Cursor.Current = Cursors.WaitCursor;
+
 			LoadPermissions();
 			LoadList();
+
+			Cursor.Current = Cursors.Default;
 		}
 
 		private void LoadList()
@@ -280,7 +292,9 @@ namespace GCRM
 
 		private void BRefresh_Click(object sender, EventArgs e)
 		{
+			Cursor.Current = Cursors.WaitCursor;
 			LoadList();
+			Cursor.Current = Cursors.Default;
 		}
 
 		private int GetSelectedCitizenId()
@@ -509,6 +523,8 @@ namespace GCRM
 
 			try
 			{
+				Cursor.Current = Cursors.WaitCursor;
+
 				using (var workbook = new XLWorkbook())
 				{
 					var worksheet = workbook.Worksheets.Add("Ciudadanos");
@@ -599,12 +615,18 @@ namespace GCRM
 			{
 				Utilities.ShowExceptionDialog(ex);
 			}
+			finally
+			{
+				Cursor.Current = Cursors.Default;
+			}
 		}
 
 		private void BPrint_Click(object sender, EventArgs e)
 		{
 			try
 			{
+				Cursor.Current = Cursors.WaitCursor;
+
 				R001 rep_001 = new R001()
 				{
 					InstitutionId = FiltersDlg.FilterInstitution ? FiltersDlg.InstitutionId : 0,
@@ -623,6 +645,10 @@ namespace GCRM
 			catch (Exception ex)
 			{
 				Utilities.ShowExceptionDialog(ex);
+			}
+			finally
+			{
+				Cursor.Current = Cursors.Default;
 			}
 		}
 

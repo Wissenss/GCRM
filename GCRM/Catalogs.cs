@@ -78,11 +78,14 @@ namespace GCRM
 
 		public static void LoadAll()
 		{
-			LoadDTSocietySectors();
-			LoadDTCitzenTitles();
-			LoadDTCountries();
-			LoadDTPoliticalParties();
-			LoadDTSex();
+			using (new CursorWait())
+			{
+				LoadDTSocietySectors();
+				LoadDTCitzenTitles();
+				LoadDTCountries();
+				LoadDTPoliticalParties();
+				LoadDTSex();
+			}
 
 			//LoadDTInstitutionCategories();
 			//LoadDTInstitutions();

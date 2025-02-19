@@ -23,7 +23,10 @@ namespace GCRM
 
 		private void LoadList()
 		{
-			Catalogs.LoadDTInstitutionCategories();
+			using (new CursorWait())
+			{
+				Catalogs.LoadDTInstitutionCategories();
+			}
 		}
 
 		private void BRefresh_Click(object sender, EventArgs e)
@@ -33,9 +36,12 @@ namespace GCRM
 
 		private void LoadPermissions()
 		{
-			BAdd.Visible = Session.HasPermission("Instituciones.Categorias.Crear");
-			BEdit.Visible = Session.HasPermission("Instituciones.Categorias.Editar");
-			BRead.Visible = Session.HasPermission("Instituciones.Categorias.Consultar");
+			using (new CursorWait())
+			{
+				BAdd.Visible = Session.HasPermission("Instituciones.Categorias.Crear");
+				BEdit.Visible = Session.HasPermission("Instituciones.Categorias.Editar");
+				BRead.Visible = Session.HasPermission("Instituciones.Categorias.Consultar");
+			}
 		}
 
 		private void FInstitutionCategoryList_Load(object sender, EventArgs e)

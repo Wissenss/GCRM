@@ -42,6 +42,8 @@ namespace GCRM
 		{
 			InitializeComponent();
 
+			Cursor.Current = Cursors.WaitCursor;
+
 			// load the datasource
 			Catalogs.LoadDTInstitutions();
 			Catalogs.LoadDTInstitutionCategories();
@@ -101,6 +103,8 @@ namespace GCRM
 			ComboBoxBirthdayDay.DataSource = DTDays;
 			ComboBoxBirthdayDay.ValueMember = "value";
 			ComboBoxBirthdayDay.DisplayMember = "value";
+
+			Cursor.Current = Cursors.Default;
 		}
 
 		private void LoadDTYears()
@@ -227,6 +231,8 @@ namespace GCRM
 
 		private void FCitizenListFilters_Shown(object sender, EventArgs e)
 		{
+			Cursor.Current = Cursors.WaitCursor;
+
 			CheckBoxFilterTitle.Checked = FilterCitizenTitle;
 			ComboBoxCitizenTitle.SelectedValue = CitizenTitle;
 			CheckBoxFilterParty.Checked = FilterParty;
@@ -241,7 +247,9 @@ namespace GCRM
 			ComboBoxCategory.SelectedValue = CategoryId;
 			ComboBoxBirthdayYear.SelectedValue = DateTime.Now.Year;
 			ComboBoxBirthdayMonth.SelectedValue = DateTime.Now.Month;
-			ComboBoxBirthdayDay.SelectedValue = DateTime.Now.Day;	
+			ComboBoxBirthdayDay.SelectedValue = DateTime.Now.Day;
+
+			Cursor.Current = Cursors.Default;
 		}
 
 		private void BCancel_Click(object sender, EventArgs e)

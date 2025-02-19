@@ -21,28 +21,31 @@ namespace GCRM
 
 		private void BAccept_Click(object sender, EventArgs e)
 		{
-			string username = TextBoxUser.Text.Trim();
-			string password = TextBoxPassword.Text.Trim();
-
-			Error error = Session.Login(username, password);
-
-			if (error == Error.LoginInvalid)
+			using (new CursorWait())
 			{
-				LStatus.Text = "Usuario o contraseña incorrectos";
-				LStatus.ForeColor = Color.Red;
-				return;
+				string username = TextBoxUser.Text.Trim();
+				string password = TextBoxPassword.Text.Trim();
+
+				Error error = Session.Login(username, password);
+
+				if (error == Error.LoginInvalid)
+				{
+					LStatus.Text = "Usuario o contraseña incorrectos";
+					LStatus.ForeColor = Color.Red;
+					return;
+				}
+				else if (error != 0)
+				{
+					Utilities.ShowErrorDialog(error);
+					return;
+				}
+
+				this.Hide();
+
+				FMain main_form = new FMain();
+
+				main_form.Show();
 			}
-			else if (error != 0)
-			{
-				Utilities.ShowErrorDialog(error);
-				return;
-			}
-
-			this.Hide();
-
-			FMain main_form = new FMain();
-
-			main_form.Show();
 		}
 
 		private void BCancel_Click(object sender, EventArgs e)

@@ -1,13 +1,6 @@
 ﻿using Business;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace GCRM
 {
@@ -40,11 +33,14 @@ namespace GCRM
 
 		private void LoadPermissions()
 		{
-			PermissionsEditingEnabled = Session.HasPermission("Usuarios.Permisos.Editar");
-
-			if (Session.HasPermission("Usuarios.Permisos.Consultar") == false)
+			using (new CursorWait())
 			{
-				TabControlUser.TabPages.RemoveAt(1);
+				PermissionsEditingEnabled = Session.HasPermission("Usuarios.Permisos.Editar");
+
+				if (Session.HasPermission("Usuarios.Permisos.Consultar") == false)
+				{
+					TabControlUser.TabPages.RemoveAt(1);
+				}
 			}
 		}
 
@@ -52,52 +48,52 @@ namespace GCRM
 		{
 			AccessMode = mode;
 
-			TextBoxName.Enabled = AccessMode == FAccessMode.Create;
+			TextBoxName.Enabled = AccessMode != FAccessMode.Read;
 			TextBoxUsername.Enabled = AccessMode == FAccessMode.Create;
 			TextBoxPassword.Enabled = AccessMode != FAccessMode.Read;
 
 			BAccept.Visible = AccessMode != FAccessMode.Read;
 			BCancel.Text = AccessMode != FAccessMode.Read ? "&Cancelar" : "&Cerrar";
-
-			//DataGridUserPermissions.Enabled = AccessMode != FAccessMode.Read;
 		}
 
 		public void SetId(int id)
 		{
-			Id = id;
+			using (new CursorWait()) {
+				Id = id;
 
-			TUser user;
+				TUser user;
 
-			Error error = UsersHandler.GetUserById(id, out user);
+				Error error = UsersHandler.GetUserById(id, out user);
 
-			if (error != 0)
-			{
-				Utilities.ShowErrorDialog(error);
-				return;
+				if (error != 0)
+				{
+					Utilities.ShowErrorDialog(error);
+					return;
+				}
+
+				this.Text = $"Usuario - {user.Username}";
+
+				TextBoxName.Text = user.Name;
+				TextBoxUsername.Text = user.Username;
+				TextBoxPassword.Text = "unknown password"; // the password is not load here, as we only care about the hash, which is assign when changing the contents of this text box 
+				PasswordHash = user.PasswordHash;
+
+				DTUserPermissions.BeginLoadData();
+				DTUserPermissions.Clear();
+
+				foreach (TUserPermission permission in user.Permissions)
+				{
+					DataRow row = DTUserPermissions.NewRow();
+
+					row["id"] = permission.Id;
+					row["name"] = permission.Name;
+					row["permitted"] = permission.Permited;
+
+					DTUserPermissions.Rows.Add(row);
+				}
+
+				DTUserPermissions.EndLoadData();
 			}
-
-			this.Text = $"Usuario - {user.Username}";
-
-			TextBoxName.Text = user.Name;
-			TextBoxUsername.Text = user.Username;
-			TextBoxPassword.Text = "unknown password"; // the password is not load here, as we only care about the hash, which is assign when changing the contents of this text box 
-			PasswordHash = user.PasswordHash;
-
-			DTUserPermissions.BeginLoadData();
-			DTUserPermissions.Clear();
-
-			foreach (TUserPermission permission in user.Permissions)
-			{
-				DataRow row = DTUserPermissions.NewRow();
-
-				row["id"] = permission.Id;
-				row["name"] = permission.Name;
-				row["permitted"] = permission.Permited;
-
-				DTUserPermissions.Rows.Add(row);
-			}
-
-			DTUserPermissions.EndLoadData();
 		}
 
 		private void FUserData_Load(object sender, EventArgs e)
@@ -148,47 +144,51 @@ namespace GCRM
 				return;
 			}
 
-			TUser user = new TUser()
+			using (new CursorWait())
 			{
-				Id = Id,
-				Name = TextBoxName.Text,
-				Username = TextBoxUsername.Text,
-				PasswordHash = PasswordHash,
-			};
 
-			if (PasswordChanged)
-			{
-				user.PasswordHash = UsersHandler.GetPasswordHash(user.Username, TextBoxPassword.Text);
-			}
-
-			user.Permissions = new List<TUserPermission>();
-
-			foreach (DataRow row in DTUserPermissions.Rows)
-			{
-				TUserPermission permission = new TUserPermission()
+				TUser user = new TUser()
 				{
-					Id = (int)row["id"],
-					Name = (string)row["name"],
-					Permited = (bool)row["permitted"]
+					Id = Id,
+					Name = TextBoxName.Text,
+					Username = TextBoxUsername.Text,
+					PasswordHash = PasswordHash,
 				};
 
-				user.Permissions.Add(permission);
+				if (PasswordChanged)
+				{
+					user.PasswordHash = UsersHandler.GetPasswordHash(user.Username, TextBoxPassword.Text);
+				}
+
+				user.Permissions = new List<TUserPermission>();
+
+				foreach (DataRow row in DTUserPermissions.Rows)
+				{
+					TUserPermission permission = new TUserPermission()
+					{
+						Id = (int)row["id"],
+						Name = (string)row["name"],
+						Permited = (bool)row["permitted"]
+					};
+
+					user.Permissions.Add(permission);
+				}
+
+				Error error = UsersHandler.SaveUser(user, AccessMode == FAccessMode.Update);
+
+				if (error != 0)
+				{
+					Utilities.ShowErrorDialog(error);
+					return;
+				}
+
+				if (Session.User.Id == Id)
+				{
+					Session.Refresh();
+				}
+
+				DialogResult = DialogResult.OK;
 			}
-
-			Error error = UsersHandler.SaveUser(user, AccessMode == FAccessMode.Update);
-
-			if (error != 0)
-			{
-				Utilities.ShowErrorDialog(error);
-				return;
-			}
-
-			if (Session.User.Id == Id)
-			{
-				Session.Refresh();
-			}
-
-			DialogResult = DialogResult.OK;
 		}
 
 		private void BCancel_Click(object sender, EventArgs e)
@@ -228,8 +228,6 @@ namespace GCRM
 
 			if (row.Cells["colPermited"].Selected)
 			{
-				//row.Cells["colPermited"].Value = !(bool)row.Cells["colPermited"].Value;
-
 				foreach (DataRow dt_row in DTUserPermissions.Rows)
 				{
 					if ((int)dt_row["id"] == id)

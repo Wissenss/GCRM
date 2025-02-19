@@ -35,9 +35,12 @@ namespace GCRM
 
 		private void LoadPermissions()
 		{
-			BEdit.Visible = Session.HasPermission("Usuarios.Editar");
-			BAdd.Visible	= Session.HasPermission("Usuarios.Crear");
-			BRead.Visible = Session.HasPermission("Usuarios.Consultar");
+			using (new CursorWait())
+			{
+				BEdit.Visible = Session.HasPermission("Usuarios.Editar");
+				BAdd.Visible = Session.HasPermission("Usuarios.Crear");
+				BRead.Visible = Session.HasPermission("Usuarios.Consultar");
+			}
 		}
 
 		private void FUserList_Load(object sender, EventArgs e)
@@ -48,32 +51,35 @@ namespace GCRM
 
 		public void LoadList()
 		{
-			DTUsers.BeginLoadData();
-			DTUsers.Rows.Clear();
-
-			List<TUser> users_list = new List<TUser>();
-
-			Error error = UsersHandler.GetUsers(out users_list);
-
-			if (error != 0)
+			using (new CursorWait())
 			{
-				Utilities.ShowErrorDialog(error);
-				return;
+				DTUsers.BeginLoadData();
+				DTUsers.Rows.Clear();
+
+				List<TUser> users_list = new List<TUser>();
+
+				Error error = UsersHandler.GetUsers(out users_list);
+
+				if (error != 0)
+				{
+					Utilities.ShowErrorDialog(error);
+					return;
+				}
+
+				foreach (TUser user in users_list)
+				{
+					DataRow row = DTUsers.NewRow();
+
+					row["id"] = user.Id;
+					row["name"] = user.Name;
+					row["username"] = user.Username;
+					row["password_hash"] = user.PasswordHash;
+
+					DTUsers.Rows.Add(row);
+				}
+
+				DTUsers.EndLoadData();
 			}
-
-			foreach (TUser user in users_list)
-			{
-				DataRow row = DTUsers.NewRow();
-
-				row["id"] = user.Id;
-				row["name"] = user.Name;
-				row["username"] = user.Username;
-				row["password_hash"] = user.PasswordHash;
-
-				DTUsers.Rows.Add(row);
-			}
-
-			DTUsers.EndLoadData();
 		}
 
 		private void BRefresh_Click(object sender, EventArgs e)

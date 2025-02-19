@@ -34,20 +34,23 @@ namespace GCRM
 
 		public void SetId(int id)
 		{
-			Id = id;
-
-			TInstitutionCategory institution_category;
-
-			Error error = InstitutionsHandler.GetInstitutionCategoryById(id, out institution_category);
-
-			if (error != 0)
+			using (new CursorWait())
 			{
-				Utilities.ShowErrorDialog(error);
-				return;
-			}
+				Id = id;
 
-			TextBoxName.Text = institution_category.Name;
-			TextBoxDescription.Text = institution_category.Description;
+				TInstitutionCategory institution_category;
+
+				Error error = InstitutionsHandler.GetInstitutionCategoryById(id, out institution_category);
+
+				if (error != 0)
+				{
+					Utilities.ShowErrorDialog(error);
+					return;
+				}
+
+				TextBoxName.Text = institution_category.Name;
+				TextBoxDescription.Text = institution_category.Description;
+			}
 		}
 
 		private void BCancel_Click(object sender, EventArgs e)
@@ -81,23 +84,26 @@ namespace GCRM
 				return;
 			}
 
-			TInstitutionCategory institution_category = new TInstitutionCategory()
+			using (new CursorWait())
 			{
-				Id = Id,
-				Name = TextBoxName.Text,
-				Description = TextBoxDescription.Text,
-			};
+				TInstitutionCategory institution_category = new TInstitutionCategory()
+				{
+					Id = Id,
+					Name = TextBoxName.Text,
+					Description = TextBoxDescription.Text,
+				};
 
-			Error error = InstitutionsHandler.SaveInstitutionCategory(institution_category, AccessMode == FAccessMode.Update);
+				Error error = InstitutionsHandler.SaveInstitutionCategory(institution_category, AccessMode == FAccessMode.Update);
 
-			if (error != 0)
-			{
-				Utilities.ShowErrorDialog(error);
+				if (error != 0)
+				{
+					Utilities.ShowErrorDialog(error);
 
-				return;
+					return;
+				}
+
+				DialogResult = DialogResult.OK;
 			}
-
-			DialogResult = DialogResult.OK;
 		}
 	}
 }
