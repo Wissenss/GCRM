@@ -539,8 +539,8 @@ namespace GCRM
 
 					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Sector", headers_color, 10);
 					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Categoría", headers_color, 20);
-					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Institución", headers_color, 10);
-					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Cargo", headers_color, 10);
+					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Institución", headers_color, 40);
+					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Cargo", headers_color, 20);
 
 					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Calle", headers_color, 35);
 					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Número", headers_color, 15);
