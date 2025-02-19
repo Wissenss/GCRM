@@ -1,5 +1,6 @@
 ﻿using Business;
 using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Bibliography;
 using Reporter;
 using System.Data;
 using System.Globalization;
@@ -25,7 +26,6 @@ namespace GCRM
 			AddColumnToDataGrid(DataGridCitizens, "colName", "Nombre", "name", false);
 			AddColumnToDataGrid(DataGridCitizens, "colPaternalName", "Apellido paterno", "paternal_name", false);
 			AddColumnToDataGrid(DataGridCitizens, "colMaternalName", "Apellido materno", "maternal_name", false);
-			AddColumnToDataGrid(DataGridCitizens, "colBirthday", "Nacimiento", "birthday", false);
 			AddColumnToDataGrid(DataGridCitizens, "colObservations", "Observaciones", "observations", false);
 			AddColumnToDataGrid(DataGridCitizens, "colSex", "Id Sexo", "sex", false);
 
@@ -38,9 +38,12 @@ namespace GCRM
 			AddColumnToDataGrid(DataGridCitizens, "colPhone", "Teléfono", "phone", false);
 			AddColumnToDataGrid(DataGridCitizens, "colPoliticalParty", "Id Partido", "political_party", false);
 			AddColumnToDataGrid(DataGridCitizens, "colPhoneExtension", "Extensión Teléfono", "phone_extension", false);
+
 			AddColumnToDataGrid(DataGridCitizens, "colInstitutionId", "Id Institución", "institution_id", false);
 			AddColumnToDataGrid(DataGridCitizens, "colInstitutionCategoryId", "Id Categoría", "institution_category_id", false);
 			AddColumnToDataGrid(DataGridCitizens, "colInstitutionSector", "Id Sector", "institution_sector", false);
+			AddColumnToDataGrid(DataGridCitizens, "colInstitutionRoleId", "Id Cargo", "institution_role_id", false);
+
 			AddColumnToDataGrid(DataGridCitizens, "colAddressId", "Id Dirección", "address_id", false);
 			AddColumnToDataGrid(DataGridCitizens, "colAddressStreet", "Calle", "address_street", false);
 			AddColumnToDataGrid(DataGridCitizens, "colAddressNumber", "Número", "address_number", false);
@@ -56,14 +59,16 @@ namespace GCRM
 			AddColumnToDataGrid(DataGridCitizens, "colTitleName", "Título", "title_name", true, display_index++, 20, 20, DataGridViewAutoSizeColumnMode.AllCells);
 			AddColumnToDataGrid(DataGridCitizens, "colFullName", "Nombre", "name_full", true, display_index++, 250, 250, DataGridViewAutoSizeColumnMode.Fill);
 			AddColumnToDataGrid(DataGridCitizens, "colInstitutionName", "Institución", "institution_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
+			AddColumnToDataGrid(DataGridCitizens, "colInstitutionRoleName", "Cargo", "institution_role_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
 			AddColumnToDataGrid(DataGridCitizens, "colInstitutionCategoryName", "Categoría", "institution_category_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
 			AddColumnToDataGrid(DataGridCitizens, "colInstitutionSectorName", "Sector", "institution_sector_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
 			AddColumnToDataGrid(DataGridCitizens, "colPhoneAndExtension", "Teléfono", "phone_full", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
 			AddColumnToDataGrid(DataGridCitizens, "colCellphone", "Celular", "cellphone", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
-			AddColumnToDataGrid(DataGridCitizens, "colCURP", "CURP", "curp", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
 			AddColumnToDataGrid(DataGridCitizens, "colAssistantName", "Asistente", "assistant_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
 			AddColumnToDataGrid(DataGridCitizens, "colSexName", "Sexo", "sex_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
 			AddColumnToDataGrid(DataGridCitizens, "colPoliticalPartyName", "Partido", "political_party_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
+			AddColumnToDataGrid(DataGridCitizens, "colBirthday", "Nacimiento", "birthday", false, display_index++, 20, 20, DataGridViewAutoSizeColumnMode.AllCells);
+			AddColumnToDataGrid(DataGridCitizens, "colCURP", "CURP", "curp", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
 
 			FiltersDlg = new FCitizenListFilters();
 
@@ -106,6 +111,9 @@ namespace GCRM
 			DTCitizens.Columns.Add("institution_category_name", typeof(string));
 			DTCitizens.Columns.Add("institution_sector", typeof(TSocietySector));
 			DTCitizens.Columns.Add("institution_sector_name", typeof(string));
+
+			DTCitizens.Columns.Add("institution_role_id", typeof(int));
+			DTCitizens.Columns.Add("institution_role_name", typeof(string));
 
 			DTCitizens.Columns.Add("address_id", typeof(int));
 			DTCitizens.Columns.Add("address_street", typeof(string));
@@ -235,6 +243,9 @@ namespace GCRM
 				row["institution_category_name"] = citizen.Institution.Category.Name;
 				row["institution_sector"] = citizen.Institution.Sector;
 				row["institution_sector_name"] = BConstants.GetSocietySectorName(citizen.Institution.Sector);
+
+				row["institution_role_id"] = citizen.Role.Id;
+				row["institution_role_name"] = citizen.Role.Name;
 
 				row["address_id"] = citizen.Address.Id;
 				row["address_street"] = citizen.Address.Street;
@@ -529,6 +540,7 @@ namespace GCRM
 					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Sector", headers_color, 10);
 					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Categoría", headers_color, 20);
 					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Institución", headers_color, 10);
+					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Cargo", headers_color, 10);
 
 					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Calle", headers_color, 35);
 					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Número", headers_color, 15);
@@ -569,6 +581,7 @@ namespace GCRM
 						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colInstitutionSectorName"].Value);
 						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colInstitutionCategoryName"].Value);
 						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colInstitutionName"].Value);
+						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colInstitutionRoleName"].Value);
 
 						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colAddressStreet"].Value);
 						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colAddressNumber"].Value);

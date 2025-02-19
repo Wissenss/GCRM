@@ -320,6 +320,11 @@ namespace Business
 						InstitutionsHandler.GetInstitutionById(citizen.Institution.Id, out citizen.Institution);
 					}
 
+					if (citizen.Role.Id != 0)
+					{
+						InstitutionsHandler.GetInstitutionRoleById(citizen.Role.Id, out citizen.Role);
+					}
+
 					if (citizen.Address.Id != 0)
 					{
 						AddressesHandler.GetAddressById(citizen.Address.Id, out citizen.Address);

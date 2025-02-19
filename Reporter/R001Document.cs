@@ -3,6 +3,7 @@ using QuestPDF.Drawing;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
+using System.Diagnostics;
 using System.Globalization;
 using System.Reflection;
 
@@ -50,7 +51,7 @@ namespace Reporter
 		{
 			container.Page(page =>
 			{
-				page.Margin(20);
+				page.Margin(15);
 				
 				page.Header().Element(ComposeHeader);
 				page.Content().Element(ComposeContent);
@@ -166,11 +167,12 @@ namespace Reporter
 			{
 				table.ColumnsDefinition(columns =>
 				{
-					columns.ConstantColumn(50);
+					columns.ConstantColumn(30);
 					columns.ConstantColumn(120);
 					columns.RelativeColumn();
 					columns.RelativeColumn();
-					columns.RelativeColumn();
+					columns.ConstantColumn(90);
+					columns.ConstantColumn(60);
 					columns.ConstantColumn(50); 
 				});
 
@@ -181,6 +183,7 @@ namespace Reporter
 					header.Cell().Element(CellStyle).Text("Título").FontSize(header_font_size).SemiBold();
 					header.Cell().Element(CellStyle).Text("Nombre").FontSize(header_font_size).SemiBold();
 					header.Cell().Element(CellStyle).Text("Institución").FontSize(header_font_size).SemiBold();
+					header.Cell().Element(CellStyle).Text("Cargo").FontSize(header_font_size).SemiBold();
 					header.Cell().Element(CellStyle).Text("Teléfono").FontSize(header_font_size).SemiBold();
 					header.Cell().Element(CellStyle).Text("Celular").FontSize(header_font_size).SemiBold();
 					header.Cell().Element(CellStyle).Text("Nacimiento").FontSize(header_font_size).SemiBold();
@@ -198,6 +201,7 @@ namespace Reporter
 					table.Cell().Element(CellStyle).Text(BConstants.GetCitizenBriefTitle(citizen.Title)).FontSize(row_font_size);
 					table.Cell().Element(CellStyle).Text($"{citizen.Name} {citizen.PaternalName} {citizen.MaternalName}").FontSize(row_font_size);
 					table.Cell().Element(CellStyle).Text(citizen.Institution.Name).FontSize(row_font_size);
+					table.Cell().Element(CellStyle).Text(citizen.Role.Name).FontSize(row_font_size);
 
 					if (citizen.PhoneExtension.Trim().Length > 0)
 						table.Cell().Element(CellStyle).Text($"{citizen.Phone} Ext. {citizen.PhoneExtension}").FontSize(row_font_size);
@@ -219,9 +223,13 @@ namespace Reporter
 		{
 			float footer_font_size = 6;
 
+			Assembly assembly = Assembly.GetExecutingAssembly();
+			FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
+			string version = fileVersionInfo.ProductVersion;
+
 			container.Row(row =>
 			{
-				row.RelativeItem().Element(e => e.AlignLeft().Text($"GCRM - Generado por: {Session.User.Name}").FontSize(footer_font_size));
+				row.RelativeItem().Element(e => e.AlignLeft().Text($"GCRM {version} - Generado por: {Session.User.Name}").FontSize(footer_font_size));
 				row.RelativeItem().Element(e => e.AlignRight().Text($"Fecha: {DateTime.Now.ToString("dd/MM/yyyy")}").FontSize(footer_font_size));
 			});
 			//container.AlignRight().Text().FontSize(6);
