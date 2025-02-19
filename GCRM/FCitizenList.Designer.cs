@@ -485,7 +485,7 @@
 			FExcelExport.Margin = new Padding(1, 2, 1, 2);
 			FExcelExport.Name = "FExcelExport";
 			FExcelExport.Padding = new Padding(2, 8, 2, 8);
-			FExcelExport.Size = new Size(75, 36);
+			FExcelExport.Size = new Size(74, 36);
 			FExcelExport.Text = "E&xportar";
 			FExcelExport.Click += FExcelExport_Click;
 			// 

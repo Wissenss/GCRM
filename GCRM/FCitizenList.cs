@@ -54,7 +54,7 @@ namespace GCRM
 			int display_index = 0;
 
 			AddColumnToDataGrid(DataGridCitizens, "colTitleName", "Título", "title_name", true, display_index++, 20, 20, DataGridViewAutoSizeColumnMode.AllCells);
-			AddColumnToDataGrid(DataGridCitizens, "colFullName", "Nombre", "name_full", true, display_index++, 100, 80, DataGridViewAutoSizeColumnMode.Fill);
+			AddColumnToDataGrid(DataGridCitizens, "colFullName", "Nombre", "name_full", true, display_index++, 250, 250, DataGridViewAutoSizeColumnMode.Fill);
 			AddColumnToDataGrid(DataGridCitizens, "colInstitutionName", "Institución", "institution_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
 			AddColumnToDataGrid(DataGridCitizens, "colInstitutionCategoryName", "Categoría", "institution_category_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
 			AddColumnToDataGrid(DataGridCitizens, "colInstitutionSectorName", "Sector", "institution_sector_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
