@@ -130,6 +130,62 @@ namespace Business
 			return 0;
 		}
 
+		public static Error DeleteInstitutionById(int id)
+		{
+			Error error = 0;
+
+			var conn = ConnectionPool.GetConnection();
+
+			// check there is no citizen with this institution
+			using (var cmd = new NpgsqlCommand("SELECT * FROM citizens WHERE institution_id = @id;", conn))
+			{
+				cmd.Parameters.AddWithValue("@id", id);
+
+				using (var reader = cmd.ExecuteReader())
+				{
+					if (reader.HasRows)
+					{
+						error = Error.InstitutionCategoryInUse;
+					}
+				}
+			}
+
+			// check there is no institution with this institution
+			if (error != 0)
+			{
+				using (var cmd = new NpgsqlCommand("SELECT * FROM institutions WHERE parent_institution_id = @id;", conn))
+				{
+					cmd.Parameters.AddWithValue("@id", id);
+
+					using (var reader = cmd.ExecuteReader())
+					{
+						if (reader.HasRows)
+						{
+							error = Error.InstitutionCategoryInUse;
+						}
+					}
+				}
+			}
+
+			if (error == 0)
+			{
+				using (var cmd = new NpgsqlCommand("DELETE FROM institution_roles WHERE institution_id = @id;", conn))
+				{
+					cmd.Parameters.AddWithValue("@id", id);
+
+					cmd.ExecuteNonQuery();
+
+					cmd.CommandText = "DELETE FROM institutions WHERE id = @id;";
+
+					cmd.ExecuteNonQuery();
+				}
+			}
+
+			ConnectionPool.ReleaseConnection(ref conn);
+
+			return error;
+		}
+
 		public static Error DeleteInstitutionCategoryById(int id)
 		{
 			Error error = 0;

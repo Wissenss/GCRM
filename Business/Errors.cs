@@ -22,6 +22,7 @@ namespace Business
 
 		// errors related to institutions
 		InstitutionNotFound,
+		InstitutionInUse,
 		InstitutionRoleNotFound,
 		InstitutionCategoryNotFound,
 		InstitutionCategoryInUse,
@@ -42,6 +43,7 @@ namespace Business
 			{ Error.CitizenNotFound, "Ciudadano no encontrado" },
 			{ Error.CitizenWithSameCURP, "La clave CURP ya existe" },
 			{ Error.InstitutionNotFound, "Institución no encontrada" },
+			{ Error.InstitutionInUse, "Institución esta siendo utilizada" },
 			{ Error.InstitutionRoleNotFound, "Cargo de institución no encontrado" },
 			{ Error.InstitutionCategoryNotFound, "Categoría de institución no encontrada" },
 			{ Error.InstitutionCategoryInUse, "Categoría de institutción esta siendo utilizada" },

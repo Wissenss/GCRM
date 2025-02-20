@@ -37,6 +37,7 @@
 			BEdit = new ToolStripButton();
 			BRead = new ToolStripButton();
 			BRefresh = new ToolStripButton();
+			BDelete = new ToolStripButton();
 			DataGridInstitutions = new DataGridView();
 			colId = new DataGridViewTextBoxColumn();
 			colName = new DataGridViewTextBoxColumn();
@@ -62,7 +63,7 @@
 			// toolStrip1
 			// 
 			toolStrip1.GripStyle = ToolStripGripStyle.Hidden;
-			toolStrip1.Items.AddRange(new ToolStripItem[] { BAdd, BEdit, BRead, BRefresh });
+			toolStrip1.Items.AddRange(new ToolStripItem[] { BAdd, BEdit, BRead, BRefresh, BDelete });
 			toolStrip1.Location = new Point(0, 0);
 			toolStrip1.Name = "toolStrip1";
 			toolStrip1.RenderMode = ToolStripRenderMode.System;
@@ -117,6 +118,16 @@
 			BRefresh.Size = new Size(83, 36);
 			BRefresh.Text = "Actualiza&r";
 			BRefresh.Click += BRefresh_Click;
+			// 
+			// BDelete
+			// 
+			BDelete.Image = Properties.Resources.Fatcow_Farm_Fresh_Delete_16;
+			BDelete.ImageScaling = ToolStripItemImageScaling.None;
+			BDelete.ImageTransparentColor = Color.Magenta;
+			BDelete.Name = "BDelete";
+			BDelete.Size = new Size(59, 37);
+			BDelete.Text = "&Borrar";
+			BDelete.Click += BDelete_Click;
 			// 
 			// DataGridInstitutions
 			// 
@@ -334,5 +345,6 @@
 		private DataGridViewTextBoxColumn colCategoryName;
 		private DataGridViewTextBoxColumn colDescription;
 		private DataGridViewTextBoxColumn colParentInstitutionId;
+		private ToolStripButton BDelete;
 	}
 }
