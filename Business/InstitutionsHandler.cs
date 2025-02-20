@@ -130,6 +130,41 @@ namespace Business
 			return 0;
 		}
 
+		public static Error DeleteInstitutionCategoryById(int id)
+		{
+			Error error = 0;
+
+			var conn = ConnectionPool.GetConnection();
+
+			// check there is no institution using this category
+			using (var cmd = new NpgsqlCommand("SELECT * FROM institutions WHERE category_id = @id;", conn))
+			{
+				cmd.Parameters.AddWithValue("@id", id);
+
+				using (var reader = cmd.ExecuteReader())
+				{
+					if (reader.HasRows)
+					{
+						error = Error.InstitutionCategoryInUse;
+					}
+				}
+			}
+
+			if (error == 0)
+			{
+				using (var cmd = new NpgsqlCommand("DELETE FROM institution_categories WHERE id = @id;", conn))
+				{
+					cmd.Parameters.AddWithValue("@id", id);
+
+					cmd.ExecuteNonQuery();
+				}
+			}
+
+			ConnectionPool.ReleaseConnection(ref conn);
+
+			return error;
+		}
+
 		public static Error GetInstitutionById(int id, out TInstitution institution)
 		{ 
 			institution = new TInstitution();

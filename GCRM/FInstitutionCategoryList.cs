@@ -41,6 +41,7 @@ namespace GCRM
 				BAdd.Visible = Session.HasPermission("Instituciones.Categorias.Crear");
 				BEdit.Visible = Session.HasPermission("Instituciones.Categorias.Editar");
 				BRead.Visible = Session.HasPermission("Instituciones.Categorias.Consultar");
+				BDelete.Visible = Session.HasPermission("Instituciones.Categorias.Eliminar");
 			}
 		}
 
@@ -115,6 +116,26 @@ namespace GCRM
 					LoadList();
 				}
 			}
+		}
+
+		private void BDelete_Click(object sender, EventArgs e)
+		{
+			int id = GetSelectedInstitutionCategoryId();
+
+			if (id == 0)
+			{
+				return;
+			}
+
+			Error error = InstitutionsHandler.DeleteInstitutionCategoryById(id);
+
+			if (error != 0)
+			{
+				Utilities.ShowErrorDialog(error);
+				return;
+			}
+
+			LoadList();
 		}
 	}
 }

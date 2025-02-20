@@ -24,6 +24,7 @@ namespace Business
 		InstitutionNotFound,
 		InstitutionRoleNotFound,
 		InstitutionCategoryNotFound,
+		InstitutionCategoryInUse,
 
 		// errors related to settings
 		SettingNotFound,
@@ -43,6 +44,7 @@ namespace Business
 			{ Error.InstitutionNotFound, "Institución no encontrada" },
 			{ Error.InstitutionRoleNotFound, "Cargo de institución no encontrado" },
 			{ Error.InstitutionCategoryNotFound, "Categoría de institución no encontrada" },
+			{ Error.InstitutionCategoryInUse, "Categoría de institutción esta siendo utilizada" },
 			{ Error.SettingNotFound, "No se encontró la configuración en la base de datos" },
 			{ Error.AddressNotFound, "Dirección no encontrada" },
 		};

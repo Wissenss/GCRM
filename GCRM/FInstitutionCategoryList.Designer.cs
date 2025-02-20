@@ -37,6 +37,7 @@
 			BEdit = new ToolStripButton();
 			BRead = new ToolStripButton();
 			BRefresh = new ToolStripButton();
+			BDelete = new ToolStripButton();
 			DataGridInstitutionCategories = new DataGridView();
 			colId = new DataGridViewTextBoxColumn();
 			colName = new DataGridViewTextBoxColumn();
@@ -48,11 +49,11 @@
 			// toolStrip1
 			// 
 			toolStrip1.GripStyle = ToolStripGripStyle.Hidden;
-			toolStrip1.Items.AddRange(new ToolStripItem[] { BAdd, BEdit, BRead, BRefresh });
+			toolStrip1.Items.AddRange(new ToolStripItem[] { BAdd, BEdit, BRead, BRefresh, BDelete });
 			toolStrip1.Location = new Point(0, 0);
 			toolStrip1.Name = "toolStrip1";
 			toolStrip1.RenderMode = ToolStripRenderMode.System;
-			toolStrip1.Size = new Size(380, 40);
+			toolStrip1.Size = new Size(522, 40);
 			toolStrip1.TabIndex = 0;
 			toolStrip1.Text = "toolStrip1";
 			// 
@@ -104,6 +105,16 @@
 			BRefresh.Text = "Actualiza&r";
 			BRefresh.Click += BRefresh_Click;
 			// 
+			// BDelete
+			// 
+			BDelete.Image = Properties.Resources.Fatcow_Farm_Fresh_Delete1;
+			BDelete.ImageScaling = ToolStripItemImageScaling.None;
+			BDelete.ImageTransparentColor = Color.Magenta;
+			BDelete.Name = "BDelete";
+			BDelete.Size = new Size(59, 37);
+			BDelete.Text = "&Borrar";
+			BDelete.Click += BDelete_Click;
+			// 
 			// DataGridInstitutionCategories
 			// 
 			DataGridInstitutionCategories.AllowUserToAddRows = false;
@@ -150,7 +161,7 @@
 			DataGridInstitutionCategories.RowTemplate.Height = 20;
 			DataGridInstitutionCategories.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 			DataGridInstitutionCategories.ShowCellToolTips = false;
-			DataGridInstitutionCategories.Size = new Size(380, 316);
+			DataGridInstitutionCategories.Size = new Size(522, 316);
 			DataGridInstitutionCategories.StandardTab = true;
 			DataGridInstitutionCategories.TabIndex = 2;
 			// 
@@ -165,12 +176,13 @@
 			// 
 			// colName
 			// 
-			colName.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+			colName.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
 			colName.DataPropertyName = "name";
 			colName.DividerWidth = 1;
 			colName.HeaderText = "Name";
 			colName.Name = "colName";
 			colName.ReadOnly = true;
+			colName.Width = 63;
 			// 
 			// colDescription
 			// 
@@ -184,7 +196,7 @@
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
-			ClientSize = new Size(380, 356);
+			ClientSize = new Size(522, 356);
 			Controls.Add(DataGridInstitutionCategories);
 			Controls.Add(toolStrip1);
 			Icon = (Icon)resources.GetObject("$this.Icon");
@@ -207,6 +219,7 @@
 		private ToolStripButton BEdit;
 		private ToolStripButton BRead;
 		private ToolStripButton BRefresh;
+		private ToolStripButton BDelete;
 		private DataGridViewTextBoxColumn colId;
 		private DataGridViewTextBoxColumn colName;
 		private DataGridViewTextBoxColumn colDescription;
