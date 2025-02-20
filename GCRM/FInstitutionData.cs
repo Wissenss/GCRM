@@ -59,6 +59,8 @@ namespace GCRM
 			ComboBoxParentInstitution.DataSource = DTInstitutions;
 			ComboBoxParentInstitution.ValueMember = "id";
 			ComboBoxParentInstitution.DisplayMember = "name";
+
+			LoadInstitutions();
 		}
 
 		public void SetAccessMode(FAccessMode mode)
@@ -178,7 +180,6 @@ namespace GCRM
 
 		private void FInstitutionData_Load(object sender, EventArgs e)
 		{
-			LoadInstitutions();
 			LoadPermissions();
 
 			Catalogs.LoadDTInstitutionCategories();

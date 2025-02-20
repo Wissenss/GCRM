@@ -381,15 +381,15 @@ namespace GCRM
 				*/
 			}
 
-			if ((int)ComboBoxInstitution.SelectedValue == 0)
-			{
-				errors.AppendLine("Debe especificar la institución a la que pertenece el ciudadano");
-			}
+			//if ((int)ComboBoxInstitution.SelectedValue == 0)
+			//{
+			//	errors.AppendLine("Debe especificar la institución a la que pertenece el ciudadano");
+			//}
 
-			if ((int)ComboBoxInstitutionRole.SelectedValue == 0)
-			{
-				errors.AppendLine("Debe especificar el cargo del ciudadano");
-			}
+			//if ((int)ComboBoxInstitutionRole.SelectedValue == 0)
+			//{
+			//	errors.AppendLine("Debe especificar el cargo del ciudadano");
+			//}
 
 			if (errors.Length > 0)
 			{

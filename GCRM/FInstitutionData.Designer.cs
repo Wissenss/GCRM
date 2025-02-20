@@ -28,11 +28,13 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-			DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+			DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+			DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
 			BCancel = new Button();
 			BAccept = new Button();
 			TabGeneral = new TabPage();
+			ComboBoxParentInstitution = new ComboBox();
+			LParentInstitution = new Label();
 			ComboBoxCategory = new ComboBox();
 			LInstitutionCategory = new Label();
 			LDescription = new Label();
@@ -44,16 +46,14 @@
 			TabControlInstitution = new TabControl();
 			TabPositions = new TabPage();
 			DataGridInstitutionRoles = new DataGridView();
+			toolStrip1 = new ToolStrip();
+			BAddRole = new ToolStripButton();
+			BEditRole = new ToolStripButton();
 			colId = new DataGridViewTextBoxColumn();
 			colName = new DataGridViewTextBoxColumn();
 			colInstitutionId = new DataGridViewTextBoxColumn();
 			colParentRoleId = new DataGridViewTextBoxColumn();
 			colDescription = new DataGridViewTextBoxColumn();
-			toolStrip1 = new ToolStrip();
-			BAddRole = new ToolStripButton();
-			BEditRole = new ToolStripButton();
-			ComboBoxParentInstitution = new ComboBox();
-			LParentInstitution = new Label();
 			TabGeneral.SuspendLayout();
 			TabControlInstitution.SuspendLayout();
 			TabPositions.SuspendLayout();
@@ -102,6 +102,24 @@
 			TabGeneral.TabIndex = 0;
 			TabGeneral.Text = "General";
 			TabGeneral.UseVisualStyleBackColor = true;
+			// 
+			// ComboBoxParentInstitution
+			// 
+			ComboBoxParentInstitution.FlatStyle = FlatStyle.System;
+			ComboBoxParentInstitution.FormattingEnabled = true;
+			ComboBoxParentInstitution.Location = new Point(82, 72);
+			ComboBoxParentInstitution.Name = "ComboBoxParentInstitution";
+			ComboBoxParentInstitution.Size = new Size(295, 23);
+			ComboBoxParentInstitution.TabIndex = 12;
+			// 
+			// LParentInstitution
+			// 
+			LParentInstitution.AutoSize = true;
+			LParentInstitution.Location = new Point(7, 75);
+			LParentInstitution.Name = "LParentInstitution";
+			LParentInstitution.Size = new Size(62, 15);
+			LParentInstitution.TabIndex = 13;
+			LParentInstitution.Text = "Inst. padre";
 			// 
 			// ComboBoxCategory
 			// 
@@ -206,24 +224,24 @@
 			DataGridInstitutionRoles.BorderStyle = BorderStyle.None;
 			DataGridInstitutionRoles.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
 			DataGridInstitutionRoles.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
-			dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle3.BackColor = SystemColors.Control;
-			dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
-			dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
-			dataGridViewCellStyle3.SelectionBackColor = SystemColors.Control;
-			dataGridViewCellStyle3.SelectionForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-			DataGridInstitutionRoles.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+			dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle1.BackColor = SystemColors.Control;
+			dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
+			dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+			dataGridViewCellStyle1.SelectionBackColor = SystemColors.Control;
+			dataGridViewCellStyle1.SelectionForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+			DataGridInstitutionRoles.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
 			DataGridInstitutionRoles.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			DataGridInstitutionRoles.Columns.AddRange(new DataGridViewColumn[] { colId, colName, colInstitutionId, colParentRoleId, colDescription });
-			dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle4.BackColor = SystemColors.Window;
-			dataGridViewCellStyle4.Font = new Font("Segoe UI", 9F);
-			dataGridViewCellStyle4.ForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle4.SelectionBackColor = SystemColors.ControlLight;
-			dataGridViewCellStyle4.SelectionForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
-			DataGridInstitutionRoles.DefaultCellStyle = dataGridViewCellStyle4;
+			dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle2.BackColor = SystemColors.Window;
+			dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+			dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle2.SelectionBackColor = SystemColors.ControlLight;
+			dataGridViewCellStyle2.SelectionForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+			DataGridInstitutionRoles.DefaultCellStyle = dataGridViewCellStyle2;
 			DataGridInstitutionRoles.Dock = DockStyle.Fill;
 			DataGridInstitutionRoles.EnableHeadersVisualStyles = false;
 			DataGridInstitutionRoles.Location = new Point(3, 28);
@@ -236,45 +254,6 @@
 			DataGridInstitutionRoles.Size = new Size(377, 292);
 			DataGridInstitutionRoles.StandardTab = true;
 			DataGridInstitutionRoles.TabIndex = 0;
-			// 
-			// colId
-			// 
-			colId.DataPropertyName = "id";
-			colId.HeaderText = "Id";
-			colId.Name = "colId";
-			colId.ReadOnly = true;
-			colId.Visible = false;
-			// 
-			// colName
-			// 
-			colName.DataPropertyName = "name";
-			colName.HeaderText = "Cargo";
-			colName.Name = "colName";
-			colName.ReadOnly = true;
-			// 
-			// colInstitutionId
-			// 
-			colInstitutionId.DataPropertyName = "institution_id";
-			colInstitutionId.HeaderText = "Id Institución";
-			colInstitutionId.Name = "colInstitutionId";
-			colInstitutionId.ReadOnly = true;
-			colInstitutionId.Visible = false;
-			// 
-			// colParentRoleId
-			// 
-			colParentRoleId.DataPropertyName = "parent_role_id";
-			colParentRoleId.HeaderText = "Id Cargo Padre";
-			colParentRoleId.Name = "colParentRoleId";
-			colParentRoleId.ReadOnly = true;
-			colParentRoleId.Visible = false;
-			// 
-			// colDescription
-			// 
-			colDescription.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-			colDescription.DataPropertyName = "description";
-			colDescription.HeaderText = "Descripción";
-			colDescription.Name = "colDescription";
-			colDescription.ReadOnly = true;
 			// 
 			// toolStrip1
 			// 
@@ -309,23 +288,48 @@
 			BEditRole.Text = "&Editar";
 			BEditRole.Click += BEditRole_Click;
 			// 
-			// ComboBoxParentInstitution
+			// colId
 			// 
-			ComboBoxParentInstitution.FlatStyle = FlatStyle.System;
-			ComboBoxParentInstitution.FormattingEnabled = true;
-			ComboBoxParentInstitution.Location = new Point(82, 72);
-			ComboBoxParentInstitution.Name = "ComboBoxParentInstitution";
-			ComboBoxParentInstitution.Size = new Size(295, 23);
-			ComboBoxParentInstitution.TabIndex = 12;
+			colId.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+			colId.DataPropertyName = "id";
+			colId.HeaderText = "Id";
+			colId.Name = "colId";
+			colId.ReadOnly = true;
+			colId.Visible = false;
+			colId.Width = 22;
 			// 
-			// LParentInstitution
+			// colName
 			// 
-			LParentInstitution.AutoSize = true;
-			LParentInstitution.Location = new Point(7, 75);
-			LParentInstitution.Name = "LParentInstitution";
-			LParentInstitution.Size = new Size(62, 15);
-			LParentInstitution.TabIndex = 13;
-			LParentInstitution.Text = "Inst. padre";
+			colName.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+			colName.DataPropertyName = "name";
+			colName.HeaderText = "Cargo";
+			colName.Name = "colName";
+			colName.ReadOnly = true;
+			colName.Width = 63;
+			// 
+			// colInstitutionId
+			// 
+			colInstitutionId.DataPropertyName = "institution_id";
+			colInstitutionId.HeaderText = "Id Institución";
+			colInstitutionId.Name = "colInstitutionId";
+			colInstitutionId.ReadOnly = true;
+			colInstitutionId.Visible = false;
+			// 
+			// colParentRoleId
+			// 
+			colParentRoleId.DataPropertyName = "parent_role_id";
+			colParentRoleId.HeaderText = "Id Cargo Padre";
+			colParentRoleId.Name = "colParentRoleId";
+			colParentRoleId.ReadOnly = true;
+			colParentRoleId.Visible = false;
+			// 
+			// colDescription
+			// 
+			colDescription.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+			colDescription.DataPropertyName = "description";
+			colDescription.HeaderText = "Descripción";
+			colDescription.Name = "colDescription";
+			colDescription.ReadOnly = true;
 			// 
 			// FInstitutionData
 			// 
@@ -373,12 +377,12 @@
 		private DataGridView DataGridInstitutionRoles;
 		private ToolStripButton BAddRole;
 		private ToolStripButton BEditRole;
+		private ComboBox ComboBoxParentInstitution;
+		private Label LParentInstitution;
 		private DataGridViewTextBoxColumn colId;
 		private DataGridViewTextBoxColumn colName;
 		private DataGridViewTextBoxColumn colInstitutionId;
 		private DataGridViewTextBoxColumn colParentRoleId;
 		private DataGridViewTextBoxColumn colDescription;
-		private ComboBox ComboBoxParentInstitution;
-		private Label LParentInstitution;
 	}
 }
