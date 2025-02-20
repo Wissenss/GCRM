@@ -69,6 +69,7 @@ namespace GCRM
 
 			ComboBoxSocietySector.Enabled = AccessMode != FAccessMode.Read;
 			ComboBoxCategory.Enabled = AccessMode != FAccessMode.Read;
+			ComboBoxParentInstitution.Enabled = AccessMode != FAccessMode.Read;	
 			TextBoxName.Enabled = AccessMode != FAccessMode.Read;
 			TextBoxDescription.Enabled = AccessMode != FAccessMode.Read;
 

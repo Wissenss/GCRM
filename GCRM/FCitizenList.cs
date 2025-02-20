@@ -172,6 +172,7 @@ namespace GCRM
 			BAdd.Visible = Session.HasPermission("Ciudadanos.Crear");
 			BEdit.Visible = Session.HasPermission("Ciudadanos.Editar");
 			BRead.Visible = Session.HasPermission("Ciudadanos.Consultar");
+			BDelete.Visible = Session.HasPermission("Ciudadanos.Eliminar");
 
 			Cursor.Current = Cursors.Default;
 		}
@@ -218,7 +219,7 @@ namespace GCRM
 				row["birthday_year"] = citizen.Birthday.Year;
 				row["birthday_month"] = citizen.Birthday.Month;
 				row["birthday_day"] = citizen.Birthday.Day;
-				
+
 				row["observations"] = citizen.Observations;
 				row["sex"] = citizen.Sex;
 				row["sex_name"] = BConstants.GetSexName(citizen.Sex);
@@ -387,7 +388,7 @@ namespace GCRM
 
 			if (filtros.Length > 0)
 			{
-				TSSLFilters.Text = $"  Filtros: {filtros.TrimEnd(',',' ')}";
+				TSSLFilters.Text = $"  Filtros: {filtros.TrimEnd(',', ' ')}";
 			}
 			else
 			{
@@ -671,6 +672,26 @@ namespace GCRM
 			{
 				this.Close();
 			}
+		}
+
+		private void BDelete_Click(object sender, EventArgs e)
+		{
+			int id = GetSelectedCitizenId();
+
+			if (id == 0)
+			{
+				return;
+			}
+
+			Error error = CitizensHandler.DeleteCitizenById(id);
+
+			if (error != 0)
+			{
+				Utilities.ShowErrorDialog(error);
+				return;
+			}
+
+			LoadList();
 		}
 	}
 }

@@ -135,6 +135,41 @@ namespace Business
 			return error;
 		}
 
+		public static Error DeleteCitizenById(int id)
+		{
+			Error error = 0;
+
+			var conn = ConnectionPool.GetConnection();
+
+			// check there is no citizen having this as assistant
+			using (var cmd = new NpgsqlCommand("SELECT * FROM citizens WHERE assistant_id = @id;", conn))
+			{
+				cmd.Parameters.AddWithValue("@id", id);
+
+				using (var reader = cmd.ExecuteReader())
+				{
+					if (reader.HasRows)
+					{
+						error = Error.CitizenInUse;
+					}
+				}
+			}
+
+			if (error == 0)
+			{
+				using (var cmd = new NpgsqlCommand("DELETE FROM citizens WHERE id = @id;", conn))
+				{
+					cmd.Parameters.AddWithValue("@id", id);
+
+					cmd.ExecuteNonQuery();
+				}
+			}
+
+			ConnectionPool.ReleaseConnection(ref conn);
+
+			return error;
+		}
+
 		public static Error GetCitizenAssistantById(int id, out TCitizen citizen_assistant)
 		{
 			Error error = 0;

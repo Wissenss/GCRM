@@ -19,6 +19,7 @@ namespace Business
 		// errors related to citizens
 		CitizenNotFound,
 		CitizenWithSameCURP,
+		CitizenInUse,
 
 		// errors related to institutions
 		InstitutionNotFound,
@@ -42,6 +43,7 @@ namespace Business
 			{ Error.UserNotFound, "Usuario no encontrado" },
 			{ Error.CitizenNotFound, "Ciudadano no encontrado" },
 			{ Error.CitizenWithSameCURP, "La clave CURP ya existe" },
+			{ Error.CitizenInUse, "Ciudadano esta siendo utilizado" },
 			{ Error.InstitutionNotFound, "Institución no encontrada" },
 			{ Error.InstitutionInUse, "Institución esta siendo utilizada" },
 			{ Error.InstitutionRoleNotFound, "Cargo de institución no encontrado" },
