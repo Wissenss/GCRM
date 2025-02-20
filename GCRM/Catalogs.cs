@@ -73,6 +73,7 @@ namespace GCRM
 			DTInstitutions.Columns.Add("category_id", typeof(int));
 			DTInstitutions.Columns.Add("category_name", typeof(string));
 			DTInstitutions.Columns.Add("description", typeof(string));
+			DTInstitutions.Columns.Add("parent_institution_id", typeof(int));
 			DSCatalogs.Tables.Add(DTInstitutions);
 		}
 
@@ -234,6 +235,7 @@ namespace GCRM
 				row["category_id"] = institution.Category.Id;
 				row["category_name"] = institution.Category.Name;
 				row["description"] = institution.Description;
+				row["parent_institution_id"] = institution.ParentInstitutionId;
 
 				DTInstitutions.Rows.Add(row);	
 			}

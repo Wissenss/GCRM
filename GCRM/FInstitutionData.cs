@@ -18,6 +18,7 @@ namespace GCRM
 
 		DataSet DSInstitution;
 		DataTable DTInstitutionRoles;
+		DataTable DTInstitutions;
 
 		public FInstitutionData()
 		{
@@ -34,6 +35,11 @@ namespace GCRM
 			DTInstitutionRoles.Columns.Add("description", typeof(string));
 			DSInstitution.Tables.Add(DTInstitutionRoles);
 
+			DTInstitutions = new DataTable("DTInstitutions");
+			DTInstitutions.Columns.Add("id", typeof(int));
+			DTInstitutions.Columns.Add("name", typeof(string));
+			DSInstitution.Tables.Add(DTInstitutions);
+
 			DataGridInstitutionRoles.AutoGenerateColumns = false;
 			DataGridInstitutionRoles.DataSource = DSInstitution;
 			DataGridInstitutionRoles.DataMember = "DTInstitutionRoles";
@@ -48,6 +54,11 @@ namespace GCRM
 			ComboBoxCategory.DataSource = Catalogs.DTInstitutionCategories;
 			ComboBoxCategory.ValueMember = "id";
 			ComboBoxCategory.DisplayMember = "name";
+
+			// configure parent institution combobox
+			ComboBoxParentInstitution.DataSource = DTInstitutions;
+			ComboBoxParentInstitution.ValueMember = "id";
+			ComboBoxParentInstitution.DisplayMember = "name";
 		}
 
 		public void SetAccessMode(FAccessMode mode)
@@ -86,6 +97,7 @@ namespace GCRM
 				ComboBoxCategory.SelectedValue = institution.Category.Id;
 				TextBoxName.Text = institution.Name;
 				TextBoxDescription.Text = institution.Description;
+				ComboBoxParentInstitution.SelectedValue = institution.ParentInstitutionId;
 
 				DTInstitutionRoles.BeginLoadData();
 				DTInstitutionRoles.Clear();
@@ -107,6 +119,49 @@ namespace GCRM
 			}
 		}
 
+		private void LoadInstitutions()
+		{
+			using (new CursorWait())
+			{
+				List<TInstitution> institution_list;
+
+				Error error = InstitutionsHandler.GetInstitutions(out institution_list);
+
+				if (error != 0)
+				{
+					Utilities.ShowErrorDialog(error);
+					return;
+				}
+
+				DTInstitutions.BeginLoadData();
+				DTInstitutions.Clear();
+
+				DataRow row = DTInstitutions.NewRow();
+
+				row["id"] = 0;
+				row["name"] = "Ninguna";
+
+				DTInstitutions.Rows.Add(row);
+
+				foreach (TInstitution institution in institution_list)
+				{
+					if (institution.Id == Id)
+					{
+						continue;
+					}
+
+					row = DTInstitutions.NewRow();	
+
+					row["id"] = institution.Id;
+					row["name"] = institution.Name;
+
+					DTInstitutions.Rows.Add(row);
+				}
+
+				DTInstitutions.EndLoadData();
+			}
+		}
+
 		private void LoadPermissions()
 		{
 			using (new CursorWait())
@@ -123,6 +178,7 @@ namespace GCRM
 
 		private void FInstitutionData_Load(object sender, EventArgs e)
 		{
+			LoadInstitutions();
 			LoadPermissions();
 
 			Catalogs.LoadDTInstitutionCategories();
@@ -175,6 +231,7 @@ namespace GCRM
 						Id = (int)ComboBoxCategory.SelectedValue,
 					},
 					Description = TextBoxDescription.Text.Trim(),
+					ParentInstitutionId = (int)ComboBoxParentInstitution.SelectedValue,
 					Roles = new List<TInstitutionRole>()
 				};
 

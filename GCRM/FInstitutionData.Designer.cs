@@ -28,8 +28,8 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-			DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+			DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+			DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
 			BCancel = new Button();
 			BAccept = new Button();
 			TabGeneral = new TabPage();
@@ -52,6 +52,8 @@
 			toolStrip1 = new ToolStrip();
 			BAddRole = new ToolStripButton();
 			BEditRole = new ToolStripButton();
+			ComboBoxParentInstitution = new ComboBox();
+			LParentInstitution = new Label();
 			TabGeneral.SuspendLayout();
 			TabControlInstitution.SuspendLayout();
 			TabPositions.SuspendLayout();
@@ -83,6 +85,8 @@
 			// 
 			// TabGeneral
 			// 
+			TabGeneral.Controls.Add(ComboBoxParentInstitution);
+			TabGeneral.Controls.Add(LParentInstitution);
 			TabGeneral.Controls.Add(ComboBoxCategory);
 			TabGeneral.Controls.Add(LInstitutionCategory);
 			TabGeneral.Controls.Add(LDescription);
@@ -103,7 +107,7 @@
 			// 
 			ComboBoxCategory.FlatStyle = FlatStyle.System;
 			ComboBoxCategory.FormattingEnabled = true;
-			ComboBoxCategory.Location = new Point(82, 43);
+			ComboBoxCategory.Location = new Point(82, 44);
 			ComboBoxCategory.Name = "ComboBoxCategory";
 			ComboBoxCategory.Size = new Size(143, 23);
 			ComboBoxCategory.TabIndex = 1;
@@ -120,7 +124,7 @@
 			// LDescription
 			// 
 			LDescription.AutoSize = true;
-			LDescription.Location = new Point(7, 103);
+			LDescription.Location = new Point(7, 132);
 			LDescription.Name = "LDescription";
 			LDescription.Size = new Size(69, 15);
 			LDescription.TabIndex = 10;
@@ -128,7 +132,7 @@
 			// 
 			// TextBoxDescription
 			// 
-			TextBoxDescription.Location = new Point(82, 101);
+			TextBoxDescription.Location = new Point(82, 130);
 			TextBoxDescription.Multiline = true;
 			TextBoxDescription.Name = "TextBoxDescription";
 			TextBoxDescription.Size = new Size(295, 69);
@@ -138,7 +142,7 @@
 			// 
 			ComboBoxSocietySector.FlatStyle = FlatStyle.System;
 			ComboBoxSocietySector.FormattingEnabled = true;
-			ComboBoxSocietySector.Location = new Point(82, 12);
+			ComboBoxSocietySector.Location = new Point(82, 15);
 			ComboBoxSocietySector.Name = "ComboBoxSocietySector";
 			ComboBoxSocietySector.Size = new Size(143, 23);
 			ComboBoxSocietySector.TabIndex = 0;
@@ -155,7 +159,7 @@
 			// LName
 			// 
 			LName.AutoSize = true;
-			LName.Location = new Point(7, 74);
+			LName.Location = new Point(7, 103);
 			LName.Name = "LName";
 			LName.Size = new Size(51, 15);
 			LName.TabIndex = 6;
@@ -163,7 +167,7 @@
 			// 
 			// TextBoxName
 			// 
-			TextBoxName.Location = new Point(82, 72);
+			TextBoxName.Location = new Point(82, 100);
 			TextBoxName.Name = "TextBoxName";
 			TextBoxName.Size = new Size(295, 23);
 			TextBoxName.TabIndex = 2;
@@ -202,24 +206,24 @@
 			DataGridInstitutionRoles.BorderStyle = BorderStyle.None;
 			DataGridInstitutionRoles.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
 			DataGridInstitutionRoles.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
-			dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle1.BackColor = SystemColors.Control;
-			dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
-			dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-			dataGridViewCellStyle1.SelectionBackColor = SystemColors.Control;
-			dataGridViewCellStyle1.SelectionForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-			DataGridInstitutionRoles.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle3.BackColor = SystemColors.Control;
+			dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
+			dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
+			dataGridViewCellStyle3.SelectionBackColor = SystemColors.Control;
+			dataGridViewCellStyle3.SelectionForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+			DataGridInstitutionRoles.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
 			DataGridInstitutionRoles.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			DataGridInstitutionRoles.Columns.AddRange(new DataGridViewColumn[] { colId, colName, colInstitutionId, colParentRoleId, colDescription });
-			dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle2.BackColor = SystemColors.Window;
-			dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
-			dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle2.SelectionBackColor = SystemColors.ControlLight;
-			dataGridViewCellStyle2.SelectionForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-			DataGridInstitutionRoles.DefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle4.BackColor = SystemColors.Window;
+			dataGridViewCellStyle4.Font = new Font("Segoe UI", 9F);
+			dataGridViewCellStyle4.ForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle4.SelectionBackColor = SystemColors.ControlLight;
+			dataGridViewCellStyle4.SelectionForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
+			DataGridInstitutionRoles.DefaultCellStyle = dataGridViewCellStyle4;
 			DataGridInstitutionRoles.Dock = DockStyle.Fill;
 			DataGridInstitutionRoles.EnableHeadersVisualStyles = false;
 			DataGridInstitutionRoles.Location = new Point(3, 28);
@@ -305,6 +309,24 @@
 			BEditRole.Text = "&Editar";
 			BEditRole.Click += BEditRole_Click;
 			// 
+			// ComboBoxParentInstitution
+			// 
+			ComboBoxParentInstitution.FlatStyle = FlatStyle.System;
+			ComboBoxParentInstitution.FormattingEnabled = true;
+			ComboBoxParentInstitution.Location = new Point(82, 72);
+			ComboBoxParentInstitution.Name = "ComboBoxParentInstitution";
+			ComboBoxParentInstitution.Size = new Size(295, 23);
+			ComboBoxParentInstitution.TabIndex = 12;
+			// 
+			// LParentInstitution
+			// 
+			LParentInstitution.AutoSize = true;
+			LParentInstitution.Location = new Point(7, 75);
+			LParentInstitution.Name = "LParentInstitution";
+			LParentInstitution.Size = new Size(62, 15);
+			LParentInstitution.TabIndex = 13;
+			LParentInstitution.Text = "Inst. padre";
+			// 
 			// FInstitutionData
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
@@ -356,5 +378,7 @@
 		private DataGridViewTextBoxColumn colInstitutionId;
 		private DataGridViewTextBoxColumn colParentRoleId;
 		private DataGridViewTextBoxColumn colDescription;
+		private ComboBox ComboBoxParentInstitution;
+		private Label LParentInstitution;
 	}
 }

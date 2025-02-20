@@ -51,6 +51,7 @@ namespace Business
 		public TSocietySector Sector;
 		public TInstitutionCategory Category = new TInstitutionCategory();
 		public List<TInstitutionRole> Roles;
+		public int ParentInstitutionId;
 
 		public void FillFromReader(DbDataReader reader)
 		{
@@ -59,6 +60,7 @@ namespace Business
 			Sector = (TSocietySector)reader.GetInt32(2);
 			Category.Id = reader.GetInt32(3);
 			Description = reader.GetString(4);
+			ParentInstitutionId = reader.GetInt32(5);
 		}
 	}
 
@@ -74,11 +76,11 @@ namespace Business
 
 			if (is_update)
 			{
-				sql = "UPDATE institutions SET name = @name, society_sector_type = @society_sector, category_id = @category_id, description = @description WHERE id = @id;";
+				sql = "UPDATE institutions SET name = @name, society_sector_type = @society_sector, category_id = @category_id, description = @description, parent_institution_id = @parent_institution_id WHERE id = @id;";
 			}
 			else
 			{
-				sql = "INSERT INTO institutions(name, society_sector_type, category_id, description) VALUES(@name, @society_sector, @category_id, @description) RETURNING id;";
+				sql = "INSERT INTO institutions(name, society_sector_type, category_id, description, parent_institution_id) VALUES(@name, @society_sector, @category_id, @description, @parent_institution_id) RETURNING id;";
 			}
 
 			using (var cmd = new NpgsqlCommand(sql, conn))
@@ -88,6 +90,7 @@ namespace Business
 				cmd.Parameters.AddWithValue("@society_sector", (int)institution.Sector);
 				cmd.Parameters.AddWithValue("@category_id", institution.Category.Id);
 				cmd.Parameters.AddWithValue("@description", institution.Description);
+				cmd.Parameters.AddWithValue("@parent_institution_id", institution.ParentInstitutionId);
 
 				if (is_update)
 				{
@@ -169,7 +172,8 @@ namespace Business
 			{
 				Id = 0,
 				Name = "Desconocida",
-				Sector = TSocietySector.None
+				Sector = TSocietySector.None,
+				ParentInstitutionId = 0,
 			};
 
 			GetNullInstitutionRoles(out null_institution.Roles);
@@ -251,14 +255,6 @@ namespace Business
 
 			return 0;
 		}
-
-		// this one is already implemented in the CitizensHandler
-		//public static Error GetCitizenInstitutionRoles(out List<TInstitutionRole> roles_list)
-		//{
-		//	roles_list = new List<TInstitutionRole>();
-
-		//	return 0;
-		//}
 
 		public static Error SaveInstitutionCategory(TInstitutionCategory category, bool is_update)
 		{

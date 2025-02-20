@@ -45,8 +45,18 @@
 			colCategoryId = new DataGridViewTextBoxColumn();
 			colCategoryName = new DataGridViewTextBoxColumn();
 			colDescription = new DataGridViewTextBoxColumn();
+			colParentInstitutionId = new DataGridViewTextBoxColumn();
+			SplitContainer = new SplitContainer();
+			TreeView = new TreeView();
+			panel1 = new Panel();
+			label1 = new Label();
 			toolStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)DataGridInstitutions).BeginInit();
+			((System.ComponentModel.ISupportInitialize)SplitContainer).BeginInit();
+			SplitContainer.Panel1.SuspendLayout();
+			SplitContainer.Panel2.SuspendLayout();
+			SplitContainer.SuspendLayout();
+			panel1.SuspendLayout();
 			SuspendLayout();
 			// 
 			// toolStrip1
@@ -56,7 +66,7 @@
 			toolStrip1.Location = new Point(0, 0);
 			toolStrip1.Name = "toolStrip1";
 			toolStrip1.RenderMode = ToolStripRenderMode.System;
-			toolStrip1.Size = new Size(756, 40);
+			toolStrip1.Size = new Size(758, 40);
 			toolStrip1.TabIndex = 1;
 			toolStrip1.Text = "toolStrip1";
 			// 
@@ -136,7 +146,7 @@
 			dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
 			DataGridInstitutions.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
 			DataGridInstitutions.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			DataGridInstitutions.Columns.AddRange(new DataGridViewColumn[] { colId, colName, colSocietySector, colSocietySectorName, colCategoryId, colCategoryName, colDescription });
+			DataGridInstitutions.Columns.AddRange(new DataGridViewColumn[] { colId, colName, colSocietySector, colSocietySectorName, colCategoryId, colCategoryName, colDescription, colParentInstitutionId });
 			dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
 			dataGridViewCellStyle3.BackColor = SystemColors.Window;
 			dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
@@ -147,14 +157,14 @@
 			DataGridInstitutions.DefaultCellStyle = dataGridViewCellStyle3;
 			DataGridInstitutions.Dock = DockStyle.Fill;
 			DataGridInstitutions.EnableHeadersVisualStyles = false;
-			DataGridInstitutions.Location = new Point(0, 40);
+			DataGridInstitutions.Location = new Point(0, 0);
 			DataGridInstitutions.MultiSelect = false;
 			DataGridInstitutions.Name = "DataGridInstitutions";
 			DataGridInstitutions.ReadOnly = true;
 			DataGridInstitutions.RowHeadersVisible = false;
 			DataGridInstitutions.RowTemplate.Height = 20;
 			DataGridInstitutions.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-			DataGridInstitutions.Size = new Size(756, 405);
+			DataGridInstitutions.Size = new Size(506, 421);
 			DataGridInstitutions.StandardTab = true;
 			DataGridInstitutions.TabIndex = 3;
 			// 
@@ -169,12 +179,13 @@
 			// 
 			// colName
 			// 
+			colName.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
 			colName.DataPropertyName = "name";
 			colName.DividerWidth = 1;
 			colName.HeaderText = "Nombre";
 			colName.Name = "colName";
 			colName.ReadOnly = true;
-			colName.Width = 150;
+			colName.Width = 75;
 			// 
 			// colSocietySector
 			// 
@@ -187,11 +198,13 @@
 			// 
 			// colSocietySectorName
 			// 
+			colSocietySectorName.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
 			colSocietySectorName.DataPropertyName = "society_sector_name";
 			colSocietySectorName.DividerWidth = 1;
 			colSocietySectorName.HeaderText = "Sector";
 			colSocietySectorName.Name = "colSocietySectorName";
 			colSocietySectorName.ReadOnly = true;
+			colSocietySectorName.Width = 64;
 			// 
 			// colCategoryId
 			// 
@@ -204,11 +217,13 @@
 			// 
 			// colCategoryName
 			// 
+			colCategoryName.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
 			colCategoryName.DataPropertyName = "category_name";
 			colCategoryName.DividerWidth = 1;
 			colCategoryName.HeaderText = "Categoría";
 			colCategoryName.Name = "colCategoryName";
 			colCategoryName.ReadOnly = true;
+			colCategoryName.Width = 82;
 			// 
 			// colDescription
 			// 
@@ -218,12 +233,68 @@
 			colDescription.Name = "colDescription";
 			colDescription.ReadOnly = true;
 			// 
+			// colParentInstitutionId
+			// 
+			colParentInstitutionId.DataPropertyName = "parent_institution_id";
+			colParentInstitutionId.HeaderText = "Institución Padre";
+			colParentInstitutionId.Name = "colParentInstitutionId";
+			colParentInstitutionId.ReadOnly = true;
+			colParentInstitutionId.Visible = false;
+			// 
+			// SplitContainer
+			// 
+			SplitContainer.Dock = DockStyle.Fill;
+			SplitContainer.Location = new Point(0, 40);
+			SplitContainer.Name = "SplitContainer";
+			// 
+			// SplitContainer.Panel1
+			// 
+			SplitContainer.Panel1.Controls.Add(DataGridInstitutions);
+			// 
+			// SplitContainer.Panel2
+			// 
+			SplitContainer.Panel2.Controls.Add(TreeView);
+			SplitContainer.Panel2.Controls.Add(panel1);
+			SplitContainer.Size = new Size(758, 421);
+			SplitContainer.SplitterDistance = 506;
+			SplitContainer.TabIndex = 4;
+			// 
+			// TreeView
+			// 
+			TreeView.BackColor = SystemColors.Control;
+			TreeView.BorderStyle = BorderStyle.None;
+			TreeView.Dock = DockStyle.Fill;
+			TreeView.Location = new Point(0, 17);
+			TreeView.Name = "TreeView";
+			TreeView.Size = new Size(248, 404);
+			TreeView.TabIndex = 0;
+			// 
+			// panel1
+			// 
+			panel1.BackColor = SystemColors.ControlLight;
+			panel1.Controls.Add(label1);
+			panel1.Dock = DockStyle.Top;
+			panel1.Location = new Point(0, 0);
+			panel1.Name = "panel1";
+			panel1.Size = new Size(248, 17);
+			panel1.TabIndex = 1;
+			// 
+			// label1
+			// 
+			label1.AutoSize = true;
+			label1.Dock = DockStyle.Fill;
+			label1.Location = new Point(0, 0);
+			label1.Name = "label1";
+			label1.Size = new Size(60, 15);
+			label1.TabIndex = 2;
+			label1.Text = "Estructura";
+			// 
 			// FInstitutionList
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
-			ClientSize = new Size(756, 445);
-			Controls.Add(DataGridInstitutions);
+			ClientSize = new Size(758, 461);
+			Controls.Add(SplitContainer);
 			Controls.Add(toolStrip1);
 			Icon = (Icon)resources.GetObject("$this.Icon");
 			Name = "FInstitutionList";
@@ -233,6 +304,12 @@
 			toolStrip1.ResumeLayout(false);
 			toolStrip1.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)DataGridInstitutions).EndInit();
+			SplitContainer.Panel1.ResumeLayout(false);
+			SplitContainer.Panel2.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)SplitContainer).EndInit();
+			SplitContainer.ResumeLayout(false);
+			panel1.ResumeLayout(false);
+			panel1.PerformLayout();
 			ResumeLayout(false);
 			PerformLayout();
 		}
@@ -245,6 +322,10 @@
 		private ToolStripButton BRead;
 		private ToolStripButton BRefresh;
 		private DataGridView DataGridInstitutions;
+		private SplitContainer SplitContainer;
+		private TreeView TreeView;
+		private Panel panel1;
+		private Label label1;
 		private DataGridViewTextBoxColumn colId;
 		private DataGridViewTextBoxColumn colName;
 		private DataGridViewTextBoxColumn colSocietySector;
@@ -252,5 +333,6 @@
 		private DataGridViewTextBoxColumn colCategoryId;
 		private DataGridViewTextBoxColumn colCategoryName;
 		private DataGridViewTextBoxColumn colDescription;
+		private DataGridViewTextBoxColumn colParentInstitutionId;
 	}
 }

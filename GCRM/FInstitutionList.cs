@@ -26,6 +26,42 @@ namespace GCRM
 			using (new CursorWait())
 			{
 				Catalogs.LoadDTInstitutions();
+
+				TreeView.BeginUpdate();
+				TreeView.Nodes.Clear();
+
+				//TreeView.Nodes.Add("BaseNode");
+
+				foreach (DataRow row in Catalogs.DTInstitutions.Rows)
+				{
+					if ((int)row["parent_institution_id"] == 0)
+					{
+						TreeNode head_node = new TreeNode((string)row["name"]);
+
+						TreeView.Nodes.Add(head_node);
+
+						PopulateTreeNode(ref head_node, (int)row["id"]);
+					}
+				}
+
+				TreeView.EndUpdate();
+
+				TreeView.ExpandAll();
+			}
+		}
+
+		public void PopulateTreeNode(ref TreeNode node, int id)
+		{
+			foreach (DataRow row in Catalogs.DTInstitutions.Rows)
+			{
+				if ((int)row["parent_institution_id"] == id)
+				{
+					TreeNode child_node = new TreeNode((string)row["name"]);
+
+					node.Nodes.Add(child_node);
+
+					PopulateTreeNode(ref child_node, (int)row["id"]);
+				}
 			}
 		}
 
