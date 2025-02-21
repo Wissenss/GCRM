@@ -335,7 +335,17 @@ namespace GCRM
 				errors.AppendLine("Debe especificar el sexo");
 			}
 
-			if (curp.Length != 18)
+			// check for actions that requiere authorization
+			List<TUserPermission> actions_to_authorize = new List<TUserPermission>();
+
+			if (curp.Length == 0)
+			{
+				if (Session.HasPermission("Ciudadanos.NoEspecificarCURP") == false)
+				{
+					actions_to_authorize.Add(new TUserPermission(313, "Ciudadanos.NoEspecificarCURP"));
+				}
+			}
+			else if (curp.Length != 18)
 			{
 				errors.AppendLine("La longitud del CURP no es la adecuada. La clave CURP debe ser conformada por 18 dígitos");
 			}
@@ -381,20 +391,44 @@ namespace GCRM
 				*/
 			}
 
-			//if ((int)ComboBoxInstitution.SelectedValue == 0)
-			//{
-			//	errors.AppendLine("Debe especificar la institución a la que pertenece el ciudadano");
-			//}
+			if ((int)ComboBoxInstitution.SelectedValue == 0 && Session.HasPermission("Ciudadanos.NoEspecificarInstitucion") == false)
+			{
+				//errors.AppendLine("Debe especificar la institución a la que pertenece el ciudadano");
+				actions_to_authorize.Add(new TUserPermission(312, "Ciudadanos.NoEspecificarInstitucion"));
+			}
 
-			//if ((int)ComboBoxInstitutionRole.SelectedValue == 0)
-			//{
-			//	errors.AppendLine("Debe especificar el cargo del ciudadano");
-			//}
+			if ((int)ComboBoxInstitutionRole.SelectedValue == 0 && Session.HasPermission("Ciudadanos.NoEspecificarCargo") == false)
+			{
+				//errors.AppendLine("Debe especificar el cargo del ciudadano");
+				actions_to_authorize.Add(new TUserPermission(313, "Ciudadanos.NoEspecificarCargo"));
+			}
+
+			if (
+				TextBoxPhone.Text.Trim().Length == 0 &&
+				TextBoxCellphone.Text.Trim().Length == 0 &&
+				Session.HasPermission("Ciudadanos.NoEspecificarContacto") == false
+				)
+			{
+				actions_to_authorize.Add(new TUserPermission(311, "Ciudadanos.NoEspecificarContacto"));
+			}
 
 			if (errors.Length > 0)
 			{
 				Utilities.ShowValidationErrorDialog(errors);
 				return false;
+			}
+
+			if (actions_to_authorize.Count > 0)
+			{
+				using (FAuthorization authorization_dlg = new FAuthorization())
+				{
+					authorization_dlg.RequieredPermissions = actions_to_authorize;
+
+					if (authorization_dlg.ShowDialog() != DialogResult.OK)
+					{
+						return false;
+					}
+				}
 			}
 
 			return true;

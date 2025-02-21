@@ -52,6 +52,32 @@ namespace Business
 			Username = reader.GetString(2);
 			PasswordHash = reader.GetString(3);
 		}
+
+		public bool HasPermission(string permission_name)
+		{
+			foreach (TUserPermission permission in Permissions)
+			{
+				if (permission.Name == permission_name && permission.Permited)
+				{
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		public bool HasPermission(int permission_id)
+		{
+			foreach (TUserPermission permission in Permissions)
+			{
+				if (permission.Id == permission_id && permission.Permited)
+				{
+					return true;
+				}
+			}
+
+			return false;
+		}
 	}
 
 	public static class UsersHandler
@@ -95,10 +121,10 @@ namespace Business
 				new TUserPermission(303, "Ciudadanos.Eliminar"),
 				new TUserPermission(304, "Ciudadanos.Crear"),
 
-				//new TUserPermission(311, "Ciudadanos.Roles.Editar"),
-				//new TUserPermission(312, "Ciudadanos.Roles.Consultar"),
-				//new TUserPermission(313, "Ciudadanos.Roles.Eliminar"),
-				//new TUserPermission(314, "Ciudadanos.Roles.Crear")
+				new TUserPermission(311, "Ciudadanos.NoEspecificarContacto"),
+				new TUserPermission(312, "Ciudadanos.NoEspecificarInstitucion"),
+				new TUserPermission(313, "Ciudadanos.NoEspecificarCargo"),
+				new TUserPermission(314, "Ciudadanos.NoEspecificarCURP")
 			};
 		}
 

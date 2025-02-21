@@ -15,6 +15,7 @@ namespace Business
 
 		// errors related to users
 		UserNotFound,
+		UserUnauthorized,
 
 		// errors related to citizens
 		CitizenNotFound,
@@ -41,6 +42,7 @@ namespace Business
 		{
 			{ Error.LoginInvalid, "Login inválido" },
 			{ Error.UserNotFound, "Usuario no encontrado" },
+			{ Error.UserUnauthorized, "Usuario no tiene autorizada esta acción" },
 			{ Error.CitizenNotFound, "Ciudadano no encontrado" },
 			{ Error.CitizenWithSameCURP, "La clave CURP ya existe" },
 			{ Error.CitizenInUse, "Ciudadano esta siendo utilizado" },

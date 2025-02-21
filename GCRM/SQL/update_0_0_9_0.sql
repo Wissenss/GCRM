@@ -25,5 +25,11 @@ ALTER TABLE IF EXISTS public.citizens
 ALTER TABLE IF EXISTS public.institutions
     ADD COLUMN parent_institution_id bigint DEFAULT 0;
 
+-- allow citizen curp to be null and not unique
+ALTER TABLE IF EXISTS public.citizens
+    ALTER COLUMN curp DROP NOT NULL;
+
+ALTER TABLE IF EXISTS public.citizens DROP CONSTRAINT IF EXISTS curp_unique;
+
 -- update client version
 UPDATE settings SET string_value = '0.0.9.0-alpha' WHERE name = 'client_version';

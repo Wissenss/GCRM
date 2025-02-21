@@ -81,6 +81,7 @@
 			BPrint = new ToolStripButton();
 			toolStripSeparator4 = new ToolStripSeparator();
 			BSearch = new ToolStripButton();
+			BDelete = new ToolStripButton();
 			PanelSearch = new Panel();
 			TextBoxSearch = new TextBox();
 			SaveFileDialog = new SaveFileDialog();
@@ -88,7 +89,6 @@
 			statusStrip1 = new StatusStrip();
 			TSSLRecordCount = new ToolStripStatusLabel();
 			TSSLFilters = new ToolStripStatusLabel();
-			BDelete = new ToolStripButton();
 			ToolStrip.SuspendLayout();
 			PanelSearch.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)DataGridCitizens).BeginInit();
@@ -385,7 +385,7 @@
 			// ToolStrip
 			// 
 			ToolStrip.GripStyle = ToolStripGripStyle.Hidden;
-			ToolStrip.Items.AddRange(new ToolStripItem[] { BAdd, BEdit, BRead, BRefresh, toolStripSeparator1, BFields, BFilter, toolStripSeparator2, FExcelExport, toolStripSeparator3, BPrint, toolStripSeparator4, BSearch, BDelete });
+			ToolStrip.Items.AddRange(new ToolStripItem[] { BAdd, BEdit, BRead, BRefresh, toolStripSeparator1, BFields, BFilter, BDelete, toolStripSeparator2, FExcelExport, toolStripSeparator3, BPrint, toolStripSeparator4, BSearch });
 			ToolStrip.Location = new Point(2, 2);
 			ToolStrip.Name = "ToolStrip";
 			ToolStrip.RenderMode = ToolStripRenderMode.System;
@@ -525,6 +525,16 @@
 			BSearch.Text = "&Buscar";
 			BSearch.Click += BSearch_Click;
 			// 
+			// BDelete
+			// 
+			BDelete.Image = Properties.Resources.Fatcow_Farm_Fresh_Delete_16;
+			BDelete.ImageScaling = ToolStripItemImageScaling.None;
+			BDelete.ImageTransparentColor = Color.Magenta;
+			BDelete.Name = "BDelete";
+			BDelete.Size = new Size(59, 37);
+			BDelete.Text = "&Borrar";
+			BDelete.Click += BDelete_Click;
+			// 
 			// PanelSearch
 			// 
 			PanelSearch.AutoSizeMode = AutoSizeMode.GrowAndShrink;
@@ -620,16 +630,6 @@
 			TSSLFilters.Name = "TSSLFilters";
 			TSSLFilters.Size = new Size(147, 17);
 			TSSLFilters.Text = "     Filtros: Sexo = Masculino";
-			// 
-			// BDelete
-			// 
-			BDelete.Image = Properties.Resources.Fatcow_Farm_Fresh_Delete_16;
-			BDelete.ImageScaling = ToolStripItemImageScaling.None;
-			BDelete.ImageTransparentColor = Color.Magenta;
-			BDelete.Name = "BDelete";
-			BDelete.Size = new Size(59, 37);
-			BDelete.Text = "&Borrar";
-			BDelete.Click += BDelete_Click;
 			// 
 			// FCitizenList
 			// 

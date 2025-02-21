@@ -211,17 +211,20 @@ namespace Business
 			Error error = 0;
 
 			// ensure one CURP is not used more than once
-			using (var cmd = new NpgsqlCommand("SELECT COUNT(*) FROM citizens WHERE curp = @curp AND id <> @id;", conn))
+			if (citizen.CURP != "")
 			{
-				cmd.Parameters.AddWithValue("@id", citizen.Id);
-				cmd.Parameters.AddWithValue("@curp", citizen.CURP);
-
-				int citizens_with_same_curp = (Int32)(Int64)cmd.ExecuteScalar();
-
-				if (citizens_with_same_curp > 0)
+				using (var cmd = new NpgsqlCommand("SELECT COUNT(*) FROM citizens WHERE curp = @curp AND id <> @id;", conn))
 				{
-					error = Error.CitizenWithSameCURP;
-				}	
+					cmd.Parameters.AddWithValue("@id", citizen.Id);
+					cmd.Parameters.AddWithValue("@curp", citizen.CURP);
+
+					int citizens_with_same_curp = (Int32)(Int64)cmd.ExecuteScalar();
+
+					if (citizens_with_same_curp > 0)
+					{
+						error = Error.CitizenWithSameCURP;
+					}
+				}
 			}
 
 			// save address
