@@ -10,7 +10,8 @@ namespace Business
 		Government = 2,
 		Business = 3,
 		Agricultural = 4,
-		Social = 5
+		Social = 5,
+		Educational = 6
 	}
 
 	public enum TCitizenTitle
@@ -69,7 +70,8 @@ namespace Business
 				{ TSocietySector.Government, "Gobierno" },
 				{ TSocietySector.Business, "Empresarial" },
 				{ TSocietySector.Agricultural, "Agropecuario" },
-				{ TSocietySector.Social, "Social" }
+				{ TSocietySector.Social, "Social" },
+				{ TSocietySector.Educational, "Educativo" }
 			};
 
 			return mapping[sector];
