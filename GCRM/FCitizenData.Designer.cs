@@ -165,7 +165,7 @@
 			// MaskedTextBoxCURP
 			// 
 			MaskedTextBoxCURP.Location = new Point(79, 150);
-			MaskedTextBoxCURP.Mask = "LLLL000000LLLLLLL0";
+			MaskedTextBoxCURP.Mask = "AAAAAAAAAAAAAAAAAA";
 			MaskedTextBoxCURP.Name = "MaskedTextBoxCURP";
 			MaskedTextBoxCURP.PromptChar = ' ';
 			MaskedTextBoxCURP.Size = new Size(308, 23);
