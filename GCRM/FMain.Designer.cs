@@ -40,6 +40,7 @@
 			BInstitutionCategories = new ToolStripButton();
 			TabControl = new TabControl();
 			TabPageCatalogs = new TabPage();
+			TabElectoral = new TabPage();
 			TabOthers = new TabPage();
 			toolStrip2 = new ToolStrip();
 			BSettings = new ToolStripButton();
@@ -49,13 +50,17 @@
 			ListBoxBirhdays = new ListBox();
 			LBirthdayList = new Label();
 			PictureBoxBirthdayList = new PictureBox();
+			toolStrip3 = new ToolStrip();
+			BCitizenNetworks = new ToolStripButton();
 			statusStrip1.SuspendLayout();
 			toolStrip1.SuspendLayout();
 			TabControl.SuspendLayout();
 			TabPageCatalogs.SuspendLayout();
+			TabElectoral.SuspendLayout();
 			TabOthers.SuspendLayout();
 			toolStrip2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)PictureBoxBirthdayList).BeginInit();
+			toolStrip3.SuspendLayout();
 			SuspendLayout();
 			// 
 			// statusStrip1
@@ -149,6 +154,7 @@
 			// 
 			TabControl.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 			TabControl.Controls.Add(TabPageCatalogs);
+			TabControl.Controls.Add(TabElectoral);
 			TabControl.Controls.Add(TabOthers);
 			TabControl.Location = new Point(0, 0);
 			TabControl.Name = "TabControl";
@@ -166,6 +172,17 @@
 			TabPageCatalogs.TabIndex = 0;
 			TabPageCatalogs.Text = "Catálogos";
 			TabPageCatalogs.UseVisualStyleBackColor = true;
+			// 
+			// TabElectoral
+			// 
+			TabElectoral.Controls.Add(toolStrip3);
+			TabElectoral.Location = new Point(4, 24);
+			TabElectoral.Name = "TabElectoral";
+			TabElectoral.Padding = new Padding(3);
+			TabElectoral.Size = new Size(827, 61);
+			TabElectoral.TabIndex = 2;
+			TabElectoral.Text = "Electoral";
+			TabElectoral.UseVisualStyleBackColor = true;
 			// 
 			// TabOthers
 			// 
@@ -220,7 +237,7 @@
 			BConnection.ImageScaling = ToolStripItemImageScaling.None;
 			BConnection.ImageTransparentColor = Color.Magenta;
 			BConnection.Name = "BConnection";
-			BConnection.Size = new Size(62, 52);
+			BConnection.Size = new Size(61, 52);
 			BConnection.Text = "&Conexión";
 			BConnection.TextImageRelation = TextImageRelation.ImageAboveText;
 			BConnection.Click += BConnection_Click;
@@ -271,6 +288,29 @@
 			PictureBoxBirthdayList.TabIndex = 4;
 			PictureBoxBirthdayList.TabStop = false;
 			// 
+			// toolStrip3
+			// 
+			toolStrip3.Dock = DockStyle.Fill;
+			toolStrip3.GripStyle = ToolStripGripStyle.Hidden;
+			toolStrip3.Items.AddRange(new ToolStripItem[] { BCitizenNetworks });
+			toolStrip3.Location = new Point(3, 3);
+			toolStrip3.Name = "toolStrip3";
+			toolStrip3.RenderMode = ToolStripRenderMode.System;
+			toolStrip3.Size = new Size(821, 55);
+			toolStrip3.TabIndex = 1;
+			toolStrip3.Text = "ToolStripCatalogos";
+			// 
+			// BCitizenNetworks
+			// 
+			BCitizenNetworks.Image = Properties.Resources.Fatcow_Farm_Fresh_Chart_organisation_32;
+			BCitizenNetworks.ImageScaling = ToolStripItemImageScaling.None;
+			BCitizenNetworks.ImageTransparentColor = Color.Magenta;
+			BCitizenNetworks.Name = "BCitizenNetworks";
+			BCitizenNetworks.Size = new Size(69, 52);
+			BCitizenNetworks.Text = "Estructuras";
+			BCitizenNetworks.TextImageRelation = TextImageRelation.ImageAboveText;
+			BCitizenNetworks.Click += BCitizenNetworks_Click;
+			// 
 			// FMain
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
@@ -293,11 +333,15 @@
 			TabControl.ResumeLayout(false);
 			TabPageCatalogs.ResumeLayout(false);
 			TabPageCatalogs.PerformLayout();
+			TabElectoral.ResumeLayout(false);
+			TabElectoral.PerformLayout();
 			TabOthers.ResumeLayout(false);
 			TabOthers.PerformLayout();
 			toolStrip2.ResumeLayout(false);
 			toolStrip2.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)PictureBoxBirthdayList).EndInit();
+			toolStrip3.ResumeLayout(false);
+			toolStrip3.PerformLayout();
 			ResumeLayout(false);
 			PerformLayout();
 		}
@@ -324,5 +368,8 @@
 		private Label LBirthdayList;
 		private PictureBox PictureBoxBirthdayList;
 		private ToolStripButton BAbout;
+		private TabPage TabElectoral;
+		private ToolStrip toolStrip3;
+		private ToolStripButton BCitizenNetworks;
 	}
 }

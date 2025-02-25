@@ -146,5 +146,13 @@ namespace GCRM
 				about_dlg.ShowDialog();
 			}
 		}
+
+		private void BCitizenNetworks_Click(object sender, EventArgs e)
+		{
+			using (FCitizenNetworkList citizen_network_list_dlg = new FCitizenNetworkList())
+			{
+				citizen_network_list_dlg.ShowDialog();
+			}
+		}
 	}
 }
