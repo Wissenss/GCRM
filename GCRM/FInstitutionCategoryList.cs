@@ -122,7 +122,14 @@ namespace GCRM
 		{
 			int id = GetSelectedInstitutionCategoryId();
 
-			if (id == 0)
+            DialogResult result = MessageBox.Show(
+             "¿Está seguro de que desea eliminar la categoria?",
+             "Confirmar eliminación",
+             MessageBoxButtons.YesNo,
+             MessageBoxIcon.Warning
+             );
+
+            if (result != DialogResult.Yes || id == 0)
 			{
 				return;
 			}

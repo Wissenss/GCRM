@@ -150,12 +150,21 @@ namespace GCRM
 		{
 			int id = GetSelectedInstitutionId();
 
-			if (id == 0)
-			{
-				return;
-			}
+		
+		
+			DialogResult result = MessageBox.Show(
+			 "¿Está seguro de que desea eliminar esta institución?",
+			 "Confirmar eliminación",
+			 MessageBoxButtons.YesNo,
+			 MessageBoxIcon.Warning
+			 );
 
-			Error error = InstitutionsHandler.DeleteInstitutionById(id);
+            if (result != DialogResult.Yes || id == 0)
+            {
+                return;
+            }
+
+            Error error = InstitutionsHandler.DeleteInstitutionById(id);
 
 			if (error != 0)
 			{
