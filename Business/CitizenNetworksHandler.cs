@@ -19,6 +19,13 @@ namespace Business
 		public List<TCitizenNetworkMember> Members;
 		public List<TCitizenNetworkRole> Roles;
 
+		public TCitizenNetwork()
+		{
+			LeadCitizen = new TCitizen();
+			Members = new List<TCitizenNetworkMember>();
+			Roles = new List<TCitizenNetworkRole>();
+		}
+
 		public void FillFromReader(DbDataReader reader)
 		{
 			LeadCitizen = new TCitizen();
@@ -32,8 +39,14 @@ namespace Business
 		public int Id;
 		public int CitizenNetworkId;
 		public TCitizen Citizen;
-		public int ParentmemberId;
+		public int ParentMemberId;
 		public TCitizenNetworkRole Role;
+
+		public TCitizenNetworkMember()
+		{
+			Citizen = new TCitizen();
+			Role = new TCitizenNetworkRole();
+		}
 
 		public void FillFromReader(DbDataReader reader)
 		{

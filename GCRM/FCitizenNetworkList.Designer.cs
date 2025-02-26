@@ -28,9 +28,9 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-			DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-			DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+			DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+			DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+			DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FCitizenNetworkList));
 			DataGridCitizenNetworks = new DataGridView();
 			StatusStrip = new StatusStrip();
@@ -52,36 +52,36 @@
 			DataGridCitizenNetworks.AllowUserToDeleteRows = false;
 			DataGridCitizenNetworks.AllowUserToOrderColumns = true;
 			DataGridCitizenNetworks.AllowUserToResizeRows = false;
-			dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle4.BackColor = Color.WhiteSmoke;
-			dataGridViewCellStyle4.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-			dataGridViewCellStyle4.ForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle4.SelectionBackColor = SystemColors.GradientInactiveCaption;
-			dataGridViewCellStyle4.SelectionForeColor = SystemColors.ControlText;
-			DataGridCitizenNetworks.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+			dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle1.BackColor = Color.WhiteSmoke;
+			dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+			dataGridViewCellStyle1.ForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle1.SelectionBackColor = SystemColors.GradientInactiveCaption;
+			dataGridViewCellStyle1.SelectionForeColor = SystemColors.ControlText;
+			DataGridCitizenNetworks.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
 			DataGridCitizenNetworks.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 			DataGridCitizenNetworks.BackgroundColor = SystemColors.Control;
 			DataGridCitizenNetworks.BorderStyle = BorderStyle.None;
 			DataGridCitizenNetworks.CellBorderStyle = DataGridViewCellBorderStyle.None;
 			DataGridCitizenNetworks.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
 			DataGridCitizenNetworks.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-			dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle5.BackColor = SystemColors.ControlLight;
-			dataGridViewCellStyle5.Font = new Font("Segoe UI", 9F);
-			dataGridViewCellStyle5.ForeColor = SystemColors.WindowText;
-			dataGridViewCellStyle5.SelectionBackColor = SystemColors.ControlLight;
-			dataGridViewCellStyle5.SelectionForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
-			DataGridCitizenNetworks.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+			dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle2.BackColor = SystemColors.ControlLight;
+			dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+			dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
+			dataGridViewCellStyle2.SelectionBackColor = SystemColors.ControlLight;
+			dataGridViewCellStyle2.SelectionForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+			DataGridCitizenNetworks.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
 			DataGridCitizenNetworks.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle6.BackColor = SystemColors.Window;
-			dataGridViewCellStyle6.Font = new Font("Segoe UI", 9F);
-			dataGridViewCellStyle6.ForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle6.SelectionBackColor = SystemColors.GradientInactiveCaption;
-			dataGridViewCellStyle6.SelectionForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
-			DataGridCitizenNetworks.DefaultCellStyle = dataGridViewCellStyle6;
+			dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle3.BackColor = SystemColors.Window;
+			dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
+			dataGridViewCellStyle3.ForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle3.SelectionBackColor = SystemColors.GradientInactiveCaption;
+			dataGridViewCellStyle3.SelectionForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
+			DataGridCitizenNetworks.DefaultCellStyle = dataGridViewCellStyle3;
 			DataGridCitizenNetworks.Dock = DockStyle.Fill;
 			DataGridCitizenNetworks.EnableHeadersVisualStyles = false;
 			DataGridCitizenNetworks.Location = new Point(0, 40);
@@ -134,6 +134,7 @@
 			BAdd.Padding = new Padding(2, 8, 2, 8);
 			BAdd.Size = new Size(73, 36);
 			BAdd.Text = "&Agregar";
+			BAdd.Click += BAdd_Click;
 			// 
 			// BEdit
 			// 
@@ -176,6 +177,7 @@
 			BDelete.Name = "BDelete";
 			BDelete.Size = new Size(59, 37);
 			BDelete.Text = "&Borrar";
+			BDelete.Visible = false;
 			// 
 			// FCitizenNetworkList
 			// 
@@ -188,6 +190,7 @@
 			Icon = (Icon)resources.GetObject("$this.Icon");
 			Name = "FCitizenNetworkList";
 			Text = "Estructuras";
+			Load += FCitizenNetworkList_Load;
 			((System.ComponentModel.ISupportInitialize)DataGridCitizenNetworks).EndInit();
 			StatusStrip.ResumeLayout(false);
 			StatusStrip.PerformLayout();

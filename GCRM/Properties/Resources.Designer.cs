@@ -213,6 +213,16 @@ namespace GCRM.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Fatcow_Farm_Fresh_Delete_24 {
+            get {
+                object obj = ResourceManager.GetObject("Fatcow-Farm-Fresh-Delete.24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Fatcow_Farm_Fresh_Delete1 {
             get {
                 object obj = ResourceManager.GetObject("Fatcow-Farm-Fresh-Delete1", resourceCulture);
@@ -303,6 +313,16 @@ namespace GCRM.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Fatcow_Farm_Fresh_Magnifier_24 {
+            get {
+                object obj = ResourceManager.GetObject("Fatcow-Farm-Fresh-Magnifier.24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Fatcow_Farm_Fresh_Magnifier_32 {
             get {
                 object obj = ResourceManager.GetObject("Fatcow-Farm-Fresh-Magnifier.32", resourceCulture);
@@ -323,6 +343,56 @@ namespace GCRM.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Fatcow_Farm_Fresh_Node_24 {
+            get {
+                object obj = ResourceManager.GetObject("Fatcow-Farm-Fresh-Node.24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Fatcow_Farm_Fresh_Node_Add_24 {
+            get {
+                object obj = ResourceManager.GetObject("Fatcow-Farm-Fresh-Node-Add.24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Fatcow_Farm_Fresh_Node_arrow_down_24 {
+            get {
+                object obj = ResourceManager.GetObject("Fatcow-Farm-Fresh-Node-arrow-down.24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Fatcow_Farm_Fresh_Node_arrow_up_24 {
+            get {
+                object obj = ResourceManager.GetObject("Fatcow-Farm-Fresh-Node-arrow-up.24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Fatcow_Farm_Fresh_Node_delete_24 {
+            get {
+                object obj = ResourceManager.GetObject("Fatcow-Farm-Fresh-Node-delete.24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Fatcow_Farm_Fresh_Node_design_16 {
             get {
                 object obj = ResourceManager.GetObject("Fatcow-Farm-Fresh-Node-design.16", resourceCulture);
@@ -333,9 +403,49 @@ namespace GCRM.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Fatcow_Farm_Fresh_Node_design_24 {
+            get {
+                object obj = ResourceManager.GetObject("Fatcow-Farm-Fresh-Node-design.24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Fatcow_Farm_Fresh_Node_document_24 {
+            get {
+                object obj = ResourceManager.GetObject("Fatcow-Farm-Fresh-Node-document.24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Fatcow_Farm_Fresh_Node_magnifier_24 {
+            get {
+                object obj = ResourceManager.GetObject("Fatcow-Farm-Fresh-Node-magnifier.24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Fatcow_Farm_Fresh_Pencil_16 {
             get {
                 object obj = ResourceManager.GetObject("Fatcow-Farm-Fresh-Pencil.16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Fatcow_Farm_Fresh_Pencil_24 {
+            get {
+                object obj = ResourceManager.GetObject("Fatcow-Farm-Fresh-Pencil.24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
