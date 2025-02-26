@@ -37,6 +37,18 @@ namespace GCRM
 			MessageBox.Show(ex.Message, "Ocurrió excepción", MessageBoxButtons.OK);
 		}
 
+		public static DialogResult ShowDeleteConfirmDialog(string message)
+		{
+			DialogResult result = MessageBox.Show(
+				message,
+				"Confirmar eliminación",
+				MessageBoxButtons.YesNo,
+				MessageBoxIcon.Warning
+			);
+
+			return result;
+		}
+
 		public static void OpenUrl(string url)
 		{
 			try

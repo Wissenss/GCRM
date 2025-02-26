@@ -18,6 +18,9 @@ CREATE TABLE public.citizennetwork_roles
     PRIMARY KEY (id)
 );
 
+ALTER TABLE IF EXISTS public.citizennetwork_roles -- forgot to add this :p
+    ADD COLUMN description character varying;
+
 -- add citizen network - citizens table
 CREATE TABLE public.citizennetwork_citizens
 (

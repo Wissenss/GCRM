@@ -65,12 +65,14 @@ namespace Business
 		public int Id;
 		public int CitizenNetworkId;	
 		public string Name;	
+		public string Description;
 
 		public void FillFromReader(DbDataReader reader)
 		{
 			Id = reader.GetInt32(0);
-			Name = reader.GetString(1);
-			CitizenNetworkId = reader.GetInt32(2);
+			CitizenNetworkId = reader.GetInt32(1);
+			Name = reader.GetString(2);
+			Description = reader.GetString(3);
 		}
 	}
 
@@ -152,7 +154,7 @@ namespace Business
 
 			citizen_networks_list = new List<TCitizenNetwork>();
 
-			using (var cmd = new NpgsqlCommand("SELECT * FROM citizen_networks;", conn))
+			using (var cmd = new NpgsqlCommand("SELECT * FROM citizennetworks;", conn))
 			using (var reader = cmd.ExecuteReader()) 
 			{
 				while (reader.Read())

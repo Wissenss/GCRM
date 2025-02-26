@@ -59,9 +59,11 @@ namespace GCRM
 			DataGridMembers.DataMember = "DTMembers";
 
 			// create the roles datatable
+			DTRoles = new DataTable("DTRoles");
 			DTRoles.Columns.Add("id", typeof(int));
-			DTRoles.Columns.Add("citizen_network_id", typeof(int));
+			DTRoles.Columns.Add("citizennetwork_id", typeof(int));
 			DTRoles.Columns.Add("name", typeof(string));
+			DTRoles.Columns.Add("description", typeof(string));
 			DSCitizenNetwork.Tables.Add(DTRoles);
 
 			// initialize roles datagrid
@@ -70,7 +72,8 @@ namespace GCRM
 
 			display_index = 0;
 
-			DataGridUtilities.AddColumn(DataGridRoles, "colName", "Nombre", "name", true, display_index++, 100, 100, DataGridViewAutoSizeColumnMode.Fill);
+			DataGridUtilities.AddColumn(DataGridRoles, "colName", "Nombre", "name", true, display_index++, 100, 100, DataGridViewAutoSizeColumnMode.AllCells);
+			DataGridUtilities.AddColumn(DataGridRoles, "colDescription", "Descripción", "description", true, display_index++, 100, 100, DataGridViewAutoSizeColumnMode.Fill);
 
 			// bind the roles datagrid
 			DataGridRoles.DataSource = DSCitizenNetwork;
@@ -117,6 +120,7 @@ namespace GCRM
 					row["id"] = role.Id;
 					row["citizennetwork_id"] = role.CitizenNetworkId;
 					row["name"] = role.Name;
+					row["description"] = role.Description;
 
 					DTRoles.Rows.Add(row);
 				}
@@ -217,6 +221,7 @@ namespace GCRM
 					role.Id = (int)row["id"];
 					role.CitizenNetworkId = Id;
 					role.Name = (string)row["name"];
+					role.Description = (string)row["description"];
 
 					network.Roles.Add(role);
 				}
@@ -250,6 +255,158 @@ namespace GCRM
 		private void BCancel_Click(object sender, EventArgs e)
 		{
 			DialogResult = DialogResult.Cancel;
+		}
+
+		private TCitizenNetworkRole GetSelectedRole(out int row_index)
+		{
+			row_index = 0;
+
+			if (DataGridRoles.SelectedRows.Count == 0)
+			{
+				return null;
+			}
+
+			DataGridViewRow row = DataGridRoles.SelectedRows[0];
+
+			row_index = row.Index;
+
+			TCitizenNetworkRole role = new TCitizenNetworkRole()
+			{
+				Id = (int)row.Cells["colId"].Value,
+				CitizenNetworkId = Id,
+				Name = (string)row.Cells["colName"].Value,
+				Description = (string)row.Cells["colDescription"].Value,
+			};
+
+			return role;
+		}
+
+		private int GetSelectedMemberId()
+		{
+			if (DataGridMembers.SelectedRows.Count == 0)
+			{
+				return 0;
+			}
+
+			DataGridViewRow row = DataGridMembers.SelectedRows[0];
+
+			int id = (int)row.Cells["colId"].Value;
+
+			return id;
+		}
+
+		private void BAddRole_Click(object sender, EventArgs e)
+		{
+			using (FCitizenNetworkRoleData role_data_dlt = new FCitizenNetworkRoleData())
+			{
+				TCitizenNetworkRole new_role = new TCitizenNetworkRole()
+				{
+					Id = 0,
+					CitizenNetworkId = Id,
+					Name = "",
+				};
+
+				role_data_dlt.SetMode(FAccessMode.Create);
+				role_data_dlt.SetRole(new_role);
+
+				if (role_data_dlt.ShowDialog() == DialogResult.OK)
+				{
+					new_role = role_data_dlt.GetRole();
+
+					DTRoles.BeginLoadData();
+
+					DataRow row = DTRoles.NewRow();
+
+					row["id"] = new_role.Id;
+					row["citizennetwork_id"] = new_role.CitizenNetworkId;
+					row["name"] = new_role.Name;
+					row["description"] = new_role.Description;
+
+					DTRoles.Rows.Add(row);
+
+					DTRoles.EndLoadData();
+				}
+			}
+		}
+
+		private void BEditRole_Click(object sender, EventArgs e)
+		{
+			int row_index;
+
+			TCitizenNetworkRole role = GetSelectedRole(out row_index);
+
+			if (role == null)
+			{
+				return;
+			}
+
+			using (FCitizenNetworkRoleData role_data_dlg = new FCitizenNetworkRoleData())
+			{
+				role_data_dlg.SetMode(FAccessMode.Update);
+				role_data_dlg.SetRole(role);
+
+				if (role_data_dlg.ShowDialog() == DialogResult.OK)
+				{
+					DataRow row = DTRoles.Rows[row_index];
+
+					role = role_data_dlg.GetRole();
+
+					row.BeginEdit();
+
+					row["id"] = role.Id;
+					row["citizennetwork_id"] = Id;
+					row["name"] = role.Name;
+					row["description"] = role.Description;
+
+					row.EndEdit();
+				}
+			}
+		}
+
+		private void BReadRole_Click(object sender, EventArgs e)
+		{
+			int row_index;
+
+			TCitizenNetworkRole role = GetSelectedRole(out row_index);
+
+			if (role == null)
+			{
+				return;
+			}
+
+			using (FCitizenNetworkRoleData role_data_dlg = new FCitizenNetworkRoleData())
+			{
+				role_data_dlg.SetMode(FAccessMode.Read);
+				role_data_dlg.SetRole(role);
+
+				role_data_dlg.ShowDialog();
+			}
+		}
+
+		private void BDeleteRole_Click(object sender, EventArgs e)
+		{
+			int role_index;
+
+			TCitizenNetworkRole role = GetSelectedRole(out role_index);
+
+			if (role == null)
+			{
+				return;
+			}
+
+			// TODO: check the role isn't being used by no network member
+
+			if (Utilities.ShowDeleteConfirmDialog("¿Desea eliminar el rol de la estructura?") != DialogResult.OK)
+			{
+				return;
+			}
+
+			DTRoles.Rows.RemoveAt(role_index);
+		}
+
+		private void BAddMember_Click(object sender, EventArgs e)
+		{
+			
 		}
 	}
 }

@@ -599,15 +599,14 @@ namespace GCRM
 		{
 			int id = GetSelectedCitizenId();
 
+      DialogResult result = MessageBox.Show(
+        "¿Está seguro de que desea eliminar el ciudadano?",
+        "Confirmar eliminación",
+        MessageBoxButtons.YesNo,
+        MessageBoxIcon.Warning
+        );
 
-            DialogResult result = MessageBox.Show(
-             "¿Está seguro de que desea eliminar el ciudadano?",
-             "Confirmar eliminación",
-             MessageBoxButtons.YesNo,
-             MessageBoxIcon.Warning
-             );
-
-            if (result != DialogResult.Yes || id == 0)
+      if (result != DialogResult.Yes || id == 0)
 
 			{
 				return;
