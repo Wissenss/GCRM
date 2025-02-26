@@ -361,45 +361,15 @@ namespace GCRM
 				}
 			}
 
-			if (errors.Length == 0)
-			{
-				/*
-				if (!paternal_name[0].Equals(curp[0]) || !paternal_name[1].Equals(curp[1]))
-				{
-					errors.AppendLine("CURP incongruente. Las primeras dos letras de la clave CURP deben ser las del apellido paterno");
-				}
-				else if (!maternal_name[0].Equals(curp[2]))
-				{
-					errors.AppendLine("CURP incongruente. La tercer letra del CURP debe coincidir con la primera del apellido materno");
-				}
-				else if (!name[0].Equals(curp[3]))
-				{
-					errors.AppendLine("CURP incongruente. La cuarta letra del CURP debe coincidir con la primera del nombre");
-				}
-				else if (!$"{curp[4]}{curp[5]}{curp[6]}{curp[7]}{curp[8]}{curp[9]}".Equals(birthday.ToString("yyMMdd")))
-				{
-					errors.AppendLine("CURP incongruente. Los dígitos 5 a 10 del CURP deben coincidir con la fecha de nacimiento en el formato yymmdd");
-				}
-				else if (sex == TSex.Female && !curp[10].Equals('m'))
-				{
-					errors.AppendLine("CURP incongruente. El caracter 11 del CURP corresponder con el sexo del ciudadano");
-				}
-				else if (sex == TSex.Male && !curp[10].Equals('h'))
-				{
-					errors.AppendLine("CURP incongruente. El caracter 11 del CURP corresponder con el sexo del ciudadano");
-				}
-				*/
-			}
+			// TODO: validate congruence with citizen data #20
 
 			if ((int)ComboBoxInstitution.SelectedValue == 0 && Session.HasPermission("Ciudadanos.NoEspecificarInstitucion") == false)
 			{
-				//errors.AppendLine("Debe especificar la institución a la que pertenece el ciudadano");
 				actions_to_authorize.Add(new TUserPermission(312, "Ciudadanos.NoEspecificarInstitucion"));
 			}
 
 			if ((int)ComboBoxInstitutionRole.SelectedValue == 0 && Session.HasPermission("Ciudadanos.NoEspecificarCargo") == false)
 			{
-				//errors.AppendLine("Debe especificar el cargo del ciudadano");
 				actions_to_authorize.Add(new TUserPermission(313, "Ciudadanos.NoEspecificarCargo"));
 			}
 
