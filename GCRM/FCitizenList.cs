@@ -23,54 +23,54 @@ namespace GCRM
 			DataGridCitizens.AutoGenerateColumns = false;
 
 			// DataGridCitizensColumns
-			AddColumnToDataGrid(DataGridCitizens, "colId", "Id", "id", false);
-			AddColumnToDataGrid(DataGridCitizens, "colTitle", "Id Título", "title", false);
-			AddColumnToDataGrid(DataGridCitizens, "colName", "Nombre", "name", false);
-			AddColumnToDataGrid(DataGridCitizens, "colPaternalName", "Apellido paterno", "paternal_name", false);
-			AddColumnToDataGrid(DataGridCitizens, "colMaternalName", "Apellido materno", "maternal_name", false);
-			AddColumnToDataGrid(DataGridCitizens, "colObservations", "Observaciones", "observations", false);
-			AddColumnToDataGrid(DataGridCitizens, "colSex", "Id Sexo", "sex", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colId", "Id", "id", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colTitle", "Id Título", "title", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colName", "Nombre", "name", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colPaternalName", "Apellido paterno", "paternal_name", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colMaternalName", "Apellido materno", "maternal_name", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colObservations", "Observaciones", "observations", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colSex", "Id Sexo", "sex", false);
 
-			AddColumnToDataGrid(DataGridCitizens, "colAssistantId", "Id Asistente", "assistant_id", false);
-			AddColumnToDataGrid(DataGridCitizens, "colAssistantPhone", "Teléfono Asistente", "assistant_phone", false);
-			AddColumnToDataGrid(DataGridCitizens, "colAssistantPhoneExtension", "Extensión Teléfono Asistente", "assistant_phone_extension", false);
-			AddColumnToDataGrid(DataGridCitizens, "colAssistantPhoneAndExtension", "Tel. Asistente", "assistant_phone_full", false);
-			AddColumnToDataGrid(DataGridCitizens, "colAssistantCellphone", "Cel. Asistente", "assistant_cellphone", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colAssistantId", "Id Asistente", "assistant_id", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colAssistantPhone", "Teléfono Asistente", "assistant_phone", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colAssistantPhoneExtension", "Extensión Teléfono Asistente", "assistant_phone_extension", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colAssistantPhoneAndExtension", "Tel. Asistente", "assistant_phone_full", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colAssistantCellphone", "Cel. Asistente", "assistant_cellphone", false);
 
-			AddColumnToDataGrid(DataGridCitizens, "colPhone", "Teléfono", "phone", false);
-			AddColumnToDataGrid(DataGridCitizens, "colPoliticalParty", "Id Partido", "political_party", false);
-			AddColumnToDataGrid(DataGridCitizens, "colPhoneExtension", "Extensión Teléfono", "phone_extension", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colPhone", "Teléfono", "phone", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colPoliticalParty", "Id Partido", "political_party", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colPhoneExtension", "Extensión Teléfono", "phone_extension", false);
 
-			AddColumnToDataGrid(DataGridCitizens, "colInstitutionId", "Id Institución", "institution_id", false);
-			AddColumnToDataGrid(DataGridCitizens, "colInstitutionCategoryId", "Id Categoría", "institution_category_id", false);
-			AddColumnToDataGrid(DataGridCitizens, "colInstitutionSector", "Id Sector", "institution_sector", false);
-			AddColumnToDataGrid(DataGridCitizens, "colInstitutionRoleId", "Id Cargo", "institution_role_id", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionId", "Id Institución", "institution_id", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionCategoryId", "Id Categoría", "institution_category_id", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionSector", "Id Sector", "institution_sector", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionRoleId", "Id Cargo", "institution_role_id", false);
 
-			AddColumnToDataGrid(DataGridCitizens, "colAddressId", "Id Dirección", "address_id", false);
-			AddColumnToDataGrid(DataGridCitizens, "colAddressStreet", "Calle", "address_street", false);
-			AddColumnToDataGrid(DataGridCitizens, "colAddressNumber", "Número", "address_number", false);
-			AddColumnToDataGrid(DataGridCitizens, "colAddressInteriorNumber", "Número interior", "address_interior_number", false);
-			AddColumnToDataGrid(DataGridCitizens, "colAddressPostalCode", "Código postal", "address_postal_code", false);
-			AddColumnToDataGrid(DataGridCitizens, "colAddressState", "Estado", "address_state", false);
-			AddColumnToDataGrid(DataGridCitizens, "colAddressCity", "Ciudad", "address_city", false);
-			AddColumnToDataGrid(DataGridCitizens, "colAddressCountry", "Id país", "address_country", false);
-			AddColumnToDataGrid(DataGridCitizens, "colAddressCountryName", "País", "address_country_name", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colAddressId", "Id Dirección", "address_id", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colAddressStreet", "Calle", "address_street", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colAddressNumber", "Número", "address_number", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colAddressInteriorNumber", "Número interior", "address_interior_number", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colAddressPostalCode", "Código postal", "address_postal_code", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colAddressState", "Estado", "address_state", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colAddressCity", "Ciudad", "address_city", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colAddressCountry", "Id país", "address_country", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colAddressCountryName", "País", "address_country_name", false);
 
 			int display_index = 0;
 
-			AddColumnToDataGrid(DataGridCitizens, "colTitleName", "Título", "title_name", true, display_index++, 20, 20, DataGridViewAutoSizeColumnMode.AllCells);
-			AddColumnToDataGrid(DataGridCitizens, "colFullName", "Nombre", "name_full", true, display_index++, 250, 250, DataGridViewAutoSizeColumnMode.Fill);
-			AddColumnToDataGrid(DataGridCitizens, "colInstitutionName", "Institución", "institution_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
-			AddColumnToDataGrid(DataGridCitizens, "colInstitutionRoleName", "Cargo", "institution_role_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
-			AddColumnToDataGrid(DataGridCitizens, "colInstitutionCategoryName", "Categoría", "institution_category_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
-			AddColumnToDataGrid(DataGridCitizens, "colInstitutionSectorName", "Sector", "institution_sector_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
-			AddColumnToDataGrid(DataGridCitizens, "colPhoneAndExtension", "Teléfono", "phone_full", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
-			AddColumnToDataGrid(DataGridCitizens, "colCellphone", "Celular", "cellphone", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
-			AddColumnToDataGrid(DataGridCitizens, "colAssistantName", "Asistente", "assistant_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
-			AddColumnToDataGrid(DataGridCitizens, "colSexName", "Sexo", "sex_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
-			AddColumnToDataGrid(DataGridCitizens, "colPoliticalPartyName", "Partido", "political_party_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
-			AddColumnToDataGrid(DataGridCitizens, "colBirthday", "Nacimiento", "birthday", false, display_index++, 20, 20, DataGridViewAutoSizeColumnMode.AllCells);
-			AddColumnToDataGrid(DataGridCitizens, "colCURP", "CURP", "curp", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colTitleName", "Título", "title_name", true, display_index++, 20, 20, DataGridViewAutoSizeColumnMode.AllCells);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colFullName", "Nombre", "name_full", true, display_index++, 250, 250, DataGridViewAutoSizeColumnMode.Fill);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionName", "Institución", "institution_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionRoleName", "Cargo", "institution_role_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionCategoryName", "Categoría", "institution_category_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionSectorName", "Sector", "institution_sector_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colPhoneAndExtension", "Teléfono", "phone_full", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colCellphone", "Celular", "cellphone", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colAssistantName", "Asistente", "assistant_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colSexName", "Sexo", "sex_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colPoliticalPartyName", "Partido", "political_party_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colBirthday", "Nacimiento", "birthday", false, display_index++, 20, 20, DataGridViewAutoSizeColumnMode.AllCells);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colCURP", "CURP", "curp", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
 
 			FiltersDlg = new FCitizenListFilters();
 
@@ -133,36 +133,6 @@ namespace GCRM
 			DataGridCitizens.DataMember = "DTCitizens";
 
 			Cursor.Current = Cursors.Default;
-		}
-
-		private void AddColumnToDataGrid(DataGridView data_grid, string col_name, string header_text, string data_property_name, bool visible = true, int display_index = 0, int width = 100, int min_width = 100, DataGridViewAutoSizeColumnMode auto_size_mode = DataGridViewAutoSizeColumnMode.None)
-		{
-			DataGridViewColumn column = new DataGridViewColumn();
-
-			// cell template
-			DataGridViewCell cell = new DataGridViewTextBoxCell();
-			column.CellTemplate = cell;
-
-			// customaizable values
-			column.Name = col_name;
-			column.DataPropertyName = data_property_name;
-			column.HeaderText = header_text;
-			column.DefaultCellStyle = data_grid.DefaultCellStyle;
-			column.Width = width;
-			column.MinimumWidth = min_width;
-			column.AutoSizeMode = auto_size_mode;
-			column.Visible = visible;
-			column.DisplayIndex = display_index;
-
-			// defaults
-			column.Resizable = DataGridViewTriState.True;
-			column.DividerWidth = 1;
-			column.FillWeight = auto_size_mode == DataGridViewAutoSizeColumnMode.Fill ? 100 : 1;
-			column.Frozen = false;
-
-			data_grid.Columns.Add(column);
-
-			//data_grid.Columns[col_name].DisplayIndex = display_index;
 		}
 
 		public void LoadPermissions()
@@ -462,55 +432,6 @@ namespace GCRM
 			FilterList();
 		}
 
-		private void SetWorksheetHeaderCell(IXLWorksheet worksheet, int row, int col, string value, XLColor color = null, int width = 20)
-		{
-			// set the value
-			worksheet.Cell(row, col).Value = value;
-
-			// set the width
-			worksheet.Column(col).Width = width;
-
-			// set the background color
-			if (color != null)
-			{
-				worksheet.Cell(row, col).Style.Fill.BackgroundColor = color;
-			}
-
-			// set the font style
-			worksheet.Cell(row, col).Style.Font.Bold = true;
-
-			// set the borders
-			worksheet.Cell(row, col).Style.Border.RightBorder = XLBorderStyleValues.Thin;
-			worksheet.Cell(row, col).Style.Border.LeftBorder = XLBorderStyleValues.Thin;
-			worksheet.Cell(row, col).Style.Border.TopBorder = XLBorderStyleValues.Thin;
-			worksheet.Cell(row, col).Style.Border.BottomBorder = XLBorderStyleValues.Thin;
-			worksheet.Cell(row, col).Style.Border.RightBorderColor = XLColor.Black;
-			worksheet.Cell(row, col).Style.Border.LeftBorderColor = XLColor.Black;
-			worksheet.Cell(row, col).Style.Border.TopBorderColor = XLColor.Black;
-			worksheet.Cell(row, col).Style.Border.BottomBorderColor = XLColor.Black;
-		}
-
-		private void SetWorksheetCell(IXLWorksheet worksheet, int row, int col, string value, string number_format = null)
-		{
-			// set the value
-			worksheet.Cell(row, col).Value = value;
-
-			if (number_format != null)
-			{
-				worksheet.Cell(row, col).Style.NumberFormat.Format = number_format;
-			}
-
-			// set the borders
-			worksheet.Cell(row, col).Style.Border.RightBorder = XLBorderStyleValues.Thin;
-			worksheet.Cell(row, col).Style.Border.LeftBorder = XLBorderStyleValues.Thin;
-			worksheet.Cell(row, col).Style.Border.TopBorder = XLBorderStyleValues.Thin;
-			worksheet.Cell(row, col).Style.Border.BottomBorder = XLBorderStyleValues.Thin;
-			worksheet.Cell(row, col).Style.Border.RightBorderColor = XLColor.Black;
-			worksheet.Cell(row, col).Style.Border.LeftBorderColor = XLColor.Black;
-			worksheet.Cell(row, col).Style.Border.TopBorderColor = XLColor.Black;
-			worksheet.Cell(row, col).Style.Border.BottomBorderColor = XLColor.Black;
-		}
-
 		private void FExcelExport_Click(object sender, EventArgs e)
 		{
 			SaveFileDialog.DefaultExt = $".xlsx";
@@ -535,37 +456,37 @@ namespace GCRM
 
 					int row_index = 1;
 
-					SetWorksheetHeaderCell(worksheet, 1, row_index++, "#", headers_color, 3);
-					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Id", headers_color, 3);
-					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Título", headers_color, 10);
-					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Nombre", headers_color, 30);
+					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "#", headers_color, 3);
+					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Id", headers_color, 3);
+					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Título", headers_color, 10);
+					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Nombre", headers_color, 30);
 
-					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Nacimiento", headers_color, 15);
-					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Año Nacimiento", headers_color, 15);
-					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Mes Nacimiento", headers_color, 15);
-					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Día Nacimiento", headers_color, 15);
+					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Nacimiento", headers_color, 15);
+					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Año Nacimiento", headers_color, 15);
+					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Mes Nacimiento", headers_color, 15);
+					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Día Nacimiento", headers_color, 15);
 
-					SetWorksheetHeaderCell(worksheet, 1, row_index++, "CURP", headers_color, 30);
-					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Teléfono", headers_color, 25);
-					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Celular", headers_color, 20);
-					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Partido", headers_color, 10);
+					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "CURP", headers_color, 30);
+					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Teléfono", headers_color, 25);
+					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Celular", headers_color, 20);
+					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Partido", headers_color, 10);
 
-					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Asistente", headers_color, 30);
-					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Tel. Asistente", headers_color, 25);
-					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Cel. Asistente", headers_color, 20);
+					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Asistente", headers_color, 30);
+					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Tel. Asistente", headers_color, 25);
+					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Cel. Asistente", headers_color, 20);
 
-					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Sector", headers_color, 10);
-					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Categoría", headers_color, 20);
-					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Institución", headers_color, 40);
-					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Cargo", headers_color, 20);
+					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Sector", headers_color, 10);
+					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Categoría", headers_color, 20);
+					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Institución", headers_color, 40);
+					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Cargo", headers_color, 20);
 
-					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Calle", headers_color, 35);
-					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Número", headers_color, 15);
-					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Número Interior", headers_color, 15);
-					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Código Postal", headers_color, 15);
-					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Estado", headers_color, 20);
-					SetWorksheetHeaderCell(worksheet, 1, row_index++, "Ciudad", headers_color, 20);
-					SetWorksheetHeaderCell(worksheet, 1, row_index++, "País", headers_color, 20);
+					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Calle", headers_color, 35);
+					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Número", headers_color, 15);
+					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Número Interior", headers_color, 15);
+					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Código Postal", headers_color, 15);
+					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Estado", headers_color, 20);
+					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Ciudad", headers_color, 20);
+					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "País", headers_color, 20);
 
 					// fill the workseet
 					for (int i = 0; i < DataGridCitizens.Rows.Count; i++)
@@ -574,39 +495,39 @@ namespace GCRM
 
 						row_index = 1;
 
-						SetWorksheetCell(worksheet, i + 2, row_index++, i.ToString());
-						SetWorksheetCell(worksheet, i + 2, row_index++, ((int)row.Cells["colId"].Value).ToString());
-						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colTitleName"].Value);
-						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colFullName"].Value);
+						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, i.ToString());
+						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, ((int)row.Cells["colId"].Value).ToString());
+						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colTitleName"].Value);
+						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colFullName"].Value);
 
 						DateTime birthday = (DateTime)row.Cells["colBirthday"].Value;
 
-						SetWorksheetCell(worksheet, i + 2, row_index++, birthday.ToString("yyyy/MM/dd"), "yyyy/MM/dd");
-						SetWorksheetCell(worksheet, i + 2, row_index++, birthday.ToString("yyyy"));
-						SetWorksheetCell(worksheet, i + 2, row_index++, birthday.ToString("MMMM"));
-						SetWorksheetCell(worksheet, i + 2, row_index++, birthday.Day.ToString());
+						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, birthday.ToString("yyyy/MM/dd"), "yyyy/MM/dd");
+						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, birthday.ToString("yyyy"));
+						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, birthday.ToString("MMMM"));
+						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, birthday.Day.ToString());
 
-						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colCURP"].Value);
-						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colPhoneAndExtension"].Value);
-						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colCellphone"].Value);
-						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colPoliticalPartyName"].Value);
+						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colCURP"].Value);
+						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colPhoneAndExtension"].Value);
+						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colCellphone"].Value);
+						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colPoliticalPartyName"].Value);
 
-						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colAssistantName"].Value);
-						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colAssistantPhoneAndExtension"].Value);
-						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colAssistantCellphone"].Value);
+						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colAssistantName"].Value);
+						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colAssistantPhoneAndExtension"].Value);
+						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colAssistantCellphone"].Value);
 
-						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colInstitutionSectorName"].Value);
-						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colInstitutionCategoryName"].Value);
-						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colInstitutionName"].Value);
-						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colInstitutionRoleName"].Value);
+						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colInstitutionSectorName"].Value);
+						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colInstitutionCategoryName"].Value);
+						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colInstitutionName"].Value);
+						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colInstitutionRoleName"].Value);
 
-						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colAddressStreet"].Value);
-						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colAddressNumber"].Value);
-						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colAddressInteriorNumber"].Value);
-						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colAddressPostalCode"].Value);
-						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colAddressState"].Value);
-						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colAddressCity"].Value);
-						SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colAddressCountryName"].Value);
+						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colAddressStreet"].Value);
+						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colAddressNumber"].Value);
+						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colAddressInteriorNumber"].Value);
+						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colAddressPostalCode"].Value);
+						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colAddressState"].Value);
+						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colAddressCity"].Value);
+						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colAddressCountryName"].Value);
 					}
 
 					workbook.SaveAs(SaveFileDialog.FileName);
