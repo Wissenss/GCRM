@@ -9,6 +9,15 @@ CREATE TABLE public.citizennetworks
     PRIMARY KEY (id)
 );
 
+-- add citizen network roles
+CREATE TABLE public.citizennetwork_roles
+(
+    id bigint NOT NULL GENERATED ALWAYS AS IDENTITY,
+    citizennetwork_id bigint NOT NULL DEFAULT 0,
+    name character varying,
+    PRIMARY KEY (id)
+);
+
 -- add citizen network - citizens table
 CREATE TABLE public.citizennetwork_citizens
 (

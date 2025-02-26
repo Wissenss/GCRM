@@ -34,6 +34,9 @@ namespace Business
 
 		// errors related to addresses
 		AddressNotFound,
+
+		// errors related to citizen networks
+		CitizenNetworkNotFound,
 	}
 
 	public static class Errors
@@ -53,6 +56,7 @@ namespace Business
 			{ Error.InstitutionCategoryInUse, "Categoría de institutción esta siendo utilizada" },
 			{ Error.SettingNotFound, "No se encontró la configuración en la base de datos" },
 			{ Error.AddressNotFound, "Dirección no encontrada" },
+			{ Error.CitizenNetworkNotFound, "Estructura ciudadana no encontrada" }
 		};
 
 		public static string GetErrorDescription(Error error)
