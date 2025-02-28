@@ -75,13 +75,14 @@
 			toolStripSeparator1 = new ToolStripSeparator();
 			BFields = new ToolStripButton();
 			BFilter = new ToolStripButton();
+			BDelete = new ToolStripButton();
 			toolStripSeparator2 = new ToolStripSeparator();
 			FExcelExport = new ToolStripButton();
 			toolStripSeparator3 = new ToolStripSeparator();
 			BPrint = new ToolStripButton();
 			toolStripSeparator4 = new ToolStripSeparator();
 			BSearch = new ToolStripButton();
-			BDelete = new ToolStripButton();
+			BSelect = new ToolStripButton();
 			PanelSearch = new Panel();
 			TextBoxSearch = new TextBox();
 			SaveFileDialog = new SaveFileDialog();
@@ -385,7 +386,7 @@
 			// ToolStrip
 			// 
 			ToolStrip.GripStyle = ToolStripGripStyle.Hidden;
-			ToolStrip.Items.AddRange(new ToolStripItem[] { BAdd, BEdit, BRead, BRefresh, toolStripSeparator1, BFields, BFilter, BDelete, toolStripSeparator2, FExcelExport, toolStripSeparator3, BPrint, toolStripSeparator4, BSearch });
+			ToolStrip.Items.AddRange(new ToolStripItem[] { BAdd, BEdit, BRead, BRefresh, toolStripSeparator1, BFields, BFilter, BDelete, toolStripSeparator2, FExcelExport, toolStripSeparator3, BPrint, toolStripSeparator4, BSearch, BSelect });
 			ToolStrip.Location = new Point(2, 2);
 			ToolStrip.Name = "ToolStrip";
 			ToolStrip.RenderMode = ToolStripRenderMode.System;
@@ -473,6 +474,16 @@
 			BFilter.Text = "&Filtrar";
 			BFilter.Click += BFilter_Click;
 			// 
+			// BDelete
+			// 
+			BDelete.Image = Properties.Resources.Fatcow_Farm_Fresh_Delete_16;
+			BDelete.ImageScaling = ToolStripItemImageScaling.None;
+			BDelete.ImageTransparentColor = Color.Magenta;
+			BDelete.Name = "BDelete";
+			BDelete.Size = new Size(59, 37);
+			BDelete.Text = "&Borrar";
+			BDelete.Click += BDelete_Click;
+			// 
 			// toolStripSeparator2
 			// 
 			toolStripSeparator2.Name = "toolStripSeparator2";
@@ -525,15 +536,16 @@
 			BSearch.Text = "&Buscar";
 			BSearch.Click += BSearch_Click;
 			// 
-			// BDelete
+			// BSelect
 			// 
-			BDelete.Image = Properties.Resources.Fatcow_Farm_Fresh_Delete_16;
-			BDelete.ImageScaling = ToolStripItemImageScaling.None;
-			BDelete.ImageTransparentColor = Color.Magenta;
-			BDelete.Name = "BDelete";
-			BDelete.Size = new Size(59, 37);
-			BDelete.Text = "&Borrar";
-			BDelete.Click += BDelete_Click;
+			BSelect.Image = Properties.Resources.Fatcow_Farm_Fresh_Check_box_16;
+			BSelect.ImageScaling = ToolStripItemImageScaling.None;
+			BSelect.ImageTransparentColor = Color.Magenta;
+			BSelect.Name = "BSelect";
+			BSelect.Size = new Size(87, 37);
+			BSelect.Text = "&Seleccionar";
+			BSelect.Visible = false;
+			BSelect.Click += BSelect_Click;
 			// 
 			// PanelSearch
 			// 
@@ -716,5 +728,6 @@
 		private ToolStripStatusLabel TSSLRecordCount;
 		private ToolStripStatusLabel TSSLFilters;
 		private ToolStripButton BDelete;
+		private ToolStripButton BSelect;
 	}
 }

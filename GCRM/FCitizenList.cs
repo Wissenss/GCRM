@@ -14,6 +14,8 @@ namespace GCRM
 
 		FCitizenListFilters FiltersDlg;
 
+		FAccessMode Mode = FAccessMode.Update;
+
 		public FCitizenList()
 		{
 			InitializeComponent();
@@ -133,6 +135,24 @@ namespace GCRM
 			DataGridCitizens.DataMember = "DTCitizens";
 
 			Cursor.Current = Cursors.Default;
+
+			LoadPermissions();
+		}
+
+		public void SetMode(FAccessMode mode)
+		{
+			Mode = mode;
+
+			//BAdd.Visible = Mode != FAccessMode.Select;
+			BEdit.Visible = Mode != FAccessMode.Select;
+			BRead.Visible = Mode != FAccessMode.Select;
+			BDelete.Visible = Mode != FAccessMode.Select;
+			FExcelExport.Visible = Mode != FAccessMode.Select;
+			BPrint.Visible = Mode != FAccessMode.Select;
+
+			BSelect.Visible = Mode == FAccessMode.Select;
+
+			ToolStrip.Refresh();
 		}
 
 		public void LoadPermissions()
@@ -151,7 +171,6 @@ namespace GCRM
 		{
 			Cursor.Current = Cursors.WaitCursor;
 
-			LoadPermissions();
 			LoadList();
 
 			Cursor.Current = Cursors.Default;
@@ -599,14 +618,14 @@ namespace GCRM
 		{
 			int id = GetSelectedCitizenId();
 
-      DialogResult result = MessageBox.Show(
-        "¿Está seguro de que desea eliminar el ciudadano?",
-        "Confirmar eliminación",
-        MessageBoxButtons.YesNo,
-        MessageBoxIcon.Warning
-        );
+			DialogResult result = MessageBox.Show(
+				"¿Está seguro de que desea eliminar el ciudadano?",
+				"Confirmar eliminación",
+				MessageBoxButtons.YesNo,
+				MessageBoxIcon.Warning
+				);
 
-      if (result != DialogResult.Yes || id == 0)
+			if (result != DialogResult.Yes || id == 0)
 
 			{
 				return;
@@ -621,6 +640,34 @@ namespace GCRM
 			}
 
 			LoadList();
+		}
+
+		private void BSelect_Click(object sender, EventArgs e)
+		{
+			DialogResult = DialogResult.OK;
+		}
+
+		public TCitizen GetSelectedCitizen()
+		{
+			if (DataGridCitizens.SelectedRows.Count == 0)
+			{
+				return null;
+			}
+
+			DataGridViewRow row = DataGridCitizens.SelectedRows[0];
+
+			TCitizen selected_citizen = new TCitizen()
+			{
+				Id = (int)row.Cells["colId"].Value,
+				Name = (string)row.Cells["colName"].Value,
+				PaternalName = (string)row.Cells["colPaternalName"].Value,
+				MaternalName = (string)row.Cells["colMaternalName"].Value,
+				Phone = (string)row.Cells["colPhone"].Value,
+				PhoneExtension = (string)row.Cells["colPhoneExtension"].Value,
+				Cellphone = (string)row.Cells["colCellphone"].Value
+			};
+
+			return selected_citizen;
 		}
 	}
 }

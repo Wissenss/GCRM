@@ -12,6 +12,7 @@ namespace GCRM
 		Read,
 		Update,
 		Delete,
+		Select,
 	}
 
 	public static class Constants

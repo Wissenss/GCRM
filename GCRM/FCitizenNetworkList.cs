@@ -1,4 +1,6 @@
 ﻿using Business;
+using QuestPDF.Fluent;
+using Reporter;
 using System.Data;
 
 namespace GCRM
@@ -23,7 +25,7 @@ namespace GCRM
 			DTCitizenNetworks.Columns.Add("parent_network_id", typeof(int));
 			DTCitizenNetworks.Columns.Add("name", typeof(string));
 			DTCitizenNetworks.Columns.Add("description", typeof(string));
-			DSCitizenNetworks.Tables.Add(DTCitizenNetworks);	
+			DSCitizenNetworks.Tables.Add(DTCitizenNetworks);
 
 			// initialize citizen networks data grid
 			DataGridCitizenNetworks.AutoGenerateColumns = false;
@@ -74,7 +76,41 @@ namespace GCRM
 
 				DTCitizenNetworks.EndLoadData();
 
+				// populate treeview
+				TreeViewNetwroksStructure.BeginUpdate();
+				TreeViewNetwroksStructure.Nodes.Clear();
+
+				foreach (DataRow row in DTCitizenNetworks.Rows)
+				{
+					if ((int)row["parent_network_id"] == 0)
+					{
+						TreeNode head_node = new TreeNode((string)row["name"]);
+
+						TreeViewNetwroksStructure.Nodes.Add(head_node);
+
+						PopulateTreeNode(ref head_node, (int)row["id"]);
+					}
+				}
+
+				TreeViewNetwroksStructure.EndUpdate();
+				TreeViewNetwroksStructure.ExpandAll();
+
 				TSSLRecordCount.Text = $"Registros: {DTCitizenNetworks.Rows.Count}";
+			}
+		}
+
+		public void PopulateTreeNode(ref TreeNode node, int id)
+		{
+			foreach (DataRow row in DTCitizenNetworks.Rows)
+			{
+				if ((int)row["parent_network_id"] == id)
+				{
+					TreeNode child_node = new TreeNode((string)row["name"]);
+
+					node.Nodes.Add(child_node);
+
+					PopulateTreeNode(ref child_node, (int)row["id"]);
+				}
 			}
 		}
 
@@ -106,6 +142,90 @@ namespace GCRM
 					LoadList();
 				}
 			}
+		}
+
+		private void BEdit_Click(object sender, EventArgs e)
+		{
+			int id = GetSelectedCitizenNetworkId();
+
+			if (id == 0)
+			{
+				return;
+			}
+
+			using (FCitizenNetworkData citizen_network_dlg = new FCitizenNetworkData())
+			{
+				citizen_network_dlg.SetAccessMode(FAccessMode.Update);
+				citizen_network_dlg.SetId(id);
+
+				if (citizen_network_dlg.ShowDialog() == DialogResult.OK)
+				{
+					LoadList();
+				}
+			}
+		}
+
+		private void BPrint_Click(object sender, EventArgs e)
+		{
+			int id = GetSelectedCitizenNetworkId();
+
+			if (id == 0)
+				return;
+
+			TCitizenNetwork network;
+
+			Error error = CitizenNetworksHandler.GetCitizenNetworkById(id, out network);
+
+			if (error != 0)
+			{
+				Utilities.ShowErrorDialog(error);
+				return;
+			}
+
+			R002DocumentModel model = new R002DocumentModel();
+
+			model.Network = network;
+
+			R002Document document = new R002Document(model);
+
+			document.GeneratePdfAndShow();
+		}
+
+		private void BShowStructure_Click(object sender, EventArgs e)
+		{
+			if (BShowStructure.Checked)
+			{
+				splitContainer1.Panel2.Show();
+				splitContainer1.Panel2Collapsed = false;
+			}
+			else
+			{
+				splitContainer1.Panel2Collapsed = true;
+				splitContainer1.Panel2.Hide();
+			}
+		}
+
+		private void BRefresh_Click(object sender, EventArgs e)
+		{
+			LoadList();
+		}
+
+		private void TreeViewNetwroksStructure_DrawNode(object sender, DrawTreeNodeEventArgs e)
+		{
+			System.Drawing.Color background_color = SystemColors.Control;
+			System.Drawing.Color foreground_color = SystemColors.WindowText;
+
+			System.Drawing.Font font = e.Node.NodeFont ?? e.Node.TreeView.Font;
+
+			if (e.Node == e.Node.TreeView.SelectedNode)
+			{
+				background_color = SystemColors.GradientInactiveCaption;
+			}
+
+			SolidBrush brush = new SolidBrush(background_color);
+
+			e.Graphics.FillRectangle(brush, e.Bounds.X, e.Bounds.Y, TreeViewNetwroksStructure.Width - (e.Bounds.X - TreeViewNetwroksStructure.Location.X), e.Bounds.Height);
+			TextRenderer.DrawText(e.Graphics, e.Node.Text, font, e.Bounds, foreground_color, TextFormatFlags.GlyphOverhangPadding);
 		}
 	}
 }

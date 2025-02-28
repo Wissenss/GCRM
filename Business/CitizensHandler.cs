@@ -36,6 +36,11 @@ namespace Business
 		public int EditById;
 		public DateTime EditDate;
 
+		public string GetFullName()
+		{
+			return $"{Name} {PaternalName} {MaternalName}";
+		}
+
 		public void FillFromReader(DbDataReader reader)
 		{
 			Assistant = new TCitizen();

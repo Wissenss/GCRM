@@ -170,4 +170,18 @@ namespace GCRM
 			worksheet.Cell(row, col).Style.Border.BottomBorderColor = XLColor.Black;
 		}
 	}
+
+	public static class TreeViewUtilities
+	{
+		public static IEnumerable<TreeNode> CollectTreeNodes(TreeNodeCollection nodes)
+		{
+			foreach (TreeNode node in nodes)
+			{
+				yield return node;
+
+				foreach (var child in CollectTreeNodes(node.Nodes))
+					yield return child;
+			}
+		}
+	}
 }

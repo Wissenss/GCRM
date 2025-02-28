@@ -41,9 +41,22 @@
 			BRead = new ToolStripButton();
 			BRefresh = new ToolStripButton();
 			BDelete = new ToolStripButton();
+			toolStripSeparator1 = new ToolStripSeparator();
+			BPrint = new ToolStripButton();
+			toolStripSeparator2 = new ToolStripSeparator();
+			BShowStructure = new ToolStripButton();
+			splitContainer1 = new SplitContainer();
+			TreeViewNetwroksStructure = new TreeView();
+			panel1 = new Panel();
+			label2 = new Label();
 			((System.ComponentModel.ISupportInitialize)DataGridCitizenNetworks).BeginInit();
 			StatusStrip.SuspendLayout();
 			ToolStrip.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
+			splitContainer1.Panel1.SuspendLayout();
+			splitContainer1.Panel2.SuspendLayout();
+			splitContainer1.SuspendLayout();
+			panel1.SuspendLayout();
 			SuspendLayout();
 			// 
 			// DataGridCitizenNetworks
@@ -84,7 +97,7 @@
 			DataGridCitizenNetworks.DefaultCellStyle = dataGridViewCellStyle3;
 			DataGridCitizenNetworks.Dock = DockStyle.Fill;
 			DataGridCitizenNetworks.EnableHeadersVisualStyles = false;
-			DataGridCitizenNetworks.Location = new Point(0, 40);
+			DataGridCitizenNetworks.Location = new Point(0, 0);
 			DataGridCitizenNetworks.MultiSelect = false;
 			DataGridCitizenNetworks.Name = "DataGridCitizenNetworks";
 			DataGridCitizenNetworks.ReadOnly = true;
@@ -92,7 +105,7 @@
 			DataGridCitizenNetworks.RowTemplate.Height = 20;
 			DataGridCitizenNetworks.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 			DataGridCitizenNetworks.ShowCellToolTips = false;
-			DataGridCitizenNetworks.Size = new Size(800, 388);
+			DataGridCitizenNetworks.Size = new Size(494, 388);
 			DataGridCitizenNetworks.StandardTab = true;
 			DataGridCitizenNetworks.TabIndex = 10;
 			// 
@@ -115,7 +128,7 @@
 			// ToolStrip
 			// 
 			ToolStrip.GripStyle = ToolStripGripStyle.Hidden;
-			ToolStrip.Items.AddRange(new ToolStripItem[] { BAdd, BEdit, BRead, BRefresh, BDelete });
+			ToolStrip.Items.AddRange(new ToolStripItem[] { BAdd, BEdit, BRead, BRefresh, BDelete, toolStripSeparator1, BPrint, toolStripSeparator2, BShowStructure });
 			ToolStrip.Location = new Point(0, 0);
 			ToolStrip.Name = "ToolStrip";
 			ToolStrip.RenderMode = ToolStripRenderMode.System;
@@ -146,6 +159,7 @@
 			BEdit.Padding = new Padding(2, 8, 2, 8);
 			BEdit.Size = new Size(61, 36);
 			BEdit.Text = "&Editar";
+			BEdit.Click += BEdit_Click;
 			// 
 			// BRead
 			// 
@@ -168,6 +182,7 @@
 			BRefresh.Padding = new Padding(2, 8, 2, 8);
 			BRefresh.Size = new Size(83, 36);
 			BRefresh.Text = "Actualiza&r";
+			BRefresh.Click += BRefresh_Click;
 			// 
 			// BDelete
 			// 
@@ -179,12 +194,99 @@
 			BDelete.Text = "&Borrar";
 			BDelete.Visible = false;
 			// 
+			// toolStripSeparator1
+			// 
+			toolStripSeparator1.Name = "toolStripSeparator1";
+			toolStripSeparator1.Size = new Size(6, 40);
+			// 
+			// BPrint
+			// 
+			BPrint.Image = Properties.Resources.Fatcow_Farm_Fresh_Printer_16;
+			BPrint.ImageScaling = ToolStripItemImageScaling.None;
+			BPrint.ImageTransparentColor = Color.Magenta;
+			BPrint.Name = "BPrint";
+			BPrint.Size = new Size(73, 37);
+			BPrint.Text = "Im&primir";
+			BPrint.Click += BPrint_Click;
+			// 
+			// toolStripSeparator2
+			// 
+			toolStripSeparator2.Alignment = ToolStripItemAlignment.Right;
+			toolStripSeparator2.Name = "toolStripSeparator2";
+			toolStripSeparator2.Size = new Size(6, 40);
+			// 
+			// BShowStructure
+			// 
+			BShowStructure.Alignment = ToolStripItemAlignment.Right;
+			BShowStructure.Checked = true;
+			BShowStructure.CheckOnClick = true;
+			BShowStructure.CheckState = CheckState.Checked;
+			BShowStructure.Image = Properties.Resources.Fatcow_Farm_Fresh_Node_16;
+			BShowStructure.ImageTransparentColor = Color.Magenta;
+			BShowStructure.Name = "BShowStructure";
+			BShowStructure.Size = new Size(99, 37);
+			BShowStructure.Text = "&Ver Estructura";
+			BShowStructure.Click += BShowStructure_Click;
+			// 
+			// splitContainer1
+			// 
+			splitContainer1.Dock = DockStyle.Fill;
+			splitContainer1.Location = new Point(0, 40);
+			splitContainer1.Name = "splitContainer1";
+			// 
+			// splitContainer1.Panel1
+			// 
+			splitContainer1.Panel1.Controls.Add(DataGridCitizenNetworks);
+			// 
+			// splitContainer1.Panel2
+			// 
+			splitContainer1.Panel2.Controls.Add(TreeViewNetwroksStructure);
+			splitContainer1.Panel2.Controls.Add(panel1);
+			splitContainer1.Size = new Size(800, 388);
+			splitContainer1.SplitterDistance = 494;
+			splitContainer1.TabIndex = 12;
+			// 
+			// TreeViewNetwroksStructure
+			// 
+			TreeViewNetwroksStructure.AllowDrop = true;
+			TreeViewNetwroksStructure.BackColor = SystemColors.Control;
+			TreeViewNetwroksStructure.BorderStyle = BorderStyle.None;
+			TreeViewNetwroksStructure.Dock = DockStyle.Fill;
+			TreeViewNetwroksStructure.DrawMode = TreeViewDrawMode.OwnerDrawText;
+			TreeViewNetwroksStructure.FullRowSelect = true;
+			TreeViewNetwroksStructure.HideSelection = false;
+			TreeViewNetwroksStructure.Location = new Point(0, 17);
+			TreeViewNetwroksStructure.Name = "TreeViewNetwroksStructure";
+			TreeViewNetwroksStructure.Size = new Size(302, 371);
+			TreeViewNetwroksStructure.TabIndex = 4;
+			TreeViewNetwroksStructure.DrawNode += TreeViewNetwroksStructure_DrawNode;
+			// 
+			// panel1
+			// 
+			panel1.BackColor = SystemColors.ControlLight;
+			panel1.Controls.Add(label2);
+			panel1.Dock = DockStyle.Top;
+			panel1.Location = new Point(0, 0);
+			panel1.Name = "panel1";
+			panel1.Size = new Size(302, 17);
+			panel1.TabIndex = 3;
+			// 
+			// label2
+			// 
+			label2.AutoSize = true;
+			label2.Dock = DockStyle.Fill;
+			label2.Location = new Point(0, 0);
+			label2.Name = "label2";
+			label2.Size = new Size(60, 15);
+			label2.TabIndex = 2;
+			label2.Text = "Estructura";
+			// 
 			// FCitizenNetworkList
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
 			ClientSize = new Size(800, 450);
-			Controls.Add(DataGridCitizenNetworks);
+			Controls.Add(splitContainer1);
 			Controls.Add(StatusStrip);
 			Controls.Add(ToolStrip);
 			Icon = (Icon)resources.GetObject("$this.Icon");
@@ -196,6 +298,12 @@
 			StatusStrip.PerformLayout();
 			ToolStrip.ResumeLayout(false);
 			ToolStrip.PerformLayout();
+			splitContainer1.Panel1.ResumeLayout(false);
+			splitContainer1.Panel2.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
+			splitContainer1.ResumeLayout(false);
+			panel1.ResumeLayout(false);
+			panel1.PerformLayout();
 			ResumeLayout(false);
 			PerformLayout();
 		}
@@ -211,5 +319,13 @@
 		private ToolStripButton BRead;
 		private ToolStripButton BRefresh;
 		private ToolStripButton BDelete;
+		private ToolStripSeparator toolStripSeparator1;
+		private ToolStripButton BPrint;
+		private ToolStripSeparator toolStripSeparator2;
+		private ToolStripButton BShowStructure;
+		private SplitContainer splitContainer1;
+		private Panel panel1;
+		private Label label2;
+		private TreeView TreeViewNetwroksStructure;
 	}
 }

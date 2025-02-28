@@ -32,7 +32,7 @@
 			BAccept = new Button();
 			TextBoxName = new TextBox();
 			LCitizen = new Label();
-			BSelectLeadCitizen = new Button();
+			BSelectCitizen = new Button();
 			LRol = new Label();
 			ComboBoxRoles = new ComboBox();
 			SuspendLayout();
@@ -46,6 +46,7 @@
 			BCancel.TabIndex = 42;
 			BCancel.Text = "&Cancelar";
 			BCancel.UseVisualStyleBackColor = true;
+			BCancel.Click += BCancel_Click;
 			// 
 			// BAccept
 			// 
@@ -56,6 +57,7 @@
 			BAccept.TabIndex = 41;
 			BAccept.Text = "&Aceptar";
 			BAccept.UseVisualStyleBackColor = true;
+			BAccept.Click += BAccept_Click;
 			// 
 			// TextBoxName
 			// 
@@ -74,15 +76,15 @@
 			LCitizen.TabIndex = 45;
 			LCitizen.Text = "Ciudadano";
 			// 
-			// BSelectLeadCitizen
+			// BSelectCitizen
 			// 
-			BSelectLeadCitizen.Location = new Point(312, 12);
-			BSelectLeadCitizen.Name = "BSelectLeadCitizen";
-			BSelectLeadCitizen.Size = new Size(75, 23);
-			BSelectLeadCitizen.TabIndex = 46;
-			BSelectLeadCitizen.Text = "Seleccionar";
-			BSelectLeadCitizen.UseVisualStyleBackColor = true;
-			BSelectLeadCitizen.Visible = false;
+			BSelectCitizen.Location = new Point(312, 12);
+			BSelectCitizen.Name = "BSelectCitizen";
+			BSelectCitizen.Size = new Size(75, 23);
+			BSelectCitizen.TabIndex = 46;
+			BSelectCitizen.Text = "Seleccionar";
+			BSelectCitizen.UseVisualStyleBackColor = true;
+			BSelectCitizen.Click += BSelectCitizen_Click;
 			// 
 			// LRol
 			// 
@@ -109,7 +111,7 @@
 			ControlBox = false;
 			Controls.Add(ComboBoxRoles);
 			Controls.Add(LRol);
-			Controls.Add(BSelectLeadCitizen);
+			Controls.Add(BSelectCitizen);
 			Controls.Add(TextBoxName);
 			Controls.Add(LCitizen);
 			Controls.Add(BCancel);
@@ -126,7 +128,7 @@
 		private Button BAccept;
 		private TextBox TextBoxName;
 		private Label LCitizen;
-		private Button BSelectLeadCitizen;
+		private Button BSelectCitizen;
 		private Label LRol;
 		private ComboBox ComboBoxRoles;
 	}
