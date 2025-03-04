@@ -21,6 +21,9 @@ CREATE TABLE public.citizennetwork_roles
 ALTER TABLE IF EXISTS public.citizennetwork_roles -- forgot to add this :p
     ADD COLUMN description character varying;
 
+ALTER TABLE IF EXISTS public.citizennetwork_roles
+    ADD COLUMN nivel integer DEFAULT 0;
+
 -- add citizen network - citizens table
 CREATE TABLE public.citizennetwork_citizens
 (
@@ -40,3 +43,10 @@ CREATE TABLE public.citizennetwork_citizens
         ON DELETE NO ACTION
         NOT VALID
 );
+
+ALTER TABLE IF EXISTS public.citizennetwork_citizens -- forgot to add this (again) :pp
+    ADD COLUMN parent_member_id bigint DEFAULT 0;
+
+-- fix interior number not accespting more then one char
+ALTER TABLE public.addresses
+    ALTER COLUMN interior_number TYPE character varying COLLATE pg_catalog."default";

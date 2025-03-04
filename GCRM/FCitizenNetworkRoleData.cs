@@ -28,6 +28,7 @@ namespace GCRM
 
 			TextBoxName.Enabled = mode != FAccessMode.Read;
 			TextBoxDescription.Enabled = mode != FAccessMode.Read;
+			NumericLevel.Enabled = mode != FAccessMode.Read;
 
 			BAccept.Visible = mode != FAccessMode.Read;
 		}
@@ -38,6 +39,7 @@ namespace GCRM
 
 			TextBoxName.Text = role.Name;
 			TextBoxDescription.Text = role.Description;	
+			NumericLevel.Value = role.Level;
 
 			if (Mode == FAccessMode.Create)
 			{
@@ -53,6 +55,7 @@ namespace GCRM
 		{
 			Role.Name = TextBoxName.Text.Trim();
 			Role.Description = TextBoxDescription.Text.Trim();
+			Role.Level = (int)NumericLevel.Value;
 
 			return Role;
 		}

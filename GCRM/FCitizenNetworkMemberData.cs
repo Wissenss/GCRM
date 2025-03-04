@@ -1,11 +1,17 @@
 ﻿using Business;
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using System.Data;
+using System.Text;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace GCRM
 {
 	public partial class FCitizenNetworkMemberData : Form
 	{
 		TCitizenNetworkMember Member = new TCitizenNetworkMember();
+		TCitizenNetworkMember ParentMember = new TCitizenNetworkMember();
+
+		DataTable DTRoles;
 
 		FAccessMode Mode;
 
@@ -13,7 +19,9 @@ namespace GCRM
 		{
 			InitializeComponent();
 
-			ComboBoxRoles.DataSource = dtRoles;
+			DTRoles = dtRoles;
+
+			ComboBoxRoles.DataSource = DTRoles;
 			ComboBoxRoles.ValueMember = "id";
 			ComboBoxRoles.DisplayMember = "name";
 		}
@@ -29,9 +37,10 @@ namespace GCRM
 			BAccept.Visible = Mode != FAccessMode.Read;
 		}
 
-		public void SetMember(TCitizenNetworkMember member)
+		public void SetMember(TCitizenNetworkMember member, TCitizenNetworkMember parent_member)
 		{
 			Member = member;
+			ParentMember = parent_member;
 
 			TextBoxName.Text = Member.Citizen.GetFullName();
 			ComboBoxRoles.SelectedValue = Member.Role.Id;
@@ -39,8 +48,7 @@ namespace GCRM
 
 		public TCitizenNetworkMember GetMember()
 		{
-			Member.Role.Id = (int)ComboBoxRoles.SelectedValue;
-			Member.Role.Name = ComboBoxRoles.Text;
+			Member.Role = GetSelectedRole();
 
 			return Member;
 		}
@@ -59,8 +67,54 @@ namespace GCRM
 			}
 		}
 
+		private TCitizenNetworkRole GetSelectedRole()
+		{
+			foreach (DataRow row in DTRoles.Rows)
+			{
+				if ((int)row["id"] == (int)ComboBoxRoles.SelectedValue)
+				{
+					return new TCitizenNetworkRole()
+					{
+						Id = (int)row["id"],
+						Name = (string)row["name"],
+						Level = (int)row["level"]
+					};
+				}
+			}
+
+			return null;
+		}
+
 		private bool ValidateInput()
 		{
+			StringBuilder errors = new StringBuilder();
+
+			if ((int)ComboBoxRoles.SelectedValue == 0)
+			{
+				errors.AppendLine("Debe especificar el rol del miembro");
+			}
+			else
+			{
+				foreach (DataRow row in DTRoles.Rows)
+				{
+					if ((int)row["id"] == (int)ComboBoxRoles.SelectedValue)
+					{
+						if ((int)row["level"] <= ParentMember.Role.Id)
+						{
+							errors.AppendLine($"No se puede tener un miembro con rol {row["name"]} debajo de otro con rol {ParentMember.Role.Name}");
+						}
+
+						break;
+					}
+				}
+			}
+
+			if (errors.Length > 0)
+			{
+				Utilities.ShowValidationErrorDialog(errors.ToString());
+				return false;
+			}
+
 			return true;
 		}
 

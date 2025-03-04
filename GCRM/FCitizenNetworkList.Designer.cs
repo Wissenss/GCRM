@@ -226,6 +226,7 @@
 			BShowStructure.Name = "BShowStructure";
 			BShowStructure.Size = new Size(99, 37);
 			BShowStructure.Text = "&Ver Estructura";
+			BShowStructure.Visible = false;
 			BShowStructure.Click += BShowStructure_Click;
 			// 
 			// splitContainer1

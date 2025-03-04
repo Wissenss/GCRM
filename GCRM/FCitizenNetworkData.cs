@@ -1,4 +1,5 @@
 ﻿using Business;
+using DocumentFormat.OpenXml.Office.Word;
 using DocumentFormat.OpenXml.Presentation;
 using DocumentFormat.OpenXml.Wordprocessing;
 using System;
@@ -28,6 +29,8 @@ namespace GCRM
 		FCitizenNetworkMemberData MemberDlg;
 		FCitizenNetworkRoleData RoleDlg;
 
+		int citizen_structure_expand_level = 1;
+
 		public FCitizenNetworkData()
 		{
 			InitializeComponent();
@@ -43,13 +46,14 @@ namespace GCRM
 			DataColumn col_members_id = DTMembers.Columns.Add("id", typeof(int));
 			col_members_id.AutoIncrement = true;
 			col_members_id.AutoIncrementSeed = 1;
-			
+
 			DTMembers.Columns.Add("citizennetwork_id", typeof(int));
 			DTMembers.Columns.Add("citizen_id", typeof(int));
 			DTMembers.Columns.Add("role_id", typeof(int));
 			DTMembers.Columns.Add("parent_member_id", typeof(int));
 			DTMembers.Columns.Add("citizen_name", typeof(string));
 			DTMembers.Columns.Add("role_name", typeof(string));
+			DTMembers.Columns.Add("role_level", typeof(int));
 			DSCitizenNetwork.Tables.Add(DTMembers);
 
 			// initialize members datagrid
@@ -58,6 +62,7 @@ namespace GCRM
 			DataGridUtilities.AddColumn(DataGridMembers, "colCitizenId", "Ciudadano Id", "citizen_id", false);
 			DataGridUtilities.AddColumn(DataGridMembers, "colRoleId", "Rol Id", "role_id", false);
 			DataGridUtilities.AddColumn(DataGridMembers, "colParentMemberId", "Miembro Padre", "parent_member_id", false);
+			DataGridUtilities.AddColumn(DataGridMembers, "colRoleLevel", "Miembro Padre", "role_level", false);
 
 			int display_index = 0;
 
@@ -78,6 +83,7 @@ namespace GCRM
 			DTRoles.Columns.Add("citizennetwork_id", typeof(int));
 			DTRoles.Columns.Add("name", typeof(string));
 			DTRoles.Columns.Add("description", typeof(string));
+			DTRoles.Columns.Add("level", typeof(int));
 			DSCitizenNetwork.Tables.Add(DTRoles);
 
 			// initialize roles datagrid
@@ -87,6 +93,7 @@ namespace GCRM
 			display_index = 0;
 
 			DataGridUtilities.AddColumn(DataGridRoles, "colName", "Nombre", "name", true, display_index++, 100, 100, DataGridViewAutoSizeColumnMode.AllCells);
+			DataGridUtilities.AddColumn(DataGridRoles, "colLevel", "Nivel", "level", true, display_index++, 100, 100, DataGridViewAutoSizeColumnMode.AllCells);
 			DataGridUtilities.AddColumn(DataGridRoles, "colDescription", "Descripción", "description", true, display_index++, 100, 100, DataGridViewAutoSizeColumnMode.Fill);
 
 			// bind the roles datagrid
@@ -99,9 +106,43 @@ namespace GCRM
 			// roles dialog
 			RoleDlg = new FCitizenNetworkRoleData();
 
-			// hide structure view by default
-			BShowTree.Checked = false;
+			BShowTree.Checked = true;
 			BShowTree_Click(this, null);
+
+			LoadPermissions();
+		}
+
+		private void SetMode(FAccessMode mode)
+		{
+			Mode = mode;
+
+			TextBoxName.Enabled = Mode != FAccessMode.Read;
+			TextBoxDescription.Enabled = Mode != FAccessMode.Read;
+			BSelectLeadCitizen.Enabled = Mode != FAccessMode.Read;
+
+			BAddMember.Enabled = Mode != FAccessMode.Read;
+			BEditMember.Enabled = Mode != FAccessMode.Read;
+			BDeleteMember.Enabled = Mode != FAccessMode.Read;
+
+			BAddRole.Enabled = Mode != FAccessMode.Read;
+			BEditRole.Enabled = Mode != FAccessMode.Read;
+			BDeleteRole.Enabled = Mode != FAccessMode.Read;
+		}
+
+		private void LoadPermissions()
+		{
+			using (new CursorWait())
+			{
+				BAddMember.Visible = Session.HasPermission("Network.Members.Crear");
+				BEditMember.Visible = Session.HasPermission("Network.Members.Editar");
+				BReadMember.Visible = Session.HasPermission("Network.Members.Consultar");
+				BDeleteMember.Visible = Session.HasPermission("Network.Members.Eliminar");
+
+				BAddRole.Visible = Session.HasPermission("Network.Roles.Crear");
+				BEditMember.Visible = Session.HasPermission("Network.Roles.Editar");
+				BReadRole.Visible = Session.HasPermission("Network.Roles.Consultar");
+				BDeleteRole.Visible = Session.HasPermission("Network.Roles.Eliminar");
+			}
 		}
 
 		public void SetAccessMode(FAccessMode mode)
@@ -148,6 +189,7 @@ namespace GCRM
 					row["citizennetwork_id"] = role.CitizenNetworkId;
 					row["name"] = role.Name;
 					row["description"] = role.Description;
+					row["level"] = role.Level;
 
 					DTRoles.Rows.Add(row);
 
@@ -167,6 +209,15 @@ namespace GCRM
 				DTRoles.EndLoadData();
 
 				// fill members
+
+				// uglier... the same drill that in business logic
+
+				// pre-sort the array
+				network.Members = network.Members.OrderBy(m => m.ParentMemberId).ToList();
+
+				// save original parent member ids
+				List<int> original_parent_member_ids = network.Members.Select(m => m.ParentMemberId).ToList();
+
 				DTMembers.BeginLoadData();
 				DTMembers.Clear();
 
@@ -174,15 +225,32 @@ namespace GCRM
 				{
 					DataRow row = DTMembers.NewRow();
 
-					row["id"] = member.Id;
+					//row["id"] = member.Id;
 					row["citizennetwork_id"] = member.CitizenNetworkId;
 					row["citizen_id"] = member.Citizen.Id;
 					row["parent_member_id"] = member.ParentMemberId;
 					row["role_id"] = member.Role.Id;
 					row["citizen_name"] = member.Citizen.GetFullName();
 					row["role_name"] = member.Role.Name;
+					row["role_level"] = member.Role.Level;
 
 					DTMembers.Rows.Add(row);
+
+					// the actual fix
+					int new_member_id = (int)row["id"];
+
+					// finally the actual fix happens
+					for (int i = 0; i < network.Members.Count(); i++)
+					{
+						TCitizenNetworkMember member_to_fix = network.Members[i];
+
+						if (original_parent_member_ids[i] == member.Id)
+						{
+							member_to_fix.ParentMemberId = new_member_id;
+						}
+					}
+
+					member.Id = new_member_id;
 				}
 
 				DTMembers.EndLoadData();
@@ -208,24 +276,31 @@ namespace GCRM
 				{
 					if ((int)row["parent_member_id"] == 0)
 					{
-						TreeNode child_node = new TreeNode((string)row["citizen_name"]);
+						TreeNode child_node = new TreeNode($"{(string)row["citizen_name"]} - {(string)row["role_name"]}");
 
 						child_node.Tag = new TCitizenNetworkMember()
 						{
 							Id = (int)row["id"],
-							ParentMemberId = (int)row["parent_member_id"]
+							ParentMemberId = (int)row["parent_member_id"],
+							Role = new TCitizenNetworkRole()
+							{
+								Id = (int)row["role_id"],
+								Name = (string)row["role_name"],
+								Level = (int)row["role_level"]
+							}
 						};
 
 						root_node.Nodes.Add(child_node);
 
 						// then all others members
-						PopulateTreeNode(ref root_node, ((TCitizenNetworkMember)child_node.Tag).Id);
+						PopulateTreeNode(ref child_node, ((TCitizenNetworkMember)child_node.Tag).Id);
 					}
 				}
 
 				TreeViewMembers.EndUpdate();
 
-				TreeViewMembers.ExpandAll();
+				//TreeViewMembers.ExpandAll();
+				TreeViewUtilities.ExpandToLevel(TreeViewMembers.Nodes, citizen_structure_expand_level);
 			}
 		}
 
@@ -235,12 +310,18 @@ namespace GCRM
 			{
 				if ((int)row["parent_member_id"] == id)
 				{
-					TreeNode child_node = new TreeNode((string)row["citizen_name"]);
+					TreeNode child_node = new TreeNode($"{(string)row["citizen_name"]} - {(string)row["role_name"]}");
 
 					child_node.Tag = new TCitizenNetworkMember()
 					{
 						Id = (int)row["id"],
-						ParentMemberId = (int)row["parent_member_id"]
+						ParentMemberId = (int)row["parent_member_id"],
+						Role = new TCitizenNetworkRole()
+						{
+							Id = (int)row["role_id"],
+							Name = (string)row["role_name"],
+							Level = (int)row["role_level"]
+						}
 					};
 
 					node.Nodes.Add(child_node);
@@ -281,6 +362,7 @@ namespace GCRM
 					role.CitizenNetworkId = Id;
 					role.Name = (string)row["name"];
 					role.Description = (string)row["description"];
+					role.Level = (int)row["level"];
 
 					network.Roles.Add(role);
 				}
@@ -364,6 +446,7 @@ namespace GCRM
 				row["citizennetwork_id"] = new_role.CitizenNetworkId;
 				row["name"] = new_role.Name;
 				row["description"] = new_role.Description;
+				row["level"] = new_role.Level;
 
 				DTRoles.Rows.Add(row);
 
@@ -397,6 +480,7 @@ namespace GCRM
 				row["citizennetwork_id"] = Id;
 				row["name"] = role.Name;
 				row["description"] = role.Description;
+				row["level"] = role.Level;
 
 				row.EndEdit();
 			}
@@ -429,11 +513,19 @@ namespace GCRM
 				return;
 			}
 
-			// TODO: check the member isn't being used by no network member
-
 			if (Utilities.ShowDeleteConfirmDialog("¿Desea eliminar el rol de la estructura?") != DialogResult.Yes)
 			{
 				return;
+			}
+
+			// check the role isn't being used by no network member
+			foreach (DataRow row in DTMembers.Rows)
+			{
+				if ((int)row["role_id"] == role.Id)
+				{
+					Utilities.ShowErrorDialog(Error.CitizenNetworkRoleInUse);
+					return;
+				}
 			}
 
 			DTRoles.Rows.RemoveAt(role_index);
@@ -474,6 +566,22 @@ namespace GCRM
 			return member;
 		}
 
+		private TCitizenNetworkMember GetSelectedMemberParent()
+		{
+			if (TreeViewMembers.Parent == null)
+				return new TCitizenNetworkMember();
+
+			if (DataGridMembers.Parent.Tag == null)
+				return new TCitizenNetworkMember();
+
+			TCitizenNetworkMember parent_member = DataGridMembers.Parent.Tag as TCitizenNetworkMember;
+
+			if (parent_member == null)
+				return new TCitizenNetworkMember();
+
+			return parent_member;
+		}
+
 		private void BSelectLeadCitizen_Click(object sender, EventArgs e)
 		{
 			using (FCitizenList citizen_list = new FCitizenList())
@@ -501,10 +609,21 @@ namespace GCRM
 
 		private void BAddMember_Click(object sender, EventArgs e)
 		{
+			int row_index;
+
+			TCitizenNetworkMember selected_member = GetSelectedMember(out row_index);
+
+			if (selected_member == null)
+			{
+				selected_member = new TCitizenNetworkMember();
+			}
+
 			TCitizenNetworkMember member = new TCitizenNetworkMember();
 
+			member.ParentMemberId = selected_member.Id;
+
 			MemberDlg.SetMode(FAccessMode.Create);
-			MemberDlg.SetMember(member);
+			MemberDlg.SetMember(member, selected_member);
 
 			if (MemberDlg.ShowDialog() == DialogResult.OK)
 			{
@@ -514,14 +633,13 @@ namespace GCRM
 
 				DataRow row = DTMembers.NewRow();
 
-				//row["id"] = member.Id;
-				//row["id"] = (int)row["id"] + 1;
 				row["citizennetwork_id"] = Id;
-				row["parent_member_id"] = 0;
+				row["parent_member_id"] = selected_member.Id;
 				row["citizen_id"] = member.Citizen.Id;
 				row["citizen_name"] = member.Citizen.GetFullName();
 				row["role_id"] = member.Role.Id;
 				row["role_name"] = member.Role.Name;
+				row["role_level"] = member.Role.Level;
 
 				DTMembers.Rows.Add(row);
 
@@ -536,6 +654,7 @@ namespace GCRM
 			int selected_index;
 
 			TCitizenNetworkMember member = GetSelectedMember(out selected_index);
+			TCitizenNetworkMember parent_member = GetSelectedMemberParent();
 
 			if (member == null)
 			{
@@ -543,7 +662,7 @@ namespace GCRM
 			}
 
 			MemberDlg.SetMode(FAccessMode.Update);
-			MemberDlg.SetMember(member);
+			MemberDlg.SetMember(member, parent_member);
 
 			if (MemberDlg.ShowDialog() == DialogResult.OK)
 			{
@@ -560,6 +679,7 @@ namespace GCRM
 				row["citizen_name"] = member.Citizen.Name;
 				row["role_id"] = member.Role.Id;
 				row["role_name"] = member.Role.Name;
+				row["role_level"] = member.Role.Level;
 
 				row.EndEdit();
 
@@ -572,6 +692,7 @@ namespace GCRM
 			int selected_index;
 
 			TCitizenNetworkMember member = GetSelectedMember(out selected_index);
+			TCitizenNetworkMember parent_member = GetSelectedMemberParent();
 
 			if (member == null)
 			{
@@ -579,7 +700,7 @@ namespace GCRM
 			}
 
 			MemberDlg.SetMode(FAccessMode.Read);
-			MemberDlg.SetMember(member);
+			MemberDlg.SetMember(member, parent_member);
 			MemberDlg.ShowDialog();
 		}
 
@@ -594,11 +715,19 @@ namespace GCRM
 				return;
 			}
 
-			// TODO: check the member doesn't have child members
-
 			if (Utilities.ShowDeleteConfirmDialog("¿Desea eliminar el miembro de la estructura?") != DialogResult.Yes)
 			{
 				return;
+			}
+
+			// check the member doesn't have child members
+			foreach (DataRow row in DTMembers.Rows)
+			{
+				if ((int)row["parent_member_id"] == member.Id)
+				{
+					Utilities.ShowErrorDialog(Error.CitizenNetworkMemberInUse);
+					return;
+				}
 			}
 
 			DTMembers.Rows.RemoveAt(member_index);
@@ -623,7 +752,63 @@ namespace GCRM
 
 		private void TreeViewMembers_DragDrop(object sender, DragEventArgs e)
 		{
+			Point drop_point = TreeViewMembers.PointToClient(new Point(e.X, e.Y));
 
+			TreeNode drop_node = TreeViewMembers.GetNodeAt(drop_point);
+
+			TreeNode drag_node = (TreeNode)e.Data.GetData(typeof(TreeNode));
+
+			if (drop_node == drag_node)
+			{
+				return;
+			}
+
+			if (drop_node == null)
+			{
+				drop_node = TreeViewMembers.Nodes[0];
+			}
+
+			TCitizenNetworkMember? drop_member = drop_node.Tag as TCitizenNetworkMember;
+			TCitizenNetworkMember? drag_member = drag_node.Tag as TCitizenNetworkMember;
+
+			if (drag_member == null)
+			{
+				return;
+			}
+
+			// validate role levels
+			if (drop_member != null)
+			{
+				if (drag_member.Role.Level <= drop_member.Role.Level)
+				{
+					Utilities.ShowValidationErrorDialog($"un miembro con rol {drag_member.Role.Name} no puede estar por debajo de otro con rol {drop_member.Role.Name}");
+					return;
+				}
+			}
+
+			// set the new parent member
+			foreach (DataRow row in DTMembers.Rows)
+			{
+				if ((int)row["id"] == drag_member.Id)
+				{
+					row.BeginEdit();
+
+					if (drop_member == null)
+						row["parent_member_id"] = 0;
+					else
+						row["parent_member_id"] = drop_member.Id;
+
+					row.EndEdit();
+
+					break;
+				}
+			}
+
+			// update node position
+			drag_node.Parent.Nodes.Remove(drag_node);
+			drop_node.Nodes.Add(drag_node);
+
+			TreeViewMembers.SelectedNode = drag_node;
 		}
 
 		private void DataGridMembers_SelectionChanged(object sender, EventArgs e)
@@ -695,7 +880,10 @@ namespace GCRM
 				return;
 
 			if (node.Tag == null)
+			{
+				DataGridMembers.ClearSelection();
 				return;
+			}
 
 			TCitizenNetworkMember? node_member = node.Tag as TCitizenNetworkMember;
 
@@ -722,12 +910,34 @@ namespace GCRM
 			{
 				splitContainer1.Panel2.Show();
 				splitContainer1.Panel2Collapsed = false;
+				splitContainer1.Panel1Collapsed = true;
+				splitContainer1.Panel1.Hide();
 			}
 			else
 			{
 				splitContainer1.Panel2Collapsed = true;
 				splitContainer1.Panel2.Hide();
+				splitContainer1.Panel1.Show();
+				splitContainer1.Panel1Collapsed = false;
 			}
+		}
+
+		private void BExpandLevel_Click(object sender, EventArgs e)
+		{
+			TreeViewMembers.BeginUpdate();
+			TreeViewMembers.CollapseAll();
+			citizen_structure_expand_level++;
+			TreeViewUtilities.ExpandToLevel(TreeViewMembers.Nodes, citizen_structure_expand_level);
+			TreeViewMembers.EndUpdate();
+		}
+
+		private void BContractLevel_Click(object sender, EventArgs e)
+		{
+			TreeViewMembers.BeginUpdate();
+			TreeViewMembers.CollapseAll();
+			citizen_structure_expand_level--;
+			TreeViewUtilities.ExpandToLevel(TreeViewMembers.Nodes, citizen_structure_expand_level);
+			TreeViewMembers.EndUpdate();
 		}
 	}
 }

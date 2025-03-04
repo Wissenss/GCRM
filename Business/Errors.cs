@@ -37,6 +37,10 @@ namespace Business
 
 		// errors related to citizen networks
 		CitizenNetworkNotFound,
+		CitizenNetworkRoleNotFound,
+		CitizenNetworkMemberNotFound,
+		CitizenNetworkRoleInUse,
+		CitizenNetworkMemberInUse
 	}
 
 	public static class Errors
@@ -56,7 +60,11 @@ namespace Business
 			{ Error.InstitutionCategoryInUse, "Categoría de institutción esta siendo utilizada" },
 			{ Error.SettingNotFound, "No se encontró la configuración en la base de datos" },
 			{ Error.AddressNotFound, "Dirección no encontrada" },
-			{ Error.CitizenNetworkNotFound, "Estructura ciudadana no encontrada" }
+			{ Error.CitizenNetworkNotFound, "Estructura ciudadana no encontrada" },
+			{ Error.CitizenNetworkRoleNotFound, "Rol de estructura ciudadana no encontrado" },
+			{ Error.CitizenNetworkMemberNotFound, "Miembro de estructura ciudadana no encontrado" },
+			{ Error.CitizenNetworkRoleInUse, "Rol de estructura ciudadano esta siendo utilizado" },
+			{ Error.CitizenNetworkMemberInUse, "Miembro de estructura ciudadana esta siendo utilizado" }
 		};
 
 		public static string GetErrorDescription(Error error)

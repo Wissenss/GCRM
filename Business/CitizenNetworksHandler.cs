@@ -59,6 +59,7 @@ namespace Business
 			CitizenNetworkId = reader.GetInt32(1);
 			Citizen.Id = reader.GetInt32(2);
 			Role.Id = reader.GetInt32(3);
+			ParentMemberId = reader.GetInt32(4);
 		}
 	}
 
@@ -68,6 +69,7 @@ namespace Business
 		public int CitizenNetworkId;	
 		public string Name;	
 		public string Description;
+		public int Level;
 
 		public void FillFromReader(DbDataReader reader)
 		{
@@ -75,6 +77,7 @@ namespace Business
 			CitizenNetworkId = reader.GetInt32(1);
 			Name = reader.GetString(2);
 			Description = reader.GetString(3);
+			Level = reader.GetInt32(4);
 		}
 	}
 
@@ -134,7 +137,8 @@ namespace Business
 					SELECT 
 						m.*, 
 						r.id AS role_id, 
-						r.name AS role_name 
+						r.name AS role_name,
+						r.nivel AS role_level
 					FROM 
 						citizennetwork_citizens m 
 						LEFT JOIN citizennetwork_roles r ON m.citizennetwork_citizen_role_id = r.id 
@@ -155,6 +159,7 @@ namespace Business
 
 						member.Role.Id = reader.GetInt32(reader.GetOrdinal("role_id"));
 						member.Role.Name = reader.GetString(reader.GetOrdinal("role_name"));
+						member.Role.Level = reader.GetInt32(reader.GetOrdinal("role_level"));
 
 						citizen_network.Members.Add(member);
 					}
@@ -249,11 +254,13 @@ namespace Business
 					INSERT INTO citizennetwork_roles(
 						citizennetwork_id,
 						name,
-						description)
+						description,
+						nivel)
 					VALUES(
 						@citizennetwork_id,
 						@name,
-						@description)
+						@description,
+						@nivel)
 					RETURNING id;
 				";
 
@@ -263,6 +270,7 @@ namespace Business
 					cmd.Parameters.AddWithValue("@citizennetwork_id", citizen_network.Id);
 					cmd.Parameters.AddWithValue("@name", role.Name);
 					cmd.Parameters.AddWithValue("@description", role.Description);
+					cmd.Parameters.AddWithValue("@nivel", role.Level);
 
 					int new_role_id = (Int32)(Int64)cmd.ExecuteScalar();
 
@@ -288,20 +296,49 @@ namespace Business
 					INSERT INTO citizennetwork_citizens(
 						citizennetwork_id, 
 						citizen_id, 
-						citizennetwork_citizen_role_id)
+						citizennetwork_citizen_role_id,
+						parent_member_id)
 					VALUES(
 						@citizennetwork_id,
 						@citizen_id,
-						@citizennetwork_citizen_role_id)";
+						@citizennetwork_citizen_role_id,
+						@parent_member_id)
+					RETURNING id;";
 
-				foreach (TCitizenNetworkMember member in citizen_network.Members)
+				// uglier, all that follows is because we dont know the ids until they are assigned, so similar to the roles,
+				// we need to replace the records relationship little by litte
+				// really tried to find another way to do this but couldn't find it :s
+
+				// first, pre-sort the member list so that members with parent_member_id = 0 are asigned first, as we dont have to know the id when initialy creating them
+				citizen_network.Members = citizen_network.Members.OrderBy(m => m.ParentMemberId).ToList();
+
+				// then, save the original ids so that when the correction for the right ids happen we don't worry about overlaping ids
+				List<int> original_parent_member_ids = citizen_network.Members.Select(m => m.ParentMemberId).ToList();
+
+				for (int i = 0; i < citizen_network.Members.Count(); i++)
 				{
+					TCitizenNetworkMember member = citizen_network.Members[i];
+
 					cmd.Parameters.Clear();
 					cmd.Parameters.AddWithValue("@citizennetwork_id", citizen_network.Id);
 					cmd.Parameters.AddWithValue("@citizen_id", member.Citizen.Id);
 					cmd.Parameters.AddWithValue("@citizennetwork_citizen_role_id", member.Role.Id);
+					cmd.Parameters.AddWithValue("@parent_member_id", member.ParentMemberId);
 
-					cmd.ExecuteNonQuery();
+					int new_member_id = (Int32)(Int64)cmd.ExecuteScalar();
+
+					// finally the actual fix happens
+					for (int j = 0; j < citizen_network.Members.Count(); j++)
+					{
+						TCitizenNetworkMember member_to_fix = citizen_network.Members[j];
+
+						if (original_parent_member_ids[j] == member.Id)
+						{
+							member_to_fix.ParentMemberId = new_member_id;
+						}
+					}
+
+					member.Id = new_member_id;
 				}
 			}
 

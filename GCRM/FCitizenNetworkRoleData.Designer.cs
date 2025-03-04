@@ -34,12 +34,15 @@
 			LName = new Label();
 			TextBoxDescription = new TextBox();
 			LDescription = new Label();
+			LLevel = new Label();
+			NumericLevel = new NumericUpDown();
+			((System.ComponentModel.ISupportInitialize)NumericLevel).BeginInit();
 			SuspendLayout();
 			// 
 			// BCancel
 			// 
 			BCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-			BCancel.Location = new Point(234, 149);
+			BCancel.Location = new Point(234, 211);
 			BCancel.Name = "BCancel";
 			BCancel.Size = new Size(75, 23);
 			BCancel.TabIndex = 40;
@@ -50,7 +53,7 @@
 			// BAccept
 			// 
 			BAccept.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-			BAccept.Location = new Point(156, 149);
+			BAccept.Location = new Point(156, 211);
 			BAccept.Name = "BAccept";
 			BAccept.Size = new Size(75, 23);
 			BAccept.TabIndex = 39;
@@ -76,7 +79,7 @@
 			// 
 			// TextBoxDescription
 			// 
-			TextBoxDescription.Location = new Point(87, 41);
+			TextBoxDescription.Location = new Point(87, 70);
 			TextBoxDescription.Multiline = true;
 			TextBoxDescription.Name = "TextBoxDescription";
 			TextBoxDescription.Size = new Size(222, 102);
@@ -85,18 +88,37 @@
 			// LDescription
 			// 
 			LDescription.AutoSize = true;
-			LDescription.Location = new Point(12, 44);
+			LDescription.Location = new Point(12, 73);
 			LDescription.Name = "LDescription";
 			LDescription.Size = new Size(69, 15);
 			LDescription.TabIndex = 45;
 			LDescription.Text = "Descripción";
 			// 
+			// LLevel
+			// 
+			LLevel.AutoSize = true;
+			LLevel.Location = new Point(12, 45);
+			LLevel.Name = "LLevel";
+			LLevel.Size = new Size(34, 15);
+			LLevel.TabIndex = 46;
+			LLevel.Text = "Nivel";
+			// 
+			// NumericLevel
+			// 
+			NumericLevel.Location = new Point(87, 41);
+			NumericLevel.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
+			NumericLevel.Name = "NumericLevel";
+			NumericLevel.Size = new Size(63, 23);
+			NumericLevel.TabIndex = 47;
+			// 
 			// FCitizenNetworkRoleData
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
-			ClientSize = new Size(321, 184);
+			ClientSize = new Size(321, 246);
 			ControlBox = false;
+			Controls.Add(NumericLevel);
+			Controls.Add(LLevel);
 			Controls.Add(TextBoxDescription);
 			Controls.Add(LDescription);
 			Controls.Add(TextBoxName);
@@ -106,6 +128,7 @@
 			Name = "FCitizenNetworkRoleData";
 			ShowIcon = false;
 			Text = "Rol - Nuevo";
+			((System.ComponentModel.ISupportInitialize)NumericLevel).EndInit();
 			ResumeLayout(false);
 			PerformLayout();
 		}
@@ -118,5 +141,7 @@
 		private Label LName;
 		private TextBox TextBoxDescription;
 		private Label LDescription;
+		private Label LLevel;
+		private NumericUpDown NumericLevel;
 	}
 }

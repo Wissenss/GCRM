@@ -42,8 +42,8 @@
 			label2 = new Label();
 			StatusStripMembers = new StatusStrip();
 			ToolStripMembers = new ToolStrip();
-			BDown = new ToolStripButton();
-			BUp = new ToolStripButton();
+			BContractLevel = new ToolStripButton();
+			BExpandLevel = new ToolStripButton();
 			BShowTree = new ToolStripButton();
 			BAddMember = new ToolStripButton();
 			BEditMember = new ToolStripButton();
@@ -96,7 +96,7 @@
 			TreeViewMembers.HideSelection = false;
 			TreeViewMembers.Location = new Point(0, 17);
 			TreeViewMembers.Name = "TreeViewMembers";
-			TreeViewMembers.Size = new Size(274, 413);
+			TreeViewMembers.Size = new Size(640, 413);
 			TreeViewMembers.TabIndex = 0;
 			TreeViewMembers.DrawNode += TreeViewMembers_DrawNode;
 			TreeViewMembers.ItemDrag += TreeViewMembers_ItemDrag;
@@ -131,7 +131,7 @@
 			splitContainer1.Panel2.Controls.Add(TreeViewMembers);
 			splitContainer1.Panel2.Controls.Add(panel1);
 			splitContainer1.Size = new Size(961, 430);
-			splitContainer1.SplitterDistance = 683;
+			splitContainer1.SplitterDistance = 317;
 			splitContainer1.TabIndex = 2;
 			// 
 			// DataGridMembers
@@ -180,7 +180,7 @@
 			DataGridMembers.RowTemplate.Height = 20;
 			DataGridMembers.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 			DataGridMembers.ShowCellToolTips = false;
-			DataGridMembers.Size = new Size(683, 430);
+			DataGridMembers.Size = new Size(317, 430);
 			DataGridMembers.StandardTab = true;
 			DataGridMembers.TabIndex = 8;
 			DataGridMembers.Click += DataGridMembers_Click;
@@ -192,7 +192,7 @@
 			panel1.Dock = DockStyle.Top;
 			panel1.Location = new Point(0, 0);
 			panel1.Name = "panel1";
-			panel1.Size = new Size(274, 17);
+			panel1.Size = new Size(640, 17);
 			panel1.TabIndex = 2;
 			// 
 			// label2
@@ -217,7 +217,7 @@
 			// 
 			ToolStripMembers.GripMargin = new Padding(0);
 			ToolStripMembers.GripStyle = ToolStripGripStyle.Hidden;
-			ToolStripMembers.Items.AddRange(new ToolStripItem[] { BDown, BUp, BShowTree, BAddMember, BEditMember, BReadMember, BDeleteMember, toolStripSeparator1, BPrint1x10 });
+			ToolStripMembers.Items.AddRange(new ToolStripItem[] { BContractLevel, BExpandLevel, BShowTree, BAddMember, BEditMember, BReadMember, BDeleteMember, toolStripSeparator1, BPrint1x10 });
 			ToolStripMembers.Location = new Point(0, 0);
 			ToolStripMembers.Name = "ToolStripMembers";
 			ToolStripMembers.RenderMode = ToolStripRenderMode.System;
@@ -225,31 +225,31 @@
 			ToolStripMembers.TabIndex = 1;
 			ToolStripMembers.Text = "Miembros";
 			// 
-			// BDown
+			// BContractLevel
 			// 
-			BDown.Alignment = ToolStripItemAlignment.Right;
-			BDown.DisplayStyle = ToolStripItemDisplayStyle.Image;
-			BDown.Image = Properties.Resources.Fatcow_Farm_Fresh_Node_arrow_down_24;
-			BDown.ImageScaling = ToolStripItemImageScaling.None;
-			BDown.ImageTransparentColor = Color.Magenta;
-			BDown.Margin = new Padding(2, 1, 2, 2);
-			BDown.Name = "BDown";
-			BDown.Size = new Size(28, 28);
-			BDown.Text = "Abajo";
-			BDown.Visible = false;
+			BContractLevel.Alignment = ToolStripItemAlignment.Right;
+			BContractLevel.DisplayStyle = ToolStripItemDisplayStyle.Image;
+			BContractLevel.Image = Properties.Resources.Fatcow_Farm_Fresh_Node_arrow_up_24;
+			BContractLevel.ImageScaling = ToolStripItemImageScaling.None;
+			BContractLevel.ImageTransparentColor = Color.Magenta;
+			BContractLevel.Margin = new Padding(2, 1, 2, 2);
+			BContractLevel.Name = "BContractLevel";
+			BContractLevel.Size = new Size(28, 28);
+			BContractLevel.Text = "Abajo";
+			BContractLevel.Click += BContractLevel_Click;
 			// 
-			// BUp
+			// BExpandLevel
 			// 
-			BUp.Alignment = ToolStripItemAlignment.Right;
-			BUp.DisplayStyle = ToolStripItemDisplayStyle.Image;
-			BUp.Image = Properties.Resources.Fatcow_Farm_Fresh_Node_arrow_up_24;
-			BUp.ImageScaling = ToolStripItemImageScaling.None;
-			BUp.ImageTransparentColor = Color.Magenta;
-			BUp.Margin = new Padding(2, 1, 2, 2);
-			BUp.Name = "BUp";
-			BUp.Size = new Size(28, 28);
-			BUp.Text = "Arriba";
-			BUp.Visible = false;
+			BExpandLevel.Alignment = ToolStripItemAlignment.Right;
+			BExpandLevel.DisplayStyle = ToolStripItemDisplayStyle.Image;
+			BExpandLevel.Image = Properties.Resources.Fatcow_Farm_Fresh_Node_arrow_down_24;
+			BExpandLevel.ImageScaling = ToolStripItemImageScaling.None;
+			BExpandLevel.ImageTransparentColor = Color.Magenta;
+			BExpandLevel.Margin = new Padding(2, 1, 2, 2);
+			BExpandLevel.Name = "BExpandLevel";
+			BExpandLevel.Size = new Size(28, 28);
+			BExpandLevel.Text = "Arriba";
+			BExpandLevel.Click += BExpandLevel_Click;
 			// 
 			// BShowTree
 			// 
@@ -262,8 +262,8 @@
 			BShowTree.ImageTransparentColor = Color.Magenta;
 			BShowTree.Margin = new Padding(2, 1, 2, 2);
 			BShowTree.Name = "BShowTree";
-			BShowTree.Size = new Size(107, 28);
-			BShowTree.Text = "&Ver Estructura";
+			BShowTree.Size = new Size(116, 28);
+			BShowTree.Text = "&Vista Jerárquica";
 			BShowTree.Click += BShowTree_Click;
 			// 
 			// BAddMember
@@ -617,8 +617,8 @@
 		private ToolStripButton BAddMember;
 		private ToolStripButton BDeleteMember;
 		private ToolStripButton BPrint1x10;
-		private ToolStripButton BUp;
-		private ToolStripButton BDown;
+		private ToolStripButton BExpandLevel;
+		private ToolStripButton BContractLevel;
 		private ToolStripSeparator toolStripSeparator1;
 		private ToolStripButton BEditMember;
 		private ToolStripButton BReadMember;

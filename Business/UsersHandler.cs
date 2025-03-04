@@ -88,16 +88,16 @@ namespace Business
 		{
 			UserPermissionsCatalog = new List<TUserPermission>()
 			{
-				new TUserPermission(51, "Conexion.Editar"),								// puede editar la configuración de conexión
+				new TUserPermission(51, "Conexion.Editar"),								// editar la configuración de conexión
 
 				// user related permissions
-				new TUserPermission(101, "Usuarios.Editar"),							// puede editar usuarios
-				new TUserPermission(102, "Usuarios.Consultar"),						// puede consultar la lista de todos los usuarios
-				new TUserPermission(103, "Usuarios.Eliminar"),						// puede eliminar usuarios
-				new TUserPermission(104, "Usuarios.Crear"),								// puede crear usuarios
+				new TUserPermission(101, "Usuarios.Editar"),							// editar usuarios
+				new TUserPermission(102, "Usuarios.Consultar"),						// consultar la lista de todos los usuarios
+				new TUserPermission(103, "Usuarios.Eliminar"),						// eliminar usuarios
+				new TUserPermission(104, "Usuarios.Crear"),								// crear usuarios
 				
-				new TUserPermission(111, "Usuarios.Permisos.Editar"),			// puede editar los permisos de el/los usuarios
-				new TUserPermission(112, "Usuarios.Permisos.Consultar"),	// puede consultar los permisos
+				new TUserPermission(111, "Usuarios.Permisos.Editar"),			// editar los permisos de el/los usuarios
+				new TUserPermission(112, "Usuarios.Permisos.Consultar"),	// consultar los permisos
 			
 				// institution related permissions
 				new TUserPermission(201, "Instituciones.Editar"),
@@ -124,7 +124,30 @@ namespace Business
 				new TUserPermission(311, "Ciudadanos.NoEspecificarContacto"),
 				new TUserPermission(312, "Ciudadanos.NoEspecificarInstitucion"),
 				new TUserPermission(313, "Ciudadanos.NoEspecificarCargo"),
-				new TUserPermission(314, "Ciudadanos.NoEspecificarCURP")
+				new TUserPermission(314, "Ciudadanos.NoEspecificarCURP"),
+
+				// citizen networks related permissions
+				new TUserPermission(401, "Network.Editar"),
+				new TUserPermission(402, "Network.Consultar"),
+				new TUserPermission(403, "Network.Eliminar"),
+				new TUserPermission(404, "Network.Crear"),
+
+				new TUserPermission(411, "Network.hierarchy.Editar"),
+
+				new TUserPermission(431, "Network.Roles.Editar"),
+				new TUserPermission(432, "Network.Roles.Consultar"),
+				new TUserPermission(433, "Network.Roles.Eliminar"),
+				new TUserPermission(434, "Network.Roles.Crear"),
+
+				new TUserPermission(441, "Network.Roles.hierarchy.Editar"),
+
+				new TUserPermission(461, "Network.Members.Editar"),
+				new TUserPermission(462, "Network.Members.Consultar"),
+				new TUserPermission(463, "Network.Members.Eliminar"),
+				new TUserPermission(464, "Network.Members.Crear"),
+
+				new TUserPermission(471, "Network.Members.hierarchy.Editar"),
+
 			};
 		}
 

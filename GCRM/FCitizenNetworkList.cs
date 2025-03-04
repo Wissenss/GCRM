@@ -42,6 +42,23 @@ namespace GCRM
 			// bind the grid with the datasource
 			DataGridCitizenNetworks.DataSource = DSCitizenNetworks;
 			DataGridCitizenNetworks.DataMember = "DTCitizenNetworks";
+
+			// hide structure
+			BShowStructure.Checked = false;
+			BShowStructure_Click(this, null);
+
+			LoadPermissions();
+		}
+
+		private void LoadPermissions()
+		{
+			using (new CursorWait())
+			{
+				BAdd.Visible = Session.HasPermission("Network.Crear");
+				BEdit.Visible = Session.HasPermission("Network.Editar");
+				BRead.Visible = Session.HasPermission("Network.Consultar");
+				BDelete.Visible = Session.HasPermission("Network.Eliminar");
+			}
 		}
 
 		private void LoadList()
