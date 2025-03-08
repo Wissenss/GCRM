@@ -28,29 +28,24 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			components = new System.ComponentModel.Container();
 			DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
 			DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
 			DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-			DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-			DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-			DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
-			TreeViewMembers = new TreeView();
 			PanelMembers = new Panel();
-			splitContainer1 = new SplitContainer();
-			DataGridMembers = new DataGridView();
 			panel1 = new Panel();
-			label2 = new Label();
+			ObjectListMembers = new BrightIdeasSoftware.TreeListView();
 			StatusStripMembers = new StatusStrip();
 			ToolStripMembers = new ToolStrip();
 			BContractLevel = new ToolStripButton();
 			BExpandLevel = new ToolStripButton();
-			BShowTree = new ToolStripButton();
 			BAddMember = new ToolStripButton();
 			BEditMember = new ToolStripButton();
 			BReadMember = new ToolStripButton();
 			BDeleteMember = new ToolStripButton();
 			toolStripSeparator1 = new ToolStripSeparator();
 			BPrint1x10 = new ToolStripButton();
+			BExcelExport = new ToolStripButton();
 			LName = new Label();
 			TextBoxName = new TextBox();
 			label1 = new Label();
@@ -71,12 +66,8 @@
 			BDeleteRole = new ToolStripButton();
 			TextBoxLeadCitizen = new TextBox();
 			PanelMembers.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
-			splitContainer1.Panel1.SuspendLayout();
-			splitContainer1.Panel2.SuspendLayout();
-			splitContainer1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)DataGridMembers).BeginInit();
 			panel1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)ObjectListMembers).BeginInit();
 			ToolStripMembers.SuspendLayout();
 			TabControlNetwork.SuspendLayout();
 			TabMembers.SuspendLayout();
@@ -85,28 +76,9 @@
 			ToolStripRoles.SuspendLayout();
 			SuspendLayout();
 			// 
-			// TreeViewMembers
-			// 
-			TreeViewMembers.AllowDrop = true;
-			TreeViewMembers.BackColor = SystemColors.Control;
-			TreeViewMembers.BorderStyle = BorderStyle.None;
-			TreeViewMembers.Dock = DockStyle.Fill;
-			TreeViewMembers.DrawMode = TreeViewDrawMode.OwnerDrawText;
-			TreeViewMembers.FullRowSelect = true;
-			TreeViewMembers.HideSelection = false;
-			TreeViewMembers.Location = new Point(0, 17);
-			TreeViewMembers.Name = "TreeViewMembers";
-			TreeViewMembers.Size = new Size(640, 413);
-			TreeViewMembers.TabIndex = 0;
-			TreeViewMembers.DrawNode += TreeViewMembers_DrawNode;
-			TreeViewMembers.ItemDrag += TreeViewMembers_ItemDrag;
-			TreeViewMembers.AfterSelect += TreeViewMembers_AfterSelect;
-			TreeViewMembers.DragDrop += TreeViewMembers_DragDrop;
-			TreeViewMembers.DragEnter += TreeViewMembers_DragEnter;
-			// 
 			// PanelMembers
 			// 
-			PanelMembers.Controls.Add(splitContainer1);
+			PanelMembers.Controls.Add(panel1);
 			PanelMembers.Controls.Add(StatusStripMembers);
 			PanelMembers.Controls.Add(ToolStripMembers);
 			PanelMembers.Dock = DockStyle.Fill;
@@ -116,94 +88,31 @@
 			PanelMembers.Size = new Size(961, 483);
 			PanelMembers.TabIndex = 1;
 			// 
-			// splitContainer1
-			// 
-			splitContainer1.Dock = DockStyle.Fill;
-			splitContainer1.Location = new Point(0, 31);
-			splitContainer1.Name = "splitContainer1";
-			// 
-			// splitContainer1.Panel1
-			// 
-			splitContainer1.Panel1.Controls.Add(DataGridMembers);
-			// 
-			// splitContainer1.Panel2
-			// 
-			splitContainer1.Panel2.Controls.Add(TreeViewMembers);
-			splitContainer1.Panel2.Controls.Add(panel1);
-			splitContainer1.Size = new Size(961, 430);
-			splitContainer1.SplitterDistance = 317;
-			splitContainer1.TabIndex = 2;
-			// 
-			// DataGridMembers
-			// 
-			DataGridMembers.AllowUserToAddRows = false;
-			DataGridMembers.AllowUserToDeleteRows = false;
-			DataGridMembers.AllowUserToOrderColumns = true;
-			DataGridMembers.AllowUserToResizeRows = false;
-			dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle1.BackColor = Color.WhiteSmoke;
-			dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-			dataGridViewCellStyle1.ForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle1.SelectionBackColor = SystemColors.GradientInactiveCaption;
-			dataGridViewCellStyle1.SelectionForeColor = SystemColors.ControlText;
-			DataGridMembers.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-			DataGridMembers.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-			DataGridMembers.BackgroundColor = SystemColors.Control;
-			DataGridMembers.BorderStyle = BorderStyle.None;
-			DataGridMembers.CellBorderStyle = DataGridViewCellBorderStyle.None;
-			DataGridMembers.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
-			DataGridMembers.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-			dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle2.BackColor = SystemColors.ControlLight;
-			dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
-			dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
-			dataGridViewCellStyle2.SelectionBackColor = SystemColors.ControlLight;
-			dataGridViewCellStyle2.SelectionForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-			DataGridMembers.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-			DataGridMembers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle3.BackColor = SystemColors.Window;
-			dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
-			dataGridViewCellStyle3.ForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle3.SelectionBackColor = SystemColors.GradientInactiveCaption;
-			dataGridViewCellStyle3.SelectionForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
-			DataGridMembers.DefaultCellStyle = dataGridViewCellStyle3;
-			DataGridMembers.Dock = DockStyle.Fill;
-			DataGridMembers.EnableHeadersVisualStyles = false;
-			DataGridMembers.Location = new Point(0, 0);
-			DataGridMembers.MultiSelect = false;
-			DataGridMembers.Name = "DataGridMembers";
-			DataGridMembers.ReadOnly = true;
-			DataGridMembers.RowHeadersVisible = false;
-			DataGridMembers.RowTemplate.Height = 20;
-			DataGridMembers.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-			DataGridMembers.ShowCellToolTips = false;
-			DataGridMembers.Size = new Size(317, 430);
-			DataGridMembers.StandardTab = true;
-			DataGridMembers.TabIndex = 8;
-			DataGridMembers.Click += DataGridMembers_Click;
-			// 
 			// panel1
 			// 
 			panel1.BackColor = SystemColors.ControlLight;
-			panel1.Controls.Add(label2);
-			panel1.Dock = DockStyle.Top;
-			panel1.Location = new Point(0, 0);
+			panel1.Controls.Add(ObjectListMembers);
+			panel1.Dock = DockStyle.Fill;
+			panel1.Location = new Point(0, 31);
+			panel1.Margin = new Padding(0);
 			panel1.Name = "panel1";
-			panel1.Size = new Size(640, 17);
-			panel1.TabIndex = 2;
+			panel1.Padding = new Padding(0, 2, 0, 0);
+			panel1.Size = new Size(961, 430);
+			panel1.TabIndex = 4;
 			// 
-			// label2
+			// ObjectListMembers
 			// 
-			label2.AutoSize = true;
-			label2.Dock = DockStyle.Fill;
-			label2.Location = new Point(0, 0);
-			label2.Name = "label2";
-			label2.Size = new Size(60, 15);
-			label2.TabIndex = 2;
-			label2.Text = "Estructura";
+			ObjectListMembers.BackColor = SystemColors.Control;
+			ObjectListMembers.BorderStyle = BorderStyle.None;
+			ObjectListMembers.Dock = DockStyle.Fill;
+			ObjectListMembers.Location = new Point(0, 2);
+			ObjectListMembers.Margin = new Padding(0, 3, 0, 0);
+			ObjectListMembers.Name = "ObjectListMembers";
+			ObjectListMembers.ShowGroups = false;
+			ObjectListMembers.Size = new Size(961, 428);
+			ObjectListMembers.TabIndex = 3;
+			ObjectListMembers.View = View.Details;
+			ObjectListMembers.VirtualMode = true;
 			// 
 			// StatusStripMembers
 			// 
@@ -217,7 +126,7 @@
 			// 
 			ToolStripMembers.GripMargin = new Padding(0);
 			ToolStripMembers.GripStyle = ToolStripGripStyle.Hidden;
-			ToolStripMembers.Items.AddRange(new ToolStripItem[] { BContractLevel, BExpandLevel, BShowTree, BAddMember, BEditMember, BReadMember, BDeleteMember, toolStripSeparator1, BPrint1x10 });
+			ToolStripMembers.Items.AddRange(new ToolStripItem[] { BContractLevel, BExpandLevel, BAddMember, BEditMember, BReadMember, BDeleteMember, toolStripSeparator1, BPrint1x10, BExcelExport });
 			ToolStripMembers.Location = new Point(0, 0);
 			ToolStripMembers.Name = "ToolStripMembers";
 			ToolStripMembers.RenderMode = ToolStripRenderMode.System;
@@ -236,6 +145,7 @@
 			BContractLevel.Name = "BContractLevel";
 			BContractLevel.Size = new Size(28, 28);
 			BContractLevel.Text = "Abajo";
+			BContractLevel.Visible = false;
 			BContractLevel.Click += BContractLevel_Click;
 			// 
 			// BExpandLevel
@@ -249,22 +159,8 @@
 			BExpandLevel.Name = "BExpandLevel";
 			BExpandLevel.Size = new Size(28, 28);
 			BExpandLevel.Text = "Arriba";
+			BExpandLevel.Visible = false;
 			BExpandLevel.Click += BExpandLevel_Click;
-			// 
-			// BShowTree
-			// 
-			BShowTree.Alignment = ToolStripItemAlignment.Right;
-			BShowTree.Checked = true;
-			BShowTree.CheckOnClick = true;
-			BShowTree.CheckState = CheckState.Checked;
-			BShowTree.Image = Properties.Resources.Fatcow_Farm_Fresh_Node_24;
-			BShowTree.ImageScaling = ToolStripItemImageScaling.None;
-			BShowTree.ImageTransparentColor = Color.Magenta;
-			BShowTree.Margin = new Padding(2, 1, 2, 2);
-			BShowTree.Name = "BShowTree";
-			BShowTree.Size = new Size(116, 28);
-			BShowTree.Text = "&Vista Jerárquica";
-			BShowTree.Click += BShowTree_Click;
 			// 
 			// BAddMember
 			// 
@@ -314,19 +210,26 @@
 			// 
 			toolStripSeparator1.Name = "toolStripSeparator1";
 			toolStripSeparator1.Size = new Size(6, 31);
-			toolStripSeparator1.Visible = false;
 			// 
 			// BPrint1x10
 			// 
-			BPrint1x10.Image = Properties.Resources.Fatcow_Farm_Fresh_Node_document_24;
+			BPrint1x10.Image = Properties.Resources.Fatcow_Farm_Fresh_Printer_16;
 			BPrint1x10.ImageScaling = ToolStripItemImageScaling.None;
 			BPrint1x10.ImageTransparentColor = Color.Magenta;
 			BPrint1x10.Margin = new Padding(2, 1, 2, 2);
 			BPrint1x10.Name = "BPrint1x10";
-			BPrint1x10.Size = new Size(107, 28);
-			BPrint1x10.Text = "Im&primir 1x10";
-			BPrint1x10.Visible = false;
+			BPrint1x10.Size = new Size(73, 28);
+			BPrint1x10.Text = "Im&primir";
 			BPrint1x10.Click += BPrint1x10_Click;
+			// 
+			// BExcelExport
+			// 
+			BExcelExport.Image = Properties.Resources.Fatcow_Farm_Fresh_Export_excel_16;
+			BExcelExport.ImageScaling = ToolStripItemImageScaling.None;
+			BExcelExport.ImageTransparentColor = Color.Magenta;
+			BExcelExport.Name = "BExcelExport";
+			BExcelExport.Size = new Size(70, 28);
+			BExcelExport.Text = "E&xportar";
 			// 
 			// LName
 			// 
@@ -350,9 +253,9 @@
 			label1.AutoSize = true;
 			label1.Location = new Point(13, 73);
 			label1.Name = "label1";
-			label1.Size = new Size(33, 15);
+			label1.Size = new Size(63, 15);
 			label1.TabIndex = 26;
-			label1.Text = "Líder";
+			label1.Text = "Encargado";
 			// 
 			// LLeadCitizenInfo
 			// 
@@ -456,39 +359,39 @@
 			DataGridRoles.AllowUserToDeleteRows = false;
 			DataGridRoles.AllowUserToOrderColumns = true;
 			DataGridRoles.AllowUserToResizeRows = false;
-			dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle4.BackColor = Color.WhiteSmoke;
-			dataGridViewCellStyle4.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-			dataGridViewCellStyle4.ForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle4.SelectionBackColor = SystemColors.GradientInactiveCaption;
-			dataGridViewCellStyle4.SelectionForeColor = SystemColors.ControlText;
-			DataGridRoles.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+			dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle1.BackColor = Color.WhiteSmoke;
+			dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+			dataGridViewCellStyle1.ForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle1.SelectionBackColor = SystemColors.GradientInactiveCaption;
+			dataGridViewCellStyle1.SelectionForeColor = SystemColors.ControlText;
+			DataGridRoles.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
 			DataGridRoles.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 			DataGridRoles.BackgroundColor = SystemColors.Control;
 			DataGridRoles.BorderStyle = BorderStyle.None;
 			DataGridRoles.CellBorderStyle = DataGridViewCellBorderStyle.None;
 			DataGridRoles.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
 			DataGridRoles.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-			dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle5.BackColor = SystemColors.ControlLight;
-			dataGridViewCellStyle5.Font = new Font("Segoe UI", 9F);
-			dataGridViewCellStyle5.ForeColor = SystemColors.WindowText;
-			dataGridViewCellStyle5.SelectionBackColor = SystemColors.ControlLight;
-			dataGridViewCellStyle5.SelectionForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
-			DataGridRoles.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+			dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle2.BackColor = SystemColors.ControlLight;
+			dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+			dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
+			dataGridViewCellStyle2.SelectionBackColor = SystemColors.ControlLight;
+			dataGridViewCellStyle2.SelectionForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+			DataGridRoles.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
 			DataGridRoles.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle6.BackColor = SystemColors.Window;
-			dataGridViewCellStyle6.Font = new Font("Segoe UI", 9F);
-			dataGridViewCellStyle6.ForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle6.SelectionBackColor = SystemColors.GradientInactiveCaption;
-			dataGridViewCellStyle6.SelectionForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
-			DataGridRoles.DefaultCellStyle = dataGridViewCellStyle6;
+			dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle3.BackColor = SystemColors.Window;
+			dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
+			dataGridViewCellStyle3.ForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle3.SelectionBackColor = SystemColors.GradientInactiveCaption;
+			dataGridViewCellStyle3.SelectionForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
+			DataGridRoles.DefaultCellStyle = dataGridViewCellStyle3;
 			DataGridRoles.Dock = DockStyle.Fill;
 			DataGridRoles.EnableHeadersVisualStyles = false;
-			DataGridRoles.Location = new Point(2, 33);
+			DataGridRoles.Location = new Point(2, 35);
 			DataGridRoles.MultiSelect = false;
 			DataGridRoles.Name = "DataGridRoles";
 			DataGridRoles.ReadOnly = true;
@@ -496,7 +399,7 @@
 			DataGridRoles.RowTemplate.Height = 20;
 			DataGridRoles.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 			DataGridRoles.ShowCellToolTips = false;
-			DataGridRoles.Size = new Size(961, 452);
+			DataGridRoles.Size = new Size(961, 450);
 			DataGridRoles.StandardTab = true;
 			DataGridRoles.TabIndex = 9;
 			// 
@@ -507,47 +410,55 @@
 			ToolStripRoles.Location = new Point(2, 2);
 			ToolStripRoles.Name = "ToolStripRoles";
 			ToolStripRoles.RenderMode = ToolStripRenderMode.System;
-			ToolStripRoles.Size = new Size(961, 31);
+			ToolStripRoles.Size = new Size(961, 33);
 			ToolStripRoles.TabIndex = 10;
 			ToolStripRoles.Text = "toolStrip1";
 			// 
 			// BAddRole
 			// 
-			BAddRole.Image = Properties.Resources.Fatcow_Farm_Fresh_Add_24;
+			BAddRole.Image = Properties.Resources.Fatcow_Farm_Fresh_Add_16;
 			BAddRole.ImageScaling = ToolStripItemImageScaling.None;
 			BAddRole.ImageTransparentColor = Color.Magenta;
+			BAddRole.Margin = new Padding(2, 1, 2, 2);
 			BAddRole.Name = "BAddRole";
-			BAddRole.Size = new Size(77, 28);
+			BAddRole.Padding = new Padding(0, 5, 2, 5);
+			BAddRole.Size = new Size(71, 30);
 			BAddRole.Text = "&Agregar";
 			BAddRole.Click += BAddRole_Click;
 			// 
 			// BEditRole
 			// 
-			BEditRole.Image = Properties.Resources.Fatcow_Farm_Fresh_Pencil_24;
+			BEditRole.Image = Properties.Resources.Fatcow_Farm_Fresh_Pencil_16;
 			BEditRole.ImageScaling = ToolStripItemImageScaling.None;
 			BEditRole.ImageTransparentColor = Color.Magenta;
+			BEditRole.Margin = new Padding(2, 1, 2, 2);
 			BEditRole.Name = "BEditRole";
-			BEditRole.Size = new Size(65, 28);
+			BEditRole.Padding = new Padding(0, 5, 2, 5);
+			BEditRole.Size = new Size(59, 30);
 			BEditRole.Text = "&Editar";
 			BEditRole.Click += BEditRole_Click;
 			// 
 			// BReadRole
 			// 
-			BReadRole.Image = Properties.Resources.Fatcow_Farm_Fresh_Magnifier_24;
+			BReadRole.Image = Properties.Resources.Fatcow_Farm_Fresh_Magnifier_16;
 			BReadRole.ImageScaling = ToolStripItemImageScaling.None;
 			BReadRole.ImageTransparentColor = Color.Magenta;
+			BReadRole.Margin = new Padding(2, 1, 2, 2);
 			BReadRole.Name = "BReadRole";
-			BReadRole.Size = new Size(86, 28);
+			BReadRole.Padding = new Padding(0, 5, 2, 5);
+			BReadRole.Size = new Size(80, 30);
 			BReadRole.Text = "&Consultar";
 			BReadRole.Click += BReadRole_Click;
 			// 
 			// BDeleteRole
 			// 
-			BDeleteRole.Image = Properties.Resources.Fatcow_Farm_Fresh_Delete_24;
+			BDeleteRole.Image = Properties.Resources.Fatcow_Farm_Fresh_Delete_16;
 			BDeleteRole.ImageScaling = ToolStripItemImageScaling.None;
 			BDeleteRole.ImageTransparentColor = Color.Magenta;
+			BDeleteRole.Margin = new Padding(2, 1, 2, 2);
 			BDeleteRole.Name = "BDeleteRole";
-			BDeleteRole.Size = new Size(67, 28);
+			BDeleteRole.Padding = new Padding(0, 5, 2, 5);
+			BDeleteRole.Size = new Size(61, 30);
 			BDeleteRole.Text = "&Borrar";
 			BDeleteRole.Click += BDeleteRole_Click;
 			// 
@@ -580,13 +491,8 @@
 			Text = "Estructura - Nueva";
 			PanelMembers.ResumeLayout(false);
 			PanelMembers.PerformLayout();
-			splitContainer1.Panel1.ResumeLayout(false);
-			splitContainer1.Panel2.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
-			splitContainer1.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)DataGridMembers).EndInit();
 			panel1.ResumeLayout(false);
-			panel1.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)ObjectListMembers).EndInit();
 			ToolStripMembers.ResumeLayout(false);
 			ToolStripMembers.PerformLayout();
 			TabControlNetwork.ResumeLayout(false);
@@ -601,12 +507,8 @@
 		}
 
 		#endregion
-
-		private TreeView TreeViewMembers;
 		private Panel PanelMembers;
 		private ToolStrip ToolStripMembers;
-		private SplitContainer splitContainer1;
-		private DataGridView DataGridMembers;
 		private Label LName;
 		private TextBox TextBoxName;
 		private Label label1;
@@ -622,7 +524,6 @@
 		private ToolStripSeparator toolStripSeparator1;
 		private ToolStripButton BEditMember;
 		private ToolStripButton BReadMember;
-		private ToolStripButton BShowTree;
 		private Label LDescription;
 		private TextBox TextBoxDescription;
 		private StatusStrip StatusStripMembers;
@@ -636,7 +537,8 @@
 		private ToolStripButton BEditRole;
 		private ToolStripButton BReadRole;
 		private ToolStripButton BDeleteRole;
+		private BrightIdeasSoftware.TreeListView ObjectListMembers;
 		private Panel panel1;
-		private Label label2;
+		private ToolStripButton BExcelExport;
 	}
 }

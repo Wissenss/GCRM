@@ -198,6 +198,7 @@
 			// 
 			toolStripSeparator1.Name = "toolStripSeparator1";
 			toolStripSeparator1.Size = new Size(6, 40);
+			toolStripSeparator1.Visible = false;
 			// 
 			// BPrint
 			// 
@@ -207,6 +208,7 @@
 			BPrint.Name = "BPrint";
 			BPrint.Size = new Size(73, 37);
 			BPrint.Text = "Im&primir";
+			BPrint.Visible = false;
 			BPrint.Click += BPrint_Click;
 			// 
 			// toolStripSeparator2
