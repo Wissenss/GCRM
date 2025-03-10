@@ -7,19 +7,16 @@ using System.Reflection;
 
 namespace Reporter
 {
-	public class R002DocumentModel
+	public class R003DocumentModel
 	{
 		public TCitizenNetwork Network;
-		public TCitizenNetworkMember LeadMember;
-		public TCitizenNetworkMember ReferentMember;
-		public List<TCitizenNetworkMember> Members;
 	}
 
-	public class R002Document : IDocument
+	public class R003Document : IDocument
 	{
-		R002DocumentModel Model;
+		R003DocumentModel Model;
 
-		public R002Document(R002DocumentModel model)
+		public R003Document(R003DocumentModel model)
 		{
 			QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
 
@@ -30,7 +27,7 @@ namespace Reporter
 		{
 			container.Page(page =>
 			{
-				page.Size(PageSizes.A5.Landscape());
+				page.Size(PageSizes.A5.Portrait());
 				page.Margin(15);
 
 				// watermark
@@ -46,12 +43,10 @@ namespace Reporter
 				page.Footer().Element(ComposeFooter);
 			});
 		}
-
 		void ComposeHeader(IContainer container)
 		{
 			container.Row(row =>
 			{
-
 				row.RelativeItem().Column(column =>
 				{
 					column.Item()
@@ -65,24 +60,6 @@ namespace Reporter
 						.Text(Model.Network.Description)
 						.AlignCenter()
 						.FontSize(8).FontColor(Colors.Black);
-
-					column.Item()
-						.PaddingBottom(2)
-						.Text($"Liderazgo: {Model.LeadMember.Citizen.FullName}")
-						.AlignLeft()
-						.FontSize(7);
-
-					column.Item()
-						.PaddingBottom(2)
-						.Text($"Referente: {Model.ReferentMember.Citizen.FullName}")
-						.AlignLeft()
-						.FontSize(7);
-
-					column.Item()
-						.PaddingBottom(5)
-						.Text($"Rol: {Model.ReferentMember.Role.Name}")
-						.AlignLeft()
-						.FontSize(7);
 				});
 			});
 		}
@@ -112,7 +89,6 @@ namespace Reporter
 					columns.RelativeColumn(); // clave elec
 					columns.RelativeColumn(); // ocr
 					columns.ConstantColumn(32); // seccion
-					columns.ConstantColumn(150); // direcc
 					columns.ConstantColumn(60); // contac
 				});
 
@@ -127,7 +103,6 @@ namespace Reporter
 					header.Cell().Element(CellStyle).Text("Clave de elector").FontSize(header_font_size).SemiBold();
 					header.Cell().Element(CellStyle).Text("OCR").FontSize(header_font_size).SemiBold();
 					header.Cell().Element(CellStyle).Text("Sección").FontSize(header_font_size).SemiBold();
-					header.Cell().Element(CellStyle).Text("Direccion").FontSize(header_font_size).SemiBold();
 					header.Cell().Element(CellStyle).Text("Contacto").FontSize(header_font_size).SemiBold();
 
 					static IContainer CellStyle(IContainer container)
@@ -145,12 +120,12 @@ namespace Reporter
 					}
 				});
 
-				for (int i = 0; i < Math.Max(Model.Members.Count, 10); i++)
+				for (int i = 0; i < Math.Max(Model.Network.Members.Count, 10); i++)
 				{
 					TCitizenNetworkMember member;
 
-					if (i < Model.Members.Count)
-						member = Model.Members[i];
+					if (i < Model.Network.Members.Count)
+						member = Model.Network.Members[i];
 					else
 						member = new TCitizenNetworkMember();
 
@@ -164,7 +139,6 @@ namespace Reporter
 					table.Cell().MinHeight(row_min_height).Element(CellStyle).Text(member.Citizen.VoterCode).FontSize(row_font_size);
 					table.Cell().MinHeight(row_min_height).Element(CellStyle).Text(member.Citizen.VoterOCR).FontSize(row_font_size);
 					table.Cell().MinHeight(row_min_height).Element(CellStyle).Text(member.Citizen.VoterSection).FontSize(row_font_size);
-					table.Cell().MinHeight(row_min_height).Element(CellStyle).Text(member.Citizen.Address.FullAddress).FontSize(row_font_size * 0.7f);
 
 					string contact_str = "";
 

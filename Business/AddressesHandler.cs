@@ -20,6 +20,39 @@ namespace Business
 		public string City;
 		public TCountry Country;
 
+		public string FullAddress
+		{
+			get
+			{
+				return GetFullAddress();
+			}
+		}
+
+		public string GetFullAddress()
+		{
+			string full_address = "";
+
+			if (Street?.Trim().Length > 0)
+				full_address += Street;
+
+			if (Number?.Trim().Length > 0)
+				full_address += $" No. {Number} ";
+
+			if (InteriorNumber?.Trim().Length > 0)
+				full_address += $"Int. {InteriorNumber} ";
+
+			if (State?.Trim().Length > 0)
+				full_address += $"{State}";
+
+			if (City?.Trim().Length > 0)
+				full_address += $"{City}";
+
+			if (PostalCode?.Trim().Length > 0)
+				full_address += $"C.P. {PostalCode}";
+
+			return full_address;
+		}
+
 		public void FillFromReader(DbDataReader reader)
 		{
 			Id = reader.GetInt32(0);

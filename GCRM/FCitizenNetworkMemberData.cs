@@ -42,7 +42,7 @@ namespace GCRM
 			Member = member;
 			ParentMember = parent_member;
 
-			TextBoxName.Text = Member.Citizen.GetFullName();
+			TextBoxName.Text = Member.Citizen.FullName;
 			ComboBoxRoles.SelectedValue = Member.Role.Id;
 		}
 
@@ -62,7 +62,7 @@ namespace GCRM
 				if (citizen_list_dlg.ShowDialog() == DialogResult.OK)
 				{
 					Member.Citizen = citizen_list_dlg.GetSelectedCitizen();
-					TextBoxName.Text = Member.Citizen.GetFullName();
+					TextBoxName.Text = Member.Citizen.FullName;
 				}
 			}
 		}
@@ -89,17 +89,26 @@ namespace GCRM
 		{
 			StringBuilder errors = new StringBuilder();
 
-			if ((int)ComboBoxRoles.SelectedValue == 0)
+			if (Member.Citizen == null || TextBoxName.Text.Trim().Length == 0)
+			{
+				errors.AppendLine("Debe especificar el ciudadano.");
+			}
+
+			if (ComboBoxRoles.SelectedValue == null)
 			{
 				errors.AppendLine("Debe especificar el rol del miembro");
 			}
-			else
+			else if ((int)ComboBoxRoles.SelectedValue == 0)
+			{
+				errors.AppendLine("Debe especificar el rol del miembro");
+			}
+			else if (Member.ParentMemberId != 0)
 			{
 				foreach (DataRow row in DTRoles.Rows)
 				{
 					if ((int)row["id"] == (int)ComboBoxRoles.SelectedValue)
 					{
-						if ((int)row["level"] <= ParentMember.Role.Id)
+						if ((int)row["level"] <= ParentMember.Role.Level)
 						{
 							errors.AppendLine($"No se puede tener un miembro con rol {row["name"]} debajo de otro con rol {ParentMember.Role.Name}");
 						}

@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
+using BrightIdeasSoftware;
 using Business;
 using ClosedXML.Excel;
 
@@ -192,6 +193,21 @@ namespace GCRM
 				{
 					node.Expand();
 					ExpandToLevel(node.Nodes, level - 1);
+				}
+			}
+		}
+	}
+
+	public static class ObjectTreeViewUtilities
+	{
+		public static void ExpandToLevel<T>(TreeListView treeListView, List<T> objects, int level)
+		{
+			if (level > 0)
+			{
+				foreach (object node in objects)
+				{
+					treeListView.Expand(node);
+					ExpandToLevel(treeListView, objects, level - 1);
 				}
 			}
 		}

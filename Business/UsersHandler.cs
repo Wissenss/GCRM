@@ -132,7 +132,7 @@ namespace Business
 				new TUserPermission(403, "Network.Eliminar"),
 				new TUserPermission(404, "Network.Crear"),
 
-				new TUserPermission(411, "Network.hierarchy.Editar"),
+				new TUserPermission(411, "Network.Hierarchy.Editar"),
 
 				new TUserPermission(431, "Network.Roles.Editar"),
 				new TUserPermission(432, "Network.Roles.Consultar"),
@@ -146,7 +146,7 @@ namespace Business
 				new TUserPermission(463, "Network.Members.Eliminar"),
 				new TUserPermission(464, "Network.Members.Crear"),
 
-				new TUserPermission(471, "Network.Members.hierarchy.Editar"),
+				new TUserPermission(471, "Network.Members.Hierarchy.Editar"),
 
 			};
 		}

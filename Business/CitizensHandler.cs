@@ -36,6 +36,34 @@ namespace Business
 		public int EditById;
 		public DateTime EditDate;
 
+		public string VoterCode;
+		public string VoterOCR;
+		public string VoterCIC;
+		public string VoterSection;
+
+		public string FullName 
+		{ 
+			get 
+			{
+				return GetFullName();
+			} 
+		}
+
+		public string FullPhone
+		{
+			get
+			{
+				string full_phone = Phone;
+
+				if (PhoneExtension?.Trim().Length > 0)
+				{
+					full_phone += $" Ext. {PhoneExtension}";
+				}
+
+				return full_phone;	
+			}
+		}
+
 		public string GetFullName()
 		{
 			return $"{Name} {PaternalName} {MaternalName}";

@@ -45,10 +45,12 @@
 			BPrint = new ToolStripButton();
 			toolStripSeparator2 = new ToolStripSeparator();
 			BShowStructure = new ToolStripButton();
+			BExcelExport = new ToolStripButton();
 			splitContainer1 = new SplitContainer();
 			TreeViewNetwroksStructure = new TreeView();
 			panel1 = new Panel();
 			label2 = new Label();
+			SaveFileDialog = new SaveFileDialog();
 			((System.ComponentModel.ISupportInitialize)DataGridCitizenNetworks).BeginInit();
 			StatusStrip.SuspendLayout();
 			ToolStrip.SuspendLayout();
@@ -128,7 +130,7 @@
 			// ToolStrip
 			// 
 			ToolStrip.GripStyle = ToolStripGripStyle.Hidden;
-			ToolStrip.Items.AddRange(new ToolStripItem[] { BAdd, BEdit, BRead, BRefresh, BDelete, toolStripSeparator1, BPrint, toolStripSeparator2, BShowStructure });
+			ToolStrip.Items.AddRange(new ToolStripItem[] { BAdd, BEdit, BRead, BRefresh, BDelete, toolStripSeparator1, BPrint, toolStripSeparator2, BShowStructure, BExcelExport });
 			ToolStrip.Location = new Point(0, 0);
 			ToolStrip.Name = "ToolStrip";
 			ToolStrip.RenderMode = ToolStripRenderMode.System;
@@ -170,6 +172,7 @@
 			BRead.Padding = new Padding(2, 8, 2, 8);
 			BRead.Size = new Size(82, 36);
 			BRead.Text = "&Consultar";
+			BRead.Click += BRead_Click;
 			// 
 			// BRefresh
 			// 
@@ -193,12 +196,12 @@
 			BDelete.Size = new Size(59, 37);
 			BDelete.Text = "&Borrar";
 			BDelete.Visible = false;
+			BDelete.Click += BDelete_Click;
 			// 
 			// toolStripSeparator1
 			// 
 			toolStripSeparator1.Name = "toolStripSeparator1";
 			toolStripSeparator1.Size = new Size(6, 40);
-			toolStripSeparator1.Visible = false;
 			// 
 			// BPrint
 			// 
@@ -208,7 +211,6 @@
 			BPrint.Name = "BPrint";
 			BPrint.Size = new Size(73, 37);
 			BPrint.Text = "Im&primir";
-			BPrint.Visible = false;
 			BPrint.Click += BPrint_Click;
 			// 
 			// toolStripSeparator2
@@ -216,6 +218,7 @@
 			toolStripSeparator2.Alignment = ToolStripItemAlignment.Right;
 			toolStripSeparator2.Name = "toolStripSeparator2";
 			toolStripSeparator2.Size = new Size(6, 40);
+			toolStripSeparator2.Visible = false;
 			// 
 			// BShowStructure
 			// 
@@ -230,6 +233,16 @@
 			BShowStructure.Text = "&Ver Estructura";
 			BShowStructure.Visible = false;
 			BShowStructure.Click += BShowStructure_Click;
+			// 
+			// BExcelExport
+			// 
+			BExcelExport.Image = Properties.Resources.Fatcow_Farm_Fresh_Export_excel_16;
+			BExcelExport.ImageScaling = ToolStripItemImageScaling.None;
+			BExcelExport.ImageTransparentColor = Color.Magenta;
+			BExcelExport.Name = "BExcelExport";
+			BExcelExport.Size = new Size(70, 37);
+			BExcelExport.Text = "E&xportar";
+			BExcelExport.Click += BExcelExport_Click;
 			// 
 			// splitContainer1
 			// 
@@ -330,5 +343,7 @@
 		private Panel panel1;
 		private Label label2;
 		private TreeView TreeViewNetwroksStructure;
+		private ToolStripButton BExcelExport;
+		private SaveFileDialog SaveFileDialog;
 	}
 }

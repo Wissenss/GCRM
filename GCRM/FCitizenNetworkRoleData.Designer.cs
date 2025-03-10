@@ -107,9 +107,11 @@
 			// 
 			NumericLevel.Location = new Point(87, 41);
 			NumericLevel.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
+			NumericLevel.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
 			NumericLevel.Name = "NumericLevel";
 			NumericLevel.Size = new Size(63, 23);
 			NumericLevel.TabIndex = 47;
+			NumericLevel.Value = new decimal(new int[] { 1, 0, 0, 0 });
 			// 
 			// FCitizenNetworkRoleData
 			// 

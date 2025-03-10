@@ -39,13 +39,14 @@
 			ToolStripMembers = new ToolStrip();
 			BContractLevel = new ToolStripButton();
 			BExpandLevel = new ToolStripButton();
+			BAddRoot = new ToolStripButton();
+			toolStripSeparator2 = new ToolStripSeparator();
 			BAddMember = new ToolStripButton();
 			BEditMember = new ToolStripButton();
 			BReadMember = new ToolStripButton();
 			BDeleteMember = new ToolStripButton();
 			toolStripSeparator1 = new ToolStripSeparator();
 			BPrint1x10 = new ToolStripButton();
-			BExcelExport = new ToolStripButton();
 			LName = new Label();
 			TextBoxName = new TextBox();
 			label1 = new Label();
@@ -65,6 +66,7 @@
 			BReadRole = new ToolStripButton();
 			BDeleteRole = new ToolStripButton();
 			TextBoxLeadCitizen = new TextBox();
+			SaveFileDialog = new SaveFileDialog();
 			PanelMembers.SuspendLayout();
 			panel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)ObjectListMembers).BeginInit();
@@ -97,7 +99,7 @@
 			panel1.Margin = new Padding(0);
 			panel1.Name = "panel1";
 			panel1.Padding = new Padding(0, 2, 0, 0);
-			panel1.Size = new Size(961, 430);
+			panel1.Size = new Size(961, 452);
 			panel1.TabIndex = 4;
 			// 
 			// ObjectListMembers
@@ -109,7 +111,7 @@
 			ObjectListMembers.Margin = new Padding(0, 3, 0, 0);
 			ObjectListMembers.Name = "ObjectListMembers";
 			ObjectListMembers.ShowGroups = false;
-			ObjectListMembers.Size = new Size(961, 428);
+			ObjectListMembers.Size = new Size(961, 450);
 			ObjectListMembers.TabIndex = 3;
 			ObjectListMembers.View = View.Details;
 			ObjectListMembers.VirtualMode = true;
@@ -121,12 +123,13 @@
 			StatusStripMembers.Size = new Size(961, 22);
 			StatusStripMembers.TabIndex = 1;
 			StatusStripMembers.Text = "statusStrip1";
+			StatusStripMembers.Visible = false;
 			// 
 			// ToolStripMembers
 			// 
 			ToolStripMembers.GripMargin = new Padding(0);
 			ToolStripMembers.GripStyle = ToolStripGripStyle.Hidden;
-			ToolStripMembers.Items.AddRange(new ToolStripItem[] { BContractLevel, BExpandLevel, BAddMember, BEditMember, BReadMember, BDeleteMember, toolStripSeparator1, BPrint1x10, BExcelExport });
+			ToolStripMembers.Items.AddRange(new ToolStripItem[] { BContractLevel, BExpandLevel, BAddRoot, toolStripSeparator2, BAddMember, BEditMember, BReadMember, BDeleteMember, toolStripSeparator1, BPrint1x10 });
 			ToolStripMembers.Location = new Point(0, 0);
 			ToolStripMembers.Name = "ToolStripMembers";
 			ToolStripMembers.RenderMode = ToolStripRenderMode.System;
@@ -137,30 +140,41 @@
 			// BContractLevel
 			// 
 			BContractLevel.Alignment = ToolStripItemAlignment.Right;
-			BContractLevel.DisplayStyle = ToolStripItemDisplayStyle.Image;
 			BContractLevel.Image = Properties.Resources.Fatcow_Farm_Fresh_Node_arrow_up_24;
 			BContractLevel.ImageScaling = ToolStripItemImageScaling.None;
 			BContractLevel.ImageTransparentColor = Color.Magenta;
 			BContractLevel.Margin = new Padding(2, 1, 2, 2);
 			BContractLevel.Name = "BContractLevel";
-			BContractLevel.Size = new Size(28, 28);
-			BContractLevel.Text = "Abajo";
-			BContractLevel.Visible = false;
+			BContractLevel.Size = new Size(81, 28);
+			BContractLevel.Text = "Contraer";
 			BContractLevel.Click += BContractLevel_Click;
 			// 
 			// BExpandLevel
 			// 
 			BExpandLevel.Alignment = ToolStripItemAlignment.Right;
-			BExpandLevel.DisplayStyle = ToolStripItemDisplayStyle.Image;
 			BExpandLevel.Image = Properties.Resources.Fatcow_Farm_Fresh_Node_arrow_down_24;
 			BExpandLevel.ImageScaling = ToolStripItemImageScaling.None;
 			BExpandLevel.ImageTransparentColor = Color.Magenta;
 			BExpandLevel.Margin = new Padding(2, 1, 2, 2);
 			BExpandLevel.Name = "BExpandLevel";
-			BExpandLevel.Size = new Size(28, 28);
-			BExpandLevel.Text = "Arriba";
-			BExpandLevel.Visible = false;
+			BExpandLevel.Size = new Size(80, 28);
+			BExpandLevel.Text = "Expandir";
 			BExpandLevel.Click += BExpandLevel_Click;
+			// 
+			// BAddRoot
+			// 
+			BAddRoot.Image = Properties.Resources.Fatcow_Farm_Fresh_Node_24;
+			BAddRoot.ImageScaling = ToolStripItemImageScaling.None;
+			BAddRoot.ImageTransparentColor = Color.Magenta;
+			BAddRoot.Name = "BAddRoot";
+			BAddRoot.Size = new Size(92, 28);
+			BAddRoot.Text = "Nueva Red";
+			BAddRoot.Click += BAddRoot_Click;
+			// 
+			// toolStripSeparator2
+			// 
+			toolStripSeparator2.Name = "toolStripSeparator2";
+			toolStripSeparator2.Size = new Size(6, 31);
 			// 
 			// BAddMember
 			// 
@@ -182,6 +196,7 @@
 			BEditMember.Name = "BEditMember";
 			BEditMember.Size = new Size(65, 28);
 			BEditMember.Text = "&Editar";
+			BEditMember.Visible = false;
 			BEditMember.Click += BEditMember_Click;
 			// 
 			// BReadMember
@@ -193,6 +208,7 @@
 			BReadMember.Name = "BReadMember";
 			BReadMember.Size = new Size(86, 28);
 			BReadMember.Text = "&Consultar";
+			BReadMember.Visible = false;
 			BReadMember.Click += BReadMember_Click;
 			// 
 			// BDeleteMember
@@ -218,18 +234,9 @@
 			BPrint1x10.ImageTransparentColor = Color.Magenta;
 			BPrint1x10.Margin = new Padding(2, 1, 2, 2);
 			BPrint1x10.Name = "BPrint1x10";
-			BPrint1x10.Size = new Size(73, 28);
-			BPrint1x10.Text = "Im&primir";
+			BPrint1x10.Size = new Size(99, 28);
+			BPrint1x10.Text = "Imprimir 1x10";
 			BPrint1x10.Click += BPrint1x10_Click;
-			// 
-			// BExcelExport
-			// 
-			BExcelExport.Image = Properties.Resources.Fatcow_Farm_Fresh_Export_excel_16;
-			BExcelExport.ImageScaling = ToolStripItemImageScaling.None;
-			BExcelExport.ImageTransparentColor = Color.Magenta;
-			BExcelExport.Name = "BExcelExport";
-			BExcelExport.Size = new Size(70, 28);
-			BExcelExport.Text = "E&xportar";
 			// 
 			// LName
 			// 
@@ -539,6 +546,11 @@
 		private ToolStripButton BDeleteRole;
 		private BrightIdeasSoftware.TreeListView ObjectListMembers;
 		private Panel panel1;
-		private ToolStripButton BExcelExport;
+		private ToolStripButton BExportList;
+		private ToolStripSeparator toolStripSeparator2;
+		private ToolStripButton BAddRoot;
+		private ToolStripSeparator toolStripSeparator3;
+		private ToolStripButton BPrintList;
+		private SaveFileDialog SaveFileDialog;
 	}
 }

@@ -91,6 +91,8 @@ namespace GCRM
 				BCitizens.Visible = Session.HasPermission("Ciudadanos.Consultar");
 				BInstitutions.Visible = Session.HasPermission("Instituciones.Consultar");
 				BInstitutionCategories.Visible = Session.HasPermission("Instituciones.Categorias.Consultar");
+
+				BCitizenNetworks.Visible = Session.HasPermission("Network.Consultar");
 			}
 		}
 

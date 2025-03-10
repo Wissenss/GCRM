@@ -1,43 +1,35 @@
 ﻿using BrightIdeasSoftware;
 using Business;
+using ClosedXML.Excel;
 using DocumentFormat.OpenXml.Office.Word;
 using DocumentFormat.OpenXml.Presentation;
+using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Wordprocessing;
+using Microsoft.Extensions.Logging.Abstractions;
+using QuestPDF.Fluent;
+using QuestPDF.Infrastructure;
+using Reporter;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Interop;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace GCRM
 {
 	public partial class FCitizenNetworkData : Form
 	{
-		// using Object List View are you? well... lets hope this doesn't screw us over latter down the line
-		public class OLVM_NetworkMember
-		{
-			public OLVM_NetworkMember() { }
-			public int MemberId { get; set; } = 0;
-			public int ParentMemberId { get; set; } = 0;
-			public string Name { get; set; } = "";
-			public string Role { get; set; } = "";
-			public string RoleDescription { get; set; } = "";
-			public string ElectorCode { get; set; } = "";
-			public string OCR { get; set; } = "";
-			public string Section { get; set; } = "";
-			public string Phone { get; set; } = "";
-		}
-
-		private List<OLVM_NetworkMember> members_models = new List<OLVM_NetworkMember>();
-		private Dictionary<int, int> members_childrens_count = new Dictionary<int, int>();
+		private List<TCitizenNetworkMember> Members = new List<TCitizenNetworkMember>();
+		private Dictionary<int, int> MembersChildrensCount = new Dictionary<int, int>();
 
 		DataSet DSCitizenNetwork;
-		DataTable DTMembers;
 		DataTable DTRoles;
 
 		FAccessMode Mode;
@@ -47,6 +39,7 @@ namespace GCRM
 		FCitizenNetworkMemberData MemberDlg;
 		FCitizenNetworkRoleData RoleDlg;
 
+		int member_autoinc = 1;
 		int citizen_structure_expand_level = 1;
 
 		public FCitizenNetworkData()
@@ -61,44 +54,12 @@ namespace GCRM
 			ObjectListMembers.Scrollable = true;
 
 			SetupColumns();
+			SetupDragAndDrop();
 			SetupStyles();
 			SetupTree();
 
 			// create the datasource
 			DSCitizenNetwork = new DataSet("DSCitizenNetwork");
-
-			// create the members datatable
-			DTMembers = new DataTable("DTMembers");
-
-			DataColumn col_members_id = DTMembers.Columns.Add("id", typeof(int));
-			col_members_id.AutoIncrement = true;
-			col_members_id.AutoIncrementSeed = 1;
-
-			DTMembers.Columns.Add("citizennetwork_id", typeof(int));
-			DTMembers.Columns.Add("citizen_id", typeof(int));
-			DTMembers.Columns.Add("role_id", typeof(int));
-			DTMembers.Columns.Add("parent_member_id", typeof(int));
-			DTMembers.Columns.Add("citizen_name", typeof(string));
-			DTMembers.Columns.Add("role_name", typeof(string));
-			DTMembers.Columns.Add("role_level", typeof(int));
-			DSCitizenNetwork.Tables.Add(DTMembers);
-
-			//// initialize members datagrid
-			//DataGridUtilities.AddColumn(DataGridMembers, "colId", "Miembro Id", "id", false);
-			//DataGridUtilities.AddColumn(DataGridMembers, "colCitizenNetworkId", "Estructura Id", "citizennetwork_id", false);
-			//DataGridUtilities.AddColumn(DataGridMembers, "colCitizenId", "Ciudadano Id", "citizen_id", false);
-			//DataGridUtilities.AddColumn(DataGridMembers, "colRoleId", "Rol Id", "role_id", false);
-			//DataGridUtilities.AddColumn(DataGridMembers, "colParentMemberId", "Miembro Padre", "parent_member_id", false);
-			//DataGridUtilities.AddColumn(DataGridMembers, "colRoleLevel", "Miembro Padre", "role_level", false);
-
-			int display_index = 0;
-
-			//DataGridUtilities.AddColumn(DataGridMembers, "colCitizenName", "Nombre", "citizen_name", true, display_index++, 100, 100, DataGridViewAutoSizeColumnMode.AllCells);
-			//DataGridUtilities.AddColumn(DataGridMembers, "colRoleName", "Rol", "role_name", true, display_index++, 50, 50, DataGridViewAutoSizeColumnMode.Fill);
-
-			//// bind the members datagrid
-			//DataGridMembers.DataSource = DSCitizenNetwork;
-			//DataGridMembers.DataMember = "DTMembers";
 
 			// create the roles datatable
 			DTRoles = new DataTable("DTRoles");
@@ -117,7 +78,7 @@ namespace GCRM
 			DataGridUtilities.AddColumn(DataGridRoles, "colId", "Id", "id", false);
 			DataGridUtilities.AddColumn(DataGridRoles, "colCitizenNetworkId", "EstructuraId", "citizennetwork_id", false);
 
-			display_index = 0;
+			int display_index = 0;
 
 			DataGridUtilities.AddColumn(DataGridRoles, "colName", "Nombre", "name", true, display_index++, 100, 100, DataGridViewAutoSizeColumnMode.AllCells);
 			DataGridUtilities.AddColumn(DataGridRoles, "colLevel", "Nivel", "level", true, display_index++, 100, 100, DataGridViewAutoSizeColumnMode.AllCells);
@@ -136,34 +97,18 @@ namespace GCRM
 			LoadPermissions();
 		}
 
-		private void SetMode(FAccessMode mode)
-		{
-			Mode = mode;
-
-			TextBoxName.Enabled = Mode != FAccessMode.Read;
-			TextBoxDescription.Enabled = Mode != FAccessMode.Read;
-			BSelectLeadCitizen.Enabled = Mode != FAccessMode.Read;
-
-			BAddMember.Enabled = Mode != FAccessMode.Read;
-			BEditMember.Enabled = Mode != FAccessMode.Read;
-			BDeleteMember.Enabled = Mode != FAccessMode.Read;
-
-			BAddRole.Enabled = Mode != FAccessMode.Read;
-			BEditRole.Enabled = Mode != FAccessMode.Read;
-			BDeleteRole.Enabled = Mode != FAccessMode.Read;
-		}
-
 		private void LoadPermissions()
 		{
 			using (new CursorWait())
 			{
+				BAddRoot.Visible = Session.HasPermission("Network.Members.Crear");
 				BAddMember.Visible = Session.HasPermission("Network.Members.Crear");
 				BEditMember.Visible = Session.HasPermission("Network.Members.Editar");
 				BReadMember.Visible = Session.HasPermission("Network.Members.Consultar");
 				BDeleteMember.Visible = Session.HasPermission("Network.Members.Eliminar");
 
 				BAddRole.Visible = Session.HasPermission("Network.Roles.Crear");
-				BEditMember.Visible = Session.HasPermission("Network.Roles.Editar");
+				BEditRole.Visible = Session.HasPermission("Network.Roles.Editar");
 				BReadRole.Visible = Session.HasPermission("Network.Roles.Consultar");
 				BDeleteRole.Visible = Session.HasPermission("Network.Roles.Eliminar");
 			}
@@ -172,6 +117,19 @@ namespace GCRM
 		public void SetAccessMode(FAccessMode mode)
 		{
 			Mode = mode;
+
+			TextBoxName.Enabled = Mode != FAccessMode.Read;
+			TextBoxDescription.Enabled = Mode != FAccessMode.Read;
+			BSelectLeadCitizen.Enabled = Mode != FAccessMode.Read;
+
+			BAddRoot.Enabled = Mode != FAccessMode.Read;
+			BAddMember.Enabled = Mode != FAccessMode.Read;
+			BEditMember.Enabled = Mode != FAccessMode.Read;
+			BDeleteMember.Enabled = Mode != FAccessMode.Read;
+
+			BAddRole.Enabled = Mode != FAccessMode.Read;
+			BEditRole.Enabled = Mode != FAccessMode.Read;
+			BDeleteRole.Enabled = Mode != FAccessMode.Read;
 		}
 
 		public void SetId(int id)
@@ -239,29 +197,12 @@ namespace GCRM
 				// pre-sort the array
 				network.Members = network.Members.OrderBy(m => m.ParentMemberId).ToList();
 
-				// save original parent member ids
+				// save original member member ids
 				List<int> original_parent_member_ids = network.Members.Select(m => m.ParentMemberId).ToList();
-
-				DTMembers.BeginLoadData();
-				DTMembers.Clear();
 
 				foreach (TCitizenNetworkMember member in network.Members)
 				{
-					DataRow row = DTMembers.NewRow();
-
-					//row["id"] = member.Id;
-					row["citizennetwork_id"] = member.CitizenNetworkId;
-					row["citizen_id"] = member.Citizen.Id;
-					row["parent_member_id"] = member.ParentMemberId;
-					row["role_id"] = member.Role.Id;
-					row["citizen_name"] = member.Citizen.GetFullName();
-					row["role_name"] = member.Role.Name;
-					row["role_level"] = member.Role.Level;
-
-					DTMembers.Rows.Add(row);
-
-					// the actual fix
-					int new_member_id = (int)row["id"];
+					int new_member_id = member_autoinc++;
 
 					// finally the actual fix happens
 					for (int i = 0; i < network.Members.Count(); i++)
@@ -277,261 +218,28 @@ namespace GCRM
 					member.Id = new_member_id;
 				}
 
-				DTMembers.EndLoadData();
-
-				//RefreshMembersStructure();
-
-				// here to pupulate the object list view...
-				members_models.Clear();
-
-				foreach (TCitizenNetworkMember member in network.Members)
-				{
-					OLVM_NetworkMember model = new OLVM_NetworkMember()
-					{
-						MemberId = member.Id,
-						ParentMemberId = member.ParentMemberId,
-						Name = member.Citizen.GetFullName(),
-						Role = member.Role.Name,
-					};
-
-					members_models.Add(model);
-				}
-
-				CountMemberChildren();
-
-				// fill the actual control
-				{
-					//OLVM_NetworkMember root = new OLVM_NetworkMember()
-					//{
-					//	MemberId = 0,
-					//	ParentMemberId = -1,
-					//	Name = LeadCitizen.Name,
-					//	Role = "Líder"
-					//};
-
-					List<OLVM_NetworkMember> roots = new List<OLVM_NetworkMember>();
-
-					foreach (OLVM_NetworkMember member in members_models)
-					{
-						if (member.ParentMemberId == 0)
-						{
-							roots.Add(member);
-						}
-					}
-
-					ObjectListMembers.Roots = roots;
-
-					//foreach (OLVM_NetworkMember member in members_models)
-					//{
-					//	ObjectListMembers.AddObject(member);
-					//	//ObjectListMembers.RefreshObject(member);
-					//}
-
-					//foreach (OLVM_NetworkMember member in members_models)
-					//{
-					//	ObjectListMembers.RefreshObject(member);
-					//}
-
-					//ObjectListMembers.RefreshObject(root);
-				}
-
-				//ObjectListMembers.SetObjects(members_models);
+				// Pupulate the members object list view...
+				Members.Clear();
+				Members.AddRange(network.Members);
+				PopulateObjectListMembers();
 			}
 		}
 
-
-		private void CountMemberChildren()
+		private void PopulateObjectListMembers()
 		{
-			members_childrens_count.Clear();
+			CountMemberChildren();
 
-			foreach (OLVM_NetworkMember member in members_models)
+			List<TCitizenNetworkMember> roots = new List<TCitizenNetworkMember>();
+
+			foreach (TCitizenNetworkMember member in Members)
 			{
-				if (members_childrens_count.Keys.Contains(member.MemberId) == false)
+				if (member.ParentMemberId == 0)
 				{
-					members_childrens_count[member.MemberId] = 0;
-				}
-
-				members_childrens_count[member.MemberId] = members_models.Count(m => m.ParentMemberId == member.MemberId);
-			}
-
-			//members_childrens_count[0] = members_models.Count();
-		}
-		
-		private void SetupStyles()
-		{
-			ObjectListMembers.GridLines = true;
-			ObjectListMembers.BorderStyle = BorderStyle.None;
-			ObjectListMembers.HeaderUsesThemes = false;
-			ObjectListMembers.HeaderMinimumHeight = 1;
-			ObjectListMembers.HeaderFormatStyle = new HeaderFormatStyle();
-			ObjectListMembers.HeaderFont = new System.Drawing.Font("Segoe UI", 9);
-			ObjectListMembers.HeaderMaximumHeight = 16;
-			ObjectListMembers.HeaderFormatStyle.SetBackColor(SystemColors.ControlLight);
-			ObjectListMembers.HeaderFormatStyle.SetForeColor(SystemColors.WindowText);
-			ObjectListMembers.CellVerticalAlignment = StringAlignment.Center;
-			//ObjectListMembers.CellPadding = new Rectangle(2, 4, 2, 2);
-			ObjectListMembers.RowHeight = 16;
-			ObjectListMembers.UseCustomSelectionColors = true;
-			ObjectListMembers.UseAlternatingBackColors = false;
-			ObjectListMembers.ForeColor = SystemColors.WindowText;
-			ObjectListMembers.BackColor = SystemColors.Window;
-			ObjectListMembers.AlternateRowBackColor = System.Drawing.Color.WhiteSmoke;
-			ObjectListMembers.SelectedBackColor = SystemColors.GradientInactiveCaption;
-			ObjectListMembers.UnfocusedSelectedBackColor = SystemColors.GradientInactiveCaption;
-			ObjectListMembers.SelectedForeColor = SystemColors.WindowText;
-			ObjectListMembers.AllowColumnReorder = true;
-		}
-
-		private void SetupColumns()
-		{
-			ObjectListMembers.AllColumns.Add(new BrightIdeasSoftware.OLVColumn("Rol", "Role")
-			{
-				Width = 100,
-			});
-
-			ObjectListMembers.AllColumns.Add(new BrightIdeasSoftware.OLVColumn("Nombre", "Name")
-			{
-				FillsFreeSpace = true,
-				UseFiltering = true,
-			});
-
-
-			ObjectListMembers.AllColumns.Add(new BrightIdeasSoftware.OLVColumn("Descripción", "RoleDescription")
-			{
-				Width = 120,
-				IsVisible = false,
-			});
-
-			ObjectListMembers.AllColumns.Add(new BrightIdeasSoftware.OLVColumn("Clave Elector", "ElectorCode")
-			{
-				Width = 120,
-			});
-
-			ObjectListMembers.AllColumns.Add(new BrightIdeasSoftware.OLVColumn("OCR", "OCR")
-			{
-				Width = 120,
-			});
-
-			ObjectListMembers.AllColumns.Add(new BrightIdeasSoftware.OLVColumn("Sección", "Section")
-			{
-				Width = 120,
-			});
-
-
-			ObjectListMembers.RebuildColumns();
-		}
-
-		private void SetupTree()
-		{
-			ObjectListMembers.CanExpandGetter = delegate (object obj)
-			{
-				OLVM_NetworkMember member = obj as OLVM_NetworkMember;
-
-				if (member == null)
-					return false;
-
-				if (members_childrens_count.ContainsKey(member.MemberId))
-				{
-					if (members_childrens_count[member.MemberId] > 0)
-						return true;
-				}
-
-				return false;
-			};
-
-			ObjectListMembers.ChildrenGetter = delegate (object obj)
-			{
-				OLVM_NetworkMember member = (OLVM_NetworkMember)obj;
-
-				List<OLVM_NetworkMember> children = new List<OLVM_NetworkMember>();
-
-				if (member != null)
-				{
-					foreach (OLVM_NetworkMember child in members_models)
-					{
-						if (child.ParentMemberId == member.MemberId)
-						{
-							children.Add(child);
-						}
-					}
-				}
-
-				return children;
-			};
-		}
-
-		/*
-		private void RefreshMembersStructure()
-		{
-			using (new CursorWait())
-			{
-				TreeViewMembers.BeginUpdate();
-				TreeViewMembers.Nodes.Clear();
-
-				// first node of the tree is the lead
-				TreeNode root_node = new TreeNode(LeadCitizen.GetFullName());
-
-				TreeViewMembers.Nodes.Add(root_node);
-
-				// second level are all children of this
-				foreach (DataRow row in DTMembers.Rows)
-				{
-					if ((int)row["parent_member_id"] == 0)
-					{
-						TreeNode child_node = new TreeNode($"{(string)row["citizen_name"]} - {(string)row["role_name"]}");
-
-						child_node.Tag = new TCitizenNetworkMember()
-						{
-							Id = (int)row["id"],
-							ParentMemberId = (int)row["parent_member_id"],
-							Role = new TCitizenNetworkRole()
-							{
-								Id = (int)row["role_id"],
-								Name = (string)row["role_name"],
-								Level = (int)row["role_level"]
-							}
-						};
-
-						root_node.Nodes.Add(child_node);
-
-						// then all others members
-						PopulateTreeNode(ref child_node, ((TCitizenNetworkMember)child_node.Tag).Id);
-					}
-				}
-
-				TreeViewMembers.EndUpdate();
-
-				//TreeViewMembers.ExpandAll();
-				TreeViewUtilities.ExpandToLevel(TreeViewMembers.Nodes, citizen_structure_expand_level);
-			}
-		}
-		*/
-
-		public void PopulateTreeNode(ref TreeNode node, int id)
-		{
-			foreach (DataRow row in DTMembers.Rows)
-			{
-				if ((int)row["parent_member_id"] == id)
-				{
-					TreeNode child_node = new TreeNode($"{(string)row["citizen_name"]} - {(string)row["role_name"]}");
-
-					child_node.Tag = new TCitizenNetworkMember()
-					{
-						Id = (int)row["id"],
-						ParentMemberId = (int)row["parent_member_id"],
-						Role = new TCitizenNetworkRole()
-						{
-							Id = (int)row["role_id"],
-							Name = (string)row["role_name"],
-							Level = (int)row["role_level"]
-						}
-					};
-
-					node.Nodes.Add(child_node);
-
-					PopulateTreeNode(ref child_node, (int)row["id"]);
+					roots.Add(member);
 				}
 			}
+
+			ObjectListMembers.Roots = roots;
 		}
 
 		private bool ValidateInput()
@@ -571,18 +279,7 @@ namespace GCRM
 				}
 
 				// members
-				foreach (DataRow row in DTMembers.Rows)
-				{
-					TCitizenNetworkMember member = new TCitizenNetworkMember();
-
-					member.Id = (int)row["id"];
-					member.CitizenNetworkId = Id;
-					member.Citizen.Id = (int)row["citizen_id"];
-					member.ParentMemberId = (int)row["parent_member_id"];
-					member.Role.Id = (int)row["role_id"];
-
-					network.Members.Add(member);
-				}
+				network.Members.AddRange(Members);
 
 				Error error = CitizenNetworksHandler.SaveCitizenNetwork(network, Mode == FAccessMode.Update);
 
@@ -600,6 +297,33 @@ namespace GCRM
 		{
 			DialogResult = DialogResult.Cancel;
 		}
+
+		private void BSelectLeadCitizen_Click(object sender, EventArgs e)
+		{
+			using (FCitizenList citizen_list = new FCitizenList())
+			{
+				citizen_list.SetMode(FAccessMode.Select);
+
+				if (citizen_list.ShowDialog() == DialogResult.OK)
+				{
+					LeadCitizen = citizen_list.GetSelectedCitizen();
+
+					TextBoxLeadCitizen.Text = $"{LeadCitizen.Name} {LeadCitizen.PaternalName} {LeadCitizen.MaternalName}";
+
+					LLeadCitizenInfo.Text = $"Tel. {LeadCitizen.Phone}";
+					if (LeadCitizen.PhoneExtension != "")
+					{
+						LLeadCitizenInfo.Text += $" Ext. {LeadCitizen.PhoneExtension}";
+					}
+
+					LLeadCitizenInfo.Text += $" Cel. {LeadCitizen.Cellphone}";
+
+					//RefreshMembersStructure();
+				}
+			}
+		}
+
+		#region Roles
 
 		private TCitizenNetworkRole GetSelectedRole(out int row_index)
 		{
@@ -620,6 +344,7 @@ namespace GCRM
 				CitizenNetworkId = Id,
 				Name = (string)row.Cells["colName"].Value,
 				Description = (string)row.Cells["colDescription"].Value,
+				Level = (int)row.Cells["colLevel"].Value,
 			};
 
 			return role;
@@ -722,105 +447,388 @@ namespace GCRM
 			}
 
 			// check the role isn't being used by no network member
-			foreach (DataRow row in DTMembers.Rows)
-			{
-				if ((int)row["role_id"] == role.Id)
-				{
-					Utilities.ShowErrorDialog(Error.CitizenNetworkRoleInUse);
-					return;
-				}
-			}
+			//foreach (DataRow row in DTMembers.Rows)
+			//{
+			//	if ((int)row["role_id"] == role.Id)
+			//	{
+			//		Utilities.ShowErrorDialog(Error.CitizenNetworkRoleInUse);
+			//		return;
+			//	}
+			//}
 
 			DTRoles.Rows.RemoveAt(role_index);
 		}
-		
-		private TCitizenNetworkMember GetSelectedMember(out int row_index)
+
+		#endregion
+
+		#region Members
+
+		// object tree view control
+		// ------------------------------------------------
+		private void CountMemberChildren()
 		{
-			row_index = 0;
+			MembersChildrensCount.Clear();
 
-			//if (DataGridMembers.SelectedRows.Count == 0)
-			//{
-			//	return null;
-			//}
+			foreach (TCitizenNetworkMember member in Members)
+			{
+				if (MembersChildrensCount.Keys.Contains(member.Id) == false)
+				{
+					MembersChildrensCount[member.Id] = 0;
+				}
 
-			//DataGridViewRow row = DataGridMembers.SelectedRows[0];
+				MembersChildrensCount[member.Id] = Members.Count(m => m.ParentMemberId == member.Id);
+			}
+		}
 
-			//row_index = row.Index;
+		private void SetupStyles()
+		{
+			ObjectListMembers.GridLines = true;
+			ObjectListMembers.BorderStyle = BorderStyle.None;
+			ObjectListMembers.HeaderUsesThemes = false;
+			ObjectListMembers.HeaderMinimumHeight = 1;
+			ObjectListMembers.HeaderFormatStyle = new HeaderFormatStyle();
+			ObjectListMembers.HeaderMaximumHeight = 16;
+			ObjectListMembers.HeaderFormatStyle.SetBackColor(SystemColors.ControlLight);
+			ObjectListMembers.HeaderFormatStyle.SetForeColor(SystemColors.WindowText);
+			ObjectListMembers.HeaderFormatStyle.SetFont(new System.Drawing.Font("Segoe UI", 9));
+			ObjectListMembers.CellVerticalAlignment = StringAlignment.Center;
+			ObjectListMembers.RowHeight = 16;
+			ObjectListMembers.UseCustomSelectionColors = true;
+			ObjectListMembers.UseAlternatingBackColors = false;
+			ObjectListMembers.ForeColor = SystemColors.WindowText;
+			ObjectListMembers.BackColor = SystemColors.Window;
+			ObjectListMembers.AlternateRowBackColor = System.Drawing.Color.WhiteSmoke;
+			ObjectListMembers.SelectedBackColor = SystemColors.GradientInactiveCaption;
+			ObjectListMembers.UnfocusedSelectedBackColor = SystemColors.GradientInactiveCaption;
+			ObjectListMembers.SelectedForeColor = SystemColors.WindowText;
+			ObjectListMembers.AllowColumnReorder = true;
+		}
 
-			//TCitizenNetworkMember member = new TCitizenNetworkMember()
-			//{
-			//	Id = (int)row.Cells["colId"].Value,
-			//	CitizenNetworkId = Id,
-			//	ParentMemberId = (int)row.Cells["colParentMemberId"].Value,
+		private void SetupColumns()
+		{
+			ObjectListMembers.AllColumns.Add(new BrightIdeasSoftware.OLVColumn("Rol", "Role.Name")
+			{
+				Width = 150,
+			});
 
-			//	Citizen = new TCitizen()
-			//	{
-			//		Id = (int)row.Cells["colCitizenId"].Value,
-			//		Name = (string)row.Cells["colCitizenName"].Value,
-			//	},
+			ObjectListMembers.AllColumns.Add(new BrightIdeasSoftware.OLVColumn("Nombre", "Citizen.FullName")
+			{
+				FillsFreeSpace = true,
+				UseFiltering = true,
+			});
 
-			//	Role = new TCitizenNetworkRole()
-			//	{
-			//		Id = (int)row.Cells["colRoleId"].Value,
-			//		Name = (string)row.Cells["colRoleName"].Value
-			//	}
-			//};
+			ObjectListMembers.AllColumns.Add(new BrightIdeasSoftware.OLVColumn("Descripción", "Role.Description")
+			{
+				Width = 120,
+				IsVisible = false,
+			});
 
-			//return member;
-			return null;
+			ObjectListMembers.AllColumns.Add(new BrightIdeasSoftware.OLVColumn("Clave Elector", "Citizen.VoterCode")
+			{
+				Width = 120,
+			});
+
+			ObjectListMembers.AllColumns.Add(new BrightIdeasSoftware.OLVColumn("OCR", "Citizen.VoterOCR")
+			{
+				Width = 120,
+			});
+
+			ObjectListMembers.AllColumns.Add(new BrightIdeasSoftware.OLVColumn("Sección", "Citizen.VoterSection")
+			{
+				Width = 120,
+			});
+
+			ObjectListMembers.RebuildColumns();
+		}
+
+		private void SetupDragAndDrop()
+		{
+			ObjectListMembers.AllowDrop = true;
+			ObjectListMembers.IsSimpleDragSource = true;
+			ObjectListMembers.IsSimpleDropSink = true;
+
+			SimpleDropSink drop_sink = new SimpleDropSink()
+			{
+				CanDropOnSubItem = true,
+				FeedbackColor = SystemColors.GradientInactiveCaption,
+			};
+
+			drop_sink.FeedbackColor = SystemColors.GradientInactiveCaption;
+
+			drop_sink.Billboard.BackColor = SystemColors.Info;
+
+			ObjectListMembers.DropSink = drop_sink;
+
+			ObjectListMembers.Refresh();
+
+			ObjectListMembers.ModelCanDrop += delegate (object sender, ModelDropEventArgs e)
+			{
+				e.Effect = DragDropEffects.None;
+
+				if (Session.HasPermission("Network.Members.Hierarchy.Editar") == false)
+				{
+					e.InfoMessage = "El usuario no cuenta con permisos para realizar esta acción.";
+					return;
+				}
+
+				if (e.TargetModel == null)
+					return;
+
+				TCitizenNetworkMember target_member = e.TargetModel as TCitizenNetworkMember;
+
+				if (target_member == null)
+				{
+					return;
+				}
+
+				foreach (object source in e.SourceModels)
+				{
+					if (target_member == source)
+						return;
+
+					TCitizenNetworkMember source_member = source as TCitizenNetworkMember;
+
+					if (source_member != null)
+					{
+						if (source_member.Role.Level <= target_member.Role.Level)
+						{
+							e.InfoMessage = $"Un miembro con rol {source_member.Role.Name} no puede estar debajo de otro con rol {target_member.Role.Name}";
+							return;
+						}
+					}
+				}
+
+				e.Effect = DragDropEffects.All;
+			};
+
+			ObjectListMembers.ModelDropped += delegate (object sender, ModelDropEventArgs e)
+			{
+				TCitizenNetworkMember target_member = e.TargetModel as TCitizenNetworkMember;
+
+				if (e.TargetModel == null)
+					return;
+
+				foreach (object model in e.SourceModels)
+				{
+					TCitizenNetworkMember source = model as TCitizenNetworkMember;
+
+					if (source == null)
+						continue;
+
+					source.ParentMemberId = target_member.Id;
+				}
+
+				PopulateObjectListMembers();
+
+				ObjectListMembers.Expand(target_member);
+
+				ObjectListMembers.SelectObjects(e.SourceModels);
+			};
+		}
+
+		private bool MembersCanExpandGetter(object obj)
+		{
+			TCitizenNetworkMember member = obj as TCitizenNetworkMember;
+
+			if (member == null)
+				return false;
+
+			if (MembersChildrensCount.ContainsKey(member.Id))
+			{
+				if (MembersChildrensCount[member.Id] > 0)
+					return true;
+			}
+
+			return false;
+		}
+
+		private List<TCitizenNetworkMember> MembersChildrenGetter(object obj)
+		{
+			TCitizenNetworkMember member = (TCitizenNetworkMember)obj;
+
+			List<TCitizenNetworkMember> children = new List<TCitizenNetworkMember>();
+
+			if (member != null)
+			{
+				foreach (TCitizenNetworkMember child in Members)
+				{
+					if (child.ParentMemberId == member.Id)
+					{
+						children.Add(child);
+					}
+				}
+			}
+
+			return children;
+		}
+
+		private void SetupTree()
+		{
+			ObjectListMembers.CanExpandGetter = delegate (object obj)
+			{
+				return MembersCanExpandGetter(obj);
+			};
+
+			ObjectListMembers.ChildrenGetter = delegate (object obj)
+			{
+				return MembersChildrenGetter(obj);
+			};
+		}
+
+		// ------------------------------------------------
+
+		private TCitizenNetworkMember GetSelectedMember()
+		{
+			TCitizenNetworkMember member = ObjectListMembers.SelectedObject as TCitizenNetworkMember;
+
+			if (member == null)
+			{
+				return null;
+			}
+
+			return member;
 		}
 
 		private TCitizenNetworkMember GetSelectedMemberParent()
 		{
-			//if (TreeViewMembers.Parent == null)
-			//	return new TCitizenNetworkMember();
+			TCitizenNetworkMember member = ObjectListMembers.SelectedObject as TCitizenNetworkMember;
 
-			//if (DataGridMembers.Parent.Tag == null)
-			//	return new TCitizenNetworkMember();
+			if (member == null)
+			{
+				return null;
+			}
 
-			//TCitizenNetworkMember parent_member = DataGridMembers.Parent.Tag as TCitizenNetworkMember;
+			if (member.ParentMemberId == 0)
+			{
+				return null;
+			}
 
-			//if (parent_member == null)
-			//	return new TCitizenNetworkMember();
+			foreach (TCitizenNetworkMember parent in Members)
+			{
+				if (member.ParentMemberId == parent.Id)
+				{
+					return parent;
+				}
+			}
 
-			//return parent_member;
 			return null;
 		}
 
-		private void BSelectLeadCitizen_Click(object sender, EventArgs e)
+		private TCitizenNetworkMember GetMemberById(int member_id)
 		{
-			using (FCitizenList citizen_list = new FCitizenList())
+			TCitizenNetworkMember member = null;
+
+			foreach (TCitizenNetworkMember m in Members)
 			{
-				citizen_list.SetMode(FAccessMode.Select);
-
-				if (citizen_list.ShowDialog() == DialogResult.OK)
+				if (m.Id == member_id)
 				{
-					LeadCitizen = citizen_list.GetSelectedCitizen();
-
-					TextBoxLeadCitizen.Text = $"{LeadCitizen.Name} {LeadCitizen.PaternalName} {LeadCitizen.MaternalName}";
-
-					LLeadCitizenInfo.Text = $"Tel. {LeadCitizen.Phone}";
-					if (LeadCitizen.PhoneExtension != "")
-					{
-						LLeadCitizenInfo.Text += $" Ext. {LeadCitizen.PhoneExtension}";
-					}
-
-					LLeadCitizenInfo.Text += $" Cel. {LeadCitizen.Cellphone}";
-
-					//RefreshMembersStructure();
+					member = m;
+					break;
 				}
+			}
+
+			return member;
+		}
+
+		private TCitizenNetworkMember GetMemberParentMember(int member_id)
+		{
+			TCitizenNetworkMember member = GetMemberById(member_id);
+
+			foreach (TCitizenNetworkMember parent in Members)
+			{
+				if (member.ParentMemberId == parent.Id)
+				{
+					return parent;
+				}
+			}
+
+			return null;
+		}
+
+		private TCitizenNetworkMember GetMemberRootMember(int member_id)
+		{
+			TCitizenNetworkMember member = GetMemberById(member_id);
+
+			if (member == null)
+				throw new Exception("no member with the given Id!");
+
+			while (member.ParentMemberId != 0)
+			{
+				member = GetMemberById(member.ParentMemberId);
+			}
+
+			return member;
+		}
+
+		private void BPrint1x10_Click(object sender, EventArgs e)
+		{
+			TCitizenNetworkMember selected_member = GetSelectedMember();
+
+			if (selected_member == null)
+			{
+				Utilities.ShowValidationErrorDialog("Debe seleccionar un miembro.");
+				return;
+			}
+
+			TCitizenNetworkMember lead_member = GetMemberRootMember(selected_member.Id);
+
+			R002DocumentModel model = new R002DocumentModel()
+			{
+				Network = new TCitizenNetwork()
+				{
+					Name = TextBoxName.Text.Trim(),
+					Description = TextBoxDescription.Text.Trim(),
+				},
+				LeadMember = lead_member,
+				ReferentMember = selected_member,
+				Members = MembersChildrenGetter(selected_member)
+			};
+
+			IDocument document = new R002Document(model);
+
+			document.GeneratePdfAndShow();
+		}
+
+		private void BAddRoot_Click(object sender, EventArgs e)
+		{
+			TCitizenNetworkMember member = new TCitizenNetworkMember();
+
+			int role_id = 0;
+			int min_level = 10 * 10 * 10 * 10;
+
+			foreach (DataRow row in DTRoles.Rows)
+			{
+				if ((int)row["level"] < min_level)
+				{
+					role_id = (int)row["id"];
+				}
+			}
+
+			member.Role.Id = role_id;
+
+			MemberDlg.SetMode(FAccessMode.Create);
+			MemberDlg.SetMember(member, new TCitizenNetworkMember());
+
+			if (MemberDlg.ShowDialog() == DialogResult.OK)
+			{
+				member = MemberDlg.GetMember();
+
+				member.Id = member_autoinc++;
+
+				Members.Add(member);
+
+				PopulateObjectListMembers();
 			}
 		}
 
 		private void BAddMember_Click(object sender, EventArgs e)
 		{
-			int row_index;
-
-			TCitizenNetworkMember selected_member = GetSelectedMember(out row_index);
+			TCitizenNetworkMember selected_member = GetSelectedMember();
 
 			if (selected_member == null)
 			{
-				selected_member = new TCitizenNetworkMember();
+				Utilities.ShowValidationErrorDialog("Debe seleccionar un miembro padre.");
+				return;
 			}
 
 			TCitizenNetworkMember member = new TCitizenNetworkMember();
@@ -834,89 +842,33 @@ namespace GCRM
 			{
 				member = MemberDlg.GetMember();
 
-				DTMembers.BeginLoadData();
+				member.Id = member_autoinc++;
 
-				DataRow row = DTMembers.NewRow();
+				Members.Add(member);
 
-				row["citizennetwork_id"] = Id;
-				row["parent_member_id"] = selected_member.Id;
-				row["citizen_id"] = member.Citizen.Id;
-				row["citizen_name"] = member.Citizen.GetFullName();
-				row["role_id"] = member.Role.Id;
-				row["role_name"] = member.Role.Name;
-				row["role_level"] = member.Role.Level;
+				PopulateObjectListMembers();
 
-				DTMembers.Rows.Add(row);
-
-				DTMembers.EndLoadData();
-
-				//RefreshMembersStructure();
+				ObjectListMembers.Expand(selected_member);
 			}
 		}
 
 		private void BEditMember_Click(object sender, EventArgs e)
 		{
-			int selected_index;
-
-			TCitizenNetworkMember member = GetSelectedMember(out selected_index);
-			TCitizenNetworkMember parent_member = GetSelectedMemberParent();
-
-			if (member == null)
-			{
-				return;
-			}
-
-			MemberDlg.SetMode(FAccessMode.Update);
-			MemberDlg.SetMember(member, parent_member);
-
-			if (MemberDlg.ShowDialog() == DialogResult.OK)
-			{
-				member = MemberDlg.GetMember();
-
-				DataRow row = DTMembers.Rows[selected_index];
-
-				row.BeginEdit();
-
-				row["id"] = member.Id;
-				row["citizennetwork_id"] = Id;
-				row["parent_member_id"] = member.ParentMemberId;
-				row["citizen_id"] = member.Citizen.Id;
-				row["citizen_name"] = member.Citizen.Name;
-				row["role_id"] = member.Role.Id;
-				row["role_name"] = member.Role.Name;
-				row["role_level"] = member.Role.Level;
-
-				row.EndEdit();
-
-				//RefreshMembersStructure();
-			}
+			// TODO
 		}
 
 		private void BReadMember_Click(object sender, EventArgs e)
 		{
-			int selected_index;
-
-			TCitizenNetworkMember member = GetSelectedMember(out selected_index);
-			TCitizenNetworkMember parent_member = GetSelectedMemberParent();
-
-			if (member == null)
-			{
-				return;
-			}
-
-			MemberDlg.SetMode(FAccessMode.Read);
-			MemberDlg.SetMember(member, parent_member);
-			MemberDlg.ShowDialog();
+			// TODO
 		}
 
 		private void BDeleteMember_Click(object sender, EventArgs e)
 		{
-			int member_index;
-
-			TCitizenNetworkMember member = GetSelectedMember(out member_index);
+			TCitizenNetworkMember member = GetSelectedMember();
 
 			if (member == null)
 			{
+				Utilities.ShowValidationErrorDialog("Debe seleccionar un miembro.");
 				return;
 			}
 
@@ -925,39 +877,29 @@ namespace GCRM
 				return;
 			}
 
-			// check the member doesn't have child members
-			foreach (DataRow row in DTMembers.Rows)
+			if (MembersChildrensCount.ContainsKey(member.Id))
 			{
-				if ((int)row["parent_member_id"] == member.Id)
+				if (MembersChildrensCount[member.Id] > 0)
 				{
-					Utilities.ShowErrorDialog(Error.CitizenNetworkMemberInUse);
+					Utilities.ShowValidationErrorDialog("No se puede eliminar un miembro que cuenta con otros realacionados.");
 					return;
 				}
 			}
 
-			DTMembers.Rows.RemoveAt(member_index);
-
-			//RefreshMembersStructure();
-		}
-
-		private void BPrint1x10_Click(object sender, EventArgs e)
-		{
-			// TODO: implement the 1x10 report
+			Members.Remove(member);
+			PopulateObjectListMembers();
 		}
 
 		private void BExpandLevel_Click(object sender, EventArgs e)
 		{
-
+			ObjectListMembers.ExpandAll();
 		}
 
 		private void BContractLevel_Click(object sender, EventArgs e)
 		{
-
+			ObjectListMembers.CollapseAll();
 		}
 
-		private void ObjectListMembers_SelectedIndexChanged(object sender, EventArgs e)
-		{
-
-		}
+		#endregion
 	}
 }

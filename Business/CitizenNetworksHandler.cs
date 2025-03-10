@@ -118,7 +118,7 @@ namespace Business
 				}
 
 				// query the roles
-				cmd.CommandText = "SELECT * FROM citizennetwork_roles WHERE citizennetwork_id = @id;";
+				cmd.CommandText = "SELECT * FROM citizennetwork_roles WHERE citizennetwork_id = @id ORDER BY nivel;";
 
 				using (var reader = cmd.ExecuteReader())
 				{

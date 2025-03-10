@@ -1,4 +1,6 @@
 ﻿using Business;
+using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Spreadsheet;
 using QuestPDF.Fluent;
 using Reporter;
 using System.Data;
@@ -182,6 +184,37 @@ namespace GCRM
 			}
 		}
 
+		private void BRead_Click(object sender, EventArgs e)
+		{
+			int id = GetSelectedCitizenNetworkId();
+
+			if (id == 0)
+			{
+				return;
+			}
+
+			using (FCitizenNetworkData citizen_network_dlg = new FCitizenNetworkData())
+			{
+				citizen_network_dlg.SetAccessMode(FAccessMode.Read);
+				citizen_network_dlg.SetId(id);
+				citizen_network_dlg.ShowDialog();
+			}
+		}
+
+		private void BDelete_Click(object sender, EventArgs e)
+		{
+			int id = GetSelectedCitizenNetworkId();
+
+			if (id == 0)
+				return;
+
+			if (Utilities.ShowDeleteConfirmDialog("Desea eliminar la estructura seleccionada?") != DialogResult.Yes)
+				return;
+			
+			//Error error = CitizenNetworksHandler.
+			// TODO
+		}
+
 		private void BPrint_Click(object sender, EventArgs e)
 		{
 			int id = GetSelectedCitizenNetworkId();
@@ -199,11 +232,11 @@ namespace GCRM
 				return;
 			}
 
-			R002DocumentModel model = new R002DocumentModel();
+			R003DocumentModel model = new R003DocumentModel();
 
 			model.Network = network;
 
-			R002Document document = new R002Document(model);
+			R003Document document = new R003Document(model);
 
 			document.GeneratePdfAndShow();
 		}
@@ -243,6 +276,130 @@ namespace GCRM
 
 			e.Graphics.FillRectangle(brush, e.Bounds.X, e.Bounds.Y, TreeViewNetwroksStructure.Width - (e.Bounds.X - TreeViewNetwroksStructure.Location.X), e.Bounds.Height);
 			TextRenderer.DrawText(e.Graphics, e.Node.Text, font, e.Bounds, foreground_color, TextFormatFlags.GlyphOverhangPadding);
+		}
+
+		private TCitizenNetworkMember GetMemberById(List<TCitizenNetworkMember> members, int member_id)
+		{
+			TCitizenNetworkMember member = null;
+
+			foreach (TCitizenNetworkMember m in members)
+			{
+				if (m.Id == member_id)
+				{
+					member = m;
+					break;
+				}
+			}
+
+			return member;
+		}
+
+		private TCitizenNetworkMember GetMemberParentMember(List<TCitizenNetworkMember> members, int member_id)
+		{
+			TCitizenNetworkMember member = GetMemberById(members, member_id);
+
+			foreach (TCitizenNetworkMember parent in members)
+			{
+				if (member.ParentMemberId == parent.Id)
+				{
+					return parent;
+				}
+			}
+
+			return null;
+		}
+
+		private void BExcelExport_Click(object sender, EventArgs e)
+		{
+			int id = GetSelectedCitizenNetworkId();
+
+			if (id == 0)
+			{
+				Utilities.ShowValidationErrorDialog("Debe seleccionar una estructura.");
+				return;
+			}
+
+			TCitizenNetwork network;
+
+			using (new CursorWait())
+			{
+				Error error = CitizenNetworksHandler.GetCitizenNetworkById(id, out network);
+
+				if (error != 0)
+				{
+					Utilities.ShowErrorDialog(error);
+					return;
+				}
+			}
+
+			SaveFileDialog.DefaultExt = $".xlsx";
+			SaveFileDialog.FileName = $"listado_miembros_estructura_{DateTime.Now.ToString("yyyyMMdd")}";
+			SaveFileDialog.Filter = $"Excel (*.xlsx) | Todos (*.*)";
+
+			if (SaveFileDialog.ShowDialog() != DialogResult.OK)
+			{
+				return;
+			}
+
+			using (new CursorWait())
+			{
+				try
+				{
+					using (var workbook = new XLWorkbook())
+					{
+						var worksheet = workbook.Worksheets.Add("Miembros");
+
+						XLColor headers_color = XLColor.LightGray;
+
+						int row_index = 1;
+
+						ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "#", headers_color, 3);
+						ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Nombre", headers_color, 30);
+						ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Rol", headers_color, 30);
+						ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Clave de elector", headers_color, 30);
+						ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "OCR", headers_color, 30);
+						ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Sección", headers_color, 30);
+						ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Dirección", headers_color, 80);
+						ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Celular", headers_color, 30);
+						ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Teléfono", headers_color, 30);
+						ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Referente", headers_color, 30);
+
+						for (int i = 0; i < network.Members.Count; i++)
+						{
+							TCitizenNetworkMember member = network.Members[i];
+
+							row_index = 1;
+
+							ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, i.ToString());
+							ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, member.Citizen.FullName);
+							ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, member.Role.Name);
+							ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, member.Citizen.VoterCode);
+							ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, member.Citizen.VoterOCR);
+							ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, member.Citizen.VoterSection);
+							ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, member.Citizen.Address.FullAddress);
+							ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, member.Citizen.FullPhone);
+							ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, member.Citizen.Cellphone);
+
+							string full_parent_name = "";
+
+							if (member.ParentMemberId != 0)
+							{
+								TCitizenNetworkMember parent = GetMemberParentMember(network.Members, member.Id);
+
+								full_parent_name = parent.Citizen.FullName;
+							}
+
+							ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, full_parent_name);
+						}
+
+						workbook.SaveAs(SaveFileDialog.FileName);
+					}
+				}
+				catch (Exception ex)
+				{
+					Utilities.ShowExceptionDialog(ex);
+				}
+			}
 		}
 	}
 }
