@@ -93,6 +93,8 @@ namespace GCRM
 				BInstitutionCategories.Visible = Session.HasPermission("Instituciones.Categorias.Consultar");
 
 				BCitizenNetworks.Visible = Session.HasPermission("Network.Consultar");
+
+				BEmails.Visible = Session.HasPermission("Emails.Consultar");
 			}
 		}
 
@@ -154,6 +156,14 @@ namespace GCRM
 			using (FCitizenNetworkList citizen_network_list_dlg = new FCitizenNetworkList())
 			{
 				citizen_network_list_dlg.ShowDialog();
+			}
+		}
+
+		private void BEmails_Click(object sender, EventArgs e)
+		{
+			using (FEmailList emails_dlg = new FEmailList())
+			{
+				emails_dlg.ShowDialog();
 			}
 		}
 	}

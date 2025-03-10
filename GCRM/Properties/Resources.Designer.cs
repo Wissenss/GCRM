@@ -253,6 +253,56 @@ namespace GCRM.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Fatcow_Farm_Fresh_Earth_night_16 {
+            get {
+                object obj = ResourceManager.GetObject("Fatcow-Farm-Fresh-Earth-night.16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Fatcow_Farm_Fresh_Email_32 {
+            get {
+                object obj = ResourceManager.GetObject("Fatcow-Farm-Fresh-Email.32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Fatcow_Farm_Fresh_Email_accounts_32 {
+            get {
+                object obj = ResourceManager.GetObject("Fatcow-Farm-Fresh-Email-accounts.32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Fatcow_Farm_Fresh_Email_trace_16 {
+            get {
+                object obj = ResourceManager.GetObject("Fatcow-Farm-Fresh-Email-trace.16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Fatcow_Farm_Fresh_Email_trace_32 {
+            get {
+                object obj = ResourceManager.GetObject("Fatcow-Farm-Fresh-Email-trace.32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Fatcow_Farm_Fresh_Entity_32 {
             get {
                 object obj = ResourceManager.GetObject("Fatcow-Farm-Fresh-Entity.32", resourceCulture);

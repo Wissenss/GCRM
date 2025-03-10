@@ -1,10 +1,15 @@
 ﻿using System.Diagnostics;
+using System.Net;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.Json;
 using BrightIdeasSoftware;
 using Business;
+using Business.Business;
 using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Office2010.ExcelAc;
 
 namespace GCRM
 {
@@ -21,6 +26,11 @@ namespace GCRM
 		public static void ShowErrorDialog(Business.Error error)
 		{
 			MessageBox.Show(Errors.GetErrorDescription(error), $"Error{(int)error}: {error.ToString()}", MessageBoxButtons.OK);
+		}
+
+		public static void ShowErrorDialog(string error, string title = "Error")
+		{
+			MessageBox.Show(error, title, MessageBoxButtons.OK);
 		}
 
 		public static void ShowValidationErrorDialog(string errors, string title = "Se encontraron los siguientes problemas: ")
@@ -210,6 +220,138 @@ namespace GCRM
 					ExpandToLevel(treeListView, objects, level - 1);
 				}
 			}
+		}
+	}
+
+	public static class PurelyemailUtilities
+	{
+		class TResponse
+		{
+			public string type { get; set; }
+		}
+
+		class TListUsersResponse : TResponse
+		{
+			public TListUsersReponseResult result { get; set; }
+		}
+
+		class TListUsersReponseResult
+		{
+			public List<string> users { get; set; }
+		}
+
+		class TCreateUserRequest()
+		{
+			public string userName { get; set; }
+			public string domainName { get; set; }	
+			public string password { get; set; }	
+			public bool enablePasswordReset { get; set; }
+			public string recoverEmail { get; set; }
+			public string recoveryEmailDescription { get; set; }
+			public string recoveryPhone { get; set; }
+			public string recoveryPhoneDescription { get; set; }
+			public bool enableSearchIndexing { get; set; }
+			public bool sendWelcomeEmail { get; set; }
+		}
+
+		class TGetUserRequest()
+		{
+			public string UserName { get; set; }
+		}
+
+		public class TGetUserResponse()
+		{
+			public TGetUserResponseResult Result { get; set; }
+		}
+
+		public class TGetUserResponseResult()
+		{
+			public bool EnableSearchIndexing { get; set; }
+			public bool RecoveryEnabled { get; set; }
+			public bool RequireTwoFactorAuthentication { get; set; }
+			public bool EnableSpamFiltering { get; set; }
+		}
+
+		public static HttpClient Client;
+
+		static PurelyemailUtilities()
+		{
+			Client = new HttpClient();
+
+			string email_api_key = SettingsHandler.GetSetting("Email.API.Key", "pm-live-eace83da-880e-449f-ab8e-f31b1e25c728");
+
+			Client.BaseAddress = new Uri("https://purelymail.com/");
+			Client.DefaultRequestHeaders.Add("Purelymail-Api-Token", email_api_key);
+		}
+
+		public static async Task<List<string>> ListUser()
+		{
+			var response = await Client.PostAsync("/api/v0/listUser", new StringContent("{}", Encoding.UTF8, "application/json"));
+
+			if (response.IsSuccessStatusCode == false)
+			{
+				Utilities.ShowErrorDialog($"Purelymail API responded with code: {response.StatusCode}");
+				return null;
+			}
+
+			string raw_json = await response.Content.ReadAsStringAsync();
+
+			TListUsersResponse? json = JsonSerializer.Deserialize<TListUsersResponse>(raw_json);
+
+			if (json == null)
+				return null;
+
+			return json.result.users;
+		}
+
+		public static async Task<HttpStatusCode> CreateUser(string user)
+		{
+			TCreateUserRequest json = new TCreateUserRequest()
+			{
+				userName = user,
+				domainName = "purelymail.com",
+				password = "cambiame2025",
+				recoverEmail = "lmerino@purelymail.com",
+				recoveryEmailDescription = "email del administrador",
+				recoveryPhone = "",
+				recoveryPhoneDescription = "",
+				enablePasswordReset = true,
+				enableSearchIndexing = false,
+				sendWelcomeEmail = false
+			};
+
+			string raw_json = JsonSerializer.Serialize(json);
+
+			var response = await Client.PostAsync("/api/v0/createUser", new StringContent(raw_json, Encoding.UTF8, "application/json"));
+
+			if (response.IsSuccessStatusCode == false)
+			{
+				Utilities.ShowErrorDialog($"Purelymail API responded with code: {response.StatusCode}");
+			}
+
+			return response.StatusCode;
+		}
+
+		public static async Task<TGetUserResponse> GetUser(string user)
+		{
+			TGetUserRequest? json = new TGetUserRequest()
+			{
+				UserName = user,
+			};
+
+			string raw_json = JsonSerializer.Serialize(json);
+
+			var response = await Client.PostAsync("/api/v0/getUser", new StringContent(raw_json, Encoding.UTF8, "application/json"));
+
+			if (response.IsSuccessStatusCode == false)
+			{
+				Utilities.ShowErrorDialog($"Purelymail API responded with code: {response.StatusCode}");
+				return null;
+			}
+
+			TGetUserResponse info = JsonSerializer.Deserialize<TGetUserResponse>(raw_json);
+
+			return info;
 		}
 	}
 }

@@ -41,26 +41,28 @@
 			TabControl = new TabControl();
 			TabPageCatalogs = new TabPage();
 			TabElectoral = new TabPage();
+			toolStrip3 = new ToolStrip();
+			BCitizenNetworks = new ToolStripButton();
 			TabOthers = new TabPage();
-			toolStrip2 = new ToolStrip();
+			ToolStripOther = new ToolStrip();
 			BSettings = new ToolStripButton();
 			BUsers = new ToolStripButton();
 			BConnection = new ToolStripButton();
 			BAbout = new ToolStripButton();
+			toolStripSeparator1 = new ToolStripSeparator();
+			BEmails = new ToolStripButton();
 			ListBoxBirhdays = new ListBox();
 			LBirthdayList = new Label();
 			PictureBoxBirthdayList = new PictureBox();
-			toolStrip3 = new ToolStrip();
-			BCitizenNetworks = new ToolStripButton();
 			statusStrip1.SuspendLayout();
 			toolStrip1.SuspendLayout();
 			TabControl.SuspendLayout();
 			TabPageCatalogs.SuspendLayout();
 			TabElectoral.SuspendLayout();
-			TabOthers.SuspendLayout();
-			toolStrip2.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)PictureBoxBirthdayList).BeginInit();
 			toolStrip3.SuspendLayout();
+			TabOthers.SuspendLayout();
+			ToolStripOther.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)PictureBoxBirthdayList).BeginInit();
 			SuspendLayout();
 			// 
 			// statusStrip1
@@ -184,9 +186,32 @@
 			TabElectoral.Text = "Electoral";
 			TabElectoral.UseVisualStyleBackColor = true;
 			// 
+			// toolStrip3
+			// 
+			toolStrip3.Dock = DockStyle.Fill;
+			toolStrip3.GripStyle = ToolStripGripStyle.Hidden;
+			toolStrip3.Items.AddRange(new ToolStripItem[] { BCitizenNetworks });
+			toolStrip3.Location = new Point(3, 3);
+			toolStrip3.Name = "toolStrip3";
+			toolStrip3.RenderMode = ToolStripRenderMode.System;
+			toolStrip3.Size = new Size(821, 55);
+			toolStrip3.TabIndex = 1;
+			toolStrip3.Text = "ToolStripCatalogos";
+			// 
+			// BCitizenNetworks
+			// 
+			BCitizenNetworks.Image = Properties.Resources.Fatcow_Farm_Fresh_Chart_organisation_32;
+			BCitizenNetworks.ImageScaling = ToolStripItemImageScaling.None;
+			BCitizenNetworks.ImageTransparentColor = Color.Magenta;
+			BCitizenNetworks.Name = "BCitizenNetworks";
+			BCitizenNetworks.Size = new Size(69, 52);
+			BCitizenNetworks.Text = "Estructuras";
+			BCitizenNetworks.TextImageRelation = TextImageRelation.ImageAboveText;
+			BCitizenNetworks.Click += BCitizenNetworks_Click;
+			// 
 			// TabOthers
 			// 
-			TabOthers.Controls.Add(toolStrip2);
+			TabOthers.Controls.Add(ToolStripOther);
 			TabOthers.Location = new Point(4, 24);
 			TabOthers.Name = "TabOthers";
 			TabOthers.Padding = new Padding(3);
@@ -195,17 +220,17 @@
 			TabOthers.Text = "Otros";
 			TabOthers.UseVisualStyleBackColor = true;
 			// 
-			// toolStrip2
+			// ToolStripOther
 			// 
-			toolStrip2.Dock = DockStyle.Fill;
-			toolStrip2.GripStyle = ToolStripGripStyle.Hidden;
-			toolStrip2.Items.AddRange(new ToolStripItem[] { BSettings, BUsers, BConnection, BAbout });
-			toolStrip2.Location = new Point(3, 3);
-			toolStrip2.Name = "toolStrip2";
-			toolStrip2.RenderMode = ToolStripRenderMode.System;
-			toolStrip2.Size = new Size(821, 55);
-			toolStrip2.TabIndex = 0;
-			toolStrip2.Text = "toolStrip2";
+			ToolStripOther.Dock = DockStyle.Fill;
+			ToolStripOther.GripStyle = ToolStripGripStyle.Hidden;
+			ToolStripOther.Items.AddRange(new ToolStripItem[] { BSettings, BUsers, BConnection, BAbout, toolStripSeparator1, BEmails });
+			ToolStripOther.Location = new Point(3, 3);
+			ToolStripOther.Name = "ToolStripOther";
+			ToolStripOther.RenderMode = ToolStripRenderMode.System;
+			ToolStripOther.Size = new Size(821, 55);
+			ToolStripOther.TabIndex = 0;
+			ToolStripOther.Text = "toolStrip2";
 			// 
 			// BSettings
 			// 
@@ -255,6 +280,22 @@
 			BAbout.ToolTipText = "Acerca de";
 			BAbout.Click += BAbout_Click;
 			// 
+			// toolStripSeparator1
+			// 
+			toolStripSeparator1.Name = "toolStripSeparator1";
+			toolStripSeparator1.Size = new Size(6, 55);
+			// 
+			// BEmails
+			// 
+			BEmails.Image = Properties.Resources.Fatcow_Farm_Fresh_Email_32;
+			BEmails.ImageScaling = ToolStripItemImageScaling.None;
+			BEmails.ImageTransparentColor = Color.Magenta;
+			BEmails.Name = "BEmails";
+			BEmails.Size = new Size(45, 52);
+			BEmails.Text = "&Emails";
+			BEmails.TextImageRelation = TextImageRelation.ImageAboveText;
+			BEmails.Click += BEmails_Click;
+			// 
 			// ListBoxBirhdays
 			// 
 			ListBoxBirhdays.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
@@ -288,29 +329,6 @@
 			PictureBoxBirthdayList.TabIndex = 4;
 			PictureBoxBirthdayList.TabStop = false;
 			// 
-			// toolStrip3
-			// 
-			toolStrip3.Dock = DockStyle.Fill;
-			toolStrip3.GripStyle = ToolStripGripStyle.Hidden;
-			toolStrip3.Items.AddRange(new ToolStripItem[] { BCitizenNetworks });
-			toolStrip3.Location = new Point(3, 3);
-			toolStrip3.Name = "toolStrip3";
-			toolStrip3.RenderMode = ToolStripRenderMode.System;
-			toolStrip3.Size = new Size(821, 55);
-			toolStrip3.TabIndex = 1;
-			toolStrip3.Text = "ToolStripCatalogos";
-			// 
-			// BCitizenNetworks
-			// 
-			BCitizenNetworks.Image = Properties.Resources.Fatcow_Farm_Fresh_Chart_organisation_32;
-			BCitizenNetworks.ImageScaling = ToolStripItemImageScaling.None;
-			BCitizenNetworks.ImageTransparentColor = Color.Magenta;
-			BCitizenNetworks.Name = "BCitizenNetworks";
-			BCitizenNetworks.Size = new Size(69, 52);
-			BCitizenNetworks.Text = "Estructuras";
-			BCitizenNetworks.TextImageRelation = TextImageRelation.ImageAboveText;
-			BCitizenNetworks.Click += BCitizenNetworks_Click;
-			// 
 			// FMain
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
@@ -335,13 +353,13 @@
 			TabPageCatalogs.PerformLayout();
 			TabElectoral.ResumeLayout(false);
 			TabElectoral.PerformLayout();
-			TabOthers.ResumeLayout(false);
-			TabOthers.PerformLayout();
-			toolStrip2.ResumeLayout(false);
-			toolStrip2.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)PictureBoxBirthdayList).EndInit();
 			toolStrip3.ResumeLayout(false);
 			toolStrip3.PerformLayout();
+			TabOthers.ResumeLayout(false);
+			TabOthers.PerformLayout();
+			ToolStripOther.ResumeLayout(false);
+			ToolStripOther.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)PictureBoxBirthdayList).EndInit();
 			ResumeLayout(false);
 			PerformLayout();
 		}
@@ -355,7 +373,7 @@
 		private TabControl TabControl;
 		private TabPage TabPageCatalogs;
 		private TabPage TabOthers;
-		private ToolStrip toolStrip2;
+		private ToolStrip ToolStripOther;
 		private ToolStripButton BSettings;
 		private ToolStripSeparator toolStripSeparator2;
 		private ToolStripButton BInstitutionCategories;
@@ -371,5 +389,7 @@
 		private TabPage TabElectoral;
 		private ToolStrip toolStrip3;
 		private ToolStripButton BCitizenNetworks;
+		private ToolStripButton BEmails;
+		private ToolStripSeparator toolStripSeparator1;
 	}
 }

@@ -36,7 +36,7 @@ namespace GCRM
 				}
 			}
 
-			// check client version number
+			// check PurelymailClient version number
 
 			string client_version = Utilities.GetProductVersion();
 			string necessary_client_version = SettingsHandler.GetSetting("client_version", client_version);

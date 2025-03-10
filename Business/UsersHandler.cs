@@ -150,6 +150,7 @@ namespace Business
 
 				new TUserPermission(471, "Network.Members.Hierarchy.Editar"),
 
+				new TUserPermission(601, "Emails.Consultar")
 			};
 		}
 
