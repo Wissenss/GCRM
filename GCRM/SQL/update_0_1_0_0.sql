@@ -63,3 +63,7 @@ ALTER TABLE IF EXISTS public.citizens
 
 ALTER TABLE IF EXISTS public.citizens
     ADD COLUMN voter_section character varying DEFAULT '';
+
+-- added district to addresses table
+ALTER TABLE IF EXISTS public.addresses
+    ADD COLUMN district character varying DEFAULT '';

@@ -250,6 +250,7 @@ namespace GCRM
 				TextBoxState.Text = citizen.Address.State;
 				TextBoxPostalCode.Text = citizen.Address.PostalCode;
 				ComboBoxCountry.SelectedValue = citizen.Address.Country;
+				TextBoxDistrict.Text = citizen.Address.District;
 
 				ComboBoxInstitution.SelectedValue = citizen.Institution.Id;
 				ComboBoxInstitutionRole.SelectedValue = citizen.Role.Id;
@@ -480,7 +481,8 @@ namespace GCRM
 					City = TextBoxCity.Text.Trim(),
 					State = TextBoxState.Text.Trim(),
 					PostalCode = TextBoxPostalCode.Text.Trim(),
-					Country = (TCountry)ComboBoxCountry.SelectedValue
+					Country = (TCountry)ComboBoxCountry.SelectedValue,
+					District = TextBoxDistrict.Text.Trim(),
 				};
 
 				citizen.Institution = new TInstitution();
