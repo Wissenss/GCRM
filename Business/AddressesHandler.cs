@@ -19,6 +19,7 @@ namespace Business
 		public string State;
 		public string City;
 		public TCountry Country;
+		public string District;
 
 		public string FullAddress
 		{
@@ -33,22 +34,25 @@ namespace Business
 			string full_address = "";
 
 			if (Street?.Trim().Length > 0)
-				full_address += Street;
+				full_address += $" {Street}";
 
 			if (Number?.Trim().Length > 0)
 				full_address += $" No. {Number} ";
 
 			if (InteriorNumber?.Trim().Length > 0)
-				full_address += $"Int. {InteriorNumber} ";
+				full_address += $" Int. {InteriorNumber}";
+
+			if (District?.Trim().Length > 0)
+				full_address += $" {District}";
 
 			if (State?.Trim().Length > 0)
-				full_address += $"{State}";
+				full_address += $" {State}";
 
 			if (City?.Trim().Length > 0)
-				full_address += $"{City}";
+				full_address += $" {City}";
 
 			if (PostalCode?.Trim().Length > 0)
-				full_address += $"C.P. {PostalCode}";
+				full_address += $" C.P. {PostalCode}";
 
 			return full_address;
 		}
@@ -63,6 +67,7 @@ namespace Business
 			State = reader.GetString(5);
 			City = reader.GetString(6);
 			Country = (TCountry)reader.GetInt32(7);
+			District = reader.GetString(8);
 		}
 	}
 
@@ -76,11 +81,11 @@ namespace Business
 
 			if (is_update)
 			{
-				sql = "UPDATE addresses SET street = @street, number = @number, interior_number = @interior_number, postal_code = @postal_code, state = @state, city = @city, country_type = @country WHERE id = @id;";
+				sql = "UPDATE addresses SET street = @street, number = @number, interior_number = @interior_number, postal_code = @postal_code, state = @state, city = @city, country_type = @country, district = @district WHERE id = @id;";
 			}
 			else
 			{
-				sql = "INSERT INTO addresses(street, number, interior_number, postal_code, state, city, country_type) VALUES(@street, @number, @interior_number, @postal_code, @state, @city, @country) RETURNING id;";
+				sql = "INSERT INTO addresses(street, number, interior_number, postal_code, state, city, country_type, district) VALUES(@street, @number, @interior_number, @postal_code, @state, @city, @country, @district) RETURNING id;";
 			}
 
 			using (var cmd = new NpgsqlCommand(sql, conn))
@@ -93,6 +98,7 @@ namespace Business
 				cmd.Parameters.AddWithValue("@state", address.State);
 				cmd.Parameters.AddWithValue("@city", address.City);
 				cmd.Parameters.AddWithValue("@country", (int)address.Country);
+				cmd.Parameters.AddWithValue("@district", address.District);
 
 				if (is_update)
 				{

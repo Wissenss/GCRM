@@ -66,6 +66,8 @@
 			TextBoxPhone = new TextBox();
 			LPhone = new Label();
 			TabAddress = new TabPage();
+			TextBoxDistrict = new TextBox();
+			LDistrict = new Label();
 			LCountryFullName = new Label();
 			LCountry = new Label();
 			ComboBoxCountry = new ComboBox();
@@ -481,6 +483,8 @@
 			// 
 			// TabAddress
 			// 
+			TabAddress.Controls.Add(TextBoxDistrict);
+			TabAddress.Controls.Add(LDistrict);
 			TabAddress.Controls.Add(LCountryFullName);
 			TabAddress.Controls.Add(LCountry);
 			TabAddress.Controls.Add(ComboBoxCountry);
@@ -504,12 +508,28 @@
 			TabAddress.Text = "Dirección";
 			TabAddress.UseVisualStyleBackColor = true;
 			// 
+			// TextBoxDistrict
+			// 
+			TextBoxDistrict.Location = new Point(54, 67);
+			TextBoxDistrict.Name = "TextBoxDistrict";
+			TextBoxDistrict.Size = new Size(336, 23);
+			TextBoxDistrict.TabIndex = 38;
+			// 
+			// LDistrict
+			// 
+			LDistrict.AutoSize = true;
+			LDistrict.Location = new Point(7, 70);
+			LDistrict.Name = "LDistrict";
+			LDistrict.Size = new Size(45, 15);
+			LDistrict.TabIndex = 39;
+			LDistrict.Text = "Distrito";
+			// 
 			// LCountryFullName
 			// 
 			LCountryFullName.AutoSize = true;
 			LCountryFullName.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
 			LCountryFullName.ForeColor = SystemColors.HotTrack;
-			LCountryFullName.Location = new Point(165, 160);
+			LCountryFullName.Location = new Point(165, 186);
 			LCountryFullName.Name = "LCountryFullName";
 			LCountryFullName.Size = new Size(155, 15);
 			LCountryFullName.TabIndex = 37;
@@ -518,7 +538,7 @@
 			// LCountry
 			// 
 			LCountry.AutoSize = true;
-			LCountry.Location = new Point(7, 160);
+			LCountry.Location = new Point(7, 186);
 			LCountry.Name = "LCountry";
 			LCountry.Size = new Size(28, 15);
 			LCountry.TabIndex = 25;
@@ -527,7 +547,7 @@
 			// ComboBoxCountry
 			// 
 			ComboBoxCountry.FormattingEnabled = true;
-			ComboBoxCountry.Location = new Point(54, 157);
+			ComboBoxCountry.Location = new Point(54, 183);
 			ComboBoxCountry.Name = "ComboBoxCountry";
 			ComboBoxCountry.Size = new Size(105, 23);
 			ComboBoxCountry.TabIndex = 6;
@@ -535,7 +555,7 @@
 			// 
 			// TextBoxCity
 			// 
-			TextBoxCity.Location = new Point(54, 70);
+			TextBoxCity.Location = new Point(54, 96);
 			TextBoxCity.Name = "TextBoxCity";
 			TextBoxCity.Size = new Size(105, 23);
 			TextBoxCity.TabIndex = 3;
@@ -543,7 +563,7 @@
 			// LCity
 			// 
 			LCity.AutoSize = true;
-			LCity.Location = new Point(6, 73);
+			LCity.Location = new Point(6, 99);
 			LCity.Name = "LCity";
 			LCity.Size = new Size(45, 15);
 			LCity.TabIndex = 22;
@@ -551,7 +571,7 @@
 			// 
 			// TextBoxState
 			// 
-			TextBoxState.Location = new Point(54, 99);
+			TextBoxState.Location = new Point(54, 125);
 			TextBoxState.Name = "TextBoxState";
 			TextBoxState.Size = new Size(105, 23);
 			TextBoxState.TabIndex = 4;
@@ -559,7 +579,7 @@
 			// LState
 			// 
 			LState.AutoSize = true;
-			LState.Location = new Point(6, 102);
+			LState.Location = new Point(6, 128);
 			LState.Name = "LState";
 			LState.Size = new Size(42, 15);
 			LState.TabIndex = 20;
@@ -567,7 +587,7 @@
 			// 
 			// TextBoxPostalCode
 			// 
-			TextBoxPostalCode.Location = new Point(54, 128);
+			TextBoxPostalCode.Location = new Point(54, 154);
 			TextBoxPostalCode.Name = "TextBoxPostalCode";
 			TextBoxPostalCode.Size = new Size(105, 23);
 			TextBoxPostalCode.TabIndex = 5;
@@ -575,7 +595,7 @@
 			// LPostalCode
 			// 
 			LPostalCode.AutoSize = true;
-			LPostalCode.Location = new Point(6, 131);
+			LPostalCode.Location = new Point(6, 157);
 			LPostalCode.Name = "LPostalCode";
 			LPostalCode.Size = new Size(28, 15);
 			LPostalCode.TabIndex = 18;
@@ -902,5 +922,7 @@
 		private TextBox VoterCIC;
 		private Label LVoterCIC;
 		private PictureBox pictureBox1;
+		private TextBox TextBoxDistrict;
+		private Label LDistrict;
 	}
 }
