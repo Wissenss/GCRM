@@ -105,22 +105,22 @@ namespace Reporter
 			{
 				table.ColumnsDefinition(columns =>
 				{
-					columns.ConstantColumn(20); // no
+					columns.ConstantColumn(12); // no
 					columns.RelativeColumn(); // ap pat
 					columns.RelativeColumn(); // ap mat
 					columns.RelativeColumn(); // nombre
-					columns.RelativeColumn(); // clave elec
-					columns.RelativeColumn(); // ocr
+					columns.ConstantColumn(80); // clave elec
+					columns.ConstantColumn(60); // ocr
 					columns.ConstantColumn(32); // seccion
 					columns.ConstantColumn(150); // direcc
-					columns.ConstantColumn(60); // contac
+					columns.ConstantColumn(90); // contac
 				});
 
 				table.Header(header =>
 				{
-					float header_font_size = 7;
+					float header_font_size = 7f;
 
-					header.Cell().Element(CellStyle).Text("No.").FontSize(header_font_size).SemiBold();
+					header.Cell().Element(CellStyle).Text("#").FontSize(header_font_size).SemiBold();
 					header.Cell().Element(CellStyle).Text("Apellido paterno").FontSize(header_font_size).SemiBold();
 					header.Cell().Element(CellStyle).Text("Apellido materno").FontSize(header_font_size).SemiBold();
 					header.Cell().Element(CellStyle).Text("Nombre(s)").FontSize(header_font_size).SemiBold();
@@ -154,27 +154,26 @@ namespace Reporter
 					else
 						member = new TCitizenNetworkMember();
 
-					float row_font_size = 7;
+					float row_font_size = 7f;
 					float row_min_height = 10; // 27
 
-					table.Cell().MinHeight(row_min_height).Element(CellStyleNo).Text((i + 1).ToString()).FontSize(row_font_size);
+					table.Cell().MinHeight(row_min_height).Element(CellStyle).Text((i + 1).ToString()).FontSize(row_font_size);
 					table.Cell().MinHeight(row_min_height).Element(CellStyle).Text(member.Citizen.PaternalName).FontSize(row_font_size);
 					table.Cell().MinHeight(row_min_height).Element(CellStyle).Text(member.Citizen.MaternalName).FontSize(row_font_size);
 					table.Cell().MinHeight(row_min_height).Element(CellStyle).Text(member.Citizen.Name).FontSize(row_font_size);
 					table.Cell().MinHeight(row_min_height).Element(CellStyle).Text(member.Citizen.VoterCode).FontSize(row_font_size);
 					table.Cell().MinHeight(row_min_height).Element(CellStyle).Text(member.Citizen.VoterOCR).FontSize(row_font_size);
 					table.Cell().MinHeight(row_min_height).Element(CellStyle).Text(member.Citizen.VoterSection).FontSize(row_font_size);
-					table.Cell().MinHeight(row_min_height).Element(CellStyle).Text(member.Citizen.Address.FullAddress).FontSize(row_font_size * 0.7f);
+					table.Cell().MinHeight(row_min_height).Element(CellStyle).Text(member.Citizen.Address.FullAddress).FontSize(row_font_size);
 
 					string contact_str = "";
 
 					if (member.Citizen.Cellphone != null && member.Citizen.Cellphone.Trim().Length > 0)
 						contact_str += $"Cel. {member.Citizen.Cellphone}\n";
 					if (member.Citizen.Cellphone != null && member.Citizen.Phone.Trim().Length > 0)
-						contact_str += $"Tel. {member.Citizen.Phone}";
+						contact_str += $"Tel. {member.Citizen.FullPhone}";
 
-					table.Cell().MinHeight(row_min_height).Element(CellStyle).Text(contact_str).FontSize(row_font_size * 0.7f);
-
+					table.Cell().MinHeight(row_min_height).Element(CellStyle).Text(contact_str).FontSize(row_font_size);
 
 					static IContainer CellStyle(IContainer container)
 					{

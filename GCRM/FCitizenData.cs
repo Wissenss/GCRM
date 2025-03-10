@@ -77,6 +77,16 @@ namespace GCRM
 			LInstitutionRoleDescription.Text = "";
 
 			ComboBoxInstitution.SelectedIndex = 0;
+
+			LoadPermissions();
+		}
+
+		private void LoadPermissions()
+		{
+			if (Session.HasPermission("Ciudadanos.Electoral.Consultar") == false)
+			{
+				TabControlCitizen.TabPages.Remove(TabElectoral);
+			}
 		}
 
 		private void LoadDTInstitutions()
@@ -191,6 +201,11 @@ namespace GCRM
 			ComboBoxInstitution.Enabled = AccessMode != FAccessMode.Read;
 			ComboBoxInstitutionRole.Enabled = AccessMode != FAccessMode.Read;
 
+			VoterCode.Enabled = AccessMode != FAccessMode.Read;	
+			VoterOCR.Enabled = AccessMode != FAccessMode.Read;
+			VoterCIC.Enabled = AccessMode != FAccessMode.Read;
+			VoterSection.Enabled = AccessMode != FAccessMode.Read;
+
 			BAccept.Visible = AccessMode != FAccessMode.Read;
 			BCancel.Text = AccessMode != FAccessMode.Read ? "&Cancelar" : "&Cerrar";
 		}
@@ -238,6 +253,11 @@ namespace GCRM
 
 				ComboBoxInstitution.SelectedValue = citizen.Institution.Id;
 				ComboBoxInstitutionRole.SelectedValue = citizen.Role.Id;
+
+				VoterCode.Text = citizen.VoterCode;
+				VoterOCR.Text = citizen.VoterOCR;
+				VoterCIC.Text = citizen.VoterCIC;
+				VoterSection.Text = citizen.VoterSection; 
 
 				Text = $"Ciudadano - {citizen.Name} {citizen.PaternalName} {citizen.MaternalName}";
 			}
@@ -436,7 +456,12 @@ namespace GCRM
 					CreatedById = Session.User.Id,
 					CreatedDate = now,
 					EditById = Session.User.Id,
-					EditDate = now
+					EditDate = now,
+
+					VoterCode = VoterCode.Text.Trim(),
+					VoterOCR = VoterOCR.Text.Trim(),
+					VoterCIC = VoterCIC.Text.Trim(),
+					VoterSection = VoterSection.Text.Trim()
 				};
 
 				citizen.Assistant = new TCitizen();

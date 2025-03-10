@@ -126,6 +126,8 @@ namespace Business
 				new TUserPermission(313, "Ciudadanos.NoEspecificarCargo"),
 				new TUserPermission(314, "Ciudadanos.NoEspecificarCURP"),
 
+				new TUserPermission(331, "Ciudadanos.Electoral.Consultar"),
+
 				// citizen networks related permissions
 				new TUserPermission(401, "Network.Editar"),
 				new TUserPermission(402, "Network.Consultar"),

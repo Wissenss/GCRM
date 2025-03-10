@@ -63,6 +63,16 @@ namespace GCRM.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap credencial_modeloEG {
+            get {
+                object obj = ResourceManager.GetObject("credencial-modeloEG", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Fatcow_Farm_Fresh_Add_16 {
             get {
                 object obj = ResourceManager.GetObject("Fatcow-Farm-Fresh-Add.16", resourceCulture);

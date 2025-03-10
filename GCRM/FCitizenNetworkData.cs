@@ -525,12 +525,12 @@ namespace GCRM
 
 			ObjectListMembers.AllColumns.Add(new BrightIdeasSoftware.OLVColumn("Clave Elector", "Citizen.VoterCode")
 			{
-				Width = 120,
+				Width = 150,
 			});
 
 			ObjectListMembers.AllColumns.Add(new BrightIdeasSoftware.OLVColumn("OCR", "Citizen.VoterOCR")
 			{
-				Width = 120,
+				Width = 150,
 			});
 
 			ObjectListMembers.AllColumns.Add(new BrightIdeasSoftware.OLVColumn("Sección", "Citizen.VoterSection")

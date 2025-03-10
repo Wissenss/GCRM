@@ -97,6 +97,10 @@ namespace Business
 			CreatedDate = reader.GetDateTime(19);
 			EditById = reader.GetInt32(20);
 			EditDate = reader.GetDateTime(21);
+			VoterCode = reader.GetString(22);
+			VoterOCR = reader.GetString(23);
+			VoterCIC = reader.GetString(24);
+			VoterSection = reader.GetString(25);
 		}
 	}
 
@@ -295,7 +299,11 @@ namespace Business
 								institution_role_id=@institution_role_id,
 								email=@email,
 								edit_by_id=@edit_by_id,
-								edit_Date=@edit_date
+								edit_Date=@edit_date,
+								voter_code = @voter_code,
+								voter_ocr = @voter_ocr,
+								voter_cic = @voter_cic,
+								voter_section = @voter_section
 							WHERE
 								id=@id;";
 					}
@@ -323,7 +331,11 @@ namespace Business
 								created_by_id,
 								created_date,
 								edit_by_id,
-								edit_date
+								edit_date,
+								voter_code,
+								voter_ocr,
+								voter_cic,
+								voter_section
 							)
 							VALUES(
 								@name, 
@@ -346,7 +358,11 @@ namespace Business
 								@created_by_id,
 								@created_date,
 								@edit_by_id,
-								@edit_date)
+								@edit_date,
+								@voter_code,
+								@voter_ocr,
+								@voter_cic,
+								@voter_section)
 							RETURNING id;";
 					}
 
@@ -372,6 +388,10 @@ namespace Business
 					cmd.Parameters.AddWithValue("@created_date", citizen.CreatedDate);
 					cmd.Parameters.AddWithValue("@edit_by_id", citizen.EditById);
 					cmd.Parameters.AddWithValue("@edit_date", citizen.EditDate);
+					cmd.Parameters.AddWithValue("@voter_code", citizen.VoterCode);
+					cmd.Parameters.AddWithValue("@voter_ocr", citizen.VoterOCR);
+					cmd.Parameters.AddWithValue("@voter_cic", citizen.VoterCIC);
+					cmd.Parameters.AddWithValue("@voter_section", citizen.VoterSection);
 
 					if (is_update)
 					{

@@ -50,3 +50,16 @@ ALTER TABLE IF EXISTS public.citizennetwork_citizens -- forgot to add this (agai
 -- fix interior number not accespting more then one char
 ALTER TABLE public.addresses
     ALTER COLUMN interior_number TYPE character varying COLLATE pg_catalog."default";
+
+-- added several more fields to citizens table
+ALTER TABLE IF EXISTS public.citizens
+    ADD COLUMN voter_code character varying DEFAULT '';
+
+ALTER TABLE IF EXISTS public.citizens
+    ADD COLUMN voter_ocr character varying DEFAULT '';
+
+ALTER TABLE IF EXISTS public.citizens
+    ADD COLUMN voter_cic character varying DEFAULT '';
+
+ALTER TABLE IF EXISTS public.citizens
+    ADD COLUMN voter_section character varying DEFAULT '';

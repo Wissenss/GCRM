@@ -88,11 +88,23 @@
 			LInstitutionRole = new Label();
 			ComboBoxInstitution = new ComboBox();
 			LInstitution = new Label();
+			TabElectoral = new TabPage();
+			pictureBox1 = new PictureBox();
+			VoterSection = new TextBox();
+			LVoterSection = new Label();
+			VoterCIC = new TextBox();
+			LVoterCIC = new Label();
+			VoterOCR = new TextBox();
+			LVoterOCR = new Label();
+			VoterCode = new TextBox();
+			LElectorCode = new Label();
 			TabControlCitizen.SuspendLayout();
 			tabPage1.SuspendLayout();
 			tabPage2.SuspendLayout();
 			TabAddress.SuspendLayout();
 			TabRol.SuspendLayout();
+			TabElectoral.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
 			SuspendLayout();
 			// 
 			// BAccept
@@ -124,6 +136,7 @@
 			TabControlCitizen.Controls.Add(tabPage2);
 			TabControlCitizen.Controls.Add(TabAddress);
 			TabControlCitizen.Controls.Add(TabRol);
+			TabControlCitizen.Controls.Add(TabElectoral);
 			TabControlCitizen.Location = new Point(1, 1);
 			TabControlCitizen.MaximumSize = new Size(404, 311);
 			TabControlCitizen.MinimumSize = new Size(404, 311);
@@ -689,6 +702,99 @@
 			LInstitution.TabIndex = 0;
 			LInstitution.Text = "Institución";
 			// 
+			// TabElectoral
+			// 
+			TabElectoral.Controls.Add(pictureBox1);
+			TabElectoral.Controls.Add(VoterSection);
+			TabElectoral.Controls.Add(LVoterSection);
+			TabElectoral.Controls.Add(VoterCIC);
+			TabElectoral.Controls.Add(LVoterCIC);
+			TabElectoral.Controls.Add(VoterOCR);
+			TabElectoral.Controls.Add(LVoterOCR);
+			TabElectoral.Controls.Add(VoterCode);
+			TabElectoral.Controls.Add(LElectorCode);
+			TabElectoral.Location = new Point(4, 24);
+			TabElectoral.Name = "TabElectoral";
+			TabElectoral.Padding = new Padding(3);
+			TabElectoral.Size = new Size(396, 283);
+			TabElectoral.TabIndex = 4;
+			TabElectoral.Text = "Electoral";
+			TabElectoral.UseVisualStyleBackColor = true;
+			// 
+			// pictureBox1
+			// 
+			pictureBox1.Image = Properties.Resources.credencial_modeloEG;
+			pictureBox1.Location = new Point(10, 6);
+			pictureBox1.Name = "pictureBox1";
+			pictureBox1.Size = new Size(377, 145);
+			pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+			pictureBox1.TabIndex = 8;
+			pictureBox1.TabStop = false;
+			// 
+			// VoterSection
+			// 
+			VoterSection.Location = new Point(132, 244);
+			VoterSection.Name = "VoterSection";
+			VoterSection.Size = new Size(258, 23);
+			VoterSection.TabIndex = 3;
+			// 
+			// LVoterSection
+			// 
+			LVoterSection.AutoSize = true;
+			LVoterSection.Location = new Point(10, 247);
+			LVoterSection.Name = "LVoterSection";
+			LVoterSection.Size = new Size(48, 15);
+			LVoterSection.TabIndex = 6;
+			LVoterSection.Text = "Sección";
+			// 
+			// VoterCIC
+			// 
+			VoterCIC.Location = new Point(132, 215);
+			VoterCIC.Name = "VoterCIC";
+			VoterCIC.Size = new Size(258, 23);
+			VoterCIC.TabIndex = 2;
+			// 
+			// LVoterCIC
+			// 
+			LVoterCIC.AutoSize = true;
+			LVoterCIC.Location = new Point(10, 218);
+			LVoterCIC.Name = "LVoterCIC";
+			LVoterCIC.Size = new Size(109, 15);
+			LVoterCIC.TabIndex = 4;
+			LVoterCIC.Text = "Id. Credencial (CIC)";
+			// 
+			// VoterOCR
+			// 
+			VoterOCR.Location = new Point(132, 186);
+			VoterOCR.Name = "VoterOCR";
+			VoterOCR.Size = new Size(258, 23);
+			VoterOCR.TabIndex = 1;
+			// 
+			// LVoterOCR
+			// 
+			LVoterOCR.AutoSize = true;
+			LVoterOCR.Location = new Point(10, 189);
+			LVoterOCR.Name = "LVoterOCR";
+			LVoterOCR.Size = new Size(116, 15);
+			LVoterOCR.TabIndex = 2;
+			LVoterOCR.Text = "Id. Ciudadano (OCR)";
+			// 
+			// VoterCode
+			// 
+			VoterCode.Location = new Point(132, 157);
+			VoterCode.Name = "VoterCode";
+			VoterCode.Size = new Size(258, 23);
+			VoterCode.TabIndex = 0;
+			// 
+			// LElectorCode
+			// 
+			LElectorCode.AutoSize = true;
+			LElectorCode.Location = new Point(10, 160);
+			LElectorCode.Name = "LElectorCode";
+			LElectorCode.Size = new Size(91, 15);
+			LElectorCode.TabIndex = 0;
+			LElectorCode.Text = "Clave de elector";
+			// 
 			// FCitizenData
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
@@ -718,6 +824,9 @@
 			TabAddress.PerformLayout();
 			TabRol.ResumeLayout(false);
 			TabRol.PerformLayout();
+			TabElectoral.ResumeLayout(false);
+			TabElectoral.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
 			ResumeLayout(false);
 		}
 
@@ -783,5 +892,15 @@
 		private Label LEmail;
 		private Label LInstitutionSectorAndCategory;
 		private MaskedTextBox MaskedTextBoxCURP;
+		private TabPage TabElectoral;
+		private TextBox VoterCode;
+		private Label LElectorCode;
+		private TextBox VoterOCR;
+		private Label LVoterOCR;
+		private TextBox VoterSection;
+		private Label LVoterSection;
+		private TextBox VoterCIC;
+		private Label LVoterCIC;
+		private PictureBox pictureBox1;
 	}
 }
