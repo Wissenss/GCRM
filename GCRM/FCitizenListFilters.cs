@@ -27,11 +27,11 @@ namespace GCRM
 		public bool FilterCategory;
 		public int CategoryId;
 		public bool FilterBirthdayYear;
-		public int BirthdayYear;
+		public int BirthdayYear = DateTime.Now.Year;
 		public bool FilterBirthdayMonth;
-		public int BirthdayMonth;
+		public int BirthdayMonth = DateTime.Now.Month;
 		public bool FilterBirthdayDay;
-		public int BirthdayDay;
+		public int BirthdayDay = DateTime.Now.Day;
 
 		DataSet DSFilters;
 		DataTable DTYears;
@@ -245,9 +245,9 @@ namespace GCRM
 			ComboBoxSector.SelectedValue = Sector;
 			CheckBoxFilterCategory.Checked = FilterCategory;
 			ComboBoxCategory.SelectedValue = CategoryId;
-			ComboBoxBirthdayYear.SelectedValue = DateTime.Now.Year;
-			ComboBoxBirthdayMonth.SelectedValue = DateTime.Now.Month;
-			ComboBoxBirthdayDay.SelectedValue = DateTime.Now.Day;
+			ComboBoxBirthdayYear.SelectedValue = BirthdayYear;
+			ComboBoxBirthdayMonth.SelectedValue = BirthdayMonth;
+			ComboBoxBirthdayDay.SelectedValue = BirthdayDay;
 
 			Cursor.Current = Cursors.Default;
 		}

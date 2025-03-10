@@ -67,3 +67,6 @@ ALTER TABLE IF EXISTS public.citizens
 -- added district to addresses table
 ALTER TABLE IF EXISTS public.addresses
     ADD COLUMN district character varying DEFAULT '';
+
+-- update client version
+UPDATE settings SET string_value = '0.1.0.0-alpha' WHERE name = 'client_version';

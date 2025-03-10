@@ -73,7 +73,7 @@ namespace Reporter
 					PoliticalParty != null && citizen.PoliticalParty != PoliticalParty ||
 					SocietySector != null && citizen.Institution.Sector != SocietySector ||
 					BirthdayYear != null && citizen.Birthday.Year != BirthdayYear ||
-					BirthdayMonth != null && citizen.Birthday.Month != BirthdayYear ||
+					BirthdayMonth != null && citizen.Birthday.Month != BirthdayMonth ||
 					BirthdayDay != null && citizen.Birthday.Day != BirthdayDay
 					)
 				{
