@@ -197,6 +197,7 @@ namespace GCRM
 			TextBoxState.Enabled = AccessMode != FAccessMode.Read;
 			TextBoxPostalCode.Enabled = AccessMode != FAccessMode.Read;
 			ComboBoxCountry.Enabled = AccessMode != FAccessMode.Read;
+			TextBoxDistrict.Enabled = AccessMode != FAccessMode.Read;
 
 			ComboBoxInstitution.Enabled = AccessMode != FAccessMode.Read;
 			ComboBoxInstitutionRole.Enabled = AccessMode != FAccessMode.Read;
@@ -346,10 +347,11 @@ namespace GCRM
 				errors.AppendLine("Debe especificar el apellido paterno");
 			}
 
-			if (maternal_name.Length == 0)
-			{
-				errors.AppendLine("Debe especificar el apellido materno");
-			}
+			// #39 - citizens with only one last name can't be saved
+			//if (maternal_name.Length == 0)
+			//{
+			//	errors.AppendLine("Debe especificar el apellido materno");
+			//}
 
 			if (sex == TSex.Unknown)
 			{
