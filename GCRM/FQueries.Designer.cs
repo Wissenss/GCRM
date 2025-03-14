@@ -1,0 +1,197 @@
+﻿namespace GCRM
+{
+	partial class FQueries
+	{
+		/// <summary>
+		/// Required designer variable.
+		/// </summary>
+		private System.ComponentModel.IContainer components = null;
+
+		/// <summary>
+		/// Clean up any resources being used.
+		/// </summary>
+		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
+				components.Dispose();
+			}
+			base.Dispose(disposing);
+		}
+
+		#region Windows Form Designer generated code
+
+		/// <summary>
+		/// Required method for Designer support - do not modify
+		/// the contents of this method with the code editor.
+		/// </summary>
+		private void InitializeComponent()
+		{
+			DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+			DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+			DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+			DataGridResults = new DataGridView();
+			panel1 = new Panel();
+			BExport = new Button();
+			BRun = new Button();
+			ComboBoxQueries = new ComboBox();
+			LQueries = new Label();
+			statusStrip1 = new StatusStrip();
+			TSSLRecordCount = new ToolStripStatusLabel();
+			((System.ComponentModel.ISupportInitialize)DataGridResults).BeginInit();
+			panel1.SuspendLayout();
+			statusStrip1.SuspendLayout();
+			SuspendLayout();
+			// 
+			// DataGridResults
+			// 
+			DataGridResults.AllowUserToAddRows = false;
+			DataGridResults.AllowUserToDeleteRows = false;
+			DataGridResults.AllowUserToOrderColumns = true;
+			DataGridResults.AllowUserToResizeRows = false;
+			dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle1.BackColor = Color.WhiteSmoke;
+			dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+			dataGridViewCellStyle1.ForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle1.SelectionBackColor = SystemColors.GradientInactiveCaption;
+			dataGridViewCellStyle1.SelectionForeColor = SystemColors.ControlText;
+			DataGridResults.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+			DataGridResults.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+			DataGridResults.BackgroundColor = SystemColors.ControlLight;
+			DataGridResults.BorderStyle = BorderStyle.None;
+			DataGridResults.CellBorderStyle = DataGridViewCellBorderStyle.None;
+			DataGridResults.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
+			DataGridResults.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+			dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle2.BackColor = SystemColors.ControlLight;
+			dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+			dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
+			dataGridViewCellStyle2.SelectionBackColor = SystemColors.ControlLight;
+			dataGridViewCellStyle2.SelectionForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+			DataGridResults.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+			DataGridResults.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle3.BackColor = SystemColors.Window;
+			dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
+			dataGridViewCellStyle3.ForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle3.SelectionBackColor = SystemColors.GradientInactiveCaption;
+			dataGridViewCellStyle3.SelectionForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
+			DataGridResults.DefaultCellStyle = dataGridViewCellStyle3;
+			DataGridResults.Dock = DockStyle.Fill;
+			DataGridResults.EnableHeadersVisualStyles = false;
+			DataGridResults.Location = new Point(0, 44);
+			DataGridResults.MultiSelect = false;
+			DataGridResults.Name = "DataGridResults";
+			DataGridResults.ReadOnly = true;
+			DataGridResults.RowHeadersVisible = false;
+			DataGridResults.RowTemplate.Height = 20;
+			DataGridResults.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+			DataGridResults.ShowCellToolTips = false;
+			DataGridResults.Size = new Size(489, 282);
+			DataGridResults.StandardTab = true;
+			DataGridResults.TabIndex = 10;
+			// 
+			// panel1
+			// 
+			panel1.Controls.Add(BExport);
+			panel1.Controls.Add(BRun);
+			panel1.Controls.Add(ComboBoxQueries);
+			panel1.Controls.Add(LQueries);
+			panel1.Dock = DockStyle.Top;
+			panel1.Location = new Point(0, 0);
+			panel1.Name = "panel1";
+			panel1.Size = new Size(489, 44);
+			panel1.TabIndex = 11;
+			// 
+			// BExport
+			// 
+			BExport.Location = new Point(402, 10);
+			BExport.Name = "BExport";
+			BExport.Size = new Size(75, 23);
+			BExport.TabIndex = 3;
+			BExport.Text = "Exportar";
+			BExport.UseVisualStyleBackColor = true;
+			// 
+			// BRun
+			// 
+			BRun.Location = new Point(321, 9);
+			BRun.Name = "BRun";
+			BRun.Size = new Size(75, 23);
+			BRun.TabIndex = 2;
+			BRun.Text = "Ejecutar";
+			BRun.UseVisualStyleBackColor = true;
+			BRun.Click += BRun_Click;
+			// 
+			// ComboBoxQueries
+			// 
+			ComboBoxQueries.FormattingEnabled = true;
+			ComboBoxQueries.Location = new Point(72, 10);
+			ComboBoxQueries.Name = "ComboBoxQueries";
+			ComboBoxQueries.Size = new Size(243, 23);
+			ComboBoxQueries.TabIndex = 1;
+			ComboBoxQueries.TextChanged += ComboBoxQueries_TextChanged;
+			// 
+			// LQueries
+			// 
+			LQueries.AutoSize = true;
+			LQueries.Location = new Point(12, 14);
+			LQueries.Name = "LQueries";
+			LQueries.Size = new Size(54, 15);
+			LQueries.TabIndex = 0;
+			LQueries.Text = "Consulta";
+			// 
+			// statusStrip1
+			// 
+			statusStrip1.Items.AddRange(new ToolStripItem[] { TSSLRecordCount });
+			statusStrip1.Location = new Point(0, 326);
+			statusStrip1.Name = "statusStrip1";
+			statusStrip1.Size = new Size(489, 22);
+			statusStrip1.TabIndex = 12;
+			statusStrip1.Text = "statusStrip1";
+			// 
+			// TSSLRecordCount
+			// 
+			TSSLRecordCount.Font = new Font("Segoe UI Variable Small Light", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+			TSSLRecordCount.Name = "TSSLRecordCount";
+			TSSLRecordCount.Size = new Size(174, 17);
+			TSSLRecordCount.Text = "524 registros obtenidos en 53 ms";
+			TSSLRecordCount.Visible = false;
+			// 
+			// FQueries
+			// 
+			AutoScaleDimensions = new SizeF(7F, 15F);
+			AutoScaleMode = AutoScaleMode.Font;
+			ClientSize = new Size(489, 348);
+			Controls.Add(DataGridResults);
+			Controls.Add(panel1);
+			Controls.Add(statusStrip1);
+			MaximumSize = new Size(1920, 1080);
+			MinimumSize = new Size(505, 387);
+			Name = "FQueries";
+			ShowIcon = false;
+			Text = "Consultas";
+			Load += FQueries_Load;
+			((System.ComponentModel.ISupportInitialize)DataGridResults).EndInit();
+			panel1.ResumeLayout(false);
+			panel1.PerformLayout();
+			statusStrip1.ResumeLayout(false);
+			statusStrip1.PerformLayout();
+			ResumeLayout(false);
+			PerformLayout();
+		}
+
+		#endregion
+
+		private DataGridView DataGridResults;
+		private Panel panel1;
+		private Button BRun;
+		private ComboBox ComboBoxQueries;
+		private Label LQueries;
+		private StatusStrip statusStrip1;
+		private ToolStripStatusLabel TSSLRecordCount;
+		private Button BExport;
+	}
+}

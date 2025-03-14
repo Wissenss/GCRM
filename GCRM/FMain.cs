@@ -95,6 +95,10 @@ namespace GCRM
 				BCitizenNetworks.Visible = Session.HasPermission("Network.Consultar");
 
 				BEmails.Visible = Session.HasPermission("Emails.Consultar");
+
+				BSettings.Visible = Session.HasPermission("Settings.Consultar");
+
+				BQueries.Visible = Session.HasPermission("Queries.Run");
 			}
 		}
 
@@ -164,6 +168,27 @@ namespace GCRM
 			using (FEmailList emails_dlg = new FEmailList())
 			{
 				emails_dlg.ShowDialog();
+			}
+		}
+
+		private void BSettings_Click(object sender, EventArgs e)
+		{
+			using (FSettings setting_dlg = new FSettings())
+			{
+				if (Session.HasPermission("Settings.Editar"))
+				{
+					setting_dlg.SetAccessMode(FAccessMode.Update);
+				}
+
+				setting_dlg.ShowDialog();
+			}
+		}
+
+		private void BQueries_Click(object sender, EventArgs e)
+		{
+			using (FQueries query_dlg = new FQueries())
+			{
+				query_dlg.ShowDialog();
 			}
 		}
 	}

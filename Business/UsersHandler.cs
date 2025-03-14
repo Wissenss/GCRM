@@ -90,6 +90,11 @@ namespace Business
 			{
 				new TUserPermission(51, "Conexion.Editar"),								// editar la configuración de conexión
 
+				new TUserPermission(61, "Settings.Editar"),
+				new TUserPermission(62, "Settings.Consultar"),
+
+				new TUserPermission(72, "Queries.Run"),
+
 				// user related permissions
 				new TUserPermission(101, "Usuarios.Editar"),							// editar usuarios
 				new TUserPermission(102, "Usuarios.Consultar"),						// consultar la lista de todos los usuarios

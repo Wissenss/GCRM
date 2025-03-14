@@ -51,6 +51,8 @@
 			BAbout = new ToolStripButton();
 			toolStripSeparator1 = new ToolStripSeparator();
 			BEmails = new ToolStripButton();
+			toolStripSeparator3 = new ToolStripSeparator();
+			BQueries = new ToolStripButton();
 			ListBoxBirhdays = new ListBox();
 			LBirthdayList = new Label();
 			PictureBoxBirthdayList = new PictureBox();
@@ -224,7 +226,7 @@
 			// 
 			ToolStripOther.Dock = DockStyle.Fill;
 			ToolStripOther.GripStyle = ToolStripGripStyle.Hidden;
-			ToolStripOther.Items.AddRange(new ToolStripItem[] { BSettings, BUsers, BConnection, BAbout, toolStripSeparator1, BEmails });
+			ToolStripOther.Items.AddRange(new ToolStripItem[] { BSettings, BUsers, BConnection, BAbout, toolStripSeparator1, BEmails, toolStripSeparator3, BQueries });
 			ToolStripOther.Location = new Point(3, 3);
 			ToolStripOther.Name = "ToolStripOther";
 			ToolStripOther.RenderMode = ToolStripRenderMode.System;
@@ -242,6 +244,7 @@
 			BSettings.Size = new Size(49, 52);
 			BSettings.Text = "&Ajustes";
 			BSettings.TextImageRelation = TextImageRelation.ImageAboveText;
+			BSettings.Click += BSettings_Click;
 			// 
 			// BUsers
 			// 
@@ -294,6 +297,22 @@
 			BEmails.Text = "&Emails";
 			BEmails.TextImageRelation = TextImageRelation.ImageAboveText;
 			BEmails.Click += BEmails_Click;
+			// 
+			// toolStripSeparator3
+			// 
+			toolStripSeparator3.Name = "toolStripSeparator3";
+			toolStripSeparator3.Size = new Size(6, 55);
+			// 
+			// BQueries
+			// 
+			BQueries.Image = Properties.Resources.Fatcow_Farm_Fresh_Query_design_32;
+			BQueries.ImageScaling = ToolStripItemImageScaling.None;
+			BQueries.ImageTransparentColor = Color.Magenta;
+			BQueries.Name = "BQueries";
+			BQueries.Size = new Size(63, 52);
+			BQueries.Text = "Consultas";
+			BQueries.TextImageRelation = TextImageRelation.ImageAboveText;
+			BQueries.Click += BQueries_Click;
 			// 
 			// ListBoxBirhdays
 			// 
@@ -390,5 +409,7 @@
 		private ToolStripButton BCitizenNetworks;
 		private ToolStripButton BEmails;
 		private ToolStripSeparator toolStripSeparator1;
+		private ToolStripSeparator toolStripSeparator3;
+		private ToolStripButton BQueries;
 	}
 }

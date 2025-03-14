@@ -583,6 +583,16 @@ namespace GCRM.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Fatcow_Farm_Fresh_Query_design_32 {
+            get {
+                object obj = ResourceManager.GetObject("Fatcow-Farm-Fresh-Query-design.32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Fatcow_Farm_Fresh_Synchronize_ftp_password_16 {
             get {
                 object obj = ResourceManager.GetObject("Fatcow-Farm-Fresh-Synchronize-ftp-password.16", resourceCulture);
