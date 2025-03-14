@@ -39,6 +39,9 @@
 			BDelete = new ToolStripButton();
 			toolStripSeparator1 = new ToolStripSeparator();
 			BWebmail = new ToolStripButton();
+			toolStripSeparator2 = new ToolStripSeparator();
+			BSyncContacts = new ToolStripButton();
+			BBilling = new ToolStripButton();
 			DataGridEmails = new DataGridView();
 			ToolStrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)DataGridEmails).BeginInit();
@@ -47,7 +50,7 @@
 			// ToolStrip
 			// 
 			ToolStrip.GripStyle = ToolStripGripStyle.Hidden;
-			ToolStrip.Items.AddRange(new ToolStripItem[] { BAdd, BEdit, BRead, BRefresh, BDelete, toolStripSeparator1, BWebmail });
+			ToolStrip.Items.AddRange(new ToolStripItem[] { BAdd, BEdit, BRead, BRefresh, BDelete, toolStripSeparator1, BWebmail, toolStripSeparator2, BSyncContacts, BBilling });
 			ToolStrip.Location = new Point(0, 0);
 			ToolStrip.Name = "ToolStrip";
 			ToolStrip.RenderMode = ToolStripRenderMode.System;
@@ -122,15 +125,40 @@
 			// 
 			// BWebmail
 			// 
-			BWebmail.Image = Properties.Resources.Fatcow_Farm_Fresh_Earth_night_16;
+			BWebmail.Image = Properties.Resources.Fatcow_Farm_Fresh_Webmail_16;
 			BWebmail.ImageScaling = ToolStripItemImageScaling.None;
 			BWebmail.ImageTransparentColor = Color.Magenta;
 			BWebmail.Margin = new Padding(1, 2, 1, 2);
 			BWebmail.Name = "BWebmail";
 			BWebmail.Padding = new Padding(2, 8, 2, 8);
 			BWebmail.Size = new Size(78, 36);
-			BWebmail.Text = "Webmail";
+			BWebmail.Text = "Web&mail";
 			BWebmail.Click += BWebmail_Click;
+			// 
+			// toolStripSeparator2
+			// 
+			toolStripSeparator2.Name = "toolStripSeparator2";
+			toolStripSeparator2.Size = new Size(6, 40);
+			// 
+			// BSyncContacts
+			// 
+			BSyncContacts.Image = Properties.Resources.Fatcow_Farm_Fresh_Synchronize_ftp_password_16;
+			BSyncContacts.ImageScaling = ToolStripItemImageScaling.None;
+			BSyncContacts.ImageTransparentColor = Color.Magenta;
+			BSyncContacts.Name = "BSyncContacts";
+			BSyncContacts.Size = new Size(88, 37);
+			BSyncContacts.Text = "&Syncronizar";
+			BSyncContacts.Visible = false;
+			// 
+			// BBilling
+			// 
+			BBilling.Image = Properties.Resources.Fatcow_Farm_Fresh_Client_account_template_16;
+			BBilling.ImageScaling = ToolStripItemImageScaling.None;
+			BBilling.ImageTransparentColor = Color.Magenta;
+			BBilling.Name = "BBilling";
+			BBilling.Size = new Size(66, 37);
+			BBilling.Text = "&Factura";
+			BBilling.Click += BBilling_Click;
 			// 
 			// DataGridEmails
 			// 
@@ -211,5 +239,8 @@
 		private DataGridView DataGridEmails;
 		private ToolStripSeparator toolStripSeparator1;
 		private ToolStripButton BWebmail;
+		private ToolStripSeparator toolStripSeparator2;
+		private ToolStripButton BSyncContacts;
+		private ToolStripButton BBilling;
 	}
 }

@@ -9,7 +9,9 @@ using BrightIdeasSoftware;
 using Business;
 using Business.Business;
 using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Office.CoverPageProps;
 using DocumentFormat.OpenXml.Office2010.ExcelAc;
+using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace GCRM
 {
@@ -225,51 +227,19 @@ namespace GCRM
 
 	public static class PurelyemailUtilities
 	{
-		class TResponse
+		public class TResponse
 		{
-			public string type { get; set; }
-		}
+			public string type { get; set; } = "";
+			public string code { get; set; }
+			public string message { get; set; }
 
-		class TListUsersResponse : TResponse
-		{
-			public TListUsersReponseResult result { get; set; }
-		}
-
-		class TListUsersReponseResult
-		{
-			public List<string> users { get; set; }
-		}
-
-		class TCreateUserRequest()
-		{
-			public string userName { get; set; }
-			public string domainName { get; set; }	
-			public string password { get; set; }	
-			public bool enablePasswordReset { get; set; }
-			public string recoverEmail { get; set; }
-			public string recoveryEmailDescription { get; set; }
-			public string recoveryPhone { get; set; }
-			public string recoveryPhoneDescription { get; set; }
-			public bool enableSearchIndexing { get; set; }
-			public bool sendWelcomeEmail { get; set; }
-		}
-
-		class TGetUserRequest()
-		{
-			public string UserName { get; set; }
-		}
-
-		public class TGetUserResponse()
-		{
-			public TGetUserResponseResult Result { get; set; }
-		}
-
-		public class TGetUserResponseResult()
-		{
-			public bool EnableSearchIndexing { get; set; }
-			public bool RecoveryEnabled { get; set; }
-			public bool RequireTwoFactorAuthentication { get; set; }
-			public bool EnableSpamFiltering { get; set; }
+			public bool successful
+			{
+				get
+				{
+					return type == "success";
+				}
+			}
 		}
 
 		public static HttpClient Client;
@@ -282,6 +252,17 @@ namespace GCRM
 
 			Client.BaseAddress = new Uri("https://purelymail.com/");
 			Client.DefaultRequestHeaders.Add("Purelymail-Api-Token", email_api_key);
+		}
+
+		#region https://purelymail.com/api/v0/listUser
+		class TListUsersResponse : TResponse
+		{
+			public TListUsersReponseResult result { get; set; }
+		}
+
+		class TListUsersReponseResult
+		{
+			public List<string> users { get; set; }
 		}
 
 		public static async Task<List<string>> ListUser()
@@ -303,33 +284,76 @@ namespace GCRM
 
 			return json.result.users;
 		}
+		#endregion
 
-		public static async Task<HttpStatusCode> CreateUser(string user)
+		#region https://purelymail.com/api/v0/createUser
+		public class TCreateUserRequest()
+		{
+			public string userName { get; set; }
+			public string domainName { get; set; }
+			public string password { get; set; }
+			public bool enablePasswordReset { get; set; }
+			public string recoverEmail { get; set; }
+			public string recoveryEmailDescription { get; set; }
+			public string recoveryPhone { get; set; }
+			public string recoveryPhoneDescription { get; set; }
+			public bool enableSearchIndexing { get; set; }
+			public bool sendWelcomeEmail { get; set; }
+		}
+
+		public class TCreateUserResponse : TResponse
+		{
+
+		}
+
+		public static async Task<TCreateUserResponse> CreateUser(string user, string domain, string password, bool allow_password_reset)
 		{
 			TCreateUserRequest json = new TCreateUserRequest()
 			{
 				userName = user,
-				domainName = "purelymail.com",
-				password = "cambiame2025",
+				domainName = domain,
+				password = password,
 				recoverEmail = "lmerino@purelymail.com",
 				recoveryEmailDescription = "email del administrador",
 				recoveryPhone = "",
 				recoveryPhoneDescription = "",
-				enablePasswordReset = true,
+				enablePasswordReset = allow_password_reset,
 				enableSearchIndexing = false,
 				sendWelcomeEmail = false
 			};
 
 			string raw_json = JsonSerializer.Serialize(json);
 
-			var response = await Client.PostAsync("/api/v0/createUser", new StringContent(raw_json, Encoding.UTF8, "application/json"));
+			var raw_response = await Client.PostAsync("/api/v0/createUser", new StringContent(raw_json, Encoding.UTF8, "application/json"));
 
-			if (response.IsSuccessStatusCode == false)
-			{
-				Utilities.ShowErrorDialog($"Purelymail API responded with code: {response.StatusCode}");
-			}
+			raw_response.EnsureSuccessStatusCode();
 
-			return response.StatusCode;
+			raw_json = await raw_response.Content.ReadAsStringAsync();
+
+			TCreateUserResponse response = JsonSerializer.Deserialize<TCreateUserResponse>(raw_json);
+
+			return response;
+		}
+		#endregion
+
+		#region https://purelymail.com/api/v0/getUser
+
+		class TGetUserRequest()
+		{
+			public string UserName { get; set; }
+		}
+
+		public class TGetUserResponse()
+		{
+			public TGetUserResponseResult Result { get; set; }
+		}
+
+		public class TGetUserResponseResult()
+		{
+			public bool EnableSearchIndexing { get; set; }
+			public bool RecoveryEnabled { get; set; }
+			public bool RequireTwoFactorAuthentication { get; set; }
+			public bool EnableSpamFiltering { get; set; }
 		}
 
 		public static async Task<TGetUserResponse> GetUser(string user)
@@ -352,6 +376,102 @@ namespace GCRM
 			TGetUserResponse info = JsonSerializer.Deserialize<TGetUserResponse>(raw_json);
 
 			return info;
+		}
+		#endregion
+
+		#region https://purelymail.com/api/v0/listDomain
+
+		class TListDomainRequest
+		{
+			public bool includeShared { get; set; }
+		}
+
+		public class TListDomainResponse : TResponse
+		{
+			public TListDomainResponseResult result { get; set; }
+		}
+
+		public class TListDomainResponseResult 
+		{
+			public List<TDomain> domains { get; set; }
+		}
+
+		public class TDomain
+		{
+			public string name { get; set; }
+			public bool allowAccountReset { get; set; }
+			public bool symbolicSubaddressing { get; set; }
+			public bool isShared { get; set; }
+
+			public TDNSSummary dNSSummary { get; set; }
+		}
+
+		public class TDNSSummary
+		{
+			public bool passesMx { get; set; }
+			public bool passesSpf { get; set; }
+			public bool passesDkim { get; set; }
+			public bool passesDmarc { get; set; }
+		}
+
+		public static async Task<TListDomainResponse> ListDomain()
+		{
+			TListDomainRequest request = new TListDomainRequest()
+			{
+				includeShared = true,
+			};
+
+			string raw_json = JsonSerializer.Serialize(request);
+
+			HttpResponseMessage raw_response = await Client.PostAsync("/api/v0/listDomains", new StringContent(raw_json, Encoding.UTF8, "application/json"));
+
+			raw_response.EnsureSuccessStatusCode();
+
+			raw_json = await raw_response.Content.ReadAsStringAsync();
+
+			TListDomainResponse response = JsonSerializer.Deserialize<TListDomainResponse>(raw_json);
+
+			return response;
+		}
+
+		#endregion
+
+		#region https://purelymail.com/api/v0/checkAccountCredit 
+		public class TCheckAccountCreditResponse : TResponse
+		{
+			public TCheckAccountCreditResponseResult result { get; set; }
+		}
+
+		public class TCheckAccountCreditResponseResult
+		{
+			public string credit { get; set; }
+			public double dCredit
+			{
+				get
+				{
+					return Double.Parse(credit);
+				}
+			}
+		}
+
+		public static async Task<TCheckAccountCreditResponse> CheckAccountCredit()
+		{
+			HttpResponseMessage raw_response = await Client.PostAsync("/api/v0/checkAccountCredit", new StringContent("{}", Encoding.UTF8, "application/json"));
+
+			raw_response.EnsureSuccessStatusCode();
+
+			string raw_json = await raw_response.Content.ReadAsStringAsync();
+
+			TCheckAccountCreditResponse response = JsonSerializer.Deserialize<TCheckAccountCreditResponse>(raw_json);
+
+			return response;
+		}
+
+		#endregion
+
+		public static void ShowPurelymailResponseErrorDialog(TResponse response)
+		{
+			Utilities.ShowErrorDialog(response.message, response.code);
 		}
 	}
 }

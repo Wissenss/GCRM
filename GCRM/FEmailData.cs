@@ -1,15 +1,6 @@
 ﻿using Business;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Net;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using static GCRM.PurelyemailUtilities;
 
 namespace GCRM
@@ -21,31 +12,38 @@ namespace GCRM
 		public FEmailData()
 		{
 			InitializeComponent();
+
+			LoadDomains();
 		}
 
-		public void SetAccessMode(FAccessMode mode) 
+		private async void LoadDomains()
+		{
+			TListDomainResponse response = await PurelyemailUtilities.ListDomain();
+
+			if (response.successful == false)
+			{
+				PurelyemailUtilities.ShowPurelymailResponseErrorDialog(response);
+				return;
+			}
+
+			ComboBoxDomains.Items.Clear();
+
+			foreach (TDomain domain in response.result.domains)
+			{
+				ComboBoxDomains.Items.Add(domain.name);
+			}
+
+			ComboBoxDomains.SelectedIndex = 0;
+		}
+
+		public void SetAccessMode(FAccessMode mode)
 		{
 			Mode = mode;
 
 			TextBoxName.Enabled = Mode != FAccessMode.Read;
+			ComboBoxDomains.Enabled = Mode != FAccessMode.Read;
 
 			BAccept.Visible = Mode != FAccessMode.Read;
-		}
-
-		public async void SetAccount(string account)
-		{
-			using (new CursorWait())
-			{
-				TGetUserResponse info = await PurelyemailUtilities.GetUser(account);
-
-				if (info == null)
-				{
-					return;
-				}
-
-				Text = $"Email";
-				TextBoxName.Text = account;
-			}
 		}
 
 		private void BCancel_Click(object sender, EventArgs e)
@@ -81,16 +79,35 @@ namespace GCRM
 			using (new CursorWait())
 			{
 				string user = TextBoxName.Text.Trim();
+				string domain = ComboBoxDomains.Text.Trim();
+				string password = TextBoxPassword.Text.Trim();
+				bool allow_password_reset = AllowPasswordReset.Checked;
 
-				HttpStatusCode status = await PurelyemailUtilities.CreateUser(user);
+				TCreateUserResponse response = await PurelyemailUtilities.CreateUser(user, domain, password, allow_password_reset);
 
-				if (status != HttpStatusCode.OK)
+				if (response.successful == false)
 				{
+					PurelyemailUtilities.ShowPurelymailResponseErrorDialog(response);
 					return;
 				}
 
 				DialogResult = DialogResult.OK;
 			}
+		}
+
+		private void UpdateFullEmailString()
+		{
+			LFullEmail.Text = $"{TextBoxName.Text.Trim()}@{ComboBoxDomains.Text.Trim()}";
+		}
+
+		private void TextBoxName_TextChanged(object sender, EventArgs e)
+		{
+			UpdateFullEmailString();
+		}
+
+		private void ComboBoxDomains_TextChanged(object sender, EventArgs e)
+		{
+			UpdateFullEmailString();
 		}
 	}
 }

@@ -18,6 +18,8 @@ namespace GCRM
 		DataSet DSEmails;
 		DataTable DTEmails;
 
+		FEmailData EmailDataDlg;
+
 		public FEmailList()
 		{
 			InitializeComponent();
@@ -40,6 +42,9 @@ namespace GCRM
 			// bind dg and table
 			DataGridEmails.DataSource = DSEmails;
 			DataGridEmails.DataMember = "DTEmails";
+
+			// create the data dlg
+			EmailDataDlg = new FEmailData();
 		}
 
 		private void BWebmail_Click(object sender, EventArgs e)
@@ -118,15 +123,22 @@ namespace GCRM
 			string account = GetSelectedAccount();
 
 			if (account == null)
-			{
 				return;
-			}
 
-			using (FEmailData email_data_dlg = new FEmailData())
+			EmailDataDlg.SetAccessMode(FAccessMode.Read);
+
+			EmailDataDlg.Text = $"Email - Consulta";
+			EmailDataDlg.TextBoxName.Text = account.Split('@')[0];
+			EmailDataDlg.ComboBoxDomains.Text = account.Split('@')[1];
+
+			EmailDataDlg.ShowDialog();
+		}
+
+		private void BBilling_Click(object sender, EventArgs e)
+		{
+			using (FEmailBilling email_billing_dlg = new FEmailBilling())
 			{
-				email_data_dlg.SetAccessMode(FAccessMode.Read);
-				email_data_dlg.SetAccount(account);
-				email_data_dlg.ShowDialog();
+				email_billing_dlg.ShowDialog();
 			}
 		}
 	}

@@ -242,7 +242,6 @@
 			BSettings.Size = new Size(49, 52);
 			BSettings.Text = "&Ajustes";
 			BSettings.TextImageRelation = TextImageRelation.ImageAboveText;
-			BSettings.Visible = false;
 			// 
 			// BUsers
 			// 
