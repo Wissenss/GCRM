@@ -28,20 +28,21 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-			DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-			DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+			DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+			DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+			DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
 			DataGridResults = new DataGridView();
 			panel1 = new Panel();
 			BExport = new Button();
 			BRun = new Button();
 			ComboBoxQueries = new ComboBox();
 			LQueries = new Label();
-			statusStrip1 = new StatusStrip();
+			StatusStrip = new StatusStrip();
 			TSSLRecordCount = new ToolStripStatusLabel();
+			SaveFileDialog = new SaveFileDialog();
 			((System.ComponentModel.ISupportInitialize)DataGridResults).BeginInit();
 			panel1.SuspendLayout();
-			statusStrip1.SuspendLayout();
+			StatusStrip.SuspendLayout();
 			SuspendLayout();
 			// 
 			// DataGridResults
@@ -50,36 +51,36 @@
 			DataGridResults.AllowUserToDeleteRows = false;
 			DataGridResults.AllowUserToOrderColumns = true;
 			DataGridResults.AllowUserToResizeRows = false;
-			dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle1.BackColor = Color.WhiteSmoke;
-			dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-			dataGridViewCellStyle1.ForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle1.SelectionBackColor = SystemColors.GradientInactiveCaption;
-			dataGridViewCellStyle1.SelectionForeColor = SystemColors.ControlText;
-			DataGridResults.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle4.BackColor = Color.WhiteSmoke;
+			dataGridViewCellStyle4.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+			dataGridViewCellStyle4.ForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle4.SelectionBackColor = SystemColors.GradientInactiveCaption;
+			dataGridViewCellStyle4.SelectionForeColor = SystemColors.ControlText;
+			DataGridResults.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
 			DataGridResults.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 			DataGridResults.BackgroundColor = SystemColors.ControlLight;
 			DataGridResults.BorderStyle = BorderStyle.None;
 			DataGridResults.CellBorderStyle = DataGridViewCellBorderStyle.None;
 			DataGridResults.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
 			DataGridResults.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-			dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle2.BackColor = SystemColors.ControlLight;
-			dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
-			dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
-			dataGridViewCellStyle2.SelectionBackColor = SystemColors.ControlLight;
-			dataGridViewCellStyle2.SelectionForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-			DataGridResults.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle5.BackColor = SystemColors.ControlLight;
+			dataGridViewCellStyle5.Font = new Font("Segoe UI", 9F);
+			dataGridViewCellStyle5.ForeColor = SystemColors.WindowText;
+			dataGridViewCellStyle5.SelectionBackColor = SystemColors.ControlLight;
+			dataGridViewCellStyle5.SelectionForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
+			DataGridResults.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
 			DataGridResults.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle3.BackColor = SystemColors.Window;
-			dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
-			dataGridViewCellStyle3.ForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle3.SelectionBackColor = SystemColors.GradientInactiveCaption;
-			dataGridViewCellStyle3.SelectionForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
-			DataGridResults.DefaultCellStyle = dataGridViewCellStyle3;
+			dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle6.BackColor = SystemColors.Window;
+			dataGridViewCellStyle6.Font = new Font("Segoe UI", 9F);
+			dataGridViewCellStyle6.ForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle6.SelectionBackColor = SystemColors.GradientInactiveCaption;
+			dataGridViewCellStyle6.SelectionForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
+			DataGridResults.DefaultCellStyle = dataGridViewCellStyle6;
 			DataGridResults.Dock = DockStyle.Fill;
 			DataGridResults.EnableHeadersVisualStyles = false;
 			DataGridResults.Location = new Point(0, 44);
@@ -114,6 +115,7 @@
 			BExport.TabIndex = 3;
 			BExport.Text = "Exportar";
 			BExport.UseVisualStyleBackColor = true;
+			BExport.Click += BExport_Click;
 			// 
 			// BRun
 			// 
@@ -143,14 +145,14 @@
 			LQueries.TabIndex = 0;
 			LQueries.Text = "Consulta";
 			// 
-			// statusStrip1
+			// StatusStrip
 			// 
-			statusStrip1.Items.AddRange(new ToolStripItem[] { TSSLRecordCount });
-			statusStrip1.Location = new Point(0, 326);
-			statusStrip1.Name = "statusStrip1";
-			statusStrip1.Size = new Size(489, 22);
-			statusStrip1.TabIndex = 12;
-			statusStrip1.Text = "statusStrip1";
+			StatusStrip.Items.AddRange(new ToolStripItem[] { TSSLRecordCount });
+			StatusStrip.Location = new Point(0, 326);
+			StatusStrip.Name = "StatusStrip";
+			StatusStrip.Size = new Size(489, 22);
+			StatusStrip.TabIndex = 12;
+			StatusStrip.Text = "statusStrip1";
 			// 
 			// TSSLRecordCount
 			// 
@@ -167,7 +169,7 @@
 			ClientSize = new Size(489, 348);
 			Controls.Add(DataGridResults);
 			Controls.Add(panel1);
-			Controls.Add(statusStrip1);
+			Controls.Add(StatusStrip);
 			MaximumSize = new Size(1920, 1080);
 			MinimumSize = new Size(505, 387);
 			Name = "FQueries";
@@ -177,8 +179,8 @@
 			((System.ComponentModel.ISupportInitialize)DataGridResults).EndInit();
 			panel1.ResumeLayout(false);
 			panel1.PerformLayout();
-			statusStrip1.ResumeLayout(false);
-			statusStrip1.PerformLayout();
+			StatusStrip.ResumeLayout(false);
+			StatusStrip.PerformLayout();
 			ResumeLayout(false);
 			PerformLayout();
 		}
@@ -190,8 +192,9 @@
 		private Button BRun;
 		private ComboBox ComboBoxQueries;
 		private Label LQueries;
-		private StatusStrip statusStrip1;
+		private StatusStrip StatusStrip;
 		private ToolStripStatusLabel TSSLRecordCount;
 		private Button BExport;
+		private SaveFileDialog SaveFileDialog;
 	}
 }

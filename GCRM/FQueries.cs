@@ -1,15 +1,9 @@
-﻿using Connection;
+﻿using ClosedXML.Excel;
+using Connection;
+using DocumentFormat.OpenXml.Spreadsheet;
 using Npgsql;
 using Npgsql.Schema;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace GCRM
 {
@@ -150,6 +144,52 @@ namespace GCRM
 				{
 					ConnectionPool.ReleaseConnection(ref conn);
 				}
+			}
+		}
+
+		private void BExport_Click(object sender, EventArgs e)
+		{
+			SaveFileDialog.DefaultExt = $".xlsx";
+			SaveFileDialog.FileName = $"consulta_{DateTime.Now.ToString("yyyyMMdd")}";
+			SaveFileDialog.Filter = $"Excel (*.xlsx) | Todos (*.*)";
+
+			if (SaveFileDialog.ShowDialog() != DialogResult.OK)
+			{
+				return;
+			}
+
+			try
+			{
+				using (new CursorWait())
+				using (XLWorkbook workbook = new XLWorkbook())
+				{
+					var worksheet = workbook.Worksheets.Add("consulta");
+
+					XLColor headers_color = XLColor.LightGray;
+
+					for (int i = 0; i < DataGridResults.Columns.Count; i++)
+					{
+						DataGridViewColumn column = DataGridResults.Columns[i];
+
+						ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, i + 1, column.HeaderText, headers_color, 20);
+					}
+
+					for (int i = 0; i < DataGridResults.Rows.Count; i++)
+					{
+						DataGridViewRow row = DataGridResults.Rows[i];
+
+						for (int j = 0; j < DataGridResults.Columns.Count; j++)
+						{
+							ExcelUtilities.SetWorksheetCell(worksheet, i + 2, j + 1, $"{row.Cells[j].Value}");
+						}
+					}
+
+					workbook.SaveAs(SaveFileDialog.FileName);
+				}
+			}
+			catch (Exception ex)
+			{
+				Utilities.ShowExceptionDialog(ex);
 			}
 		}
 	}
