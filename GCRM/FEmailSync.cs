@@ -99,13 +99,18 @@ namespace GCRM
 
 					document.LoadXml(await response.Content.ReadAsStringAsync());
 					
-					string aux = "";
-
 					XmlNodeList document_hrefs = document.GetElementsByTagName("href");
+
+					List<string> existing_resources = new List<string>();
 
 					for(int i = 1; i < document_hrefs.Count; i++)
 					{
-						aux += $"\n{document_hrefs.Item(i).InnerText}";
+						string resource = document_hrefs.Item(i).InnerText;
+
+						if (resource.Split('/').Last().StartsWith("gcrm"))
+						{
+							existing_resources.Add(resource);
+						}
 					}
 					
 					// query the citizen list
@@ -139,6 +144,12 @@ namespace GCRM
 						}
 
 						string citizen_vcf_name = $"gcrm{citizen.Id}.vcf";
+						string resource = $"{card_dav_url.TrimEnd('/')}/default/{citizen_vcf_name}";
+
+						if (existing_resources.Contains(resource))
+						{
+							existing_resources.Remove(resource);
+						}
 
 						StringBuilder vcard = new StringBuilder();
 
@@ -158,6 +169,18 @@ namespace GCRM
 						content.Headers.ContentType = new MediaTypeHeaderValue("text/vcard");
 
 						response = await VCardClient.PutAsync($"default/{citizen_vcf_name}", content);
+
+						response.EnsureSuccessStatusCode();
+					}
+
+					// clear deleted citizens
+					for (int i = 0; i < existing_resources.Count(); i++)
+					{
+						string citizen_vcf_name = existing_resources[i].Split('/').Last();
+
+						loading_dlg.Text = $"Eliminando contactos desconocidos... ({i + 1}/{existing_resources.Count()})...";
+
+						response = await VCardClient.DeleteAsync($"default/{citizen_vcf_name}");
 
 						response.EnsureSuccessStatusCode();
 					}

@@ -53,7 +53,6 @@
 			TextBoxCardDavURL.Name = "TextBoxCardDavURL";
 			TextBoxCardDavURL.Size = new Size(273, 23);
 			TextBoxCardDavURL.TabIndex = 1;
-			TextBoxCardDavURL.Text = "https://purelymail.com/webdav/99527/carddav/";
 			// 
 			// BCancel
 			// 
@@ -101,7 +100,6 @@
 			TextBoxUsername.Name = "TextBoxUsername";
 			TextBoxUsername.Size = new Size(273, 23);
 			TextBoxUsername.TabIndex = 9;
-			TextBoxUsername.Text = "sgarfias@purelymail.com";
 			// 
 			// TextBoxPassword
 			// 
@@ -109,7 +107,6 @@
 			TextBoxPassword.Name = "TextBoxPassword";
 			TextBoxPassword.Size = new Size(273, 23);
 			TextBoxPassword.TabIndex = 10;
-			TextBoxPassword.Text = "7ewj5T$z2txNRHK";
 			// 
 			// FEmailSync
 			// 
