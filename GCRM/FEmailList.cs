@@ -141,5 +141,13 @@ namespace GCRM
 				email_billing_dlg.ShowDialog();
 			}
 		}
+
+		private void BSyncContacts_Click(object sender, EventArgs e)
+		{
+			using (FEmailSync email_sync_dlg = new FEmailSync())
+			{
+				email_sync_dlg.ShowDialog();
+			}
+		}
 	}
 }

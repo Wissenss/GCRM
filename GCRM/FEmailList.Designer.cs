@@ -148,7 +148,7 @@
 			BSyncContacts.Name = "BSyncContacts";
 			BSyncContacts.Size = new Size(88, 37);
 			BSyncContacts.Text = "&Syncronizar";
-			BSyncContacts.Visible = false;
+			BSyncContacts.Click += BSyncContacts_Click;
 			// 
 			// BBilling
 			// 

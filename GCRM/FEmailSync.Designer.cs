@@ -31,11 +31,11 @@
 			LCardDavURL = new Label();
 			TextBoxCardDavURL = new TextBox();
 			BCancel = new Button();
-			BAccept = new Button();
+			BSync = new Button();
 			LUser = new Label();
 			LPassword = new Label();
-			textBox1 = new TextBox();
-			textBox2 = new TextBox();
+			TextBoxUsername = new TextBox();
+			TextBoxPassword = new TextBox();
 			SuspendLayout();
 			// 
 			// LCardDavURL
@@ -51,28 +51,31 @@
 			// 
 			TextBoxCardDavURL.Location = new Point(94, 12);
 			TextBoxCardDavURL.Name = "TextBoxCardDavURL";
-			TextBoxCardDavURL.Size = new Size(259, 23);
+			TextBoxCardDavURL.Size = new Size(273, 23);
 			TextBoxCardDavURL.TabIndex = 1;
+			TextBoxCardDavURL.Text = "https://purelymail.com/webdav/99527/carddav/";
 			// 
 			// BCancel
 			// 
 			BCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-			BCancel.Location = new Point(278, 110);
+			BCancel.Location = new Point(292, 105);
 			BCancel.Name = "BCancel";
 			BCancel.Size = new Size(75, 23);
 			BCancel.TabIndex = 6;
 			BCancel.Text = "&Cancelar";
 			BCancel.UseVisualStyleBackColor = true;
+			BCancel.Click += BCancel_Click;
 			// 
-			// BAccept
+			// BSync
 			// 
-			BAccept.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-			BAccept.Location = new Point(183, 110);
-			BAccept.Name = "BAccept";
-			BAccept.Size = new Size(89, 23);
-			BAccept.TabIndex = 5;
-			BAccept.Text = "&Syncronizar";
-			BAccept.UseVisualStyleBackColor = true;
+			BSync.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+			BSync.Location = new Point(197, 105);
+			BSync.Name = "BSync";
+			BSync.Size = new Size(89, 23);
+			BSync.TabIndex = 5;
+			BSync.Text = "&Syncronizar";
+			BSync.UseVisualStyleBackColor = true;
+			BSync.Click += BSync_Click;
 			// 
 			// LUser
 			// 
@@ -91,34 +94,35 @@
 			LPassword.Size = new Size(67, 15);
 			LPassword.TabIndex = 8;
 			LPassword.Text = "Contraseña";
-			LPassword.Click += AppPassword_Click;
 			// 
-			// textBox1
+			// TextBoxUsername
 			// 
-			textBox1.Location = new Point(94, 41);
-			textBox1.Name = "textBox1";
-			textBox1.Size = new Size(259, 23);
-			textBox1.TabIndex = 9;
+			TextBoxUsername.Location = new Point(94, 41);
+			TextBoxUsername.Name = "TextBoxUsername";
+			TextBoxUsername.Size = new Size(273, 23);
+			TextBoxUsername.TabIndex = 9;
+			TextBoxUsername.Text = "sgarfias@purelymail.com";
 			// 
-			// textBox2
+			// TextBoxPassword
 			// 
-			textBox2.Location = new Point(94, 70);
-			textBox2.Name = "textBox2";
-			textBox2.Size = new Size(259, 23);
-			textBox2.TabIndex = 10;
+			TextBoxPassword.Location = new Point(94, 70);
+			TextBoxPassword.Name = "TextBoxPassword";
+			TextBoxPassword.Size = new Size(273, 23);
+			TextBoxPassword.TabIndex = 10;
+			TextBoxPassword.Text = "7ewj5T$z2txNRHK";
 			// 
 			// FEmailSync
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
-			ClientSize = new Size(365, 145);
+			ClientSize = new Size(379, 140);
 			ControlBox = false;
-			Controls.Add(textBox2);
-			Controls.Add(textBox1);
+			Controls.Add(TextBoxPassword);
+			Controls.Add(TextBoxUsername);
 			Controls.Add(LPassword);
 			Controls.Add(LUser);
 			Controls.Add(BCancel);
-			Controls.Add(BAccept);
+			Controls.Add(BSync);
 			Controls.Add(TextBoxCardDavURL);
 			Controls.Add(LCardDavURL);
 			Name = "FEmailSync";
@@ -132,10 +136,10 @@
 		private Label LCardDavURL;
 		private TextBox TextBoxCardDavURL;
 		public Button BCancel;
-		public Button BAccept;
+		public Button BSync;
 		private Label LUser;
 		private Label LPassword;
-		private TextBox textBox1;
-		private TextBox textBox2;
+		private TextBox TextBoxUsername;
+		private TextBox TextBoxPassword;
 	}
 }
