@@ -1,4 +1,5 @@
-﻿using Business.Business;
+﻿using Business;
+using Business.Business;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -45,11 +46,18 @@ namespace GCRM
 
 			// create the data dlg
 			EmailDataDlg = new FEmailData();
+
+			LoadPermissions();
 		}
 
 		private void BWebmail_Click(object sender, EventArgs e)
 		{
 			Utilities.OpenUrl("https://purelymail.com/user/login");
+		}
+
+		private void LoadPermissions()
+		{
+			BSyncContacts.Visible = Session.HasPermission("Emails.CardDav.Sync");
 		}
 
 		private async void LoadList()

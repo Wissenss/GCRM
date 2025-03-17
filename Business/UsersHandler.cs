@@ -155,7 +155,9 @@ namespace Business
 
 				new TUserPermission(471, "Network.Members.Hierarchy.Editar"),
 
-				new TUserPermission(601, "Emails.Consultar")
+				new TUserPermission(601, "Emails.Consultar"),
+
+				new TUserPermission(611, "Emails.CardDav.Sync")
 			};
 		}
 
