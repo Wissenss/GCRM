@@ -7,7 +7,7 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <Title>gcrm</Title>
-    <Version>$(VersionPrefix)0.1.0.1-alpha</Version>
+    <Version>$(VersionPrefix)0.1.0.2-alpha</Version>
     <ApplicationIcon>Fatcow-Farm-Fresh-Bookmark.ico</ApplicationIcon>
     <Copyright>Leonardo Merino</Copyright>
     <StartupObject>GCRM.Program</StartupObject>
@@ -61,6 +61,9 @@
 
   <ItemGroup>
     <None Update="SQL\query_citizen_created_by_user.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="SQL\query_entities_count.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
