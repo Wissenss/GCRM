@@ -54,7 +54,7 @@ namespace GCRM
 
 			string hash = UsersHandler.GetPasswordHash(username, password);
 
-			if (hash.Equals(Session.User.PasswordHash) == false)
+			if (hash.Equals(user.PasswordHash) == false)
 			{
 				return Error.LoginInvalid;
 			}
