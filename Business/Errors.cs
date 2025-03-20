@@ -25,6 +25,7 @@ namespace Business
 		// errors related to institutions
 		InstitutionNotFound,
 		InstitutionInUse,
+		InstitutionRepeatedName,
 		InstitutionRoleNotFound,
 		InstitutionCategoryNotFound,
 		InstitutionCategoryInUse,
@@ -55,6 +56,7 @@ namespace Business
 			{ Error.CitizenInUse, "Ciudadano esta siendo utilizado" },
 			{ Error.InstitutionNotFound, "Institución no encontrada" },
 			{ Error.InstitutionInUse, "Institución esta siendo utilizada" },
+			{ Error.InstitutionRepeatedName, "Existe una institución con el mismo nombre" },
 			{ Error.InstitutionRoleNotFound, "Cargo de institución no encontrado" },
 			{ Error.InstitutionCategoryNotFound, "Categoría de institución no encontrada" },
 			{ Error.InstitutionCategoryInUse, "Categoría de institutción esta siendo utilizada" },

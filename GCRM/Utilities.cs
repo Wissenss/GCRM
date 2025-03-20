@@ -27,7 +27,7 @@ namespace GCRM
 
 		public static void ShowErrorDialog(Business.Error error)
 		{
-			MessageBox.Show(Errors.GetErrorDescription(error), $"Error{(int)error}: {error.ToString()}", MessageBoxButtons.OK);
+			MessageBox.Show(Errors.GetErrorDescription(error), $"Error {(int)error:D5}: {error.ToString()}", MessageBoxButtons.OK);
 		}
 
 		public static void ShowErrorDialog(string error, string title = "Error")

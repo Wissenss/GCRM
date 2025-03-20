@@ -72,6 +72,24 @@ namespace Business
 
 			var tran = conn.BeginTransaction();
 
+			// #54 - the institution name cannot be repeated
+
+			using (var cmd = new NpgsqlCommand("SELECT COUNT(*) FROM institutions WHERE name = @name and id <> @id; ", conn))
+			{
+				cmd.Parameters.AddWithValue("@id", institution.Id);
+				cmd.Parameters.AddWithValue("@name", institution.Name);
+
+				int records_with_same_name = (Int32)(Int64)cmd.ExecuteScalar();
+
+				if (records_with_same_name > 0)
+				{
+					tran.Rollback();
+					ConnectionPool.ReleaseConnection(ref conn);
+
+					return Error.InstitutionRepeatedName;
+				}
+			}
+
 			string sql = "";
 
 			if (is_update)
