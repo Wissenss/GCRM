@@ -1,13 +1,6 @@
 ﻿using Business;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace GCRM
 {
@@ -23,6 +16,8 @@ namespace GCRM
 		public FInstitutionData()
 		{
 			InitializeComponent();
+
+			Catalogs.LoadDTInstitutionCategories();
 
 			// configure the roles grid
 			DSInstitution = new DataSet();
@@ -97,10 +92,10 @@ namespace GCRM
 				}
 
 				ComboBoxSocietySector.SelectedValue = institution.Sector;
-				ComboBoxCategory.SelectedValue = institution.Category.Id;
 				TextBoxName.Text = institution.Name;
 				TextBoxDescription.Text = institution.Description;
 				ComboBoxParentInstitution.SelectedValue = institution.ParentInstitutionId;
+				ComboBoxCategory.SelectedValue = institution.Category.Id;
 
 				DTInstitutionRoles.BeginLoadData();
 				DTInstitutionRoles.Clear();
@@ -182,8 +177,6 @@ namespace GCRM
 		private void FInstitutionData_Load(object sender, EventArgs e)
 		{
 			LoadPermissions();
-
-			Catalogs.LoadDTInstitutionCategories();
 		}
 
 		private bool ValidateInput()

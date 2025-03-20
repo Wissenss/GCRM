@@ -28,14 +28,14 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-			DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+			DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+			DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
 			BCancel = new Button();
 			BAccept = new Button();
 			TabGeneral = new TabPage();
+			ComboBoxCategory = new ComboBox();
 			ComboBoxParentInstitution = new ComboBox();
 			LParentInstitution = new Label();
-			ComboBoxCategory = new ComboBox();
 			LInstitutionCategory = new Label();
 			LDescription = new Label();
 			TextBoxDescription = new TextBox();
@@ -85,9 +85,9 @@
 			// 
 			// TabGeneral
 			// 
+			TabGeneral.Controls.Add(ComboBoxCategory);
 			TabGeneral.Controls.Add(ComboBoxParentInstitution);
 			TabGeneral.Controls.Add(LParentInstitution);
-			TabGeneral.Controls.Add(ComboBoxCategory);
 			TabGeneral.Controls.Add(LInstitutionCategory);
 			TabGeneral.Controls.Add(LDescription);
 			TabGeneral.Controls.Add(TextBoxDescription);
@@ -102,6 +102,14 @@
 			TabGeneral.TabIndex = 0;
 			TabGeneral.Text = "General";
 			TabGeneral.UseVisualStyleBackColor = true;
+			// 
+			// ComboBoxCategory
+			// 
+			ComboBoxCategory.FormattingEnabled = true;
+			ComboBoxCategory.Location = new Point(82, 43);
+			ComboBoxCategory.Name = "ComboBoxCategory";
+			ComboBoxCategory.Size = new Size(143, 23);
+			ComboBoxCategory.TabIndex = 14;
 			// 
 			// ComboBoxParentInstitution
 			// 
@@ -121,16 +129,6 @@
 			LParentInstitution.Size = new Size(62, 15);
 			LParentInstitution.TabIndex = 13;
 			LParentInstitution.Text = "Inst. padre";
-			// 
-			// ComboBoxCategory
-			// 
-			ComboBoxCategory.DropDownStyle = ComboBoxStyle.DropDownList;
-			ComboBoxCategory.FlatStyle = FlatStyle.System;
-			ComboBoxCategory.FormattingEnabled = true;
-			ComboBoxCategory.Location = new Point(82, 44);
-			ComboBoxCategory.Name = "ComboBoxCategory";
-			ComboBoxCategory.Size = new Size(143, 23);
-			ComboBoxCategory.TabIndex = 1;
 			// 
 			// LInstitutionCategory
 			// 
@@ -227,24 +225,24 @@
 			DataGridInstitutionRoles.BorderStyle = BorderStyle.None;
 			DataGridInstitutionRoles.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
 			DataGridInstitutionRoles.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
-			dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle5.BackColor = SystemColors.Control;
-			dataGridViewCellStyle5.Font = new Font("Segoe UI", 9F);
-			dataGridViewCellStyle5.ForeColor = SystemColors.WindowText;
-			dataGridViewCellStyle5.SelectionBackColor = SystemColors.Control;
-			dataGridViewCellStyle5.SelectionForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
-			DataGridInstitutionRoles.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+			dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle1.BackColor = SystemColors.Control;
+			dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
+			dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+			dataGridViewCellStyle1.SelectionBackColor = SystemColors.Control;
+			dataGridViewCellStyle1.SelectionForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+			DataGridInstitutionRoles.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
 			DataGridInstitutionRoles.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			DataGridInstitutionRoles.Columns.AddRange(new DataGridViewColumn[] { colId, colName, colInstitutionId, colParentRoleId, colDescription });
-			dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle6.BackColor = SystemColors.Window;
-			dataGridViewCellStyle6.Font = new Font("Segoe UI", 9F);
-			dataGridViewCellStyle6.ForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle6.SelectionBackColor = SystemColors.ControlLight;
-			dataGridViewCellStyle6.SelectionForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
-			DataGridInstitutionRoles.DefaultCellStyle = dataGridViewCellStyle6;
+			dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle2.BackColor = SystemColors.Window;
+			dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+			dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle2.SelectionBackColor = SystemColors.ControlLight;
+			dataGridViewCellStyle2.SelectionForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+			DataGridInstitutionRoles.DefaultCellStyle = dataGridViewCellStyle2;
 			DataGridInstitutionRoles.Dock = DockStyle.Fill;
 			DataGridInstitutionRoles.EnableHeadersVisualStyles = false;
 			DataGridInstitutionRoles.Location = new Point(3, 28);
@@ -374,7 +372,6 @@
 		private TextBox TextBoxDescription;
 		private Label LDescription;
 		private ToolStrip toolStrip1;
-		private ComboBox ComboBoxCategory;
 		private Label LInstitutionCategory;
 		private DataGridView DataGridInstitutionRoles;
 		private ToolStripButton BAddRole;
@@ -386,5 +383,6 @@
 		private DataGridViewTextBoxColumn colInstitutionId;
 		private DataGridViewTextBoxColumn colParentRoleId;
 		private DataGridViewTextBoxColumn colDescription;
+		private ComboBox ComboBoxCategory;
 	}
 }
