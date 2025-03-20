@@ -81,6 +81,7 @@
 			// 
 			// ComboBoxDomains
 			// 
+			ComboBoxDomains.DropDownStyle = ComboBoxStyle.DropDownList;
 			ComboBoxDomains.FormattingEnabled = true;
 			ComboBoxDomains.Location = new Point(85, 38);
 			ComboBoxDomains.Name = "ComboBoxDomains";

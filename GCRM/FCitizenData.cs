@@ -202,7 +202,7 @@ namespace GCRM
 			ComboBoxInstitution.Enabled = AccessMode != FAccessMode.Read;
 			ComboBoxInstitutionRole.Enabled = AccessMode != FAccessMode.Read;
 
-			VoterCode.Enabled = AccessMode != FAccessMode.Read;	
+			VoterCode.Enabled = AccessMode != FAccessMode.Read;
 			VoterOCR.Enabled = AccessMode != FAccessMode.Read;
 			VoterCIC.Enabled = AccessMode != FAccessMode.Read;
 			VoterSection.Enabled = AccessMode != FAccessMode.Read;
@@ -259,7 +259,7 @@ namespace GCRM
 				VoterCode.Text = citizen.VoterCode;
 				VoterOCR.Text = citizen.VoterOCR;
 				VoterCIC.Text = citizen.VoterCIC;
-				VoterSection.Text = citizen.VoterSection; 
+				VoterSection.Text = citizen.VoterSection;
 
 				Text = $"Ciudadano - {citizen.Name} {citizen.PaternalName} {citizen.MaternalName}";
 			}
@@ -660,5 +660,6 @@ namespace GCRM
 				BCancel_Click(this, null);
 			}
 		}
+
 	}
 }

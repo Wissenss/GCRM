@@ -28,8 +28,8 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-			DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+			DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+			DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
 			BCancel = new Button();
 			BAccept = new Button();
 			TabGeneral = new TabPage();
@@ -46,14 +46,14 @@
 			TabControlInstitution = new TabControl();
 			TabPositions = new TabPage();
 			DataGridInstitutionRoles = new DataGridView();
-			toolStrip1 = new ToolStrip();
-			BAddRole = new ToolStripButton();
-			BEditRole = new ToolStripButton();
 			colId = new DataGridViewTextBoxColumn();
 			colName = new DataGridViewTextBoxColumn();
 			colInstitutionId = new DataGridViewTextBoxColumn();
 			colParentRoleId = new DataGridViewTextBoxColumn();
 			colDescription = new DataGridViewTextBoxColumn();
+			toolStrip1 = new ToolStrip();
+			BAddRole = new ToolStripButton();
+			BEditRole = new ToolStripButton();
 			TabGeneral.SuspendLayout();
 			TabControlInstitution.SuspendLayout();
 			TabPositions.SuspendLayout();
@@ -105,6 +105,7 @@
 			// 
 			// ComboBoxParentInstitution
 			// 
+			ComboBoxParentInstitution.DropDownStyle = ComboBoxStyle.DropDownList;
 			ComboBoxParentInstitution.FlatStyle = FlatStyle.System;
 			ComboBoxParentInstitution.FormattingEnabled = true;
 			ComboBoxParentInstitution.Location = new Point(82, 72);
@@ -123,6 +124,7 @@
 			// 
 			// ComboBoxCategory
 			// 
+			ComboBoxCategory.DropDownStyle = ComboBoxStyle.DropDownList;
 			ComboBoxCategory.FlatStyle = FlatStyle.System;
 			ComboBoxCategory.FormattingEnabled = true;
 			ComboBoxCategory.Location = new Point(82, 44);
@@ -158,6 +160,7 @@
 			// 
 			// ComboBoxSocietySector
 			// 
+			ComboBoxSocietySector.DropDownStyle = ComboBoxStyle.DropDownList;
 			ComboBoxSocietySector.FlatStyle = FlatStyle.System;
 			ComboBoxSocietySector.FormattingEnabled = true;
 			ComboBoxSocietySector.Location = new Point(82, 15);
@@ -224,24 +227,24 @@
 			DataGridInstitutionRoles.BorderStyle = BorderStyle.None;
 			DataGridInstitutionRoles.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
 			DataGridInstitutionRoles.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
-			dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle1.BackColor = SystemColors.Control;
-			dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
-			dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-			dataGridViewCellStyle1.SelectionBackColor = SystemColors.Control;
-			dataGridViewCellStyle1.SelectionForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-			DataGridInstitutionRoles.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle5.BackColor = SystemColors.Control;
+			dataGridViewCellStyle5.Font = new Font("Segoe UI", 9F);
+			dataGridViewCellStyle5.ForeColor = SystemColors.WindowText;
+			dataGridViewCellStyle5.SelectionBackColor = SystemColors.Control;
+			dataGridViewCellStyle5.SelectionForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
+			DataGridInstitutionRoles.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
 			DataGridInstitutionRoles.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			DataGridInstitutionRoles.Columns.AddRange(new DataGridViewColumn[] { colId, colName, colInstitutionId, colParentRoleId, colDescription });
-			dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle2.BackColor = SystemColors.Window;
-			dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
-			dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle2.SelectionBackColor = SystemColors.ControlLight;
-			dataGridViewCellStyle2.SelectionForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-			DataGridInstitutionRoles.DefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle6.BackColor = SystemColors.Window;
+			dataGridViewCellStyle6.Font = new Font("Segoe UI", 9F);
+			dataGridViewCellStyle6.ForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle6.SelectionBackColor = SystemColors.ControlLight;
+			dataGridViewCellStyle6.SelectionForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
+			DataGridInstitutionRoles.DefaultCellStyle = dataGridViewCellStyle6;
 			DataGridInstitutionRoles.Dock = DockStyle.Fill;
 			DataGridInstitutionRoles.EnableHeadersVisualStyles = false;
 			DataGridInstitutionRoles.Location = new Point(3, 28);
@@ -255,39 +258,6 @@
 			DataGridInstitutionRoles.StandardTab = true;
 			DataGridInstitutionRoles.TabIndex = 0;
 			// 
-			// toolStrip1
-			// 
-			toolStrip1.GripStyle = ToolStripGripStyle.Hidden;
-			toolStrip1.Items.AddRange(new ToolStripItem[] { BAddRole, BEditRole });
-			toolStrip1.Location = new Point(3, 3);
-			toolStrip1.Name = "toolStrip1";
-			toolStrip1.RenderMode = ToolStripRenderMode.System;
-			toolStrip1.Size = new Size(377, 25);
-			toolStrip1.TabIndex = 1;
-			toolStrip1.Text = "ToolStripInstitutionPositions";
-			// 
-			// BAddRole
-			// 
-			BAddRole.DisplayStyle = ToolStripItemDisplayStyle.Text;
-			BAddRole.Image = Properties.Resources.Fatcow_Farm_Fresh_Add_16;
-			BAddRole.ImageScaling = ToolStripItemImageScaling.None;
-			BAddRole.ImageTransparentColor = Color.Magenta;
-			BAddRole.Name = "BAddRole";
-			BAddRole.Size = new Size(53, 22);
-			BAddRole.Text = "&Agregar";
-			BAddRole.Click += BAddRole_Click;
-			// 
-			// BEditRole
-			// 
-			BEditRole.DisplayStyle = ToolStripItemDisplayStyle.Text;
-			BEditRole.Image = Properties.Resources.Fatcow_Farm_Fresh_Pencil_16;
-			BEditRole.ImageScaling = ToolStripItemImageScaling.None;
-			BEditRole.ImageTransparentColor = Color.Magenta;
-			BEditRole.Name = "BEditRole";
-			BEditRole.Size = new Size(41, 22);
-			BEditRole.Text = "&Editar";
-			BEditRole.Click += BEditRole_Click;
-			// 
 			// colId
 			// 
 			colId.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
@@ -296,7 +266,6 @@
 			colId.Name = "colId";
 			colId.ReadOnly = true;
 			colId.Visible = false;
-			colId.Width = 22;
 			// 
 			// colName
 			// 
@@ -330,6 +299,39 @@
 			colDescription.HeaderText = "Descripción";
 			colDescription.Name = "colDescription";
 			colDescription.ReadOnly = true;
+			// 
+			// toolStrip1
+			// 
+			toolStrip1.GripStyle = ToolStripGripStyle.Hidden;
+			toolStrip1.Items.AddRange(new ToolStripItem[] { BAddRole, BEditRole });
+			toolStrip1.Location = new Point(3, 3);
+			toolStrip1.Name = "toolStrip1";
+			toolStrip1.RenderMode = ToolStripRenderMode.System;
+			toolStrip1.Size = new Size(377, 25);
+			toolStrip1.TabIndex = 1;
+			toolStrip1.Text = "ToolStripInstitutionPositions";
+			// 
+			// BAddRole
+			// 
+			BAddRole.DisplayStyle = ToolStripItemDisplayStyle.Text;
+			BAddRole.Image = Properties.Resources.Fatcow_Farm_Fresh_Add_16;
+			BAddRole.ImageScaling = ToolStripItemImageScaling.None;
+			BAddRole.ImageTransparentColor = Color.Magenta;
+			BAddRole.Name = "BAddRole";
+			BAddRole.Size = new Size(53, 22);
+			BAddRole.Text = "&Agregar";
+			BAddRole.Click += BAddRole_Click;
+			// 
+			// BEditRole
+			// 
+			BEditRole.DisplayStyle = ToolStripItemDisplayStyle.Text;
+			BEditRole.Image = Properties.Resources.Fatcow_Farm_Fresh_Pencil_16;
+			BEditRole.ImageScaling = ToolStripItemImageScaling.None;
+			BEditRole.ImageTransparentColor = Color.Magenta;
+			BEditRole.Name = "BEditRole";
+			BEditRole.Size = new Size(41, 22);
+			BEditRole.Text = "&Editar";
+			BEditRole.Click += BEditRole_Click;
 			// 
 			// FInstitutionData
 			// 

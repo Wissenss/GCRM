@@ -220,6 +220,7 @@
 			// 
 			// ComboBoxPoliticalParty
 			// 
+			ComboBoxPoliticalParty.DropDownStyle = ComboBoxStyle.DropDownList;
 			ComboBoxPoliticalParty.FormattingEnabled = true;
 			ComboBoxPoliticalParty.Location = new Point(79, 252);
 			ComboBoxPoliticalParty.Name = "ComboBoxPoliticalParty";
@@ -276,6 +277,7 @@
 			// 
 			// ComboBoxSex
 			// 
+			ComboBoxSex.DropDownStyle = ComboBoxStyle.DropDownList;
 			ComboBoxSex.FormattingEnabled = true;
 			ComboBoxSex.Location = new Point(79, 121);
 			ComboBoxSex.Name = "ComboBoxSex";
@@ -302,6 +304,7 @@
 			// 
 			// ComboBoxTitle
 			// 
+			ComboBoxTitle.DropDownStyle = ComboBoxStyle.DropDownList;
 			ComboBoxTitle.FormattingEnabled = true;
 			ComboBoxTitle.Location = new Point(79, 6);
 			ComboBoxTitle.Name = "ComboBoxTitle";
@@ -426,6 +429,7 @@
 			// 
 			// ComboBoxAssistant
 			// 
+			ComboBoxAssistant.DropDownStyle = ComboBoxStyle.DropDownList;
 			ComboBoxAssistant.FormattingEnabled = true;
 			ComboBoxAssistant.Location = new Point(65, 119);
 			ComboBoxAssistant.Name = "ComboBoxAssistant";
@@ -688,6 +692,7 @@
 			// 
 			// ComboBoxInstitutionRole
 			// 
+			ComboBoxInstitutionRole.DropDownStyle = ComboBoxStyle.DropDownList;
 			ComboBoxInstitutionRole.FormattingEnabled = true;
 			ComboBoxInstitutionRole.Location = new Point(74, 59);
 			ComboBoxInstitutionRole.Name = "ComboBoxInstitutionRole";
@@ -706,6 +711,9 @@
 			// 
 			// ComboBoxInstitution
 			// 
+			ComboBoxInstitution.AutoCompleteMode = AutoCompleteMode.Append;
+			ComboBoxInstitution.AutoCompleteSource = AutoCompleteSource.ListItems;
+			ComboBoxInstitution.DropDownStyle = ComboBoxStyle.DropDownList;
 			ComboBoxInstitution.FormattingEnabled = true;
 			ComboBoxInstitution.Location = new Point(74, 9);
 			ComboBoxInstitution.Name = "ComboBoxInstitution";
