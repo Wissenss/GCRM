@@ -38,6 +38,10 @@
 			BRead = new ToolStripButton();
 			BRefresh = new ToolStripButton();
 			BDelete = new ToolStripButton();
+			toolStripSeparator1 = new ToolStripSeparator();
+			BShowHierarchy = new ToolStripButton();
+			toolStripSeparator2 = new ToolStripSeparator();
+			BSearch = new ToolStripButton();
 			DataGridInstitutions = new DataGridView();
 			colId = new DataGridViewTextBoxColumn();
 			colName = new DataGridViewTextBoxColumn();
@@ -49,21 +53,21 @@
 			colParentInstitutionId = new DataGridViewTextBoxColumn();
 			SplitContainer = new SplitContainer();
 			TreeView = new TreeView();
-			panel1 = new Panel();
-			label1 = new Label();
+			TextBoxSearch = new TextBox();
+			PanelSearch = new Panel();
 			toolStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)DataGridInstitutions).BeginInit();
 			((System.ComponentModel.ISupportInitialize)SplitContainer).BeginInit();
 			SplitContainer.Panel1.SuspendLayout();
 			SplitContainer.Panel2.SuspendLayout();
 			SplitContainer.SuspendLayout();
-			panel1.SuspendLayout();
+			PanelSearch.SuspendLayout();
 			SuspendLayout();
 			// 
 			// toolStrip1
 			// 
 			toolStrip1.GripStyle = ToolStripGripStyle.Hidden;
-			toolStrip1.Items.AddRange(new ToolStripItem[] { BAdd, BEdit, BRead, BRefresh, BDelete });
+			toolStrip1.Items.AddRange(new ToolStripItem[] { BAdd, BEdit, BRead, BRefresh, BDelete, toolStripSeparator1, BShowHierarchy, toolStripSeparator2, BSearch });
 			toolStrip1.Location = new Point(0, 0);
 			toolStrip1.Name = "toolStrip1";
 			toolStrip1.RenderMode = ToolStripRenderMode.System;
@@ -129,6 +133,42 @@
 			BDelete.Text = "&Borrar";
 			BDelete.Click += BDelete_Click;
 			// 
+			// toolStripSeparator1
+			// 
+			toolStripSeparator1.Alignment = ToolStripItemAlignment.Right;
+			toolStripSeparator1.Name = "toolStripSeparator1";
+			toolStripSeparator1.Size = new Size(6, 40);
+			// 
+			// BShowHierarchy
+			// 
+			BShowHierarchy.Alignment = ToolStripItemAlignment.Right;
+			BShowHierarchy.CheckOnClick = true;
+			BShowHierarchy.Image = Properties.Resources.Fatcow_Farm_Fresh_Node_16;
+			BShowHierarchy.ImageScaling = ToolStripItemImageScaling.None;
+			BShowHierarchy.ImageTransparentColor = Color.Magenta;
+			BShowHierarchy.Name = "BShowHierarchy";
+			BShowHierarchy.Size = new Size(93, 37);
+			BShowHierarchy.Text = "Ver Jerarquía";
+			BShowHierarchy.Click += BShowHierarchy_Click;
+			// 
+			// toolStripSeparator2
+			// 
+			toolStripSeparator2.Alignment = ToolStripItemAlignment.Right;
+			toolStripSeparator2.Name = "toolStripSeparator2";
+			toolStripSeparator2.Size = new Size(6, 40);
+			// 
+			// BSearch
+			// 
+			BSearch.Alignment = ToolStripItemAlignment.Right;
+			BSearch.CheckOnClick = true;
+			BSearch.Image = Properties.Resources.Fatcow_Farm_Fresh_Find_16;
+			BSearch.ImageScaling = ToolStripItemImageScaling.None;
+			BSearch.ImageTransparentColor = Color.Magenta;
+			BSearch.Name = "BSearch";
+			BSearch.Size = new Size(62, 37);
+			BSearch.Text = "Bu&scar";
+			BSearch.Click += BSearch_Click;
+			// 
 			// DataGridInstitutions
 			// 
 			DataGridInstitutions.AllowUserToAddRows = false;
@@ -175,7 +215,7 @@
 			DataGridInstitutions.RowHeadersVisible = false;
 			DataGridInstitutions.RowTemplate.Height = 20;
 			DataGridInstitutions.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-			DataGridInstitutions.Size = new Size(506, 421);
+			DataGridInstitutions.Size = new Size(758, 382);
 			DataGridInstitutions.StandardTab = true;
 			DataGridInstitutions.TabIndex = 3;
 			// 
@@ -255,7 +295,7 @@
 			// SplitContainer
 			// 
 			SplitContainer.Dock = DockStyle.Fill;
-			SplitContainer.Location = new Point(0, 40);
+			SplitContainer.Location = new Point(0, 79);
 			SplitContainer.Name = "SplitContainer";
 			// 
 			// SplitContainer.Panel1
@@ -265,8 +305,8 @@
 			// SplitContainer.Panel2
 			// 
 			SplitContainer.Panel2.Controls.Add(TreeView);
-			SplitContainer.Panel2.Controls.Add(panel1);
-			SplitContainer.Size = new Size(758, 421);
+			SplitContainer.Panel2Collapsed = true;
+			SplitContainer.Size = new Size(758, 382);
 			SplitContainer.SplitterDistance = 506;
 			SplitContainer.TabIndex = 4;
 			// 
@@ -275,30 +315,31 @@
 			TreeView.BackColor = SystemColors.Control;
 			TreeView.BorderStyle = BorderStyle.None;
 			TreeView.Dock = DockStyle.Fill;
-			TreeView.Location = new Point(0, 17);
+			TreeView.Location = new Point(0, 0);
 			TreeView.Name = "TreeView";
-			TreeView.Size = new Size(248, 404);
+			TreeView.Size = new Size(96, 100);
 			TreeView.TabIndex = 0;
 			// 
-			// panel1
+			// TextBoxSearch
 			// 
-			panel1.BackColor = SystemColors.ControlLight;
-			panel1.Controls.Add(label1);
-			panel1.Dock = DockStyle.Top;
-			panel1.Location = new Point(0, 0);
-			panel1.Name = "panel1";
-			panel1.Size = new Size(248, 17);
-			panel1.TabIndex = 1;
+			TextBoxSearch.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+			TextBoxSearch.Location = new Point(8, 8);
+			TextBoxSearch.Name = "TextBoxSearch";
+			TextBoxSearch.PlaceholderText = "Ingrese el texto a buscar...";
+			TextBoxSearch.Size = new Size(1443, 23);
+			TextBoxSearch.TabIndex = 1;
+			TextBoxSearch.TextChanged += TextBoxSearch_TextChanged;
 			// 
-			// label1
+			// PanelSearch
 			// 
-			label1.AutoSize = true;
-			label1.Dock = DockStyle.Fill;
-			label1.Location = new Point(0, 0);
-			label1.Name = "label1";
-			label1.Size = new Size(60, 15);
-			label1.TabIndex = 2;
-			label1.Text = "Estructura";
+			PanelSearch.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+			PanelSearch.Controls.Add(TextBoxSearch);
+			PanelSearch.Dock = DockStyle.Top;
+			PanelSearch.Location = new Point(0, 40);
+			PanelSearch.Name = "PanelSearch";
+			PanelSearch.Size = new Size(758, 39);
+			PanelSearch.TabIndex = 7;
+			PanelSearch.Visible = false;
 			// 
 			// FInstitutionList
 			// 
@@ -306,12 +347,14 @@
 			AutoScaleMode = AutoScaleMode.Font;
 			ClientSize = new Size(758, 461);
 			Controls.Add(SplitContainer);
+			Controls.Add(PanelSearch);
 			Controls.Add(toolStrip1);
 			Icon = (Icon)resources.GetObject("$this.Icon");
 			Name = "FInstitutionList";
 			ShowIcon = false;
 			Text = "Instituciones";
 			Load += FInstitutionList_Load;
+			Leave += FInstitutionList_Leave;
 			toolStrip1.ResumeLayout(false);
 			toolStrip1.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)DataGridInstitutions).EndInit();
@@ -319,8 +362,8 @@
 			SplitContainer.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)SplitContainer).EndInit();
 			SplitContainer.ResumeLayout(false);
-			panel1.ResumeLayout(false);
-			panel1.PerformLayout();
+			PanelSearch.ResumeLayout(false);
+			PanelSearch.PerformLayout();
 			ResumeLayout(false);
 			PerformLayout();
 		}
@@ -335,8 +378,6 @@
 		private DataGridView DataGridInstitutions;
 		private SplitContainer SplitContainer;
 		private TreeView TreeView;
-		private Panel panel1;
-		private Label label1;
 		private DataGridViewTextBoxColumn colId;
 		private DataGridViewTextBoxColumn colName;
 		private DataGridViewTextBoxColumn colSocietySector;
@@ -346,5 +387,11 @@
 		private DataGridViewTextBoxColumn colDescription;
 		private DataGridViewTextBoxColumn colParentInstitutionId;
 		private ToolStripButton BDelete;
+		private ToolStripSeparator toolStripSeparator1;
+		private ToolStripButton BShowHierarchy;
+		private ToolStripSeparator toolStripSeparator2;
+		private ToolStripButton BSearch;
+		private TextBox TextBoxSearch;
+		private Panel PanelSearch;
 	}
 }

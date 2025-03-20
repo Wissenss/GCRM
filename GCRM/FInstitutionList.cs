@@ -9,6 +9,8 @@ namespace GCRM
 		{
 			InitializeComponent();
 
+			DataGridInstitutions.AutoGenerateColumns = false;
+
 			DataGridInstitutions.DataSource = Catalogs.DSCatalogs;
 			DataGridInstitutions.DataMember = "DTInstitutions";
 		}
@@ -21,8 +23,6 @@ namespace GCRM
 
 				TreeView.BeginUpdate();
 				TreeView.Nodes.Clear();
-
-				//TreeView.Nodes.Add("BaseNode");
 
 				foreach (DataRow row in Catalogs.DTInstitutions.Rows)
 				{
@@ -150,8 +150,8 @@ namespace GCRM
 		{
 			int id = GetSelectedInstitutionId();
 
-		
-		
+
+
 			DialogResult result = MessageBox.Show(
 			 "¿Está seguro de que desea eliminar esta institución?",
 			 "Confirmar eliminación",
@@ -159,12 +159,12 @@ namespace GCRM
 			 MessageBoxIcon.Warning
 			 );
 
-            if (result != DialogResult.Yes || id == 0)
-            {
-                return;
-            }
+			if (result != DialogResult.Yes || id == 0)
+			{
+				return;
+			}
 
-            Error error = InstitutionsHandler.DeleteInstitutionById(id);
+			Error error = InstitutionsHandler.DeleteInstitutionById(id);
 
 			if (error != 0)
 			{
@@ -173,6 +173,50 @@ namespace GCRM
 			}
 
 			LoadList();
+		}
+
+		private void BShowHierarchy_Click(object sender, EventArgs e)
+		{
+			SplitContainer.Panel2Collapsed = BShowHierarchy.Checked == false;
+		}
+
+		private void BSearch_Click(object sender, EventArgs e)
+		{
+			PanelSearch.Visible = BSearch.Checked;
+
+			FilterList();
+		}
+
+		private void FilterList()
+		{
+			string filter = "true";
+			string search = TextBoxSearch.Text.Trim();
+
+			if (BSearch.Checked && search.Length > 0)
+			{
+				filter += @$" and (
+												name like '%{search}%' OR
+												society_sector_name like '%{search}%' OR
+												category_name like '%{search}%' OR
+												description like '%{search}%'
+									    )";
+			}
+
+			Catalogs.DTInstitutions.DefaultView.RowFilter = filter;
+
+			DataGridInstitutions.DataSource = Catalogs.DTInstitutions;
+			DataGridInstitutions.Refresh();
+		}
+
+		private void FInstitutionList_Leave(object sender, EventArgs e)
+		{
+			// clear the filter so when this global datatable is use somewhere we keep on seeng all rows
+			Catalogs.DTInstitutions.DefaultView.RowFilter = "";
+		}
+
+		private void TextBoxSearch_TextChanged(object sender, EventArgs e)
+		{
+			FilterList();
 		}
 	}
 }
