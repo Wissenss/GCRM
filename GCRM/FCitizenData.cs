@@ -456,7 +456,11 @@ namespace GCRM
 					Cellphone = TextBoxCellphone.Text.Trim(),
 					Email = TextBoxEmail.Text.Trim(),
 
-					CreatedById = Session.User.Id,
+					Author = new TUser()
+					{
+						Id = Session.User.Id,
+					},
+
 					CreatedDate = now,
 					EditById = Session.User.Id,
 					EditDate = now,

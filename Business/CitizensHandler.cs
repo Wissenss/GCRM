@@ -31,7 +31,8 @@ namespace Business
 		public TPoliticalParty PoliticalParty;
 		public TInstitution Institution;
 		public TInstitutionRole Role;
-		public int CreatedById;
+		//public int CreatedById;
+		public TUser Author = new TUser();
 		public DateTime CreatedDate;
 		public int EditById;
 		public DateTime EditDate;
@@ -93,7 +94,7 @@ namespace Business
 			Institution.Id = reader.GetInt32(15);
 			Role.Id = reader.GetInt32(16);
 			Email = reader.GetString(17);
-			CreatedById = reader.GetInt32(18);
+			Author.Id = reader.GetInt32(18);
 			CreatedDate = reader.GetDateTime(19);
 			EditById = reader.GetInt32(20);
 			EditDate = reader.GetDateTime(21);
@@ -384,7 +385,7 @@ namespace Business
 					cmd.Parameters.AddWithValue("@institution_id", citizen.Institution.Id);
 					cmd.Parameters.AddWithValue("@institution_role_id", citizen.Role.Id);
 					cmd.Parameters.AddWithValue("@email", citizen.Email);
-					cmd.Parameters.AddWithValue("@created_by_id", citizen.CreatedById);
+					cmd.Parameters.AddWithValue("@created_by_id", citizen.Author.Id);
 					cmd.Parameters.AddWithValue("@created_date", citizen.CreatedDate);
 					cmd.Parameters.AddWithValue("@edit_by_id", citizen.EditById);
 					cmd.Parameters.AddWithValue("@edit_date", citizen.EditDate);
@@ -417,7 +418,7 @@ namespace Business
 
 			var conn = ConnectionPool.GetConnection();
 
-			using (var cmd = new NpgsqlCommand("SELECT * FROM citizens ORDER BY name, paternal_name, maternal_name;", conn))
+			using (var cmd = new NpgsqlCommand("SELECT c.*, u.name as author_name FROM citizens c LEFT JOIN users u ON c.created_by_id = u.id ORDER BY name, paternal_name, maternal_name;", conn))
 			using (var reader = cmd.ExecuteReader()) 
 			{
 				while (reader.Read())
@@ -444,6 +445,11 @@ namespace Business
 					if (citizen.Address.Id != 0)
 					{
 						AddressesHandler.GetAddressById(citizen.Address.Id, out citizen.Address);
+					}
+
+					if (citizen.Author.Id != 0)
+					{
+						citizen.Author.Name = reader.GetString(reader.GetOrdinal("author_name"));
 					}
 
 					citizen_list.Add(citizen);

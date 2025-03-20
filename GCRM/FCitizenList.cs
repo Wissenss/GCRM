@@ -58,6 +58,8 @@ namespace GCRM
 			DataGridUtilities.AddColumn(DataGridCitizens, "colAddressCountry", "Id país", "address_country", false);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colAddressCountryName", "País", "address_country_name", false);
 
+			DataGridUtilities.AddColumn(DataGridCitizens, "colAuthorId", "Id Autor", "author_id", false);
+
 			int display_index = 0;
 
 			DataGridUtilities.AddColumn(DataGridCitizens, "colTitleName", "Título", "title_name", true, display_index++, 20, 20, DataGridViewAutoSizeColumnMode.AllCells);
@@ -73,6 +75,7 @@ namespace GCRM
 			DataGridUtilities.AddColumn(DataGridCitizens, "colPoliticalPartyName", "Partido", "political_party_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colBirthday", "Nacimiento", "birthday", false, display_index++, 20, 20, DataGridViewAutoSizeColumnMode.AllCells);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colCURP", "CURP", "curp", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colAuthorName", "Autor", "author_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
 
 			FiltersDlg = new FCitizenListFilters();
 
@@ -129,6 +132,9 @@ namespace GCRM
 			DTCitizens.Columns.Add("address_country", typeof(TCountry));
 			DTCitizens.Columns.Add("address_country_name", typeof(string));
 
+			DTCitizens.Columns.Add("author_id", typeof(int));
+			DTCitizens.Columns.Add("author_name", typeof(string));
+
 			DSCitizens.Tables.Add(DTCitizens);
 
 			DataGridCitizens.DataSource = DSCitizens;
@@ -169,104 +175,106 @@ namespace GCRM
 
 		private void FCitizenList_Load(object sender, EventArgs e)
 		{
-			Cursor.Current = Cursors.WaitCursor;
-
 			LoadList();
-
-			Cursor.Current = Cursors.Default;
 		}
 
 		private void LoadList()
 		{
-			DTCitizens.BeginLoadData();
-			DTCitizens.Clear();
-
-			List<TCitizen> citizen_list;
-
-			Error error = CitizensHandler.GetCitizens(out citizen_list);
-
-			if (error != 0)
+			using (new CursorWait())
 			{
-				Utilities.ShowErrorDialog(error);
-				return;
-			}
+				DTCitizens.BeginLoadData();
+				DTCitizens.Clear();
 
-			foreach (TCitizen citizen in citizen_list)
-			{
-				DataRow row = DTCitizens.NewRow();
+				List<TCitizen> citizen_list;
 
-				row["id"] = citizen.Id;
-				row["name"] = citizen.Name;
-				row["paternal_name"] = citizen.PaternalName;
-				row["maternal_name"] = citizen.MaternalName;
-				row["name_full"] = $"{citizen.Name} {citizen.PaternalName} {citizen.MaternalName}";
-				row["title"] = citizen.Title;
-				row["title_name"] = BConstants.GetCitizenBriefTitle(citizen.Title);
-				row["curp"] = citizen.CURP;
+				Error error = CitizensHandler.GetCitizens(out citizen_list);
 
-				row["birthday"] = citizen.Birthday;
-				row["birthday_year"] = citizen.Birthday.Year;
-				row["birthday_month"] = citizen.Birthday.Month;
-				row["birthday_day"] = citizen.Birthday.Day;
-
-				row["observations"] = citizen.Observations;
-				row["sex"] = citizen.Sex;
-				row["sex_name"] = BConstants.GetSexName(citizen.Sex);
-
-				if (citizen.Assistant.Id != 0)
+				if (error != 0)
 				{
-					row["assistant_id"] = citizen.Assistant.Id;
-					row["assistant_name"] = $"{citizen.Assistant.Name} {citizen.Assistant.PaternalName} {citizen.Assistant.MaternalName}";
-					row["assistant_phone"] = citizen.Assistant.Phone;
-					row["assistant_phone_extension"] = citizen.Assistant.PhoneExtension;
-					row["assistant_phone_full"] = $"{citizen.Assistant.Phone}" + (citizen.Assistant.PhoneExtension.Length > 0 ? $" Ext. {citizen.Assistant.PhoneExtension}" : "");
-					row["assistant_cellphone"] = citizen.Assistant.Cellphone;
-				}
-				else
-				{
-					row["assistant_id"] = 0;
-					row["assistant_name"] = "";
-					row["assistant_phone"] = "";
-					row["assistant_phone_extension"] = "";
-					row["assistant_phone_full"] = "";
-					row["assistant_cellphone"] = "";
+					Utilities.ShowErrorDialog(error);
+					return;
 				}
 
-				row["phone"] = citizen.Phone;
-				row["phone_extension"] = citizen.PhoneExtension;
-				row["phone_full"] = $"{citizen.Phone}" + (citizen.PhoneExtension.Length > 0 ? $" Ext. {citizen.PhoneExtension}" : "");
-				row["cellphone"] = citizen.Cellphone;
-				row["political_party"] = citizen.PoliticalParty;
-				row["political_party_name"] = BConstants.GetPoliticalPartyCommonName(citizen.PoliticalParty);
+				foreach (TCitizen citizen in citizen_list)
+				{
+					DataRow row = DTCitizens.NewRow();
 
-				row["institution_id"] = citizen.Institution.Id;
-				row["institution_name"] = citizen.Institution.Name;
-				row["institution_category_id"] = citizen.Institution.Category.Id;
-				row["institution_category_name"] = citizen.Institution.Category.Name;
-				row["institution_sector"] = citizen.Institution.Sector;
-				row["institution_sector_name"] = BConstants.GetSocietySectorName(citizen.Institution.Sector);
+					row["id"] = citizen.Id;
+					row["name"] = citizen.Name;
+					row["paternal_name"] = citizen.PaternalName;
+					row["maternal_name"] = citizen.MaternalName;
+					row["name_full"] = $"{citizen.Name} {citizen.PaternalName} {citizen.MaternalName}";
+					row["title"] = citizen.Title;
+					row["title_name"] = BConstants.GetCitizenBriefTitle(citizen.Title);
+					row["curp"] = citizen.CURP;
 
-				row["institution_role_id"] = citizen.Role.Id;
-				row["institution_role_name"] = citizen.Role.Name;
+					row["birthday"] = citizen.Birthday;
+					row["birthday_year"] = citizen.Birthday.Year;
+					row["birthday_month"] = citizen.Birthday.Month;
+					row["birthday_day"] = citizen.Birthday.Day;
 
-				row["address_id"] = citizen.Address.Id;
-				row["address_street"] = citizen.Address.Street;
-				row["address_number"] = citizen.Address.Number;
-				row["address_interior_number"] = citizen.Address.InteriorNumber;
-				row["address_postal_code"] = citizen.Address.PostalCode;
-				row["address_state"] = citizen.Address.State;
-				row["address_city"] = citizen.Address.City;
-				row["address_country"] = citizen.Address.Country;
-				row["address_country_name"] = BConstants.GetCountryCommonName(citizen.Address.Country);
+					row["observations"] = citizen.Observations;
+					row["sex"] = citizen.Sex;
+					row["sex_name"] = BConstants.GetSexName(citizen.Sex);
 
-				DTCitizens.Rows.Add(row);
+					if (citizen.Assistant.Id != 0)
+					{
+						row["assistant_id"] = citizen.Assistant.Id;
+						row["assistant_name"] = $"{citizen.Assistant.Name} {citizen.Assistant.PaternalName} {citizen.Assistant.MaternalName}";
+						row["assistant_phone"] = citizen.Assistant.Phone;
+						row["assistant_phone_extension"] = citizen.Assistant.PhoneExtension;
+						row["assistant_phone_full"] = $"{citizen.Assistant.Phone}" + (citizen.Assistant.PhoneExtension.Length > 0 ? $" Ext. {citizen.Assistant.PhoneExtension}" : "");
+						row["assistant_cellphone"] = citizen.Assistant.Cellphone;
+					}
+					else
+					{
+						row["assistant_id"] = 0;
+						row["assistant_name"] = "";
+						row["assistant_phone"] = "";
+						row["assistant_phone_extension"] = "";
+						row["assistant_phone_full"] = "";
+						row["assistant_cellphone"] = "";
+					}
+
+					row["phone"] = citizen.Phone;
+					row["phone_extension"] = citizen.PhoneExtension;
+					row["phone_full"] = $"{citizen.Phone}" + (citizen.PhoneExtension.Length > 0 ? $" Ext. {citizen.PhoneExtension}" : "");
+					row["cellphone"] = citizen.Cellphone;
+					row["political_party"] = citizen.PoliticalParty;
+					row["political_party_name"] = BConstants.GetPoliticalPartyCommonName(citizen.PoliticalParty);
+
+					row["institution_id"] = citizen.Institution.Id;
+					row["institution_name"] = citizen.Institution.Name;
+					row["institution_category_id"] = citizen.Institution.Category.Id;
+					row["institution_category_name"] = citizen.Institution.Category.Name;
+					row["institution_sector"] = citizen.Institution.Sector;
+					row["institution_sector_name"] = BConstants.GetSocietySectorName(citizen.Institution.Sector);
+
+					row["institution_role_id"] = citizen.Role.Id;
+					row["institution_role_name"] = citizen.Role.Name;
+
+					row["address_id"] = citizen.Address.Id;
+					row["address_street"] = citizen.Address.Street;
+					row["address_number"] = citizen.Address.Number;
+					row["address_interior_number"] = citizen.Address.InteriorNumber;
+					row["address_postal_code"] = citizen.Address.PostalCode;
+					row["address_state"] = citizen.Address.State;
+					row["address_city"] = citizen.Address.City;
+					row["address_country"] = citizen.Address.Country;
+					row["address_country_name"] = BConstants.GetCountryCommonName(citizen.Address.Country);
+
+					row["author_id"] = citizen.Author.Id;
+					row["author_name"] = citizen.Author.Name;
+
+					DTCitizens.Rows.Add(row);
+				}
+
+				DTCitizens.EndLoadData();
+
+				FilterList();
+
+				DataGridCitizens.Refresh();
 			}
-
-			DTCitizens.EndLoadData();
-
-			FilterList();
-
-			DataGridCitizens.Refresh();
 		}
 
 		private void BAdd_Click(object sender, EventArgs e)

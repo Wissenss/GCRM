@@ -135,7 +135,7 @@ namespace GCRM
 
 						TUser created_by_user = new TUser() { Name = "desconocido" };
 
-						error = UsersHandler.GetUserById(citizen.CreatedById, out created_by_user);
+						error = UsersHandler.GetUserById(citizen.Author.Id, out created_by_user);
 
 						if (error != 0)
 						{
@@ -160,7 +160,7 @@ namespace GCRM
 						vcard.AppendLine($"BDAY:{citizen.Birthday.ToString("yyyy-mm-dd")}");
 						vcard.AppendLine($"TEL;TYPE=WORK:{citizen.FullPhone}");
 						vcard.AppendLine($"TEL;TYPE=CELL:{citizen.Cellphone}");
-						vcard.AppendLine($"NOTE:Alta: {citizen.CreatedById} - {created_by_user.Name}\\nFecha: {citizen.CreatedDate.ToString()}\\n");
+						vcard.AppendLine($"NOTE:Alta: {citizen.Author.Id} - {created_by_user.Name}\\nFecha: {citizen.CreatedDate.ToString()}\\n");
 
 						vcard.AppendLine($"END:VCARD");
 
