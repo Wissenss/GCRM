@@ -297,7 +297,7 @@ namespace Business
 
 			var conn = ConnectionPool.GetConnection();
 
-			using (var cmd = new NpgsqlCommand("SELECT * FROM institutions;", conn))
+			using (var cmd = new NpgsqlCommand("SELECT * FROM institutions ORDER BY name;", conn))
 			using (var reader = cmd.ExecuteReader()) 
 			{
 				while (reader.Read())
@@ -414,7 +414,7 @@ namespace Business
 
 			category_list = new List<TInstitutionCategory>();
 
-			using (var cmd = new NpgsqlCommand("SELECT * FROM institution_categories;", conn))
+			using (var cmd = new NpgsqlCommand("SELECT * FROM institution_categories ORDER BY name;", conn))
 			{
 				using (var reader = cmd.ExecuteReader())
 				{
