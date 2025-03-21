@@ -418,7 +418,37 @@ namespace Business
 
 			var conn = ConnectionPool.GetConnection();
 
-			using (var cmd = new NpgsqlCommand("SELECT c.*, u.name as author_name FROM citizens c LEFT JOIN users u ON c.created_by_id = u.id ORDER BY name, paternal_name, maternal_name;", conn))
+			string sql = @"
+				SELECT 
+					c.*, 
+					u.name as author_name, 
+					i.name as institution_name,
+					i.society_sector_type as institution_society_sector_type,
+					i.description as institution_description,
+					i.category_id as institution_category_id,
+					ic.name as institution_category_name,
+					ic.description as institution_category_description,
+					ir.name as institution_role_name,
+					ir.description as institution_role_description,
+					a.*,
+					c_self.name as assistant_name,
+					c_self.paternal_name as assistant_paternal_name,
+					c_self.maternal_name as assistant_maternal_name,
+					c_self.phone as assistant_phone,
+					c_self.phone_extension as assistant_phone_extension,
+					c_self.cellphone as assistant_cellphone
+				FROM 
+					citizens c 
+					LEFT JOIN users u ON c.created_by_id = u.id 
+					LEFT JOIN institutions i ON c.institution_id = i.id 
+					LEFT JOIN institution_categories ic ON i.category_id = ic.id
+					LEFT JOIN institution_roles ir ON c.institution_role_id = ir.id
+					LEFT JOIN addresses a ON c.address_id = a.id
+					LEFT JOIN citizens c_self ON c.assistant_id = c.id
+				ORDER BY name, paternal_name, maternal_name;
+			";
+
+			using (var cmd = new NpgsqlCommand(sql, conn))
 			using (var reader = cmd.ExecuteReader()) 
 			{
 				while (reader.Read())
@@ -429,22 +459,52 @@ namespace Business
 
 					if (citizen.Assistant.Id != 0)
 					{
-						GetCitizenAssistantById(citizen.Assistant.Id, out citizen.Assistant);
+						//GetCitizenAssistantById(citizen.Assistant.Id, out citizen.Assistant);
+
+						citizen.Assistant.Name = reader.GetString(reader.GetOrdinal("assistant_name"));
+						citizen.Assistant.Name = reader.GetString(reader.GetOrdinal("assistant_paternal_name"));
+						citizen.Assistant.Name = reader.GetString(reader.GetOrdinal("assistant_maternal_name"));
+						citizen.Assistant.Name = reader.GetString(reader.GetOrdinal("assistant_phone"));
+						citizen.Assistant.Name = reader.GetString(reader.GetOrdinal("assistant_phone_extension"));
+						citizen.Assistant.Name = reader.GetString(reader.GetOrdinal("assistant_cellphone"));
 					}
 
 					if (citizen.Institution.Id != 0)
 					{
-						InstitutionsHandler.GetInstitutionById(citizen.Institution.Id, out citizen.Institution);
+						//InstitutionsHandler.GetInstitutionById(citizen.Institution.Id, out citizen.Institution);
+
+						citizen.Institution.Name = reader.GetString(reader.GetOrdinal("institution_name"));
+						citizen.Institution.Sector = (TSocietySector)reader.GetInt32(reader.GetOrdinal("institution_society_sector_type"));
+						citizen.Institution.Description = reader.GetString(reader.GetOrdinal("institution_description"));
+						citizen.Institution.Category.Id = reader.GetInt32(reader.GetOrdinal("institution_category_id"));
+
+						if (citizen.Institution.Category.Id != 0)
+						{
+							citizen.Institution.Category.Name = reader.GetString(reader.GetOrdinal("institution_category_name"));
+							citizen.Institution.Category.Description = reader.GetString(reader.GetOrdinal("institution_category_description"));
+						}
 					}
 
 					if (citizen.Role.Id != 0)
 					{
-						InstitutionsHandler.GetInstitutionRoleById(citizen.Role.Id, out citizen.Role);
+						//InstitutionsHandler.GetInstitutionRoleById(citizen.Role.Id, out citizen.Role);
+
+						citizen.Role.Name = reader.GetString(reader.GetOrdinal("institution_role_name"));
+						citizen.Role.Description = reader.GetString(reader.GetOrdinal("institution_role_description"));
 					}
 
 					if (citizen.Address.Id != 0)
 					{
-						AddressesHandler.GetAddressById(citizen.Address.Id, out citizen.Address);
+						//AddressesHandler.GetAddressById(citizen.Address.Id, out citizen.Address);
+
+						citizen.Address.Street = reader.GetString(reader.GetOrdinal("street"));
+						citizen.Address.Number = reader.GetString(reader.GetOrdinal("number"));
+						citizen.Address.InteriorNumber = reader.GetString(reader.GetOrdinal("interior_number"));
+						citizen.Address.PostalCode = reader.GetString(reader.GetOrdinal("postal_code"));
+						citizen.Address.State = reader.GetString(reader.GetOrdinal("state"));
+						citizen.Address.City = reader.GetString(reader.GetOrdinal("city"));
+						citizen.Address.Country = (TCountry)reader.GetInt32(reader.GetOrdinal("country_type"));
+						citizen.Address.District = reader.GetString(reader.GetOrdinal("district"));
 					}
 
 					if (citizen.Author.Id != 0)
