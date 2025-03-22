@@ -22,6 +22,7 @@ namespace Business
 		Engineneer = 2,
 		Master = 3,
 		PhD = 4,
+		Arq = 5,
 
 		PublicAccountant	= 50,
 		Councilor = 51,
@@ -81,23 +82,24 @@ namespace Business
 		{
 			Dictionary<TCitizenTitle, string> mapping = new Dictionary<TCitizenTitle, string>()
 			{
-				{ TCitizenTitle.None, "Ciudadano" },
+				{ TCitizenTitle.None, "Ciudadan(o/a)" },
 
-				{ TCitizenTitle.DegreeLevel, "Licenciado" },
-				{ TCitizenTitle.Engineneer, "Ingeniero" },
-				{ TCitizenTitle.Master, "Maestro" },
-				{ TCitizenTitle.PhD, "Doctor" },
+				{ TCitizenTitle.DegreeLevel, "Licenciad(o/a)" },
+				{ TCitizenTitle.Engineneer, "Ingenier(o/a)" },
+				{ TCitizenTitle.Master, "Maestr(o/a)" },
+				{ TCitizenTitle.PhD, "Doctor(a)" },
+				{ TCitizenTitle.Arq, "Arquitect(o/a)" },
 
-				{ TCitizenTitle.PublicAccountant, "Contador Público" },
-				{ TCitizenTitle.Councilor, "Regidor" },
-				{ TCitizenTitle.Syndic, "Síndico" },
-				{ TCitizenTitle.MunicipalPresident, "Presidente Municipal" },
-				{ TCitizenTitle.Governor, "Gobernador" },
+				{ TCitizenTitle.PublicAccountant, "Contador(a) Público" },
+				{ TCitizenTitle.Councilor, "Regidor(a)" },
+				{ TCitizenTitle.Syndic, "Síndic(o/a)" },
+				{ TCitizenTitle.MunicipalPresident, "Presidente(a) Municipal" },
+				{ TCitizenTitle.Governor, "Gobernador(a)" },
 
-				{ TCitizenTitle.LocalCongressman, "Diputado Local" },
-				{ TCitizenTitle.FederalCongressman, "Diputado Federal" },
-				{ TCitizenTitle.Senator, "Senador" },
-				{ TCitizenTitle.President, "Presiendet de la República" }
+				{ TCitizenTitle.LocalCongressman, "Diputad(o/a) Local" },
+				{ TCitizenTitle.FederalCongressman, "Diputad(o/a) Federal" },
+				{ TCitizenTitle.Senator, "Senador(a)" },
+				{ TCitizenTitle.President, "Presient(e/a) de la República" }
 			};
 
 			return mapping[title];
@@ -111,19 +113,20 @@ namespace Business
 
 				{ TCitizenTitle.DegreeLevel, "Lic." },
 				{ TCitizenTitle.Engineneer, "Ing." },
-				{ TCitizenTitle.Master, "Mtro." },
-				{ TCitizenTitle.PhD, "Doc." },
+				{ TCitizenTitle.Master, "Mtr(o/a)." },
+				{ TCitizenTitle.PhD, "Dr." },
+				{ TCitizenTitle.Arq, "Arq." },
 
 				{ TCitizenTitle.PublicAccountant, "CP." },
-				{ TCitizenTitle.Councilor, "Regidor" },
-				{ TCitizenTitle.Syndic, "Síndico" },
-				{ TCitizenTitle.MunicipalPresident, "Presidente Municipal" },
-				{ TCitizenTitle.Governor, "Gobernador" },
+				{ TCitizenTitle.Councilor, "Regidor(a)" },
+				{ TCitizenTitle.Syndic, "Síndic(o/a)" },
+				{ TCitizenTitle.MunicipalPresident, "President(e/a) Municipal" },
+				{ TCitizenTitle.Governor, "Gobernador(a)" },
 
-				{ TCitizenTitle.LocalCongressman, "Diputado Local" },
-				{ TCitizenTitle.FederalCongressman, "Diputado" },
-				{ TCitizenTitle.Senator, "Senador" },
-				{ TCitizenTitle.President, "Presidente" }
+				{ TCitizenTitle.LocalCongressman, "Diputad(o/a) Local" },
+				{ TCitizenTitle.FederalCongressman, "Diputad(o/a)" },
+				{ TCitizenTitle.Senator, "Senador(a)" },
+				{ TCitizenTitle.President, "President(e/a)" }
 			};
 
 			return mapping[title];
