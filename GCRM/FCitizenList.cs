@@ -13,14 +13,13 @@ namespace GCRM
 		DataTable DTCitizens;
 
 		FCitizenListFilters FiltersDlg;
+		FColumnChooser ColumnChooserDlg;
 
 		FAccessMode Mode = FAccessMode.Update;
 
 		public FCitizenList()
 		{
 			InitializeComponent();
-
-			Cursor.Current = Cursors.WaitCursor;
 
 			DataGridCitizens.AutoGenerateColumns = false;
 
@@ -146,7 +145,7 @@ namespace GCRM
 			DataGridCitizens.DataSource = DSCitizens;
 			DataGridCitizens.DataMember = "DTCitizens";
 
-			Cursor.Current = Cursors.Default;
+			ColumnChooserDlg = new FColumnChooser(DataGridCitizens);
 
 			LoadPermissions();
 		}
@@ -704,6 +703,11 @@ namespace GCRM
 			}
 
 			LoadList();
+		}
+
+		private void BFields_Click(object sender, EventArgs e)
+		{
+			ColumnChooserDlg.ShowDialog();
 		}
 	}
 }

@@ -83,6 +83,7 @@
 			toolStripSeparator4 = new ToolStripSeparator();
 			BSearch = new ToolStripButton();
 			BSelect = new ToolStripButton();
+			toolStripSeparator5 = new ToolStripSeparator();
 			BCategories = new ToolStripButton();
 			PanelSearch = new Panel();
 			TextBoxSearch = new TextBox();
@@ -91,7 +92,6 @@
 			statusStrip1 = new StatusStrip();
 			TSSLRecordCount = new ToolStripStatusLabel();
 			TSSLFilters = new ToolStripStatusLabel();
-			toolStripSeparator5 = new ToolStripSeparator();
 			ToolStrip.SuspendLayout();
 			PanelSearch.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)DataGridCitizens).BeginInit();
@@ -462,7 +462,7 @@
 			BFields.Padding = new Padding(2, 8, 2, 8);
 			BFields.Size = new Size(75, 36);
 			BFields.Text = "Cam&pos";
-			BFields.Visible = false;
+			BFields.Click += BFields_Click;
 			// 
 			// BFilter
 			// 
@@ -544,10 +544,15 @@
 			BSelect.ImageScaling = ToolStripItemImageScaling.None;
 			BSelect.ImageTransparentColor = Color.Magenta;
 			BSelect.Name = "BSelect";
-			BSelect.Size = new Size(87, 37);
+			BSelect.Size = new Size(87, 20);
 			BSelect.Text = "&Seleccionar";
 			BSelect.Visible = false;
 			BSelect.Click += BSelect_Click;
+			// 
+			// toolStripSeparator5
+			// 
+			toolStripSeparator5.Name = "toolStripSeparator5";
+			toolStripSeparator5.Size = new Size(6, 40);
 			// 
 			// BCategories
 			// 
@@ -555,7 +560,7 @@
 			BCategories.ImageScaling = ToolStripItemImageScaling.None;
 			BCategories.ImageTransparentColor = Color.Magenta;
 			BCategories.Name = "BCategories";
-			BCategories.Size = new Size(83, 37);
+			BCategories.Size = new Size(83, 20);
 			BCategories.Text = "Categorías";
 			BCategories.Click += BCategories_Click;
 			// 
@@ -654,11 +659,6 @@
 			TSSLFilters.Name = "TSSLFilters";
 			TSSLFilters.Size = new Size(147, 17);
 			TSSLFilters.Text = "     Filtros: Sexo = Masculino";
-			// 
-			// toolStripSeparator5
-			// 
-			toolStripSeparator5.Name = "toolStripSeparator5";
-			toolStripSeparator5.Size = new Size(6, 40);
 			// 
 			// FCitizenList
 			// 
