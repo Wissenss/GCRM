@@ -32,7 +32,7 @@
 			DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
 			DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FInstitutionList));
-			toolStrip1 = new ToolStrip();
+			ToolStrip = new ToolStrip();
 			BAdd = new ToolStripButton();
 			BEdit = new ToolStripButton();
 			BRead = new ToolStripButton();
@@ -43,6 +43,8 @@
 			toolStripSeparator2 = new ToolStripSeparator();
 			BSearch = new ToolStripButton();
 			toolStripSeparator3 = new ToolStripSeparator();
+			BExcelExport = new ToolStripButton();
+			toolStripSeparator4 = new ToolStripSeparator();
 			BCategories = new ToolStripButton();
 			DataGridInstitutions = new DataGridView();
 			colId = new DataGridViewTextBoxColumn();
@@ -57,28 +59,29 @@
 			TreeView = new TreeView();
 			TextBoxSearch = new TextBox();
 			PanelSearch = new Panel();
-			toolStripSeparator4 = new ToolStripSeparator();
-			BExcelExport = new ToolStripButton();
 			SaveFileDialog = new SaveFileDialog();
-			toolStrip1.SuspendLayout();
+			StatusStrip = new StatusStrip();
+			TSSLRecordCount = new ToolStripStatusLabel();
+			ToolStrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)DataGridInstitutions).BeginInit();
 			((System.ComponentModel.ISupportInitialize)SplitContainer).BeginInit();
 			SplitContainer.Panel1.SuspendLayout();
 			SplitContainer.Panel2.SuspendLayout();
 			SplitContainer.SuspendLayout();
 			PanelSearch.SuspendLayout();
+			StatusStrip.SuspendLayout();
 			SuspendLayout();
 			// 
-			// toolStrip1
+			// ToolStrip
 			// 
-			toolStrip1.GripStyle = ToolStripGripStyle.Hidden;
-			toolStrip1.Items.AddRange(new ToolStripItem[] { BAdd, BEdit, BRead, BRefresh, BDelete, toolStripSeparator1, BShowHierarchy, toolStripSeparator2, BSearch, toolStripSeparator3, BExcelExport, toolStripSeparator4, BCategories });
-			toolStrip1.Location = new Point(0, 0);
-			toolStrip1.Name = "toolStrip1";
-			toolStrip1.RenderMode = ToolStripRenderMode.System;
-			toolStrip1.Size = new Size(758, 40);
-			toolStrip1.TabIndex = 1;
-			toolStrip1.Text = "toolStrip1";
+			ToolStrip.GripStyle = ToolStripGripStyle.Hidden;
+			ToolStrip.Items.AddRange(new ToolStripItem[] { BAdd, BEdit, BRead, BRefresh, BDelete, toolStripSeparator1, BShowHierarchy, toolStripSeparator2, BSearch, toolStripSeparator3, BExcelExport, toolStripSeparator4, BCategories });
+			ToolStrip.Location = new Point(0, 0);
+			ToolStrip.Name = "ToolStrip";
+			ToolStrip.RenderMode = ToolStripRenderMode.System;
+			ToolStrip.Size = new Size(758, 40);
+			ToolStrip.TabIndex = 1;
+			ToolStrip.Text = "toolStrip1";
 			// 
 			// BAdd
 			// 
@@ -179,6 +182,21 @@
 			toolStripSeparator3.Name = "toolStripSeparator3";
 			toolStripSeparator3.Size = new Size(6, 40);
 			// 
+			// BExcelExport
+			// 
+			BExcelExport.Image = Properties.Resources.Fatcow_Farm_Fresh_Export_excel_16;
+			BExcelExport.ImageScaling = ToolStripItemImageScaling.None;
+			BExcelExport.ImageTransparentColor = Color.Magenta;
+			BExcelExport.Name = "BExcelExport";
+			BExcelExport.Size = new Size(70, 37);
+			BExcelExport.Text = "E&xportar";
+			BExcelExport.Click += BExcelExport_Click;
+			// 
+			// toolStripSeparator4
+			// 
+			toolStripSeparator4.Name = "toolStripSeparator4";
+			toolStripSeparator4.Size = new Size(6, 40);
+			// 
 			// BCategories
 			// 
 			BCategories.Image = Properties.Resources.Fatcow_Farm_Fresh_Module_16;
@@ -235,7 +253,7 @@
 			DataGridInstitutions.RowHeadersVisible = false;
 			DataGridInstitutions.RowTemplate.Height = 20;
 			DataGridInstitutions.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-			DataGridInstitutions.Size = new Size(758, 382);
+			DataGridInstitutions.Size = new Size(758, 360);
 			DataGridInstitutions.StandardTab = true;
 			DataGridInstitutions.TabIndex = 3;
 			// 
@@ -326,7 +344,7 @@
 			// 
 			SplitContainer.Panel2.Controls.Add(TreeView);
 			SplitContainer.Panel2Collapsed = true;
-			SplitContainer.Size = new Size(758, 382);
+			SplitContainer.Size = new Size(758, 360);
 			SplitContainer.SplitterDistance = 506;
 			SplitContainer.TabIndex = 4;
 			// 
@@ -361,20 +379,21 @@
 			PanelSearch.TabIndex = 7;
 			PanelSearch.Visible = false;
 			// 
-			// toolStripSeparator4
+			// StatusStrip
 			// 
-			toolStripSeparator4.Name = "toolStripSeparator4";
-			toolStripSeparator4.Size = new Size(6, 40);
+			StatusStrip.Items.AddRange(new ToolStripItem[] { TSSLRecordCount });
+			StatusStrip.Location = new Point(0, 439);
+			StatusStrip.Name = "StatusStrip";
+			StatusStrip.Size = new Size(758, 22);
+			StatusStrip.TabIndex = 4;
+			StatusStrip.Text = "statusStrip1";
 			// 
-			// BExcelExport
+			// TSSLRecordCount
 			// 
-			BExcelExport.Image = Properties.Resources.Fatcow_Farm_Fresh_Export_excel_16;
-			BExcelExport.ImageScaling = ToolStripItemImageScaling.None;
-			BExcelExport.ImageTransparentColor = Color.Magenta;
-			BExcelExport.Name = "BExcelExport";
-			BExcelExport.Size = new Size(70, 37);
-			BExcelExport.Text = "E&xportar";
-			BExcelExport.Click += BExcelExport_Click;
+			TSSLRecordCount.Font = new Font("Segoe UI Variable Small Light", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+			TSSLRecordCount.Name = "TSSLRecordCount";
+			TSSLRecordCount.Size = new Size(78, 17);
+			TSSLRecordCount.Text = "Registros: 274";
 			// 
 			// FInstitutionList
 			// 
@@ -383,15 +402,16 @@
 			ClientSize = new Size(758, 461);
 			Controls.Add(SplitContainer);
 			Controls.Add(PanelSearch);
-			Controls.Add(toolStrip1);
+			Controls.Add(ToolStrip);
+			Controls.Add(StatusStrip);
 			Icon = (Icon)resources.GetObject("$this.Icon");
 			Name = "FInstitutionList";
 			ShowIcon = false;
 			Text = "Instituciones";
 			Load += FInstitutionList_Load;
 			Leave += FInstitutionList_Leave;
-			toolStrip1.ResumeLayout(false);
-			toolStrip1.PerformLayout();
+			ToolStrip.ResumeLayout(false);
+			ToolStrip.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)DataGridInstitutions).EndInit();
 			SplitContainer.Panel1.ResumeLayout(false);
 			SplitContainer.Panel2.ResumeLayout(false);
@@ -399,13 +419,15 @@
 			SplitContainer.ResumeLayout(false);
 			PanelSearch.ResumeLayout(false);
 			PanelSearch.PerformLayout();
+			StatusStrip.ResumeLayout(false);
+			StatusStrip.PerformLayout();
 			ResumeLayout(false);
 			PerformLayout();
 		}
 
 		#endregion
 
-		private ToolStrip toolStrip1;
+		private ToolStrip ToolStrip;
 		private ToolStripButton BAdd;
 		private ToolStripButton BEdit;
 		private ToolStripButton BRead;
@@ -433,5 +455,7 @@
 		private ToolStripButton BExcelExport;
 		private ToolStripSeparator toolStripSeparator4;
 		private SaveFileDialog SaveFileDialog;
+		private StatusStrip StatusStrip;
+		private ToolStripStatusLabel TSSLRecordCount;
 	}
 }

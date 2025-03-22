@@ -42,6 +42,8 @@ namespace GCRM
 
 				TreeView.ExpandAll();
 			}
+
+			UpdateStatusStrip();
 		}
 
 		public void PopulateTreeNode(ref TreeNode node, int id)
@@ -280,6 +282,11 @@ namespace GCRM
 			{
 				Utilities.ShowExceptionDialog(ex);
 			}
+		}
+	
+		private void UpdateStatusStrip()
+		{
+			TSSLRecordCount.Text = $"Registros: {DataGridInstitutions.RowCount}";
 		}
 	}
 }
