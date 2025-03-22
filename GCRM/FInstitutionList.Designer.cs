@@ -42,6 +42,8 @@
 			BShowHierarchy = new ToolStripButton();
 			toolStripSeparator2 = new ToolStripSeparator();
 			BSearch = new ToolStripButton();
+			toolStripSeparator3 = new ToolStripSeparator();
+			BCategories = new ToolStripButton();
 			DataGridInstitutions = new DataGridView();
 			colId = new DataGridViewTextBoxColumn();
 			colName = new DataGridViewTextBoxColumn();
@@ -55,8 +57,9 @@
 			TreeView = new TreeView();
 			TextBoxSearch = new TextBox();
 			PanelSearch = new Panel();
-			toolStripSeparator3 = new ToolStripSeparator();
-			BCategories = new ToolStripButton();
+			toolStripSeparator4 = new ToolStripSeparator();
+			BExcelExport = new ToolStripButton();
+			SaveFileDialog = new SaveFileDialog();
 			toolStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)DataGridInstitutions).BeginInit();
 			((System.ComponentModel.ISupportInitialize)SplitContainer).BeginInit();
@@ -69,7 +72,7 @@
 			// toolStrip1
 			// 
 			toolStrip1.GripStyle = ToolStripGripStyle.Hidden;
-			toolStrip1.Items.AddRange(new ToolStripItem[] { BAdd, BEdit, BRead, BRefresh, BDelete, toolStripSeparator1, BShowHierarchy, toolStripSeparator2, BSearch, toolStripSeparator3, BCategories });
+			toolStrip1.Items.AddRange(new ToolStripItem[] { BAdd, BEdit, BRead, BRefresh, BDelete, toolStripSeparator1, BShowHierarchy, toolStripSeparator2, BSearch, toolStripSeparator3, BExcelExport, toolStripSeparator4, BCategories });
 			toolStrip1.Location = new Point(0, 0);
 			toolStrip1.Name = "toolStrip1";
 			toolStrip1.RenderMode = ToolStripRenderMode.System;
@@ -170,6 +173,21 @@
 			BSearch.Size = new Size(62, 37);
 			BSearch.Text = "Bu&scar";
 			BSearch.Click += BSearch_Click;
+			// 
+			// toolStripSeparator3
+			// 
+			toolStripSeparator3.Name = "toolStripSeparator3";
+			toolStripSeparator3.Size = new Size(6, 40);
+			// 
+			// BCategories
+			// 
+			BCategories.Image = Properties.Resources.Fatcow_Farm_Fresh_Module_16;
+			BCategories.ImageScaling = ToolStripItemImageScaling.None;
+			BCategories.ImageTransparentColor = Color.Magenta;
+			BCategories.Name = "BCategories";
+			BCategories.Size = new Size(83, 37);
+			BCategories.Text = "Categorías";
+			BCategories.Click += BCategories_Click;
 			// 
 			// DataGridInstitutions
 			// 
@@ -343,20 +361,20 @@
 			PanelSearch.TabIndex = 7;
 			PanelSearch.Visible = false;
 			// 
-			// toolStripSeparator3
+			// toolStripSeparator4
 			// 
-			toolStripSeparator3.Name = "toolStripSeparator3";
-			toolStripSeparator3.Size = new Size(6, 40);
+			toolStripSeparator4.Name = "toolStripSeparator4";
+			toolStripSeparator4.Size = new Size(6, 40);
 			// 
-			// BCategories
+			// BExcelExport
 			// 
-			BCategories.Image = Properties.Resources.Fatcow_Farm_Fresh_Module_16;
-			BCategories.ImageScaling = ToolStripItemImageScaling.None;
-			BCategories.ImageTransparentColor = Color.Magenta;
-			BCategories.Name = "BCategories";
-			BCategories.Size = new Size(83, 37);
-			BCategories.Text = "Categorías";
-			BCategories.Click += BCategories_Click;
+			BExcelExport.Image = Properties.Resources.Fatcow_Farm_Fresh_Export_excel_16;
+			BExcelExport.ImageScaling = ToolStripItemImageScaling.None;
+			BExcelExport.ImageTransparentColor = Color.Magenta;
+			BExcelExport.Name = "BExcelExport";
+			BExcelExport.Size = new Size(70, 37);
+			BExcelExport.Text = "E&xportar";
+			BExcelExport.Click += BExcelExport_Click;
 			// 
 			// FInstitutionList
 			// 
@@ -412,5 +430,8 @@
 		private Panel PanelSearch;
 		private ToolStripSeparator toolStripSeparator3;
 		private ToolStripButton BCategories;
+		private ToolStripButton BExcelExport;
+		private ToolStripSeparator toolStripSeparator4;
+		private SaveFileDialog SaveFileDialog;
 	}
 }

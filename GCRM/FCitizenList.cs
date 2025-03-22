@@ -499,8 +499,7 @@ namespace GCRM
 
 			try
 			{
-				Cursor.Current = Cursors.WaitCursor;
-
+				using (new CursorWait())
 				using (var workbook = new XLWorkbook())
 				{
 					var worksheet = workbook.Worksheets.Add("Ciudadanos");
@@ -593,10 +592,6 @@ namespace GCRM
 			catch (Exception ex)
 			{
 				Utilities.ShowExceptionDialog(ex);
-			}
-			finally
-			{
-				Cursor.Current = Cursors.Default;
 			}
 		}
 

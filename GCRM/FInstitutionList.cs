@@ -1,4 +1,6 @@
 ﻿using Business;
+using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Spreadsheet;
 using System.Data;
 
 namespace GCRM
@@ -151,8 +153,6 @@ namespace GCRM
 		{
 			int id = GetSelectedInstitutionId();
 
-
-
 			DialogResult result = MessageBox.Show(
 			 "¿Está seguro de que desea eliminar esta institución?",
 			 "Confirmar eliminación",
@@ -211,7 +211,7 @@ namespace GCRM
 
 		private void FInstitutionList_Leave(object sender, EventArgs e)
 		{
-			// clear the filter so when this global datatable is use somewhere we keep on seeng all rows
+			// clear the filter so when this global datatable is use somewhere we keep on seeing all rows
 			Catalogs.DTInstitutions.DefaultView.RowFilter = "";
 		}
 
@@ -228,6 +228,58 @@ namespace GCRM
 			}
 
 			LoadList();
+		}
+
+		private void BExcelExport_Click(object sender, EventArgs e)
+		{
+			SaveFileDialog.DefaultExt = $".xlsx";
+			SaveFileDialog.FileName = $"listado_instituciones_{DateTime.Now.ToString("yyyyMMdd")}";
+			SaveFileDialog.Filter = $"Excel (*.xlsx) | Todos (*.*)";
+
+			if (SaveFileDialog.ShowDialog() != DialogResult.OK)
+			{
+				return;
+			}
+
+			try
+			{
+				using (new CursorWait())
+				using (var workbook = new XLWorkbook())
+				{
+					var worksheet = workbook.Worksheets.Add("Instituciones");
+
+					XLColor headers_color = XLColor.LightGray;
+
+					int row_index = 1;
+
+					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "#", headers_color, 3);
+					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Id", headers_color, 3);
+					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Nombre", headers_color, 30);
+					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Sector", headers_color, 25);
+					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Categoría", headers_color, 30);
+					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Descripción", headers_color, 100);
+
+					for (int i = 0; i < DataGridInstitutions.Rows.Count; i++)
+					{
+						DataGridViewRow row = DataGridInstitutions.Rows[i];
+
+						row_index = 1;
+
+						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, i.ToString());
+						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, ((int)row.Cells["colId"].Value).ToString());
+						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colName"].Value);
+						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colSocietySectorName"].Value);
+						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colCategoryName"].Value);
+						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colDescription"].Value);
+					}
+
+					workbook.SaveAs(SaveFileDialog.FileName);
+				}
+			}
+			catch (Exception ex)
+			{
+				Utilities.ShowExceptionDialog(ex);
+			}
 		}
 	}
 }
