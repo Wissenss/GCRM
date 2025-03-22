@@ -69,7 +69,7 @@ namespace GCRM
 			DataGridUtilities.AddColumn(DataGridCitizens, "colCategoryName", "Categoría", "category_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionName", "Institución", "institution_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionRoleName", "Cargo", "institution_role_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
-			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionCategoryName", "Categoría de institución", "institution_category_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionCategoryName", "Categoría de institución", "institution_category_name", true, display_index++, 300, 160, DataGridViewAutoSizeColumnMode.AllCells);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionSectorName", "Sector", "institution_sector_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colPhoneAndExtension", "Teléfono", "phone_full", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colCellphone", "Celular", "cellphone", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);

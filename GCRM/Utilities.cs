@@ -118,6 +118,7 @@ namespace GCRM
 			column.DefaultCellStyle = data_grid.DefaultCellStyle;
 			column.Width = width;
 			column.MinimumWidth = min_width;
+			column.SortMode = DataGridViewColumnSortMode.Automatic;
 			column.AutoSizeMode = auto_size_mode;
 			column.Visible = visible;
 			column.DisplayIndex = display_index;
