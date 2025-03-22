@@ -354,7 +354,17 @@ namespace Business
 
 			var conn = ConnectionPool.GetConnection();
 
-			using (var cmd = new NpgsqlCommand("SELECT * FROM institutions ORDER BY name;", conn))
+			string sql = @"
+				SELECT 
+					i.*, 
+					ic.name as category_name,
+					ic.description as category_description
+				FROM 
+					institutions i
+					LEFT JOIN institution_categories ic ON i.category_id = ic.id 
+				ORDER BY name;";
+
+			using (var cmd = new NpgsqlCommand(sql, conn))
 			using (var reader = cmd.ExecuteReader()) 
 			{
 				while (reader.Read())
@@ -363,7 +373,11 @@ namespace Business
 
 					institution.FillFromReader(reader);
 
-					GetInstitutionCategoryById(institution.Category.Id, out institution.Category);
+					if (institution.Category.Id != 0)
+					{
+						institution.Category.Name = reader.GetString(reader.GetOrdinal("category_name"));
+						institution.Category.Description = reader.GetString(reader.GetOrdinal("category_description"));
+					}
 
 					institution_list.Add(institution);	
 				}
