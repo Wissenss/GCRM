@@ -58,6 +58,7 @@ namespace GCRM
 			DataGridUtilities.AddColumn(DataGridCitizens, "colAddressCountryName", "País", "address_country_name", false);
 
 			DataGridUtilities.AddColumn(DataGridCitizens, "colAuthorId", "Id Autor", "author_id", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colLastEditorId", "Id Último Editor", "editor_id", false);
 
 			DataGridUtilities.AddColumn(DataGridCitizens, "colCategoryId", "Categoría Id", "category_id", false);
 
@@ -78,6 +79,7 @@ namespace GCRM
 			DataGridUtilities.AddColumn(DataGridCitizens, "colBirthday", "Nacimiento", "birthday", false, display_index++, 20, 20, DataGridViewAutoSizeColumnMode.AllCells);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colCURP", "CURP", "curp", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colAuthorName", "Autor", "author_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colEditorName", "Último editor", "editor_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
 
 			DataGridCitizens.AllowUserToResizeColumns = true;
 			DataGridCitizens.AllowUserToOrderColumns = true;
@@ -140,8 +142,12 @@ namespace GCRM
 			DTCitizens.Columns.Add("author_id", typeof(int));
 			DTCitizens.Columns.Add("author_name", typeof(string));
 
+			DTCitizens.Columns.Add("editor_id", typeof(int));
+			DTCitizens.Columns.Add("editor_name", typeof(string));
+
 			DTCitizens.Columns.Add("category_id", typeof(int));
 			DTCitizens.Columns.Add("category_name", typeof(string));
+
 
 			DSCitizens.Tables.Add(DTCitizens);
 
@@ -274,6 +280,9 @@ namespace GCRM
 
 					row["author_id"] = citizen.Author.Id;
 					row["author_name"] = citizen.Author.Name;
+
+					row["editor_id"] = citizen.LastEditor.Id;
+					row["editor_name"] = citizen.LastEditor.Name;
 
 					row["category_id"] = citizen.Category.Id;
 					row["category_name"] = citizen.Category.Name;

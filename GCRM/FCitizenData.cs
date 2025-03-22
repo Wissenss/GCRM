@@ -515,7 +515,11 @@ namespace GCRM
 					},
 
 					CreatedDate = now,
-					EditById = Session.User.Id,
+
+					LastEditor = new TUser()
+					{
+						Id = Session.User.Id,
+					},
 					EditDate = now,
 
 					VoterCode = VoterCode.Text.Trim(),

@@ -48,7 +48,8 @@ namespace Business
 		public TInstitutionRole Role;
 		public TUser Author = new TUser();
 		public DateTime CreatedDate;
-		public int EditById;
+		//public int EditById;
+		public TUser LastEditor = new TUser();	
 		public DateTime EditDate;
 
 		public string VoterCode;
@@ -107,7 +108,7 @@ namespace Business
 			Email = reader.GetString(17);
 			Author.Id = reader.GetInt32(18);
 			CreatedDate = reader.GetDateTime(19);
-			EditById = reader.GetInt32(20);
+			LastEditor.Id = reader.GetInt32(20);
 			EditDate = reader.GetDateTime(21);
 			VoterCode = reader.GetString(22);
 			VoterOCR = reader.GetString(23);
@@ -402,7 +403,7 @@ namespace Business
 					cmd.Parameters.AddWithValue("@email", citizen.Email);
 					cmd.Parameters.AddWithValue("@created_by_id", citizen.Author.Id);
 					cmd.Parameters.AddWithValue("@created_date", citizen.CreatedDate);
-					cmd.Parameters.AddWithValue("@edit_by_id", citizen.EditById);
+					cmd.Parameters.AddWithValue("@edit_by_id", citizen.LastEditor.Id);
 					cmd.Parameters.AddWithValue("@edit_date", citizen.EditDate);
 					cmd.Parameters.AddWithValue("@voter_code", citizen.VoterCode);
 					cmd.Parameters.AddWithValue("@voter_ocr", citizen.VoterOCR);
@@ -453,7 +454,8 @@ namespace Business
 					c_self.phone as assistant_phone,
 					c_self.phone_extension as assistant_phone_extension,
 					c_self.cellphone as assistant_cellphone,
-					cc.name as category_name
+					cc.name as category_name,
+					u2.name as editor_name
 				FROM 
 					citizens c 
 					LEFT JOIN users u ON c.created_by_id = u.id 
@@ -463,6 +465,7 @@ namespace Business
 					LEFT JOIN addresses a ON c.address_id = a.id
 					LEFT JOIN citizens c_self ON c.assistant_id = c.id
 					LEFT JOIN citizen_categories cc ON c.citizen_category_id = cc.id 
+					LEFT JOIN users u2 ON c.edit_by_id = u2.id
 				ORDER BY name, paternal_name, maternal_name;
 			";
 
@@ -528,6 +531,11 @@ namespace Business
 					if (citizen.Author.Id != 0)
 					{
 						citizen.Author.Name = reader.GetString(reader.GetOrdinal("author_name"));
+					}
+
+					if (citizen.LastEditor.Id != 0)
+					{
+						citizen.LastEditor.Name = reader.GetString(reader.GetOrdinal("editor_name"));
 					}
 
 					if (citizen.Category.Id != 0)
