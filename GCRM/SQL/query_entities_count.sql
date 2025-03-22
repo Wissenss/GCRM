@@ -13,5 +13,12 @@ INSERT INTO temp_entities_count(
 	(SELECT COUNT(*) FROM citizens)
 );
 
+INSERT INTO temp_entities_count(
+	entidad, 
+	cantidad
+)VALUES (
+	'instituciones',
+	(SELECT COUNT(*) FROM institutions)
+);
 
 SELECT * FROM temp_entities_count;

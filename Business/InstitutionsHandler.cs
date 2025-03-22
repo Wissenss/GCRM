@@ -1,13 +1,6 @@
 ﻿using Connection;
 using Npgsql;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.Design;
 using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Schema;
 
 namespace Business
 {
@@ -52,6 +45,10 @@ namespace Business
 		public TInstitutionCategory Category = new TInstitutionCategory();
 		public List<TInstitutionRole> Roles;
 		public int ParentInstitutionId;
+		public TUser Author = new TUser();
+		public DateTime CreatedDate;
+		public TUser LastEditor = new TUser();
+		public DateTime EditDate;
 
 		public void FillFromReader(DbDataReader reader)
 		{
@@ -61,6 +58,10 @@ namespace Business
 			Category.Id = reader.GetInt32(3);
 			Description = reader.GetString(4);
 			ParentInstitutionId = reader.GetInt32(5);
+			Author.Id = reader.GetInt32(6);
+			CreatedDate = reader.GetDateTime(7);
+			LastEditor.Id = reader.GetInt32(8);
+			EditDate = reader.GetDateTime(9);
 		}
 	}
 
@@ -94,11 +95,45 @@ namespace Business
 
 			if (is_update)
 			{
-				sql = "UPDATE institutions SET name = @name, society_sector_type = @society_sector, category_id = @category_id, description = @description, parent_institution_id = @parent_institution_id WHERE id = @id;";
+				sql = @"
+					UPDATE 
+						institutions 
+					SET 
+						name = @name, 
+						society_sector_type = @society_sector, 
+						category_id = @category_id, 
+						description = @description, 
+						parent_institution_id = @parent_institution_id,
+						edit_by_id = @edit_by_id,
+						edit_date = @edit_date
+					WHERE 
+						id = @id;";
 			}
 			else
 			{
-				sql = "INSERT INTO institutions(name, society_sector_type, category_id, description, parent_institution_id) VALUES(@name, @society_sector, @category_id, @description, @parent_institution_id) RETURNING id;";
+				sql = @"
+					INSERT INTO institutions(
+						name, 
+						society_sector_type, 
+						category_id, 
+						description, 
+						parent_institution_id,
+						created_by_id,
+						created_date,
+						edit_by_id,
+						edit_date
+					) 
+					VALUES(
+						@name, 
+						@society_sector, 
+						@category_id, 
+						@description, 
+						@parent_institution_id,
+						@created_by_id,
+						@created_date,
+						@edit_by_id,
+						@edit_date) 
+					RETURNING id;";
 			}
 
 			using (var cmd = new NpgsqlCommand(sql, conn))
@@ -109,6 +144,10 @@ namespace Business
 				cmd.Parameters.AddWithValue("@category_id", institution.Category.Id);
 				cmd.Parameters.AddWithValue("@description", institution.Description);
 				cmd.Parameters.AddWithValue("@parent_institution_id", institution.ParentInstitutionId);
+				cmd.Parameters.AddWithValue("@created_by_id", institution.Author.Id);
+				cmd.Parameters.AddWithValue("@created_date", institution.CreatedDate);
+				cmd.Parameters.AddWithValue("@edit_by_id", institution.LastEditor.Id);
+				cmd.Parameters.AddWithValue("@edit_date", institution.EditDate);
 
 				if (is_update)
 				{

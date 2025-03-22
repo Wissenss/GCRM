@@ -227,7 +227,17 @@ namespace GCRM
 					},
 					Description = TextBoxDescription.Text.Trim(),
 					ParentInstitutionId = (int)ComboBoxParentInstitution.SelectedValue,
-					Roles = new List<TInstitutionRole>()
+					Roles = new List<TInstitutionRole>(),
+					Author = new TUser()
+					{
+						Id = Session.User.Id,
+					},
+					CreatedDate = DateTime.Now,
+					LastEditor = new TUser()
+					{
+						Id = Session.User.Id,
+					},
+					EditDate = DateTime.Now
 				};
 
 				foreach (DataRow row in DTInstitutionRoles.Rows)

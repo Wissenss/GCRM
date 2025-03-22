@@ -226,6 +226,8 @@ namespace GCRM
 			{
 				institution_category_list_dlg.ShowDialog();
 			}
+
+			LoadList();
 		}
 	}
 }
