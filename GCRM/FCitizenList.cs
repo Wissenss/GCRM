@@ -60,13 +60,16 @@ namespace GCRM
 
 			DataGridUtilities.AddColumn(DataGridCitizens, "colAuthorId", "Id Autor", "author_id", false);
 
+			DataGridUtilities.AddColumn(DataGridCitizens, "colCategoryId", "Categoría Id", "category_id", false);
+
 			int display_index = 0;
 
 			DataGridUtilities.AddColumn(DataGridCitizens, "colTitleName", "Título", "title_name", true, display_index++, 20, 20, DataGridViewAutoSizeColumnMode.AllCells);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colFullName", "Nombre", "name_full", true, display_index++, 250, 250, DataGridViewAutoSizeColumnMode.Fill);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colCategoryName", "Categoría", "category_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionName", "Institución", "institution_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionRoleName", "Cargo", "institution_role_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
-			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionCategoryName", "Categoría", "institution_category_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionCategoryName", "Categoría de institución", "institution_category_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionSectorName", "Sector", "institution_sector_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colPhoneAndExtension", "Teléfono", "phone_full", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colCellphone", "Celular", "cellphone", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
@@ -134,6 +137,9 @@ namespace GCRM
 
 			DTCitizens.Columns.Add("author_id", typeof(int));
 			DTCitizens.Columns.Add("author_name", typeof(string));
+
+			DTCitizens.Columns.Add("category_id", typeof(int));
+			DTCitizens.Columns.Add("category_name", typeof(string));
 
 			DSCitizens.Tables.Add(DTCitizens);
 
@@ -266,6 +272,9 @@ namespace GCRM
 					row["author_id"] = citizen.Author.Id;
 					row["author_name"] = citizen.Author.Name;
 
+					row["category_id"] = citizen.Category.Id;
+					row["category_name"] = citizen.Category.Name;
+
 					DTCitizens.Rows.Add(row);
 				}
 
@@ -356,8 +365,8 @@ namespace GCRM
 			// the filters label
 			string filtros = "";
 
-			if (FiltersDlg.FilterCategory)
-				filtros += $"Categoría = {FiltersDlg.CategoryId}, ";
+			if (FiltersDlg.FilterInstitutionCategory)
+				filtros += $"Categoría de institución = {FiltersDlg.InstitutionCategoryId}, ";
 
 			if (FiltersDlg.FilterInstitution)
 				filtros += $"Institución = {FiltersDlg.InstitutionId}, "; // todo: make the institution and category not appear as Id but with his actual name
@@ -382,6 +391,9 @@ namespace GCRM
 
 			if (FiltersDlg.FilterBirthdayDay)
 				filtros += $"Día Nac = {FiltersDlg.BirthdayDay}, ";
+
+			if (FiltersDlg.FilterCategory)
+				filtros += $"Categoría = {FiltersDlg.CategoryId}, ";
 
 			if (filtros.Length > 0)
 			{
@@ -419,8 +431,8 @@ namespace GCRM
 			if (FiltersDlg.FilterSector)
 				filter += $" and institution_sector = {(int)FiltersDlg.Sector}";
 
-			if (FiltersDlg.FilterCategory)
-				filter += $" and institution_category_id = {(int)FiltersDlg.CategoryId}";
+			if (FiltersDlg.FilterInstitutionCategory)
+				filter += $" and institution_category_id = {(int)FiltersDlg.InstitutionCategoryId}";
 
 			if (FiltersDlg.FilterBirthdayYear)
 				filter += $" and birthday_year = {FiltersDlg.BirthdayYear}";
@@ -430,6 +442,9 @@ namespace GCRM
 
 			if (FiltersDlg.FilterBirthdayDay)
 				filter += $" and birthday_day = {FiltersDlg.BirthdayDay}";
+
+			if (FiltersDlg.FilterCategory)
+				filter += $" and category_id = {FiltersDlg.CategoryId}";
 
 			DTCitizens.DefaultView.RowFilter = filter;
 
@@ -582,7 +597,7 @@ namespace GCRM
 				R001 rep_001 = new R001()
 				{
 					InstitutionId = FiltersDlg.FilterInstitution ? FiltersDlg.InstitutionId : 0,
-					InstitutionCategoryId = FiltersDlg.FilterCategory ? FiltersDlg.CategoryId : 0,
+					InstitutionCategoryId = FiltersDlg.FilterInstitutionCategory ? FiltersDlg.InstitutionCategoryId : 0,
 					PoliticalParty = FiltersDlg.FilterParty ? FiltersDlg.Party : null,
 					Sex = FiltersDlg.FilterSex ? FiltersDlg.Sex : null,
 					CitizenTitle = FiltersDlg.FilterCitizenTitle ? FiltersDlg.CitizenTitle : null,
@@ -679,6 +694,16 @@ namespace GCRM
 			};
 
 			return selected_citizen;
+		}
+
+		private void BCategories_Click(object sender, EventArgs e)
+		{
+			using (FCitizenCategoryList citizen_category_list = new FCitizenCategoryList())
+			{
+				citizen_category_list.ShowDialog();
+			}
+
+			LoadList();
 		}
 	}
 }

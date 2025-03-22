@@ -83,6 +83,7 @@
 			toolStripSeparator4 = new ToolStripSeparator();
 			BSearch = new ToolStripButton();
 			BSelect = new ToolStripButton();
+			BCategories = new ToolStripButton();
 			PanelSearch = new Panel();
 			TextBoxSearch = new TextBox();
 			SaveFileDialog = new SaveFileDialog();
@@ -90,6 +91,7 @@
 			statusStrip1 = new StatusStrip();
 			TSSLRecordCount = new ToolStripStatusLabel();
 			TSSLFilters = new ToolStripStatusLabel();
+			toolStripSeparator5 = new ToolStripSeparator();
 			ToolStrip.SuspendLayout();
 			PanelSearch.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)DataGridCitizens).BeginInit();
@@ -386,11 +388,11 @@
 			// ToolStrip
 			// 
 			ToolStrip.GripStyle = ToolStripGripStyle.Hidden;
-			ToolStrip.Items.AddRange(new ToolStripItem[] { BAdd, BEdit, BRead, BRefresh, toolStripSeparator1, BFields, BFilter, BDelete, toolStripSeparator2, FExcelExport, toolStripSeparator3, BPrint, toolStripSeparator4, BSearch, BSelect });
+			ToolStrip.Items.AddRange(new ToolStripItem[] { BAdd, BEdit, BRead, BRefresh, toolStripSeparator1, BFields, BFilter, BDelete, toolStripSeparator2, FExcelExport, toolStripSeparator3, BPrint, toolStripSeparator4, BSearch, BSelect, toolStripSeparator5, BCategories });
 			ToolStrip.Location = new Point(2, 2);
 			ToolStrip.Name = "ToolStrip";
 			ToolStrip.RenderMode = ToolStripRenderMode.System;
-			ToolStrip.Size = new Size(901, 40);
+			ToolStrip.Size = new Size(853, 40);
 			ToolStrip.TabIndex = 4;
 			ToolStrip.Text = "toolStrip1";
 			// 
@@ -547,6 +549,16 @@
 			BSelect.Visible = false;
 			BSelect.Click += BSelect_Click;
 			// 
+			// BCategories
+			// 
+			BCategories.Image = Properties.Resources.Fatcow_Farm_Fresh_Categories_16;
+			BCategories.ImageScaling = ToolStripItemImageScaling.None;
+			BCategories.ImageTransparentColor = Color.Magenta;
+			BCategories.Name = "BCategories";
+			BCategories.Size = new Size(83, 37);
+			BCategories.Text = "Categorías";
+			BCategories.Click += BCategories_Click;
+			// 
 			// PanelSearch
 			// 
 			PanelSearch.AutoSizeMode = AutoSizeMode.GrowAndShrink;
@@ -554,7 +566,7 @@
 			PanelSearch.Dock = DockStyle.Top;
 			PanelSearch.Location = new Point(2, 42);
 			PanelSearch.Name = "PanelSearch";
-			PanelSearch.Size = new Size(901, 39);
+			PanelSearch.Size = new Size(853, 39);
 			PanelSearch.TabIndex = 6;
 			PanelSearch.Visible = false;
 			// 
@@ -564,7 +576,7 @@
 			TextBoxSearch.Location = new Point(8, 8);
 			TextBoxSearch.Name = "TextBoxSearch";
 			TextBoxSearch.PlaceholderText = "Ingrese el texto a buscar...";
-			TextBoxSearch.Size = new Size(885, 23);
+			TextBoxSearch.Size = new Size(837, 23);
 			TextBoxSearch.TabIndex = 1;
 			TextBoxSearch.TextChanged += TextBoxSearch_TextChanged;
 			// 
@@ -614,7 +626,7 @@
 			DataGridCitizens.RowTemplate.Height = 20;
 			DataGridCitizens.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 			DataGridCitizens.ShowCellToolTips = false;
-			DataGridCitizens.Size = new Size(901, 366);
+			DataGridCitizens.Size = new Size(853, 366);
 			DataGridCitizens.StandardTab = true;
 			DataGridCitizens.TabIndex = 7;
 			DataGridCitizens.CellDoubleClick += DataGridCitizens_CellDoubleClick;
@@ -625,7 +637,7 @@
 			statusStrip1.Items.AddRange(new ToolStripItem[] { TSSLRecordCount, TSSLFilters });
 			statusStrip1.Location = new Point(2, 447);
 			statusStrip1.Name = "statusStrip1";
-			statusStrip1.Size = new Size(901, 22);
+			statusStrip1.Size = new Size(853, 22);
 			statusStrip1.TabIndex = 8;
 			statusStrip1.Text = "statusStrip1";
 			// 
@@ -643,11 +655,16 @@
 			TSSLFilters.Size = new Size(147, 17);
 			TSSLFilters.Text = "     Filtros: Sexo = Masculino";
 			// 
+			// toolStripSeparator5
+			// 
+			toolStripSeparator5.Name = "toolStripSeparator5";
+			toolStripSeparator5.Size = new Size(6, 40);
+			// 
 			// FCitizenList
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
-			ClientSize = new Size(905, 471);
+			ClientSize = new Size(857, 471);
 			Controls.Add(DataGridCitizens);
 			Controls.Add(statusStrip1);
 			Controls.Add(PanelSearch);
@@ -729,5 +746,7 @@
 		private ToolStripStatusLabel TSSLFilters;
 		private ToolStripButton BDelete;
 		private ToolStripButton BSelect;
+		private ToolStripButton BCategories;
+		private ToolStripSeparator toolStripSeparator5;
 	}
 }

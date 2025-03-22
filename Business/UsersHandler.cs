@@ -133,6 +133,11 @@ namespace Business
 
 				new TUserPermission(331, "Ciudadanos.Electoral.Consultar"),
 
+				new TUserPermission(351, "Ciudadanos.Categorias.Editar"),
+				new TUserPermission(352, "Ciudadanos.Categorias.Consultar"),
+				new TUserPermission(353, "Ciudadanos.Categorias.Eliminar"),
+				new TUserPermission(354, "Ciudadanos.Categorias.Crear"),
+
 				// citizen networks related permissions
 				new TUserPermission(401, "Network.Editar"),
 				new TUserPermission(402, "Network.Consultar"),

@@ -11,6 +11,7 @@ namespace GCRM
 		DataTable DTCitizens;
 		DataTable DTInstitution;
 		DataTable DTInstitutionRoles;
+		DataTable DTCategories;
 
 		FAccessMode AccessMode = FAccessMode.Create;
 		int Id;
@@ -36,6 +37,12 @@ namespace GCRM
 			DTInstitutionRoles.Columns.Add("id", typeof(int));
 			DTInstitutionRoles.Columns.Add("name", typeof(string));
 			DSCitizen.Tables.Add(DTInstitutionRoles);
+
+			DTCategories = new DataTable("DTCategories");
+			DTCategories.Columns.Add("id", typeof(int));
+			DTCategories.Columns.Add("name", typeof(string));
+			DTCategories.Columns.Add("description", typeof(string));	
+			DSCitizen.Tables.Add(DTCategories);
 
 			ComboBoxAssistant.DataSource = DTCitizens;
 			ComboBoxAssistant.ValueMember = "id";
@@ -72,6 +79,7 @@ namespace GCRM
 			LoadDTInstitutions();
 			LoadDTInstitutionRoles();
 			LoadDTCitizens();
+			LoadDTCategories();
 
 			LInstitutionSectorAndCategory.Text = "";
 			LInstitutionRoleDescription.Text = "";
@@ -87,6 +95,47 @@ namespace GCRM
 			{
 				TabControlCitizen.TabPages.Remove(TabElectoral);
 			}
+		}
+
+		private void LoadDTCategories()
+		{
+			List<TCitizenCategory> categories;
+
+			Error error = CitizensHandler.GetCitizenCategories(out categories);
+
+			if (error != 0)
+			{
+				Utilities.ShowErrorDialog(error);
+				return;
+			}
+
+			DTCategories.BeginLoadData();
+			DTCategories.Clear();
+
+			DataRow row = DTCategories.NewRow();
+
+			row["id"] = 0;
+			row["name"] = "Ninguna";
+			row["description"] = "";
+
+			DTCategories.Rows.Add(row);
+
+			foreach(TCitizenCategory category in categories)
+			{
+				row = DTCategories.NewRow();
+
+				row["id"] = category.Id;
+				row["name"] = category.Name;
+				row["description"] = category.Description;
+
+				DTCategories.Rows.Add(row);
+			}
+
+			DTCategories.EndLoadData();
+
+			ComboBoxCategory.DataSource = DTCategories;
+			ComboBoxCategory.ValueMember = "id";
+			ComboBoxCategory.DisplayMember = "name";
 		}
 
 		private void LoadDTInstitutions()
@@ -207,6 +256,8 @@ namespace GCRM
 			VoterCIC.Enabled = AccessMode != FAccessMode.Read;
 			VoterSection.Enabled = AccessMode != FAccessMode.Read;
 
+			ComboBoxCategory.Enabled = AccessMode != FAccessMode.Read;
+
 			BAccept.Visible = AccessMode != FAccessMode.Read;
 			BCancel.Text = AccessMode != FAccessMode.Read ? "&Cancelar" : "&Cerrar";
 		}
@@ -255,6 +306,8 @@ namespace GCRM
 
 				ComboBoxInstitution.SelectedValue = citizen.Institution.Id;
 				ComboBoxInstitutionRole.SelectedValue = citizen.Role.Id;
+
+				ComboBoxCategory.SelectedValue = citizen.Category.Id;
 
 				VoterCode.Text = citizen.VoterCode;
 				VoterOCR.Text = citizen.VoterOCR;
@@ -468,7 +521,12 @@ namespace GCRM
 					VoterCode = VoterCode.Text.Trim(),
 					VoterOCR = VoterOCR.Text.Trim(),
 					VoterCIC = VoterCIC.Text.Trim(),
-					VoterSection = VoterSection.Text.Trim()
+					VoterSection = VoterSection.Text.Trim(),
+
+					Category = new TCitizenCategory()
+					{
+						Id = (int)ComboBoxCategory.SelectedValue
+					}
 				};
 
 				citizen.Assistant = new TCitizen();

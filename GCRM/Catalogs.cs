@@ -16,6 +16,7 @@ namespace GCRM
 
 		public static DataTable DTSocietySector;
 		public static DataTable DTCitizenTitles;
+		public static DataTable DTCitizenCategories;
 		public static DataTable DTCountries;
 		public static DataTable DTPoliticalParties;
 		public static DataTable DTSex;
@@ -38,6 +39,13 @@ namespace GCRM
 			DTCitizenTitles.Columns.Add("value", typeof(TCitizenTitle));
 			DTCitizenTitles.Columns.Add("text", typeof(string));
 			DSCatalogs.Tables.Add(DTCitizenTitles);
+
+			// citizen categories
+			DTCitizenCategories = new DataTable("DTCitizenCategories");
+			DTCitizenCategories.Columns.Add("id", typeof(int));
+			DTCitizenCategories.Columns.Add("name", typeof(string));
+			DTCitizenCategories.Columns.Add("description", typeof(string));	
+			DSCatalogs.Tables.Add(DTCitizenCategories);
 
 			// countries
 			DTCountries = new DataTable("DTCountries");
@@ -87,9 +95,6 @@ namespace GCRM
 				LoadDTPoliticalParties();
 				LoadDTSex();
 			}
-
-			//LoadDTInstitutionCategories();
-			//LoadDTInstitutions();
 		}
 
 		private static DataRow AddValueTextToDT<T>(DataTable dt, T value, string text)
@@ -241,6 +246,35 @@ namespace GCRM
 			}
 
 			DTInstitutions.EndLoadData();
+		}
+	
+		public static void LoadDTCitizenCategories()
+		{
+			List<TCitizenCategory> categories;
+
+			Error error = CitizensHandler.GetCitizenCategories(out categories);
+
+			if (error != 0)
+			{
+				Utilities.ShowErrorDialog(error);
+				return;
+			}
+
+			DTCitizenCategories.BeginLoadData();
+			DTCitizenCategories.Clear();
+
+			foreach (TCitizenCategory category in categories)
+			{
+				DataRow row = DTCitizenCategories.NewRow();
+
+				row["id"] = category.Id;
+				row["name"] = category.Name;
+				row["description"] = category.Description;
+
+				DTCitizenCategories.Rows.Add(row);
+			}
+
+			DTCitizenCategories.EndLoadData();
 		}
 	}
 }

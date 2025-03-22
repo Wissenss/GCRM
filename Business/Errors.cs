@@ -21,6 +21,8 @@ namespace Business
 		CitizenNotFound,
 		CitizenWithSameCURP,
 		CitizenInUse,
+		CitizenCategoryNotFound,
+		CitizenCategoryInUse,
 
 		// errors related to institutions
 		InstitutionNotFound,

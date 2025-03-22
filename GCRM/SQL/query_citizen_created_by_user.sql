@@ -5,4 +5,6 @@ FROM
 	citizens c 
 	LEFT JOIN users u ON (c.created_by_id = u.id)
 GROUP BY
-  u.name;
+  u.name
+ORDER BY
+	ciudadanos DESC;

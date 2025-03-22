@@ -100,6 +100,8 @@
 			LVoterOCR = new Label();
 			VoterCode = new TextBox();
 			LElectorCode = new Label();
+			ComboBoxCategory = new ComboBox();
+			LCategory = new Label();
 			TabControlCitizen.SuspendLayout();
 			tabPage1.SuspendLayout();
 			tabPage2.SuspendLayout();
@@ -112,7 +114,7 @@
 			// BAccept
 			// 
 			BAccept.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-			BAccept.Location = new Point(242, 318);
+			BAccept.Location = new Point(242, 348);
 			BAccept.Name = "BAccept";
 			BAccept.Size = new Size(75, 23);
 			BAccept.TabIndex = 1;
@@ -123,7 +125,7 @@
 			// BCancel
 			// 
 			BCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-			BCancel.Location = new Point(320, 318);
+			BCancel.Location = new Point(320, 348);
 			BCancel.Name = "BCancel";
 			BCancel.Size = new Size(75, 23);
 			BCancel.TabIndex = 2;
@@ -140,16 +142,18 @@
 			TabControlCitizen.Controls.Add(TabRol);
 			TabControlCitizen.Controls.Add(TabElectoral);
 			TabControlCitizen.Location = new Point(1, 1);
-			TabControlCitizen.MaximumSize = new Size(404, 311);
+			TabControlCitizen.MaximumSize = new Size(424, 350);
 			TabControlCitizen.MinimumSize = new Size(404, 311);
 			TabControlCitizen.Name = "TabControlCitizen";
 			TabControlCitizen.SelectedIndex = 0;
-			TabControlCitizen.Size = new Size(404, 311);
+			TabControlCitizen.Size = new Size(404, 341);
 			TabControlCitizen.SizeMode = TabSizeMode.Fixed;
 			TabControlCitizen.TabIndex = 0;
 			// 
 			// tabPage1
 			// 
+			tabPage1.Controls.Add(LCategory);
+			tabPage1.Controls.Add(ComboBoxCategory);
 			tabPage1.Controls.Add(MaskedTextBoxCURP);
 			tabPage1.Controls.Add(LMaternalName);
 			tabPage1.Controls.Add(TextBoxMaternalName);
@@ -172,14 +176,14 @@
 			tabPage1.Location = new Point(4, 24);
 			tabPage1.Name = "tabPage1";
 			tabPage1.Padding = new Padding(3);
-			tabPage1.Size = new Size(396, 283);
+			tabPage1.Size = new Size(396, 313);
 			tabPage1.TabIndex = 0;
 			tabPage1.Text = "General";
 			tabPage1.UseVisualStyleBackColor = true;
 			// 
 			// MaskedTextBoxCURP
 			// 
-			MaskedTextBoxCURP.Location = new Point(79, 150);
+			MaskedTextBoxCURP.Location = new Point(79, 180);
 			MaskedTextBoxCURP.Mask = "AAAAAAAAAAAAAAAAAA";
 			MaskedTextBoxCURP.Name = "MaskedTextBoxCURP";
 			MaskedTextBoxCURP.PromptChar = ' ';
@@ -189,7 +193,7 @@
 			// LMaternalName
 			// 
 			LMaternalName.AutoSize = true;
-			LMaternalName.Location = new Point(7, 94);
+			LMaternalName.Location = new Point(7, 124);
 			LMaternalName.Name = "LMaternalName";
 			LMaternalName.Size = new Size(66, 15);
 			LMaternalName.TabIndex = 39;
@@ -197,7 +201,7 @@
 			// 
 			// TextBoxMaternalName
 			// 
-			TextBoxMaternalName.Location = new Point(79, 92);
+			TextBoxMaternalName.Location = new Point(79, 122);
 			TextBoxMaternalName.Name = "TextBoxMaternalName";
 			TextBoxMaternalName.Size = new Size(311, 23);
 			TextBoxMaternalName.TabIndex = 3;
@@ -205,7 +209,7 @@
 			// LPaternalName
 			// 
 			LPaternalName.AutoSize = true;
-			LPaternalName.Location = new Point(7, 65);
+			LPaternalName.Location = new Point(7, 95);
 			LPaternalName.Name = "LPaternalName";
 			LPaternalName.Size = new Size(62, 15);
 			LPaternalName.TabIndex = 37;
@@ -213,7 +217,7 @@
 			// 
 			// TextBoxPaternalName
 			// 
-			TextBoxPaternalName.Location = new Point(79, 63);
+			TextBoxPaternalName.Location = new Point(79, 93);
 			TextBoxPaternalName.Name = "TextBoxPaternalName";
 			TextBoxPaternalName.Size = new Size(311, 23);
 			TextBoxPaternalName.TabIndex = 2;
@@ -222,7 +226,7 @@
 			// 
 			ComboBoxPoliticalParty.DropDownStyle = ComboBoxStyle.DropDownList;
 			ComboBoxPoliticalParty.FormattingEnabled = true;
-			ComboBoxPoliticalParty.Location = new Point(79, 252);
+			ComboBoxPoliticalParty.Location = new Point(79, 282);
 			ComboBoxPoliticalParty.Name = "ComboBoxPoliticalParty";
 			ComboBoxPoliticalParty.Size = new Size(94, 23);
 			ComboBoxPoliticalParty.TabIndex = 8;
@@ -230,7 +234,7 @@
 			// LPoliticalParty
 			// 
 			LPoliticalParty.AutoSize = true;
-			LPoliticalParty.Location = new Point(7, 255);
+			LPoliticalParty.Location = new Point(7, 285);
 			LPoliticalParty.Name = "LPoliticalParty";
 			LPoliticalParty.Size = new Size(45, 15);
 			LPoliticalParty.TabIndex = 28;
@@ -251,7 +255,7 @@
 			// 
 			LCURP.AutoSize = true;
 			LCURP.Font = new Font("Segoe UI", 9F, FontStyle.Underline, GraphicsUnit.Point, 0);
-			LCURP.Location = new Point(7, 152);
+			LCURP.Location = new Point(7, 182);
 			LCURP.Name = "LCURP";
 			LCURP.Size = new Size(37, 15);
 			LCURP.TabIndex = 33;
@@ -260,7 +264,7 @@
 			// 
 			// TextBoxObservations
 			// 
-			TextBoxObservations.Location = new Point(79, 179);
+			TextBoxObservations.Location = new Point(79, 209);
 			TextBoxObservations.Multiline = true;
 			TextBoxObservations.Name = "TextBoxObservations";
 			TextBoxObservations.Size = new Size(308, 67);
@@ -269,7 +273,7 @@
 			// label1
 			// 
 			label1.AutoSize = true;
-			label1.Location = new Point(7, 181);
+			label1.Location = new Point(7, 211);
 			label1.Name = "label1";
 			label1.Size = new Size(38, 15);
 			label1.TabIndex = 31;
@@ -279,7 +283,7 @@
 			// 
 			ComboBoxSex.DropDownStyle = ComboBoxStyle.DropDownList;
 			ComboBoxSex.FormattingEnabled = true;
-			ComboBoxSex.Location = new Point(79, 121);
+			ComboBoxSex.Location = new Point(79, 151);
 			ComboBoxSex.Name = "ComboBoxSex";
 			ComboBoxSex.Size = new Size(78, 23);
 			ComboBoxSex.TabIndex = 4;
@@ -287,7 +291,7 @@
 			// label2
 			// 
 			label2.AutoSize = true;
-			label2.Location = new Point(7, 124);
+			label2.Location = new Point(7, 154);
 			label2.Name = "label2";
 			label2.Size = new Size(31, 15);
 			label2.TabIndex = 27;
@@ -296,7 +300,7 @@
 			// LBirthday
 			// 
 			LBirthday.AutoSize = true;
-			LBirthday.Location = new Point(173, 124);
+			LBirthday.Location = new Point(173, 154);
 			LBirthday.Name = "LBirthday";
 			LBirthday.Size = new Size(69, 15);
 			LBirthday.TabIndex = 26;
@@ -315,7 +319,7 @@
 			// LTitle
 			// 
 			LTitle.AutoSize = true;
-			LTitle.Location = new Point(6, 9);
+			LTitle.Location = new Point(7, 9);
 			LTitle.Name = "LTitle";
 			LTitle.Size = new Size(38, 15);
 			LTitle.TabIndex = 24;
@@ -325,7 +329,7 @@
 			// 
 			DatePickerBirthday.CustomFormat = "dd/MM/yyyy";
 			DatePickerBirthday.Format = DateTimePickerFormat.Custom;
-			DatePickerBirthday.Location = new Point(248, 121);
+			DatePickerBirthday.Location = new Point(248, 151);
 			DatePickerBirthday.Name = "DatePickerBirthday";
 			DatePickerBirthday.Size = new Size(142, 23);
 			DatePickerBirthday.TabIndex = 5;
@@ -333,7 +337,7 @@
 			// LName
 			// 
 			LName.AutoSize = true;
-			LName.Location = new Point(7, 36);
+			LName.Location = new Point(7, 66);
 			LName.Name = "LName";
 			LName.Size = new Size(51, 15);
 			LName.TabIndex = 23;
@@ -341,7 +345,7 @@
 			// 
 			// TextBoxName
 			// 
-			TextBoxName.Location = new Point(79, 34);
+			TextBoxName.Location = new Point(79, 64);
 			TextBoxName.Name = "TextBoxName";
 			TextBoxName.Size = new Size(311, 23);
 			TextBoxName.TabIndex = 1;
@@ -823,19 +827,37 @@
 			LElectorCode.TabIndex = 0;
 			LElectorCode.Text = "Clave de elector";
 			// 
+			// ComboBoxCategory
+			// 
+			ComboBoxCategory.DropDownStyle = ComboBoxStyle.DropDownList;
+			ComboBoxCategory.FormattingEnabled = true;
+			ComboBoxCategory.Location = new Point(79, 35);
+			ComboBoxCategory.Name = "ComboBoxCategory";
+			ComboBoxCategory.Size = new Size(308, 23);
+			ComboBoxCategory.TabIndex = 40;
+			// 
+			// LCategory
+			// 
+			LCategory.AutoSize = true;
+			LCategory.Location = new Point(7, 38);
+			LCategory.Name = "LCategory";
+			LCategory.Size = new Size(58, 15);
+			LCategory.TabIndex = 41;
+			LCategory.Text = "Categoría";
+			// 
 			// FCitizenData
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
 			AutoSize = true;
 			AutoSizeMode = AutoSizeMode.GrowAndShrink;
-			ClientSize = new Size(404, 351);
+			ClientSize = new Size(404, 381);
 			ControlBox = false;
 			Controls.Add(TabControlCitizen);
 			Controls.Add(BCancel);
 			Controls.Add(BAccept);
 			KeyPreview = true;
-			MaximumSize = new Size(440, 410);
+			MaximumSize = new Size(440, 430);
 			Name = "FCitizenData";
 			ShowIcon = false;
 			ShowInTaskbar = false;
@@ -932,5 +954,7 @@
 		private PictureBox pictureBox1;
 		private TextBox TextBoxDistrict;
 		private Label LDistrict;
+		private ComboBox ComboBoxCategory;
+		private Label LCategory;
 	}
 }

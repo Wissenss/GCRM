@@ -130,6 +130,20 @@ namespace GCRM
 
 			data_grid.Columns.Add(column);
 		}
+
+		public static int GetSelectedId(DataGridView data_grid, string field = "colId")
+		{
+			if (data_grid.SelectedRows.Count == 0)
+			{
+				return 0;
+			}
+
+			DataGridViewRow row = data_grid.SelectedRows[0];
+
+			int id = (int)row.Cells[field].Value;
+
+			return id;
+		}
 	}
 
 	public static class ExcelUtilities

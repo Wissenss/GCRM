@@ -3,6 +3,7 @@ using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Drawing;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -11,6 +12,20 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace Business
 {
+	public class TCitizenCategory
+	{
+		public int Id;
+		public string Name;
+		public string Description;
+
+		public void FillFromReader(DbDataReader reader)
+		{
+			Id = reader.GetInt32(reader.GetOrdinal("id"));
+			Name = reader.GetString(reader.GetOrdinal("name"));
+			Description = reader.GetString(reader.GetOrdinal("description"));
+		}
+	}
+
 	public class TCitizen
 	{
 		public int Id;
@@ -31,7 +46,6 @@ namespace Business
 		public TPoliticalParty PoliticalParty;
 		public TInstitution Institution;
 		public TInstitutionRole Role;
-		//public int CreatedById;
 		public TUser Author = new TUser();
 		public DateTime CreatedDate;
 		public int EditById;
@@ -42,11 +56,13 @@ namespace Business
 		public string VoterCIC;
 		public string VoterSection;
 
+		public TCitizenCategory Category = new TCitizenCategory();
+
 		public string FullName 
 		{ 
 			get 
 			{
-				return GetFullName();
+				return $"{Name} {PaternalName} {MaternalName}";
 			} 
 		}
 
@@ -63,11 +79,6 @@ namespace Business
 
 				return full_phone;	
 			}
-		}
-
-		public string GetFullName()
-		{
-			return $"{Name} {PaternalName} {MaternalName}";
 		}
 
 		public void FillFromReader(DbDataReader reader)
@@ -102,6 +113,7 @@ namespace Business
 			VoterOCR = reader.GetString(23);
 			VoterCIC = reader.GetString(24);
 			VoterSection = reader.GetString(25);
+			Category.Id = reader.GetInt32(26);
 		}
 	}
 
@@ -304,7 +316,8 @@ namespace Business
 								voter_code = @voter_code,
 								voter_ocr = @voter_ocr,
 								voter_cic = @voter_cic,
-								voter_section = @voter_section
+								voter_section = @voter_section,
+								citizen_category_id = @category_id
 							WHERE
 								id=@id;";
 					}
@@ -336,7 +349,8 @@ namespace Business
 								voter_code,
 								voter_ocr,
 								voter_cic,
-								voter_section
+								voter_section,
+								citizen_category_id
 							)
 							VALUES(
 								@name, 
@@ -363,7 +377,8 @@ namespace Business
 								@voter_code,
 								@voter_ocr,
 								@voter_cic,
-								@voter_section)
+								@voter_section,
+								@category_id)
 							RETURNING id;";
 					}
 
@@ -393,6 +408,7 @@ namespace Business
 					cmd.Parameters.AddWithValue("@voter_ocr", citizen.VoterOCR);
 					cmd.Parameters.AddWithValue("@voter_cic", citizen.VoterCIC);
 					cmd.Parameters.AddWithValue("@voter_section", citizen.VoterSection);
+					cmd.Parameters.AddWithValue("@category_id", citizen.Category.Id);
 
 					if (is_update)
 					{
@@ -436,7 +452,8 @@ namespace Business
 					c_self.maternal_name as assistant_maternal_name,
 					c_self.phone as assistant_phone,
 					c_self.phone_extension as assistant_phone_extension,
-					c_self.cellphone as assistant_cellphone
+					c_self.cellphone as assistant_cellphone,
+					cc.name as category_name
 				FROM 
 					citizens c 
 					LEFT JOIN users u ON c.created_by_id = u.id 
@@ -445,6 +462,7 @@ namespace Business
 					LEFT JOIN institution_roles ir ON c.institution_role_id = ir.id
 					LEFT JOIN addresses a ON c.address_id = a.id
 					LEFT JOIN citizens c_self ON c.assistant_id = c.id
+					LEFT JOIN citizen_categories cc ON c.citizen_category_id = cc.id 
 				ORDER BY name, paternal_name, maternal_name;
 			";
 
@@ -512,6 +530,11 @@ namespace Business
 						citizen.Author.Name = reader.GetString(reader.GetOrdinal("author_name"));
 					}
 
+					if (citizen.Category.Id != 0)
+					{
+						citizen.Category.Name = reader.GetString(reader.GetOrdinal("category_name"));
+					}
+
 					citizen_list.Add(citizen);
 				}
 			}
@@ -561,6 +584,122 @@ namespace Business
 			ConnectionPool.ReleaseConnection(ref conn);
 
 			return error;
+		}
+
+		public static Error GetCitizenCategoryById(int id, out TCitizenCategory category)
+		{
+			category = new TCitizenCategory();
+
+			var conn = ConnectionPool.GetConnection();
+
+			using (var cmd = new NpgsqlCommand("SELECT * FROM citizen_categories WHERE id = @id;", conn))
+			{
+				cmd.Parameters.AddWithValue("@id", id);
+
+				using (var reader = cmd.ExecuteReader())
+				{
+					if (reader.HasRows == false)
+					{
+						return Error.CitizenCategoryNotFound;
+					}
+
+					reader.Read();
+
+					category = new TCitizenCategory();
+					category.FillFromReader(reader);
+				}
+			}
+
+			ConnectionPool.ReleaseConnection(ref conn);
+
+			return 0;
+		}
+
+		public static Error GetCitizenCategories(out List<TCitizenCategory> categories)
+		{
+			categories = new List<TCitizenCategory>();
+
+			var conn = ConnectionPool.GetConnection();
+
+			using (var cmd = new NpgsqlCommand("SELECT * FROM citizen_categories;", conn))
+			using (var reader = cmd.ExecuteReader()) 
+			{
+				while(reader.Read())
+				{
+					TCitizenCategory category = new TCitizenCategory();
+					category.FillFromReader(reader);
+					categories.Add(category);
+				}
+			}
+
+			ConnectionPool.ReleaseConnection(ref conn);
+
+			return 0;
+		}
+
+		public static Error SaveCitizenCategory(TCitizenCategory category, bool is_update)
+		{
+			var conn = ConnectionPool.GetConnection();
+
+			var tran = conn.BeginTransaction();
+
+			try
+			{
+				string sql = "";
+
+				if (is_update)
+				{
+					sql = @"UPDATE citizen_categories SET name = @name, description = @description WHERE id = @id;";
+				}
+				else
+				{
+					sql = @"INSERT INTO citizen_categories(name, description) VALUES (@name, @description);";
+				}
+
+				using (var cmd = new NpgsqlCommand(sql, conn))
+				{
+					cmd.Parameters.AddWithValue("@id", category.Id);
+					cmd.Parameters.AddWithValue("@name", category.Name);
+					cmd.Parameters.AddWithValue("@description", category.Description);
+
+					cmd.ExecuteNonQuery();
+				}
+				
+				tran.Commit();
+			}
+			catch (Exception ex)
+			{
+				tran.Rollback();
+			}
+
+			ConnectionPool.ReleaseConnection(ref conn);	
+
+			return 0;
+		}
+
+		public static Error DeleteCitizenCategoryById(int id)
+		{
+			var conn = ConnectionPool.GetConnection();
+
+			using (var cmd = new NpgsqlCommand("SELECT * FROM citizens WHERE citizen_category_id = @id;"))
+			{
+				cmd.Parameters.AddWithValue("@id", id);
+
+				int citizen_with_category = (Int32)(Int64)cmd.ExecuteScalar();
+
+				if (citizen_with_category > 0)
+				{
+					ConnectionPool.ReleaseConnection(ref conn);
+					return Error.CitizenCategoryInUse;
+				}
+
+				cmd.CommandText = "DELETE citizen_categories WHERE id = @id;";
+				cmd.ExecuteNonQuery();
+			}
+
+			ConnectionPool.ReleaseConnection(ref conn);
+
+			return 0;
 		}
 	}
 }

@@ -24,14 +24,16 @@ namespace GCRM
 		public int InstitutionId;
 		public bool FilterSector;
 		public TSocietySector Sector;
-		public bool FilterCategory;
-		public int CategoryId;
+		public bool FilterInstitutionCategory;
+		public int InstitutionCategoryId;
 		public bool FilterBirthdayYear;
 		public int BirthdayYear = DateTime.Now.Year;
 		public bool FilterBirthdayMonth;
 		public int BirthdayMonth = DateTime.Now.Month;
 		public bool FilterBirthdayDay;
 		public int BirthdayDay = DateTime.Now.Day;
+		public bool FilterCategory;
+		public int CategoryId;
 
 		DataSet DSFilters;
 		DataTable DTYears;
@@ -47,6 +49,7 @@ namespace GCRM
 			// load the datasource
 			Catalogs.LoadDTInstitutions();
 			Catalogs.LoadDTInstitutionCategories();
+			Catalogs.LoadDTCitizenCategories();
 
 			DSFilters = new DataSet();
 
@@ -84,13 +87,19 @@ namespace GCRM
 			ComboBoxInstitucion.ValueMember = "id";
 			ComboBoxInstitucion.DisplayMember = "name";
 
+			if (Catalogs.DTInstitutions.Rows.Count > 0)
+				ComboBoxInstitucion.SelectedIndex = 0;
+
 			ComboBoxSector.DataSource = Catalogs.DTSocietySector;
 			ComboBoxSector.ValueMember = "value";
 			ComboBoxSector.DisplayMember = "text";
 
-			ComboBoxCategory.DataSource = Catalogs.DTInstitutionCategories;
-			ComboBoxCategory.ValueMember = "id";
-			ComboBoxCategory.DisplayMember = "name";
+			ComboBoxInstitutionCategory.DataSource = Catalogs.DTInstitutionCategories;
+			ComboBoxInstitutionCategory.ValueMember = "id";
+			ComboBoxInstitutionCategory.DisplayMember = "name";
+
+			if (Catalogs.DTInstitutionCategories.Rows.Count > 0)
+				ComboBoxInstitutionCategory.SelectedIndex = 0;
 
 			ComboBoxBirthdayYear.DataSource = DTYears;
 			ComboBoxBirthdayYear.ValueMember = "value";
@@ -103,6 +112,13 @@ namespace GCRM
 			ComboBoxBirthdayDay.DataSource = DTDays;
 			ComboBoxBirthdayDay.ValueMember = "value";
 			ComboBoxBirthdayDay.DisplayMember = "value";
+
+			ComboBoxCategory.DataSource = Catalogs.DTCitizenCategories;
+			ComboBoxCategory.ValueMember = "id";
+			ComboBoxCategory.DisplayMember = "name";
+
+			if (Catalogs.DTCitizenCategories.Rows.Count > 0)
+				ComboBoxCategory.SelectedIndex = 0;
 
 			Cursor.Current = Cursors.Default;
 		}
@@ -159,6 +175,8 @@ namespace GCRM
 			}
 
 			DTDays.EndLoadData();
+
+			ComboBoxBirthdayDay.SelectedValue = DateTime.Now.Day;
 		}
 
 		private bool ValidateInput()
@@ -173,6 +191,11 @@ namespace GCRM
 			if (CheckBoxFilterSector.Checked && ComboBoxSector.SelectedValue == null)
 			{
 				errors.AppendLine("Debe especificar el sector a filtrar");
+			}
+
+			if (CheckBoxFilterInstitutionCategory.Checked && ComboBoxInstitutionCategory.SelectedValue == null)
+			{
+				errors.AppendLine("Debe especificar la categoría de institución a filtrar");
 			}
 
 			if (CheckBoxFilterCategory.Checked && ComboBoxCategory.SelectedValue == null)
@@ -213,9 +236,9 @@ namespace GCRM
 			if (ComboBoxSector.SelectedValue != null)
 				Sector = (TSocietySector)ComboBoxSector.SelectedValue;
 
-			FilterCategory = CheckBoxFilterCategory.Checked;
-			if (ComboBoxCategory.SelectedValue != null)
-				CategoryId = (int)ComboBoxCategory.SelectedValue;
+			FilterInstitutionCategory = CheckBoxFilterInstitutionCategory.Checked;
+			if (ComboBoxInstitutionCategory.SelectedValue != null)
+				InstitutionCategoryId = (int)ComboBoxInstitutionCategory.SelectedValue;
 
 			FilterBirthdayYear = CheckBoxFilterBirthdayYear.Checked;
 			BirthdayYear = (int)ComboBoxBirthdayYear.SelectedValue;
@@ -226,30 +249,34 @@ namespace GCRM
 			FilterBirthdayDay = CheckBoxFilterBirthdayDay.Checked;
 			BirthdayDay = (int)ComboBoxBirthdayDay.SelectedValue;
 
+			FilterCategory = CheckBoxFilterCategory.Checked;
+			if (ComboBoxCategory.SelectedValue != null)
+				CategoryId = (int)ComboBoxCategory.SelectedValue;
+
 			DialogResult = DialogResult.OK;
 		}
 
 		private void FCitizenListFilters_Shown(object sender, EventArgs e)
 		{
-			Cursor.Current = Cursors.WaitCursor;
+			//Cursor.Current = Cursors.WaitCursor;
 
-			CheckBoxFilterTitle.Checked = FilterCitizenTitle;
-			ComboBoxCitizenTitle.SelectedValue = CitizenTitle;
-			CheckBoxFilterParty.Checked = FilterParty;
-			ComboBoxPoliticalParty.SelectedValue = Party;
-			CheckBoxFilterSex.Checked = FilterSex;
-			ComboBoxSex.SelectedValue = Sex;
-			CheckBoxFilterInstitution.Checked = FilterInstitution;
-			ComboBoxInstitucion.SelectedValue = InstitutionId;
-			CheckBoxFilterSector.Checked = FilterSector;
-			ComboBoxSector.SelectedValue = Sector;
-			CheckBoxFilterCategory.Checked = FilterCategory;
-			ComboBoxCategory.SelectedValue = CategoryId;
-			ComboBoxBirthdayYear.SelectedValue = BirthdayYear;
-			ComboBoxBirthdayMonth.SelectedValue = BirthdayMonth;
-			ComboBoxBirthdayDay.SelectedValue = BirthdayDay;
+			//CheckBoxFilterTitle.Checked = FilterCitizenTitle;
+			//ComboBoxCitizenTitle.SelectedValue = CitizenTitle;
+			//CheckBoxFilterParty.Checked = FilterParty;
+			//ComboBoxPoliticalParty.SelectedValue = Party;
+			//CheckBoxFilterSex.Checked = FilterSex;
+			//ComboBoxSex.SelectedValue = Sex;
+			//CheckBoxFilterInstitution.Checked = FilterInstitution;
+			//ComboBoxInstitucion.SelectedValue = InstitutionId;
+			//CheckBoxFilterSector.Checked = FilterSector;
+			//ComboBoxSector.SelectedValue = Sector;
+			//CheckBoxFilterInstitutionCategory.Checked = FilterInstitutionCategory;
+			//ComboBoxInstitutionCategory.SelectedValue = InstitutionCategoryId;
+			//ComboBoxBirthdayYear.SelectedValue = BirthdayYear;
+			//ComboBoxBirthdayMonth.SelectedValue = BirthdayMonth;
+			//ComboBoxBirthdayDay.SelectedValue = BirthdayDay;
 
-			Cursor.Current = Cursors.Default;
+			//Cursor.Current = Cursors.Default;
 		}
 
 		private void BCancel_Click(object sender, EventArgs e)
@@ -269,7 +296,7 @@ namespace GCRM
 
 		private void CheckBoxFilterCategory_CheckedChanged(object sender, EventArgs e)
 		{
-			ComboBoxCategory.Enabled = CheckBoxFilterCategory.Checked;
+			ComboBoxInstitutionCategory.Enabled = CheckBoxFilterInstitutionCategory.Checked;
 		}
 
 		private void CheckBoxFilterBirthdayYear_CheckedChanged(object sender, EventArgs e)
@@ -300,6 +327,11 @@ namespace GCRM
 		private void CheckBoxFilterTitle_CheckedChanged(object sender, EventArgs e)
 		{
 			ComboBoxCitizenTitle.Enabled = CheckBoxFilterTitle.Checked;
+		}
+
+		private void CheckBoxFilterCategory_CheckedChanged_1(object sender, EventArgs e)
+		{
+			ComboBoxCategory.Enabled = CheckBoxFilterCategory.Checked;
 		}
 	}
 }
