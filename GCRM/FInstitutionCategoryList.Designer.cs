@@ -202,7 +202,7 @@
 			Icon = (Icon)resources.GetObject("$this.Icon");
 			Name = "FInstitutionCategoryList";
 			ShowIcon = false;
-			Text = "Categorías de instituciones";
+			Text = "Categorías institucionales";
 			Load += FInstitutionCategoryList_Load;
 			toolStrip1.ResumeLayout(false);
 			toolStrip1.PerformLayout();

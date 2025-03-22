@@ -55,6 +55,8 @@
 			TreeView = new TreeView();
 			TextBoxSearch = new TextBox();
 			PanelSearch = new Panel();
+			toolStripSeparator3 = new ToolStripSeparator();
+			BCategories = new ToolStripButton();
 			toolStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)DataGridInstitutions).BeginInit();
 			((System.ComponentModel.ISupportInitialize)SplitContainer).BeginInit();
@@ -67,7 +69,7 @@
 			// toolStrip1
 			// 
 			toolStrip1.GripStyle = ToolStripGripStyle.Hidden;
-			toolStrip1.Items.AddRange(new ToolStripItem[] { BAdd, BEdit, BRead, BRefresh, BDelete, toolStripSeparator1, BShowHierarchy, toolStripSeparator2, BSearch });
+			toolStrip1.Items.AddRange(new ToolStripItem[] { BAdd, BEdit, BRead, BRefresh, BDelete, toolStripSeparator1, BShowHierarchy, toolStripSeparator2, BSearch, toolStripSeparator3, BCategories });
 			toolStrip1.Location = new Point(0, 0);
 			toolStrip1.Name = "toolStrip1";
 			toolStrip1.RenderMode = ToolStripRenderMode.System;
@@ -341,6 +343,21 @@
 			PanelSearch.TabIndex = 7;
 			PanelSearch.Visible = false;
 			// 
+			// toolStripSeparator3
+			// 
+			toolStripSeparator3.Name = "toolStripSeparator3";
+			toolStripSeparator3.Size = new Size(6, 40);
+			// 
+			// BCategories
+			// 
+			BCategories.Image = Properties.Resources.Fatcow_Farm_Fresh_Module_16;
+			BCategories.ImageScaling = ToolStripItemImageScaling.None;
+			BCategories.ImageTransparentColor = Color.Magenta;
+			BCategories.Name = "BCategories";
+			BCategories.Size = new Size(83, 37);
+			BCategories.Text = "Categorías";
+			BCategories.Click += BCategories_Click;
+			// 
 			// FInstitutionList
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
@@ -393,5 +410,7 @@
 		private ToolStripButton BSearch;
 		private TextBox TextBoxSearch;
 		private Panel PanelSearch;
+		private ToolStripSeparator toolStripSeparator3;
+		private ToolStripButton BCategories;
 	}
 }

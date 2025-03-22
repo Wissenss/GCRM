@@ -171,7 +171,7 @@
 			Controls.Add(ToolStrip);
 			Name = "FCitizenCategoryList";
 			ShowIcon = false;
-			Text = "Categorías";
+			Text = "Categorías ciudadanas";
 			ToolStrip.ResumeLayout(false);
 			ToolStrip.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)DataGridCategories).EndInit();

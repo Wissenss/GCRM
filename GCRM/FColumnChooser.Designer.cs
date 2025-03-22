@@ -138,10 +138,10 @@
 			colVisible.DefaultCellStyle = dataGridViewCellStyle3;
 			colVisible.FlatStyle = FlatStyle.System;
 			colVisible.HeaderText = "";
-			colVisible.MinimumWidth = 45;
+			colVisible.MinimumWidth = 25;
 			colVisible.Name = "colVisible";
 			colVisible.Resizable = DataGridViewTriState.False;
-			colVisible.Width = 45;
+			colVisible.Width = 25;
 			// 
 			// FColumnChooser
 			// 

@@ -78,7 +78,6 @@
 			BDelete = new ToolStripButton();
 			toolStripSeparator2 = new ToolStripSeparator();
 			FExcelExport = new ToolStripButton();
-			toolStripSeparator3 = new ToolStripSeparator();
 			BPrint = new ToolStripButton();
 			toolStripSeparator4 = new ToolStripSeparator();
 			BSearch = new ToolStripButton();
@@ -388,11 +387,11 @@
 			// ToolStrip
 			// 
 			ToolStrip.GripStyle = ToolStripGripStyle.Hidden;
-			ToolStrip.Items.AddRange(new ToolStripItem[] { BAdd, BEdit, BRead, BRefresh, toolStripSeparator1, BFields, BFilter, BDelete, toolStripSeparator2, FExcelExport, toolStripSeparator3, BPrint, toolStripSeparator4, BSearch, BSelect, toolStripSeparator5, BCategories });
+			ToolStrip.Items.AddRange(new ToolStripItem[] { BAdd, BEdit, BRead, BRefresh, toolStripSeparator1, BFields, BFilter, BDelete, toolStripSeparator2, FExcelExport, BPrint, toolStripSeparator4, BSearch, toolStripSeparator5, BSelect, BCategories });
 			ToolStrip.Location = new Point(2, 2);
 			ToolStrip.Name = "ToolStrip";
 			ToolStrip.RenderMode = ToolStripRenderMode.System;
-			ToolStrip.Size = new Size(853, 40);
+			ToolStrip.Size = new Size(859, 40);
 			ToolStrip.TabIndex = 4;
 			ToolStrip.Text = "toolStrip1";
 			// 
@@ -503,11 +502,6 @@
 			FExcelExport.Text = "E&xportar";
 			FExcelExport.Click += FExcelExport_Click;
 			// 
-			// toolStripSeparator3
-			// 
-			toolStripSeparator3.Name = "toolStripSeparator3";
-			toolStripSeparator3.Size = new Size(6, 40);
-			// 
 			// BPrint
 			// 
 			BPrint.Image = Properties.Resources.Fatcow_Farm_Fresh_Printer_16;
@@ -544,7 +538,7 @@
 			BSelect.ImageScaling = ToolStripItemImageScaling.None;
 			BSelect.ImageTransparentColor = Color.Magenta;
 			BSelect.Name = "BSelect";
-			BSelect.Size = new Size(87, 20);
+			BSelect.Size = new Size(87, 37);
 			BSelect.Text = "&Seleccionar";
 			BSelect.Visible = false;
 			BSelect.Click += BSelect_Click;
@@ -556,11 +550,11 @@
 			// 
 			// BCategories
 			// 
-			BCategories.Image = Properties.Resources.Fatcow_Farm_Fresh_Categories_16;
+			BCategories.Image = Properties.Resources.Fatcow_Farm_Fresh_Module_16;
 			BCategories.ImageScaling = ToolStripItemImageScaling.None;
 			BCategories.ImageTransparentColor = Color.Magenta;
 			BCategories.Name = "BCategories";
-			BCategories.Size = new Size(83, 20);
+			BCategories.Size = new Size(83, 37);
 			BCategories.Text = "Categorías";
 			BCategories.Click += BCategories_Click;
 			// 
@@ -571,7 +565,7 @@
 			PanelSearch.Dock = DockStyle.Top;
 			PanelSearch.Location = new Point(2, 42);
 			PanelSearch.Name = "PanelSearch";
-			PanelSearch.Size = new Size(853, 39);
+			PanelSearch.Size = new Size(859, 39);
 			PanelSearch.TabIndex = 6;
 			PanelSearch.Visible = false;
 			// 
@@ -581,7 +575,7 @@
 			TextBoxSearch.Location = new Point(8, 8);
 			TextBoxSearch.Name = "TextBoxSearch";
 			TextBoxSearch.PlaceholderText = "Ingrese el texto a buscar...";
-			TextBoxSearch.Size = new Size(837, 23);
+			TextBoxSearch.Size = new Size(843, 23);
 			TextBoxSearch.TabIndex = 1;
 			TextBoxSearch.TextChanged += TextBoxSearch_TextChanged;
 			// 
@@ -623,6 +617,7 @@
 			DataGridCitizens.DefaultCellStyle = dataGridViewCellStyle3;
 			DataGridCitizens.Dock = DockStyle.Fill;
 			DataGridCitizens.EnableHeadersVisualStyles = false;
+			DataGridCitizens.ImeMode = ImeMode.NoControl;
 			DataGridCitizens.Location = new Point(2, 81);
 			DataGridCitizens.MultiSelect = false;
 			DataGridCitizens.Name = "DataGridCitizens";
@@ -631,7 +626,7 @@
 			DataGridCitizens.RowTemplate.Height = 20;
 			DataGridCitizens.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 			DataGridCitizens.ShowCellToolTips = false;
-			DataGridCitizens.Size = new Size(853, 366);
+			DataGridCitizens.Size = new Size(859, 366);
 			DataGridCitizens.StandardTab = true;
 			DataGridCitizens.TabIndex = 7;
 			DataGridCitizens.CellDoubleClick += DataGridCitizens_CellDoubleClick;
@@ -642,7 +637,7 @@
 			statusStrip1.Items.AddRange(new ToolStripItem[] { TSSLRecordCount, TSSLFilters });
 			statusStrip1.Location = new Point(2, 447);
 			statusStrip1.Name = "statusStrip1";
-			statusStrip1.Size = new Size(853, 22);
+			statusStrip1.Size = new Size(859, 22);
 			statusStrip1.TabIndex = 8;
 			statusStrip1.Text = "statusStrip1";
 			// 
@@ -664,7 +659,7 @@
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
-			ClientSize = new Size(857, 471);
+			ClientSize = new Size(863, 471);
 			Controls.Add(DataGridCitizens);
 			Controls.Add(statusStrip1);
 			Controls.Add(PanelSearch);
@@ -698,7 +693,6 @@
 		private ToolStripSeparator toolStripSeparator2;
 		private ToolStripButton FExcelExport;
 		private ToolStripButton BPrint;
-		private ToolStripSeparator toolStripSeparator3;
 		private Panel PanelSearch;
 		private TextBox TextBoxSearch;
 		private ToolStripButton BSearch;

@@ -30,6 +30,19 @@ namespace GCRM
 			DataGridCategories.DataMember = "DTCitizenCategories";
 
 			LoadList();
+
+			LoadPermissions();
+		}
+
+		private void LoadPermissions()
+		{
+			using (new CursorWait())
+			{
+				BAdd.Visible = Session.HasPermission("Ciudadanos.Categorias.Crear");
+				BEdit.Visible = Session.HasPermission("Ciudadanos.Categorias.Editar");
+				BRead.Visible = Session.HasPermission("Ciudadanos.Categorias.Consultar");
+				BDelete.Visible = Session.HasPermission("Ciudadanos.Categorias.Eliminar");
+			}
 		}
 
 		private void LoadList()

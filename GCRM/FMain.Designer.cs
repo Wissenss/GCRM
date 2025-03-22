@@ -37,7 +37,6 @@
 			BCitizens = new ToolStripButton();
 			toolStripSeparator2 = new ToolStripSeparator();
 			BInstitutions = new ToolStripButton();
-			BInstitutionCategories = new ToolStripButton();
 			TabControl = new TabControl();
 			TabPageCatalogs = new TabPage();
 			TabElectoral = new TabPage();
@@ -108,7 +107,7 @@
 			// 
 			toolStrip1.Dock = DockStyle.Fill;
 			toolStrip1.GripStyle = ToolStripGripStyle.Hidden;
-			toolStrip1.Items.AddRange(new ToolStripItem[] { BCitizens, toolStripSeparator2, BInstitutions, BInstitutionCategories });
+			toolStrip1.Items.AddRange(new ToolStripItem[] { BCitizens, toolStripSeparator2, BInstitutions });
 			toolStrip1.Location = new Point(3, 3);
 			toolStrip1.Name = "toolStrip1";
 			toolStrip1.RenderMode = ToolStripRenderMode.System;
@@ -142,17 +141,6 @@
 			BInstitutions.Text = "&Instituciones";
 			BInstitutions.TextImageRelation = TextImageRelation.ImageAboveText;
 			BInstitutions.Click += BInstitutions_Click;
-			// 
-			// BInstitutionCategories
-			// 
-			BInstitutionCategories.Image = Properties.Resources.Fatcow_Farm_Fresh_Module_32;
-			BInstitutionCategories.ImageScaling = ToolStripItemImageScaling.None;
-			BInstitutionCategories.ImageTransparentColor = Color.Magenta;
-			BInstitutionCategories.Name = "BInstitutionCategories";
-			BInstitutionCategories.Size = new Size(93, 52);
-			BInstitutionCategories.Text = "Cat. de Institu...";
-			BInstitutionCategories.TextImageRelation = TextImageRelation.ImageAboveText;
-			BInstitutionCategories.Click += BInstitutionCategories_Click;
 			// 
 			// TabControl
 			// 
@@ -394,7 +382,6 @@
 		private ToolStrip ToolStripOther;
 		private ToolStripButton BSettings;
 		private ToolStripSeparator toolStripSeparator2;
-		private ToolStripButton BInstitutionCategories;
 		private ToolStripButton BUsers;
 		private ToolStripStatusLabel LToolstripVersion;
 		private ToolStripStatusLabel LToolStripServer;

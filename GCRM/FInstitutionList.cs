@@ -70,6 +70,7 @@ namespace GCRM
 				BEdit.Visible = Session.HasPermission("Instituciones.Editar");
 				BRead.Visible = Session.HasPermission("Instituciones.Consultar");
 				BDelete.Visible = Session.HasPermission("Instituciones.Eliminar");
+				BCategories.Visible = Session.HasPermission("Instituciones.Categorias.Consultar");
 			}
 		}
 
@@ -217,6 +218,14 @@ namespace GCRM
 		private void TextBoxSearch_TextChanged(object sender, EventArgs e)
 		{
 			FilterList();
+		}
+
+		private void BCategories_Click(object sender, EventArgs e)
+		{
+			using (FInstitutionCategoryList institution_category_list_dlg = new FInstitutionCategoryList())
+			{
+				institution_category_list_dlg.ShowDialog();
+			}
 		}
 	}
 }

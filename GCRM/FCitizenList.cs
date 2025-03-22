@@ -79,6 +79,9 @@ namespace GCRM
 			DataGridUtilities.AddColumn(DataGridCitizens, "colCURP", "CURP", "curp", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colAuthorName", "Autor", "author_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
 
+			DataGridCitizens.AllowUserToResizeColumns = true;
+			DataGridCitizens.AllowUserToOrderColumns = true;
+
 			FiltersDlg = new FCitizenListFilters();
 
 			DSCitizens = new DataSet();
@@ -174,6 +177,7 @@ namespace GCRM
 			BEdit.Visible = Session.HasPermission("Ciudadanos.Editar");
 			BRead.Visible = Session.HasPermission("Ciudadanos.Consultar");
 			BDelete.Visible = Session.HasPermission("Ciudadanos.Eliminar");
+			BCategories.Visible = Session.HasPermission("Ciudadanos.Categorias.Consultar");
 
 			Cursor.Current = Cursors.Default;
 		}

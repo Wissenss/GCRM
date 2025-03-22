@@ -90,7 +90,6 @@ namespace GCRM
 			{
 				BCitizens.Visible = Session.HasPermission("Ciudadanos.Consultar");
 				BInstitutions.Visible = Session.HasPermission("Instituciones.Consultar");
-				BInstitutionCategories.Visible = Session.HasPermission("Instituciones.Categorias.Consultar");
 
 				BCitizenNetworks.Visible = Session.HasPermission("Network.Consultar");
 
@@ -120,14 +119,6 @@ namespace GCRM
 				{
 					RefreshStatusStrip();
 				}
-			}
-		}
-
-		private void BInstitutionCategories_Click(object sender, EventArgs e)
-		{
-			using (FInstitutionCategoryList institution_categories_list_dl = new FInstitutionCategoryList())
-			{
-				institution_categories_list_dl.ShowDialog();
 			}
 		}
 

@@ -121,9 +121,6 @@
   <data name="Fatcow-Farm-Fresh-Node-arrow-down.24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Fatcow-Farm-Fresh-Node-arrow-down.24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Fatcow-Farm-Fresh-Key.16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Fatcow-Farm-Fresh-Key.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Fatcow-Farm-Fresh-Delete.24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Fatcow-Farm-Fresh-Delete.24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -157,6 +154,9 @@
   <data name="Fatcow-Farm-Fresh-Email-trace.16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Fatcow-Farm-Fresh-Email-trace.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Fatcow-Farm-Fresh-Add.16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Fatcow-Farm-Fresh-Add.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Fatcow-Farm-Fresh-Entity.32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Fatcow-Farm-Fresh-Entity.32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -175,6 +175,9 @@
   <data name="Fatcow-Farm-Fresh-Chart-organisation.32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Fatcow-Farm-Fresh-Chart-organisation.32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Fatcow-Farm-Fresh-Webmail.16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Fatcow-Farm-Fresh-Webmail.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Fatcow-Farm-Fresh-Email.32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Fatcow-Farm-Fresh-Email.32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -184,26 +187,26 @@
   <data name="Fatcow-Farm-Fresh-Add.24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Fatcow-Farm-Fresh-Add.24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Fatcow-Farm-Fresh-Email-trace.32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Fatcow-Farm-Fresh-Email-trace.32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Fatcow-Farm-Fresh-Cog.32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Fatcow-Farm-Fresh-Cog.32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Fatcow-Farm-Fresh-Node-document.24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Fatcow-Farm-Fresh-Node-document.24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Fatcow-Farm-Fresh-Node-delete.24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Fatcow-Farm-Fresh-Node-delete.24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Fatcow-Farm-Fresh-Email-accounts.32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Fatcow-Farm-Fresh-Email-accounts.32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Fatcow-Farm-Fresh-Node-delete.24" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Fatcow-Farm-Fresh-Node-delete.24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Fatcow-Farm-Fresh-Email-trace.32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Fatcow-Farm-Fresh-Email-trace.32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Fatcow-Farm-Fresh-Synchronize-ftp-password.16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Fatcow-Farm-Fresh-Synchronize-ftp-password.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Fatcow-Farm-Fresh-Node.24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Fatcow-Farm-Fresh-Node.24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Fatcow-Farm-Fresh-Check-box.16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Fatcow-Farm-Fresh-Check-box.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Fatcow-Farm-Fresh-Database-refresh.32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Fatcow-Farm-Fresh-Database-refresh.32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -217,26 +220,26 @@
   <data name="Fatcow-Farm-Fresh-Node-design.16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Fatcow-Farm-Fresh-Node-design.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Fatcow-Farm-Fresh-Delete.16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Fatcow-Farm-Fresh-Delete.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Fatcow-Farm-Fresh-Key.16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Fatcow-Farm-Fresh-Key.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Fatcow-Farm-Fresh-Add.32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Fatcow-Farm-Fresh-Add.32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Fatcow-Farm-Fresh-Pencil.32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Fatcow-Farm-Fresh-Pencil.32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Fatcow-Farm-Fresh-Bullet-delete.16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Fatcow-Farm-Fresh-Bullet-delete.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Fatcow-Farm-Fresh-Webmail.16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Fatcow-Farm-Fresh-Webmail.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Fatcow-Farm-Fresh-Check-box.16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Fatcow-Farm-Fresh-Check-box.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Fatcow-Farm-Fresh-Pencil.16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Fatcow-Farm-Fresh-Pencil.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Fatcow-Farm-Fresh-Node.16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Fatcow-Farm-Fresh-Node.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Fatcow-Farm-Fresh-Module.32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Fatcow-Farm-Fresh-Module.32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Fatcow-Farm-Fresh-Query-design.32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Fatcow-Farm-Fresh-Query-design.32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -250,17 +253,14 @@
   <data name="Fatcow-Farm-Fresh-Magnifier.16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Fatcow-Farm-Fresh-Magnifier.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Fatcow-Farm-Fresh-Cog.32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Fatcow-Farm-Fresh-Cog.32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Fatcow-Farm-Fresh-Node-arrow-up.24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Fatcow-Farm-Fresh-Node-arrow-up.24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Fatcow-Farm-Fresh-Connect.32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Fatcow-Farm-Fresh-Connect.32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Fatcow-Farm-Fresh-Add.16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Fatcow-Farm-Fresh-Add.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Fatcow-Farm-Fresh-Delete.16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Fatcow-Farm-Fresh-Delete.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Fatcow-Farm-Fresh-Find.16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Fatcow-Farm-Fresh-Find.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -271,8 +271,11 @@
   <data name="Fatcow-Farm-Fresh-Delete1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Fatcow-Farm-Fresh-Delete.161.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Fatcow-Farm-Fresh-Molecule.16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Fatcow-Farm-Fresh-Molecule.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Fatcow-Farm-Fresh-Pencil.32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Fatcow-Farm-Fresh-Pencil.32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Fatcow-Farm-Fresh-Categories.16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Fatcow-Farm-Fresh-Categories.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Fatcow-Farm-Fresh-Magnifier.24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Fatcow-Farm-Fresh-Magnifier.24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -283,13 +286,13 @@
   <data name="Fatcow-Farm-Fresh-Categories.32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Fatcow-Farm-Fresh-Categories.32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Fatcow-Farm-Fresh-Module.32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Fatcow-Farm-Fresh-Module.32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Fatcow-Farm-Fresh-Molecule.16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Fatcow-Farm-Fresh-Molecule.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Fatcow-Farm-Fresh-Printer.16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Fatcow-Farm-Fresh-Printer.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Fatcow-Farm-Fresh-Categories.16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Fatcow-Farm-Fresh-Categories.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Fatcow-Farm-Fresh-Module.16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Fatcow-Farm-Fresh-Module.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
