@@ -143,7 +143,8 @@ namespace GCRM
 							return;
 						}
 
-						string citizen_vcf_name = $"gcrm{citizen.Id}.vcf";
+						string uid = $"gcrm{citizen.Id}";
+						string citizen_vcf_name = $"{uid}.vcf";
 						string resource = $"{card_dav_url.TrimEnd('/')}/default/{citizen_vcf_name}";
 
 						if (existing_resources.Contains(resource))
@@ -161,6 +162,7 @@ namespace GCRM
 						vcard.AppendLine($"TEL;TYPE=WORK:{citizen.FullPhone}");
 						vcard.AppendLine($"TEL;TYPE=CELL:{citizen.Cellphone}");
 						vcard.AppendLine($"NOTE:Alta: {citizen.Author.Id} - {created_by_user.Name}\\nFecha: {citizen.CreatedDate.ToString()}\\n");
+						vcard.AppendLine($"UID:{uid}");
 
 						vcard.AppendLine($"END:VCARD");
 
