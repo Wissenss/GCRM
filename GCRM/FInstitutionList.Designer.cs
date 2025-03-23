@@ -41,11 +41,14 @@
 			toolStripSeparator1 = new ToolStripSeparator();
 			BShowHierarchy = new ToolStripButton();
 			toolStripSeparator2 = new ToolStripSeparator();
-			BSearch = new ToolStripButton();
+			BFields = new ToolStripButton();
+			BFilter = new ToolStripButton();
+			toolStripSeparator5 = new ToolStripSeparator();
 			toolStripSeparator3 = new ToolStripSeparator();
 			BExcelExport = new ToolStripButton();
 			toolStripSeparator4 = new ToolStripSeparator();
 			BCategories = new ToolStripButton();
+			BSearch = new ToolStripButton();
 			DataGridInstitutions = new DataGridView();
 			colId = new DataGridViewTextBoxColumn();
 			colName = new DataGridViewTextBoxColumn();
@@ -62,6 +65,7 @@
 			SaveFileDialog = new SaveFileDialog();
 			StatusStrip = new StatusStrip();
 			TSSLRecordCount = new ToolStripStatusLabel();
+			TSSLFilters = new ToolStripStatusLabel();
 			ToolStrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)DataGridInstitutions).BeginInit();
 			((System.ComponentModel.ISupportInitialize)SplitContainer).BeginInit();
@@ -75,11 +79,11 @@
 			// ToolStrip
 			// 
 			ToolStrip.GripStyle = ToolStripGripStyle.Hidden;
-			ToolStrip.Items.AddRange(new ToolStripItem[] { BAdd, BEdit, BRead, BRefresh, BDelete, toolStripSeparator1, BShowHierarchy, toolStripSeparator2, BSearch, toolStripSeparator3, BExcelExport, toolStripSeparator4, BCategories });
+			ToolStrip.Items.AddRange(new ToolStripItem[] { BAdd, BEdit, BRead, BRefresh, BDelete, toolStripSeparator1, BShowHierarchy, toolStripSeparator2, BFields, BFilter, toolStripSeparator5, toolStripSeparator3, BExcelExport, toolStripSeparator4, BCategories, BSearch });
 			ToolStrip.Location = new Point(0, 0);
 			ToolStrip.Name = "ToolStrip";
 			ToolStrip.RenderMode = ToolStripRenderMode.System;
-			ToolStrip.Size = new Size(758, 40);
+			ToolStrip.Size = new Size(877, 40);
 			ToolStrip.TabIndex = 1;
 			ToolStrip.Text = "toolStrip1";
 			// 
@@ -165,17 +169,35 @@
 			toolStripSeparator2.Name = "toolStripSeparator2";
 			toolStripSeparator2.Size = new Size(6, 40);
 			// 
-			// BSearch
+			// BFields
 			// 
-			BSearch.Alignment = ToolStripItemAlignment.Right;
-			BSearch.CheckOnClick = true;
-			BSearch.Image = Properties.Resources.Fatcow_Farm_Fresh_Find_16;
-			BSearch.ImageScaling = ToolStripItemImageScaling.None;
-			BSearch.ImageTransparentColor = Color.Magenta;
-			BSearch.Name = "BSearch";
-			BSearch.Size = new Size(62, 37);
-			BSearch.Text = "Bu&scar";
-			BSearch.Click += BSearch_Click;
+			BFields.Alignment = ToolStripItemAlignment.Right;
+			BFields.Image = Properties.Resources.Fatcow_Farm_Fresh_Layouts_header_select_16;
+			BFields.ImageScaling = ToolStripItemImageScaling.None;
+			BFields.ImageTransparentColor = Color.Magenta;
+			BFields.Margin = new Padding(1, 2, 1, 2);
+			BFields.Name = "BFields";
+			BFields.Padding = new Padding(2, 8, 2, 8);
+			BFields.Size = new Size(75, 36);
+			BFields.Text = "Cam&pos";
+			BFields.Click += BFields_Click;
+			// 
+			// BFilter
+			// 
+			BFilter.Alignment = ToolStripItemAlignment.Right;
+			BFilter.Image = Properties.Resources.Fatcow_Farm_Fresh_Filter_16;
+			BFilter.ImageScaling = ToolStripItemImageScaling.None;
+			BFilter.ImageTransparentColor = Color.Magenta;
+			BFilter.Name = "BFilter";
+			BFilter.Size = new Size(57, 37);
+			BFilter.Text = "&Filtrar";
+			BFilter.Click += BFilter_Click;
+			// 
+			// toolStripSeparator5
+			// 
+			toolStripSeparator5.Alignment = ToolStripItemAlignment.Right;
+			toolStripSeparator5.Name = "toolStripSeparator5";
+			toolStripSeparator5.Size = new Size(6, 40);
 			// 
 			// toolStripSeparator3
 			// 
@@ -206,6 +228,18 @@
 			BCategories.Size = new Size(83, 37);
 			BCategories.Text = "Categorías";
 			BCategories.Click += BCategories_Click;
+			// 
+			// BSearch
+			// 
+			BSearch.Alignment = ToolStripItemAlignment.Right;
+			BSearch.CheckOnClick = true;
+			BSearch.Image = Properties.Resources.Fatcow_Farm_Fresh_Find_16;
+			BSearch.ImageScaling = ToolStripItemImageScaling.None;
+			BSearch.ImageTransparentColor = Color.Magenta;
+			BSearch.Name = "BSearch";
+			BSearch.Size = new Size(62, 37);
+			BSearch.Text = "Bu&scar";
+			BSearch.Click += BSearch_Click;
 			// 
 			// DataGridInstitutions
 			// 
@@ -253,7 +287,7 @@
 			DataGridInstitutions.RowHeadersVisible = false;
 			DataGridInstitutions.RowTemplate.Height = 20;
 			DataGridInstitutions.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-			DataGridInstitutions.Size = new Size(758, 360);
+			DataGridInstitutions.Size = new Size(877, 381);
 			DataGridInstitutions.StandardTab = true;
 			DataGridInstitutions.TabIndex = 3;
 			// 
@@ -344,7 +378,7 @@
 			// 
 			SplitContainer.Panel2.Controls.Add(TreeView);
 			SplitContainer.Panel2Collapsed = true;
-			SplitContainer.Size = new Size(758, 360);
+			SplitContainer.Size = new Size(877, 381);
 			SplitContainer.SplitterDistance = 506;
 			SplitContainer.TabIndex = 4;
 			// 
@@ -364,7 +398,7 @@
 			TextBoxSearch.Location = new Point(8, 8);
 			TextBoxSearch.Name = "TextBoxSearch";
 			TextBoxSearch.PlaceholderText = "Ingrese el texto a buscar...";
-			TextBoxSearch.Size = new Size(1443, 23);
+			TextBoxSearch.Size = new Size(1562, 23);
 			TextBoxSearch.TabIndex = 1;
 			TextBoxSearch.TextChanged += TextBoxSearch_TextChanged;
 			// 
@@ -375,16 +409,16 @@
 			PanelSearch.Dock = DockStyle.Top;
 			PanelSearch.Location = new Point(0, 40);
 			PanelSearch.Name = "PanelSearch";
-			PanelSearch.Size = new Size(758, 39);
+			PanelSearch.Size = new Size(877, 39);
 			PanelSearch.TabIndex = 7;
 			PanelSearch.Visible = false;
 			// 
 			// StatusStrip
 			// 
-			StatusStrip.Items.AddRange(new ToolStripItem[] { TSSLRecordCount });
-			StatusStrip.Location = new Point(0, 439);
+			StatusStrip.Items.AddRange(new ToolStripItem[] { TSSLRecordCount, TSSLFilters });
+			StatusStrip.Location = new Point(0, 460);
 			StatusStrip.Name = "StatusStrip";
-			StatusStrip.Size = new Size(758, 22);
+			StatusStrip.Size = new Size(877, 22);
 			StatusStrip.TabIndex = 4;
 			StatusStrip.Text = "statusStrip1";
 			// 
@@ -395,11 +429,18 @@
 			TSSLRecordCount.Size = new Size(78, 17);
 			TSSLRecordCount.Text = "Registros: 274";
 			// 
+			// TSSLFilters
+			// 
+			TSSLFilters.Font = new Font("Segoe UI Variable Small Light", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+			TSSLFilters.Name = "TSSLFilters";
+			TSSLFilters.Size = new Size(147, 17);
+			TSSLFilters.Text = "     Filtros: Sexo = Masculino";
+			// 
 			// FInstitutionList
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
-			ClientSize = new Size(758, 461);
+			ClientSize = new Size(877, 482);
 			Controls.Add(SplitContainer);
 			Controls.Add(PanelSearch);
 			Controls.Add(ToolStrip);
@@ -457,5 +498,9 @@
 		private SaveFileDialog SaveFileDialog;
 		private StatusStrip StatusStrip;
 		private ToolStripStatusLabel TSSLRecordCount;
+		private ToolStripButton BFilter;
+		private ToolStripSeparator toolStripSeparator5;
+		private ToolStripButton BFields;
+		private ToolStripStatusLabel TSSLFilters;
 	}
 }

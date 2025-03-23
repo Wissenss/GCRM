@@ -7,6 +7,9 @@ namespace GCRM
 {
 	public partial class FInstitutionList : Form
 	{
+		FColumnChooser ColumnChooserDlg;
+		FInstitutionListFilters FiltersDlg;
+
 		public FInstitutionList()
 		{
 			InitializeComponent();
@@ -15,6 +18,9 @@ namespace GCRM
 
 			DataGridInstitutions.DataSource = Catalogs.DSCatalogs;
 			DataGridInstitutions.DataMember = "DTInstitutions";
+
+			ColumnChooserDlg = new FColumnChooser(DataGridInstitutions);
+			FiltersDlg = new FInstitutionListFilters();
 		}
 
 		public void LoadList()
@@ -205,10 +211,22 @@ namespace GCRM
 									    )";
 			}
 
+			if (FiltersDlg.FilterCategory)
+			{
+				filter += $" and category_id = {FiltersDlg.Category.Id}";
+			}
+
+			if (FiltersDlg.FilterSector)
+			{
+				filter += $" and society_sector = {(int)FiltersDlg.Sector}";
+			}
+
 			Catalogs.DTInstitutions.DefaultView.RowFilter = filter;
 
 			DataGridInstitutions.DataSource = Catalogs.DTInstitutions;
 			DataGridInstitutions.Refresh();
+
+			UpdateStatusStrip();
 		}
 
 		private void FInstitutionList_Leave(object sender, EventArgs e)
@@ -283,10 +301,40 @@ namespace GCRM
 				Utilities.ShowExceptionDialog(ex);
 			}
 		}
-	
+
 		private void UpdateStatusStrip()
 		{
 			TSSLRecordCount.Text = $"Registros: {DataGridInstitutions.RowCount}";
+
+			TSSLFilters.Text = "";
+
+			if (FiltersDlg.FilterCategory)
+			{
+				TSSLFilters.Text += $"Categoría = {FiltersDlg.Category.Name}, ";
+			}
+
+			if (FiltersDlg.FilterSector)
+			{
+				TSSLFilters.Text += $"Sector = {BConstants.GetSocietySectorName(FiltersDlg.Sector)}, ";
+			}
+
+			if (TSSLFilters.Text.Length > 0)
+			{
+				TSSLFilters.Text = $"  Filtros: {TSSLFilters.Text.TrimEnd(',', ' ')}";
+			}
+		}
+
+		private void BFields_Click(object sender, EventArgs e)
+		{
+			ColumnChooserDlg.ShowDialog();
+		}
+
+		private void BFilter_Click(object sender, EventArgs e)
+		{
+			if (FiltersDlg.ShowDialog() == DialogResult.OK)
+			{
+				FilterList();
+			}
 		}
 	}
 }
