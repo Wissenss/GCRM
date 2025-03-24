@@ -15,7 +15,7 @@ namespace Business
 		public static class SettingsHandler
 		{
 
-			private static Error CreateSettingFromRawValue(string name, object value, Type type)
+			private static Error CreateSettingFromRawValue(string name, object value, Type type, int user_id)
 			{
 				BDBTypeSettingDatatype setting_datatype = BDBTypes.GetSettingDataTypeFromType(type);
 
@@ -23,9 +23,9 @@ namespace Business
 
 				switch (setting_datatype)
 				{
-					case BDBTypeSettingDatatype.String: sql = "INSERT INTO settings(name, string_value, datatype) VALUES(@name, @value, 'string');"; break;
-					case BDBTypeSettingDatatype.Boolean: sql = "INSERT INTO settings(name, boolean_value, datatype) VALUES(@name, @value, 'boolean')"; break;
-					case BDBTypeSettingDatatype.Numeric: sql = "INSERT INTO settings(name, numeric_value, datatype) VALUES(@name, @value, 'numeric')"; break;
+					case BDBTypeSettingDatatype.String: sql = "INSERT INTO settings(name, string_value, datatype, user_id) VALUES(@name, @value, 'string', @user_id);"; break;
+					case BDBTypeSettingDatatype.Boolean: sql = "INSERT INTO settings(name, boolean_value, datatype, user_id) VALUES(@name, @value, 'boolean', @user_id)"; break;
+					case BDBTypeSettingDatatype.Numeric: sql = "INSERT INTO settings(name, numeric_value, datatype, user_id) VALUES(@name, @value, 'numeric', @user_id)"; break;
 				}
 
 				var conn = ConnectionPool.GetConnection();
@@ -34,7 +34,8 @@ namespace Business
 				{
 					cmd.Parameters.AddWithValue("@name", name);
 					cmd.Parameters.AddWithValue("@value", value);
-
+					cmd.Parameters.AddWithValue("@user_id", user_id);
+					
 					cmd.ExecuteNonQuery();
 				}
 
@@ -43,7 +44,7 @@ namespace Business
 				return 0;
 			}
 
-			private static Error UpdateSettingFromRawValue(string name, object value, Type type)
+			private static Error UpdateSettingFromRawValue(string name, object value, Type type, int user_id)
 			{
 				BDBTypeSettingDatatype setting_datatype = BDBTypes.GetSettingDataTypeFromType(type);
 
@@ -51,9 +52,9 @@ namespace Business
 
 				switch (setting_datatype)
 				{
-					case BDBTypeSettingDatatype.String: sql = "UPDATE settings SET string_value = @value, datatype = 'string' WHERE name = @name;"; break;
-					case BDBTypeSettingDatatype.Boolean: sql = "UPDATE settings SET boolean_value = @value, datatype = 'boolean' WHERE name = @name;"; break;
-					case BDBTypeSettingDatatype.Numeric: sql = "UPDATE settings SET numeric_value = @value, datatype = 'numeric' WHERE name = @name;"; break;
+					case BDBTypeSettingDatatype.String: sql = "UPDATE settings SET string_value = @value, datatype = 'string', user_id = @user_id WHERE name = @name;"; break;
+					case BDBTypeSettingDatatype.Boolean: sql = "UPDATE settings SET boolean_value = @value, datatype = 'boolean', user_id = @user_id WHERE name = @name;"; break;
+					case BDBTypeSettingDatatype.Numeric: sql = "UPDATE settings SET numeric_value = @value, datatype = 'numeric', user_id = @user_id WHERE name = @name;"; break;
 				}
 
 				var conn = ConnectionPool.GetConnection();
@@ -62,6 +63,7 @@ namespace Business
 				{
 					cmd.Parameters.AddWithValue("@name", name);
 					cmd.Parameters.AddWithValue("@value", value);
+					cmd.Parameters.AddWithValue("@user_id", user_id);
 
 					cmd.ExecuteNonQuery();
 				}
@@ -95,7 +97,7 @@ namespace Business
 				return error;
 			}
 
-			private static Error GetRawSettingValueByName(string name, Type type, object _default, out object value, bool add_if_non_existent = true)
+			private static Error GetRawSettingValueByName(string name, Type type, object _default, out object value, int user_id = 0, bool add_if_non_existent = true)
 			{
 				Error error = 0;
 
@@ -130,7 +132,7 @@ namespace Business
 						}
 						else if (add_if_non_existent)
 						{
-							error = CreateSettingFromRawValue(name, value, type);
+							error = CreateSettingFromRawValue(name, value, type, user_id);
 						}
 					}
 				}
@@ -140,11 +142,11 @@ namespace Business
 				return error;
 			}
 
-			public static T GetSetting<T>(string name, T _default, bool add_if_non_existent = true)
+			public static T GetSetting<T>(string name, T _default, int user_id = 0, bool add_if_non_existent = true)
 			{
 				object raw_value;
 
-				Error error = GetRawSettingValueByName(name, typeof(T), _default, out raw_value, add_if_non_existent);
+				Error error = GetRawSettingValueByName(name, typeof(T), _default, out raw_value, user_id, add_if_non_existent);
 
 				if (error != 0)
 				{
@@ -154,13 +156,13 @@ namespace Business
 				return (T)Convert.ChangeType(raw_value, typeof(T));
 			}
 
-			public static void SetSetting<T>(string name, T value, bool add_if_non_existent = true)
+			public static void SetSetting<T>(string name, T value, int user_id = 0, bool add_if_non_existent = true)
 			{
 				Error error = SettingExists(name);
 
 				if (error == 0)
 				{
-					error = UpdateSettingFromRawValue(name, value, typeof(T));
+					error = UpdateSettingFromRawValue(name, value, typeof(T), user_id);
 				}
 				else if (error == Error.SettingNotFound)
 				{
@@ -168,7 +170,7 @@ namespace Business
 
 					if (add_if_non_existent)
 					{
-						error = CreateSettingFromRawValue(name, value, typeof(T));
+						error = CreateSettingFromRawValue(name, value, typeof(T), user_id);
 					}
 				}
 
