@@ -1,14 +1,7 @@
 ﻿using Connection;
 using Npgsql;
-using System;
-using System.Collections.Generic;
 using System.Data.Common;
-using System.Drawing;
-using System.Linq;
-using System.Net;
 using System.Text;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Business
 {
@@ -26,7 +19,7 @@ namespace Business
 		}
 	}
 
-	public class TCitizen
+	public class TCitizen : TEntity
 	{
 		public int Id;
 		public string Name;
@@ -44,11 +37,10 @@ namespace Business
 		public string Cellphone;
 		public string Email;
 		public TPoliticalParty PoliticalParty;
-		public TInstitution Institution;
-		public TInstitutionRole Role;
+		public TInstitution Institution = new TInstitution();
+		public TInstitutionRole Role = new TInstitutionRole();
 		public TUser Author = new TUser();
 		public DateTime CreatedDate;
-		//public int EditById;
 		public TUser LastEditor = new TUser();	
 		public DateTime EditDate;
 
@@ -115,6 +107,41 @@ namespace Business
 			VoterCIC = reader.GetString(24);
 			VoterSection = reader.GetString(25);
 			Category.Id = reader.GetInt32(26);
+		}
+	
+		public override string GetAsLogString()
+		{
+			StringBuilder log_string = new StringBuilder();
+
+			log_string.AppendLine($"Id:              \t{Id}");
+			log_string.AppendLine($"Name:            \t{Name}");
+			log_string.AppendLine($"Paternal Name:   \t{PaternalName}");
+			log_string.AppendLine($"Maternal Name:   \t{MaternalName}");
+			log_string.AppendLine($"Title:           \t{Title}");
+			log_string.AppendLine($"CURP:            \t{CURP}");
+			log_string.AppendLine($"Birthday:        \t{Birthday}");
+			log_string.AppendLine($"Observations:    \t{Observations}");
+			log_string.AppendLine($"Sex:             \t{Sex}");
+			log_string.AppendLine($"Address:         \t{Address.Id}");
+			log_string.AppendLine($"Assistant:       \t{Assistant.Id}");
+			log_string.AppendLine($"Phone:           \t{Phone}");
+			log_string.AppendLine($"Phone Ext:       \t{PhoneExtension}");
+			log_string.AppendLine($"Cellphone:       \t{Cellphone}");
+			log_string.AppendLine($"Email:           \t{Email}");
+			log_string.AppendLine($"Political Party: \t{PoliticalParty}");
+			log_string.AppendLine($"Institution:     \t{Institution.Id}");
+			log_string.AppendLine($"Role:            \t{Role.Id}");
+			log_string.AppendLine($"Author:          \t{Author.Id}");
+			log_string.AppendLine($"Created Date:    \t{CreatedDate}");
+			log_string.AppendLine($"Last Editor:     \t{LastEditor.Id}");
+			log_string.AppendLine($"Edit Date:       \t{EditDate}");
+			log_string.AppendLine($"Voter Code:      \t{VoterCode}");
+			log_string.AppendLine($"Voter OCR:       \t{VoterOCR}");
+			log_string.AppendLine($"Voter CIC:       \t{VoterCIC}");
+			log_string.AppendLine($"Voter Section:   \t{VoterSection}");
+			log_string.AppendLine($"Category:        \t{Category.Id}");
+
+			return log_string.ToString();
 		}
 	}
 
@@ -206,6 +233,10 @@ namespace Business
 				}
 			}
 
+			TCitizen citizen;
+
+			error = GetCitizenById(id, out citizen);
+
 			if (error == 0)
 			{
 				using (var cmd = new NpgsqlCommand("DELETE FROM citizens WHERE id = @id;", conn))
@@ -214,6 +245,11 @@ namespace Business
 
 					cmd.ExecuteNonQuery();
 				}
+			}
+
+			if (error == 0)
+			{
+				EventLogHandler.AddEventLog(TEventLogType.citizen_delete, Session.User.Id, id, TEntityType.citizen, citizen, DateTime.Now);
 			}
 
 			ConnectionPool.ReleaseConnection(ref conn);
@@ -421,6 +457,8 @@ namespace Business
 					}
 				}
 			}
+
+			EventLogHandler.AddEventLog(is_update ? TEventLogType.citizen_edit : TEventLogType.citizen_add, citizen.LastEditor.Id, citizen.Id, TEntityType.citizen, citizen, citizen.EditDate);
 
 			tran.Commit();
 

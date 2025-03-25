@@ -156,13 +156,18 @@ namespace GCRM
 
 						vcard.AppendLine($"BEGIN:VCARD");
 						vcard.AppendLine($"VERSION:3.0");
+						vcard.AppendLine($"N:{citizen.PaternalName};{citizen.Name};{citizen.MaternalName};{BConstants.GetCitizenBriefTitle(citizen.Title)}");
 						vcard.AppendLine($"FN:{citizen.FullName}");
 						vcard.AppendLine($"EMAIL:{citizen.Email}");
 						vcard.AppendLine($"BDAY:{citizen.Birthday.ToString("yyyy-mm-dd")}");
 						vcard.AppendLine($"TEL;TYPE=WORK:{citizen.FullPhone}");
 						vcard.AppendLine($"TEL;TYPE=CELL:{citizen.Cellphone}");
-						vcard.AppendLine($"NOTE:Alta: {citizen.Author.Id} - {created_by_user.Name}\\nFecha: {citizen.CreatedDate.ToString()}\\n");
+						vcard.AppendLine($"NOTE:Alta: {created_by_user.Name}");
 						vcard.AppendLine($"UID:{uid}");
+						vcard.AppendLine($"ORG:{citizen.Institution.Name}");
+						vcard.AppendLine($"TITLE:{citizen.Role.Name}");
+						vcard.AppendLine($"REV:{citizen.EditDate}");
+						vcard.AppendLine($"CATEGORIES:{citizen.Category.Name},{citizen.Institution.Category.Name}");
 
 						vcard.AppendLine($"END:VCARD");
 

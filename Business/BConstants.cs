@@ -60,6 +60,11 @@ namespace Business
 		Female = 2,
 	}
 
+	public abstract class TEntity()
+	{
+		public abstract string GetAsLogString();
+	}
+
 	public static class BConstants
 	{
 		public static string GetSocietySectorName(TSocietySector sector)
@@ -194,6 +199,28 @@ namespace Business
 			};
 
 			return mapping[sex];
+		}
+	
+		public static string GetEventLogTypeName(TEventLogType event_log_type)
+		{
+			Dictionary<TEventLogType, string> mapping = new Dictionary<TEventLogType, string>
+			{
+				{ TEventLogType.unknown,                     "Desconocido" },
+				{ TEventLogType.citizen_add,                 "Añadir ciudadano" },
+				{ TEventLogType.citizen_edit,                "Editar ciudadano" },
+				{ TEventLogType.citizen_delete,              "Eliminar ciudadano" },
+				{ TEventLogType.citizen_category_add,        "Añadir categoría ciudadana" },
+				{ TEventLogType.citizen_category_edit,       "Editar categoría ciudadana" },
+				{ TEventLogType.citizen_category_delete,     "Eliminar categoría ciudadana" },
+				{ TEventLogType.institution_add,             "Añadir institución" },
+				{ TEventLogType.institution_edit,            "Editar institución" },
+				{ TEventLogType.institution_delete,          "Eliminar institución" },
+				{ TEventLogType.institution_category_add,    "Añadir categoría ciudadana" },
+				{ TEventLogType.institution_category_edit,   "Editar categoría ciudadana" },
+				{ TEventLogType.institution_category_delete, "Eliminar categoría ciudadana" },
+			};
+
+			return mapping[event_log_type];
 		}
 	}
 }

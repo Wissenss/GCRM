@@ -52,6 +52,8 @@
 			BEmails = new ToolStripButton();
 			toolStripSeparator3 = new ToolStripSeparator();
 			BQueries = new ToolStripButton();
+			toolStripSeparator4 = new ToolStripSeparator();
+			BEventLog = new ToolStripButton();
 			ListBoxBirhdays = new ListBox();
 			LBirthdayList = new Label();
 			PictureBoxBirthdayList = new PictureBox();
@@ -214,7 +216,7 @@
 			// 
 			ToolStripOther.Dock = DockStyle.Fill;
 			ToolStripOther.GripStyle = ToolStripGripStyle.Hidden;
-			ToolStripOther.Items.AddRange(new ToolStripItem[] { BSettings, BUsers, BConnection, BAbout, toolStripSeparator1, BEmails, toolStripSeparator3, BQueries });
+			ToolStripOther.Items.AddRange(new ToolStripItem[] { BSettings, BUsers, BConnection, BAbout, toolStripSeparator1, BEmails, toolStripSeparator3, BQueries, toolStripSeparator4, BEventLog });
 			ToolStripOther.Location = new Point(3, 3);
 			ToolStripOther.Name = "ToolStripOther";
 			ToolStripOther.RenderMode = ToolStripRenderMode.System;
@@ -298,9 +300,25 @@
 			BQueries.ImageTransparentColor = Color.Magenta;
 			BQueries.Name = "BQueries";
 			BQueries.Size = new Size(63, 52);
-			BQueries.Text = "Consultas";
+			BQueries.Text = "&Consultas";
 			BQueries.TextImageRelation = TextImageRelation.ImageAboveText;
 			BQueries.Click += BQueries_Click;
+			// 
+			// toolStripSeparator4
+			// 
+			toolStripSeparator4.Name = "toolStripSeparator4";
+			toolStripSeparator4.Size = new Size(6, 55);
+			// 
+			// BEventLog
+			// 
+			BEventLog.Image = Properties.Resources.Fatcow_Farm_Fresh_Date_time_functions_32;
+			BEventLog.ImageScaling = ToolStripItemImageScaling.None;
+			BEventLog.ImageTransparentColor = Color.Magenta;
+			BEventLog.Name = "BEventLog";
+			BEventLog.Size = new Size(54, 52);
+			BEventLog.Text = "&Bitácora";
+			BEventLog.TextImageRelation = TextImageRelation.ImageAboveText;
+			BEventLog.Click += BEventLog_Click;
 			// 
 			// ListBoxBirhdays
 			// 
@@ -398,5 +416,7 @@
 		private ToolStripSeparator toolStripSeparator1;
 		private ToolStripSeparator toolStripSeparator3;
 		private ToolStripButton BQueries;
+		private ToolStripSeparator toolStripSeparator4;
+		private ToolStripButton BEventLog;
 	}
 }

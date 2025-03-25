@@ -182,5 +182,13 @@ namespace GCRM
 				query_dlg.ShowDialog();
 			}
 		}
+
+		private void BEventLog_Click(object sender, EventArgs e)
+		{
+			using(FEventLog event_log_dlg = new FEventLog())
+			{
+				event_log_dlg.ShowDialog();
+			}
+		}
 	}
 }
