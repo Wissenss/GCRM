@@ -67,6 +67,7 @@ namespace GCRM
 			ComboBoxParentInstitution.Enabled = AccessMode != FAccessMode.Read;	
 			TextBoxName.Enabled = AccessMode != FAccessMode.Read;
 			TextBoxDescription.Enabled = AccessMode != FAccessMode.Read;
+			TextBoxAcronym.Enabled = AccessMode != FAccessMode.Read;
 
 			BAddRole.Enabled = AccessMode != FAccessMode.Read;
 			BEditRole.Enabled = AccessMode != FAccessMode.Read;
@@ -94,6 +95,7 @@ namespace GCRM
 				ComboBoxSocietySector.SelectedValue = institution.Sector;
 				TextBoxName.Text = institution.Name;
 				TextBoxDescription.Text = institution.Description;
+				TextBoxAcronym.Text = institution.Acronym;
 				ComboBoxParentInstitution.SelectedValue = institution.ParentInstitutionId;
 				ComboBoxCategory.SelectedValue = institution.Category.Id;
 
@@ -226,6 +228,7 @@ namespace GCRM
 						Id = (int)ComboBoxCategory.SelectedValue,
 					},
 					Description = TextBoxDescription.Text.Trim(),
+					Acronym = TextBoxAcronym.Text.Trim(),
 					ParentInstitutionId = (int)ComboBoxParentInstitution.SelectedValue,
 					Roles = new List<TInstitutionRole>(),
 					Author = new TUser()

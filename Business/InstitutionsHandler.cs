@@ -1,6 +1,7 @@
 ﻿using Connection;
 using Npgsql;
 using System.Data.Common;
+using System.Text;
 
 namespace Business
 {
@@ -36,7 +37,7 @@ namespace Business
 		}
 	}
 
-	public class TInstitution
+	public class TInstitution : TEntity
 	{
 		public int Id;
 		public string Name;
@@ -49,6 +50,7 @@ namespace Business
 		public DateTime CreatedDate;
 		public TUser LastEditor = new TUser();
 		public DateTime EditDate;
+		public string Acronym;
 
 		public void FillFromReader(DbDataReader reader)
 		{
@@ -62,6 +64,27 @@ namespace Business
 			CreatedDate = reader.GetDateTime(7);
 			LastEditor.Id = reader.GetInt32(8);
 			EditDate = reader.GetDateTime(9);
+			Acronym = reader.GetString(10);
+		}
+
+		public override string GetAsLogString()
+		{
+			StringBuilder log_string = new StringBuilder();
+
+			log_string.AppendLine($"Id:                  \t{Id}");
+			log_string.AppendLine($"Name:                \t{Name}");
+			log_string.AppendLine($"Description:         \t{Description}");
+			log_string.AppendLine($"Sector:              \t{Sector}");
+			log_string.AppendLine($"Category:            \t{Category.Id}");
+			log_string.AppendLine($"Roles:               \t{Roles.Count}");
+			log_string.AppendLine($"ParentInstitutionId: \t{ParentInstitutionId}");
+			log_string.AppendLine($"Author:              \t{Author.Id}");
+			log_string.AppendLine($"CreatedDate:         \t{CreatedDate}");
+			log_string.AppendLine($"LastEditor:          \t{LastEditor.Id}");
+			log_string.AppendLine($"EditDate:            \t{EditDate}");
+			log_string.AppendLine($"Acronym:             \t{Acronym}");
+
+			return log_string.ToString();
 		}
 	}
 
@@ -105,7 +128,8 @@ namespace Business
 						description = @description, 
 						parent_institution_id = @parent_institution_id,
 						edit_by_id = @edit_by_id,
-						edit_date = @edit_date
+						edit_date = @edit_date,
+						acronym = @acronym	
 					WHERE 
 						id = @id;";
 			}
@@ -121,7 +145,8 @@ namespace Business
 						created_by_id,
 						created_date,
 						edit_by_id,
-						edit_date
+						edit_date,
+						acronym
 					) 
 					VALUES(
 						@name, 
@@ -132,7 +157,8 @@ namespace Business
 						@created_by_id,
 						@created_date,
 						@edit_by_id,
-						@edit_date) 
+						@edit_date,
+						@acronym) 
 					RETURNING id;";
 			}
 
@@ -148,6 +174,7 @@ namespace Business
 				cmd.Parameters.AddWithValue("@created_date", institution.CreatedDate);
 				cmd.Parameters.AddWithValue("@edit_by_id", institution.LastEditor.Id);
 				cmd.Parameters.AddWithValue("@edit_date", institution.EditDate);
+				cmd.Parameters.AddWithValue("@acronym", institution.Acronym);
 
 				if (is_update)
 				{
@@ -180,6 +207,8 @@ namespace Business
 				}
 			}
 
+			EventLogHandler.AddEventLog(is_update ? TEventLogType.institution_edit : TEventLogType.institution_add, institution.LastEditor.Id, institution.Id, TEntityType.intitution, institution, DateTime.Now);
+
 			tran.Commit();	
 
 			ConnectionPool.ReleaseConnection(ref conn);
@@ -208,7 +237,7 @@ namespace Business
 			}
 
 			// check there is no institution with this institution
-			if (error != 0)
+			if (error == 0)
 			{
 				using (var cmd = new NpgsqlCommand("SELECT * FROM institutions WHERE parent_institution_id = @id;", conn))
 				{
@@ -224,6 +253,13 @@ namespace Business
 				}
 			}
 
+			TInstitution institution = new TInstitution();
+
+			if (error == 0)
+			{
+				error = GetInstitutionById(id, out institution);
+			}
+
 			if (error == 0)
 			{
 				using (var cmd = new NpgsqlCommand("DELETE FROM institution_roles WHERE institution_id = @id;", conn))
@@ -236,6 +272,11 @@ namespace Business
 
 					cmd.ExecuteNonQuery();
 				}
+			}
+
+			if (error == 0)
+			{
+				error = EventLogHandler.AddEventLog(TEventLogType.institution_delete, Session.User.Id, institution.Id, TEntityType.intitution, institution, DateTime.Now);
 			}
 
 			ConnectionPool.ReleaseConnection(ref conn);

@@ -28,8 +28,8 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-			DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+			DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+			DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
 			BCancel = new Button();
 			BAccept = new Button();
 			TabGeneral = new TabPage();
@@ -54,6 +54,8 @@
 			toolStrip1 = new ToolStrip();
 			BAddRole = new ToolStripButton();
 			BEditRole = new ToolStripButton();
+			LAcronym = new Label();
+			TextBoxAcronym = new TextBox();
 			TabGeneral.SuspendLayout();
 			TabControlInstitution.SuspendLayout();
 			TabPositions.SuspendLayout();
@@ -85,6 +87,8 @@
 			// 
 			// TabGeneral
 			// 
+			TabGeneral.Controls.Add(LAcronym);
+			TabGeneral.Controls.Add(TextBoxAcronym);
 			TabGeneral.Controls.Add(ComboBoxCategory);
 			TabGeneral.Controls.Add(ComboBoxParentInstitution);
 			TabGeneral.Controls.Add(LParentInstitution);
@@ -142,7 +146,7 @@
 			// LDescription
 			// 
 			LDescription.AutoSize = true;
-			LDescription.Location = new Point(7, 132);
+			LDescription.Location = new Point(7, 160);
 			LDescription.Name = "LDescription";
 			LDescription.Size = new Size(69, 15);
 			LDescription.TabIndex = 10;
@@ -150,7 +154,7 @@
 			// 
 			// TextBoxDescription
 			// 
-			TextBoxDescription.Location = new Point(82, 130);
+			TextBoxDescription.Location = new Point(82, 158);
 			TextBoxDescription.Multiline = true;
 			TextBoxDescription.Name = "TextBoxDescription";
 			TextBoxDescription.Size = new Size(295, 69);
@@ -225,24 +229,24 @@
 			DataGridInstitutionRoles.BorderStyle = BorderStyle.None;
 			DataGridInstitutionRoles.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
 			DataGridInstitutionRoles.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
-			dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle1.BackColor = SystemColors.Control;
-			dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
-			dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-			dataGridViewCellStyle1.SelectionBackColor = SystemColors.Control;
-			dataGridViewCellStyle1.SelectionForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-			DataGridInstitutionRoles.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle5.BackColor = SystemColors.Control;
+			dataGridViewCellStyle5.Font = new Font("Segoe UI", 9F);
+			dataGridViewCellStyle5.ForeColor = SystemColors.WindowText;
+			dataGridViewCellStyle5.SelectionBackColor = SystemColors.Control;
+			dataGridViewCellStyle5.SelectionForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
+			DataGridInstitutionRoles.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
 			DataGridInstitutionRoles.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			DataGridInstitutionRoles.Columns.AddRange(new DataGridViewColumn[] { colId, colName, colInstitutionId, colParentRoleId, colDescription });
-			dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle2.BackColor = SystemColors.Window;
-			dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
-			dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle2.SelectionBackColor = SystemColors.ControlLight;
-			dataGridViewCellStyle2.SelectionForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-			DataGridInstitutionRoles.DefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle6.BackColor = SystemColors.Window;
+			dataGridViewCellStyle6.Font = new Font("Segoe UI", 9F);
+			dataGridViewCellStyle6.ForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle6.SelectionBackColor = SystemColors.ControlLight;
+			dataGridViewCellStyle6.SelectionForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
+			DataGridInstitutionRoles.DefaultCellStyle = dataGridViewCellStyle6;
 			DataGridInstitutionRoles.Dock = DockStyle.Fill;
 			DataGridInstitutionRoles.EnableHeadersVisualStyles = false;
 			DataGridInstitutionRoles.Location = new Point(3, 28);
@@ -331,6 +335,22 @@
 			BEditRole.Text = "&Editar";
 			BEditRole.Click += BEditRole_Click;
 			// 
+			// LAcronym
+			// 
+			LAcronym.AutoSize = true;
+			LAcronym.Location = new Point(7, 132);
+			LAcronym.Name = "LAcronym";
+			LAcronym.Size = new Size(60, 15);
+			LAcronym.TabIndex = 16;
+			LAcronym.Text = "Acrónimo";
+			// 
+			// TextBoxAcronym
+			// 
+			TextBoxAcronym.Location = new Point(82, 129);
+			TextBoxAcronym.Name = "TextBoxAcronym";
+			TextBoxAcronym.Size = new Size(143, 23);
+			TextBoxAcronym.TabIndex = 15;
+			// 
 			// FInstitutionData
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
@@ -384,5 +404,7 @@
 		private DataGridViewTextBoxColumn colParentRoleId;
 		private DataGridViewTextBoxColumn colDescription;
 		private ComboBox ComboBoxCategory;
+		private Label LAcronym;
+		private TextBox TextBoxAcronym;
 	}
 }

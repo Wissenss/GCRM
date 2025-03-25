@@ -22,5 +22,9 @@ ALTER TABLE IF EXISTS public.event_logs
 ALTER TABLE IF EXISTS public.event_logs
     ADD COLUMN type bigint DEFAULT 0;
 
+-- #65 acronym field
+ALTER TABLE IF EXISTS public.institutions
+    ADD COLUMN acronym character varying DEFAULT '';
+
 -- update client version
 UPDATE settings SET string_value = '0.1.0.5-alpha' WHERE name = 'client_version';
