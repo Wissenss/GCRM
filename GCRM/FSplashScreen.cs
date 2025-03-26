@@ -71,16 +71,23 @@ namespace GCRM
 					// copy uncopressed files to install directory
 					StringBuilder update_script = new StringBuilder();
 
-					update_script.Append($" /C");
+					update_script.Append($" /K");
 					update_script.Append($" (echo 'starting system update')");
 					update_script.Append($" & (timeout 4)");
-					update_script.Append($" & (Xcopy {update_uncompress_file} {install_directory} /Y /E /H /C /I)");
+					update_script.Append($" & (echo 'replacing files')");
+					update_script.Append($" & (xcopy \"{update_uncompress_file}\" \"{install_directory}\" /Y /E /H /C /I)");
 					update_script.Append($" & (echo 're-starting system')");
 					update_script.Append($" & ({System.Environment.ProcessPath})");
 					update_script.Append($" & (echo 'system update finished, you may close this window')");
 					update_script.Append($" & (exit)");
 
-					Process.Start("cmd.exe", update_script.ToString());
+					Process.Start(new ProcessStartInfo()
+					{
+						FileName = "cmd.exe",
+						Arguments = update_script.ToString(),
+						UseShellExecute = true,
+						Verb = "runas"
+					});
 
 					// kill current process
 					Application.Exit();
