@@ -46,10 +46,19 @@
 			colId = new DataGridViewTextBoxColumn();
 			colName = new DataGridViewTextBoxColumn();
 			colPermited = new DataGridViewCheckBoxColumn();
+			TabCarddav = new TabPage();
+			CarddavPassword = new TextBox();
+			LCardDavPassword = new Label();
+			CarddavUsername = new TextBox();
+			LCardDavUsername = new Label();
+			CardDavURL = new TextBox();
+			LCardDavUrl = new Label();
+			CarddavSyncEnabled = new CheckBox();
 			TabControlUser.SuspendLayout();
 			TabGeneral.SuspendLayout();
 			TabPermissions.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)DataGridUserPermissions).BeginInit();
+			TabCarddav.SuspendLayout();
 			SuspendLayout();
 			// 
 			// BCancel
@@ -133,6 +142,7 @@
 			TabControlUser.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
 			TabControlUser.Controls.Add(TabGeneral);
 			TabControlUser.Controls.Add(TabPermissions);
+			TabControlUser.Controls.Add(TabCarddav);
 			TabControlUser.Location = new Point(1, 1);
 			TabControlUser.Name = "TabControlUser";
 			TabControlUser.SelectedIndex = 0;
@@ -231,6 +241,91 @@
 			colPermited.Name = "colPermited";
 			colPermited.Width = 64;
 			// 
+			// TabCarddav
+			// 
+			TabCarddav.Controls.Add(CarddavPassword);
+			TabCarddav.Controls.Add(LCardDavPassword);
+			TabCarddav.Controls.Add(CarddavUsername);
+			TabCarddav.Controls.Add(LCardDavUsername);
+			TabCarddav.Controls.Add(CardDavURL);
+			TabCarddav.Controls.Add(LCardDavUrl);
+			TabCarddav.Controls.Add(CarddavSyncEnabled);
+			TabCarddav.Location = new Point(4, 24);
+			TabCarddav.Name = "TabCarddav";
+			TabCarddav.Padding = new Padding(3);
+			TabCarddav.Size = new Size(349, 167);
+			TabCarddav.TabIndex = 2;
+			TabCarddav.Text = "CardDav";
+			TabCarddav.UseVisualStyleBackColor = true;
+			// 
+			// CarddavPassword
+			// 
+			CarddavPassword.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+			CarddavPassword.Enabled = false;
+			CarddavPassword.Location = new Point(89, 89);
+			CarddavPassword.Name = "CarddavPassword";
+			CarddavPassword.Size = new Size(253, 23);
+			CarddavPassword.TabIndex = 13;
+			// 
+			// LCardDavPassword
+			// 
+			LCardDavPassword.AutoSize = true;
+			LCardDavPassword.Enabled = false;
+			LCardDavPassword.Location = new Point(7, 92);
+			LCardDavPassword.Name = "LCardDavPassword";
+			LCardDavPassword.Size = new Size(67, 15);
+			LCardDavPassword.TabIndex = 12;
+			LCardDavPassword.Text = "Contraseña";
+			// 
+			// CarddavUsername
+			// 
+			CarddavUsername.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+			CarddavUsername.Enabled = false;
+			CarddavUsername.Location = new Point(89, 60);
+			CarddavUsername.Name = "CarddavUsername";
+			CarddavUsername.Size = new Size(253, 23);
+			CarddavUsername.TabIndex = 11;
+			// 
+			// LCardDavUsername
+			// 
+			LCardDavUsername.AutoSize = true;
+			LCardDavUsername.Enabled = false;
+			LCardDavUsername.Location = new Point(7, 63);
+			LCardDavUsername.Name = "LCardDavUsername";
+			LCardDavUsername.Size = new Size(36, 15);
+			LCardDavUsername.TabIndex = 10;
+			LCardDavUsername.Text = "Email";
+			// 
+			// CardDavURL
+			// 
+			CardDavURL.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+			CardDavURL.Enabled = false;
+			CardDavURL.Location = new Point(89, 31);
+			CardDavURL.Name = "CardDavURL";
+			CardDavURL.Size = new Size(253, 23);
+			CardDavURL.TabIndex = 9;
+			// 
+			// LCardDavUrl
+			// 
+			LCardDavUrl.AutoSize = true;
+			LCardDavUrl.Enabled = false;
+			LCardDavUrl.Location = new Point(7, 34);
+			LCardDavUrl.Name = "LCardDavUrl";
+			LCardDavUrl.Size = new Size(76, 15);
+			LCardDavUrl.TabIndex = 8;
+			LCardDavUrl.Text = "CardDav URL";
+			// 
+			// CarddavSyncEnabled
+			// 
+			CarddavSyncEnabled.AutoSize = true;
+			CarddavSyncEnabled.Location = new Point(89, 6);
+			CarddavSyncEnabled.Name = "CarddavSyncEnabled";
+			CarddavSyncEnabled.Size = new Size(227, 19);
+			CarddavSyncEnabled.TabIndex = 0;
+			CarddavSyncEnabled.Text = "Sincronización por CardDav habilitada";
+			CarddavSyncEnabled.UseVisualStyleBackColor = true;
+			CarddavSyncEnabled.CheckedChanged += CarddavSyncEnabled_CheckedChanged;
+			// 
 			// FUserData
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
@@ -251,6 +346,8 @@
 			TabGeneral.PerformLayout();
 			TabPermissions.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)DataGridUserPermissions).EndInit();
+			TabCarddav.ResumeLayout(false);
+			TabCarddav.PerformLayout();
 			ResumeLayout(false);
 		}
 
@@ -271,5 +368,13 @@
 		private DataGridViewTextBoxColumn colId;
 		private DataGridViewTextBoxColumn colName;
 		private DataGridViewCheckBoxColumn colPermited;
+		private TabPage TabCarddav;
+		private CheckBox CarddavSyncEnabled;
+		private TextBox CardDavURL;
+		private Label LCardDavUrl;
+		private TextBox CarddavPassword;
+		private Label LCardDavPassword;
+		private TextBox CarddavUsername;
+		private Label LCardDavUsername;
 	}
 }

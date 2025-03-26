@@ -142,12 +142,12 @@
 			// 
 			// BSyncContacts
 			// 
-			BSyncContacts.Image = Properties.Resources.Fatcow_Farm_Fresh_Synchronize_ftp_password_16;
+			BSyncContacts.Image = Properties.Resources.Fatcow_Farm_Fresh_Update_contact_info_16;
 			BSyncContacts.ImageScaling = ToolStripItemImageScaling.None;
 			BSyncContacts.ImageTransparentColor = Color.Magenta;
 			BSyncContacts.Name = "BSyncContacts";
-			BSyncContacts.Size = new Size(88, 37);
-			BSyncContacts.Text = "&Syncronizar";
+			BSyncContacts.Size = new Size(85, 37);
+			BSyncContacts.Text = "&Sincronizar";
 			BSyncContacts.Click += BSyncContacts_Click;
 			// 
 			// BBilling

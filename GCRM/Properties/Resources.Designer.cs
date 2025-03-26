@@ -663,6 +663,36 @@ namespace GCRM.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Fatcow_Farm_Fresh_Synchronize_ftp_password_32 {
+            get {
+                object obj = ResourceManager.GetObject("Fatcow-Farm-Fresh-Synchronize-ftp-password.32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Fatcow_Farm_Fresh_Update_contact_info_16 {
+            get {
+                object obj = ResourceManager.GetObject("Fatcow-Farm-Fresh-Update-contact-info.16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Fatcow_Farm_Fresh_Update_contact_info_32 {
+            get {
+                object obj = ResourceManager.GetObject("Fatcow-Farm-Fresh-Update-contact-info.32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Fatcow_Farm_Fresh_User_32 {
             get {
                 object obj = ResourceManager.GetObject("Fatcow-Farm-Fresh-User.32", resourceCulture);

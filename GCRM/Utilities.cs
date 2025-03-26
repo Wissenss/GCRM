@@ -62,6 +62,18 @@ namespace GCRM
 			return result;
 		}
 
+		public static DialogResult ShowConfirmDialog(string message)
+		{
+			DialogResult result = MessageBox.Show(
+				message,
+				"Confirmar",
+				MessageBoxButtons.YesNo,
+				MessageBoxIcon.Question
+			);
+
+			return result;
+		}
+
 		public static void OpenUrl(string url)
 		{
 			try
@@ -525,7 +537,7 @@ namespace GCRM
 		}
 	}
 
-  public static class  GithubUtilities
+  public static class GithubUtilities
   {
 		public class GithubAsset
 		{

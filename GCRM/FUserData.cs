@@ -52,13 +52,19 @@ namespace GCRM
 			TextBoxUsername.Enabled = AccessMode == FAccessMode.Create;
 			TextBoxPassword.Enabled = AccessMode != FAccessMode.Read;
 
+			CarddavSyncEnabled.Enabled = AccessMode != FAccessMode.Read;
+			CardDavURL.Enabled = AccessMode != FAccessMode.Read;
+			CarddavUsername.Enabled = AccessMode != FAccessMode.Read;
+			CarddavPassword.Enabled = AccessMode != FAccessMode.Read;
+
 			BAccept.Visible = AccessMode != FAccessMode.Read;
 			BCancel.Text = AccessMode != FAccessMode.Read ? "&Cancelar" : "&Cerrar";
 		}
 
 		public void SetId(int id)
 		{
-			using (new CursorWait()) {
+			using (new CursorWait())
+			{
 				Id = id;
 
 				TUser user;
@@ -77,6 +83,10 @@ namespace GCRM
 				TextBoxUsername.Text = user.Username;
 				TextBoxPassword.Text = "unknown password"; // the password is not load here, as we only care about the hash, which is assign when changing the contents of this text box 
 				PasswordHash = user.PasswordHash;
+				CarddavSyncEnabled.Checked = user.CardDavSyncEnabled;
+				CardDavURL.Text = user.CardDavURL;
+				CarddavPassword.Text = user.CardDavPassword;
+				CarddavUsername.Text = user.CardDavUsername;
 
 				DTUserPermissions.BeginLoadData();
 				DTUserPermissions.Clear();
@@ -127,6 +137,24 @@ namespace GCRM
 				errors.AppendLine("Debe especificar la clave");
 			}
 
+			if (CarddavSyncEnabled.Checked)
+			{
+				if (CardDavURL.Text.Trim().Length == 0)
+				{
+					errors.AppendLine("Debe especificar la URL del servidor CardDAV");
+				}
+
+				if (CarddavUsername.Text.Trim().Length == 0)
+				{
+					errors.AppendLine("Debe especificar el usuario del servidor CardDAV");
+				}
+
+				if (CarddavPassword.Text.Trim().Length == 0)
+				{
+					errors.AppendLine("Debe especificar la clave del servidor CardDAV");
+				}
+			}
+
 			if (errors.Length > 0)
 			{
 				Utilities.ShowValidationErrorDialog(errors);
@@ -153,6 +181,10 @@ namespace GCRM
 					Name = TextBoxName.Text,
 					Username = TextBoxUsername.Text,
 					PasswordHash = PasswordHash,
+					CardDavSyncEnabled = CarddavSyncEnabled.Checked,
+					CardDavURL = CardDavURL.Text.Trim(),
+					CardDavUsername = CarddavUsername.Text.Trim(),
+					CardDavPassword = CarddavPassword.Text.Trim()
 				};
 
 				if (PasswordChanged)
@@ -202,7 +234,7 @@ namespace GCRM
 		}
 
 		private int GetSelectedUserPermissionId()
-		{ 
+		{
 			if (DataGridUserPermissions.SelectedRows.Count == 0)
 			{
 				return 0;
@@ -224,7 +256,7 @@ namespace GCRM
 				return;
 			}
 
-			DataGridViewRow row		 = DataGridUserPermissions.SelectedRows[0];
+			DataGridViewRow row = DataGridUserPermissions.SelectedRows[0];
 
 			if (row.Cells["colPermited"].Selected)
 			{
@@ -240,6 +272,16 @@ namespace GCRM
 					}
 				}
 			}
+		}
+
+		private void CarddavSyncEnabled_CheckedChanged(object sender, EventArgs e)
+		{
+			LCardDavUrl.Enabled = CarddavSyncEnabled.Checked;
+			CardDavURL.Enabled = CarddavSyncEnabled.Checked;
+			LCardDavUsername.Enabled = CarddavSyncEnabled.Checked;
+			CarddavUsername.Enabled = CarddavSyncEnabled.Checked;
+			LCardDavPassword.Enabled = CarddavSyncEnabled.Checked;
+			CarddavPassword.Enabled = CarddavSyncEnabled.Checked;
 		}
 	}
 }

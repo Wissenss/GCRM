@@ -51,6 +51,8 @@
 			toolStripSeparator1 = new ToolStripSeparator();
 			BEmails = new ToolStripButton();
 			toolStripSeparator3 = new ToolStripSeparator();
+			BSync = new ToolStripButton();
+			toolStripSeparator5 = new ToolStripSeparator();
 			BQueries = new ToolStripButton();
 			toolStripSeparator4 = new ToolStripSeparator();
 			BEventLog = new ToolStripButton();
@@ -216,7 +218,7 @@
 			// 
 			ToolStripOther.Dock = DockStyle.Fill;
 			ToolStripOther.GripStyle = ToolStripGripStyle.Hidden;
-			ToolStripOther.Items.AddRange(new ToolStripItem[] { BSettings, BUsers, BConnection, BAbout, toolStripSeparator1, BEmails, toolStripSeparator3, BQueries, toolStripSeparator4, BEventLog });
+			ToolStripOther.Items.AddRange(new ToolStripItem[] { BSettings, BUsers, BConnection, BAbout, toolStripSeparator1, BEmails, toolStripSeparator3, BSync, toolStripSeparator5, BQueries, toolStripSeparator4, BEventLog });
 			ToolStripOther.Location = new Point(3, 3);
 			ToolStripOther.Name = "ToolStripOther";
 			ToolStripOther.RenderMode = ToolStripRenderMode.System;
@@ -292,6 +294,22 @@
 			// 
 			toolStripSeparator3.Name = "toolStripSeparator3";
 			toolStripSeparator3.Size = new Size(6, 55);
+			// 
+			// BSync
+			// 
+			BSync.Image = Properties.Resources.Fatcow_Farm_Fresh_Update_contact_info_32;
+			BSync.ImageScaling = ToolStripItemImageScaling.None;
+			BSync.ImageTransparentColor = Color.Magenta;
+			BSync.Name = "BSync";
+			BSync.Size = new Size(69, 52);
+			BSync.Text = "&Sincronizar";
+			BSync.TextImageRelation = TextImageRelation.ImageAboveText;
+			BSync.Click += BSync_Click;
+			// 
+			// toolStripSeparator5
+			// 
+			toolStripSeparator5.Name = "toolStripSeparator5";
+			toolStripSeparator5.Size = new Size(6, 55);
 			// 
 			// BQueries
 			// 
@@ -418,5 +436,7 @@
 		private ToolStripButton BQueries;
 		private ToolStripSeparator toolStripSeparator4;
 		private ToolStripButton BEventLog;
+		private ToolStripButton BSync;
+		private ToolStripSeparator toolStripSeparator5;
 	}
 }

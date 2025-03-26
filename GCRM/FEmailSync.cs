@@ -58,7 +58,7 @@ namespace GCRM
 			return await VCardClient.SendAsync(request);
 		}
 
-		private async void BSync_Click(object sender, EventArgs e)
+		public async void BSync_Click(object sender, EventArgs e)
 		{
 			if (ValidateInput() == false)
 			{

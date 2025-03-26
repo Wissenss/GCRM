@@ -44,6 +44,10 @@ namespace Business
 		public string Username;
 		public string PasswordHash;
 		public List<TUserPermission> Permissions;
+		public bool CardDavSyncEnabled;
+		public string CardDavURL;
+		public string CardDavUsername;
+		public string CardDavPassword;
 
 		public void FillFromReader(DbDataReader reader)
 		{
@@ -51,6 +55,10 @@ namespace Business
 			Name = reader.GetString(1);
 			Username = reader.GetString(2);
 			PasswordHash = reader.GetString(3);
+			CardDavSyncEnabled = reader.GetBoolean(4);
+			CardDavURL = reader.GetString(5);
+			CardDavUsername = reader.GetString(6);
+			CardDavPassword = reader.GetString(7);
 		}
 
 		public bool HasPermission(string permission_name)
@@ -341,11 +349,40 @@ namespace Business
 
 			if (is_update)
 			{
-				sql = "UPDATE users SET name=@name, username=@username, password_hash=@password_hash WHERE id=@id;";
+				sql = @"
+					UPDATE 
+						users 
+					SET 
+						name=@name, 
+						username=@username, 
+						password_hash=@password_hash, 
+						carddav_sync_enabled=@carddav_sync_enabled,
+						carddav_url=@carddav_url,		
+						carddav_username=@carddav_username,
+						carddav_password=@carddav_password
+					WHERE 
+						id=@id;";
 			}
 			else
 			{
-				sql = "INSERT INTO users(name, username, password_hash) VALUES(@name, @username, @password_hash);";
+				sql = @"
+					INSERT INTO users(
+						name, 
+						username, 
+						password_hash,
+						carddav_sync_enabled,
+						carddav_url,		
+						carddav_username,
+						carddav_password
+					) VALUES(
+						@name, 
+						@username, 
+						@password_hash,
+						@carddav_sync_enabled,
+						@carddav_url,		
+						@carddav_username,
+						@carddav_password
+					);";
 			}
 
 			using (var cmd = new NpgsqlCommand(sql, conn, tran))
@@ -354,6 +391,10 @@ namespace Business
 				cmd.Parameters.AddWithValue("@name", user.Name);
 				cmd.Parameters.AddWithValue("@username", user.Username);
 				cmd.Parameters.AddWithValue("@password_hash", user.PasswordHash);
+				cmd.Parameters.AddWithValue("carddav_sync_enabled", user.CardDavSyncEnabled);
+				cmd.Parameters.AddWithValue("carddav_url", user.CardDavURL);		
+				cmd.Parameters.AddWithValue("carddav_username", user.CardDavUsername);
+				cmd.Parameters.AddWithValue("carddav_password", user.CardDavPassword);
 
 				cmd.ExecuteNonQuery();
 

@@ -98,6 +98,8 @@ namespace GCRM
 				BSettings.Visible = Session.HasPermission("Settings.Consultar");
 
 				BQueries.Visible = Session.HasPermission("Queries.Run");
+
+				BSync.Enabled = Session.User.CardDavSyncEnabled;
 			}
 		}
 
@@ -185,9 +187,26 @@ namespace GCRM
 
 		private void BEventLog_Click(object sender, EventArgs e)
 		{
-			using(FEventLog event_log_dlg = new FEventLog())
+			using (FEventLog event_log_dlg = new FEventLog())
 			{
 				event_log_dlg.ShowDialog();
+			}
+		}
+
+		private async void BSync_Click(object sender, EventArgs e)
+		{
+			if (Utilities.ShowConfirmDialog("¿Está seguro que desea sincronizar los contactos?") != DialogResult.Yes)
+			{
+				return;
+			}
+
+			using (FEmailSync email_sync_dlg = new FEmailSync())
+			{
+				email_sync_dlg.TextBoxCardDavURL.Text = Session.User.CardDavURL;
+				email_sync_dlg.TextBoxUsername.Text = Session.User.CardDavUsername;
+				email_sync_dlg.TextBoxPassword.Text = Session.User.CardDavPassword;
+
+				email_sync_dlg.BSync_Click(this, null);
 			}
 		}
 	}

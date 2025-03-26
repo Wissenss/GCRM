@@ -123,7 +123,7 @@
 			Controls.Add(TextBoxCardDavURL);
 			Controls.Add(LCardDavURL);
 			Name = "FEmailSync";
-			Text = "Syncronizar Email";
+			Text = "Sincronizar Email";
 			ResumeLayout(false);
 			PerformLayout();
 		}
@@ -131,12 +131,12 @@
 		#endregion
 
 		private Label LCardDavURL;
-		private TextBox TextBoxCardDavURL;
 		public Button BCancel;
 		public Button BSync;
 		private Label LUser;
 		private Label LPassword;
-		private TextBox TextBoxUsername;
-		private TextBox TextBoxPassword;
+		public TextBox TextBoxCardDavURL;
+		public TextBox TextBoxUsername;
+		public TextBox TextBoxPassword;
 	}
 }
