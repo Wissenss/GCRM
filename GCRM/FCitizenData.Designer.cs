@@ -32,6 +32,8 @@
 			BCancel = new Button();
 			TabControlCitizen = new TabControl();
 			tabPage1 = new TabPage();
+			LCategory = new Label();
+			ComboBoxCategory = new ComboBox();
 			MaskedTextBoxCURP = new MaskedTextBox();
 			LMaternalName = new Label();
 			TextBoxMaternalName = new TextBox();
@@ -100,8 +102,6 @@
 			LVoterOCR = new Label();
 			VoterCode = new TextBox();
 			LElectorCode = new Label();
-			ComboBoxCategory = new ComboBox();
-			LCategory = new Label();
 			TabControlCitizen.SuspendLayout();
 			tabPage1.SuspendLayout();
 			tabPage2.SuspendLayout();
@@ -180,6 +180,24 @@
 			tabPage1.TabIndex = 0;
 			tabPage1.Text = "General";
 			tabPage1.UseVisualStyleBackColor = true;
+			// 
+			// LCategory
+			// 
+			LCategory.AutoSize = true;
+			LCategory.Location = new Point(7, 38);
+			LCategory.Name = "LCategory";
+			LCategory.Size = new Size(58, 15);
+			LCategory.TabIndex = 41;
+			LCategory.Text = "Categoría";
+			// 
+			// ComboBoxCategory
+			// 
+			ComboBoxCategory.DropDownStyle = ComboBoxStyle.DropDownList;
+			ComboBoxCategory.FormattingEnabled = true;
+			ComboBoxCategory.Location = new Point(79, 35);
+			ComboBoxCategory.Name = "ComboBoxCategory";
+			ComboBoxCategory.Size = new Size(308, 23);
+			ComboBoxCategory.TabIndex = 40;
 			// 
 			// MaskedTextBoxCURP
 			// 
@@ -368,7 +386,7 @@
 			tabPage2.Location = new Point(4, 24);
 			tabPage2.Name = "tabPage2";
 			tabPage2.Padding = new Padding(3);
-			tabPage2.Size = new Size(396, 283);
+			tabPage2.Size = new Size(396, 313);
 			tabPage2.TabIndex = 1;
 			tabPage2.Text = "Contacto";
 			tabPage2.UseVisualStyleBackColor = true;
@@ -511,7 +529,7 @@
 			TabAddress.Location = new Point(4, 24);
 			TabAddress.Name = "TabAddress";
 			TabAddress.Padding = new Padding(3);
-			TabAddress.Size = new Size(396, 283);
+			TabAddress.Size = new Size(396, 313);
 			TabAddress.TabIndex = 3;
 			TabAddress.Text = "Dirección";
 			TabAddress.UseVisualStyleBackColor = true;
@@ -567,6 +585,7 @@
 			TextBoxCity.Name = "TextBoxCity";
 			TextBoxCity.Size = new Size(105, 23);
 			TextBoxCity.TabIndex = 3;
+			TextBoxCity.Text = "Aguascalientes";
 			// 
 			// LCity
 			// 
@@ -583,6 +602,7 @@
 			TextBoxState.Name = "TextBoxState";
 			TextBoxState.Size = new Size(105, 23);
 			TextBoxState.TabIndex = 4;
+			TextBoxState.Text = "Aguascalientes";
 			// 
 			// LState
 			// 
@@ -668,7 +688,7 @@
 			TabRol.Location = new Point(4, 24);
 			TabRol.Name = "TabRol";
 			TabRol.Padding = new Padding(3);
-			TabRol.Size = new Size(396, 283);
+			TabRol.Size = new Size(396, 313);
 			TabRol.TabIndex = 2;
 			TabRol.Text = "Cargo";
 			TabRol.UseVisualStyleBackColor = true;
@@ -748,7 +768,7 @@
 			TabElectoral.Location = new Point(4, 24);
 			TabElectoral.Name = "TabElectoral";
 			TabElectoral.Padding = new Padding(3);
-			TabElectoral.Size = new Size(396, 283);
+			TabElectoral.Size = new Size(396, 313);
 			TabElectoral.TabIndex = 4;
 			TabElectoral.Text = "Electoral";
 			TabElectoral.UseVisualStyleBackColor = true;
@@ -826,24 +846,6 @@
 			LElectorCode.Size = new Size(91, 15);
 			LElectorCode.TabIndex = 0;
 			LElectorCode.Text = "Clave de elector";
-			// 
-			// ComboBoxCategory
-			// 
-			ComboBoxCategory.DropDownStyle = ComboBoxStyle.DropDownList;
-			ComboBoxCategory.FormattingEnabled = true;
-			ComboBoxCategory.Location = new Point(79, 35);
-			ComboBoxCategory.Name = "ComboBoxCategory";
-			ComboBoxCategory.Size = new Size(308, 23);
-			ComboBoxCategory.TabIndex = 40;
-			// 
-			// LCategory
-			// 
-			LCategory.AutoSize = true;
-			LCategory.Location = new Point(7, 38);
-			LCategory.Name = "LCategory";
-			LCategory.Size = new Size(58, 15);
-			LCategory.TabIndex = 41;
-			LCategory.Text = "Categoría";
 			// 
 			// FCitizenData
 			// 
