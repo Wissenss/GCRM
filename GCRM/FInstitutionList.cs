@@ -336,5 +336,10 @@ namespace GCRM
 				FilterList();
 			}
 		}
+
+		private void FInstitutionList_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			Catalogs.DTInstitutions.DefaultView.RowFilter = "";
+		}
 	}
 }

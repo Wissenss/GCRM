@@ -50,14 +50,6 @@
 			BCategories = new ToolStripButton();
 			BSearch = new ToolStripButton();
 			DataGridInstitutions = new DataGridView();
-			SplitContainer = new SplitContainer();
-			TreeView = new TreeView();
-			TextBoxSearch = new TextBox();
-			PanelSearch = new Panel();
-			SaveFileDialog = new SaveFileDialog();
-			StatusStrip = new StatusStrip();
-			TSSLRecordCount = new ToolStripStatusLabel();
-			TSSLFilters = new ToolStripStatusLabel();
 			colId = new DataGridViewTextBoxColumn();
 			colName = new DataGridViewTextBoxColumn();
 			colAcronym = new DataGridViewTextBoxColumn();
@@ -67,6 +59,14 @@
 			colCategoryName = new DataGridViewTextBoxColumn();
 			colDescription = new DataGridViewTextBoxColumn();
 			colParentInstitutionId = new DataGridViewTextBoxColumn();
+			SplitContainer = new SplitContainer();
+			TreeView = new TreeView();
+			TextBoxSearch = new TextBox();
+			PanelSearch = new Panel();
+			SaveFileDialog = new SaveFileDialog();
+			StatusStrip = new StatusStrip();
+			TSSLRecordCount = new ToolStripStatusLabel();
+			TSSLFilters = new ToolStripStatusLabel();
 			ToolStrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)DataGridInstitutions).BeginInit();
 			((System.ComponentModel.ISupportInitialize)SplitContainer).BeginInit();
@@ -292,78 +292,6 @@
 			DataGridInstitutions.StandardTab = true;
 			DataGridInstitutions.TabIndex = 3;
 			// 
-			// SplitContainer
-			// 
-			SplitContainer.Dock = DockStyle.Fill;
-			SplitContainer.Location = new Point(0, 79);
-			SplitContainer.Name = "SplitContainer";
-			// 
-			// SplitContainer.Panel1
-			// 
-			SplitContainer.Panel1.Controls.Add(DataGridInstitutions);
-			// 
-			// SplitContainer.Panel2
-			// 
-			SplitContainer.Panel2.Controls.Add(TreeView);
-			SplitContainer.Panel2Collapsed = true;
-			SplitContainer.Size = new Size(877, 381);
-			SplitContainer.SplitterDistance = 506;
-			SplitContainer.TabIndex = 4;
-			// 
-			// TreeView
-			// 
-			TreeView.BackColor = SystemColors.Control;
-			TreeView.BorderStyle = BorderStyle.None;
-			TreeView.Dock = DockStyle.Fill;
-			TreeView.Location = new Point(0, 0);
-			TreeView.Name = "TreeView";
-			TreeView.Size = new Size(96, 100);
-			TreeView.TabIndex = 0;
-			// 
-			// TextBoxSearch
-			// 
-			TextBoxSearch.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-			TextBoxSearch.Location = new Point(8, 8);
-			TextBoxSearch.Name = "TextBoxSearch";
-			TextBoxSearch.PlaceholderText = "Ingrese el texto a buscar...";
-			TextBoxSearch.Size = new Size(1562, 23);
-			TextBoxSearch.TabIndex = 1;
-			TextBoxSearch.TextChanged += TextBoxSearch_TextChanged;
-			// 
-			// PanelSearch
-			// 
-			PanelSearch.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-			PanelSearch.Controls.Add(TextBoxSearch);
-			PanelSearch.Dock = DockStyle.Top;
-			PanelSearch.Location = new Point(0, 40);
-			PanelSearch.Name = "PanelSearch";
-			PanelSearch.Size = new Size(877, 39);
-			PanelSearch.TabIndex = 7;
-			PanelSearch.Visible = false;
-			// 
-			// StatusStrip
-			// 
-			StatusStrip.Items.AddRange(new ToolStripItem[] { TSSLRecordCount, TSSLFilters });
-			StatusStrip.Location = new Point(0, 460);
-			StatusStrip.Name = "StatusStrip";
-			StatusStrip.Size = new Size(877, 22);
-			StatusStrip.TabIndex = 4;
-			StatusStrip.Text = "statusStrip1";
-			// 
-			// TSSLRecordCount
-			// 
-			TSSLRecordCount.Font = new Font("Segoe UI Variable Small Light", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-			TSSLRecordCount.Name = "TSSLRecordCount";
-			TSSLRecordCount.Size = new Size(78, 17);
-			TSSLRecordCount.Text = "Registros: 274";
-			// 
-			// TSSLFilters
-			// 
-			TSSLFilters.Font = new Font("Segoe UI Variable Small Light", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-			TSSLFilters.Name = "TSSLFilters";
-			TSSLFilters.Size = new Size(147, 17);
-			TSSLFilters.Text = "     Filtros: Sexo = Masculino";
-			// 
 			// colId
 			// 
 			colId.DataPropertyName = "id";
@@ -447,6 +375,78 @@
 			colParentInstitutionId.ReadOnly = true;
 			colParentInstitutionId.Visible = false;
 			// 
+			// SplitContainer
+			// 
+			SplitContainer.Dock = DockStyle.Fill;
+			SplitContainer.Location = new Point(0, 79);
+			SplitContainer.Name = "SplitContainer";
+			// 
+			// SplitContainer.Panel1
+			// 
+			SplitContainer.Panel1.Controls.Add(DataGridInstitutions);
+			// 
+			// SplitContainer.Panel2
+			// 
+			SplitContainer.Panel2.Controls.Add(TreeView);
+			SplitContainer.Panel2Collapsed = true;
+			SplitContainer.Size = new Size(877, 381);
+			SplitContainer.SplitterDistance = 506;
+			SplitContainer.TabIndex = 4;
+			// 
+			// TreeView
+			// 
+			TreeView.BackColor = SystemColors.Control;
+			TreeView.BorderStyle = BorderStyle.None;
+			TreeView.Dock = DockStyle.Fill;
+			TreeView.Location = new Point(0, 0);
+			TreeView.Name = "TreeView";
+			TreeView.Size = new Size(96, 100);
+			TreeView.TabIndex = 0;
+			// 
+			// TextBoxSearch
+			// 
+			TextBoxSearch.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+			TextBoxSearch.Location = new Point(8, 8);
+			TextBoxSearch.Name = "TextBoxSearch";
+			TextBoxSearch.PlaceholderText = "Ingrese el texto a buscar...";
+			TextBoxSearch.Size = new Size(1562, 23);
+			TextBoxSearch.TabIndex = 1;
+			TextBoxSearch.TextChanged += TextBoxSearch_TextChanged;
+			// 
+			// PanelSearch
+			// 
+			PanelSearch.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+			PanelSearch.Controls.Add(TextBoxSearch);
+			PanelSearch.Dock = DockStyle.Top;
+			PanelSearch.Location = new Point(0, 40);
+			PanelSearch.Name = "PanelSearch";
+			PanelSearch.Size = new Size(877, 39);
+			PanelSearch.TabIndex = 7;
+			PanelSearch.Visible = false;
+			// 
+			// StatusStrip
+			// 
+			StatusStrip.Items.AddRange(new ToolStripItem[] { TSSLRecordCount, TSSLFilters });
+			StatusStrip.Location = new Point(0, 460);
+			StatusStrip.Name = "StatusStrip";
+			StatusStrip.Size = new Size(877, 22);
+			StatusStrip.TabIndex = 4;
+			StatusStrip.Text = "statusStrip1";
+			// 
+			// TSSLRecordCount
+			// 
+			TSSLRecordCount.Font = new Font("Segoe UI Variable Small Light", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+			TSSLRecordCount.Name = "TSSLRecordCount";
+			TSSLRecordCount.Size = new Size(78, 17);
+			TSSLRecordCount.Text = "Registros: 274";
+			// 
+			// TSSLFilters
+			// 
+			TSSLFilters.Font = new Font("Segoe UI Variable Small Light", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+			TSSLFilters.Name = "TSSLFilters";
+			TSSLFilters.Size = new Size(147, 17);
+			TSSLFilters.Text = "     Filtros: Sexo = Masculino";
+			// 
 			// FInstitutionList
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
@@ -460,6 +460,7 @@
 			Name = "FInstitutionList";
 			ShowIcon = false;
 			Text = "Instituciones";
+			FormClosed += FInstitutionList_FormClosed;
 			Load += FInstitutionList_Load;
 			Leave += FInstitutionList_Leave;
 			ToolStrip.ResumeLayout(false);
