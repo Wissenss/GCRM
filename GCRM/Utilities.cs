@@ -489,4 +489,178 @@ namespace GCRM
 			Utilities.ShowErrorDialog(response.message, response.code);
 		}
 	}
+
+	public static class SevenZipUtilities
+	{
+		private static string zip_exe;
+
+		static SevenZipUtilities()
+		{
+			zip_exe = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Libs\\7za.exe");	
+		}
+
+		public static async Task<string> UnzipFile(string zip_file, string output_directory)
+		{
+			if (Directory.Exists(output_directory) == false)
+				Directory.CreateDirectory(output_directory);
+
+			ProcessStartInfo start_info = new ProcessStartInfo()
+			{
+				FileName = zip_exe,
+				Arguments = $"x \"{zip_file}\" -o\"{output_directory}\" -y",
+				UseShellExecute = false,
+				RedirectStandardOutput = true,
+				CreateNoWindow = true,
+			};
+
+			Process process = new Process()
+			{
+				StartInfo = start_info,
+			};
+
+			process.Start();
+			process.WaitForExitAsync();
+
+			return "";
+		}
+	}
+
+  public static class  GithubUtilities
+  {
+		public class GithubAsset
+		{
+			public string url { get; set; }
+			public int id { get; set; }
+			public string node_id { get; set; }
+			public string name { get; set; }
+			public object label { get; set; }
+			public GithubUploader uploader { get; set; }
+			public string content_type { get; set; }
+			public string state { get; set; }
+			public int size { get; set; }
+			public int download_count { get; set; }
+			public DateTime created_at { get; set; }
+			public DateTime updated_at { get; set; }
+			public string browser_download_url { get; set; }
+		}
+
+		public class GithubAuthor
+		{
+			public string login { get; set; }
+			public int id { get; set; }
+			public string node_id { get; set; }
+			public string avatar_url { get; set; }
+			public string gravatar_id { get; set; }
+			public string url { get; set; }
+			public string html_url { get; set; }
+			public string followers_url { get; set; }
+			public string following_url { get; set; }
+			public string gists_url { get; set; }
+			public string starred_url { get; set; }
+			public string subscriptions_url { get; set; }
+			public string organizations_url { get; set; }
+			public string repos_url { get; set; }
+			public string events_url { get; set; }
+			public string received_events_url { get; set; }
+			public string type { get; set; }
+			public string user_view_type { get; set; }
+			public bool site_admin { get; set; }
+		}
+
+		public class GithubRelease
+		{
+			public string url { get; set; }
+			public string assets_url { get; set; }
+			public string upload_url { get; set; }
+			public string html_url { get; set; }
+			public int id { get; set; }
+			public GithubAuthor author { get; set; }
+			public string node_id { get; set; }
+			public string tag_name { get; set; }
+			public string target_commitish { get; set; }
+			public string name { get; set; }
+			public bool draft { get; set; }
+			public bool prerelease { get; set; }
+			public DateTime created_at { get; set; }
+			public DateTime published_at { get; set; }
+			public List<GithubAsset> assets { get; set; }
+			public string tarball_url { get; set; }
+			public string zipball_url { get; set; }
+			public string body { get; set; }
+		}
+
+		public class GithubUploader
+		{
+			public string login { get; set; }
+			public int id { get; set; }
+			public string node_id { get; set; }
+			public string avatar_url { get; set; }
+			public string gravatar_id { get; set; }
+			public string url { get; set; }
+			public string html_url { get; set; }
+			public string followers_url { get; set; }
+			public string following_url { get; set; }
+			public string gists_url { get; set; }
+			public string starred_url { get; set; }
+			public string subscriptions_url { get; set; }
+			public string organizations_url { get; set; }
+			public string repos_url { get; set; }
+			public string events_url { get; set; }
+			public string received_events_url { get; set; }
+			public string type { get; set; }
+			public string user_view_type { get; set; }
+			public bool site_admin { get; set; }
+		}
+	
+		public static async Task<GithubRelease> GetLatestRelease()
+		{
+			using (HttpClient client = new HttpClient())
+			{
+				client.DefaultRequestHeaders.UserAgent.ParseAdd($"GCRM/{Utilities.GetProductVersion()}");
+
+				var response = await client.GetAsync("https://api.github.com/repos/Wissenss/GCRM/releases/latest");
+
+				response.EnsureSuccessStatusCode();
+
+				string raw_json = await response.Content.ReadAsStringAsync();
+
+				GithubRelease release = JsonSerializer.Deserialize<GithubRelease>(raw_json);
+
+				return release;
+			}
+		}
+
+		public static async Task<string> DownloadLatestRelease(TOperatingSystem os, string output_file)
+		{
+			GithubRelease release = await GetLatestRelease();
+			GithubAsset asset = null;
+
+			if (os == TOperatingSystem.WindowsX64)
+				asset = release.assets.Find(a => a.name.EndsWith("x64.7z"));
+
+			if (os == TOperatingSystem.WindowsX86)
+				asset = release.assets.Find(a => a.name.EndsWith("x86.7z"));
+
+			if (asset == null)
+				throw new Exception("No known version found for the target operating system.");
+
+			if (Directory.Exists(Path.GetDirectoryName(output_file)) == false)
+				Directory.CreateDirectory(Path.GetDirectoryName(output_file));
+
+			using (HttpClient client = new HttpClient())
+			{
+				client.DefaultRequestHeaders.UserAgent.ParseAdd($"GCRM/{Utilities.GetProductVersion()}");
+
+				using (var s = await client.GetStreamAsync(asset.browser_download_url))
+				{
+					using (var fs = new FileStream(output_file, FileMode.Create))
+					{
+						await s.CopyToAsync(fs);
+					}
+				}
+			}
+			
+			return "";
+		}
+	}
 }

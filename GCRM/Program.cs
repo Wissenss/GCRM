@@ -21,7 +21,7 @@ namespace GCRM
 			Application.SetCompatibleTextRenderingDefault(false);
 			Application.SetHighDpiMode(HighDpiMode.SystemAware);
 
-			Application.Run(new FLogin());
+			Application.Run(new FSplashScreen());
 		}
 
 		static void SetLogger()

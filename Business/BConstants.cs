@@ -60,6 +60,12 @@ namespace Business
 		Female = 2,
 	}
 
+	public enum TOperatingSystem
+	{
+		WindowsX64,
+		WindowsX86,
+	}
+
 	public abstract class TEntity()
 	{
 		public abstract string GetAsLogString();

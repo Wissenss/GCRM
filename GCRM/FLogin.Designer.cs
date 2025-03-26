@@ -123,7 +123,6 @@
 			Name = "FLogin";
 			StartPosition = FormStartPosition.CenterScreen;
 			Text = "Iniciar Sesión";
-			Load += FLogin_Load;
 			ResumeLayout(false);
 			PerformLayout();
 		}
