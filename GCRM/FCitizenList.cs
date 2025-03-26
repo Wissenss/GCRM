@@ -425,7 +425,7 @@ namespace GCRM
 			{
 				string search = TextBoxSearch.Text.Trim();
 
-				filter += $" and (name_full like '%{search}%' OR title_name like '%{search}%' OR curp like '%{search}%' OR political_party_name like '%{search}%' OR institution_name like '%{search}%' OR institution_category_name like '%{search}%' OR institution_sector_name like '%{search}%')";
+				filter += $" and (name_full like '%{search}%' OR title_name like '%{search}%' OR curp like '%{search}%' OR political_party_name like '%{search}%' OR institution_name like '%{search}%' OR institution_category_name like '%{search}%' OR institution_sector_name like '%{search}%' OR institution_role_name like '%{search}%')";
 			}
 
 			if (FiltersDlg.FilterSex)
