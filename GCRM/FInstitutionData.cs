@@ -12,12 +12,11 @@ namespace GCRM
 		DataSet DSInstitution;
 		DataTable DTInstitutionRoles;
 		DataTable DTInstitutions;
+		DataTable DTInstitutionCategories;
 
 		public FInstitutionData()
 		{
 			InitializeComponent();
-
-			Catalogs.LoadDTInstitutionCategories();
 
 			// configure the roles grid
 			DSInstitution = new DataSet();
@@ -40,13 +39,18 @@ namespace GCRM
 			DataGridInstitutionRoles.DataMember = "DTInstitutionRoles";
 			DataGridInstitutionRoles.Columns["colId"].Visible = false;
 
+			DTInstitutionCategories = new DataTable("DTInstitutionCategories");
+			DTInstitutionCategories.Columns.Add("id", typeof(int));
+			DTInstitutionCategories.Columns.Add("name", typeof(string));
+			DSInstitution.Tables.Add(DTInstitutionCategories);
+
 			// configure the sectors combo box
 			ComboBoxSocietySector.DataSource = Catalogs.DTSocietySector;
 			ComboBoxSocietySector.ValueMember = "value";
 			ComboBoxSocietySector.DisplayMember = "text";
 
 			// configure the categories combo box
-			ComboBoxCategory.DataSource = Catalogs.DTInstitutionCategories;
+			ComboBoxCategory.DataSource = DTInstitutionCategories;
 			ComboBoxCategory.ValueMember = "id";
 			ComboBoxCategory.DisplayMember = "name";
 
@@ -56,6 +60,7 @@ namespace GCRM
 			ComboBoxParentInstitution.DisplayMember = "name";
 
 			LoadInstitutions();
+			LoadInstitutionCategories();
 		}
 
 		public void SetAccessMode(FAccessMode mode)
@@ -116,6 +121,10 @@ namespace GCRM
 				}
 
 				DTInstitutionRoles.EndLoadData();
+
+				LoadInstitutions();
+
+				Text = $"Institutción: {institution.Name}";
 			}
 		}
 
@@ -159,6 +168,49 @@ namespace GCRM
 				}
 
 				DTInstitutions.EndLoadData();
+			}
+		}
+
+		private void LoadInstitutionCategories()
+		{
+			using (new CursorWait())
+			{
+				List<TInstitutionCategory> category_list;
+
+				Error error = InstitutionsHandler.GetInstitutionCategories(out category_list);
+
+				if (error != 0)
+				{
+					Utilities.ShowErrorDialog(error);
+					return;
+				}
+
+				category_list.Insert(0, new TInstitutionCategory()
+				{
+					Id = 0,
+					Name = "Ninguna",
+					Description = ""
+				});
+
+				DTInstitutionCategories.BeginLoadData();
+				DTInstitutionCategories.Clear();
+
+				foreach (TInstitutionCategory category in category_list)
+				{
+					DataRow row = DTInstitutionCategories.NewRow();
+
+					row["id"] = category.Id;
+					row["name"] = category.Name;
+
+					DTInstitutionCategories.Rows.Add(row);
+				}
+
+				DTInstitutionCategories.EndLoadData();
+
+				ComboBoxCategory.DataSource = DTInstitutionCategories;
+				ComboBoxCategory.ValueMember = "id";
+				ComboBoxCategory.DisplayMember = "name";
+				ComboBoxCategory.SelectedIndex = 0;
 			}
 		}
 

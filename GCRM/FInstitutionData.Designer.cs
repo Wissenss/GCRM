@@ -28,11 +28,13 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-			DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+			DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+			DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
 			BCancel = new Button();
 			BAccept = new Button();
 			TabGeneral = new TabPage();
+			LAcronym = new Label();
+			TextBoxAcronym = new TextBox();
 			ComboBoxCategory = new ComboBox();
 			ComboBoxParentInstitution = new ComboBox();
 			LParentInstitution = new Label();
@@ -54,8 +56,6 @@
 			toolStrip1 = new ToolStrip();
 			BAddRole = new ToolStripButton();
 			BEditRole = new ToolStripButton();
-			LAcronym = new Label();
-			TextBoxAcronym = new TextBox();
 			TabGeneral.SuspendLayout();
 			TabControlInstitution.SuspendLayout();
 			TabPositions.SuspendLayout();
@@ -107,13 +107,30 @@
 			TabGeneral.Text = "General";
 			TabGeneral.UseVisualStyleBackColor = true;
 			// 
+			// LAcronym
+			// 
+			LAcronym.AutoSize = true;
+			LAcronym.Location = new Point(7, 132);
+			LAcronym.Name = "LAcronym";
+			LAcronym.Size = new Size(60, 15);
+			LAcronym.TabIndex = 16;
+			LAcronym.Text = "Acrónimo";
+			// 
+			// TextBoxAcronym
+			// 
+			TextBoxAcronym.Location = new Point(82, 129);
+			TextBoxAcronym.Name = "TextBoxAcronym";
+			TextBoxAcronym.Size = new Size(143, 23);
+			TextBoxAcronym.TabIndex = 4;
+			// 
 			// ComboBoxCategory
 			// 
+			ComboBoxCategory.DropDownStyle = ComboBoxStyle.DropDownList;
 			ComboBoxCategory.FormattingEnabled = true;
 			ComboBoxCategory.Location = new Point(82, 43);
 			ComboBoxCategory.Name = "ComboBoxCategory";
 			ComboBoxCategory.Size = new Size(143, 23);
-			ComboBoxCategory.TabIndex = 14;
+			ComboBoxCategory.TabIndex = 1;
 			// 
 			// ComboBoxParentInstitution
 			// 
@@ -123,7 +140,7 @@
 			ComboBoxParentInstitution.Location = new Point(82, 72);
 			ComboBoxParentInstitution.Name = "ComboBoxParentInstitution";
 			ComboBoxParentInstitution.Size = new Size(295, 23);
-			ComboBoxParentInstitution.TabIndex = 12;
+			ComboBoxParentInstitution.TabIndex = 2;
 			// 
 			// LParentInstitution
 			// 
@@ -158,7 +175,7 @@
 			TextBoxDescription.Multiline = true;
 			TextBoxDescription.Name = "TextBoxDescription";
 			TextBoxDescription.Size = new Size(295, 69);
-			TextBoxDescription.TabIndex = 3;
+			TextBoxDescription.TabIndex = 5;
 			// 
 			// ComboBoxSocietySector
 			// 
@@ -193,7 +210,7 @@
 			TextBoxName.Location = new Point(82, 100);
 			TextBoxName.Name = "TextBoxName";
 			TextBoxName.Size = new Size(295, 23);
-			TextBoxName.TabIndex = 2;
+			TextBoxName.TabIndex = 3;
 			// 
 			// TabControlInstitution
 			// 
@@ -229,24 +246,24 @@
 			DataGridInstitutionRoles.BorderStyle = BorderStyle.None;
 			DataGridInstitutionRoles.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
 			DataGridInstitutionRoles.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
-			dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle5.BackColor = SystemColors.Control;
-			dataGridViewCellStyle5.Font = new Font("Segoe UI", 9F);
-			dataGridViewCellStyle5.ForeColor = SystemColors.WindowText;
-			dataGridViewCellStyle5.SelectionBackColor = SystemColors.Control;
-			dataGridViewCellStyle5.SelectionForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
-			DataGridInstitutionRoles.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+			dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle1.BackColor = SystemColors.Control;
+			dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
+			dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+			dataGridViewCellStyle1.SelectionBackColor = SystemColors.Control;
+			dataGridViewCellStyle1.SelectionForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+			DataGridInstitutionRoles.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
 			DataGridInstitutionRoles.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			DataGridInstitutionRoles.Columns.AddRange(new DataGridViewColumn[] { colId, colName, colInstitutionId, colParentRoleId, colDescription });
-			dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle6.BackColor = SystemColors.Window;
-			dataGridViewCellStyle6.Font = new Font("Segoe UI", 9F);
-			dataGridViewCellStyle6.ForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle6.SelectionBackColor = SystemColors.ControlLight;
-			dataGridViewCellStyle6.SelectionForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
-			DataGridInstitutionRoles.DefaultCellStyle = dataGridViewCellStyle6;
+			dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle2.BackColor = SystemColors.Window;
+			dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+			dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle2.SelectionBackColor = SystemColors.ControlLight;
+			dataGridViewCellStyle2.SelectionForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+			DataGridInstitutionRoles.DefaultCellStyle = dataGridViewCellStyle2;
 			DataGridInstitutionRoles.Dock = DockStyle.Fill;
 			DataGridInstitutionRoles.EnableHeadersVisualStyles = false;
 			DataGridInstitutionRoles.Location = new Point(3, 28);
@@ -334,22 +351,6 @@
 			BEditRole.Size = new Size(41, 22);
 			BEditRole.Text = "&Editar";
 			BEditRole.Click += BEditRole_Click;
-			// 
-			// LAcronym
-			// 
-			LAcronym.AutoSize = true;
-			LAcronym.Location = new Point(7, 132);
-			LAcronym.Name = "LAcronym";
-			LAcronym.Size = new Size(60, 15);
-			LAcronym.TabIndex = 16;
-			LAcronym.Text = "Acrónimo";
-			// 
-			// TextBoxAcronym
-			// 
-			TextBoxAcronym.Location = new Point(82, 129);
-			TextBoxAcronym.Name = "TextBoxAcronym";
-			TextBoxAcronym.Size = new Size(143, 23);
-			TextBoxAcronym.TabIndex = 15;
 			// 
 			// FInstitutionData
 			// 

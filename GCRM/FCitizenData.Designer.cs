@@ -208,7 +208,7 @@
 			ComboBoxCategory.Location = new Point(79, 35);
 			ComboBoxCategory.Name = "ComboBoxCategory";
 			ComboBoxCategory.Size = new Size(308, 23);
-			ComboBoxCategory.TabIndex = 40;
+			ComboBoxCategory.TabIndex = 1;
 			// 
 			// MaskedTextBoxCURP
 			// 
@@ -217,7 +217,7 @@
 			MaskedTextBoxCURP.Name = "MaskedTextBoxCURP";
 			MaskedTextBoxCURP.PromptChar = ' ';
 			MaskedTextBoxCURP.Size = new Size(308, 23);
-			MaskedTextBoxCURP.TabIndex = 6;
+			MaskedTextBoxCURP.TabIndex = 7;
 			// 
 			// LMaternalName
 			// 
@@ -233,7 +233,7 @@
 			TextBoxMaternalName.Location = new Point(79, 122);
 			TextBoxMaternalName.Name = "TextBoxMaternalName";
 			TextBoxMaternalName.Size = new Size(311, 23);
-			TextBoxMaternalName.TabIndex = 3;
+			TextBoxMaternalName.TabIndex = 4;
 			// 
 			// LPaternalName
 			// 
@@ -249,7 +249,7 @@
 			TextBoxPaternalName.Location = new Point(79, 93);
 			TextBoxPaternalName.Name = "TextBoxPaternalName";
 			TextBoxPaternalName.Size = new Size(311, 23);
-			TextBoxPaternalName.TabIndex = 2;
+			TextBoxPaternalName.TabIndex = 3;
 			// 
 			// ComboBoxPoliticalParty
 			// 
@@ -258,7 +258,7 @@
 			ComboBoxPoliticalParty.Location = new Point(79, 282);
 			ComboBoxPoliticalParty.Name = "ComboBoxPoliticalParty";
 			ComboBoxPoliticalParty.Size = new Size(94, 23);
-			ComboBoxPoliticalParty.TabIndex = 8;
+			ComboBoxPoliticalParty.TabIndex = 9;
 			// 
 			// LPoliticalParty
 			// 
@@ -297,7 +297,7 @@
 			TextBoxObservations.Multiline = true;
 			TextBoxObservations.Name = "TextBoxObservations";
 			TextBoxObservations.Size = new Size(308, 67);
-			TextBoxObservations.TabIndex = 7;
+			TextBoxObservations.TabIndex = 8;
 			// 
 			// label1
 			// 
@@ -315,7 +315,7 @@
 			ComboBoxSex.Location = new Point(79, 151);
 			ComboBoxSex.Name = "ComboBoxSex";
 			ComboBoxSex.Size = new Size(78, 23);
-			ComboBoxSex.TabIndex = 4;
+			ComboBoxSex.TabIndex = 5;
 			// 
 			// label2
 			// 
@@ -361,7 +361,7 @@
 			DatePickerBirthday.Location = new Point(248, 151);
 			DatePickerBirthday.Name = "DatePickerBirthday";
 			DatePickerBirthday.Size = new Size(142, 23);
-			DatePickerBirthday.TabIndex = 5;
+			DatePickerBirthday.TabIndex = 6;
 			// 
 			// LName
 			// 
@@ -377,7 +377,7 @@
 			TextBoxName.Location = new Point(79, 64);
 			TextBoxName.Name = "TextBoxName";
 			TextBoxName.Size = new Size(311, 23);
-			TextBoxName.TabIndex = 1;
+			TextBoxName.TabIndex = 2;
 			// 
 			// tabPage2
 			// 
