@@ -86,7 +86,7 @@ namespace GCRM
 			DSCatalogs.Tables.Add(DTInstitutions);
 		}
 
-		public static void LoadAll()
+		public static async void LoadAll()
 		{
 			using (new CursorWait())
 			{

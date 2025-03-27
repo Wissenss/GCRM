@@ -79,12 +79,10 @@ namespace Connection
 			File.WriteAllText(ConnectionFilePath, JSON);
 		}
 
-		public static void LoadSettings()
+		public static async void LoadSettings()
 		{
 			ConnectionFilePath = Path.Join(AppDomain.CurrentDomain.BaseDirectory, "connection.json");
 
-			//Username = "postgres";
-			//Password = "notecreo";
 			Username = "gcrm_client";
 			Password = "m$!g+38ke~v5NrbXKH'^Zu";
 
@@ -113,7 +111,7 @@ namespace Connection
 			Database = FileSettings.Database;
 		}
 	
-		public static bool TestSettings(string host, int port, string database)
+		public static async Task<bool> TestSettings(string host, int port, string database)
 		{
 			try
 			{
@@ -125,7 +123,7 @@ namespace Connection
 
 				NpgsqlDataSource dataSource = builder.Build();
 
-				NpgsqlConnection connection = dataSource.OpenConnection();
+				NpgsqlConnection connection = await dataSource.OpenConnectionAsync();
 				
 				bool connected = connection.State == System.Data.ConnectionState.Open;
 
@@ -140,9 +138,9 @@ namespace Connection
 			return false;
 		}
 
-		public static bool TestSettings()
+		public static async Task<bool> TestSettings()
 		{
-			return TestSettings(Host, Port, Database);
+			return await TestSettings(Host, Port, Database);
 		}
 	}
 }

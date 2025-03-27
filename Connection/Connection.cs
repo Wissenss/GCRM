@@ -12,10 +12,10 @@ namespace Connection
 
 		static ConnectionPool()
 		{
-			Start();
+			//Start();
 		}
 
-		private static void Start(int size = 10)
+		public static async void Start(int size = 10)
 		{
 			__PoolSize = size;
 
@@ -30,7 +30,7 @@ namespace Connection
 
 			for (int i = 0; i < __PoolSize; i++)
 			{
-				__Pool.Add(CreateConnection());
+				__Pool.Add(await CreateConnectionAsync());
 				__PoolObjectAvailable.Add(true);
 			}
 		}
@@ -57,6 +57,15 @@ namespace Connection
 			Start();
 		}
 
+		private static async Task<NpgsqlConnection> CreateConnectionAsync()
+		{
+			NpgsqlDataSourceBuilder builder = new NpgsqlDataSourceBuilder(__ConnectionString);
+			NpgsqlDataSource dataSource = builder.Build();
+			NpgsqlConnection connection = await dataSource.OpenConnectionAsync();
+
+			return connection;
+		}
+
 		private static NpgsqlConnection CreateConnection()
 		{
 			NpgsqlDataSourceBuilder builder = new NpgsqlDataSourceBuilder(__ConnectionString);
@@ -64,6 +73,28 @@ namespace Connection
 			NpgsqlConnection connection = dataSource.OpenConnection();
 
 			return connection;
+		}
+
+		public static async Task<NpgsqlConnection> GetConnectionAsync()
+		{
+			for (int i = 0; i < __Pool.Count; i++)
+			{
+				NpgsqlConnection connection = __Pool[i];
+				bool available = __PoolObjectAvailable[i];
+
+				if (available)
+				{
+					__PoolObjectAvailable[i] = false;
+					return connection;
+				}
+			}
+
+			NpgsqlConnection new_connection = await CreateConnectionAsync();
+
+			__Pool.Add(new_connection);
+			__PoolObjectAvailable.Add(false);
+
+			return new_connection;
 		}
 
 		public static NpgsqlConnection GetConnection()

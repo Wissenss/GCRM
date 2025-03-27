@@ -20,7 +20,7 @@ namespace GCRM
 			InitializeComponent();
 		}
 
-		private bool TestConnection()
+		private async Task<bool> TestConnection()
 		{
 			using (new CursorWait())
 			{
@@ -28,7 +28,7 @@ namespace GCRM
 				int port = (int)NumericPort.Value;
 				string database = TextBoxDatabase.Text.Trim();
 
-				return ConnectionSettings.TestSettings(host, port, database);
+				return await ConnectionSettings.TestSettings(host, port, database);
 			}
 		}
 
@@ -46,9 +46,9 @@ namespace GCRM
 			BCancel.Text = AccessMode == FAccessMode.Update ? "&Cancelar" : "&Cerrar";
 		}
 
-		private void BTest_Click(object sender, EventArgs e)
+		private async void BTest_Click(object sender, EventArgs e)
 		{
-			if (TestConnection())
+			if (await TestConnection())
 			{
 				Utilities.ShowValidationErrorDialog("Conexión exitosa!");
 			}
@@ -58,11 +58,11 @@ namespace GCRM
 			}
 		}
 
-		private void BAccept_Click(object sender, EventArgs e)
+		private async void BAccept_Click(object sender, EventArgs e)
 		{
 			using (new CursorWait())
 			{
-				if (TestConnection() == false)
+				if (await TestConnection() == false)
 				{
 					Utilities.ShowValidationErrorDialog("Conexión fallida, compruebe los parámetros de conexión");
 					return;

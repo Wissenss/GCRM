@@ -19,7 +19,7 @@ namespace GCRM
 		{
 			ConnectionSettings.LoadSettings();
 
-			if (ConnectionSettings.TestSettings() == false)
+			if (await ConnectionSettings.TestSettings() == false)
 			{
 				using (FConnection connection_dlg = new FConnection())
 				{
@@ -31,6 +31,8 @@ namespace GCRM
 					}
 				}
 			}
+
+			ConnectionPool.Start();
 
 			return true;
 		}
@@ -110,7 +112,7 @@ namespace GCRM
 
 		private async void FSplashScreen_Shown(object sender, EventArgs e)
 		{
-			await Task.Delay(300);
+			await Task.Delay(150);
 
 			LStatus.Text = "Conectando al servidor...";
 
