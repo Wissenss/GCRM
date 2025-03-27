@@ -223,7 +223,7 @@ namespace Business
 			var conn = ConnectionPool.GetConnection();
 
 			// check there is no citizen with this institution
-			using (var cmd = new NpgsqlCommand("SELECT * FROM citizens WHERE institution_id = @id;", conn))
+			using (var cmd = new NpgsqlCommand("SELECT * FROM citizens WHERE institution_id = @id OR institution2_id = @id OR institution3_id = @id;", conn))
 			{
 				cmd.Parameters.AddWithValue("@id", id);
 

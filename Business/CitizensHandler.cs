@@ -38,7 +38,11 @@ namespace Business
 		public string Email;
 		public TPoliticalParty PoliticalParty;
 		public TInstitution Institution = new TInstitution();
+		public TInstitution Institution2 = new TInstitution();
+		public TInstitution Institution3 = new TInstitution();
 		public TInstitutionRole Role = new TInstitutionRole();
+		public TInstitutionRole Role2 = new TInstitutionRole();
+		public TInstitutionRole Role3 = new TInstitutionRole();
 		public TUser Author = new TUser();
 		public DateTime CreatedDate;
 		public TUser LastEditor = new TUser();	
@@ -107,6 +111,10 @@ namespace Business
 			VoterCIC = reader.GetString(24);
 			VoterSection = reader.GetString(25);
 			Category.Id = reader.GetInt32(26);
+			Institution2.Id = reader.GetInt32(27);
+			Role2.Id = reader.GetInt32(28);
+			Institution3.Id = reader.GetInt32(29);
+			Role3.Id = reader.GetInt32(30);
 		}
 	
 		public override string GetAsLogString()
@@ -167,39 +175,29 @@ namespace Business
 
 						citizen.FillFromReader(reader);
 
-						if (citizen.Assistant.Id != 0)
-						{
+						if (error == 0 && citizen.Assistant.Id != 0)
 							error = GetCitizenAssistantById(citizen.Assistant.Id, out citizen.Assistant);
-						}
 
-						if (error == 0)
-						{
+						if (error == 0 && citizen.Address.Id != 0)
 							error = AddressesHandler.GetAddressById(citizen.Address.Id, out citizen.Address);
-						}
 
-						if (error == 0)
-						{
-							if (citizen.Institution.Id != 0)
-							{
-								error = InstitutionsHandler.GetInstitutionById(citizen.Institution.Id, out citizen.Institution);
-							}
-							else
-							{
-								citizen.Institution = new TInstitution();
-							}
-						}
+						if (error == 0 && citizen.Institution.Id != 0)
+							error = InstitutionsHandler.GetInstitutionById(citizen.Institution.Id, out citizen.Institution);
 
-						if (error == 0)
-						{
-							if (citizen.Role.Id != 0)
-							{
-								error = InstitutionsHandler.GetInstitutionRoleById(citizen.Role.Id, out citizen.Role);
-							}
-							else
-							{
-								citizen.Role = new TInstitutionRole();
-							}
-						}
+						if (error == 0 && citizen.Institution2.Id != 0)
+							error = InstitutionsHandler.GetInstitutionById(citizen.Institution2.Id, out citizen.Institution2);
+
+						if (error == 0 && citizen.Institution3.Id != 0)
+							error = InstitutionsHandler.GetInstitutionById(citizen.Institution3.Id, out citizen.Institution3);
+
+						if (error == 0 && citizen.Role.Id != 0)
+							error = InstitutionsHandler.GetInstitutionRoleById(citizen.Role.Id, out citizen.Role);
+
+						if (error == 0 && citizen.Role2.Id != 0)
+							error = InstitutionsHandler.GetInstitutionRoleById(citizen.Role2.Id, out citizen.Role2);
+
+						if (error == 0 && citizen.Role3.Id != 0)
+							error = InstitutionsHandler.GetInstitutionRoleById(citizen.Role3.Id, out citizen.Role3);
 					}
 					else
 					{
@@ -354,7 +352,11 @@ namespace Business
 								voter_ocr = @voter_ocr,
 								voter_cic = @voter_cic,
 								voter_section = @voter_section,
-								citizen_category_id = @category_id
+								citizen_category_id = @category_id,
+								institution2_id = @institution2_id,
+								institution3_id = @institution3_id,	
+								institution2_role_id = @institution2_role_id,
+								institution3_role_id = @institution3_role_id
 							WHERE
 								id=@id;";
 					}
@@ -387,7 +389,11 @@ namespace Business
 								voter_ocr,
 								voter_cic,
 								voter_section,
-								citizen_category_id
+								citizen_category_id,
+								institution2_id,	
+								institution3_id,
+								institution2_role_id,
+								institution3_role_id
 							)
 							VALUES(
 								@name, 
@@ -415,7 +421,12 @@ namespace Business
 								@voter_ocr,
 								@voter_cic,
 								@voter_section,
-								@category_id)
+								@category_id,
+								@institution2_id,
+								@institution3_id,
+								@institution2_role_id,
+								@institution3_role_id
+							) 
 							RETURNING id;";
 					}
 
@@ -446,6 +457,10 @@ namespace Business
 					cmd.Parameters.AddWithValue("@voter_cic", citizen.VoterCIC);
 					cmd.Parameters.AddWithValue("@voter_section", citizen.VoterSection);
 					cmd.Parameters.AddWithValue("@category_id", citizen.Category.Id);
+					cmd.Parameters.AddWithValue("@institution2_id", citizen.Institution2.Id);
+					cmd.Parameters.AddWithValue("@institution3_id", citizen.Institution3.Id);
+					cmd.Parameters.AddWithValue("@institution2_role_id", citizen.Role2.Id);
+					cmd.Parameters.AddWithValue("@institution3_role_id", citizen.Role3.Id);
 
 					if (is_update)
 					{
@@ -493,7 +508,25 @@ namespace Business
 					c_self.phone_extension as assistant_phone_extension,
 					c_self.cellphone as assistant_cellphone,
 					cc.name as category_name,
-					u2.name as editor_name
+					u2.name as editor_name,
+
+					i2.name as institution2_name,
+					i2.society_sector_type as institution2_society_sector_type,
+					i2.description as institution2_description,
+					i2.category_id as institution2_category_id,
+					ic2.name as institution2_category_name,
+					ic2.description as institution2_category_description,
+					ir2.name as institution2_role_name,
+					ir2.description as institution2_role_description,
+
+					i3.name as institution3_name,	
+					i3.society_sector_type as institution3_society_sector_type,
+					i3.description as institution3_description,
+					i3.category_id as institution3_category_id,
+					ic3.name as institution3_category_name,	
+					ic3.description as institution3_category_description,
+					ir3.name as institution3_role_name,
+					ir3.description as institution3_role_description
 				FROM 
 					citizens c 
 					LEFT JOIN users u ON c.created_by_id = u.id 
@@ -504,6 +537,12 @@ namespace Business
 					LEFT JOIN citizens c_self ON c.assistant_id = c.id
 					LEFT JOIN citizen_categories cc ON c.citizen_category_id = cc.id 
 					LEFT JOIN users u2 ON c.edit_by_id = u2.id
+					LEFT JOIN institutions i2 ON c.institution2_id = i2.id 
+					LEFT JOIN institution_categories ic2 ON i2.category_id = ic2.id
+					LEFT JOIN institution_roles ir2 ON c.institution_role_id = ir2.id
+					LEFT JOIN institutions i3 ON c.institution_id = i3.id 
+					LEFT JOIN institution_categories ic3 ON i3.category_id = ic3.id
+					LEFT JOIN institution_roles ir3 ON c.institution_role_id = ir3.id
 				ORDER BY name, paternal_name, maternal_name;
 			";
 
@@ -518,8 +557,6 @@ namespace Business
 
 					if (citizen.Assistant.Id != 0)
 					{
-						//GetCitizenAssistantById(citizen.Assistant.Id, out citizen.Assistant);
-
 						citizen.Assistant.Name = reader.GetString(reader.GetOrdinal("assistant_name"));
 						citizen.Assistant.Name = reader.GetString(reader.GetOrdinal("assistant_paternal_name"));
 						citizen.Assistant.Name = reader.GetString(reader.GetOrdinal("assistant_maternal_name"));
@@ -530,8 +567,6 @@ namespace Business
 
 					if (citizen.Institution.Id != 0)
 					{
-						//InstitutionsHandler.GetInstitutionById(citizen.Institution.Id, out citizen.Institution);
-
 						citizen.Institution.Name = reader.GetString(reader.GetOrdinal("institution_name"));
 						citizen.Institution.Sector = (TSocietySector)reader.GetInt32(reader.GetOrdinal("institution_society_sector_type"));
 						citizen.Institution.Description = reader.GetString(reader.GetOrdinal("institution_description"));
@@ -546,16 +581,52 @@ namespace Business
 
 					if (citizen.Role.Id != 0)
 					{
-						//InstitutionsHandler.GetInstitutionRoleById(citizen.Role.Id, out citizen.Role);
-
 						citizen.Role.Name = reader.GetString(reader.GetOrdinal("institution_role_name"));
 						citizen.Role.Description = reader.GetString(reader.GetOrdinal("institution_role_description"));
 					}
 
+					if (citizen.Institution2.Id != 0)
+					{
+						citizen.Institution2.Name = reader.GetString(reader.GetOrdinal("institution2_name"));
+						citizen.Institution2.Sector = (TSocietySector)reader.GetInt32(reader.GetOrdinal("institution2_society_sector_type"));
+						citizen.Institution2.Description = reader.GetString(reader.GetOrdinal("institution2_description"));
+						citizen.Institution2.Category.Id = reader.GetInt32(reader.GetOrdinal("institution2_category_id"));
+
+						if (citizen.Institution2.Category.Id != 0)
+						{
+							citizen.Institution2.Category.Name = reader.GetString(reader.GetOrdinal("institution2_category_name"));
+							citizen.Institution2.Category.Description = reader.GetString(reader.GetOrdinal("institution2_category_description"));
+						}
+					}
+
+					if (citizen.Role2.Id != 0)
+					{
+						citizen.Role2.Name = reader.GetString(reader.GetOrdinal("institution2_role_name"));
+						citizen.Role2.Description = reader.GetString(reader.GetOrdinal("institution2_role_description"));
+					}
+
+					if (citizen.Institution3.Id != 0)
+					{
+						citizen.Institution3.Name = reader.GetString(reader.GetOrdinal("institution3_name"));
+						citizen.Institution3.Sector = (TSocietySector)reader.GetInt32(reader.GetOrdinal("institution3_society_sector_type"));
+						citizen.Institution3.Description = reader.GetString(reader.GetOrdinal("institution3_description"));
+						citizen.Institution3.Category.Id = reader.GetInt32(reader.GetOrdinal("institution3_category_id"));
+
+						if (citizen.Institution3.Category.Id != 0)
+						{
+							citizen.Institution3.Category.Name = reader.GetString(reader.GetOrdinal("institution3_category_name"));
+							citizen.Institution3.Category.Description = reader.GetString(reader.GetOrdinal("institution3_category_description"));
+						}
+					}
+
+					if (citizen.Role3.Id != 0)
+					{
+						citizen.Role3.Name = reader.GetString(reader.GetOrdinal("institution3_role_name"));
+						citizen.Role3.Description = reader.GetString(reader.GetOrdinal("institution3_role_description"));
+					}
+
 					if (citizen.Address.Id != 0)
 					{
-						//AddressesHandler.GetAddressById(citizen.Address.Id, out citizen.Address);
-
 						citizen.Address.Street = reader.GetString(reader.GetOrdinal("street"));
 						citizen.Address.Number = reader.GetString(reader.GetOrdinal("number"));
 						citizen.Address.InteriorNumber = reader.GetString(reader.GetOrdinal("interior_number"));

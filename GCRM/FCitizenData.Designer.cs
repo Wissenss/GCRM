@@ -86,8 +86,19 @@
 			TextBoxStreet = new TextBox();
 			LStreet = new Label();
 			TabRol = new TabPage();
+			panel2 = new Panel();
+			panel1 = new Panel();
+			LInstitution3SectorAndCategory = new Label();
+			Institution3Role = new ComboBox();
+			LInstitution3Role = new Label();
+			Institution3 = new ComboBox();
+			LInstitution3 = new Label();
+			LInstitution2SectorAndCategory = new Label();
+			Institution2Role = new ComboBox();
+			LInsitution2Role = new Label();
+			Insitution2 = new ComboBox();
+			LInstitution2 = new Label();
 			LInstitutionSectorAndCategory = new Label();
-			LInstitutionRoleDescription = new Label();
 			ComboBoxInstitutionRole = new ComboBox();
 			LInstitutionRole = new Label();
 			ComboBoxInstitution = new ComboBox();
@@ -679,8 +690,19 @@
 			// 
 			// TabRol
 			// 
+			TabRol.Controls.Add(panel2);
+			TabRol.Controls.Add(panel1);
+			TabRol.Controls.Add(LInstitution3SectorAndCategory);
+			TabRol.Controls.Add(Institution3Role);
+			TabRol.Controls.Add(LInstitution3Role);
+			TabRol.Controls.Add(Institution3);
+			TabRol.Controls.Add(LInstitution3);
+			TabRol.Controls.Add(LInstitution2SectorAndCategory);
+			TabRol.Controls.Add(Institution2Role);
+			TabRol.Controls.Add(LInsitution2Role);
+			TabRol.Controls.Add(Insitution2);
+			TabRol.Controls.Add(LInstitution2);
 			TabRol.Controls.Add(LInstitutionSectorAndCategory);
-			TabRol.Controls.Add(LInstitutionRoleDescription);
 			TabRol.Controls.Add(ComboBoxInstitutionRole);
 			TabRol.Controls.Add(LInstitutionRole);
 			TabRol.Controls.Add(ComboBoxInstitution);
@@ -690,39 +712,144 @@
 			TabRol.Padding = new Padding(3);
 			TabRol.Size = new Size(396, 313);
 			TabRol.TabIndex = 2;
-			TabRol.Text = "Cargo";
+			TabRol.Text = "Cargos";
 			TabRol.UseVisualStyleBackColor = true;
+			// 
+			// panel2
+			// 
+			panel2.BackColor = SystemColors.AppWorkspace;
+			panel2.Location = new Point(7, 198);
+			panel2.Name = "panel2";
+			panel2.Size = new Size(380, 1);
+			panel2.TabIndex = 52;
+			// 
+			// panel1
+			// 
+			panel1.BackColor = SystemColors.AppWorkspace;
+			panel1.Location = new Point(7, 96);
+			panel1.Name = "panel1";
+			panel1.Size = new Size(380, 1);
+			panel1.TabIndex = 51;
+			// 
+			// LInstitution3SectorAndCategory
+			// 
+			LInstitution3SectorAndCategory.AutoSize = true;
+			LInstitution3SectorAndCategory.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+			LInstitution3SectorAndCategory.ForeColor = SystemColors.HotTrack;
+			LInstitution3SectorAndCategory.Location = new Point(83, 240);
+			LInstitution3SectorAndCategory.Name = "LInstitution3SectorAndCategory";
+			LInstitution3SectorAndCategory.Size = new Size(143, 15);
+			LInstitution3SectorAndCategory.TabIndex = 50;
+			LInstitution3SectorAndCategory.Text = "Educativo - Universidades";
+			// 
+			// Institution3Role
+			// 
+			Institution3Role.DropDownStyle = ComboBoxStyle.DropDownList;
+			Institution3Role.FormattingEnabled = true;
+			Institution3Role.Location = new Point(83, 261);
+			Institution3Role.Name = "Institution3Role";
+			Institution3Role.Size = new Size(307, 23);
+			Institution3Role.TabIndex = 49;
+			// 
+			// LInstitution3Role
+			// 
+			LInstitution3Role.AutoSize = true;
+			LInstitution3Role.Location = new Point(7, 264);
+			LInstitution3Role.Name = "LInstitution3Role";
+			LInstitution3Role.Size = new Size(48, 15);
+			LInstitution3Role.TabIndex = 48;
+			LInstitution3Role.Text = "Cargo 3";
+			// 
+			// Institution3
+			// 
+			Institution3.AutoCompleteMode = AutoCompleteMode.Append;
+			Institution3.AutoCompleteSource = AutoCompleteSource.ListItems;
+			Institution3.DropDownStyle = ComboBoxStyle.DropDownList;
+			Institution3.FormattingEnabled = true;
+			Institution3.Location = new Point(83, 211);
+			Institution3.Name = "Institution3";
+			Institution3.Size = new Size(307, 23);
+			Institution3.TabIndex = 47;
+			Institution3.SelectedValueChanged += Institution3_SelectedValueChanged;
+			// 
+			// LInstitution3
+			// 
+			LInstitution3.AutoSize = true;
+			LInstitution3.Location = new Point(5, 214);
+			LInstitution3.Name = "LInstitution3";
+			LInstitution3.Size = new Size(72, 15);
+			LInstitution3.TabIndex = 46;
+			LInstitution3.Text = "Institución 3";
+			// 
+			// LInstitution2SectorAndCategory
+			// 
+			LInstitution2SectorAndCategory.AutoSize = true;
+			LInstitution2SectorAndCategory.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+			LInstitution2SectorAndCategory.ForeColor = SystemColors.HotTrack;
+			LInstitution2SectorAndCategory.Location = new Point(83, 139);
+			LInstitution2SectorAndCategory.Name = "LInstitution2SectorAndCategory";
+			LInstitution2SectorAndCategory.Size = new Size(78, 15);
+			LInstitution2SectorAndCategory.TabIndex = 45;
+			LInstitution2SectorAndCategory.Text = "Social - OSCs";
+			// 
+			// Institution2Role
+			// 
+			Institution2Role.DropDownStyle = ComboBoxStyle.DropDownList;
+			Institution2Role.FormattingEnabled = true;
+			Institution2Role.Location = new Point(83, 160);
+			Institution2Role.Name = "Institution2Role";
+			Institution2Role.Size = new Size(307, 23);
+			Institution2Role.TabIndex = 43;
+			// 
+			// LInsitution2Role
+			// 
+			LInsitution2Role.AutoSize = true;
+			LInsitution2Role.Location = new Point(7, 163);
+			LInsitution2Role.Name = "LInsitution2Role";
+			LInsitution2Role.Size = new Size(48, 15);
+			LInsitution2Role.TabIndex = 42;
+			LInsitution2Role.Text = "Cargo 2";
+			// 
+			// Insitution2
+			// 
+			Insitution2.AutoCompleteMode = AutoCompleteMode.Append;
+			Insitution2.AutoCompleteSource = AutoCompleteSource.ListItems;
+			Insitution2.DropDownStyle = ComboBoxStyle.DropDownList;
+			Insitution2.FormattingEnabled = true;
+			Insitution2.Location = new Point(83, 110);
+			Insitution2.Name = "Insitution2";
+			Insitution2.Size = new Size(307, 23);
+			Insitution2.TabIndex = 41;
+			Insitution2.SelectedValueChanged += Insitution2_SelectedValueChanged;
+			// 
+			// LInstitution2
+			// 
+			LInstitution2.AutoSize = true;
+			LInstitution2.Location = new Point(5, 113);
+			LInstitution2.Name = "LInstitution2";
+			LInstitution2.Size = new Size(72, 15);
+			LInstitution2.TabIndex = 40;
+			LInstitution2.Text = "Institución 2";
 			// 
 			// LInstitutionSectorAndCategory
 			// 
 			LInstitutionSectorAndCategory.AutoSize = true;
 			LInstitutionSectorAndCategory.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
 			LInstitutionSectorAndCategory.ForeColor = SystemColors.HotTrack;
-			LInstitutionSectorAndCategory.Location = new Point(74, 38);
+			LInstitutionSectorAndCategory.Location = new Point(83, 38);
 			LInstitutionSectorAndCategory.Name = "LInstitutionSectorAndCategory";
 			LInstitutionSectorAndCategory.Size = new Size(157, 15);
 			LInstitutionSectorAndCategory.TabIndex = 39;
 			LInstitutionSectorAndCategory.Text = "Gobierno - Gobierno Federal";
 			// 
-			// LInstitutionRoleDescription
-			// 
-			LInstitutionRoleDescription.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-			LInstitutionRoleDescription.ForeColor = SystemColors.HotTrack;
-			LInstitutionRoleDescription.Location = new Point(74, 89);
-			LInstitutionRoleDescription.Name = "LInstitutionRoleDescription";
-			LInstitutionRoleDescription.Size = new Size(313, 129);
-			LInstitutionRoleDescription.TabIndex = 38;
-			LInstitutionRoleDescription.Text = "Descripción del cargo seleccionado esta persona se encarga de realizar las tareas que le dige su jefe y demás";
-			// 
 			// ComboBoxInstitutionRole
 			// 
 			ComboBoxInstitutionRole.DropDownStyle = ComboBoxStyle.DropDownList;
 			ComboBoxInstitutionRole.FormattingEnabled = true;
-			ComboBoxInstitutionRole.Location = new Point(74, 59);
+			ComboBoxInstitutionRole.Location = new Point(83, 59);
 			ComboBoxInstitutionRole.Name = "ComboBoxInstitutionRole";
-			ComboBoxInstitutionRole.Size = new Size(316, 23);
+			ComboBoxInstitutionRole.Size = new Size(307, 23);
 			ComboBoxInstitutionRole.TabIndex = 3;
-			ComboBoxInstitutionRole.SelectedValueChanged += ComboBoxInstitutionRole_SelectedValueChanged;
 			// 
 			// LInstitutionRole
 			// 
@@ -739,9 +866,9 @@
 			ComboBoxInstitution.AutoCompleteSource = AutoCompleteSource.ListItems;
 			ComboBoxInstitution.DropDownStyle = ComboBoxStyle.DropDownList;
 			ComboBoxInstitution.FormattingEnabled = true;
-			ComboBoxInstitution.Location = new Point(74, 9);
+			ComboBoxInstitution.Location = new Point(83, 9);
 			ComboBoxInstitution.Name = "ComboBoxInstitution";
-			ComboBoxInstitution.Size = new Size(316, 23);
+			ComboBoxInstitution.Size = new Size(307, 23);
 			ComboBoxInstitution.TabIndex = 1;
 			ComboBoxInstitution.SelectedValueChanged += ComboBoxInstitution_SelectedValueChanged;
 			// 
@@ -939,7 +1066,6 @@
 		private Label LInstitution;
 		private ComboBox ComboBoxInstitutionRole;
 		private Label LInstitutionRole;
-		private Label LInstitutionRoleDescription;
 		private TextBox TextBoxEmail;
 		private Label LEmail;
 		private Label LInstitutionSectorAndCategory;
@@ -958,5 +1084,17 @@
 		private Label LDistrict;
 		private ComboBox ComboBoxCategory;
 		private Label LCategory;
+		private Label LInstitution2SectorAndCategory;
+		private ComboBox Institution2Role;
+		private Label LInsitution2Role;
+		private ComboBox Insitution2;
+		private Label LInstitution2;
+		private Label LInstitution3SectorAndCategory;
+		private ComboBox Institution3Role;
+		private Label LInstitution3Role;
+		private ComboBox Institution3;
+		private Label LInstitution3;
+		private Panel panel2;
+		private Panel panel1;
 	}
 }
