@@ -224,7 +224,7 @@ namespace Business
 					{ TCitizenTitle.DegreeLevel, "Lic." },
 					{ TCitizenTitle.Engineneer, "Ing." },
 					{ TCitizenTitle.Master, "Mtra." },
-					{ TCitizenTitle.PhD, "Dr." },
+					{ TCitizenTitle.PhD, "Dra." },
 					{ TCitizenTitle.Arq, "Arq." },
 
 					{ TCitizenTitle.PublicAccountant, "C.P." },

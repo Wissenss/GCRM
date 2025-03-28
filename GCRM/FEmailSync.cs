@@ -156,7 +156,7 @@ namespace GCRM
 
 						vcard.AppendLine($"BEGIN:VCARD");
 						vcard.AppendLine($"VERSION:3.0");
-						vcard.AppendLine($"N:{citizen.PaternalName};{citizen.Name};{citizen.MaternalName};{BConstants.GetCitizenBriefTitle(citizen.Title)}");
+						vcard.AppendLine($"N:{citizen.MaternalName};{citizen.Name};{citizen.PaternalName};{BConstants.GetCitizenBriefTitle(citizen.Title, citizen.Sex)}");
 						vcard.AppendLine($"FN:{citizen.FullName}");
 						vcard.AppendLine($"EMAIL:{citizen.Email}");
 						vcard.AppendLine($"BDAY:{citizen.Birthday.ToString("yyyyMMdd")}");
