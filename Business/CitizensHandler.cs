@@ -312,6 +312,22 @@ namespace Business
 				}
 			}
 
+			// ensure no more than one citizen has the same name
+			using (var cmd = new NpgsqlCommand("SELECT COUNT(*) FROM citizens WHERE name = @name AND paternal_name = @paternal_name AND maternal_name = @maternal_name AND id <> @id;", conn))
+			{
+				cmd.Parameters.AddWithValue("@id", citizen.Id);
+				cmd.Parameters.AddWithValue("@name", citizen.Name);
+				cmd.Parameters.AddWithValue("@paternal_name", citizen.PaternalName);
+				cmd.Parameters.AddWithValue("@maternal_name", citizen.MaternalName);
+
+				int citizens_with_same_name = (Int32)(Int64)cmd.ExecuteScalar();
+
+				if (citizens_with_same_name > 0)
+				{
+					error = Error.CitizenWithSameName;
+				}
+			}
+
 			// save address
 			if (error == 0)
 			{

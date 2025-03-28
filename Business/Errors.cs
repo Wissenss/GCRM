@@ -22,6 +22,7 @@ namespace Business
 		// errors related to citizens
 		CitizenNotFound,
 		CitizenWithSameCURP,
+		CitizenWithSameName,
 		CitizenInUse,
 		CitizenCategoryNotFound,
 		CitizenCategoryInUse,
@@ -58,7 +59,8 @@ namespace Business
 			{ Error.UserGroupNotFound, "Grupo de usuario no encontrado" }, 
 			{ Error.UserGroupInUse, "Grupo de usuario esta siendo utilizado" },
 			{ Error.CitizenNotFound, "Ciudadano no encontrado" },
-			{ Error.CitizenWithSameCURP, "La clave CURP ya existe" },
+			{ Error.CitizenWithSameCURP, "Existe un ciudadano con la misma clave CURP" },
+			{ Error.CitizenWithSameName, "Existe un ciudadano con el mismo nombre" },
 			{ Error.CitizenInUse, "Ciudadano esta siendo utilizado" },
 			{ Error.InstitutionNotFound, "Institución no encontrada" },
 			{ Error.InstitutionInUse, "Institución esta siendo utilizada" },
