@@ -97,35 +97,64 @@ namespace GCRM
 					return;
 				}
 
-				ComboBoxSocietySector.SelectedValue = institution.Sector;
-				TextBoxName.Text = institution.Name;
-				TextBoxDescription.Text = institution.Description;
-				TextBoxAcronym.Text = institution.Acronym;
-				ComboBoxParentInstitution.SelectedValue = institution.ParentInstitutionId;
-				ComboBoxCategory.SelectedValue = institution.Category.Id;
-
-				DTInstitutionRoles.BeginLoadData();
-				DTInstitutionRoles.Clear();
-
-				foreach (TInstitutionRole role in institution.Roles)
-				{
-					DataRow row = DTInstitutionRoles.NewRow();
-
-					row["id"] = role.Id;
-					row["name"] = role.Name;
-					row["institution_id"] = role.InstitutionId;
-					row["parent_role_id"] = role.InstitutionId;
-					row["description"] = role.Description;
-
-					DTInstitutionRoles.Rows.Add(row);
-				}
-
-				DTInstitutionRoles.EndLoadData();
+				FillFromInstitution(institution);
 
 				LoadInstitutions();
 
-				Text = $"Institutción: {institution.Name}";
+				Text = $"Institución - {institution.Name}";
 			}
+		}
+
+		public void DuplicateId(int id)
+		{
+			using (new CursorWait())
+			{
+				Id = 0;
+
+				TInstitution institution;
+
+				Error error = InstitutionsHandler.GetInstitutionById(id, out institution);
+
+				if (error != 0)
+				{
+					Utilities.ShowErrorDialog(error);
+					return;
+				}
+
+				FillFromInstitution(institution);
+
+				LoadInstitutions();
+
+				Text = $"Institución - Nueva";
+			}
+		}
+
+		private void FillFromInstitution(TInstitution institution)
+		{
+			ComboBoxSocietySector.SelectedValue = institution.Sector;
+			TextBoxName.Text = institution.Name;
+			TextBoxDescription.Text = institution.Description;
+			TextBoxAcronym.Text = institution.Acronym;
+			ComboBoxParentInstitution.SelectedValue = institution.ParentInstitutionId;
+			ComboBoxCategory.SelectedValue = institution.Category.Id;
+
+			DTInstitutionRoles.BeginLoadData();
+			DTInstitutionRoles.Clear();
+
+			foreach (TInstitutionRole role in institution.Roles)
+			{
+				DataRow row = DTInstitutionRoles.NewRow();
+
+				row["id"] = role.Id;
+				row["name"] = role.Name;
+				row["institution_id"] = role.InstitutionId;
+				row["parent_role_id"] = role.InstitutionId;
+				row["description"] = role.Description;
+
+				DTInstitutionRoles.Rows.Add(row);
+			}
+
+			DTInstitutionRoles.EndLoadData();
 		}
 
 		private void LoadInstitutions()

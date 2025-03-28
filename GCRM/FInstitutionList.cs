@@ -81,6 +81,7 @@ namespace GCRM
 				BRead.Visible = Session.HasPermission("Instituciones.Consultar");
 				BDelete.Visible = Session.HasPermission("Instituciones.Eliminar");
 				BCategories.Visible = Session.HasPermission("Instituciones.Categorias.Consultar");
+				BDuplicate.Visible = Session.HasPermission("Instituciones.Crear");
 			}
 		}
 
@@ -340,6 +341,25 @@ namespace GCRM
 		private void FInstitutionList_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			Catalogs.DTInstitutions.DefaultView.RowFilter = "";
+		}
+
+		private void BDuplicate_Click(object sender, EventArgs e)
+		{
+			int id = GetSelectedInstitutionId();
+
+			if (id == 0)
+				return;
+
+			using (FInstitutionData institution_data_dlg = new FInstitutionData())
+			{
+				institution_data_dlg.SetAccessMode(FAccessMode.Create);
+				institution_data_dlg.DuplicateId(id);
+
+				if (institution_data_dlg.ShowDialog() == DialogResult.OK)
+				{
+					LoadList();
+				}
+			}
 		}
 	}
 }
