@@ -365,10 +365,14 @@ namespace Business
 				SELECT 
 					i.*, 
 					ic.name as category_name,
-					ic.description as category_description
+					ic.description as category_description,
+					u.name as author_name,	
+					u2.name as editor_name
 				FROM 
 					institutions i
 					LEFT JOIN institution_categories ic ON i.category_id = ic.id 
+					LEFT JOIN users u ON i.created_by_id = u.id
+					LEFT JOIN users u2 ON i.edit_by_id = u2.id
 				ORDER BY name;";
 
 			using (var cmd = new NpgsqlCommand(sql, conn))
@@ -384,6 +388,16 @@ namespace Business
 					{
 						institution.Category.Name = reader.GetString(reader.GetOrdinal("category_name"));
 						institution.Category.Description = reader.GetString(reader.GetOrdinal("category_description"));
+					}
+
+					if (institution.Author.Id != 0)
+					{
+						institution.Author.Name = reader.GetString(reader.GetOrdinal("author_name"));
+					}
+
+					if (institution.LastEditor.Id != 0)
+					{
+						institution.LastEditor.Name = reader.GetString(reader.GetOrdinal("editor_name"));
 					}
 
 					institution_list.Add(institution);	

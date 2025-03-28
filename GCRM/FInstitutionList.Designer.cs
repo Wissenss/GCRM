@@ -67,6 +67,10 @@
 			colCategoryName = new DataGridViewTextBoxColumn();
 			colDescription = new DataGridViewTextBoxColumn();
 			colParentInstitutionId = new DataGridViewTextBoxColumn();
+			colAuthorId = new DataGridViewTextBoxColumn();
+			colAuthorName = new DataGridViewTextBoxColumn();
+			colIdEditor = new DataGridViewTextBoxColumn();
+			colEditorName = new DataGridViewTextBoxColumn();
 			ToolStrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)DataGridInstitutions).BeginInit();
 			((System.ComponentModel.ISupportInitialize)SplitContainer).BeginInit();
@@ -270,7 +274,7 @@
 			dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
 			DataGridInstitutions.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
 			DataGridInstitutions.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			DataGridInstitutions.Columns.AddRange(new DataGridViewColumn[] { colId, colName, colAcronym, colSocietySector, colSocietySectorName, colCategoryId, colCategoryName, colDescription, colParentInstitutionId });
+			DataGridInstitutions.Columns.AddRange(new DataGridViewColumn[] { colId, colName, colAcronym, colSocietySector, colSocietySectorName, colCategoryId, colCategoryName, colDescription, colParentInstitutionId, colAuthorId, colAuthorName, colIdEditor, colEditorName });
 			dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
 			dataGridViewCellStyle3.BackColor = SystemColors.Window;
 			dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
@@ -436,6 +440,7 @@
 			// 
 			colDescription.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 			colDescription.DataPropertyName = "description";
+			colDescription.DividerWidth = 1;
 			colDescription.HeaderText = "Descripción";
 			colDescription.Name = "colDescription";
 			colDescription.ReadOnly = true;
@@ -447,6 +452,48 @@
 			colParentInstitutionId.Name = "colParentInstitutionId";
 			colParentInstitutionId.ReadOnly = true;
 			colParentInstitutionId.Visible = false;
+			// 
+			// colAuthorId
+			// 
+			colAuthorId.DataPropertyName = "author_id";
+			colAuthorId.DividerWidth = 1;
+			colAuthorId.HeaderText = "Id Autor";
+			colAuthorId.Name = "colAuthorId";
+			colAuthorId.ReadOnly = true;
+			colAuthorId.Visible = false;
+			// 
+			// colAuthorName
+			// 
+			colAuthorName.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+			colAuthorName.DataPropertyName = "author_name";
+			colAuthorName.DividerWidth = 1;
+			colAuthorName.HeaderText = "Autor";
+			colAuthorName.MinimumWidth = 50;
+			colAuthorName.Name = "colAuthorName";
+			colAuthorName.ReadOnly = true;
+			colAuthorName.Visible = false;
+			colAuthorName.Width = 61;
+			// 
+			// colIdEditor
+			// 
+			colIdEditor.DataPropertyName = "editor_id";
+			colIdEditor.DividerWidth = 1;
+			colIdEditor.HeaderText = "Id último editor";
+			colIdEditor.Name = "colIdEditor";
+			colIdEditor.ReadOnly = true;
+			colIdEditor.Visible = false;
+			// 
+			// colEditorName
+			// 
+			colEditorName.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+			colEditorName.DataPropertyName = "editor_name";
+			colEditorName.DividerWidth = 1;
+			colEditorName.HeaderText = "Último editor";
+			colEditorName.MinimumWidth = 50;
+			colEditorName.Name = "colEditorName";
+			colEditorName.ReadOnly = true;
+			colEditorName.Visible = false;
+			colEditorName.Width = 101;
 			// 
 			// FInstitutionList
 			// 
@@ -516,5 +563,9 @@
 		private DataGridViewTextBoxColumn colCategoryName;
 		private DataGridViewTextBoxColumn colDescription;
 		private DataGridViewTextBoxColumn colParentInstitutionId;
+		private DataGridViewTextBoxColumn colAuthorId;
+		private DataGridViewTextBoxColumn colAuthorName;
+		private DataGridViewTextBoxColumn colIdEditor;
+		private DataGridViewTextBoxColumn colEditorName;
 	}
 }

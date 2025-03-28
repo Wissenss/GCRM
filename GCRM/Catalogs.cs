@@ -83,6 +83,10 @@ namespace GCRM
 			DTInstitutions.Columns.Add("description", typeof(string));
 			DTInstitutions.Columns.Add("parent_institution_id", typeof(int));
 			DTInstitutions.Columns.Add("acronym", typeof(string));	
+			DTInstitutions.Columns.Add("author_id", typeof(int));
+			DTInstitutions.Columns.Add("author_name", typeof(string));
+			DTInstitutions.Columns.Add("editor_id", typeof(int));
+			DTInstitutions.Columns.Add("editor_name", typeof(string));
 			DSCatalogs.Tables.Add(DTInstitutions);
 		}
 
@@ -243,6 +247,10 @@ namespace GCRM
 				row["description"] = institution.Description;
 				row["parent_institution_id"] = institution.ParentInstitutionId;
 				row["acronym"] = institution.Acronym;
+				row["author_id"] = institution.Author.Id;
+				row["author_name"] = institution.Author.Name;
+				row["editor_id"] = institution.LastEditor.Id;
+				row["editor_name"] = institution.LastEditor.Name;
 
 				DTInstitutions.Rows.Add(row);	
 			}

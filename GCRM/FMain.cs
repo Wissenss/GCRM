@@ -101,6 +101,8 @@ namespace GCRM
 
 				BUserGroups.Visible = Session.HasPermission("Usuarios.Grupos.Consultar");
 
+				BEventLog.Visible = Session.HasPermission("EventLog.Consultar");
+
 				BSync.Enabled = Session.User.CardDavSyncEnabled;
 			}
 		}

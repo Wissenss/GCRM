@@ -145,7 +145,7 @@ namespace GCRM
 					filters += "  AND type = " + (int)filters_dlg.ActionType.SelectedItem;
 
 				if (filters_dlg.FilterDate.Checked)
-					filters += "  AND date >= '" + filters_dlg.DateFrom.Value.ToString("yyyy-MM-dd") + "' AND date <= '" + filters_dlg.DateTo.Value.ToString("yyyy-MM-dd") + "'";
+					filters += "  AND date >= '" + filters_dlg.DateFrom.Value.ToString("yyyy-MM-dd") + "' AND date <= '" + filters_dlg.DateTo.Value.ToString("yyyy-MM-dd") + " 23:59:59" + "'";
 
 				if (filters_dlg.FilterEntityType.Checked)
 					filters += "  AND primary_entity_type = " + (int)filters_dlg.EntityType.SelectedItem;

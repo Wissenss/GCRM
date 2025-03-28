@@ -46,11 +46,12 @@ namespace GCRM
 				PermissionsEditingEnabled = Session.HasPermission("Usuarios.Permisos.Editar");
 
 				if (Session.HasPermission("Usuarios.Permisos.Consultar") == false)
-				{
-					TabControlUser.TabPages.RemoveAt(1);
-				}
+					TabControlUser.TabPages.Remove(TabPermissions);
 
-				Group.Enabled = Session.HasPermission("Usuarios.Permisos.Editar");
+				if (Session.HasPermission("Emails.CardDav.Sync") == false)
+					TabControlUser.TabPages.Remove(TabCarddav);
+
+				Group.Visible = Session.HasPermission("Usuarios.Permisos.Editar");
 			}
 		}
 

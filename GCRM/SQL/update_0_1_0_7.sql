@@ -37,7 +37,7 @@ CREATE TABLE public.user_group_permissions
 (
     id bigint NOT NULL,
     user_group_id bigint NOT NULL,
-    permited boolean NOT NULL DEFAULT false,
+    permited boolean NOT NULL DEFAULT false
 );
 
 -- user stores its group id

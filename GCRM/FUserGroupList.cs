@@ -36,7 +36,7 @@ namespace GCRM
 			int display_index = 0;
 
 			DataGridUtilities.AddColumn(DataGridUserGroups, "colName", "Nombre", "name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
-			DataGridUtilities.AddColumn(DataGridUserGroups, "colNoUsers", "No. Usuarios", "no_usuarios", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.Fill);
+			DataGridUtilities.AddColumn(DataGridUserGroups, "colNoUsers", "No. Usuarios", "no_users", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.Fill);
 
 			DataGridUserGroups.DataSource = DSUserGroups;
 			DataGridUserGroups.DataMember = DTUserGroups.TableName;
