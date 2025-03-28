@@ -165,6 +165,7 @@ namespace Business
 				new TUserPermission(312, "Ciudadanos.NoEspecificarInstitucion"),
 				new TUserPermission(313, "Ciudadanos.NoEspecificarCargo"),
 				new TUserPermission(314, "Ciudadanos.NoEspecificarCURP"),
+				new TUserPermission(315, "Ciudadanos.SetAttentionRequired"),
 
 				new TUserPermission(331, "Ciudadanos.Electoral.Consultar"),
 

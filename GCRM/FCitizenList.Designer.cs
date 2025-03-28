@@ -81,9 +81,10 @@
 			BPrint = new ToolStripButton();
 			toolStripSeparator4 = new ToolStripSeparator();
 			BSearch = new ToolStripButton();
-			BSelect = new ToolStripButton();
 			toolStripSeparator5 = new ToolStripSeparator();
+			BSelect = new ToolStripButton();
 			BCategories = new ToolStripButton();
+			BAttentionRequired = new ToolStripButton();
 			PanelSearch = new Panel();
 			TextBoxSearch = new TextBox();
 			SaveFileDialog = new SaveFileDialog();
@@ -387,11 +388,11 @@
 			// ToolStrip
 			// 
 			ToolStrip.GripStyle = ToolStripGripStyle.Hidden;
-			ToolStrip.Items.AddRange(new ToolStripItem[] { BAdd, BEdit, BRead, BRefresh, toolStripSeparator1, BFields, BFilter, BDelete, toolStripSeparator2, FExcelExport, BPrint, toolStripSeparator4, BSearch, toolStripSeparator5, BSelect, BCategories });
+			ToolStrip.Items.AddRange(new ToolStripItem[] { BAdd, BEdit, BRead, BRefresh, toolStripSeparator1, BFields, BFilter, BDelete, toolStripSeparator2, FExcelExport, BPrint, toolStripSeparator4, BSearch, toolStripSeparator5, BSelect, BCategories, BAttentionRequired });
 			ToolStrip.Location = new Point(2, 2);
 			ToolStrip.Name = "ToolStrip";
 			ToolStrip.RenderMode = ToolStripRenderMode.System;
-			ToolStrip.Size = new Size(859, 40);
+			ToolStrip.Size = new Size(1074, 40);
 			ToolStrip.TabIndex = 4;
 			ToolStrip.Text = "toolStrip1";
 			// 
@@ -532,6 +533,11 @@
 			BSearch.Text = "&Buscar";
 			BSearch.Click += BSearch_Click;
 			// 
+			// toolStripSeparator5
+			// 
+			toolStripSeparator5.Name = "toolStripSeparator5";
+			toolStripSeparator5.Size = new Size(6, 40);
+			// 
 			// BSelect
 			// 
 			BSelect.Image = Properties.Resources.Fatcow_Farm_Fresh_Check_box_16;
@@ -543,20 +549,29 @@
 			BSelect.Visible = false;
 			BSelect.Click += BSelect_Click;
 			// 
-			// toolStripSeparator5
-			// 
-			toolStripSeparator5.Name = "toolStripSeparator5";
-			toolStripSeparator5.Size = new Size(6, 40);
-			// 
 			// BCategories
 			// 
 			BCategories.Image = Properties.Resources.Fatcow_Farm_Fresh_Module_16;
 			BCategories.ImageScaling = ToolStripItemImageScaling.None;
 			BCategories.ImageTransparentColor = Color.Magenta;
+			BCategories.Margin = new Padding(1, 2, 1, 2);
 			BCategories.Name = "BCategories";
-			BCategories.Size = new Size(83, 37);
+			BCategories.Padding = new Padding(2, 8, 2, 8);
+			BCategories.Size = new Size(87, 36);
 			BCategories.Text = "Categorías";
 			BCategories.Click += BCategories_Click;
+			// 
+			// BAttentionRequired
+			// 
+			BAttentionRequired.Image = Properties.Resources.Fatcow_Farm_Fresh_Tag_red_16;
+			BAttentionRequired.ImageScaling = ToolStripItemImageScaling.None;
+			BAttentionRequired.ImageTransparentColor = Color.Magenta;
+			BAttentionRequired.Margin = new Padding(1, 2, 1, 2);
+			BAttentionRequired.Name = "BAttentionRequired";
+			BAttentionRequired.Padding = new Padding(2, 8, 2, 8);
+			BAttentionRequired.Size = new Size(72, 36);
+			BAttentionRequired.Text = "Resal&tar";
+			BAttentionRequired.Click += BAttentionRequired_Click;
 			// 
 			// PanelSearch
 			// 
@@ -565,7 +580,7 @@
 			PanelSearch.Dock = DockStyle.Top;
 			PanelSearch.Location = new Point(2, 42);
 			PanelSearch.Name = "PanelSearch";
-			PanelSearch.Size = new Size(859, 39);
+			PanelSearch.Size = new Size(1074, 39);
 			PanelSearch.TabIndex = 6;
 			PanelSearch.Visible = false;
 			// 
@@ -575,7 +590,7 @@
 			TextBoxSearch.Location = new Point(8, 8);
 			TextBoxSearch.Name = "TextBoxSearch";
 			TextBoxSearch.PlaceholderText = "Ingrese el texto a buscar...";
-			TextBoxSearch.Size = new Size(843, 23);
+			TextBoxSearch.Size = new Size(1058, 23);
 			TextBoxSearch.TabIndex = 1;
 			TextBoxSearch.TextChanged += TextBoxSearch_TextChanged;
 			// 
@@ -626,10 +641,11 @@
 			DataGridCitizens.RowTemplate.Height = 20;
 			DataGridCitizens.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 			DataGridCitizens.ShowCellToolTips = false;
-			DataGridCitizens.Size = new Size(859, 366);
+			DataGridCitizens.Size = new Size(1074, 366);
 			DataGridCitizens.StandardTab = true;
 			DataGridCitizens.TabIndex = 7;
 			DataGridCitizens.CellDoubleClick += DataGridCitizens_CellDoubleClick;
+			DataGridCitizens.CellFormatting += DataGridCitizens_CellFormatting;
 			DataGridCitizens.KeyDown += DataGridCitizens_KeyDown;
 			// 
 			// statusStrip1
@@ -637,7 +653,7 @@
 			statusStrip1.Items.AddRange(new ToolStripItem[] { TSSLRecordCount, TSSLFilters });
 			statusStrip1.Location = new Point(2, 447);
 			statusStrip1.Name = "statusStrip1";
-			statusStrip1.Size = new Size(859, 22);
+			statusStrip1.Size = new Size(1074, 22);
 			statusStrip1.TabIndex = 8;
 			statusStrip1.Text = "statusStrip1";
 			// 
@@ -659,7 +675,7 @@
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
-			ClientSize = new Size(863, 471);
+			ClientSize = new Size(1078, 471);
 			Controls.Add(DataGridCitizens);
 			Controls.Add(statusStrip1);
 			Controls.Add(PanelSearch);
@@ -742,5 +758,6 @@
 		private ToolStripButton BSelect;
 		private ToolStripButton BCategories;
 		private ToolStripSeparator toolStripSeparator5;
+		private ToolStripButton BAttentionRequired;
 	}
 }

@@ -113,6 +113,16 @@ namespace GCRM.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Fatcow_Farm_Fresh_Alarm_bell_16 {
+            get {
+                object obj = ResourceManager.GetObject("Fatcow-Farm-Fresh-Alarm-bell.16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Fatcow_Farm_Fresh_Bookmark_32 {
             get {
                 object obj = ResourceManager.GetObject("Fatcow-Farm-Fresh-Bookmark.32", resourceCulture);
@@ -693,6 +703,16 @@ namespace GCRM.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Fatcow_Farm_Fresh_Tag_red_16 {
+            get {
+                object obj = ResourceManager.GetObject("Fatcow-Farm-Fresh-Tag-red.16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Fatcow_Farm_Fresh_Update_contact_info_16 {
             get {
                 object obj = ResourceManager.GetObject("Fatcow-Farm-Fresh-Update-contact-info.16", resourceCulture);
@@ -726,6 +746,16 @@ namespace GCRM.Properties {
         internal static System.Drawing.Bitmap Fatcow_Farm_Fresh_User_suit_32 {
             get {
                 object obj = ResourceManager.GetObject("Fatcow-Farm-Fresh-User-suit.32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Fatcow_Farm_Fresh_Warning_16 {
+            get {
+                object obj = ResourceManager.GetObject("Fatcow-Farm-Fresh-Warning.16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

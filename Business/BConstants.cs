@@ -315,6 +315,7 @@ namespace Business
 				{ TEventLogType.citizen_add,                 "Añadir ciudadano" },
 				{ TEventLogType.citizen_edit,                "Editar ciudadano" },
 				{ TEventLogType.citizen_delete,              "Eliminar ciudadano" },
+				{ TEventLogType.citizen_attention_required,  "Ciudadano Atención requerida" },
 				{ TEventLogType.citizen_category_add,        "Añadir categoría ciudadana" },
 				{ TEventLogType.citizen_category_edit,       "Editar categoría ciudadana" },
 				{ TEventLogType.citizen_category_delete,     "Eliminar categoría ciudadana" },

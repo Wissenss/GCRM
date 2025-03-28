@@ -26,6 +26,7 @@ namespace Business
 		citizen_add = 1001,
 		citizen_edit = 1002,
 		citizen_delete = 1003,
+		citizen_attention_required = 1004,
 
 		citizen_category_add = 1501,
 		citizen_category_edit = 1502,
@@ -163,6 +164,20 @@ namespace Business
 			message.AppendLine($"==================================================");
 
 			log.Message = message.ToString().Replace("\\u", "\r\n");
+
+			return AddEventLog(log);
+		}
+
+		public static Error AddEventLog(TEventLogType event_type, int user_id, int entity_id, TEntityType entity_type, string message, DateTime datetime)
+		{
+			TEventLog log = new TEventLog()
+			{
+				Message = message,
+				User = new TUser() { Id = user_id },
+				PrimaryEntity = new TEventLogEntity() { Id = entity_id, EntityType = entity_type },
+				DateTime = datetime,
+				Type = event_type
+			};
 
 			return AddEventLog(log);
 		}

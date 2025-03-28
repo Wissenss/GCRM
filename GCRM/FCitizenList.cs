@@ -45,7 +45,7 @@ namespace GCRM
 			DataGridUtilities.AddColumn(DataGridCitizens, "colSexName", "Sexo", "sex_name", false, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colPoliticalPartyName", "Partido", "political_party_name", false, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colCURP", "CURP", "curp", false, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
-			
+
 			DataGridUtilities.AddColumn(DataGridCitizens, "colId", "Id", "id", false);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colTitle", "Id Título", "title", false);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colName", "Nombre", "name", false);
@@ -83,6 +83,8 @@ namespace GCRM
 			DataGridUtilities.AddColumn(DataGridCitizens, "colLastEditorId", "Id Último Editor", "editor_id", false);
 
 			DataGridUtilities.AddColumn(DataGridCitizens, "colCategoryId", "Categoría Id", "category_id", false);
+
+			DataGridUtilities.AddColumn(DataGridCitizens, "colAttentionRequired", "Atención requerida", "attention_required", false);
 
 			DataGridCitizens.AllowUserToResizeColumns = true;
 			DataGridCitizens.AllowUserToOrderColumns = true;
@@ -151,6 +153,7 @@ namespace GCRM
 			DTCitizens.Columns.Add("category_id", typeof(int));
 			DTCitizens.Columns.Add("category_name", typeof(string));
 
+			DTCitizens.Columns.Add("attention_required", typeof(bool));
 
 			DSCitizens.Tables.Add(DTCitizens);
 
@@ -187,6 +190,7 @@ namespace GCRM
 			BRead.Visible = Session.HasPermission("Ciudadanos.Consultar");
 			BDelete.Visible = Session.HasPermission("Ciudadanos.Eliminar");
 			BCategories.Visible = Session.HasPermission("Ciudadanos.Categorias.Consultar");
+			BAttentionRequired.Visible = Session.HasPermission("Ciudadanos.SetAttentionRequired");
 
 			Cursor.Current = Cursors.Default;
 		}
@@ -289,6 +293,8 @@ namespace GCRM
 
 					row["category_id"] = citizen.Category.Id;
 					row["category_name"] = citizen.Category.Name;
+
+					row["attention_required"] = citizen.AttentionRequired;
 
 					DTCitizens.Rows.Add(row);
 				}
@@ -719,6 +725,50 @@ namespace GCRM
 		private void BFields_Click(object sender, EventArgs e)
 		{
 			ColumnChooserDlg.ShowDialog();
+		}
+
+		private void BAttentionRequired_Click(object sender, EventArgs e)
+		{
+			if (DataGridCitizens.SelectedRows.Count == 0)
+			{
+				return;
+			}
+
+			DataGridViewRow row = DataGridCitizens.SelectedRows[0];
+
+			int id = (int)row.Cells["colId"].Value;
+
+			bool attentionRequired = !(bool)row.Cells["colAttentionRequired"].Value;
+
+			using (new CursorWait())
+			{
+				Error error = CitizensHandler.SetCitizenAttentionRequired(id, attentionRequired);
+
+				if (error != 0)
+				{
+					Utilities.ShowErrorDialog(error);
+					return;
+				}
+			}
+
+			// update the data manually as the grid is not updated and doing it may take a long time
+			row.Cells["colAttentionRequired"].Value = attentionRequired;
+
+			DataGridCitizens.InvalidateRow(row.Index);
+		}
+
+		private void DataGridCitizens_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+		{
+			DataGridViewRow row = DataGridCitizens.Rows[e.RowIndex];
+
+			if (row.Cells["colAttentionRequired"].Value == null)
+				return;
+
+			if ((bool)row.Cells["colAttentionRequired"].Value)
+			{
+				e.CellStyle.BackColor = Color.FromArgb(255, 200, 200);
+				e.CellStyle.SelectionBackColor = Color.FromArgb(255, 150, 150);
+			}
 		}
 	}
 }

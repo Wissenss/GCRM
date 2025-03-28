@@ -53,6 +53,8 @@ namespace Business
 		public string VoterCIC;
 		public string VoterSection;
 
+		public bool AttentionRequired;
+
 		public TCitizenCategory Category = new TCitizenCategory();
 
 		public string FullName 
@@ -115,6 +117,7 @@ namespace Business
 			Role2.Id = reader.GetInt32(28);
 			Institution3.Id = reader.GetInt32(29);
 			Role3.Id = reader.GetInt32(30);
+			AttentionRequired = reader.GetBoolean(31);
 		}
 	
 		public override string GetAsLogString()
@@ -372,7 +375,8 @@ namespace Business
 								institution2_id = @institution2_id,
 								institution3_id = @institution3_id,	
 								institution2_role_id = @institution2_role_id,
-								institution3_role_id = @institution3_role_id
+								institution3_role_id = @institution3_role_id,
+								attention_required = @attention_required
 							WHERE
 								id=@id;";
 					}
@@ -409,7 +413,8 @@ namespace Business
 								institution2_id,	
 								institution3_id,
 								institution2_role_id,
-								institution3_role_id
+								institution3_role_id,
+								attention_required
 							)
 							VALUES(
 								@name, 
@@ -441,7 +446,8 @@ namespace Business
 								@institution2_id,
 								@institution3_id,
 								@institution2_role_id,
-								@institution3_role_id
+								@institution3_role_id,
+								@attention_required
 							) 
 							RETURNING id;";
 					}
@@ -477,6 +483,7 @@ namespace Business
 					cmd.Parameters.AddWithValue("@institution3_id", citizen.Institution3.Id);
 					cmd.Parameters.AddWithValue("@institution2_role_id", citizen.Role2.Id);
 					cmd.Parameters.AddWithValue("@institution3_role_id", citizen.Role3.Id);
+					cmd.Parameters.AddWithValue("@attention_required", false); // editing should always set attention required to false
 
 					if (is_update)
 					{
@@ -496,6 +503,36 @@ namespace Business
 			ConnectionPool.ReleaseConnection(ref conn);
 
 			return error;
+		}
+
+		public static Error SetCitizenAttentionRequired(int citizen_id, bool attention_required)
+		{
+			var conn = ConnectionPool.GetConnection();
+
+			using (var cmd = new NpgsqlCommand("UPDATE citizens SET attention_required = @attention_required WHERE id = @id;", conn))
+			{
+				cmd.Parameters.AddWithValue("@id", citizen_id);
+				cmd.Parameters.AddWithValue("@attention_required", attention_required);
+
+				cmd.ExecuteNonQuery();
+			}
+
+			StringBuilder log_message = new StringBuilder();
+
+			log_message.AppendLine($"GCRM ACTION LOG");
+			log_message.AppendLine($"==================================================");
+			log_message.AppendLine($"evento:  {BConstants.GetEventLogTypeName(TEventLogType.citizen_attention_required)}");
+			log_message.AppendLine($"fecha/hora:   {DateTime.Now}");
+			log_message.AppendLine($"entidad: ");
+			log_message.AppendLine($"ciudadano id: \t{citizen_id}");
+			log_message.AppendLine($"atención requerida: \t{attention_required}");
+			log_message.AppendLine($"==================================================");
+
+			EventLogHandler.AddEventLog(TEventLogType.citizen_attention_required, Session.User.Id, citizen_id, TEntityType.citizen, log_message.ToString(), DateTime.Now);
+
+			ConnectionPool.ReleaseConnection(ref conn);
+
+			return 0;
 		}
 
 		public static Error GetCitizens(out List<TCitizen> citizen_list)
