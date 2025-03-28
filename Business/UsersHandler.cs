@@ -48,6 +48,7 @@ namespace Business
 		public string CardDavURL;
 		public string CardDavUsername;
 		public string CardDavPassword;
+		public TUserGroup Group = new TUserGroup(); 
 
 		public void FillFromReader(DbDataReader reader)
 		{
@@ -59,6 +60,7 @@ namespace Business
 			CardDavURL = reader.GetString(5);
 			CardDavUsername = reader.GetString(6);
 			CardDavPassword = reader.GetString(7);
+			Group.Id = reader.GetInt32(8);
 		}
 
 		public bool HasPermission(string permission_name)
@@ -88,9 +90,24 @@ namespace Business
 		}
 	}
 
+	public class TUserGroup
+	{
+		public int Id;
+		public string Name;
+		public List<TUserPermission> Permissions = new List<TUserPermission>();
+
+		public int NoUsers;
+
+		public void FillFromReader(DbDataReader reader)
+		{
+			Id = reader.GetInt32(0);
+			Name = reader.GetString(1);
+		}
+	}
+
 	public static class UsersHandler
 	{
-		private static List<TUserPermission> UserPermissionsCatalog;
+		public static List<TUserPermission> UserPermissionsCatalog { get; private set; }
 
 		static UsersHandler()
 		{
@@ -112,6 +129,14 @@ namespace Business
 				new TUserPermission(111, "Usuarios.Permisos.Editar"),			// editar los permisos de el/los usuarios
 				new TUserPermission(112, "Usuarios.Permisos.Consultar"),	// consultar los permisos
 			
+				new TUserPermission(151, "Usuarios.Grupos.Editar"),				// editar los grupos de usuarios	
+				new TUserPermission(152, "Usuarios.Grupos.Consultar"),			// consultar los grupos de usuarios
+				new TUserPermission(153, "Usuarios.Grupos.Eliminar"),			// eliminar los grupos de usuarios
+				new TUserPermission(154, "Usuarios.Grupos.Crear"),					// crear los grupos de usuarios
+
+				new TUserPermission(161, "Usuarios.Grupos.Permisos.Editar"),
+				new TUserPermission(162, "Usuarios.Grupos.Permisos.Consultar"),
+
 				// institution related permissions
 				new TUserPermission(201, "Instituciones.Editar"),
 				new TUserPermission(202, "Instituciones.Consultar"),
@@ -207,6 +232,15 @@ namespace Business
 
 			GetUserPermissions(user.Id, out user.Permissions);
 
+			if (user.Group.Id != 0)
+			{
+				error = GetUserGroupById(user.Group.Id, out user.Group);
+
+				// TODO: the user should have the joined between the user and the group permissions, not just the ones from the group
+				if (error == 0)
+					user.Permissions = user.Group.Permissions;
+			}
+
 			ConnectionPool.ReleaseConnection(ref conn);
 
 			return 0;
@@ -243,9 +277,18 @@ namespace Business
 
 			GetUserPermissions(id, out user.Permissions);
 
+			if (user.Group.Id != 0)
+			{
+				error = GetUserGroupById(user.Group.Id, out user.Group);
+
+				// TODO: the user should have the joined between the user and the group permissions, not just the ones from the group
+				if (error == 0)
+					user.Permissions = user.Group.Permissions;
+			}
+
 			ConnectionPool.ReleaseConnection(ref conn);
 
-			return 0;
+			return error;
 		}
 
 		public static Error GetUserPermissions(int user_id, out List<TUserPermission> permissions_list)
@@ -359,7 +402,8 @@ namespace Business
 						carddav_sync_enabled=@carddav_sync_enabled,
 						carddav_url=@carddav_url,		
 						carddav_username=@carddav_username,
-						carddav_password=@carddav_password
+						carddav_password=@carddav_password,
+						user_group_id=@user_group_id	
 					WHERE 
 						id=@id;";
 			}
@@ -373,7 +417,8 @@ namespace Business
 						carddav_sync_enabled,
 						carddav_url,		
 						carddav_username,
-						carddav_password
+						carddav_password,
+						user_group_id
 					) VALUES(
 						@name, 
 						@username, 
@@ -381,7 +426,8 @@ namespace Business
 						@carddav_sync_enabled,
 						@carddav_url,		
 						@carddav_username,
-						@carddav_password
+						@carddav_password,
+						@user_group_id
 					);";
 			}
 
@@ -395,6 +441,7 @@ namespace Business
 				cmd.Parameters.AddWithValue("carddav_url", user.CardDavURL);		
 				cmd.Parameters.AddWithValue("carddav_username", user.CardDavUsername);
 				cmd.Parameters.AddWithValue("carddav_password", user.CardDavPassword);
+				cmd.Parameters.AddWithValue("user_group_id", user.Group.Id);
 
 				cmd.ExecuteNonQuery();
 
@@ -421,6 +468,195 @@ namespace Business
 			ConnectionPool.ReleaseConnection(ref conn);	
 
 			return 0;
+		}
+	
+		public static Error GetUserGroupById(int id, out TUserGroup user_group)
+		{
+			user_group = new TUserGroup();
+
+			var conn = ConnectionPool.GetConnection();
+
+			using (var cmd = new NpgsqlCommand("SELECT *, (SELECT COUNT(*) FROM users WHERE user_group_id = @id) as no_users FROM user_groups WHERE id = @id;", conn))
+			using (var reader = cmd.ExecuteReader())
+			{
+				if (reader.HasRows == false)
+				{
+					ConnectionPool.ReleaseConnection(ref conn);
+
+					return Error.UserGroupNotFound;
+				}
+
+				reader.Read();
+
+				user_group.FillFromReader(reader);
+
+				user_group.NoUsers = reader.GetInt32(reader.GetOrdinal("no_users"));
+
+				reader.Close();
+
+				// get the group permissions
+				cmd.CommandText = "SELECT * FROM user_group_permissions WHERE user_group_id = @id;";
+
+				using (var reader2 = cmd.ExecuteReader())
+				{
+					while (reader2.Read())
+					{
+						TUserPermission permission = new TUserPermission();
+
+						permission.FillFromReader(reader2);
+
+						user_group.Permissions.Add(permission);
+					}
+				}
+			}
+
+			GetUserGroupPermissions(id, out user_group.Permissions);
+
+			ConnectionPool.ReleaseConnection(ref conn);
+
+			return 0;
+		}
+
+		public static Error GetUserGroupPermissions(int user_group_id, out List<TUserPermission> permissions_list)
+		{
+			var conn = ConnectionPool.GetConnection();
+
+			string sql = "SELECT * FROM user_group_permissions WHERE user_group_id = @user_group_id ORDER BY id;";
+
+			permissions_list = UserPermissionsCatalog.ConvertAll(p => new TUserPermission(p.Id, p.Name, p.Permited));
+			permissions_list = permissions_list.OrderBy(p => p.Id).ToList();
+
+			using (var cmd = new NpgsqlCommand(sql, conn))
+			{
+				cmd.Parameters.AddWithValue("@user_group_id", user_group_id);
+
+				using (var reader = cmd.ExecuteReader())
+				{
+					if (reader.HasRows)
+					{
+						reader.Read();
+
+						TUserPermission user_permission = new TUserPermission();
+
+						user_permission.FillFromReader(reader);
+
+						foreach (TUserPermission permission in permissions_list)
+						{
+							if (user_permission.Id == permission.Id)
+							{
+								permission.Permited = user_permission.Permited;
+
+								if (reader.Read())
+								{
+									user_permission.FillFromReader(reader);
+								}
+								else
+								{
+									break;
+								}
+							}
+						}
+					}
+				}
+			}
+
+			ConnectionPool.ReleaseConnection(ref conn);
+
+			return 0;
+		}
+	
+		public static Error GetUserGroups(out List<TUserGroup> user_group_list)
+		{
+			Error error = 0;
+
+			var conn = ConnectionPool.GetConnection();
+
+			using (var cmd = new NpgsqlCommand("SELECT * FROM user_groups;", conn))
+			using (var reader = cmd.ExecuteReader())
+			{
+				user_group_list = new List<TUserGroup>();
+
+				while (reader.Read())
+				{
+					TUserGroup user_group = new TUserGroup();
+
+					user_group.FillFromReader(reader);
+
+					GetUserGroupById(user_group.Id, out user_group);
+
+					user_group_list.Add(user_group);
+				}
+			}
+
+			ConnectionPool.ReleaseConnection(ref conn);
+
+			return 0;
+		}
+	
+		public static Error SaveUserGroup(TUserGroup user_group, bool is_update)
+		{
+			Error error = 0;
+
+			var conn = ConnectionPool.GetConnection();
+
+			string sql = "";
+
+			if (is_update)
+			{
+				sql = @"
+					UPDATE 
+						user_groups
+					SET 
+						name=@name
+					WHERE 
+						id=@id;";
+			}
+			else
+			{
+				sql = @"
+					INSERT INTO 
+					user_groups(
+						name
+					) VALUES(
+						@name
+					) RETURNING id;";
+			}
+
+			using (var cmd = new NpgsqlCommand(sql, conn))
+			{
+				cmd.Parameters.AddWithValue("@id", user_group.Id);
+				cmd.Parameters.AddWithValue("@name", user_group.Name);
+
+				if (is_update == false)
+				{
+					user_group.Id = (Int32)(Int64)cmd.ExecuteScalar();
+				}
+				else
+				{
+					cmd.ExecuteNonQuery();
+				}
+
+				// save the permissions
+				cmd.CommandText = "DELETE FROM user_group_permissions WHERE user_group_id = @id;";
+				cmd.ExecuteNonQuery();
+
+				cmd.CommandText = "INSERT INTO user_group_permissions(id, user_group_id, permited) VALUES(@id, @user_group_id, @permited);";
+
+				foreach (TUserPermission permission in user_group.Permissions)
+				{
+					cmd.Parameters.Clear();
+
+					cmd.Parameters.AddWithValue("@id", permission.Id);
+					cmd.Parameters.AddWithValue("@user_group_id", user_group.Id);
+					cmd.Parameters.AddWithValue("@permited", permission.Permited);
+
+					cmd.ExecuteNonQuery();
+				}
+			}
+
+			ConnectionPool.ReleaseConnection(ref conn);
+
+			return error;
 		}
 	}
 }

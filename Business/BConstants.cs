@@ -89,34 +89,84 @@ namespace Business
 			return mapping[sector];
 		}
 
-		public static string GetCitizenFullTitle(TCitizenTitle title)
+		public static string GetCitizenFullTitle(TCitizenTitle title, TSex sex = TSex.Unknown)
 		{
 			Dictionary<TCitizenTitle, string> mapping = new Dictionary<TCitizenTitle, string>()
 			{
-				{ TCitizenTitle.None, "Ciudadan(o/a)" },
+				{ TCitizenTitle.None, "Ciudadano(a)" },
 
-				{ TCitizenTitle.DegreeLevel, "Licenciad(o/a)" },
-				{ TCitizenTitle.Engineneer, "Ingenier(o/a)" },
-				{ TCitizenTitle.Master, "Maestr(o/a)" },
+				{ TCitizenTitle.DegreeLevel, "Licenciado(a)" },
+				{ TCitizenTitle.Engineneer, "Ingeniero(a)" },
+				{ TCitizenTitle.Master, "Maestro(a)" },
 				{ TCitizenTitle.PhD, "Doctor(a)" },
-				{ TCitizenTitle.Arq, "Arquitect(o/a)" },
+				{ TCitizenTitle.Arq, "Arquitecto(a)" },
 
 				{ TCitizenTitle.PublicAccountant, "Contador(a) Público" },
 				{ TCitizenTitle.Councilor, "Regidor(a)" },
-				{ TCitizenTitle.Syndic, "Síndic(o/a)" },
+				{ TCitizenTitle.Syndic, "Síndico(a)" },
 				{ TCitizenTitle.MunicipalPresident, "Presidente(a) Municipal" },
 				{ TCitizenTitle.Governor, "Gobernador(a)" },
 
-				{ TCitizenTitle.LocalCongressman, "Diputad(o/a) Local" },
-				{ TCitizenTitle.FederalCongressman, "Diputad(o/a) Federal" },
+				{ TCitizenTitle.LocalCongressman, "Diputado(a) Local" },
+				{ TCitizenTitle.FederalCongressman, "Diputado(a) Federal" },
 				{ TCitizenTitle.Senator, "Senador(a)" },
-				{ TCitizenTitle.President, "Presient(e/a) de la República" }
+				{ TCitizenTitle.President, "Presiente(a) de la República" }
 			};
+
+			if (sex == TSex.Male)
+			{
+				mapping = new Dictionary<TCitizenTitle, string>()
+				{
+					{ TCitizenTitle.None, "Ciudadano" },
+
+					{ TCitizenTitle.DegreeLevel, "Licenciado" },
+					{ TCitizenTitle.Engineneer, "Ingeniero" },
+					{ TCitizenTitle.Master, "Maestro" },
+					{ TCitizenTitle.PhD, "Doctor" },
+					{ TCitizenTitle.Arq, "Arquitecto" },
+
+					{ TCitizenTitle.PublicAccountant, "Contador Público" },
+					{ TCitizenTitle.Councilor, "Regidor" },
+					{ TCitizenTitle.Syndic, "Síndico" },
+					{ TCitizenTitle.MunicipalPresident, "Presidente Municipal" },
+					{ TCitizenTitle.Governor, "Gobernador" },
+
+					{ TCitizenTitle.LocalCongressman, "Diputado Local" },
+					{ TCitizenTitle.FederalCongressman, "Diputado Federal" },
+					{ TCitizenTitle.Senator, "Senador" },
+					{ TCitizenTitle.President, "Presidente de la República" }
+				};
+			}
+
+			if (sex == TSex.Female)
+			{
+				mapping = new Dictionary<TCitizenTitle, string>()
+				{
+					{ TCitizenTitle.None, "Ciudadana" },
+
+					{ TCitizenTitle.DegreeLevel, "Licenciada" },
+					{ TCitizenTitle.Engineneer, "Ingeniera" },
+					{ TCitizenTitle.Master, "Maestra" },
+					{ TCitizenTitle.PhD, "Doctora" },
+					{ TCitizenTitle.Arq, "Arquitecta" },
+
+					{ TCitizenTitle.PublicAccountant, "Contadora Pública" },
+					{ TCitizenTitle.Councilor, "Regidora" },
+					{ TCitizenTitle.Syndic, "Síndica" },
+					{ TCitizenTitle.MunicipalPresident, "Presidenta Municipal" },
+					{ TCitizenTitle.Governor, "Gobernadora" },
+
+					{ TCitizenTitle.LocalCongressman, "Diputada Local" },
+					{ TCitizenTitle.FederalCongressman, "Diputada Federal" },
+					{ TCitizenTitle.Senator, "Senadora" },
+					{ TCitizenTitle.President, "Presidenta de la República" }
+				};
+			}
 
 			return mapping[title];
 		}
 
-		public static string GetCitizenBriefTitle(TCitizenTitle title)
+		public static string GetCitizenBriefTitle(TCitizenTitle title, TSex sex = TSex.Unknown)
 		{
 			Dictionary<TCitizenTitle, string> mapping = new Dictionary<TCitizenTitle, string>()
 			{
@@ -124,21 +174,71 @@ namespace Business
 
 				{ TCitizenTitle.DegreeLevel, "Lic." },
 				{ TCitizenTitle.Engineneer, "Ing." },
-				{ TCitizenTitle.Master, "Mtr(o/a)." },
+				{ TCitizenTitle.Master, "Mtro(a)." },
 				{ TCitizenTitle.PhD, "Dr." },
 				{ TCitizenTitle.Arq, "Arq." },
 
 				{ TCitizenTitle.PublicAccountant, "CP." },
 				{ TCitizenTitle.Councilor, "Regidor(a)" },
-				{ TCitizenTitle.Syndic, "Síndic(o/a)" },
-				{ TCitizenTitle.MunicipalPresident, "President(e/a) Municipal" },
+				{ TCitizenTitle.Syndic, "Síndico(a)" },
+				{ TCitizenTitle.MunicipalPresident, "Presidente(a) Municipal" },
 				{ TCitizenTitle.Governor, "Gobernador(a)" },
 
-				{ TCitizenTitle.LocalCongressman, "Diputad(o/a) Local" },
-				{ TCitizenTitle.FederalCongressman, "Diputad(o/a)" },
+				{ TCitizenTitle.LocalCongressman, "Diputado(a) Local" },
+				{ TCitizenTitle.FederalCongressman, "Diputado(a)" },
 				{ TCitizenTitle.Senator, "Senador(a)" },
-				{ TCitizenTitle.President, "President(e/a)" }
+				{ TCitizenTitle.President, "Presidente(a)" }
 			};
+
+			if (sex == TSex.Male)
+			{
+				mapping = new Dictionary<TCitizenTitle, string>()
+				{
+					{ TCitizenTitle.None, "C." },
+
+					{ TCitizenTitle.DegreeLevel, "Lic." },
+					{ TCitizenTitle.Engineneer, "Ing." },
+					{ TCitizenTitle.Master, "Mtro." },
+					{ TCitizenTitle.PhD, "Dr." },
+					{ TCitizenTitle.Arq, "Arq." },
+
+					{ TCitizenTitle.PublicAccountant, "C.P." },
+					{ TCitizenTitle.Councilor, "Regidor" },
+					{ TCitizenTitle.Syndic, "Síndico" },
+					{ TCitizenTitle.MunicipalPresident, "Presidente Municipal" },
+					{ TCitizenTitle.Governor, "Gobernador" },
+
+					{ TCitizenTitle.LocalCongressman, "Diputado Local" },
+					{ TCitizenTitle.FederalCongressman, "Diputado" },
+					{ TCitizenTitle.Senator, "Senador" },
+					{ TCitizenTitle.President, "Presidente" }
+				};
+			}
+
+			if (sex == TSex.Female)
+			{
+				mapping = new Dictionary<TCitizenTitle, string>()
+				{
+					{ TCitizenTitle.None, "C." },
+
+					{ TCitizenTitle.DegreeLevel, "Lic." },
+					{ TCitizenTitle.Engineneer, "Ing." },
+					{ TCitizenTitle.Master, "Mtra." },
+					{ TCitizenTitle.PhD, "Dr." },
+					{ TCitizenTitle.Arq, "Arq." },
+
+					{ TCitizenTitle.PublicAccountant, "C.P." },
+					{ TCitizenTitle.Councilor, "Regidora" },
+					{ TCitizenTitle.Syndic, "Síndica" },
+					{ TCitizenTitle.MunicipalPresident, "Presidenta Municipal" },
+					{ TCitizenTitle.Governor, "Gobernadora" },
+
+					{ TCitizenTitle.LocalCongressman, "Diputada Local" },
+					{ TCitizenTitle.FederalCongressman, "Diputada" },
+					{ TCitizenTitle.Senator, "Senadora" },
+					{ TCitizenTitle.President, "Presidenta" }
+				};
+			}
 
 			return mapping[title];
 		}

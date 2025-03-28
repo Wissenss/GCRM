@@ -111,6 +111,7 @@
 			BFilter.Padding = new Padding(2, 8, 2, 8);
 			BFilter.Size = new Size(61, 36);
 			BFilter.Text = "&Filtrar";
+			BFilter.Click += BFilter_Click;
 			// 
 			// toolStripSeparator4
 			// 
@@ -213,16 +214,19 @@
 			// 
 			// SplitContainer
 			// 
+			SplitContainer.BackColor = SystemColors.ControlLightLight;
 			SplitContainer.Dock = DockStyle.Fill;
 			SplitContainer.Location = new Point(0, 40);
 			SplitContainer.Name = "SplitContainer";
 			// 
 			// SplitContainer.Panel1
 			// 
+			SplitContainer.Panel1.BackColor = SystemColors.Control;
 			SplitContainer.Panel1.Controls.Add(DataGridLogs);
 			// 
 			// SplitContainer.Panel2
 			// 
+			SplitContainer.Panel2.BackColor = SystemColors.Control;
 			SplitContainer.Panel2.Controls.Add(LUser);
 			SplitContainer.Panel2.Controls.Add(LLUser);
 			SplitContainer.Panel2.Controls.Add(LEntity);
@@ -234,12 +238,13 @@
 			SplitContainer.Panel2.Padding = new Padding(5);
 			SplitContainer.Size = new Size(897, 501);
 			SplitContainer.SplitterDistance = 513;
+			SplitContainer.SplitterWidth = 5;
 			SplitContainer.TabIndex = 9;
 			// 
 			// LUser
 			// 
 			LUser.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-			LUser.Location = new Point(202, 427);
+			LUser.Location = new Point(201, 427);
 			LUser.Name = "LUser";
 			LUser.Size = new Size(170, 15);
 			LUser.TabIndex = 7;
@@ -259,7 +264,7 @@
 			// LEntity
 			// 
 			LEntity.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-			LEntity.Location = new Point(202, 447);
+			LEntity.Location = new Point(201, 447);
 			LEntity.Name = "LEntity";
 			LEntity.Size = new Size(170, 15);
 			LEntity.TabIndex = 5;
@@ -279,7 +284,7 @@
 			// LDate
 			// 
 			LDate.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-			LDate.Location = new Point(202, 467);
+			LDate.Location = new Point(201, 467);
 			LDate.Name = "LDate";
 			LDate.Size = new Size(170, 15);
 			LDate.TabIndex = 3;
@@ -316,7 +321,7 @@
 			Message.Name = "Message";
 			Message.ReadOnly = true;
 			Message.ScrollBars = ScrollBars.Both;
-			Message.Size = new Size(364, 392);
+			Message.Size = new Size(363, 392);
 			Message.TabIndex = 0;
 			// 
 			// FEventLog

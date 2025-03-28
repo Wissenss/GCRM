@@ -99,6 +99,8 @@ namespace GCRM
 
 				BQueries.Visible = Session.HasPermission("Queries.Run");
 
+				BUserGroups.Visible = Session.HasPermission("Usuarios.Grupos.Consultar");
+
 				BSync.Enabled = Session.User.CardDavSyncEnabled;
 			}
 		}
@@ -207,6 +209,14 @@ namespace GCRM
 				email_sync_dlg.TextBoxPassword.Text = Session.User.CardDavPassword;
 
 				email_sync_dlg.BSync_Click(this, null);
+			}
+		}
+
+		private void BUserGroups_Click(object sender, EventArgs e)
+		{
+			using (FUserGroupList user_group_list_dlg = new FUserGroupList())
+			{
+				user_group_list_dlg.ShowDialog();
 			}
 		}
 	}

@@ -54,6 +54,8 @@
 			CardDavURL = new TextBox();
 			LCardDavUrl = new Label();
 			CarddavSyncEnabled = new CheckBox();
+			LGroup = new Label();
+			Group = new ComboBox();
 			TabControlUser.SuspendLayout();
 			TabGeneral.SuspendLayout();
 			TabPermissions.SuspendLayout();
@@ -151,6 +153,8 @@
 			// 
 			// TabGeneral
 			// 
+			TabGeneral.Controls.Add(Group);
+			TabGeneral.Controls.Add(LGroup);
 			TabGeneral.Controls.Add(TextBoxName);
 			TabGeneral.Controls.Add(TextBoxPassword);
 			TabGeneral.Controls.Add(LName);
@@ -326,6 +330,24 @@
 			CarddavSyncEnabled.UseVisualStyleBackColor = true;
 			CarddavSyncEnabled.CheckedChanged += CarddavSyncEnabled_CheckedChanged;
 			// 
+			// LGroup
+			// 
+			LGroup.AutoSize = true;
+			LGroup.Location = new Point(8, 96);
+			LGroup.Name = "LGroup";
+			LGroup.Size = new Size(40, 15);
+			LGroup.TabIndex = 12;
+			LGroup.Text = "Grupo";
+			// 
+			// Group
+			// 
+			Group.DropDownStyle = ComboBoxStyle.DropDownList;
+			Group.FormattingEnabled = true;
+			Group.Location = new Point(65, 93);
+			Group.Name = "Group";
+			Group.Size = new Size(278, 23);
+			Group.TabIndex = 13;
+			// 
 			// FUserData
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
@@ -376,5 +398,7 @@
 		private Label LCardDavPassword;
 		private TextBox CarddavUsername;
 		private Label LCardDavUsername;
+		private ComboBox Group;
+		private Label LGroup;
 	}
 }

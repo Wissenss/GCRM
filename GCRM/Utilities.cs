@@ -675,4 +675,12 @@ namespace GCRM
 			return "";
 		}
 	}
+
+	public static class ComboboxUtilities
+	{
+		public static void SetEnumDataSource<T>(ComboBox combobox)
+		{
+			combobox.DataSource = Enum.GetValues(typeof(T));
+		}
+	}
 }

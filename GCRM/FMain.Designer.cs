@@ -42,19 +42,20 @@
 			TabElectoral = new TabPage();
 			toolStrip3 = new ToolStrip();
 			BCitizenNetworks = new ToolStripButton();
+			toolStripSeparator3 = new ToolStripSeparator();
+			toolStripButton1 = new ToolStripButton();
 			TabOthers = new TabPage();
 			ToolStripOther = new ToolStrip();
 			BSettings = new ToolStripButton();
 			BUsers = new ToolStripButton();
+			BUserGroups = new ToolStripButton();
 			BConnection = new ToolStripButton();
 			BAbout = new ToolStripButton();
 			toolStripSeparator1 = new ToolStripSeparator();
 			BEmails = new ToolStripButton();
-			toolStripSeparator3 = new ToolStripSeparator();
 			BSync = new ToolStripButton();
 			toolStripSeparator5 = new ToolStripSeparator();
 			BQueries = new ToolStripButton();
-			toolStripSeparator4 = new ToolStripSeparator();
 			BEventLog = new ToolStripButton();
 			ListBoxBirhdays = new ListBox();
 			LBirthdayList = new Label();
@@ -184,7 +185,7 @@
 			// 
 			toolStrip3.Dock = DockStyle.Fill;
 			toolStrip3.GripStyle = ToolStripGripStyle.Hidden;
-			toolStrip3.Items.AddRange(new ToolStripItem[] { BCitizenNetworks });
+			toolStrip3.Items.AddRange(new ToolStripItem[] { BCitizenNetworks, toolStripSeparator3, toolStripButton1 });
 			toolStrip3.Location = new Point(3, 3);
 			toolStrip3.Name = "toolStrip3";
 			toolStrip3.RenderMode = ToolStripRenderMode.System;
@@ -203,6 +204,22 @@
 			BCitizenNetworks.TextImageRelation = TextImageRelation.ImageAboveText;
 			BCitizenNetworks.Click += BCitizenNetworks_Click;
 			// 
+			// toolStripSeparator3
+			// 
+			toolStripSeparator3.Name = "toolStripSeparator3";
+			toolStripSeparator3.Size = new Size(6, 55);
+			// 
+			// toolStripButton1
+			// 
+			toolStripButton1.Image = Properties.Resources.Fatcow_Farm_Fresh_Form_design_32;
+			toolStripButton1.ImageScaling = ToolStripItemImageScaling.None;
+			toolStripButton1.ImageTransparentColor = Color.Magenta;
+			toolStripButton1.Name = "toolStripButton1";
+			toolStripButton1.Size = new Size(63, 52);
+			toolStripButton1.Text = "&Encuestas";
+			toolStripButton1.TextImageRelation = TextImageRelation.ImageAboveText;
+			toolStripButton1.Visible = false;
+			// 
 			// TabOthers
 			// 
 			TabOthers.Controls.Add(ToolStripOther);
@@ -218,7 +235,7 @@
 			// 
 			ToolStripOther.Dock = DockStyle.Fill;
 			ToolStripOther.GripStyle = ToolStripGripStyle.Hidden;
-			ToolStripOther.Items.AddRange(new ToolStripItem[] { BSettings, BUsers, BConnection, BAbout, toolStripSeparator1, BEmails, toolStripSeparator3, BSync, toolStripSeparator5, BQueries, toolStripSeparator4, BEventLog });
+			ToolStripOther.Items.AddRange(new ToolStripItem[] { BSettings, BUsers, BUserGroups, BConnection, BAbout, toolStripSeparator1, BEmails, BSync, toolStripSeparator5, BQueries, BEventLog });
 			ToolStripOther.Location = new Point(3, 3);
 			ToolStripOther.Name = "ToolStripOther";
 			ToolStripOther.RenderMode = ToolStripRenderMode.System;
@@ -243,11 +260,24 @@
 			BUsers.Image = Properties.Resources.Fatcow_Farm_Fresh_User_suit_32;
 			BUsers.ImageScaling = ToolStripItemImageScaling.None;
 			BUsers.ImageTransparentColor = Color.Magenta;
+			BUsers.Margin = new Padding(1, 2, 1, 2);
 			BUsers.Name = "BUsers";
-			BUsers.Size = new Size(56, 52);
+			BUsers.Size = new Size(56, 51);
 			BUsers.Text = "&Usuarios";
 			BUsers.TextImageRelation = TextImageRelation.ImageAboveText;
 			BUsers.Click += BUsers_Click;
+			// 
+			// BUserGroups
+			// 
+			BUserGroups.Image = Properties.Resources.Fatcow_Farm_Fresh_Reseller_programm_32;
+			BUserGroups.ImageScaling = ToolStripItemImageScaling.None;
+			BUserGroups.ImageTransparentColor = Color.Magenta;
+			BUserGroups.Margin = new Padding(1, 2, 1, 2);
+			BUserGroups.Name = "BUserGroups";
+			BUserGroups.Size = new Size(49, 51);
+			BUserGroups.Text = "&Grupos";
+			BUserGroups.TextImageRelation = TextImageRelation.ImageAboveText;
+			BUserGroups.Click += BUserGroups_Click;
 			// 
 			// BConnection
 			// 
@@ -255,8 +285,9 @@
 			BConnection.Image = Properties.Resources.Fatcow_Farm_Fresh_Connect_32;
 			BConnection.ImageScaling = ToolStripItemImageScaling.None;
 			BConnection.ImageTransparentColor = Color.Magenta;
+			BConnection.Margin = new Padding(1, 2, 1, 2);
 			BConnection.Name = "BConnection";
-			BConnection.Size = new Size(61, 52);
+			BConnection.Size = new Size(61, 51);
 			BConnection.Text = "&Conexión";
 			BConnection.TextImageRelation = TextImageRelation.ImageAboveText;
 			BConnection.Click += BConnection_Click;
@@ -267,8 +298,9 @@
 			BAbout.Image = Properties.Resources.Fatcow_Farm_Fresh_Information_32;
 			BAbout.ImageScaling = ToolStripItemImageScaling.None;
 			BAbout.ImageTransparentColor = Color.Magenta;
+			BAbout.Margin = new Padding(1, 2, 1, 2);
 			BAbout.Name = "BAbout";
-			BAbout.Size = new Size(63, 52);
+			BAbout.Size = new Size(63, 51);
 			BAbout.Text = "&Acerca de";
 			BAbout.TextImageRelation = TextImageRelation.ImageAboveText;
 			BAbout.ToolTipText = "Acerca de";
@@ -276,32 +308,30 @@
 			// 
 			// toolStripSeparator1
 			// 
+			toolStripSeparator1.Margin = new Padding(1, 2, 1, 2);
 			toolStripSeparator1.Name = "toolStripSeparator1";
-			toolStripSeparator1.Size = new Size(6, 55);
+			toolStripSeparator1.Size = new Size(6, 51);
 			// 
 			// BEmails
 			// 
-			BEmails.Image = Properties.Resources.Fatcow_Farm_Fresh_Email_32;
+			BEmails.Image = Properties.Resources.Fatcow_Farm_Fresh_Email_accounts_32;
 			BEmails.ImageScaling = ToolStripItemImageScaling.None;
 			BEmails.ImageTransparentColor = Color.Magenta;
+			BEmails.Margin = new Padding(1, 2, 1, 2);
 			BEmails.Name = "BEmails";
-			BEmails.Size = new Size(45, 52);
+			BEmails.Size = new Size(45, 51);
 			BEmails.Text = "&Emails";
 			BEmails.TextImageRelation = TextImageRelation.ImageAboveText;
 			BEmails.Click += BEmails_Click;
-			// 
-			// toolStripSeparator3
-			// 
-			toolStripSeparator3.Name = "toolStripSeparator3";
-			toolStripSeparator3.Size = new Size(6, 55);
 			// 
 			// BSync
 			// 
 			BSync.Image = Properties.Resources.Fatcow_Farm_Fresh_Update_contact_info_32;
 			BSync.ImageScaling = ToolStripItemImageScaling.None;
 			BSync.ImageTransparentColor = Color.Magenta;
+			BSync.Margin = new Padding(1, 2, 1, 2);
 			BSync.Name = "BSync";
-			BSync.Size = new Size(69, 52);
+			BSync.Size = new Size(69, 51);
 			BSync.Text = "&Sincronizar";
 			BSync.TextImageRelation = TextImageRelation.ImageAboveText;
 			BSync.Click += BSync_Click;
@@ -316,24 +346,21 @@
 			BQueries.Image = Properties.Resources.Fatcow_Farm_Fresh_Query_design_32;
 			BQueries.ImageScaling = ToolStripItemImageScaling.None;
 			BQueries.ImageTransparentColor = Color.Magenta;
+			BQueries.Margin = new Padding(1, 2, 1, 2);
 			BQueries.Name = "BQueries";
-			BQueries.Size = new Size(63, 52);
+			BQueries.Size = new Size(63, 51);
 			BQueries.Text = "&Consultas";
 			BQueries.TextImageRelation = TextImageRelation.ImageAboveText;
 			BQueries.Click += BQueries_Click;
-			// 
-			// toolStripSeparator4
-			// 
-			toolStripSeparator4.Name = "toolStripSeparator4";
-			toolStripSeparator4.Size = new Size(6, 55);
 			// 
 			// BEventLog
 			// 
 			BEventLog.Image = Properties.Resources.Fatcow_Farm_Fresh_Date_time_functions_32;
 			BEventLog.ImageScaling = ToolStripItemImageScaling.None;
 			BEventLog.ImageTransparentColor = Color.Magenta;
+			BEventLog.Margin = new Padding(1, 2, 1, 2);
 			BEventLog.Name = "BEventLog";
-			BEventLog.Size = new Size(54, 52);
+			BEventLog.Size = new Size(54, 51);
 			BEventLog.Text = "&Bitácora";
 			BEventLog.TextImageRelation = TextImageRelation.ImageAboveText;
 			BEventLog.Click += BEventLog_Click;
@@ -432,11 +459,12 @@
 		private ToolStripButton BCitizenNetworks;
 		private ToolStripButton BEmails;
 		private ToolStripSeparator toolStripSeparator1;
-		private ToolStripSeparator toolStripSeparator3;
 		private ToolStripButton BQueries;
-		private ToolStripSeparator toolStripSeparator4;
 		private ToolStripButton BEventLog;
 		private ToolStripButton BSync;
 		private ToolStripSeparator toolStripSeparator5;
+		private ToolStripSeparator toolStripSeparator3;
+		private ToolStripButton toolStripButton1;
+		private ToolStripButton BUserGroups;
 	}
 }

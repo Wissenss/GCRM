@@ -16,9 +16,13 @@ namespace GCRM
 		DataSet DSLogs;
 		DataTable DTLogs;
 
+		FEventLogFilters filters_dlg;
+
 		public FEventLog()
 		{
 			InitializeComponent();
+
+			filters_dlg = new FEventLogFilters();
 
 			int display_index = 0;
 
@@ -38,6 +42,8 @@ namespace GCRM
 			DTLogs.Columns.Add("type_name", typeof(string));
 
 			DSLogs.Tables.Add(DTLogs);
+
+			DataGridLogs.AutoGenerateColumns = false;
 
 			DataGridUtilities.AddColumn(DataGridLogs, "colUserId", "Id Usuario", "user_id", false, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
 			DataGridUtilities.AddColumn(DataGridLogs, "colType", "Id Tipo", "type", false, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
@@ -116,11 +122,40 @@ namespace GCRM
 
 			DataGridViewRow row = DataGridLogs.SelectedRows[0];
 
-			Message.Text = row.Cells["colMessage"].Value.ToString();
-			LName.Text = row.Cells["colTypeName"].Value.ToString();
-			LUser.Text = row.Cells["colUserName"].Value.ToString();
-			LEntity.Text = row.Cells["colPrimaryEntityType"].Value.ToString();
-			LDate.Text = row.Cells["colDate"].Value.ToString();
+			Message.Text = row.Cells["colMessage"].Value?.ToString();
+			LName.Text = row.Cells["colTypeName"].Value?.ToString();
+			LUser.Text = row.Cells["colUserName"].Value?.ToString();
+
+			if (row.Cells["colPrimaryEntityType"].Value != null)
+				LEntity.Text = ((TEntityType)row.Cells["colPrimaryEntityType"].Value).ToString();
+			
+			LDate.Text = row.Cells["colDate"].Value?.ToString();
+		}
+
+		private void BFilter_Click(object sender, EventArgs e)
+		{
+			if (filters_dlg.ShowDialog() == DialogResult.OK)
+			{
+				string filters = "true";
+
+				if (filters_dlg.FilterUser.Checked)
+					filters += "  AND user_id = " + filters_dlg.User.SelectedValue;
+					
+				if (filters_dlg.FilterActionType.Checked)
+					filters += "  AND type = " + (int)filters_dlg.ActionType.SelectedItem;
+
+				if (filters_dlg.FilterDate.Checked)
+					filters += "  AND date >= '" + filters_dlg.DateFrom.Value.ToString("yyyy-MM-dd") + "' AND date <= '" + filters_dlg.DateTo.Value.ToString("yyyy-MM-dd") + "'";
+
+				if (filters_dlg.FilterEntityType.Checked)
+					filters += "  AND primary_entity_type = " + (int)filters_dlg.EntityType.SelectedItem;
+
+				if (filters_dlg.FilterEntityId.Checked)
+					filters += "  AND primary_entity_id = " + filters_dlg.EntityId.Value;
+
+				DTLogs.DefaultView.RowFilter = filters;
+				DataGridLogs.DataSource = DTLogs;
+			}
 		}
 	}
 }

@@ -1,4 +1,5 @@
 using NLog;
+using System.Globalization;
 using System.Text;
 
 namespace GCRM
@@ -20,6 +21,10 @@ namespace GCRM
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			Application.SetHighDpiMode(HighDpiMode.SystemAware);
+
+			CultureInfo ci = new CultureInfo("es-MX");
+			Thread.CurrentThread.CurrentCulture = ci;
+			Thread.CurrentThread.CurrentUICulture = ci;
 
 			Application.Run(new FSplashScreen());
 		}

@@ -167,12 +167,9 @@ namespace Reporter
 			{
 				table.ColumnsDefinition(columns =>
 				{
-					columns.ConstantColumn(30);
+					columns.RelativeColumn();
+					columns.RelativeColumn();
 					columns.ConstantColumn(120);
-					columns.RelativeColumn();
-					columns.RelativeColumn();
-					columns.ConstantColumn(90);
-					columns.ConstantColumn(60);
 					columns.ConstantColumn(50); 
 				});
 
@@ -180,13 +177,10 @@ namespace Reporter
 				{
 					float header_font_size = 8;
 
-					header.Cell().Element(CellStyle).Text("Título").FontSize(header_font_size).SemiBold();
 					header.Cell().Element(CellStyle).Text("Nombre").FontSize(header_font_size).SemiBold();
-					header.Cell().Element(CellStyle).Text("Institución").FontSize(header_font_size).SemiBold();
 					header.Cell().Element(CellStyle).Text("Cargo").FontSize(header_font_size).SemiBold();
-					header.Cell().Element(CellStyle).Text("Teléfono").FontSize(header_font_size).SemiBold();
-					header.Cell().Element(CellStyle).Text("Celular").FontSize(header_font_size).SemiBold();
-					header.Cell().Element(CellStyle).Text("Nacimiento").FontSize(header_font_size).SemiBold();
+					header.Cell().Element(CellStyle).Text("Contacto").FontSize(header_font_size).SemiBold();
+					header.Cell().Element(CellStyle).Text("Cumpleaños").FontSize(header_font_size).SemiBold().AlignCenter();
 						
 					static IContainer CellStyle(IContainer container)
 					{
@@ -198,22 +192,25 @@ namespace Reporter
 				{
 					float row_font_size = 8;
 
-					table.Cell().Element(CellStyle).Text(BConstants.GetCitizenBriefTitle(citizen.Title)).FontSize(row_font_size);
-					table.Cell().Element(CellStyle).Text($"{citizen.Name} {citizen.PaternalName} {citizen.MaternalName}").FontSize(row_font_size);
-					table.Cell().Element(CellStyle).Text(citizen.Institution.Name).FontSize(row_font_size);
-					table.Cell().Element(CellStyle).Text(citizen.Role.Name).FontSize(row_font_size);
+					table.Cell().Element(CellStyle).Text($"{BConstants.GetCitizenBriefTitle(citizen.Title, citizen.Sex)} {citizen.FullName}").FontSize(row_font_size);
 
-					if (citizen.PhoneExtension.Trim().Length > 0)
-						table.Cell().Element(CellStyle).Text($"{citizen.Phone} Ext. {citizen.PhoneExtension}").FontSize(row_font_size);
-					else
-						table.Cell().Element(CellStyle).Text($"{citizen.Phone}").FontSize(row_font_size);
+					table.Cell().Element(CellStyle).Text($"{citizen.Role.Name} - {citizen.Institution.Name}").FontSize(row_font_size);
 
-					table.Cell().Element(CellStyle).Text(citizen.Cellphone).FontSize(row_font_size);
-					table.Cell().Element(CellStyle).Text(citizen.Birthday.ToString("dd/MM/yyyy")).FontSize(row_font_size);
+					string contact_str = "";
+
+					if (citizen.Phone.Length > 0)
+						contact_str += $"Tel. {citizen.FullPhone}\n";
+
+					if (citizen.Cellphone.Length > 0)
+						contact_str += $"Cel. {citizen.Cellphone}";
+
+					table.Cell().Element(CellStyle).Text(contact_str).FontSize(row_font_size);
+
+					table.Cell().Element(CellStyle).Text(citizen.Birthday.ToString("d MMM")).FontSize(row_font_size).AlignCenter();
 
 					static IContainer CellStyle(IContainer container)
 					{
-						return container.BorderBottom(0.1f).BorderColor(Colors.Grey.Lighten2).Padding(0.5f);
+						return container.BorderBottom(0.1f).BorderColor(Colors.Grey.Lighten2).Padding(0.5f).PaddingBottom(1.5f).PaddingTop(1.5f);
 					}
 				}
 			});
@@ -232,13 +229,6 @@ namespace Reporter
 				row.RelativeItem().Element(e => e.AlignLeft().Text($"GCRM {version} - Generado por: {Session.User.Name}").FontSize(footer_font_size));
 				row.RelativeItem().Element(e => e.AlignRight().Text($"Fecha: {DateTime.Now.ToString("dd/MM/yyyy")}").FontSize(footer_font_size));
 			});
-			//container.AlignRight().Text().FontSize(6);
-			//container.AlignCenter().Text(x =>
-			//{
-			//	x.CurrentPageNumber();
-			//	x.Span(" / ");
-			//	x.TotalPages();
-			//});
 		}
 	}
 }

@@ -50,6 +50,14 @@
 			BCategories = new ToolStripButton();
 			BSearch = new ToolStripButton();
 			DataGridInstitutions = new DataGridView();
+			SplitContainer = new SplitContainer();
+			TreeView = new TreeView();
+			TextBoxSearch = new TextBox();
+			PanelSearch = new Panel();
+			SaveFileDialog = new SaveFileDialog();
+			StatusStrip = new StatusStrip();
+			TSSLRecordCount = new ToolStripStatusLabel();
+			TSSLFilters = new ToolStripStatusLabel();
 			colId = new DataGridViewTextBoxColumn();
 			colName = new DataGridViewTextBoxColumn();
 			colAcronym = new DataGridViewTextBoxColumn();
@@ -59,14 +67,6 @@
 			colCategoryName = new DataGridViewTextBoxColumn();
 			colDescription = new DataGridViewTextBoxColumn();
 			colParentInstitutionId = new DataGridViewTextBoxColumn();
-			SplitContainer = new SplitContainer();
-			TreeView = new TreeView();
-			TextBoxSearch = new TextBox();
-			PanelSearch = new Panel();
-			SaveFileDialog = new SaveFileDialog();
-			StatusStrip = new StatusStrip();
-			TSSLRecordCount = new ToolStripStatusLabel();
-			TSSLFilters = new ToolStripStatusLabel();
 			ToolStrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)DataGridInstitutions).BeginInit();
 			((System.ComponentModel.ISupportInitialize)SplitContainer).BeginInit();
@@ -292,89 +292,6 @@
 			DataGridInstitutions.StandardTab = true;
 			DataGridInstitutions.TabIndex = 3;
 			// 
-			// colId
-			// 
-			colId.DataPropertyName = "id";
-			colId.DividerWidth = 1;
-			colId.HeaderText = "Id";
-			colId.Name = "colId";
-			colId.ReadOnly = true;
-			colId.Visible = false;
-			// 
-			// colName
-			// 
-			colName.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-			colName.DataPropertyName = "name";
-			colName.DividerWidth = 1;
-			colName.HeaderText = "Nombre";
-			colName.Name = "colName";
-			colName.ReadOnly = true;
-			colName.Width = 75;
-			// 
-			// colAcronym
-			// 
-			colAcronym.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-			colAcronym.DataPropertyName = "acronym";
-			colAcronym.DividerWidth = 1;
-			colAcronym.HeaderText = "Acrónimo";
-			colAcronym.Name = "colAcronym";
-			colAcronym.ReadOnly = true;
-			colAcronym.Width = 84;
-			// 
-			// colSocietySector
-			// 
-			colSocietySector.DataPropertyName = "society_sector";
-			colSocietySector.DividerWidth = 1;
-			colSocietySector.HeaderText = "Id Sector";
-			colSocietySector.Name = "colSocietySector";
-			colSocietySector.ReadOnly = true;
-			colSocietySector.Visible = false;
-			// 
-			// colSocietySectorName
-			// 
-			colSocietySectorName.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-			colSocietySectorName.DataPropertyName = "society_sector_name";
-			colSocietySectorName.DividerWidth = 1;
-			colSocietySectorName.HeaderText = "Sector";
-			colSocietySectorName.Name = "colSocietySectorName";
-			colSocietySectorName.ReadOnly = true;
-			colSocietySectorName.Width = 64;
-			// 
-			// colCategoryId
-			// 
-			colCategoryId.DataPropertyName = "category_id";
-			colCategoryId.DividerWidth = 1;
-			colCategoryId.HeaderText = "Id Categoría";
-			colCategoryId.Name = "colCategoryId";
-			colCategoryId.ReadOnly = true;
-			colCategoryId.Visible = false;
-			// 
-			// colCategoryName
-			// 
-			colCategoryName.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-			colCategoryName.DataPropertyName = "category_name";
-			colCategoryName.DividerWidth = 1;
-			colCategoryName.HeaderText = "Categoría";
-			colCategoryName.Name = "colCategoryName";
-			colCategoryName.ReadOnly = true;
-			colCategoryName.Width = 82;
-			// 
-			// colDescription
-			// 
-			colDescription.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-			colDescription.DataPropertyName = "description";
-			colDescription.HeaderText = "Descripción";
-			colDescription.Name = "colDescription";
-			colDescription.ReadOnly = true;
-			// 
-			// colParentInstitutionId
-			// 
-			colParentInstitutionId.DataPropertyName = "parent_institution_id";
-			colParentInstitutionId.HeaderText = "Institución Padre";
-			colParentInstitutionId.Name = "colParentInstitutionId";
-			colParentInstitutionId.ReadOnly = true;
-			colParentInstitutionId.Visible = false;
-			// 
 			// SplitContainer
 			// 
 			SplitContainer.Dock = DockStyle.Fill;
@@ -446,6 +363,90 @@
 			TSSLFilters.Name = "TSSLFilters";
 			TSSLFilters.Size = new Size(147, 17);
 			TSSLFilters.Text = "     Filtros: Sexo = Masculino";
+			// 
+			// colId
+			// 
+			colId.DataPropertyName = "id";
+			colId.DividerWidth = 1;
+			colId.HeaderText = "Id";
+			colId.Name = "colId";
+			colId.ReadOnly = true;
+			colId.Visible = false;
+			// 
+			// colName
+			// 
+			colName.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+			colName.DataPropertyName = "name";
+			colName.DividerWidth = 1;
+			colName.HeaderText = "Nombre";
+			colName.Name = "colName";
+			colName.ReadOnly = true;
+			colName.Width = 75;
+			// 
+			// colAcronym
+			// 
+			colAcronym.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+			colAcronym.DataPropertyName = "acronym";
+			colAcronym.DividerWidth = 1;
+			colAcronym.HeaderText = "Acrónimo";
+			colAcronym.Name = "colAcronym";
+			colAcronym.ReadOnly = true;
+			colAcronym.Visible = false;
+			colAcronym.Width = 84;
+			// 
+			// colSocietySector
+			// 
+			colSocietySector.DataPropertyName = "society_sector";
+			colSocietySector.DividerWidth = 1;
+			colSocietySector.HeaderText = "Id Sector";
+			colSocietySector.Name = "colSocietySector";
+			colSocietySector.ReadOnly = true;
+			colSocietySector.Visible = false;
+			// 
+			// colSocietySectorName
+			// 
+			colSocietySectorName.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+			colSocietySectorName.DataPropertyName = "society_sector_name";
+			colSocietySectorName.DividerWidth = 1;
+			colSocietySectorName.HeaderText = "Sector";
+			colSocietySectorName.Name = "colSocietySectorName";
+			colSocietySectorName.ReadOnly = true;
+			colSocietySectorName.Width = 64;
+			// 
+			// colCategoryId
+			// 
+			colCategoryId.DataPropertyName = "category_id";
+			colCategoryId.DividerWidth = 1;
+			colCategoryId.HeaderText = "Id Categoría";
+			colCategoryId.Name = "colCategoryId";
+			colCategoryId.ReadOnly = true;
+			colCategoryId.Visible = false;
+			// 
+			// colCategoryName
+			// 
+			colCategoryName.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+			colCategoryName.DataPropertyName = "category_name";
+			colCategoryName.DividerWidth = 1;
+			colCategoryName.HeaderText = "Categoría";
+			colCategoryName.Name = "colCategoryName";
+			colCategoryName.ReadOnly = true;
+			colCategoryName.Width = 82;
+			// 
+			// colDescription
+			// 
+			colDescription.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+			colDescription.DataPropertyName = "description";
+			colDescription.HeaderText = "Descripción";
+			colDescription.Name = "colDescription";
+			colDescription.ReadOnly = true;
+			// 
+			// colParentInstitutionId
+			// 
+			colParentInstitutionId.DataPropertyName = "parent_institution_id";
+			colParentInstitutionId.HeaderText = "Institución Padre";
+			colParentInstitutionId.Name = "colParentInstitutionId";
+			colParentInstitutionId.ReadOnly = true;
+			colParentInstitutionId.Visible = false;
 			// 
 			// FInstitutionList
 			// 

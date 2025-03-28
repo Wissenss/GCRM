@@ -95,9 +95,9 @@
 			LCopyright.AutoSize = true;
 			LCopyright.Location = new Point(12, 64);
 			LCopyright.Name = "LCopyright";
-			LCopyright.Size = new Size(269, 15);
+			LCopyright.Size = new Size(231, 15);
 			LCopyright.TabIndex = 2;
-			LCopyright.Text = "Copyright: Leonardo Merino && Raul Rivera ©2025";
+			LCopyright.Text = "Copyright: Leonardo Merino && Raul Rivera";
 			// 
 			// LContact
 			// 

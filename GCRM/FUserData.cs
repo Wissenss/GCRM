@@ -8,6 +8,7 @@ namespace GCRM
 	{
 		DataSet DSUser;
 		DataTable DTUserPermissions;
+		DataTable DTUserGroups;
 
 		FAccessMode AccessMode = FAccessMode.Create;
 		int Id = 0;
@@ -21,6 +22,11 @@ namespace GCRM
 
 			DSUser = new DataSet();
 
+			DTUserGroups = new DataTable("DTUserGroups");
+			DTUserGroups.Columns.Add("id", typeof(int));
+			DTUserGroups.Columns.Add("name", typeof(string));
+			DSUser.Tables.Add(DTUserGroups);
+
 			DTUserPermissions = new DataTable("DTUserPermissions", "DTUserPermissions");
 			DTUserPermissions.Columns.Add("id", typeof(int));
 			DTUserPermissions.Columns.Add("name", typeof(string));
@@ -29,6 +35,8 @@ namespace GCRM
 
 			DataGridUserPermissions.DataSource = DSUser;
 			DataGridUserPermissions.DataMember = "DTUserPermissions";
+
+			LoadUserGroups();
 		}
 
 		private void LoadPermissions()
@@ -41,6 +49,48 @@ namespace GCRM
 				{
 					TabControlUser.TabPages.RemoveAt(1);
 				}
+
+				Group.Enabled = Session.HasPermission("Usuarios.Permisos.Editar");
+			}
+		}
+
+		private void LoadUserGroups()
+		{
+			using (new CursorWait())
+			{
+				Error error = UsersHandler.GetUserGroups(out List<TUserGroup> user_groups_list);
+
+				if (error != 0)
+				{
+					Utilities.ShowErrorDialog(error);
+					return;
+				}
+
+				user_groups_list.Insert(0, new TUserGroup()
+				{
+					Id = 0,
+					Name = "Ninguno"
+				});
+
+				DTUserGroups.BeginLoadData();
+				DTUserGroups.Clear();
+
+				foreach (TUserGroup user in user_groups_list)
+				{
+					DataRow row = DTUserGroups.NewRow();
+
+					row["id"] = user.Id;
+					row["name"] = user.Name;
+
+					DTUserGroups.Rows.Add(row);
+				}
+
+				DTUserGroups.EndLoadData();
+
+				Group.DataSource = DTUserGroups;
+				Group.DisplayMember = "name";
+				Group.ValueMember = "id";
+				Group.SelectedIndex = 0; 
 			}
 		}
 
@@ -56,6 +106,8 @@ namespace GCRM
 			CardDavURL.Enabled = AccessMode != FAccessMode.Read;
 			CarddavUsername.Enabled = AccessMode != FAccessMode.Read;
 			CarddavPassword.Enabled = AccessMode != FAccessMode.Read;
+
+			Group.Enabled = AccessMode != FAccessMode.Read;
 
 			BAccept.Visible = AccessMode != FAccessMode.Read;
 			BCancel.Text = AccessMode != FAccessMode.Read ? "&Cancelar" : "&Cerrar";
@@ -90,6 +142,8 @@ namespace GCRM
 
 				DTUserPermissions.BeginLoadData();
 				DTUserPermissions.Clear();
+
+				Group.SelectedValue = user.Group.Id;
 
 				foreach (TUserPermission permission in user.Permissions)
 				{
@@ -184,7 +238,11 @@ namespace GCRM
 					CardDavSyncEnabled = CarddavSyncEnabled.Checked,
 					CardDavURL = CardDavURL.Text.Trim(),
 					CardDavUsername = CarddavUsername.Text.Trim(),
-					CardDavPassword = CarddavPassword.Text.Trim()
+					CardDavPassword = CarddavPassword.Text.Trim(),
+					Group = new TUserGroup()
+					{
+						Id = (int)Group.SelectedValue
+					}
 				};
 
 				if (PasswordChanged)

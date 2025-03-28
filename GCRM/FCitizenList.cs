@@ -24,6 +24,28 @@ namespace GCRM
 			DataGridCitizens.AutoGenerateColumns = false;
 
 			// DataGridCitizensColumns
+
+			int display_index = 0;
+
+			DataGridUtilities.AddColumn(DataGridCitizens, "colTitleName", "Título", "title_name", true, display_index++, 20, 20, DataGridViewAutoSizeColumnMode.AllCells);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colFullName", "Nombre", "name_full", true, display_index++, 250, 250, DataGridViewAutoSizeColumnMode.Fill);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionName", "Institución", "institution_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionRoleName", "Cargo", "institution_role_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionCategoryName", "Categoría de institución", "institution_category_name", true, display_index++, 300, 160, DataGridViewAutoSizeColumnMode.AllCells);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionSectorName", "Sector", "institution_sector_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colPhoneAndExtension", "Teléfono", "phone_full", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colCellphone", "Celular", "cellphone", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colBirthday", "Nacimiento", "birthday", false, display_index++, 20, 20, DataGridViewAutoSizeColumnMode.AllCells);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colAuthorName", "Autor", "author_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colEditorName", "Último editor", "editor_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
+
+			// ocultas por default
+			DataGridUtilities.AddColumn(DataGridCitizens, "colCategoryName", "Categoría", "category_name", false, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colAssistantName", "Asistente", "assistant_name", false, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colSexName", "Sexo", "sex_name", false, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colPoliticalPartyName", "Partido", "political_party_name", false, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colCURP", "CURP", "curp", false, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
+			
 			DataGridUtilities.AddColumn(DataGridCitizens, "colId", "Id", "id", false);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colTitle", "Id Título", "title", false);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colName", "Nombre", "name", false);
@@ -61,25 +83,6 @@ namespace GCRM
 			DataGridUtilities.AddColumn(DataGridCitizens, "colLastEditorId", "Id Último Editor", "editor_id", false);
 
 			DataGridUtilities.AddColumn(DataGridCitizens, "colCategoryId", "Categoría Id", "category_id", false);
-
-			int display_index = 0;
-
-			DataGridUtilities.AddColumn(DataGridCitizens, "colTitleName", "Título", "title_name", true, display_index++, 20, 20, DataGridViewAutoSizeColumnMode.AllCells);
-			DataGridUtilities.AddColumn(DataGridCitizens, "colFullName", "Nombre", "name_full", true, display_index++, 250, 250, DataGridViewAutoSizeColumnMode.Fill);
-			DataGridUtilities.AddColumn(DataGridCitizens, "colCategoryName", "Categoría", "category_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
-			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionName", "Institución", "institution_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
-			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionRoleName", "Cargo", "institution_role_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
-			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionCategoryName", "Categoría de institución", "institution_category_name", true, display_index++, 300, 160, DataGridViewAutoSizeColumnMode.AllCells);
-			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionSectorName", "Sector", "institution_sector_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
-			DataGridUtilities.AddColumn(DataGridCitizens, "colPhoneAndExtension", "Teléfono", "phone_full", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
-			DataGridUtilities.AddColumn(DataGridCitizens, "colCellphone", "Celular", "cellphone", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
-			DataGridUtilities.AddColumn(DataGridCitizens, "colAssistantName", "Asistente", "assistant_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
-			DataGridUtilities.AddColumn(DataGridCitizens, "colSexName", "Sexo", "sex_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
-			DataGridUtilities.AddColumn(DataGridCitizens, "colPoliticalPartyName", "Partido", "political_party_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
-			DataGridUtilities.AddColumn(DataGridCitizens, "colBirthday", "Nacimiento", "birthday", false, display_index++, 20, 20, DataGridViewAutoSizeColumnMode.AllCells);
-			DataGridUtilities.AddColumn(DataGridCitizens, "colCURP", "CURP", "curp", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
-			DataGridUtilities.AddColumn(DataGridCitizens, "colAuthorName", "Autor", "author_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
-			DataGridUtilities.AddColumn(DataGridCitizens, "colEditorName", "Último editor", "editor_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
 
 			DataGridCitizens.AllowUserToResizeColumns = true;
 			DataGridCitizens.AllowUserToOrderColumns = true;
@@ -220,7 +223,7 @@ namespace GCRM
 					row["maternal_name"] = citizen.MaternalName;
 					row["name_full"] = $"{citizen.Name} {citizen.PaternalName} {citizen.MaternalName}";
 					row["title"] = citizen.Title;
-					row["title_name"] = BConstants.GetCitizenBriefTitle(citizen.Title);
+					row["title_name"] = BConstants.GetCitizenBriefTitle(citizen.Title, citizen.Sex);
 					row["curp"] = citizen.CURP;
 
 					row["birthday"] = citizen.Birthday;
