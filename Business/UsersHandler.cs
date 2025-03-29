@@ -43,12 +43,13 @@ namespace Business
 		public string Name;
 		public string Username;
 		public string PasswordHash;
-		public List<TUserPermission> Permissions;
+		public List<TUserPermission> Permissions = new List<TUserPermission>();
 		public bool CardDavSyncEnabled;
 		public string CardDavURL;
 		public string CardDavUsername;
 		public string CardDavPassword;
-		public TUserGroup Group = new TUserGroup(); 
+		public TUserGroup Group = new TUserGroup();
+		public bool Enabled;
 
 		public void FillFromReader(DbDataReader reader)
 		{
@@ -61,10 +62,14 @@ namespace Business
 			CardDavUsername = reader.GetString(6);
 			CardDavPassword = reader.GetString(7);
 			Group.Id = reader.GetInt32(8);
+			Enabled = reader.GetBoolean(9);
 		}
 
 		public bool HasPermission(string permission_name)
 		{
+			if (Enabled == false)
+				return false;
+
 			foreach (TUserPermission permission in Permissions)
 			{
 				if (permission.Name == permission_name && permission.Permited)
@@ -78,6 +83,9 @@ namespace Business
 
 		public bool HasPermission(int permission_id)
 		{
+			if (Enabled == false)
+				return false;
+
 			foreach (TUserPermission permission in Permissions)
 			{
 				if (permission.Id == permission_id && permission.Permited)
@@ -391,6 +399,24 @@ namespace Business
 
 			var tran = conn.BeginTransaction();
 
+			// the username cannot be repeated
+			using (var cmd = new NpgsqlCommand("SELECT COUNT(*) FROM users WHERE username = @username AND id <> @id;", conn, tran))
+			{
+				cmd.Parameters.AddWithValue("@id", user.Id);
+				cmd.Parameters.AddWithValue("@username", user.Username);
+
+				int users_with_same_username = (Int32)(Int64)cmd.ExecuteScalar();
+
+				if (users_with_same_username > 0)
+				{
+					tran.Rollback();
+
+					ConnectionPool.ReleaseConnection(ref conn);
+
+					return Error.UserRepeatedUsername;
+				}
+			}
+
 			string sql = "";
 
 			if (is_update)
@@ -406,7 +432,8 @@ namespace Business
 						carddav_url=@carddav_url,		
 						carddav_username=@carddav_username,
 						carddav_password=@carddav_password,
-						user_group_id=@user_group_id	
+						user_group_id=@user_group_id,
+						enabled=@enabled	
 					WHERE 
 						id=@id;";
 			}
@@ -421,7 +448,8 @@ namespace Business
 						carddav_url,		
 						carddav_username,
 						carddav_password,
-						user_group_id
+						user_group_id,
+						enabled
 					) VALUES(
 						@name, 
 						@username, 
@@ -430,7 +458,8 @@ namespace Business
 						@carddav_url,		
 						@carddav_username,
 						@carddav_password,
-						@user_group_id
+						@user_group_id,
+						@enabled
 					);";
 			}
 
@@ -445,6 +474,7 @@ namespace Business
 				cmd.Parameters.AddWithValue("carddav_username", user.CardDavUsername);
 				cmd.Parameters.AddWithValue("carddav_password", user.CardDavPassword);
 				cmd.Parameters.AddWithValue("user_group_id", user.Group.Id);
+				cmd.Parameters.AddWithValue("enabled", user.Enabled);
 
 				cmd.ExecuteNonQuery();
 

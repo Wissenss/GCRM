@@ -19,15 +19,7 @@ namespace Business
 				return true;
 			}
 
-			foreach(TUserPermission permission in User.Permissions)
-			{
-				if (permission.Name == permission_name && permission.Permited)
-				{
-					return true;
-				}
-			}
-
-			return false;
+			return Session.User.HasPermission(permission_name);;
 		}
 
 		public static Error Refresh()
@@ -39,7 +31,9 @@ namespace Business
 
 		private static bool valid_root_login(string username, string password)
 		{
-			return username.Equals("root") && password.Equals("trafficJam32");
+			string hash = UsersHandler.GetPasswordHash(username, password);
+
+			return username.Equals("root") && hash.Equals("531761501921173663562461785925019011192679781351239240713687102152101773780247");
 		}
 
 		public static Error Login(string username, string password)
@@ -52,6 +46,7 @@ namespace Business
 			{
 				Session.User.Name = "root";
 				Session.User.Username = "root";
+				Session.User.Enabled = true;
 
 				return 0;
 			}
@@ -69,6 +64,11 @@ namespace Business
 			if (hash.Equals(Session.User.PasswordHash) == false)
 			{
 				return Error.LoginInvalid;
+			}
+
+			if (Session.User.Enabled == false)
+			{
+				return Error.UserUnauthorized;
 			}
 
 			return 0;

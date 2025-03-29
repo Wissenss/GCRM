@@ -41,6 +41,8 @@
 			LPassword = new Label();
 			TabControlUser = new TabControl();
 			TabGeneral = new TabPage();
+			Group = new ComboBox();
+			LGroup = new Label();
 			TabPermissions = new TabPage();
 			DataGridUserPermissions = new DataGridView();
 			colId = new DataGridViewTextBoxColumn();
@@ -54,8 +56,7 @@
 			CardDavURL = new TextBox();
 			LCardDavUrl = new Label();
 			CarddavSyncEnabled = new CheckBox();
-			LGroup = new Label();
-			Group = new ComboBox();
+			Enabled = new CheckBox();
 			TabControlUser.SuspendLayout();
 			TabGeneral.SuspendLayout();
 			TabPermissions.SuspendLayout();
@@ -88,7 +89,7 @@
 			// TextBoxName
 			// 
 			TextBoxName.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-			TextBoxName.Location = new Point(65, 6);
+			TextBoxName.Location = new Point(65, 31);
 			TextBoxName.Name = "TextBoxName";
 			TextBoxName.Size = new Size(278, 23);
 			TextBoxName.TabIndex = 7;
@@ -96,7 +97,7 @@
 			// LName
 			// 
 			LName.AutoSize = true;
-			LName.Location = new Point(8, 9);
+			LName.Location = new Point(8, 34);
 			LName.Name = "LName";
 			LName.Size = new Size(51, 15);
 			LName.TabIndex = 6;
@@ -105,7 +106,7 @@
 			// TextBoxUsername
 			// 
 			TextBoxUsername.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-			TextBoxUsername.Location = new Point(65, 35);
+			TextBoxUsername.Location = new Point(65, 60);
 			TextBoxUsername.Name = "TextBoxUsername";
 			TextBoxUsername.Size = new Size(278, 23);
 			TextBoxUsername.TabIndex = 9;
@@ -114,7 +115,7 @@
 			// LUsername
 			// 
 			LUsername.AutoSize = true;
-			LUsername.Location = new Point(8, 38);
+			LUsername.Location = new Point(8, 63);
 			LUsername.Name = "LUsername";
 			LUsername.Size = new Size(47, 15);
 			LUsername.TabIndex = 8;
@@ -123,7 +124,7 @@
 			// TextBoxPassword
 			// 
 			TextBoxPassword.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-			TextBoxPassword.Location = new Point(65, 64);
+			TextBoxPassword.Location = new Point(65, 89);
 			TextBoxPassword.Name = "TextBoxPassword";
 			TextBoxPassword.PasswordChar = '*';
 			TextBoxPassword.Size = new Size(278, 23);
@@ -133,7 +134,7 @@
 			// LPassword
 			// 
 			LPassword.AutoSize = true;
-			LPassword.Location = new Point(8, 67);
+			LPassword.Location = new Point(8, 92);
 			LPassword.Name = "LPassword";
 			LPassword.Size = new Size(36, 15);
 			LPassword.TabIndex = 10;
@@ -153,6 +154,7 @@
 			// 
 			// TabGeneral
 			// 
+			TabGeneral.Controls.Add(Enabled);
 			TabGeneral.Controls.Add(Group);
 			TabGeneral.Controls.Add(LGroup);
 			TabGeneral.Controls.Add(TextBoxName);
@@ -168,6 +170,24 @@
 			TabGeneral.TabIndex = 0;
 			TabGeneral.Text = "General";
 			TabGeneral.UseVisualStyleBackColor = true;
+			// 
+			// Group
+			// 
+			Group.DropDownStyle = ComboBoxStyle.DropDownList;
+			Group.FormattingEnabled = true;
+			Group.Location = new Point(65, 118);
+			Group.Name = "Group";
+			Group.Size = new Size(278, 23);
+			Group.TabIndex = 13;
+			// 
+			// LGroup
+			// 
+			LGroup.AutoSize = true;
+			LGroup.Location = new Point(8, 121);
+			LGroup.Name = "LGroup";
+			LGroup.Size = new Size(40, 15);
+			LGroup.TabIndex = 12;
+			LGroup.Text = "Grupo";
 			// 
 			// TabPermissions
 			// 
@@ -330,23 +350,17 @@
 			CarddavSyncEnabled.UseVisualStyleBackColor = true;
 			CarddavSyncEnabled.CheckedChanged += CarddavSyncEnabled_CheckedChanged;
 			// 
-			// LGroup
+			// Enabled
 			// 
-			LGroup.AutoSize = true;
-			LGroup.Location = new Point(8, 96);
-			LGroup.Name = "LGroup";
-			LGroup.Size = new Size(40, 15);
-			LGroup.TabIndex = 12;
-			LGroup.Text = "Grupo";
-			// 
-			// Group
-			// 
-			Group.DropDownStyle = ComboBoxStyle.DropDownList;
-			Group.FormattingEnabled = true;
-			Group.Location = new Point(65, 93);
-			Group.Name = "Group";
-			Group.Size = new Size(278, 23);
-			Group.TabIndex = 13;
+			Enabled.AutoSize = true;
+			Enabled.Checked = true;
+			Enabled.CheckState = CheckState.Checked;
+			Enabled.Location = new Point(65, 6);
+			Enabled.Name = "Enabled";
+			Enabled.Size = new Size(81, 19);
+			Enabled.TabIndex = 14;
+			Enabled.Text = "Habilitado";
+			Enabled.UseVisualStyleBackColor = true;
 			// 
 			// FUserData
 			// 
@@ -400,5 +414,6 @@
 		private Label LCardDavUsername;
 		private ComboBox Group;
 		private Label LGroup;
+		private CheckBox Enabled;
 	}
 }

@@ -16,6 +16,7 @@ namespace Business
 		// errors related to users
 		UserNotFound,
 		UserUnauthorized,
+		UserRepeatedUsername,
 		UserGroupNotFound,
 		UserGroupInUse,
 
@@ -57,6 +58,7 @@ namespace Business
 			{ Error.LoginInvalid, "Login inválido" },
 			{ Error.UserNotFound, "Usuario no encontrado" },
 			{ Error.UserUnauthorized, "Usuario no tiene autorizada esta acción" },
+			{ Error.UserRepeatedUsername, "Existe un usuario con el mismo nombre de usuario" },
 			{ Error.UserGroupNotFound, "Grupo de usuario no encontrado" }, 
 			{ Error.UserGroupInUse, "Grupo de usuario esta siendo utilizado" },
 			{ Error.CitizenNotFound, "Ciudadano no encontrado" },

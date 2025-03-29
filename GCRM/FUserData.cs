@@ -52,6 +52,8 @@ namespace GCRM
 					TabControlUser.TabPages.Remove(TabCarddav);
 
 				Group.Visible = Session.HasPermission("Usuarios.Permisos.Editar");
+				LGroup.Visible = Session.HasPermission("Usuarios.Permisos.Editar");
+				Enabled.Visible = Session.HasPermission("Usuarios.Permisos.Editar");
 			}
 		}
 
@@ -109,6 +111,7 @@ namespace GCRM
 			CarddavPassword.Enabled = AccessMode != FAccessMode.Read;
 
 			Group.Enabled = AccessMode != FAccessMode.Read;
+			Enabled.Enabled = AccessMode != FAccessMode.Read;
 
 			BAccept.Visible = AccessMode != FAccessMode.Read;
 			BCancel.Text = AccessMode != FAccessMode.Read ? "&Cancelar" : "&Cerrar";
@@ -140,11 +143,11 @@ namespace GCRM
 				CardDavURL.Text = user.CardDavURL;
 				CarddavPassword.Text = user.CardDavPassword;
 				CarddavUsername.Text = user.CardDavUsername;
+				Group.SelectedValue = user.Group.Id;
+				Enabled.Checked = user.Enabled;
 
 				DTUserPermissions.BeginLoadData();
 				DTUserPermissions.Clear();
-
-				Group.SelectedValue = user.Group.Id;
 
 				foreach (TUserPermission permission in user.Permissions)
 				{
@@ -243,7 +246,8 @@ namespace GCRM
 					Group = new TUserGroup()
 					{
 						Id = (int)Group.SelectedValue
-					}
+					},
+					Enabled = Enabled.Checked
 				};
 
 				if (PasswordChanged)
