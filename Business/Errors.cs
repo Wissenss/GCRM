@@ -32,6 +32,7 @@ namespace Business
 		InstitutionInUse,
 		InstitutionRepeatedName,
 		InstitutionRoleNotFound,
+		InstitutionRoleInUser,
 		InstitutionCategoryNotFound,
 		InstitutionCategoryInUse,
 
@@ -66,6 +67,7 @@ namespace Business
 			{ Error.InstitutionInUse, "Institución esta siendo utilizada" },
 			{ Error.InstitutionRepeatedName, "Existe una institución con el mismo nombre" },
 			{ Error.InstitutionRoleNotFound, "Cargo de institución no encontrado" },
+			{ Error.InstitutionRoleInUser, "Cargo de institución esta siendo utilizado" },
 			{ Error.InstitutionCategoryNotFound, "Categoría de institución no encontrada" },
 			{ Error.InstitutionCategoryInUse, "Categoría de institutción esta siendo utilizada" },
 			{ Error.SettingNotFound, "No se encontró la configuración en la base de datos" },

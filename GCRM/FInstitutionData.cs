@@ -24,21 +24,23 @@ namespace GCRM
 			DTInstitutionRoles = new DataTable("DTInstitutionRoles");
 			DTInstitutionRoles.Columns.Add("id", typeof(int));
 			DTInstitutionRoles.Columns.Add("name", typeof(string));
-			DTInstitutionRoles.Columns.Add("institution_id", typeof(int));
 			DTInstitutionRoles.Columns.Add("parent_role_id", typeof(int));
 			DTInstitutionRoles.Columns.Add("description", typeof(string));
+			DTInstitutionRoles.Columns.Add("delete", typeof(bool));
 			DSInstitution.Tables.Add(DTInstitutionRoles);
 
-			DTInstitutions = new DataTable("DTInstitutions");
-			DTInstitutions.Columns.Add("id", typeof(int));
-			DTInstitutions.Columns.Add("name", typeof(string));
-			DSInstitution.Tables.Add(DTInstitutions);
+			int display_index = 0;
 
-			DataGridInstitutionRoles.AutoGenerateColumns = false;
+			DataGridUtilities.AddColumn(DataGridInstitutionRoles, "colId", "Id", "id", false);
+			DataGridUtilities.AddColumn(DataGridInstitutionRoles, "colParentRoleId", "Id Rol Padre", "parent_role_id", false);
+			DataGridUtilities.AddColumn(DataGridInstitutionRoles, "colDelete", "Eliminar", "delete", false);
+			DataGridUtilities.AddColumn(DataGridInstitutionRoles, "colName", "Cargo", "name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
+			DataGridUtilities.AddColumn(DataGridInstitutionRoles, "colDescription", "Descripción", "description", true, display_index++, 200, 20, DataGridViewAutoSizeColumnMode.Fill);
+
 			DataGridInstitutionRoles.DataSource = DSInstitution;
-			DataGridInstitutionRoles.DataMember = "DTInstitutionRoles";
-			DataGridInstitutionRoles.Columns["colId"].Visible = false;
+			DataGridInstitutionRoles.DataMember = DTInstitutionRoles.TableName;
 
+			// configure the category data table
 			DTInstitutionCategories = new DataTable("DTInstitutionCategories");
 			DTInstitutionCategories.Columns.Add("id", typeof(int));
 			DTInstitutionCategories.Columns.Add("name", typeof(string));
@@ -55,6 +57,11 @@ namespace GCRM
 			ComboBoxCategory.DisplayMember = "name";
 
 			// configure parent institution combobox
+			DTInstitutions = new DataTable("DTInstitutions");
+			DTInstitutions.Columns.Add("id", typeof(int));
+			DTInstitutions.Columns.Add("name", typeof(string));
+			DSInstitution.Tables.Add(DTInstitutions);
+
 			ComboBoxParentInstitution.DataSource = DTInstitutions;
 			ComboBoxParentInstitution.ValueMember = "id";
 			ComboBoxParentInstitution.DisplayMember = "name";
@@ -69,13 +76,14 @@ namespace GCRM
 
 			ComboBoxSocietySector.Enabled = AccessMode != FAccessMode.Read;
 			ComboBoxCategory.Enabled = AccessMode != FAccessMode.Read;
-			ComboBoxParentInstitution.Enabled = AccessMode != FAccessMode.Read;	
+			ComboBoxParentInstitution.Enabled = AccessMode != FAccessMode.Read;
 			TextBoxName.Enabled = AccessMode != FAccessMode.Read;
 			TextBoxDescription.Enabled = AccessMode != FAccessMode.Read;
 			TextBoxAcronym.Enabled = AccessMode != FAccessMode.Read;
 
 			BAddRole.Enabled = AccessMode != FAccessMode.Read;
 			BEditRole.Enabled = AccessMode != FAccessMode.Read;
+			BDeleteRole.Enabled = AccessMode != FAccessMode.Read;
 
 			BAccept.Visible = AccessMode != FAccessMode.Read;
 			BCancel.Text = AccessMode != FAccessMode.Read ? "&Cancelar" : "&Cerrar";
@@ -147,9 +155,9 @@ namespace GCRM
 
 				row["id"] = role.Id;
 				row["name"] = role.Name;
-				row["institution_id"] = role.InstitutionId;
 				row["parent_role_id"] = role.InstitutionId;
 				row["description"] = role.Description;
+				row["delete"] = false;
 
 				DTInstitutionRoles.Rows.Add(row);
 			}
@@ -188,7 +196,7 @@ namespace GCRM
 						continue;
 					}
 
-					row = DTInstitutions.NewRow();	
+					row = DTInstitutions.NewRow();
 
 					row["id"] = institution.Id;
 					row["name"] = institution.Name;
@@ -249,6 +257,7 @@ namespace GCRM
 			{
 				BAddRole.Visible = Session.HasPermission("Instituciones.Roles.Crear");
 				BEditRole.Visible = Session.HasPermission("Instituciones.Roles.Editar");
+				BDeleteRole.Visible = Session.HasPermission("Instituciones.Roles.Eliminar");
 
 				if (Session.HasPermission("Instituciones.Roles.Consultar") == false)
 				{
@@ -271,7 +280,18 @@ namespace GCRM
 				errors.AppendLine("Debe especificar el nombre de la institución");
 			}
 
-			if (DataGridInstitutionRoles.Rows.Count == 0)
+			bool has_roles = false;
+
+			foreach (DataRow row in DTInstitutionRoles.Rows)
+			{
+				if ((bool)row["delete"] == false)
+				{
+					has_roles = true;
+					break;
+				}
+			}
+
+			if (has_roles == false)
 			{
 				errors.AppendLine("La institución debe tener al menos un cargo definido");
 			}
@@ -326,11 +346,16 @@ namespace GCRM
 
 				foreach (DataRow row in DTInstitutionRoles.Rows)
 				{
+					// si se quiere eliminar el rol, no se agrega a la lista
+					if ((bool)row["delete"] == true)
+					{
+						continue;
+					}
+
 					TInstitutionRole role = new TInstitutionRole()
 					{
 						Id = (int)row["id"],
 						Name = (string)row["name"],
-						InstitutionId = (int)row["institution_id"],
 						ParentRoleId = (int)row["parent_role_id"],
 						Description = (string)row["description"],
 					};
@@ -365,9 +390,9 @@ namespace GCRM
 
 					row["id"] = 0;
 					row["name"] = name;
-					row["institution_id"] = Id;
 					row["parent_role_id"] = 0;
 					row["description"] = description;
+					row["delete"] = false;
 
 					DTInstitutionRoles.Rows.Add(row);
 				}
@@ -429,6 +454,57 @@ namespace GCRM
 		private void BCancel_Click(object sender, EventArgs e)
 		{
 			DialogResult = DialogResult.Cancel;
+		}
+
+		private void BDeleteRole_Click(object sender, EventArgs e)
+		{
+			if (DataGridInstitutionRoles.SelectedRows.Count == 0)
+				return;
+			
+			DataGridViewRow row = DataGridInstitutionRoles.SelectedRows[0];
+
+			bool delete = (bool)row.Cells["colDelete"].Value;
+
+			row.Cells["colDelete"].Value = !delete;
+
+			DataGridInstitutionRoles.InvalidateRow(row.Index);
+
+			DataGridInstitutionRoles_SelectionChanged(null, null);
+		}
+
+		private void DataGridInstitutionRoles_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+		{
+			DataGridViewRow row = DataGridInstitutionRoles.Rows[e.RowIndex];
+
+			if (row.Cells["colDelete"].Value == null)
+				return;
+
+			if ((bool)row.Cells["colDelete"].Value)
+			{
+				e.CellStyle.BackColor = Color.FromArgb(255, 200, 200);
+				e.CellStyle.SelectionBackColor = Color.FromArgb(255, 150, 150);
+			}
+		}
+
+		private void DataGridInstitutionRoles_SelectionChanged(object sender, EventArgs e)
+		{
+			if (DataGridInstitutionRoles.SelectedRows.Count == 0)
+				return;
+
+			DataGridViewRow row = DataGridInstitutionRoles.SelectedRows[0];
+
+			bool delete = (bool)row.Cells["colDelete"].Value;
+
+			if (delete)
+			{
+				BDeleteRole.Text = "&Restaurar";
+				BDeleteRole.Image = Properties.Resources.Fatcow_Farm_Fresh_Cancel_16;
+			}
+			else
+			{
+				BDeleteRole.Text = "&Borrar";
+				BDeleteRole.Image = Properties.Resources.Fatcow_Farm_Fresh_Delete_16;
+			}
 		}
 	}
 }

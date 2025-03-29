@@ -520,7 +520,6 @@
 			Controls.Add(StatusStrip);
 			Icon = (Icon)resources.GetObject("$this.Icon");
 			Name = "FInstitutionList";
-			ShowIcon = false;
 			Text = "Instituciones";
 			FormClosed += FInstitutionList_FormClosed;
 			Load += FInstitutionList_Load;

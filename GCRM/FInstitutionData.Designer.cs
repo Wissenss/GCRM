@@ -30,6 +30,7 @@
 		{
 			DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
 			DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+			DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
 			BCancel = new Button();
 			BAccept = new Button();
 			TabGeneral = new TabPage();
@@ -48,14 +49,10 @@
 			TabControlInstitution = new TabControl();
 			TabPositions = new TabPage();
 			DataGridInstitutionRoles = new DataGridView();
-			colId = new DataGridViewTextBoxColumn();
-			colName = new DataGridViewTextBoxColumn();
-			colInstitutionId = new DataGridViewTextBoxColumn();
-			colParentRoleId = new DataGridViewTextBoxColumn();
-			colDescription = new DataGridViewTextBoxColumn();
 			toolStrip1 = new ToolStrip();
 			BAddRole = new ToolStripButton();
 			BEditRole = new ToolStripButton();
+			BDeleteRole = new ToolStripButton();
 			TabGeneral.SuspendLayout();
 			TabControlInstitution.SuspendLayout();
 			TabPositions.SuspendLayout();
@@ -242,30 +239,39 @@
 			DataGridInstitutionRoles.AllowUserToDeleteRows = false;
 			DataGridInstitutionRoles.AllowUserToOrderColumns = true;
 			DataGridInstitutionRoles.AllowUserToResizeRows = false;
+			dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle1.BackColor = Color.WhiteSmoke;
+			dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+			dataGridViewCellStyle1.ForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle1.SelectionBackColor = SystemColors.GradientInactiveCaption;
+			dataGridViewCellStyle1.SelectionForeColor = SystemColors.ControlText;
+			DataGridInstitutionRoles.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+			DataGridInstitutionRoles.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 			DataGridInstitutionRoles.BackgroundColor = SystemColors.Control;
 			DataGridInstitutionRoles.BorderStyle = BorderStyle.None;
+			DataGridInstitutionRoles.CellBorderStyle = DataGridViewCellBorderStyle.None;
 			DataGridInstitutionRoles.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
-			DataGridInstitutionRoles.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
-			dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle1.BackColor = SystemColors.Control;
-			dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
-			dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-			dataGridViewCellStyle1.SelectionBackColor = SystemColors.Control;
-			dataGridViewCellStyle1.SelectionForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-			DataGridInstitutionRoles.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-			DataGridInstitutionRoles.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			DataGridInstitutionRoles.Columns.AddRange(new DataGridViewColumn[] { colId, colName, colInstitutionId, colParentRoleId, colDescription });
+			DataGridInstitutionRoles.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
 			dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle2.BackColor = SystemColors.Window;
+			dataGridViewCellStyle2.BackColor = SystemColors.ControlLight;
 			dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
-			dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
 			dataGridViewCellStyle2.SelectionBackColor = SystemColors.ControlLight;
 			dataGridViewCellStyle2.SelectionForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-			DataGridInstitutionRoles.DefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+			DataGridInstitutionRoles.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+			DataGridInstitutionRoles.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle3.BackColor = SystemColors.Window;
+			dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
+			dataGridViewCellStyle3.ForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle3.SelectionBackColor = SystemColors.GradientInactiveCaption;
+			dataGridViewCellStyle3.SelectionForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
+			DataGridInstitutionRoles.DefaultCellStyle = dataGridViewCellStyle3;
 			DataGridInstitutionRoles.Dock = DockStyle.Fill;
 			DataGridInstitutionRoles.EnableHeadersVisualStyles = false;
+			DataGridInstitutionRoles.ImeMode = ImeMode.NoControl;
 			DataGridInstitutionRoles.Location = new Point(3, 28);
 			DataGridInstitutionRoles.MultiSelect = false;
 			DataGridInstitutionRoles.Name = "DataGridInstitutionRoles";
@@ -273,56 +279,17 @@
 			DataGridInstitutionRoles.RowHeadersVisible = false;
 			DataGridInstitutionRoles.RowTemplate.Height = 20;
 			DataGridInstitutionRoles.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+			DataGridInstitutionRoles.ShowCellToolTips = false;
 			DataGridInstitutionRoles.Size = new Size(377, 292);
 			DataGridInstitutionRoles.StandardTab = true;
-			DataGridInstitutionRoles.TabIndex = 0;
-			// 
-			// colId
-			// 
-			colId.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-			colId.DataPropertyName = "id";
-			colId.HeaderText = "Id";
-			colId.Name = "colId";
-			colId.ReadOnly = true;
-			colId.Visible = false;
-			// 
-			// colName
-			// 
-			colName.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-			colName.DataPropertyName = "name";
-			colName.HeaderText = "Cargo";
-			colName.Name = "colName";
-			colName.ReadOnly = true;
-			colName.Width = 63;
-			// 
-			// colInstitutionId
-			// 
-			colInstitutionId.DataPropertyName = "institution_id";
-			colInstitutionId.HeaderText = "Id Institución";
-			colInstitutionId.Name = "colInstitutionId";
-			colInstitutionId.ReadOnly = true;
-			colInstitutionId.Visible = false;
-			// 
-			// colParentRoleId
-			// 
-			colParentRoleId.DataPropertyName = "parent_role_id";
-			colParentRoleId.HeaderText = "Id Cargo Padre";
-			colParentRoleId.Name = "colParentRoleId";
-			colParentRoleId.ReadOnly = true;
-			colParentRoleId.Visible = false;
-			// 
-			// colDescription
-			// 
-			colDescription.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-			colDescription.DataPropertyName = "description";
-			colDescription.HeaderText = "Descripción";
-			colDescription.Name = "colDescription";
-			colDescription.ReadOnly = true;
+			DataGridInstitutionRoles.TabIndex = 8;
+			DataGridInstitutionRoles.CellFormatting += DataGridInstitutionRoles_CellFormatting;
+			DataGridInstitutionRoles.SelectionChanged += DataGridInstitutionRoles_SelectionChanged;
 			// 
 			// toolStrip1
 			// 
 			toolStrip1.GripStyle = ToolStripGripStyle.Hidden;
-			toolStrip1.Items.AddRange(new ToolStripItem[] { BAddRole, BEditRole });
+			toolStrip1.Items.AddRange(new ToolStripItem[] { BAddRole, BEditRole, BDeleteRole });
 			toolStrip1.Location = new Point(3, 3);
 			toolStrip1.Name = "toolStrip1";
 			toolStrip1.RenderMode = ToolStripRenderMode.System;
@@ -332,25 +299,38 @@
 			// 
 			// BAddRole
 			// 
-			BAddRole.DisplayStyle = ToolStripItemDisplayStyle.Text;
 			BAddRole.Image = Properties.Resources.Fatcow_Farm_Fresh_Add_16;
 			BAddRole.ImageScaling = ToolStripItemImageScaling.None;
 			BAddRole.ImageTransparentColor = Color.Magenta;
+			BAddRole.Margin = new Padding(1, 2, 1, 2);
 			BAddRole.Name = "BAddRole";
-			BAddRole.Size = new Size(53, 22);
+			BAddRole.Padding = new Padding(2, 0, 2, 0);
+			BAddRole.Size = new Size(73, 21);
 			BAddRole.Text = "&Agregar";
 			BAddRole.Click += BAddRole_Click;
 			// 
 			// BEditRole
 			// 
-			BEditRole.DisplayStyle = ToolStripItemDisplayStyle.Text;
 			BEditRole.Image = Properties.Resources.Fatcow_Farm_Fresh_Pencil_16;
 			BEditRole.ImageScaling = ToolStripItemImageScaling.None;
 			BEditRole.ImageTransparentColor = Color.Magenta;
+			BEditRole.Margin = new Padding(1, 2, 1, 2);
 			BEditRole.Name = "BEditRole";
-			BEditRole.Size = new Size(41, 22);
+			BEditRole.Padding = new Padding(2, 0, 2, 0);
+			BEditRole.Size = new Size(61, 21);
 			BEditRole.Text = "&Editar";
 			BEditRole.Click += BEditRole_Click;
+			// 
+			// BDeleteRole
+			// 
+			BDeleteRole.Image = Properties.Resources.Fatcow_Farm_Fresh_Cancel_16;
+			BDeleteRole.ImageTransparentColor = Color.Magenta;
+			BDeleteRole.Margin = new Padding(1, 2, 1, 2);
+			BDeleteRole.Name = "BDeleteRole";
+			BDeleteRole.Padding = new Padding(2, 0, 2, 0);
+			BDeleteRole.Size = new Size(63, 21);
+			BDeleteRole.Text = "&Borrar";
+			BDeleteRole.Click += BDeleteRole_Click;
 			// 
 			// FInstitutionData
 			// 
@@ -394,18 +374,14 @@
 		private Label LDescription;
 		private ToolStrip toolStrip1;
 		private Label LInstitutionCategory;
-		private DataGridView DataGridInstitutionRoles;
 		private ToolStripButton BAddRole;
 		private ToolStripButton BEditRole;
 		private ComboBox ComboBoxParentInstitution;
 		private Label LParentInstitution;
-		private DataGridViewTextBoxColumn colId;
-		private DataGridViewTextBoxColumn colName;
-		private DataGridViewTextBoxColumn colInstitutionId;
-		private DataGridViewTextBoxColumn colParentRoleId;
-		private DataGridViewTextBoxColumn colDescription;
 		private ComboBox ComboBoxCategory;
 		private Label LAcronym;
 		private TextBox TextBoxAcronym;
+		private ToolStripButton BDeleteRole;
+		private DataGridView DataGridInstitutionRoles;
 	}
 }

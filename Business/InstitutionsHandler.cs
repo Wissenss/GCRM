@@ -205,6 +205,60 @@ namespace Business
 
 					cmd.ExecuteNonQuery();
 				}
+
+				// delete roles that are not in the list
+				List<int> role_ids_to_delete = new List<int>();
+
+				cmd.CommandText = "SELECT id FROM institution_roles WHERE institution_id = @institution_id;";
+
+				cmd.Parameters.Clear();
+				cmd.Parameters.AddWithValue("@institution_id", institution.Id);
+
+				using (var reader = cmd.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						bool found = false;
+
+						foreach (TInstitutionRole role in institution.Roles)
+						{
+							if (role.Id == reader.GetInt32(0) || role.Id == 0)
+							{
+								found = true;
+								break;
+							}
+						}
+
+						if (!found)
+						{
+							role_ids_to_delete.Add(reader.GetInt32(0));
+						}
+					}
+				}
+
+				foreach (int role_id in role_ids_to_delete)
+				{
+					cmd.Parameters.Clear();
+					cmd.Parameters.AddWithValue("@id", role_id);
+
+					// no citizen can have this role
+					cmd.CommandText = "SELECT COUNT(*) FROM citizens WHERE institution_role_id = @id OR institution2_role_id = @id OR institution3_role_id = @id;";
+
+					int citizens_with_role = (Int32)(Int64)cmd.ExecuteScalar();
+
+					if (citizens_with_role > 0)
+					{
+						tran.Rollback();
+						
+						ConnectionPool.ReleaseConnection(ref conn);
+
+						return Error.InstitutionRoleInUser;
+					}
+
+					cmd.CommandText = "DELETE FROM institution_roles WHERE id = @id;";
+
+					cmd.ExecuteNonQuery();
+				}
 			}
 
 			EventLogHandler.AddEventLog(is_update ? TEventLogType.institution_edit : TEventLogType.institution_add, institution.LastEditor.Id, institution.Id, TEntityType.intitution, institution, DateTime.Now);
