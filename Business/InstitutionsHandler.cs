@@ -51,6 +51,7 @@ namespace Business
 		public TUser LastEditor = new TUser();
 		public DateTime EditDate;
 		public string Acronym;
+		public bool AttentionRequired;
 
 		public void FillFromReader(DbDataReader reader)
 		{
@@ -65,6 +66,7 @@ namespace Business
 			LastEditor.Id = reader.GetInt32(8);
 			EditDate = reader.GetDateTime(9);
 			Acronym = reader.GetString(10);
+			AttentionRequired = reader.GetBoolean(11);
 		}
 
 		public override string GetAsLogString()
@@ -129,7 +131,8 @@ namespace Business
 						parent_institution_id = @parent_institution_id,
 						edit_by_id = @edit_by_id,
 						edit_date = @edit_date,
-						acronym = @acronym	
+						acronym = @acronym,
+						attention_required = @attention_required
 					WHERE 
 						id = @id;";
 			}
@@ -146,7 +149,8 @@ namespace Business
 						created_date,
 						edit_by_id,
 						edit_date,
-						acronym
+						acronym,
+						attention_required
 					) 
 					VALUES(
 						@name, 
@@ -158,7 +162,8 @@ namespace Business
 						@created_date,
 						@edit_by_id,
 						@edit_date,
-						@acronym) 
+						@acronym,
+						@attention_required) 
 					RETURNING id;";
 			}
 
@@ -175,6 +180,7 @@ namespace Business
 				cmd.Parameters.AddWithValue("@edit_by_id", institution.LastEditor.Id);
 				cmd.Parameters.AddWithValue("@edit_date", institution.EditDate);
 				cmd.Parameters.AddWithValue("@acronym", institution.Acronym);
+				cmd.Parameters.AddWithValue("@attention_required", false); // editing the institution will always set the attention required flag to false
 
 				if (is_update)
 				{
@@ -261,9 +267,39 @@ namespace Business
 				}
 			}
 
-			EventLogHandler.AddEventLog(is_update ? TEventLogType.institution_edit : TEventLogType.institution_add, institution.LastEditor.Id, institution.Id, TEntityType.intitution, institution, DateTime.Now);
+			EventLogHandler.AddEventLog(is_update ? TEventLogType.institution_edit : TEventLogType.institution_add, institution.LastEditor.Id, institution.Id, TEntityType.institution, institution, DateTime.Now);
 
 			tran.Commit();	
+
+			ConnectionPool.ReleaseConnection(ref conn);
+
+			return 0;
+		}
+
+		public static Error SetInstitutionAttentionRequired(int institution_id, bool attention_required)
+		{
+			var conn = ConnectionPool.GetConnection();
+
+			using (var cmd = new NpgsqlCommand("UPDATE institutions SET attention_required = @attention_required WHERE id = @id;", conn))
+			{
+				cmd.Parameters.AddWithValue("@id", institution_id);
+				cmd.Parameters.AddWithValue("@attention_required", attention_required);
+
+				cmd.ExecuteNonQuery();
+			}
+
+			StringBuilder log_message = new StringBuilder();
+
+			log_message.AppendLine($"GCRM v{BConstants.GetProductVersion()} ACTION LOG");
+			log_message.AppendLine($"==================================================");
+			log_message.AppendLine($"evento:  {BConstants.GetEventLogTypeName(TEventLogType.institution_attention_required)}");
+			log_message.AppendLine($"fecha/hora:   {DateTime.Now}");
+			log_message.AppendLine($"entidad: ");
+			log_message.AppendLine($"institución id: \t{institution_id}");
+			log_message.AppendLine($"atención requerida: \t{attention_required}");
+			log_message.AppendLine($"==================================================");
+
+			EventLogHandler.AddEventLog(TEventLogType.institution_attention_required, Session.User.Id, institution_id, TEntityType.institution, log_message.ToString(), DateTime.Now);
 
 			ConnectionPool.ReleaseConnection(ref conn);
 
@@ -330,7 +366,7 @@ namespace Business
 
 			if (error == 0)
 			{
-				error = EventLogHandler.AddEventLog(TEventLogType.institution_delete, Session.User.Id, institution.Id, TEntityType.intitution, institution, DateTime.Now);
+				error = EventLogHandler.AddEventLog(TEventLogType.institution_delete, Session.User.Id, institution.Id, TEntityType.institution, institution, DateTime.Now);
 			}
 
 			ConnectionPool.ReleaseConnection(ref conn);

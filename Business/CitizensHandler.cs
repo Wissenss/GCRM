@@ -519,7 +519,7 @@ namespace Business
 
 			StringBuilder log_message = new StringBuilder();
 
-			log_message.AppendLine($"GCRM ACTION LOG");
+			log_message.AppendLine($"GCRM v{BConstants.GetProductVersion()} ACTION LOG");
 			log_message.AppendLine($"==================================================");
 			log_message.AppendLine($"evento:  {BConstants.GetEventLogTypeName(TEventLogType.citizen_attention_required)}");
 			log_message.AppendLine($"fecha/hora:   {DateTime.Now}");

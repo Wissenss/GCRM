@@ -87,6 +87,7 @@ namespace GCRM
 			DTInstitutions.Columns.Add("author_name", typeof(string));
 			DTInstitutions.Columns.Add("editor_id", typeof(int));
 			DTInstitutions.Columns.Add("editor_name", typeof(string));
+			DTInstitutions.Columns.Add("attention_required", typeof(bool));
 			DSCatalogs.Tables.Add(DTInstitutions);
 		}
 
@@ -251,6 +252,7 @@ namespace GCRM
 				row["author_name"] = institution.Author.Name;
 				row["editor_id"] = institution.LastEditor.Id;
 				row["editor_name"] = institution.LastEditor.Name;
+				row["attention_required"] = institution.AttentionRequired;
 
 				DTInstitutions.Rows.Add(row);	
 			}

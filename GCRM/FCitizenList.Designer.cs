@@ -92,6 +92,7 @@
 			statusStrip1 = new StatusStrip();
 			TSSLRecordCount = new ToolStripStatusLabel();
 			TSSLFilters = new ToolStripStatusLabel();
+			toolStripSeparator3 = new ToolStripSeparator();
 			ToolStrip.SuspendLayout();
 			PanelSearch.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)DataGridCitizens).BeginInit();
@@ -388,11 +389,11 @@
 			// ToolStrip
 			// 
 			ToolStrip.GripStyle = ToolStripGripStyle.Hidden;
-			ToolStrip.Items.AddRange(new ToolStripItem[] { BAdd, BEdit, BRead, BRefresh, toolStripSeparator1, BFields, BFilter, BDelete, toolStripSeparator2, FExcelExport, BPrint, toolStripSeparator4, BSearch, toolStripSeparator5, BSelect, BCategories, BAttentionRequired });
+			ToolStrip.Items.AddRange(new ToolStripItem[] { BAdd, BEdit, BRead, BRefresh, toolStripSeparator1, BFields, BFilter, BDelete, toolStripSeparator2, FExcelExport, BPrint, toolStripSeparator4, BSearch, toolStripSeparator5, BCategories, toolStripSeparator3, BSelect, BAttentionRequired });
 			ToolStrip.Location = new Point(2, 2);
 			ToolStrip.Name = "ToolStrip";
 			ToolStrip.RenderMode = ToolStripRenderMode.System;
-			ToolStrip.Size = new Size(926, 40);
+			ToolStrip.Size = new Size(949, 40);
 			ToolStrip.TabIndex = 4;
 			ToolStrip.Text = "toolStrip1";
 			// 
@@ -580,7 +581,7 @@
 			PanelSearch.Dock = DockStyle.Top;
 			PanelSearch.Location = new Point(2, 42);
 			PanelSearch.Name = "PanelSearch";
-			PanelSearch.Size = new Size(926, 39);
+			PanelSearch.Size = new Size(949, 39);
 			PanelSearch.TabIndex = 6;
 			PanelSearch.Visible = false;
 			// 
@@ -590,7 +591,7 @@
 			TextBoxSearch.Location = new Point(8, 8);
 			TextBoxSearch.Name = "TextBoxSearch";
 			TextBoxSearch.PlaceholderText = "Ingrese el texto a buscar...";
-			TextBoxSearch.Size = new Size(910, 23);
+			TextBoxSearch.Size = new Size(933, 23);
 			TextBoxSearch.TabIndex = 1;
 			TextBoxSearch.TextChanged += TextBoxSearch_TextChanged;
 			// 
@@ -641,7 +642,7 @@
 			DataGridCitizens.RowTemplate.Height = 20;
 			DataGridCitizens.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 			DataGridCitizens.ShowCellToolTips = false;
-			DataGridCitizens.Size = new Size(926, 371);
+			DataGridCitizens.Size = new Size(949, 371);
 			DataGridCitizens.StandardTab = true;
 			DataGridCitizens.TabIndex = 7;
 			DataGridCitizens.CellDoubleClick += DataGridCitizens_CellDoubleClick;
@@ -653,7 +654,7 @@
 			statusStrip1.Items.AddRange(new ToolStripItem[] { TSSLRecordCount, TSSLFilters });
 			statusStrip1.Location = new Point(2, 452);
 			statusStrip1.Name = "statusStrip1";
-			statusStrip1.Size = new Size(926, 22);
+			statusStrip1.Size = new Size(949, 22);
 			statusStrip1.TabIndex = 8;
 			statusStrip1.Text = "statusStrip1";
 			// 
@@ -671,11 +672,16 @@
 			TSSLFilters.Size = new Size(147, 17);
 			TSSLFilters.Text = "     Filtros: Sexo = Masculino";
 			// 
+			// toolStripSeparator3
+			// 
+			toolStripSeparator3.Name = "toolStripSeparator3";
+			toolStripSeparator3.Size = new Size(6, 40);
+			// 
 			// FCitizenList
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
-			ClientSize = new Size(930, 476);
+			ClientSize = new Size(953, 476);
 			Controls.Add(DataGridCitizens);
 			Controls.Add(statusStrip1);
 			Controls.Add(PanelSearch);
@@ -759,5 +765,6 @@
 		private ToolStripButton BCategories;
 		private ToolStripSeparator toolStripSeparator5;
 		private ToolStripButton BAttentionRequired;
+		private ToolStripSeparator toolStripSeparator3;
 	}
 }

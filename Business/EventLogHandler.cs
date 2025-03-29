@@ -15,7 +15,7 @@ namespace Business
 		citizen = 1001,
 		citizen_category = 1002,
 
-		intitution = 2001,
+		institution = 2001,
 		institution_category = 2002,
 	}
 
@@ -35,6 +35,8 @@ namespace Business
 		institution_add = 2001,
 		institution_edit = 2002,
 		institution_delete = 2003,
+		institution_attention_required = 2004,
+
 		institution_category_add = 2501,
 		institution_category_edit = 2502,
 		institution_category_delete = 2503,
@@ -54,6 +56,7 @@ namespace Business
 		public TEventLogEntity PrimaryEntity = new TEventLogEntity();
 		public DateTime DateTime;
 		public TEventLogType Type;
+		public string Version;
 
 		public void FillFromReader(DbDataReader reader)
 		{
@@ -68,6 +71,8 @@ namespace Business
 			DateTime = reader.GetDateTime(5);
 
 			Type = (TEventLogType)reader.GetInt32(6); 
+
+			Version = reader.GetString(7);
 		}
 	}
 
@@ -150,7 +155,7 @@ namespace Business
 
 			StringBuilder message = new StringBuilder();
 
-			message.AppendLine($"GCRM ACTION LOG");
+			message.AppendLine($"GCRM v{BConstants.GetProductVersion()} ACTION LOG");
 			message.AppendLine($"==================================================");
 			message.AppendLine($"evento:  {BConstants.GetEventLogTypeName(log.Type)}");
 			message.AppendLine($"fecha/hora:   {log.DateTime}");

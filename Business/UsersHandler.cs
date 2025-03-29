@@ -158,6 +158,8 @@ namespace Business
 				new TUserPermission(213, "Instituciones.Roles.Eliminar"),
 				new TUserPermission(214, "Instituciones.Roles.Crear"),
 
+				new TUserPermission(221, "Instituciones.SetAttentionRequired"),
+
 				new TUserPermission(251, "Instituciones.Categorias.Editar"),
 				new TUserPermission(252, "Instituciones.Categorias.Consultar"),
 				new TUserPermission(253, "Instituciones.Categorias.Eliminar"),

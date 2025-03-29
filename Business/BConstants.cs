@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
+using System.Reflection;
 
 namespace Business
 {
@@ -311,23 +313,33 @@ namespace Business
 		{
 			Dictionary<TEventLogType, string> mapping = new Dictionary<TEventLogType, string>
 			{
-				{ TEventLogType.unknown,                     "Desconocido" },
-				{ TEventLogType.citizen_add,                 "Añadir ciudadano" },
-				{ TEventLogType.citizen_edit,                "Editar ciudadano" },
-				{ TEventLogType.citizen_delete,              "Eliminar ciudadano" },
-				{ TEventLogType.citizen_attention_required,  "Ciudadano Atención requerida" },
-				{ TEventLogType.citizen_category_add,        "Añadir categoría ciudadana" },
-				{ TEventLogType.citizen_category_edit,       "Editar categoría ciudadana" },
-				{ TEventLogType.citizen_category_delete,     "Eliminar categoría ciudadana" },
-				{ TEventLogType.institution_add,             "Añadir institución" },
-				{ TEventLogType.institution_edit,            "Editar institución" },
-				{ TEventLogType.institution_delete,          "Eliminar institución" },
-				{ TEventLogType.institution_category_add,    "Añadir categoría ciudadana" },
-				{ TEventLogType.institution_category_edit,   "Editar categoría ciudadana" },
-				{ TEventLogType.institution_category_delete, "Eliminar categoría ciudadana" },
+				{ TEventLogType.unknown,												"Desconocido" },
+				{ TEventLogType.citizen_add,										"Añadir ciudadano" },
+				{ TEventLogType.citizen_edit,										"Editar ciudadano" },
+				{ TEventLogType.citizen_delete,									"Eliminar ciudadano" },
+				{ TEventLogType.citizen_attention_required,			"Ciudadano atención requerida" },
+				{ TEventLogType.citizen_category_add,						"Añadir categoría ciudadana" },
+				{ TEventLogType.citizen_category_edit,					"Editar categoría ciudadana" },
+				{ TEventLogType.citizen_category_delete,				"Eliminar categoría ciudadana" },
+				{ TEventLogType.institution_add,								"Añadir institución" },
+				{ TEventLogType.institution_edit,								"Editar institución" },
+				{ TEventLogType.institution_delete,							"Eliminar institución" },
+				{ TEventLogType.institution_attention_required, "Institución atención requerido" },
+				{ TEventLogType.institution_category_add,				"Añadir categoría ciudadana" },
+				{ TEventLogType.institution_category_edit,			"Editar categoría ciudadana" },
+				{ TEventLogType.institution_category_delete,		"Eliminar categoría ciudadana" },
 			};
 
 			return mapping[event_log_type];
+		}
+
+		public static string GetProductVersion()
+		{
+			Assembly assembly = Assembly.GetExecutingAssembly();
+			FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
+			string version = fileVersionInfo.ProductVersion;
+
+			return version;
 		}
 	}
 }

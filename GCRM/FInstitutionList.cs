@@ -82,6 +82,7 @@ namespace GCRM
 				BDelete.Visible = Session.HasPermission("Instituciones.Eliminar");
 				BCategories.Visible = Session.HasPermission("Instituciones.Categorias.Consultar");
 				BDuplicate.Visible = Session.HasPermission("Instituciones.Crear");
+				BAttentionRequired.Visible = Session.HasPermission("Instituciones.SetAttentionRequired");
 			}
 		}
 
@@ -359,6 +360,50 @@ namespace GCRM
 				{
 					LoadList();
 				}
+			}
+		}
+
+		private void BAttentionRequired_Click(object sender, EventArgs e)
+		{
+			if (DataGridInstitutions.SelectedRows.Count == 0)
+			{
+				return;
+			}
+
+			DataGridViewRow row = DataGridInstitutions.SelectedRows[0];
+
+			int id = (int)row.Cells["colId"].Value;
+
+			bool attentionRequired = !(bool)row.Cells["colAttentionRequired"].Value;
+
+			using (new CursorWait())
+			{
+				Error error = InstitutionsHandler.SetInstitutionAttentionRequired(id, attentionRequired);
+
+				if (error != 0)
+				{
+					Utilities.ShowErrorDialog(error);
+					return;
+				}
+			}
+
+			// update the data manually as the grid is not updated and doing it may take a long time
+			row.Cells["colAttentionRequired"].Value = attentionRequired;
+
+			DataGridInstitutions.InvalidateRow(row.Index);
+		}
+
+		private void DataGridInstitutions_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+		{
+			DataGridViewRow row = DataGridInstitutions.Rows[e.RowIndex];
+
+			if (row.Cells["colAttentionRequired"].Value == null)
+				return;
+
+			if ((bool)row.Cells["colAttentionRequired"].Value)
+			{
+				e.CellStyle.BackColor = System.Drawing.Color.FromArgb(255, 200, 200);
+				e.CellStyle.SelectionBackColor = System.Drawing.Color.FromArgb(255, 150, 150);
 			}
 		}
 	}
