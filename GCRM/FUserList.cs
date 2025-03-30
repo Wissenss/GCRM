@@ -24,9 +24,13 @@ namespace GCRM
 
 			DTUsers = new DataTable("DTUsers", "DTUsers");
 			DTUsers.Columns.Add("id", typeof(int));
+			DTUsers.Columns.Add("enabled", typeof(bool));
 			DTUsers.Columns.Add("name", typeof(string));
 			DTUsers.Columns.Add("username", typeof(string));
 			DTUsers.Columns.Add("password_hash", typeof(string));
+			DTUsers.Columns.Add("carddav_sync_enabled", typeof(bool));
+			DTUsers.Columns.Add("group_id", typeof(int));
+			DTUsers.Columns.Add("group_name", typeof(string));
 			DSUsers.Tables.Add(DTUsers);
 
 			DataGridUsers.DataSource = DSUsers;
@@ -40,6 +44,7 @@ namespace GCRM
 				BEdit.Visible = Session.HasPermission("Usuarios.Editar");
 				BAdd.Visible = Session.HasPermission("Usuarios.Crear");
 				BRead.Visible = Session.HasPermission("Usuarios.Consultar");
+				BSyncAll.Visible = Session.HasPermission("Emails.CardDav.Sync");
 			}
 		}
 
@@ -71,9 +76,13 @@ namespace GCRM
 					DataRow row = DTUsers.NewRow();
 
 					row["id"] = user.Id;
+					row["enabled"] = user.Enabled;
 					row["name"] = user.Name;
 					row["username"] = user.Username;
 					row["password_hash"] = user.PasswordHash;
+					row["carddav_sync_enabled"] = user.CardDavSyncEnabled;
+					row["group_id"] = user.Group.Id;
+					row["group_name"] = user.Group.Name;
 
 					DTUsers.Rows.Add(row);
 				}
@@ -150,6 +159,48 @@ namespace GCRM
 				if (user_data_dlg.ShowDialog() == DialogResult.OK)
 				{
 					LoadList();
+				}
+			}
+		}
+
+		private void BSyncAll_Click(object sender, EventArgs e)
+		{
+			if (Utilities.ShowConfirmDialog("¿Desea sincronizar todas las cuentas de CardDav?") != DialogResult.Yes)
+				return;
+
+			foreach (DataRow row in DTUsers.Rows)
+			{
+				if ((bool)row["carddav_sync_enabled"] == false)
+					continue;
+
+				TUser user = new TUser();
+
+				using (new CursorWait())
+				{
+					Error error = UsersHandler.GetUserById((int)row["id"], out user);
+
+					if (error != 0)
+					{
+						Utilities.ShowErrorDialog(error);
+						return;
+					}
+				}
+
+				using (FEmailSync sync_dlg = new FEmailSync())
+				{
+					sync_dlg.TextBoxCardDavURL.Text = user.CardDavURL;
+					sync_dlg.TextBoxUsername.Text = user.CardDavUsername;
+					sync_dlg.TextBoxPassword.Text = user.CardDavPassword;
+
+					try
+					{
+						sync_dlg.BSync_Click(this, null);
+					}
+					catch (Exception ex)
+					{
+						Utilities.ShowExceptionDialog(ex);
+						continue;
+					}
 				}
 			}
 		}

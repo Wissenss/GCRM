@@ -339,12 +339,12 @@ namespace GCRM
 
 		private void CarddavSyncEnabled_CheckedChanged(object sender, EventArgs e)
 		{
-			LCardDavUrl.Enabled = CarddavSyncEnabled.Checked;
-			CardDavURL.Enabled = CarddavSyncEnabled.Checked;
-			LCardDavUsername.Enabled = CarddavSyncEnabled.Checked;
-			CarddavUsername.Enabled = CarddavSyncEnabled.Checked;
-			LCardDavPassword.Enabled = CarddavSyncEnabled.Checked;
-			CarddavPassword.Enabled = CarddavSyncEnabled.Checked;
+			LCardDavUrl.Enabled = CarddavSyncEnabled.Checked && AccessMode != FAccessMode.Read;
+			CardDavURL.Enabled = CarddavSyncEnabled.Checked && AccessMode != FAccessMode.Read;
+			LCardDavUsername.Enabled = CarddavSyncEnabled.Checked && AccessMode != FAccessMode.Read;
+			CarddavUsername.Enabled = CarddavSyncEnabled.Checked && AccessMode != FAccessMode.Read;
+			LCardDavPassword.Enabled = CarddavSyncEnabled.Checked && AccessMode != FAccessMode.Read;
+			CarddavPassword.Enabled = CarddavSyncEnabled.Checked && AccessMode != FAccessMode.Read;
 		}
 	}
 }

@@ -358,7 +358,7 @@ namespace Business
 
 			user_list = new List<TUser>();
 
-			string sql = "SELECT * FROM users;";
+			string sql = "SELECT *, ug.name AS user_group_name FROM users u LEFT JOIN user_groups ug ON u.user_group_id = ug.id;";
 
 			using (var cmd = new NpgsqlCommand(sql, conn))
 			using (var reader = cmd.ExecuteReader()) 
@@ -368,6 +368,11 @@ namespace Business
 					TUser user = new TUser();	
 
 					user.FillFromReader(reader);
+
+					if (user.Group.Id != 0)
+					{
+						user.Group.Name = reader.GetString(reader.GetOrdinal("user_group_name"));
+					}
 
 					user_list.Add(user);
 				}

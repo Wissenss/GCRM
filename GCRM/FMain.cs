@@ -42,6 +42,10 @@ namespace GCRM
 		private void RefreshStatusStrip()
 		{
 			LToolStripUsername.Text = $"Usuario: {Session.User.Username}";
+			
+			if (Session.User.Group.Id != 0)
+				LToolStripUsername.Text += $" - {Session.User.Group.Name}";
+			
 			LToolStripServer.Text = $"Servidor: {ConnectionSettings.Host}:{ConnectionSettings.Port} - {ConnectionSettings.Database}";
 
 			Assembly assembly = Assembly.GetExecutingAssembly();

@@ -74,7 +74,7 @@ namespace GCRM
 				{
 					loading_dlg.Show();
 
-					loading_dlg.Text = "Autenticando cuenta...";
+					loading_dlg.Text = $"{username} - Autenticando cuenta...";
 
 					// setup http client
 					VCardClient = new HttpClient();
@@ -89,7 +89,7 @@ namespace GCRM
 					response.EnsureSuccessStatusCode();
 
 					// retrieve existing contacts
-					loading_dlg.Text = "Obteniendo contactos del servidor CardDav...";
+					loading_dlg.Text = $"{username} - Obteniendo contactos del servidor CardDav...";
 
 					response = await SendPropfindAsync(VCardClient, "/default/");
 
@@ -114,7 +114,7 @@ namespace GCRM
 					}
 					
 					// query the citizen list
-					loading_dlg.Text = "Obteniendo listado de ciudadanos...";
+					loading_dlg.Text = $"{username} - Obteniendo listado de ciudadanos...";
 
 					List<TCitizen> citizens;
 
@@ -129,7 +129,7 @@ namespace GCRM
 					// create / edit vcards for each citizen
 					for (int i = 0; i < citizens.Count; i++)
 					{
-						loading_dlg.Text = $"Sincronizando contactos... ({i + 1}/{citizens.Count})...";
+						loading_dlg.Text = $"{username} - Sincronizando contactos... ({i + 1}/{citizens.Count})...";
 						
 						TCitizen citizen = citizens[i];
 
@@ -185,7 +185,7 @@ namespace GCRM
 					{
 						string citizen_vcf_name = existing_resources[i].Split('/').Last();
 
-						loading_dlg.Text = $"Eliminando contactos desconocidos... ({i + 1}/{existing_resources.Count()})...";
+						loading_dlg.Text = $"{username} - Eliminando contactos desconocidos... ({i + 1}/{existing_resources.Count()})...";
 
 						response = await VCardClient.DeleteAsync($"default/{citizen_vcf_name}");
 

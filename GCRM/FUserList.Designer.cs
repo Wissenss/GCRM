@@ -37,11 +37,17 @@
 			BEdit = new ToolStripButton();
 			BRead = new ToolStripButton();
 			BRefresh = new ToolStripButton();
+			toolStripSeparator1 = new ToolStripSeparator();
+			BSyncAll = new ToolStripButton();
 			DataGridUsers = new DataGridView();
+			colEnabled = new DataGridViewCheckBoxColumn();
 			colId = new DataGridViewTextBoxColumn();
+			colGroupId = new DataGridViewTextBoxColumn();
 			colName = new DataGridViewTextBoxColumn();
 			colUsername = new DataGridViewTextBoxColumn();
 			colPasswordHash = new DataGridViewTextBoxColumn();
+			colGroup = new DataGridViewTextBoxColumn();
+			colCardDavSyncEnabled = new DataGridViewCheckBoxColumn();
 			toolStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)DataGridUsers).BeginInit();
 			SuspendLayout();
@@ -49,7 +55,7 @@
 			// toolStrip1
 			// 
 			toolStrip1.GripStyle = ToolStripGripStyle.Hidden;
-			toolStrip1.Items.AddRange(new ToolStripItem[] { BAdd, BEdit, BRead, BRefresh });
+			toolStrip1.Items.AddRange(new ToolStripItem[] { BAdd, BEdit, BRead, BRefresh, toolStripSeparator1, BSyncAll });
 			toolStrip1.Location = new Point(0, 0);
 			toolStrip1.Name = "toolStrip1";
 			toolStrip1.RenderMode = ToolStripRenderMode.System;
@@ -106,6 +112,20 @@
 			BRefresh.Text = "Actualizar";
 			BRefresh.Click += BRefresh_Click;
 			// 
+			// toolStripSeparator1
+			// 
+			toolStripSeparator1.Name = "toolStripSeparator1";
+			toolStripSeparator1.Size = new Size(6, 40);
+			// 
+			// BSyncAll
+			// 
+			BSyncAll.Image = Properties.Resources.Fatcow_Farm_Fresh_Update_contact_info_16;
+			BSyncAll.ImageTransparentColor = Color.Magenta;
+			BSyncAll.Name = "BSyncAll";
+			BSyncAll.Size = new Size(118, 37);
+			BSyncAll.Text = "&Sincronizar todos";
+			BSyncAll.Click += BSyncAll_Click;
+			// 
 			// DataGridUsers
 			// 
 			DataGridUsers.AllowUserToAddRows = false;
@@ -132,7 +152,7 @@
 			dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
 			DataGridUsers.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
 			DataGridUsers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			DataGridUsers.Columns.AddRange(new DataGridViewColumn[] { colId, colName, colUsername, colPasswordHash });
+			DataGridUsers.Columns.AddRange(new DataGridViewColumn[] { colEnabled, colId, colGroupId, colName, colUsername, colPasswordHash, colGroup, colCardDavSyncEnabled });
 			dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
 			dataGridViewCellStyle3.BackColor = SystemColors.Window;
 			dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
@@ -154,6 +174,16 @@
 			DataGridUsers.StandardTab = true;
 			DataGridUsers.TabIndex = 1;
 			// 
+			// colEnabled
+			// 
+			colEnabled.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+			colEnabled.DataPropertyName = "enabled";
+			colEnabled.DividerWidth = 1;
+			colEnabled.HeaderText = "Habilitado";
+			colEnabled.Name = "colEnabled";
+			colEnabled.ReadOnly = true;
+			colEnabled.Width = 67;
+			// 
 			// colId
 			// 
 			colId.DataPropertyName = "id";
@@ -161,6 +191,14 @@
 			colId.Name = "colId";
 			colId.ReadOnly = true;
 			colId.Visible = false;
+			// 
+			// colGroupId
+			// 
+			colGroupId.DataPropertyName = "group_id";
+			colGroupId.HeaderText = "Id Grupo";
+			colGroupId.Name = "colGroupId";
+			colGroupId.ReadOnly = true;
+			colGroupId.Visible = false;
 			// 
 			// colName
 			// 
@@ -173,11 +211,13 @@
 			// 
 			// colUsername
 			// 
-			colUsername.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+			colUsername.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
 			colUsername.DataPropertyName = "username";
+			colUsername.DividerWidth = 1;
 			colUsername.HeaderText = "Usuario";
 			colUsername.Name = "colUsername";
 			colUsername.ReadOnly = true;
+			colUsername.Width = 71;
 			// 
 			// colPasswordHash
 			// 
@@ -186,6 +226,26 @@
 			colPasswordHash.Name = "colPasswordHash";
 			colPasswordHash.ReadOnly = true;
 			colPasswordHash.Visible = false;
+			// 
+			// colGroup
+			// 
+			colGroup.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+			colGroup.DataPropertyName = "group_name";
+			colGroup.DividerWidth = 1;
+			colGroup.HeaderText = "Grupo";
+			colGroup.Name = "colGroup";
+			colGroup.ReadOnly = true;
+			colGroup.Width = 64;
+			// 
+			// colCardDavSyncEnabled
+			// 
+			colCardDavSyncEnabled.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+			colCardDavSyncEnabled.DataPropertyName = "carddav_sync_enabled";
+			colCardDavSyncEnabled.DividerWidth = 1;
+			colCardDavSyncEnabled.HeaderText = "CardDav";
+			colCardDavSyncEnabled.Name = "colCardDavSyncEnabled";
+			colCardDavSyncEnabled.ReadOnly = true;
+			colCardDavSyncEnabled.Width = 57;
 			// 
 			// FUserList
 			// 
@@ -214,9 +274,15 @@
 		private ToolStripButton BEdit;
 		private ToolStripButton BRead;
 		private ToolStripButton BRefresh;
+		private ToolStripSeparator toolStripSeparator1;
+		private ToolStripButton BSyncAll;
+		private DataGridViewCheckBoxColumn colEnabled;
 		private DataGridViewTextBoxColumn colId;
+		private DataGridViewTextBoxColumn colGroupId;
 		private DataGridViewTextBoxColumn colName;
 		private DataGridViewTextBoxColumn colUsername;
 		private DataGridViewTextBoxColumn colPasswordHash;
+		private DataGridViewTextBoxColumn colGroup;
+		private DataGridViewCheckBoxColumn colCardDavSyncEnabled;
 	}
 }
