@@ -511,36 +511,40 @@ namespace Business
 
 			var conn = ConnectionPool.GetConnection();
 
-			using (var cmd = new NpgsqlCommand("SELECT *, (SELECT COUNT(*) FROM users WHERE user_group_id = @id) as no_users FROM user_groups WHERE id = @id;", conn))
-			using (var reader = cmd.ExecuteReader())
+			using (var cmd = new NpgsqlCommand("SELECT ug.*, (SELECT COUNT(*) FROM users WHERE user_group_id = @id) as no_users FROM user_groups ug WHERE id = @id;", conn))
 			{
-				if (reader.HasRows == false)
+				cmd.Parameters.AddWithValue("@id", id);
+
+				using (var reader = cmd.ExecuteReader())
 				{
-					ConnectionPool.ReleaseConnection(ref conn);
-
-					return Error.UserGroupNotFound;
-				}
-
-				reader.Read();
-
-				user_group.FillFromReader(reader);
-
-				user_group.NoUsers = reader.GetInt32(reader.GetOrdinal("no_users"));
-
-				reader.Close();
-
-				// get the group permissions
-				cmd.CommandText = "SELECT * FROM user_group_permissions WHERE user_group_id = @id;";
-
-				using (var reader2 = cmd.ExecuteReader())
-				{
-					while (reader2.Read())
+					if (reader.HasRows == false)
 					{
-						TUserPermission permission = new TUserPermission();
+						ConnectionPool.ReleaseConnection(ref conn);
 
-						permission.FillFromReader(reader2);
+						return Error.UserGroupNotFound;
+					}
 
-						user_group.Permissions.Add(permission);
+					reader.Read();
+
+					user_group.FillFromReader(reader);
+
+					user_group.NoUsers = reader.GetInt32(reader.GetOrdinal("no_users"));
+
+					reader.Close();
+
+					// get the group permissions
+					cmd.CommandText = "SELECT * FROM user_group_permissions WHERE user_group_id = @id;";
+
+					using (var reader2 = cmd.ExecuteReader())
+					{
+						while (reader2.Read())
+						{
+							TUserPermission permission = new TUserPermission();
+
+							permission.FillFromReader(reader2);
+
+							user_group.Permissions.Add(permission);
+						}
 					}
 				}
 			}
