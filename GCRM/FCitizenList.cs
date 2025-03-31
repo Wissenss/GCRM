@@ -606,33 +606,31 @@ namespace GCRM
 
 		private void BPrint_Click(object sender, EventArgs e)
 		{
-			try
-			{
-				Cursor.Current = Cursors.WaitCursor;
-
-				R001 rep_001 = new R001()
+			//try
+			//{
+				using (new CursorWait())
 				{
-					InstitutionId = FiltersDlg.FilterInstitution ? FiltersDlg.InstitutionId : 0,
-					InstitutionCategoryId = FiltersDlg.FilterInstitutionCategory ? FiltersDlg.InstitutionCategoryId : 0,
-					PoliticalParty = FiltersDlg.FilterParty ? FiltersDlg.Party : null,
-					Sex = FiltersDlg.FilterSex ? FiltersDlg.Sex : null,
-					CitizenTitle = FiltersDlg.FilterCitizenTitle ? FiltersDlg.CitizenTitle : null,
-					SocietySector = FiltersDlg.FilterSector ? FiltersDlg.Sector : null,
-					BirthdayYear = FiltersDlg.FilterBirthdayYear ? FiltersDlg.BirthdayYear : null,
-					BirthdayMonth = FiltersDlg.FilterBirthdayMonth ? FiltersDlg.BirthdayMonth : null,
-					BirthdayDay = FiltersDlg.FilterBirthdayDay ? FiltersDlg.BirthdayDay : null,
-				};
+					R001 rep_001 = new R001()
+					{
+						InstitutionId = FiltersDlg.FilterInstitution ? FiltersDlg.InstitutionId : 0,
+						InstitutionCategoryId = FiltersDlg.FilterInstitutionCategory ? FiltersDlg.InstitutionCategoryId : 0,
+						PoliticalParty = FiltersDlg.FilterParty ? FiltersDlg.Party : null,
+						Sex = FiltersDlg.FilterSex ? FiltersDlg.Sex : null,
+						CitizenTitle = FiltersDlg.FilterCitizenTitle ? FiltersDlg.CitizenTitle : null,
+						SocietySector = FiltersDlg.FilterSector ? FiltersDlg.Sector : null,
+						BirthdayYear = FiltersDlg.FilterBirthdayYear ? FiltersDlg.BirthdayYear : null,
+						BirthdayMonth = FiltersDlg.FilterBirthdayMonth ? FiltersDlg.BirthdayMonth : null,
+						BirthdayDay = FiltersDlg.FilterBirthdayDay ? FiltersDlg.BirthdayDay : null,
+						Order = (FiltersDlg.FilterBirthdayDay || FiltersDlg.FilterBirthdayMonth) ? TR001Order.CitizenBirthday : TR001Order.CitizenName
+					};
 
-				rep_001.GeneratePdfAndShow();
-			}
-			catch (Exception ex)
-			{
-				Utilities.ShowExceptionDialog(ex);
-			}
-			finally
-			{
-				Cursor.Current = Cursors.Default;
-			}
+					rep_001.GeneratePdfAndShow();
+				}
+			//}
+			//catch (Exception ex)
+			//{
+			//	Utilities.ShowExceptionDialog(ex);
+			//}
 		}
 
 		private void DataGridCitizens_CellDoubleClick(object sender, DataGridViewCellEventArgs e)

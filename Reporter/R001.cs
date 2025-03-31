@@ -18,6 +18,7 @@ namespace Reporter
 		public int? BirthdayYear;
 		public int? BirthdayMonth;
 		public int? BirthdayDay;
+		public TR001Order Order;
 
 		R001DocumentModel Model;
 
@@ -55,6 +56,7 @@ namespace Reporter
 			Model.BirthdayYear = BirthdayYear;
 			Model.BirthdayMonth = BirthdayMonth;
 			Model.BirthdayDay = BirthdayDay;
+			Model.Order = Order;
 
 			// filter the citizen list, probably could be done directley with a query...
 			Model.CitizenList = new List<TCitizen>();

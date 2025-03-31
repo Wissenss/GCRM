@@ -9,6 +9,12 @@ using System.Reflection;
 
 namespace Reporter
 {
+	public enum TR001Order
+	{
+		CitizenName,
+		CitizenBirthday,
+	}
+
 	public class R001DocumentModel
 	{
 		public TPoliticalParty? PoliticalParty;
@@ -23,7 +29,9 @@ namespace Reporter
 		public int? BirthdayMonth;
 		public int? BirthdayDay;
 
-		public List<TCitizen> CitizenList;
+		public TR001Order Order = TR001Order.CitizenName;
+
+		public List<TCitizen> CitizenList = new List<TCitizen>();
 	}
 
 	public class R001Document : IDocument
@@ -49,6 +57,15 @@ namespace Reporter
 
 		public void Compose(IDocumentContainer container)
 		{
+			switch (Model.Order)
+			{
+				case TR001Order.CitizenName:
+					Model.CitizenList = Model.CitizenList.OrderBy(m => m.Name).ToList(); break;
+				case TR001Order.CitizenBirthday:
+					Model.CitizenList = Model.CitizenList.OrderBy(m => Int32.Parse($"{m.Birthday.Month:D2}{m.Birthday.Day:D2}")).ToList(); break;
+				default: break;
+			}
+
 			container.Page(page =>
 			{
 				page.Margin(15);
@@ -168,20 +185,18 @@ namespace Reporter
 				table.ColumnsDefinition(columns =>
 				{
 					columns.RelativeColumn();
-					columns.RelativeColumn();
 					columns.ConstantColumn(120);
-					columns.ConstantColumn(50); 
+					columns.ConstantColumn(50);
 				});
 
 				table.Header(header =>
 				{
 					float header_font_size = 8;
 
-					header.Cell().Element(CellStyle).Text("Nombre").FontSize(header_font_size).SemiBold();
-					header.Cell().Element(CellStyle).Text("Cargo").FontSize(header_font_size).SemiBold();
+					header.Cell().Element(CellStyle).Text("Ciudadano").FontSize(header_font_size).SemiBold();
 					header.Cell().Element(CellStyle).Text("Contacto").FontSize(header_font_size).SemiBold();
 					header.Cell().Element(CellStyle).Text("Cumpleaños").FontSize(header_font_size).SemiBold().AlignCenter();
-						
+
 					static IContainer CellStyle(IContainer container)
 					{
 						return container.BorderBottom(0.3F).BorderTop(0.1f).BorderColor(Colors.Grey.Lighten1).Background(Colors.Grey.Lighten4).Padding(0.5f);
@@ -192,21 +207,23 @@ namespace Reporter
 				{
 					float row_font_size = 8;
 
-					table.Cell().Element(CellStyle).Text($"{BConstants.GetCitizenBriefTitle(citizen.Title, citizen.Sex)} {citizen.FullName}").FontSize(row_font_size);
-
-					table.Cell().Element(CellStyle).Text($"{citizen.Role.Name} - {citizen.Institution.Name}").FontSize(row_font_size);
+					table.Cell().Element(CellStyle).Column(column =>
+					{
+						column.Item().Text($"{BConstants.GetCitizenBriefTitle(citizen.Title, citizen.Sex).ToUpper()} {citizen.FullName}").FontSize(row_font_size).SemiBold();
+						column.Item().Text($"{citizen.Role.Name.ToUpper()} - {citizen.Institution.Name.ToUpper()}").FontSize(row_font_size);
+					});
 
 					string contact_str = "";
 
 					if (citizen.Phone.Length > 0)
-						contact_str += $"Tel. {citizen.FullPhone}\n";
+						contact_str += $"TEL. {citizen.FullPhone.ToUpper()}\n";
 
 					if (citizen.Cellphone.Length > 0)
-						contact_str += $"Cel. {citizen.Cellphone}";
+						contact_str += $"CEL. {citizen.Cellphone.ToUpper()}";
 
 					table.Cell().Element(CellStyle).Text(contact_str).FontSize(row_font_size);
 
-					table.Cell().Element(CellStyle).Text(citizen.Birthday.ToString("d MMM")).FontSize(row_font_size).AlignCenter();
+					table.Cell().Element(CellStyle).Text(citizen.Birthday.ToString("d MMM").ToUpper()).FontSize(row_font_size).AlignCenter();
 
 					static IContainer CellStyle(IContainer container)
 					{

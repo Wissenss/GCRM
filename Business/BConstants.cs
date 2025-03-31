@@ -180,7 +180,7 @@ namespace Business
 				{ TCitizenTitle.PhD, "Dr." },
 				{ TCitizenTitle.Arq, "Arq." },
 
-				{ TCitizenTitle.PublicAccountant, "CP." },
+				{ TCitizenTitle.PublicAccountant, "C.P." },
 				{ TCitizenTitle.Councilor, "Regidor(a)" },
 				{ TCitizenTitle.Syndic, "Síndico(a)" },
 				{ TCitizenTitle.MunicipalPresident, "Presidente(a) Municipal" },

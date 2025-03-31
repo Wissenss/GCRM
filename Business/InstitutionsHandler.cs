@@ -27,6 +27,21 @@ namespace Business
 		public int ParentRoleId;
 		public string Description;
 
+		public string NameWithFirstCapital
+		{
+			get
+			{
+				if (Name.Length == 0)
+					return "";
+
+				string formated_name = Name.ToLower();
+
+				formated_name = formated_name.First().ToString().ToUpper() + formated_name.Substring(1);
+
+				return formated_name;
+			}
+		}
+
 		public void FillFromReader(DbDataReader reader)
 		{
 			Id = reader.GetInt32(0);
@@ -52,6 +67,21 @@ namespace Business
 		public DateTime EditDate;
 		public string Acronym;
 		public bool AttentionRequired;
+
+		public string NameWithFirstCapital
+		{
+			get
+			{
+				if (Name.Length == 0)
+					return "";
+
+				string formated_name = Name.ToLower();
+
+				formated_name = formated_name.First().ToString().ToUpper() + formated_name.Substring(1);
+
+				return formated_name;
+			}
+		}
 
 		public void FillFromReader(DbDataReader reader)
 		{

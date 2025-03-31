@@ -65,6 +65,46 @@ namespace Business
 			} 
 		}
 
+		public string FullNameWithAllCapitals
+		{
+			get
+			{
+				return FullName.ToUpper();
+			}
+		}
+
+		public string FullNameWithFirstCapitals
+		{
+			get
+			{
+				List<string> word_list = FullName.Split(' ').ToList();
+				string[] uncapitalizable_words = { "de", "del", "la" };
+
+				string formated_name = "";
+
+				foreach (string word in word_list)
+				{
+					string formated_word = word;
+
+					if (uncapitalizable_words.Contains(word.ToLower()) == false)
+					{
+						if (formated_word.Length == 0)
+							continue;
+
+						formated_word = formated_word.First().ToString().ToUpper() + formated_word.Substring(1).ToLower();
+					}
+					else
+					{
+						formated_word = formated_word.ToLower();
+					}
+
+					formated_name += formated_word + " ";
+				}
+
+				return formated_name.Trim();
+			}
+		}
+
 		public string FullPhone
 		{
 			get
