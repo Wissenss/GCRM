@@ -58,9 +58,9 @@
 			LDescription.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
 			LDescription.Location = new Point(40, 19);
 			LDescription.Name = "LDescription";
-			LDescription.Size = new Size(231, 15);
+			LDescription.Size = new Size(230, 15);
 			LDescription.TabIndex = 2;
-			LDescription.Text = "Gobernment Citizen Relationship Manager";
+			LDescription.Text = "Government Citizen Relationship Manager";
 			// 
 			// LTitle
 			// 
