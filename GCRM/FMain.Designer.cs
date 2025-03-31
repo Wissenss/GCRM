@@ -60,6 +60,10 @@
 			ListBoxBirhdays = new ListBox();
 			LBirthdayList = new Label();
 			PictureBoxBirthdayList = new PictureBox();
+			BackgroundImage = new PictureBox();
+			BirthdayPanel = new Panel();
+			BirthdayPanelContent = new Panel();
+			BirthdayPanelTopBar = new Panel();
 			statusStrip1.SuspendLayout();
 			toolStrip1.SuspendLayout();
 			TabControl.SuspendLayout();
@@ -69,14 +73,18 @@
 			TabOthers.SuspendLayout();
 			ToolStripOther.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)PictureBoxBirthdayList).BeginInit();
+			((System.ComponentModel.ISupportInitialize)BackgroundImage).BeginInit();
+			BirthdayPanel.SuspendLayout();
+			BirthdayPanelContent.SuspendLayout();
+			BirthdayPanelTopBar.SuspendLayout();
 			SuspendLayout();
 			// 
 			// statusStrip1
 			// 
 			statusStrip1.Items.AddRange(new ToolStripItem[] { LToolStripUsername, LToolStripServer, LToolstripVersion });
-			statusStrip1.Location = new Point(0, 461);
+			statusStrip1.Location = new Point(0, 390);
 			statusStrip1.Name = "statusStrip1";
-			statusStrip1.Size = new Size(835, 22);
+			statusStrip1.Size = new Size(801, 22);
 			statusStrip1.TabIndex = 0;
 			statusStrip1.Text = "statusStrip1";
 			// 
@@ -84,16 +92,16 @@
 			// 
 			LToolStripUsername.Font = new Font("Segoe UI Variable Small Light", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
 			LToolStripUsername.Name = "LToolStripUsername";
-			LToolStripUsername.Size = new Size(273, 17);
+			LToolStripUsername.Size = new Size(262, 17);
 			LToolStripUsername.Spring = true;
-			LToolStripUsername.Text = "Usuario: ausuario";
+			LToolStripUsername.Text = "Usuario: ausuario - agroup";
 			LToolStripUsername.TextAlign = ContentAlignment.MiddleLeft;
 			// 
 			// LToolStripServer
 			// 
 			LToolStripServer.Font = new Font("Segoe UI Variable Small Light", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
 			LToolStripServer.Name = "LToolStripServer";
-			LToolStripServer.Size = new Size(273, 17);
+			LToolStripServer.Size = new Size(262, 17);
 			LToolStripServer.Spring = true;
 			LToolStripServer.Text = "Server - tcp://localhost:8095";
 			LToolStripServer.TextAlign = ContentAlignment.MiddleRight;
@@ -103,7 +111,7 @@
 			LToolstripVersion.Font = new Font("Segoe UI Variable Small Light", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
 			LToolstripVersion.ForeColor = SystemColors.InfoText;
 			LToolstripVersion.Name = "LToolstripVersion";
-			LToolstripVersion.Size = new Size(273, 17);
+			LToolstripVersion.Size = new Size(262, 17);
 			LToolstripVersion.Spring = true;
 			LToolstripVersion.Text = "Versión - 0.0.0.1 - alpha";
 			LToolstripVersion.TextAlign = ContentAlignment.MiddleRight;
@@ -116,7 +124,7 @@
 			toolStrip1.Location = new Point(3, 3);
 			toolStrip1.Name = "toolStrip1";
 			toolStrip1.RenderMode = ToolStripRenderMode.System;
-			toolStrip1.Size = new Size(821, 55);
+			toolStrip1.Size = new Size(787, 55);
 			toolStrip1.TabIndex = 0;
 			toolStrip1.Text = "ToolStripCatalogos";
 			// 
@@ -149,14 +157,14 @@
 			// 
 			// TabControl
 			// 
-			TabControl.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 			TabControl.Controls.Add(TabPageCatalogs);
 			TabControl.Controls.Add(TabElectoral);
 			TabControl.Controls.Add(TabOthers);
+			TabControl.Dock = DockStyle.Top;
 			TabControl.Location = new Point(0, 0);
 			TabControl.Name = "TabControl";
 			TabControl.SelectedIndex = 0;
-			TabControl.Size = new Size(835, 89);
+			TabControl.Size = new Size(801, 89);
 			TabControl.TabIndex = 1;
 			// 
 			// TabPageCatalogs
@@ -165,7 +173,7 @@
 			TabPageCatalogs.Location = new Point(4, 24);
 			TabPageCatalogs.Name = "TabPageCatalogs";
 			TabPageCatalogs.Padding = new Padding(3);
-			TabPageCatalogs.Size = new Size(827, 61);
+			TabPageCatalogs.Size = new Size(793, 61);
 			TabPageCatalogs.TabIndex = 0;
 			TabPageCatalogs.Text = "Catálogos";
 			TabPageCatalogs.UseVisualStyleBackColor = true;
@@ -176,7 +184,7 @@
 			TabElectoral.Location = new Point(4, 24);
 			TabElectoral.Name = "TabElectoral";
 			TabElectoral.Padding = new Padding(3);
-			TabElectoral.Size = new Size(827, 61);
+			TabElectoral.Size = new Size(793, 61);
 			TabElectoral.TabIndex = 2;
 			TabElectoral.Text = "Electoral";
 			TabElectoral.UseVisualStyleBackColor = true;
@@ -189,7 +197,7 @@
 			toolStrip3.Location = new Point(3, 3);
 			toolStrip3.Name = "toolStrip3";
 			toolStrip3.RenderMode = ToolStripRenderMode.System;
-			toolStrip3.Size = new Size(821, 55);
+			toolStrip3.Size = new Size(787, 55);
 			toolStrip3.TabIndex = 1;
 			toolStrip3.Text = "ToolStripCatalogos";
 			// 
@@ -226,7 +234,7 @@
 			TabOthers.Location = new Point(4, 24);
 			TabOthers.Name = "TabOthers";
 			TabOthers.Padding = new Padding(3);
-			TabOthers.Size = new Size(827, 61);
+			TabOthers.Size = new Size(793, 61);
 			TabOthers.TabIndex = 1;
 			TabOthers.Text = "Otros";
 			TabOthers.UseVisualStyleBackColor = true;
@@ -239,7 +247,7 @@
 			ToolStripOther.Location = new Point(3, 3);
 			ToolStripOther.Name = "ToolStripOther";
 			ToolStripOther.RenderMode = ToolStripRenderMode.System;
-			ToolStripOther.Size = new Size(821, 55);
+			ToolStripOther.Size = new Size(787, 55);
 			ToolStripOther.TabIndex = 0;
 			ToolStripOther.Text = "toolStrip2";
 			// 
@@ -367,48 +375,102 @@
 			// 
 			// ListBoxBirhdays
 			// 
-			ListBoxBirhdays.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
-			ListBoxBirhdays.BackColor = SystemColors.Control;
+			ListBoxBirhdays.BackColor = SystemColors.GradientInactiveCaption;
 			ListBoxBirhdays.BorderStyle = BorderStyle.None;
+			ListBoxBirhdays.Dock = DockStyle.Fill;
 			ListBoxBirhdays.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
 			ListBoxBirhdays.FormattingEnabled = true;
 			ListBoxBirhdays.ItemHeight = 15;
-			ListBoxBirhdays.Location = new Point(27, 115);
+			ListBoxBirhdays.Location = new Point(5, 5);
+			ListBoxBirhdays.Margin = new Padding(5, 20, 5, 5);
 			ListBoxBirhdays.Name = "ListBoxBirhdays";
-			ListBoxBirhdays.Size = new Size(306, 330);
+			ListBoxBirhdays.SelectionMode = SelectionMode.None;
+			ListBoxBirhdays.Size = new Size(295, 0);
 			ListBoxBirhdays.TabIndex = 2;
 			// 
 			// LBirthdayList
 			// 
 			LBirthdayList.AutoSize = true;
+			LBirthdayList.Dock = DockStyle.Fill;
 			LBirthdayList.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-			LBirthdayList.ForeColor = SystemColors.HotTrack;
-			LBirthdayList.Location = new Point(27, 96);
+			LBirthdayList.ForeColor = SystemColors.ControlText;
+			LBirthdayList.Location = new Point(23, 5);
 			LBirthdayList.Name = "LBirthdayList";
-			LBirthdayList.Size = new Size(103, 15);
+			LBirthdayList.Size = new Size(143, 15);
 			LBirthdayList.TabIndex = 3;
-			LBirthdayList.Text = "Feliz cumpleaños!";
+			LBirthdayList.Text = "Cumpleaños el día de hoy";
 			// 
 			// PictureBoxBirthdayList
 			// 
+			PictureBoxBirthdayList.Dock = DockStyle.Left;
 			PictureBoxBirthdayList.Image = Properties.Resources.Fatcow_Farm_Fresh_Cake_16;
-			PictureBoxBirthdayList.Location = new Point(11, 95);
+			PictureBoxBirthdayList.Location = new Point(5, 5);
 			PictureBoxBirthdayList.Name = "PictureBoxBirthdayList";
-			PictureBoxBirthdayList.Size = new Size(16, 16);
+			PictureBoxBirthdayList.Size = new Size(18, 15);
 			PictureBoxBirthdayList.TabIndex = 4;
 			PictureBoxBirthdayList.TabStop = false;
+			// 
+			// BackgroundImage
+			// 
+			BackgroundImage.BackColor = Color.Transparent;
+			BackgroundImage.Dock = DockStyle.Fill;
+			BackgroundImage.Location = new Point(0, 89);
+			BackgroundImage.Name = "BackgroundImage";
+			BackgroundImage.Size = new Size(801, 301);
+			BackgroundImage.SizeMode = PictureBoxSizeMode.CenterImage;
+			BackgroundImage.TabIndex = 5;
+			BackgroundImage.TabStop = false;
+			// 
+			// BirthdayPanel
+			// 
+			BirthdayPanel.AutoSize = true;
+			BirthdayPanel.BackColor = SystemColors.GradientInactiveCaption;
+			BirthdayPanel.BorderStyle = BorderStyle.FixedSingle;
+			BirthdayPanel.Controls.Add(BirthdayPanelContent);
+			BirthdayPanel.Controls.Add(BirthdayPanelTopBar);
+			BirthdayPanel.Location = new Point(7, 95);
+			BirthdayPanel.Name = "BirthdayPanel";
+			BirthdayPanel.Size = new Size(303, 37);
+			BirthdayPanel.TabIndex = 6;
+			// 
+			// BirthdayPanelContent
+			// 
+			BirthdayPanelContent.AutoSize = true;
+			BirthdayPanelContent.Controls.Add(ListBoxBirhdays);
+			BirthdayPanelContent.Dock = DockStyle.Fill;
+			BirthdayPanelContent.Location = new Point(0, 25);
+			BirthdayPanelContent.MinimumSize = new Size(200, 0);
+			BirthdayPanelContent.Name = "BirthdayPanelContent";
+			BirthdayPanelContent.Padding = new Padding(5, 5, 1, 5);
+			BirthdayPanelContent.Size = new Size(301, 10);
+			BirthdayPanelContent.TabIndex = 6;
+			// 
+			// BirthdayPanelTopBar
+			// 
+			BirthdayPanelTopBar.AutoSize = true;
+			BirthdayPanelTopBar.BackColor = SystemColors.InactiveCaption;
+			BirthdayPanelTopBar.Controls.Add(LBirthdayList);
+			BirthdayPanelTopBar.Controls.Add(PictureBoxBirthdayList);
+			BirthdayPanelTopBar.Dock = DockStyle.Top;
+			BirthdayPanelTopBar.Location = new Point(0, 0);
+			BirthdayPanelTopBar.Margin = new Padding(3, 3, 3, 10);
+			BirthdayPanelTopBar.MinimumSize = new Size(200, 0);
+			BirthdayPanelTopBar.Name = "BirthdayPanelTopBar";
+			BirthdayPanelTopBar.Padding = new Padding(5);
+			BirthdayPanelTopBar.Size = new Size(301, 25);
+			BirthdayPanelTopBar.TabIndex = 5;
 			// 
 			// FMain
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
-			ClientSize = new Size(835, 483);
-			Controls.Add(PictureBoxBirthdayList);
-			Controls.Add(LBirthdayList);
-			Controls.Add(ListBoxBirhdays);
+			ClientSize = new Size(801, 412);
+			Controls.Add(BirthdayPanel);
+			Controls.Add(BackgroundImage);
 			Controls.Add(TabControl);
 			Controls.Add(statusStrip1);
 			Icon = (Icon)resources.GetObject("$this.Icon");
+			MinimumSize = new Size(600, 400);
 			Name = "FMain";
 			Text = "GCRM";
 			FormClosed += FMain_FormClosed;
@@ -429,6 +491,12 @@
 			ToolStripOther.ResumeLayout(false);
 			ToolStripOther.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)PictureBoxBirthdayList).EndInit();
+			((System.ComponentModel.ISupportInitialize)BackgroundImage).EndInit();
+			BirthdayPanel.ResumeLayout(false);
+			BirthdayPanel.PerformLayout();
+			BirthdayPanelContent.ResumeLayout(false);
+			BirthdayPanelTopBar.ResumeLayout(false);
+			BirthdayPanelTopBar.PerformLayout();
 			ResumeLayout(false);
 			PerformLayout();
 		}
@@ -466,5 +534,9 @@
 		private ToolStripSeparator toolStripSeparator3;
 		private ToolStripButton toolStripButton1;
 		private ToolStripButton BUserGroups;
+		private PictureBox BackgroundImage;
+		private Panel BirthdayPanel;
+		private Panel BirthdayPanelTopBar;
+		private Panel BirthdayPanelContent;
 	}
 }

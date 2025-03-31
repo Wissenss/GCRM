@@ -26,6 +26,7 @@ namespace Business
 					case BDBTypeSettingDatatype.String: sql = "INSERT INTO settings(name, string_value, datatype, user_id) VALUES(@name, @value, 'string', @user_id);"; break;
 					case BDBTypeSettingDatatype.Boolean: sql = "INSERT INTO settings(name, boolean_value, datatype, user_id) VALUES(@name, @value, 'boolean', @user_id)"; break;
 					case BDBTypeSettingDatatype.Numeric: sql = "INSERT INTO settings(name, numeric_value, datatype, user_id) VALUES(@name, @value, 'numeric', @user_id)"; break;
+					case BDBTypeSettingDatatype.Blob: sql = "INSERT INTO settings(name, blob_value, datatype, user_id) VALUES(@name, @value, 'blob', @user_id)"; break;
 				}
 
 				var conn = ConnectionPool.GetConnection();
@@ -55,6 +56,7 @@ namespace Business
 					case BDBTypeSettingDatatype.String: sql = "UPDATE settings SET string_value = @value, datatype = 'string', user_id = @user_id WHERE name = @name;"; break;
 					case BDBTypeSettingDatatype.Boolean: sql = "UPDATE settings SET boolean_value = @value, datatype = 'boolean', user_id = @user_id WHERE name = @name;"; break;
 					case BDBTypeSettingDatatype.Numeric: sql = "UPDATE settings SET numeric_value = @value, datatype = 'numeric', user_id = @user_id WHERE name = @name;"; break;
+					case BDBTypeSettingDatatype.Blob: sql = "UPDATE settings SET blob_value = @value, datatype = 'blob', user_id = @user_id WHERE name = @name;"; break;
 				}
 
 				var conn = ConnectionPool.GetConnection();
@@ -73,17 +75,18 @@ namespace Business
 				return 0;
 			}
 
-			public static Error SettingExists(string name)
+			public static Error SettingExists(string name, int user_id = 0)
 			{
 				Error error = 0;
 
 				var conn = ConnectionPool.GetConnection();
 
-				string sql = "SELECT * FROM settings WHERE name = @name;";
+				string sql = "SELECT * FROM settings WHERE name = @name AND user_id = @user_id;";
 
 				using (var cmd = new NpgsqlCommand(sql, conn))
 				{
 					cmd.Parameters.AddWithValue("@name", name);
+					cmd.Parameters.AddWithValue("@user_id", user_id);
 
 					using (var reader = cmd.ExecuteReader())
 					{
@@ -121,6 +124,11 @@ namespace Business
 							bool boolean_value = reader.GetBoolean(3);
 							decimal numeric_value = reader.GetDecimal(4);
 
+							byte[] blob_value = null;
+
+							if (reader.IsDBNull(7) == false)
+								blob_value = reader.GetFieldValue<byte[]>(7); 
+
 							BDBTypeSettingDatatype setting_datatype = BDBTypes.GetSettingDataTypeFromString(reader.GetString(5));
 
 							switch (setting_datatype)
@@ -128,6 +136,7 @@ namespace Business
 								case BDBTypeSettingDatatype.Numeric: value = numeric_value; break;
 								case BDBTypeSettingDatatype.Boolean: value = boolean_value; break;
 								case BDBTypeSettingDatatype.String: value = string_value; break;
+								case BDBTypeSettingDatatype.Blob: value = blob_value; break;
 							}
 						}
 						else if (add_if_non_existent)
@@ -135,6 +144,25 @@ namespace Business
 							error = CreateSettingFromRawValue(name, value, type, user_id);
 						}
 					}
+				}
+
+				ConnectionPool.ReleaseConnection(ref conn);
+
+				return error;
+			}
+
+			public static Error DeleteSetting(string name, int user_id = 0)
+			{
+				Error error = 0;
+
+				var conn = ConnectionPool.GetConnection();
+
+				using (var cmd = new NpgsqlCommand("DELETE FROM settings WHERE name = @name AND user_id = @user_id;", conn))
+				{
+					cmd.Parameters.AddWithValue("@name", name);
+					cmd.Parameters.AddWithValue("@user_id", user_id);
+
+					cmd.ExecuteNonQuery();
 				}
 
 				ConnectionPool.ReleaseConnection(ref conn);

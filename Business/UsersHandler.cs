@@ -123,8 +123,8 @@ namespace Business
 			{
 				new TUserPermission(51, "Conexion.Editar"),								// editar la configuración de conexión
 
-				new TUserPermission(61, "Settings.Editar"),
-				new TUserPermission(62, "Settings.Consultar"),
+				new TUserPermission(61, "Settings.Globales.Editar"),
+				new TUserPermission(62, "Settings.Globales.Consultar"),
 
 				new TUserPermission(72, "Queries.Run"),
 

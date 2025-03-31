@@ -11,6 +11,7 @@ namespace Business
 		String,
 		Boolean,
 		Numeric,
+		Blob,
 	}
 
 	public class BDBTypes
@@ -22,6 +23,7 @@ namespace Business
 					{ "string", BDBTypeSettingDatatype.String },
 					{ "boolean", BDBTypeSettingDatatype.Boolean },
 					{ "numeric", BDBTypeSettingDatatype.Numeric },
+					{ "blob", BDBTypeSettingDatatype.Blob }
 				};
 
 			if (mapping.ContainsKey(_string) == false)
@@ -45,6 +47,8 @@ namespace Business
 					{ typeof(double),  BDBTypeSettingDatatype.Numeric },
 					{ typeof(float),   BDBTypeSettingDatatype.Numeric },
 					{ typeof(long),    BDBTypeSettingDatatype.Numeric },
+
+					{ typeof(byte[]),	 BDBTypeSettingDatatype.Blob }
 				};
 
 			if (mapping.ContainsKey(type) == false)

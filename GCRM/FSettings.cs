@@ -1,9 +1,11 @@
-﻿using Business.Business;
+﻿using Business;
+using Business.Business;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,25 +15,43 @@ namespace GCRM
 {
 	public partial class FSettings : Form
 	{
-		FAccessMode Mode = FAccessMode.Read;
 
 		public FSettings()
 		{
 			InitializeComponent();
+
+			LoadPermissions();
 		}
 
-		public void SetAccessMode(FAccessMode mode)
+		private void LoadPermissions()
 		{
-			Mode = mode;
+			if (Session.HasPermission("Settings.Globales.Consultar") == false)
+			{
+				TabControlSettings.TabPages.Remove(TabGlobalSettings);
+			}
 
-			TextBoxPurelymailAPIKey.Enabled = Mode != FAccessMode.Read; 
+			bool can_edit_global_settings = Session.HasPermission("Settings.Globales.Editar");
+
+			TextBoxPurelymailAPIKey.Enabled = can_edit_global_settings;
 		}
 
 		private void LoadSettings()
 		{
 			using (new CursorWait())
 			{
-				TextBoxPurelymailAPIKey.Text = SettingsHandler.GetSetting("Email.API.Key", "pm-live-eace83da-880e-449f-ab8e-f31b1e25c728");
+				if (Session.HasPermission("Settings.Globales.Consultar"))
+				{
+					TextBoxPurelymailAPIKey.Text = SettingsHandler.GetSetting("Email.API.Key", "pm-live-eace83da-880e-449f-ab8e-f31b1e25c728");
+
+					byte[] raw_background_img = SettingsHandler.GetSetting<byte[]>("Interface.BackgroundImage", null, 0, false);
+
+					if (raw_background_img != null)
+					{
+						MemoryStream ms = new MemoryStream(raw_background_img);
+
+						BackgroundImage.Image = Image.FromStream(ms);
+					}
+				}
 			}
 		}
 
@@ -39,7 +59,24 @@ namespace GCRM
 		{
 			using (new CursorWait())
 			{
-				SettingsHandler.SetSetting("Email.API.Key", TextBoxPurelymailAPIKey.Text.Trim());
+				if (Session.HasPermission("Settings.Globales.Editar"))
+				{
+					SettingsHandler.SetSetting("Email.API.Key", TextBoxPurelymailAPIKey.Text.Trim());
+
+					if (BackgroundImage.Image != null)
+					{
+						using (MemoryStream ms = new MemoryStream())
+						{
+							BackgroundImage.Image.Save(ms, BackgroundImage.Image.RawFormat);
+
+							SettingsHandler.SetSetting("Interface.BackgroundImage", ms.ToArray(), 0, true);
+						}
+					}
+					else
+					{
+						SettingsHandler.DeleteSetting("Interface.BackgroundImage", 0);
+					}
+				}
 			}
 		}
 
@@ -83,6 +120,23 @@ namespace GCRM
 		private void FSettings_Load(object sender, EventArgs e)
 		{
 			LoadSettings();
+		}
+
+		private void BSelectBackgroundImage_Click(object sender, EventArgs e)
+		{
+			OpenFileDialog.Filter = $"Imagen (*.jpg, *jpeg, *.png, *.bmp, *tiff, *.tif) | *.jpg; *jpeg; *.png; *.bmp; *tiff; *.tif | Todos (*.*) | *.*";
+
+			if (OpenFileDialog.ShowDialog() != DialogResult.OK)
+			{
+				return;
+			}
+
+			BackgroundImage.Image = Image.FromFile(OpenFileDialog.FileName);
+		}
+
+		private void BClearBackgroundImage_Click(object sender, EventArgs e)
+		{
+			BackgroundImage.Image = null;
 		}
 	}
 }

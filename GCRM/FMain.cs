@@ -1,4 +1,5 @@
 using Business;
+using Business.Business;
 using Connection;
 using Microsoft.VisualBasic;
 using System.Diagnostics;
@@ -42,10 +43,10 @@ namespace GCRM
 		private void RefreshStatusStrip()
 		{
 			LToolStripUsername.Text = $"Usuario: {Session.User.Username}";
-			
+
 			if (Session.User.Group.Id != 0)
 				LToolStripUsername.Text += $" - {Session.User.Group.Name}";
-			
+
 			LToolStripServer.Text = $"Servidor: {ConnectionSettings.Host}:{ConnectionSettings.Port} - {ConnectionSettings.Database}";
 
 			Assembly assembly = Assembly.GetExecutingAssembly();
@@ -67,8 +68,7 @@ namespace GCRM
 					return;
 				}
 
-				PictureBoxBirthdayList.Visible = citizens_on_birthday.Count > 0;
-				LBirthdayList.Visible = citizens_on_birthday.Count > 0;
+				BirthdayPanel.Visible = citizens_on_birthday.Count > 0;
 
 				ListBoxBirhdays.Items.Clear();
 
@@ -76,6 +76,10 @@ namespace GCRM
 				{
 					ListBoxBirhdays.Items.Add($" - {citizen.Name} {citizen.PaternalName} {citizen.MaternalName}");
 				}
+
+				BirthdayPanelContent.MinimumSize = new Size(0, ListBoxBirhdays.ItemHeight * citizens_on_birthday.Count + 10);
+
+				BirthdayPanel.Refresh();
 			}
 		}
 
@@ -86,6 +90,23 @@ namespace GCRM
 			BUsers.Text = Session.HasPermission("Usuarios.Consultar") ? "&Usuarios" : "&Usuario";
 
 			LoadPermissions();
+
+			LoadSettings();
+		}
+
+		private void LoadSettings()
+		{
+			BackgroundImage.Image = null;
+
+			byte[] raw_background_img = SettingsHandler.GetSetting<byte[]>("Interface.BackgroundImage", null, 0, false);
+
+			if (raw_background_img != null)
+			{
+				using (MemoryStream ms = new MemoryStream(raw_background_img))
+				{
+					BackgroundImage.Image = Image.FromStream(ms);
+				}
+			}
 		}
 
 		private void LoadPermissions()
@@ -98,8 +119,6 @@ namespace GCRM
 				BCitizenNetworks.Visible = Session.HasPermission("Network.Consultar");
 
 				BEmails.Visible = Session.HasPermission("Emails.Consultar");
-
-				BSettings.Visible = Session.HasPermission("Settings.Consultar");
 
 				BQueries.Visible = Session.HasPermission("Queries.Run");
 
@@ -176,12 +195,10 @@ namespace GCRM
 		{
 			using (FSettings setting_dlg = new FSettings())
 			{
-				if (Session.HasPermission("Settings.Editar"))
+				if (setting_dlg.ShowDialog() == DialogResult.OK)
 				{
-					setting_dlg.SetAccessMode(FAccessMode.Update);
+					LoadSettings();
 				}
-
-				setting_dlg.ShowDialog();
 			}
 		}
 
