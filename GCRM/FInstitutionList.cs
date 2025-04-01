@@ -91,6 +91,9 @@ namespace GCRM
 			LoadPermissions();
 
 			LoadList();
+
+			SettingsUtilities.TryLoadFormConfiguration(this, "institutions\\main_form");
+			DataGridUtilities.TryLoadConfiguration(DataGridInstitutions, "institutions\\main_data_grid");
 		}
 
 		private int GetSelectedInstitutionId()
@@ -405,6 +408,12 @@ namespace GCRM
 				e.CellStyle.BackColor = System.Drawing.Color.FromArgb(255, 200, 200);
 				e.CellStyle.SelectionBackColor = System.Drawing.Color.FromArgb(255, 150, 150);
 			}
+		}
+
+		private void FInstitutionList_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			SettingsUtilities.TrySaveFormConfiguration(this, "institutions\\main_form");
+			DataGridUtilities.TrySaveConfiguration(DataGridInstitutions, "institutions\\main_data_grid");
 		}
 	}
 }

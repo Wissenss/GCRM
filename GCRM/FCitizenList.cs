@@ -27,24 +27,24 @@ namespace GCRM
 
 			int display_index = 0;
 
-			DataGridUtilities.AddColumn(DataGridCitizens, "colTitleName", "Título", "title_name", true, display_index++, 20, 20, DataGridViewAutoSizeColumnMode.AllCells);
-			DataGridUtilities.AddColumn(DataGridCitizens, "colFullName", "Nombre", "name_full", true, display_index++, 250, 250, DataGridViewAutoSizeColumnMode.Fill);
-			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionName", "Institución", "institution_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
-			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionRoleName", "Cargo", "institution_role_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
-			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionCategoryName", "Categoría de institución", "institution_category_name", true, display_index++, 300, 160, DataGridViewAutoSizeColumnMode.AllCells);
-			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionSectorName", "Sector", "institution_sector_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
-			DataGridUtilities.AddColumn(DataGridCitizens, "colPhoneAndExtension", "Teléfono", "phone_full", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
-			DataGridUtilities.AddColumn(DataGridCitizens, "colCellphone", "Celular", "cellphone", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
-			DataGridUtilities.AddColumn(DataGridCitizens, "colBirthday", "Nacimiento", "birthday", false, display_index++, 20, 20, DataGridViewAutoSizeColumnMode.AllCells);
-			DataGridUtilities.AddColumn(DataGridCitizens, "colAuthorName", "Autor", "author_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
-			DataGridUtilities.AddColumn(DataGridCitizens, "colEditorName", "Último editor", "editor_name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colTitleName", "Título", "title_name", true, display_index++, 50, 20);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colFullName", "Nombre", "name_full", true, display_index++, 250, 20);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionName", "Institución", "institution_name", true, display_index++, 200, 20);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionRoleName", "Cargo", "institution_role_name", true, display_index++, 100, 20);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionCategoryName", "Categoría de institución", "institution_category_name", true, display_index++, 300, 20);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionSectorName", "Sector", "institution_sector_name", true, display_index++, 100, 20);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colPhoneAndExtension", "Teléfono", "phone_full", true, display_index++, 100, 20);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colCellphone", "Celular", "cellphone", true, display_index++, 100, 20);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colBirthday", "Nacimiento", "birthday", false, display_index++, 20, 20);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colAuthorName", "Autor", "author_name", true, display_index++, 150, 20);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colEditorName", "Último editor", "editor_name", true, display_index++, 150, 20);
 
 			// ocultas por default
-			DataGridUtilities.AddColumn(DataGridCitizens, "colCategoryName", "Categoría", "category_name", false, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
-			DataGridUtilities.AddColumn(DataGridCitizens, "colAssistantName", "Asistente", "assistant_name", false, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
-			DataGridUtilities.AddColumn(DataGridCitizens, "colSexName", "Sexo", "sex_name", false, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
-			DataGridUtilities.AddColumn(DataGridCitizens, "colPoliticalPartyName", "Partido", "political_party_name", false, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
-			DataGridUtilities.AddColumn(DataGridCitizens, "colCURP", "CURP", "curp", false, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colCategoryName", "Categoría", "category_name", false, display_index++, 100, 20);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colAssistantName", "Asistente", "assistant_name", false, display_index++, 100, 20);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colSexName", "Sexo", "sex_name", false, display_index++, 100, 20);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colPoliticalPartyName", "Partido", "political_party_name", false, display_index++, 100, 20);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colCURP", "CURP", "curp", false, display_index++, 100, 20);
 
 			DataGridUtilities.AddColumn(DataGridCitizens, "colId", "Id", "id", false);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colTitle", "Id Título", "title", false);
@@ -198,6 +198,9 @@ namespace GCRM
 		private void FCitizenList_Load(object sender, EventArgs e)
 		{
 			LoadList();
+
+			SettingsUtilities.TryLoadFormConfiguration(this, "citizens\\main_form");
+			DataGridUtilities.TryLoadConfiguration(DataGridCitizens, "citizens\\main_data_grid");
 		}
 
 		private void LoadList()
@@ -606,8 +609,8 @@ namespace GCRM
 
 		private void BPrint_Click(object sender, EventArgs e)
 		{
-			//try
-			//{
+			try
+			{
 				using (new CursorWait())
 				{
 					R001 rep_001 = new R001()
@@ -626,11 +629,11 @@ namespace GCRM
 
 					rep_001.GeneratePdfAndShow();
 				}
-			//}
-			//catch (Exception ex)
-			//{
-			//	Utilities.ShowExceptionDialog(ex);
-			//}
+			}
+			catch (Exception ex)
+			{
+				Utilities.ShowExceptionDialog(ex);
+			}
 		}
 
 		private void DataGridCitizens_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -767,6 +770,12 @@ namespace GCRM
 				e.CellStyle.BackColor = Color.FromArgb(255, 200, 200);
 				e.CellStyle.SelectionBackColor = Color.FromArgb(255, 150, 150);
 			}
+		}
+
+		private void FCitizenList_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			DataGridUtilities.TrySaveConfiguration(DataGridCitizens, "citizens\\main_data_grid");
+			SettingsUtilities.TrySaveFormConfiguration(this, "citizens\\main_form");
 		}
 	}
 }

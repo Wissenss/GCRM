@@ -5,12 +5,14 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
+using System.Xml.Serialization;
 using BrightIdeasSoftware;
 using Business;
 using Business.Business;
 using ClosedXML.Excel;
 using DocumentFormat.OpenXml.Office.CoverPageProps;
 using DocumentFormat.OpenXml.Office2010.ExcelAc;
+using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace GCRM
@@ -113,9 +115,123 @@ namespace GCRM
 		}
 	}
 
+	public static class SettingsUtilities
+	{
+		public class FormConfiguration
+		{
+			public int width { get; set; } = 200;
+
+			public int height { get; set; } = 200;
+		}
+
+		private static string GetTempSettingFullPath(string path)
+		{
+			path = Path.Join(Path.GetTempPath(), "GCRM", "gcrm_temp_settings", $"{path}.xml");
+
+			return path;
+		}
+
+		public static void SaveTempSetting<T>(T setting, string path)
+		{
+			path = GetTempSettingFullPath(path);
+
+			string directory = Path.GetDirectoryName(path);
+
+			if (!Directory.Exists(directory))
+				Directory.CreateDirectory(directory);
+
+			using (var writer = new StreamWriter(path))
+			{
+				var serializer = new XmlSerializer(typeof(T));
+				serializer.Serialize(writer, setting);
+			}
+		}
+
+		public static T GetTempSetting<T>(string path)
+		{
+			path = GetTempSettingFullPath(path);
+
+			if (!File.Exists(path))
+				return default(T);
+
+			using (var reader = new StreamReader(path))
+			{
+				var serializer = new XmlSerializer(typeof(T));
+				var setting = (T)serializer.Deserialize(reader);
+
+				return setting;
+			}
+		}
+
+		public static bool TempSettingExists(string path)
+		{
+			path = GetTempSettingFullPath(path);
+
+			return File.Exists(path);
+		}
+
+		public static void LoadFormConfiguration(Form form, string path)
+		{
+			if (SettingsUtilities.TempSettingExists(path) == false)
+				return;
+
+			var setting = SettingsUtilities.GetTempSetting<FormConfiguration>(path);
+
+			form.Width = setting.width;
+			form.Height = setting.height;
+		}
+
+		public static void TryLoadFormConfiguration(Form form, string path)
+		{
+			try
+			{
+				LoadFormConfiguration(form, path);
+			}
+			catch (Exception ex)
+			{
+				Utilities.ShowExceptionDialog(ex);
+			}
+		}
+	
+		public static void SaveFormConfiguration(Form form, string path)
+		{
+			var setting = new FormConfiguration();
+			
+			setting.width = form.Width;
+			setting.height = form.Height;
+
+			SettingsUtilities.SaveTempSetting(setting, path);
+		}
+
+		public static void TrySaveFormConfiguration(Form form, string path)
+		{
+			try
+			{
+				SaveFormConfiguration(form, path);
+			}
+			catch (Exception ex)
+			{
+				Utilities.ShowExceptionDialog(ex);
+			}
+		}
+	}
+
 	public static class DataGridUtilities
 	{
-		public static void AddColumn(DataGridView data_grid, string col_name, string header_text, string data_property_name, bool visible = true, int display_index = 0, int width = 100, int min_width = 100, DataGridViewAutoSizeColumnMode auto_size_mode = DataGridViewAutoSizeColumnMode.None)
+		public class DataGridViewColumnConfiguration
+		{
+			public string Name { get; set; }
+			public int DisplayIndex { get; set; }
+			public int Width { get; set; }
+			public bool Visible { get; set; }
+		}
+
+		public class DataGridViewConfiguration
+		{
+			public List<DataGridViewColumnConfiguration> columns { get; set; }  = new List<DataGridViewColumnConfiguration>();
+		}
+
+		public static void AddColumn(DataGridView data_grid, string col_name, string header_text, string data_property_name, bool visible = true, int display_index = 0, int width = 100, int min_width = 20, DataGridViewAutoSizeColumnMode auto_size_mode = DataGridViewAutoSizeColumnMode.None)
 		{
 			DataGridViewColumn column = new DataGridViewColumn();
 
@@ -156,6 +272,73 @@ namespace GCRM
 			int id = (int)row.Cells[field].Value;
 
 			return id;
+		}
+	
+		public static void LoadConfiguration(DataGridView data_grid, string path)
+		{
+			if (SettingsUtilities.TempSettingExists(path) == false)
+				return;
+
+			var setting = SettingsUtilities.GetTempSetting<DataGridViewConfiguration>(path);
+
+			foreach (var column in setting.columns)
+			{
+				foreach(DataGridViewColumn grid_column in data_grid.Columns)
+				{
+					if (grid_column.Name == column.Name)
+					{
+						grid_column.DisplayIndex = column.DisplayIndex;
+						grid_column.Width = column.Width;
+						grid_column.Visible = column.Visible;
+
+						break;
+					}
+				}
+			}
+		}
+
+		public static void TryLoadConfiguration(DataGridView data_Grid, string path)
+		{
+			try
+			{
+				LoadConfiguration(data_Grid, path);
+			}
+			catch (Exception ex)
+			{
+				Utilities.ShowExceptionDialog(ex);
+			}
+		}
+
+		public static void SaveConfiguration(DataGridView data_grid, string path)
+		{
+			var setting = new DataGridViewConfiguration();
+
+			setting.columns.Clear();
+
+			foreach (DataGridViewColumn column in data_grid.Columns)
+			{
+				setting.columns.Add(new DataGridViewColumnConfiguration()
+				{
+					Name = column.Name,
+					DisplayIndex = column.DisplayIndex,
+					Width = column.Width,
+					Visible = column.Visible,
+				});
+			}
+
+			SettingsUtilities.SaveTempSetting(setting, path);
+		}
+
+		public static void TrySaveConfiguration(DataGridView data_grid, string path)
+		{
+			try
+			{
+				SaveConfiguration(data_grid, path);
+			}
+			catch (Exception ex)
+			{
+				Utilities.ShowExceptionDialog(ex);
+			}
 		}
 	}
 

@@ -415,24 +415,23 @@
 			// 
 			// colName
 			// 
-			colName.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+			colName.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
 			colName.DataPropertyName = "name";
 			colName.DividerWidth = 1;
 			colName.HeaderText = "Nombre";
 			colName.Name = "colName";
 			colName.ReadOnly = true;
-			colName.Width = 75;
+			colName.Width = 150;
 			// 
 			// colAcronym
 			// 
-			colAcronym.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+			colAcronym.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
 			colAcronym.DataPropertyName = "acronym";
 			colAcronym.DividerWidth = 1;
 			colAcronym.HeaderText = "Acrónimo";
 			colAcronym.Name = "colAcronym";
 			colAcronym.ReadOnly = true;
 			colAcronym.Visible = false;
-			colAcronym.Width = 84;
 			// 
 			// colSocietySector
 			// 
@@ -445,13 +444,13 @@
 			// 
 			// colSocietySectorName
 			// 
-			colSocietySectorName.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+			colSocietySectorName.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
 			colSocietySectorName.DataPropertyName = "society_sector_name";
 			colSocietySectorName.DividerWidth = 1;
 			colSocietySectorName.HeaderText = "Sector";
 			colSocietySectorName.Name = "colSocietySectorName";
 			colSocietySectorName.ReadOnly = true;
-			colSocietySectorName.Width = 64;
+			colSocietySectorName.Width = 60;
 			// 
 			// colCategoryId
 			// 
@@ -464,22 +463,22 @@
 			// 
 			// colCategoryName
 			// 
-			colCategoryName.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+			colCategoryName.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
 			colCategoryName.DataPropertyName = "category_name";
 			colCategoryName.DividerWidth = 1;
 			colCategoryName.HeaderText = "Categoría";
 			colCategoryName.Name = "colCategoryName";
 			colCategoryName.ReadOnly = true;
-			colCategoryName.Width = 82;
 			// 
 			// colDescription
 			// 
-			colDescription.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+			colDescription.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
 			colDescription.DataPropertyName = "description";
 			colDescription.DividerWidth = 1;
 			colDescription.HeaderText = "Descripción";
 			colDescription.Name = "colDescription";
 			colDescription.ReadOnly = true;
+			colDescription.Width = 893;
 			// 
 			// colParentInstitutionId
 			// 
@@ -500,15 +499,15 @@
 			// 
 			// colAuthorName
 			// 
-			colAuthorName.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+			colAuthorName.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
 			colAuthorName.DataPropertyName = "author_name";
 			colAuthorName.DividerWidth = 1;
 			colAuthorName.HeaderText = "Autor";
-			colAuthorName.MinimumWidth = 50;
+			colAuthorName.MinimumWidth = 20;
 			colAuthorName.Name = "colAuthorName";
 			colAuthorName.ReadOnly = true;
 			colAuthorName.Visible = false;
-			colAuthorName.Width = 61;
+			colAuthorName.Width = 120;
 			// 
 			// colIdEditor
 			// 
@@ -521,15 +520,15 @@
 			// 
 			// colEditorName
 			// 
-			colEditorName.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+			colEditorName.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
 			colEditorName.DataPropertyName = "editor_name";
 			colEditorName.DividerWidth = 1;
 			colEditorName.HeaderText = "Último editor";
-			colEditorName.MinimumWidth = 50;
+			colEditorName.MinimumWidth = 20;
 			colEditorName.Name = "colEditorName";
 			colEditorName.ReadOnly = true;
 			colEditorName.Visible = false;
-			colEditorName.Width = 101;
+			colEditorName.Width = 120;
 			// 
 			// colAttentionRequired
 			// 
@@ -553,6 +552,7 @@
 			Icon = (Icon)resources.GetObject("$this.Icon");
 			Name = "FInstitutionList";
 			Text = "Instituciones";
+			FormClosing += FInstitutionList_FormClosing;
 			FormClosed += FInstitutionList_FormClosed;
 			Load += FInstitutionList_Load;
 			Leave += FInstitutionList_Leave;

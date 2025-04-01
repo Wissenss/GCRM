@@ -82,8 +82,9 @@
 			toolStripSeparator4 = new ToolStripSeparator();
 			BSearch = new ToolStripButton();
 			toolStripSeparator5 = new ToolStripSeparator();
-			BSelect = new ToolStripButton();
 			BCategories = new ToolStripButton();
+			toolStripSeparator3 = new ToolStripSeparator();
+			BSelect = new ToolStripButton();
 			BAttentionRequired = new ToolStripButton();
 			PanelSearch = new Panel();
 			TextBoxSearch = new TextBox();
@@ -92,7 +93,6 @@
 			statusStrip1 = new StatusStrip();
 			TSSLRecordCount = new ToolStripStatusLabel();
 			TSSLFilters = new ToolStripStatusLabel();
-			toolStripSeparator3 = new ToolStripSeparator();
 			ToolStrip.SuspendLayout();
 			PanelSearch.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)DataGridCitizens).BeginInit();
@@ -539,17 +539,6 @@
 			toolStripSeparator5.Name = "toolStripSeparator5";
 			toolStripSeparator5.Size = new Size(6, 40);
 			// 
-			// BSelect
-			// 
-			BSelect.Image = Properties.Resources.Fatcow_Farm_Fresh_Check_box_16;
-			BSelect.ImageScaling = ToolStripItemImageScaling.None;
-			BSelect.ImageTransparentColor = Color.Magenta;
-			BSelect.Name = "BSelect";
-			BSelect.Size = new Size(87, 37);
-			BSelect.Text = "&Seleccionar";
-			BSelect.Visible = false;
-			BSelect.Click += BSelect_Click;
-			// 
 			// BCategories
 			// 
 			BCategories.Image = Properties.Resources.Fatcow_Farm_Fresh_Module_16;
@@ -561,6 +550,22 @@
 			BCategories.Size = new Size(87, 36);
 			BCategories.Text = "Categorías";
 			BCategories.Click += BCategories_Click;
+			// 
+			// toolStripSeparator3
+			// 
+			toolStripSeparator3.Name = "toolStripSeparator3";
+			toolStripSeparator3.Size = new Size(6, 40);
+			// 
+			// BSelect
+			// 
+			BSelect.Image = Properties.Resources.Fatcow_Farm_Fresh_Check_box_16;
+			BSelect.ImageScaling = ToolStripItemImageScaling.None;
+			BSelect.ImageTransparentColor = Color.Magenta;
+			BSelect.Name = "BSelect";
+			BSelect.Size = new Size(87, 20);
+			BSelect.Text = "&Seleccionar";
+			BSelect.Visible = false;
+			BSelect.Click += BSelect_Click;
 			// 
 			// BAttentionRequired
 			// 
@@ -672,11 +677,6 @@
 			TSSLFilters.Size = new Size(147, 17);
 			TSSLFilters.Text = "     Filtros: Sexo = Masculino";
 			// 
-			// toolStripSeparator3
-			// 
-			toolStripSeparator3.Name = "toolStripSeparator3";
-			toolStripSeparator3.Size = new Size(6, 40);
-			// 
 			// FCitizenList
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
@@ -691,6 +691,7 @@
 			Name = "FCitizenList";
 			Padding = new Padding(2);
 			Text = "Ciudadanos";
+			FormClosing += FCitizenList_FormClosing;
 			Load += FCitizenList_Load;
 			KeyDown += FCitizenList_KeyDown;
 			ToolStrip.ResumeLayout(false);
