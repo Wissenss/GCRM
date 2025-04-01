@@ -107,6 +107,9 @@ namespace GCRM
 					BackgroundImage.Image = Image.FromStream(ms);
 				}
 			}
+
+			SettingsUtilities.TryLoadTabControlConfiguration(TabControl, "main_tab_control");
+			SettingsUtilities.TryLoadFormConfiguration(this, "main_form");
 		}
 
 		private void LoadPermissions()
@@ -241,6 +244,12 @@ namespace GCRM
 			{
 				user_group_list_dlg.ShowDialog();
 			}
+		}
+
+		private void FMain_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			SettingsUtilities.TrySaveTabControlConfiguration(TabControl, "main_tab_control");
+			SettingsUtilities.TrySaveFormConfiguration(this, "main_form");
 		}
 	}
 }

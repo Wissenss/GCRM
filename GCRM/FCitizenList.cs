@@ -169,12 +169,13 @@ namespace GCRM
 		{
 			Mode = mode;
 
-			//BAdd.Visible = Mode != FAccessMode.Select;
-			BEdit.Visible = Mode != FAccessMode.Select;
-			BRead.Visible = Mode != FAccessMode.Select;
-			BDelete.Visible = Mode != FAccessMode.Select;
-			FExcelExport.Visible = Mode != FAccessMode.Select;
-			BPrint.Visible = Mode != FAccessMode.Select;
+			BEdit.Visible              = Mode != FAccessMode.Select;
+			BRead.Visible              = Mode != FAccessMode.Select;
+			BDelete.Visible            = Mode != FAccessMode.Select;
+			FExcelExport.Visible       = Mode != FAccessMode.Select;
+			BPrint.Visible             = Mode != FAccessMode.Select;
+			BAttentionRequired.Visible = Mode != FAccessMode.Select;
+			BCategories.Visible        = Mode != FAccessMode.Select;
 
 			BSelect.Visible = Mode == FAccessMode.Select;
 

@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
+using System.Windows.Forms;
 using System.Xml.Serialization;
 using BrightIdeasSoftware;
 using Business;
@@ -124,6 +125,11 @@ namespace GCRM
 			public int height { get; set; } = 200;
 		}
 
+		public class TabControlConfiguration
+		{
+			public int selectedIndex { get; set; }
+		}
+
 		private static string GetTempSettingFullPath(string path)
 		{
 			path = Path.Join(Path.GetTempPath(), "GCRM", "gcrm_temp_settings", $"{path}.xml");
@@ -200,6 +206,9 @@ namespace GCRM
 			setting.width = form.Width;
 			setting.height = form.Height;
 
+			if (form.WindowState != FormWindowState.Normal)
+				return;
+
 			SettingsUtilities.SaveTempSetting(setting, path);
 		}
 
@@ -208,6 +217,49 @@ namespace GCRM
 			try
 			{
 				SaveFormConfiguration(form, path);
+			}
+			catch (Exception ex)
+			{
+				Utilities.ShowExceptionDialog(ex);
+			}
+		}
+	
+		public static void LoadTabControlConfiguration(TabControl tab_control, string path)
+		{
+			if (SettingsUtilities.TempSettingExists(path) == false)
+				return;
+
+			var setting = SettingsUtilities.GetTempSetting<TabControlConfiguration>(path);
+
+			tab_control.SelectedIndex = setting.selectedIndex;
+		}
+
+		public static void TryLoadTabControlConfiguration(TabControl tab_control, string path)
+		{
+			try
+			{
+				LoadTabControlConfiguration(tab_control, path);
+			}
+			catch (Exception ex)
+			{
+				Utilities.ShowExceptionDialog(ex);
+			}
+		}
+
+		public static void SaveTabControlConfiguration(TabControl tab_control, string path)
+		{
+			var setting = new TabControlConfiguration();
+
+			setting.selectedIndex = tab_control.SelectedIndex;
+
+			SettingsUtilities.SaveTempSetting(setting, path);
+		}
+
+		public static void TrySaveTabControlConfiguration(TabControl tab_control, string path)
+		{
+			try
+			{
+				SaveTabControlConfiguration(tab_control, path);
 			}
 			catch (Exception ex)
 			{

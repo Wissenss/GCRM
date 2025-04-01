@@ -473,6 +473,7 @@
 			MinimumSize = new Size(600, 400);
 			Name = "FMain";
 			Text = "GCRM";
+			FormClosing += FMain_FormClosing;
 			FormClosed += FMain_FormClosed;
 			Load += FMain_Load;
 			statusStrip1.ResumeLayout(false);
