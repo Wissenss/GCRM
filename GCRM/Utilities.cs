@@ -20,6 +20,35 @@ namespace GCRM
 {
 	public static class Utilities
 	{
+		public static bool IsVowel(char c)
+		{
+			char c_without_diacritics = GetLetterWithoutDiacritics(c);
+
+			return "aeiou".IndexOf(c_without_diacritics.ToString()) >= 0;
+		}
+
+		public static char GetLetterWithoutDiacritics(char c)
+		{
+			string character = c.ToString().ToLower();
+
+			if ("aá".IndexOf(character) >= 0)
+				return 'a';
+
+			if ("eé".IndexOf(character) >= 0) 
+				return 'e';
+
+			if ("ií".IndexOf(character) >= 0)
+				return 'i';
+
+			if ("oó".IndexOf(character) >= 0)
+				return 'o';
+
+			if ("uúü".IndexOf(character) >= 0)
+				return 'u';
+
+			return character.ToCharArray()[0];
+		}
+
 		public static int TrimOnRange(int lowest_value, int highest_value, int value)
 		{
 			value = Math.Max(value, lowest_value);

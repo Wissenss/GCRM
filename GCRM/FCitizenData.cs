@@ -330,6 +330,8 @@ namespace GCRM
 			PoliticalRegisterDate.Enabled = AccessMode != FAccessMode.Read;
 			IsPoliticalActivist.Enabled = AccessMode != FAccessMode.Read;
 
+			BGenerateCURP.Enabled = AccessMode != FAccessMode.Read;
+
 			BAccept.Visible = AccessMode != FAccessMode.Read;
 			BCancel.Text = AccessMode != FAccessMode.Read ? "&Cancelar" : "&Cerrar";
 		}
@@ -798,6 +800,140 @@ namespace GCRM
 			PoliticalRegisterDate.Enabled = IsPoliticalActivist.Checked && AccessMode != FAccessMode.Read;
 
 			PoliticalRegisterDate.Refresh();
+		}
+
+		private void BGenerateCURP_Click(object sender, EventArgs e)
+		{
+			string paternal_name = TextBoxPaternalName.Text.Trim().ToLower();
+			string maternal_name = TextBoxMaternalName.Text.Trim().ToLower();
+			string name = TextBoxName.Text.Trim().ToLower();
+			DateTime bday = DatePickerBirthday.Value;
+			TSex sex = (TSex)ComboBoxSex.SelectedValue;
+
+			// validate necessary inputs
+			StringBuilder errors = new StringBuilder();
+
+			if (paternal_name.Length == 0)
+				errors.AppendLine("Debe especificar el apellido paterno");
+
+			if (maternal_name.Length == 0)
+				errors.AppendLine("Debe especificar el apellido materno");
+
+			if (name.Length == 0)
+				errors.AppendLine("Debe especificar el nombre");
+
+			if (sex == TSex.Unknown)
+				errors.AppendLine("Debe especificar el sexo");
+
+			if (errors.Length > 0)
+			{
+				Utilities.ShowValidationErrorDialog(errors);
+				return;
+			}
+
+			// if the curp is allready provided, confirm action before overwriting
+			if (MaskedTextBoxCURP.Text.Trim().Length > 0)
+			{
+				if (Utilities.ShowConfirmDialog("¿Desea volver a generar la clave CURP? Este proceso remplazará la ya existente") != DialogResult.Yes)
+				{
+					return;
+				}
+			}
+
+			// generate the actual curp
+			// in conformance with https://sre.gob.mx/component/phocadownload/category/2-marco-normativo?download=1116:instructivo-normativo-para-la-asignacion-de-la-clave-unica-de-registro-de-poblacion-dof-18-10-2021-texto-vigente
+
+			char[] curp = new char[18];
+
+			// 1 - letra inicial del primer apellido
+			curp[0] = paternal_name.First();
+
+			// 2 - primera vocal interna del primer apellido
+			curp[1] = 'X';
+
+			foreach(char letter in paternal_name.Trim().Substring(1))
+			{
+				if (Utilities.IsVowel(letter))
+				{
+					curp[1] = letter;
+					break;
+				}
+			}
+
+			// 3 - letra inicial del segundo apellido
+			curp[2] = maternal_name.First();
+
+			// 4 - primera letra del nombre
+			curp[3] = name.First();
+
+			// 5 - penultimo digito del año de nacimiento // este se esta dejando como 0 por convencion
+			curp[4] = '0';
+
+			// 6 - ultimo digito del año de nacimiento // este se esta dejando como 0 por convencion
+			curp[5] = '0';
+
+			// 7 - primer digito del mes de nacimiento, cuando es menor a 10 se pone un 0
+			curp[6] = bday.Month < 10 ? '0' : bday.Month.ToString().First();
+
+			// 8 segundo digito del mes de nacimiento
+			curp[7] = bday.Month.ToString().Last();
+
+			// 9 primer digito del día de nacimiento, cuando es menor a 10 se pone un 0
+			curp[8] = bday.Day < 10 ? '0' : bday.Day.ToString().First();
+
+			// 10 segundo digito del dia de nacimiento
+			curp[9] = bday.Day.ToString().Last();
+
+			// 11 - sexo: H para hombre, M para mujer
+			curp[10] = sex == TSex.Female ? 'M' : 'H';
+
+			// 12, 13 - lugar de nacimiento codificado en dos posiciones codificado conforme al catálogo de la CURP // este se esta dejando en AS por convención
+			curp[11] = 'A';
+			curp[12] = 'S';
+
+			// 14 - primera consonante interna del primer apellido
+			curp[13] = 'X';
+
+			foreach (char letter in paternal_name.Substring(1))
+			{
+				if (!Utilities.IsVowel(letter))
+				{
+					curp[13] = letter;
+					break;
+				}
+			}
+
+			// 15 - primera consonante interna del segundo apellido
+			curp[14] = 'X';
+			
+			foreach (char letter in maternal_name.Substring(1))
+			{
+				if (!Utilities.IsVowel(letter))
+				{
+					curp[14] = letter;
+					break;
+				}
+			}
+
+			// 16 - primera consonante interna del nombre
+			curp[15] = 'X';
+
+			foreach (char letter in name.Substring(1))
+			{
+				if (!Utilities.IsVowel(letter))
+				{
+					curp[15] = letter;
+					break;
+				}
+			}
+
+			// 17 - caracter diferenciador, shalala shalala // por convencion este se deja en 0
+			curp[16] = '0';
+
+			// 18 - caracter verificador, shalala shalala // por convenvion se deja en 0
+			curp[17] = '0';
+
+			MaskedTextBoxCURP.Text = (new string(curp)).ToUpper();
 		}
 	}
 }

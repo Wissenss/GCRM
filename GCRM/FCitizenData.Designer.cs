@@ -116,6 +116,7 @@
 			LVoterOCR = new Label();
 			VoterCode = new TextBox();
 			LElectorCode = new Label();
+			BGenerateCURP = new Button();
 			TabControlCitizen.SuspendLayout();
 			TabGeneral.SuspendLayout();
 			TabContacto.SuspendLayout();
@@ -166,6 +167,7 @@
 			// 
 			// TabGeneral
 			// 
+			TabGeneral.Controls.Add(BGenerateCURP);
 			TabGeneral.Controls.Add(LCategory);
 			TabGeneral.Controls.Add(ComboBoxCategory);
 			TabGeneral.Controls.Add(MaskedTextBoxCURP);
@@ -210,7 +212,7 @@
 			ComboBoxCategory.FormattingEnabled = true;
 			ComboBoxCategory.Location = new Point(79, 35);
 			ComboBoxCategory.Name = "ComboBoxCategory";
-			ComboBoxCategory.Size = new Size(308, 23);
+			ComboBoxCategory.Size = new Size(311, 23);
 			ComboBoxCategory.TabIndex = 1;
 			// 
 			// MaskedTextBoxCURP
@@ -219,7 +221,7 @@
 			MaskedTextBoxCURP.Mask = "AAAAAAAAAAAAAAAAAA";
 			MaskedTextBoxCURP.Name = "MaskedTextBoxCURP";
 			MaskedTextBoxCURP.PromptChar = ' ';
-			MaskedTextBoxCURP.Size = new Size(308, 23);
+			MaskedTextBoxCURP.Size = new Size(274, 23);
 			MaskedTextBoxCURP.TabIndex = 7;
 			// 
 			// LMaternalName
@@ -299,7 +301,7 @@
 			TextBoxObservations.Location = new Point(79, 209);
 			TextBoxObservations.Multiline = true;
 			TextBoxObservations.Name = "TextBoxObservations";
-			TextBoxObservations.Size = new Size(308, 67);
+			TextBoxObservations.Size = new Size(311, 67);
 			TextBoxObservations.TabIndex = 8;
 			// 
 			// label1
@@ -1011,6 +1013,17 @@
 			LElectorCode.TabIndex = 0;
 			LElectorCode.Text = "Clave de elector";
 			// 
+			// BGenerateCURP
+			// 
+			BGenerateCURP.Image = Properties.Resources.Fatcow_Farm_Fresh_Widgets_16;
+			BGenerateCURP.Location = new Point(359, 180);
+			BGenerateCURP.Name = "BGenerateCURP";
+			BGenerateCURP.Size = new Size(31, 23);
+			BGenerateCURP.TabIndex = 42;
+			BGenerateCURP.TextImageRelation = TextImageRelation.ImageBeforeText;
+			BGenerateCURP.UseVisualStyleBackColor = true;
+			BGenerateCURP.Click += BGenerateCURP_Click;
+			// 
 			// FCitizenData
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
@@ -1136,5 +1149,6 @@
 		private CheckBox IsPoliticalActivist;
 		private Label LPoliticalRegisterDate;
 		private DateTimePicker PoliticalRegisterDate;
+		private Button BGenerateCURP;
 	}
 }
