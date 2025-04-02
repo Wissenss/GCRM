@@ -1,6 +1,8 @@
 ﻿using Business;
 using ClosedXML.Excel;
 using DocumentFormat.OpenXml.Spreadsheet;
+using QuestPDF.Fluent;
+using Reporter;
 using System.Data;
 
 namespace GCRM
@@ -414,6 +416,46 @@ namespace GCRM
 		{
 			SettingsUtilities.TrySaveFormConfiguration(this, "institutions\\main_form");
 			DataGridUtilities.TrySaveConfiguration(DataGridInstitutions, "institutions\\main_data_grid");
+		}
+
+		private void BPrint_Click(object sender, EventArgs e)
+		{
+			using (new CursorWait())
+			{
+				R004DocumentModel model = new R004DocumentModel();
+
+				// filters
+				if (FiltersDlg.FilterCategory)
+					model.Category = FiltersDlg.Category;
+
+				if (FiltersDlg.FilterSector)
+					model.SocietySector = FiltersDlg.Sector;
+
+				// institution list
+				foreach(DataGridViewRow row in DataGridInstitutions.Rows)
+				{
+					TInstitution institution = new TInstitution();
+
+					institution.Id            = (int)row.Cells["colId"].Value;
+					institution.Name          = (string)row.Cells["colName"].Value;
+					institution.Acronym       = (string)row.Cells["colAcronym"].Value;
+					institution.Category.Id   = (int)row.Cells["colCategoryId"].Value;
+
+					if (institution.Category.Id != 0)
+					{
+						institution.Category.Name = (string)row.Cells["colCategoryName"].Value;
+					}
+
+					institution.Sector        = (TSocietySector)row.Cells["colSocietySector"].Value;
+					institution.Description   = (string)row.Cells["colDescription"].Value;
+
+					model.Institutions.Add(institution);
+				}
+
+				R004Document document = new R004Document(model);
+
+				document.GeneratePdfAndShow();
+			}
 		}
 	}
 }

@@ -54,14 +54,6 @@
 			toolStripSeparator7 = new ToolStripSeparator();
 			BAttentionRequired = new ToolStripButton();
 			DataGridInstitutions = new DataGridView();
-			SplitContainer = new SplitContainer();
-			TreeView = new TreeView();
-			TextBoxSearch = new TextBox();
-			PanelSearch = new Panel();
-			SaveFileDialog = new SaveFileDialog();
-			StatusStrip = new StatusStrip();
-			TSSLRecordCount = new ToolStripStatusLabel();
-			TSSLFilters = new ToolStripStatusLabel();
 			colId = new DataGridViewTextBoxColumn();
 			colName = new DataGridViewTextBoxColumn();
 			colAcronym = new DataGridViewTextBoxColumn();
@@ -76,6 +68,15 @@
 			colIdEditor = new DataGridViewTextBoxColumn();
 			colEditorName = new DataGridViewTextBoxColumn();
 			colAttentionRequired = new DataGridViewCheckBoxColumn();
+			SplitContainer = new SplitContainer();
+			TreeView = new TreeView();
+			TextBoxSearch = new TextBox();
+			PanelSearch = new Panel();
+			SaveFileDialog = new SaveFileDialog();
+			StatusStrip = new StatusStrip();
+			TSSLRecordCount = new ToolStripStatusLabel();
+			TSSLFilters = new ToolStripStatusLabel();
+			BPrint = new ToolStripButton();
 			ToolStrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)DataGridInstitutions).BeginInit();
 			((System.ComponentModel.ISupportInitialize)SplitContainer).BeginInit();
@@ -89,7 +90,7 @@
 			// ToolStrip
 			// 
 			ToolStrip.GripStyle = ToolStripGripStyle.Hidden;
-			ToolStrip.Items.AddRange(new ToolStripItem[] { BAdd, BEdit, BRead, BRefresh, BDelete, toolStripSeparator6, BDuplicate, toolStripSeparator1, BShowHierarchy, toolStripSeparator2, BFields, BFilter, toolStripSeparator5, toolStripSeparator3, BExcelExport, toolStripSeparator4, BCategories, BSearch, toolStripSeparator7, BAttentionRequired });
+			ToolStrip.Items.AddRange(new ToolStripItem[] { BAdd, BEdit, BRead, BRefresh, BDelete, toolStripSeparator6, BDuplicate, toolStripSeparator1, BShowHierarchy, toolStripSeparator2, BFields, BFilter, toolStripSeparator5, toolStripSeparator3, BExcelExport, BPrint, toolStripSeparator4, BCategories, BSearch, toolStripSeparator7, BAttentionRequired });
 			ToolStrip.Location = new Point(0, 0);
 			ToolStrip.Name = "ToolStrip";
 			ToolStrip.RenderMode = ToolStripRenderMode.System;
@@ -332,78 +333,6 @@
 			DataGridInstitutions.TabIndex = 3;
 			DataGridInstitutions.CellFormatting += DataGridInstitutions_CellFormatting;
 			// 
-			// SplitContainer
-			// 
-			SplitContainer.Dock = DockStyle.Fill;
-			SplitContainer.Location = new Point(0, 79);
-			SplitContainer.Name = "SplitContainer";
-			// 
-			// SplitContainer.Panel1
-			// 
-			SplitContainer.Panel1.Controls.Add(DataGridInstitutions);
-			// 
-			// SplitContainer.Panel2
-			// 
-			SplitContainer.Panel2.Controls.Add(TreeView);
-			SplitContainer.Panel2Collapsed = true;
-			SplitContainer.Size = new Size(1114, 391);
-			SplitContainer.SplitterDistance = 506;
-			SplitContainer.TabIndex = 4;
-			// 
-			// TreeView
-			// 
-			TreeView.BackColor = SystemColors.Control;
-			TreeView.BorderStyle = BorderStyle.None;
-			TreeView.Dock = DockStyle.Fill;
-			TreeView.Location = new Point(0, 0);
-			TreeView.Name = "TreeView";
-			TreeView.Size = new Size(96, 100);
-			TreeView.TabIndex = 0;
-			// 
-			// TextBoxSearch
-			// 
-			TextBoxSearch.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-			TextBoxSearch.Location = new Point(8, 8);
-			TextBoxSearch.Name = "TextBoxSearch";
-			TextBoxSearch.PlaceholderText = "Ingrese el texto a buscar...";
-			TextBoxSearch.Size = new Size(1799, 23);
-			TextBoxSearch.TabIndex = 1;
-			TextBoxSearch.TextChanged += TextBoxSearch_TextChanged;
-			// 
-			// PanelSearch
-			// 
-			PanelSearch.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-			PanelSearch.Controls.Add(TextBoxSearch);
-			PanelSearch.Dock = DockStyle.Top;
-			PanelSearch.Location = new Point(0, 40);
-			PanelSearch.Name = "PanelSearch";
-			PanelSearch.Size = new Size(1114, 39);
-			PanelSearch.TabIndex = 7;
-			PanelSearch.Visible = false;
-			// 
-			// StatusStrip
-			// 
-			StatusStrip.Items.AddRange(new ToolStripItem[] { TSSLRecordCount, TSSLFilters });
-			StatusStrip.Location = new Point(0, 470);
-			StatusStrip.Name = "StatusStrip";
-			StatusStrip.Size = new Size(1114, 22);
-			StatusStrip.TabIndex = 4;
-			StatusStrip.Text = "statusStrip1";
-			// 
-			// TSSLRecordCount
-			// 
-			TSSLRecordCount.Font = new Font("Segoe UI Variable Small Light", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-			TSSLRecordCount.Name = "TSSLRecordCount";
-			TSSLRecordCount.Size = new Size(78, 17);
-			TSSLRecordCount.Text = "Registros: 274";
-			// 
-			// TSSLFilters
-			// 
-			TSSLFilters.Font = new Font("Segoe UI Variable Small Light", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-			TSSLFilters.Name = "TSSLFilters";
-			TSSLFilters.Size = new Size(147, 17);
-			TSSLFilters.Text = "     Filtros: Sexo = Masculino";
-			// 
 			// colId
 			// 
 			colId.DataPropertyName = "id";
@@ -540,6 +469,88 @@
 			colAttentionRequired.SortMode = DataGridViewColumnSortMode.Automatic;
 			colAttentionRequired.Visible = false;
 			// 
+			// SplitContainer
+			// 
+			SplitContainer.Dock = DockStyle.Fill;
+			SplitContainer.Location = new Point(0, 79);
+			SplitContainer.Name = "SplitContainer";
+			// 
+			// SplitContainer.Panel1
+			// 
+			SplitContainer.Panel1.Controls.Add(DataGridInstitutions);
+			// 
+			// SplitContainer.Panel2
+			// 
+			SplitContainer.Panel2.Controls.Add(TreeView);
+			SplitContainer.Panel2Collapsed = true;
+			SplitContainer.Size = new Size(1114, 391);
+			SplitContainer.SplitterDistance = 506;
+			SplitContainer.TabIndex = 4;
+			// 
+			// TreeView
+			// 
+			TreeView.BackColor = SystemColors.Control;
+			TreeView.BorderStyle = BorderStyle.None;
+			TreeView.Dock = DockStyle.Fill;
+			TreeView.Location = new Point(0, 0);
+			TreeView.Name = "TreeView";
+			TreeView.Size = new Size(96, 100);
+			TreeView.TabIndex = 0;
+			// 
+			// TextBoxSearch
+			// 
+			TextBoxSearch.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+			TextBoxSearch.Location = new Point(8, 8);
+			TextBoxSearch.Name = "TextBoxSearch";
+			TextBoxSearch.PlaceholderText = "Ingrese el texto a buscar...";
+			TextBoxSearch.Size = new Size(1799, 23);
+			TextBoxSearch.TabIndex = 1;
+			TextBoxSearch.TextChanged += TextBoxSearch_TextChanged;
+			// 
+			// PanelSearch
+			// 
+			PanelSearch.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+			PanelSearch.Controls.Add(TextBoxSearch);
+			PanelSearch.Dock = DockStyle.Top;
+			PanelSearch.Location = new Point(0, 40);
+			PanelSearch.Name = "PanelSearch";
+			PanelSearch.Size = new Size(1114, 39);
+			PanelSearch.TabIndex = 7;
+			PanelSearch.Visible = false;
+			// 
+			// StatusStrip
+			// 
+			StatusStrip.Items.AddRange(new ToolStripItem[] { TSSLRecordCount, TSSLFilters });
+			StatusStrip.Location = new Point(0, 470);
+			StatusStrip.Name = "StatusStrip";
+			StatusStrip.Size = new Size(1114, 22);
+			StatusStrip.TabIndex = 4;
+			StatusStrip.Text = "statusStrip1";
+			// 
+			// TSSLRecordCount
+			// 
+			TSSLRecordCount.Font = new Font("Segoe UI Variable Small Light", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+			TSSLRecordCount.Name = "TSSLRecordCount";
+			TSSLRecordCount.Size = new Size(78, 17);
+			TSSLRecordCount.Text = "Registros: 274";
+			// 
+			// TSSLFilters
+			// 
+			TSSLFilters.Font = new Font("Segoe UI Variable Small Light", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+			TSSLFilters.Name = "TSSLFilters";
+			TSSLFilters.Size = new Size(147, 17);
+			TSSLFilters.Text = "     Filtros: Sexo = Masculino";
+			// 
+			// BPrint
+			// 
+			BPrint.Image = Properties.Resources.Fatcow_Farm_Fresh_Printer_16;
+			BPrint.ImageScaling = ToolStripItemImageScaling.None;
+			BPrint.ImageTransparentColor = Color.Magenta;
+			BPrint.Name = "BPrint";
+			BPrint.Size = new Size(73, 37);
+			BPrint.Text = "Im&primir";
+			BPrint.Click += BPrint_Click;
+			// 
 			// FInstitutionList
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
@@ -617,5 +628,6 @@
 		private DataGridViewTextBoxColumn colIdEditor;
 		private DataGridViewTextBoxColumn colEditorName;
 		private DataGridViewCheckBoxColumn colAttentionRequired;
+		private ToolStripButton BPrint;
 	}
 }
