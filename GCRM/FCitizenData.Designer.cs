@@ -31,7 +31,7 @@
 			BAccept = new Button();
 			BCancel = new Button();
 			TabControlCitizen = new TabControl();
-			tabPage1 = new TabPage();
+			TabGeneral = new TabPage();
 			LCategory = new Label();
 			ComboBoxCategory = new ComboBox();
 			MaskedTextBoxCURP = new MaskedTextBox();
@@ -53,7 +53,7 @@
 			DatePickerBirthday = new DateTimePicker();
 			LName = new Label();
 			TextBoxName = new TextBox();
-			tabPage2 = new TabPage();
+			TabContacto = new TabPage();
 			TextBoxEmail = new TextBox();
 			LEmail = new Label();
 			LAssitantCellphone = new Label();
@@ -104,6 +104,9 @@
 			ComboBoxInstitution = new ComboBox();
 			LInstitution = new Label();
 			TabElectoral = new TabPage();
+			PoliticalRegisterDate = new DateTimePicker();
+			LPoliticalRegisterDate = new Label();
+			IsPoliticalActivist = new CheckBox();
 			pictureBox1 = new PictureBox();
 			VoterSection = new TextBox();
 			LVoterSection = new Label();
@@ -114,8 +117,8 @@
 			VoterCode = new TextBox();
 			LElectorCode = new Label();
 			TabControlCitizen.SuspendLayout();
-			tabPage1.SuspendLayout();
-			tabPage2.SuspendLayout();
+			TabGeneral.SuspendLayout();
+			TabContacto.SuspendLayout();
 			TabAddress.SuspendLayout();
 			TabRol.SuspendLayout();
 			TabElectoral.SuspendLayout();
@@ -147,8 +150,8 @@
 			// TabControlCitizen
 			// 
 			TabControlCitizen.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-			TabControlCitizen.Controls.Add(tabPage1);
-			TabControlCitizen.Controls.Add(tabPage2);
+			TabControlCitizen.Controls.Add(TabGeneral);
+			TabControlCitizen.Controls.Add(TabContacto);
 			TabControlCitizen.Controls.Add(TabAddress);
 			TabControlCitizen.Controls.Add(TabRol);
 			TabControlCitizen.Controls.Add(TabElectoral);
@@ -161,36 +164,36 @@
 			TabControlCitizen.SizeMode = TabSizeMode.Fixed;
 			TabControlCitizen.TabIndex = 0;
 			// 
-			// tabPage1
+			// TabGeneral
 			// 
-			tabPage1.Controls.Add(LCategory);
-			tabPage1.Controls.Add(ComboBoxCategory);
-			tabPage1.Controls.Add(MaskedTextBoxCURP);
-			tabPage1.Controls.Add(LMaternalName);
-			tabPage1.Controls.Add(TextBoxMaternalName);
-			tabPage1.Controls.Add(LPaternalName);
-			tabPage1.Controls.Add(TextBoxPaternalName);
-			tabPage1.Controls.Add(ComboBoxPoliticalParty);
-			tabPage1.Controls.Add(LPoliticalParty);
-			tabPage1.Controls.Add(LTitleFull);
-			tabPage1.Controls.Add(LCURP);
-			tabPage1.Controls.Add(TextBoxObservations);
-			tabPage1.Controls.Add(label1);
-			tabPage1.Controls.Add(ComboBoxSex);
-			tabPage1.Controls.Add(label2);
-			tabPage1.Controls.Add(LBirthday);
-			tabPage1.Controls.Add(ComboBoxTitle);
-			tabPage1.Controls.Add(LTitle);
-			tabPage1.Controls.Add(DatePickerBirthday);
-			tabPage1.Controls.Add(LName);
-			tabPage1.Controls.Add(TextBoxName);
-			tabPage1.Location = new Point(4, 24);
-			tabPage1.Name = "tabPage1";
-			tabPage1.Padding = new Padding(3);
-			tabPage1.Size = new Size(396, 313);
-			tabPage1.TabIndex = 0;
-			tabPage1.Text = "General";
-			tabPage1.UseVisualStyleBackColor = true;
+			TabGeneral.Controls.Add(LCategory);
+			TabGeneral.Controls.Add(ComboBoxCategory);
+			TabGeneral.Controls.Add(MaskedTextBoxCURP);
+			TabGeneral.Controls.Add(LMaternalName);
+			TabGeneral.Controls.Add(TextBoxMaternalName);
+			TabGeneral.Controls.Add(LPaternalName);
+			TabGeneral.Controls.Add(TextBoxPaternalName);
+			TabGeneral.Controls.Add(ComboBoxPoliticalParty);
+			TabGeneral.Controls.Add(LPoliticalParty);
+			TabGeneral.Controls.Add(LTitleFull);
+			TabGeneral.Controls.Add(LCURP);
+			TabGeneral.Controls.Add(TextBoxObservations);
+			TabGeneral.Controls.Add(label1);
+			TabGeneral.Controls.Add(ComboBoxSex);
+			TabGeneral.Controls.Add(label2);
+			TabGeneral.Controls.Add(LBirthday);
+			TabGeneral.Controls.Add(ComboBoxTitle);
+			TabGeneral.Controls.Add(LTitle);
+			TabGeneral.Controls.Add(DatePickerBirthday);
+			TabGeneral.Controls.Add(LName);
+			TabGeneral.Controls.Add(TextBoxName);
+			TabGeneral.Location = new Point(4, 24);
+			TabGeneral.Name = "TabGeneral";
+			TabGeneral.Padding = new Padding(3);
+			TabGeneral.Size = new Size(396, 313);
+			TabGeneral.TabIndex = 0;
+			TabGeneral.Text = "General";
+			TabGeneral.UseVisualStyleBackColor = true;
 			// 
 			// LCategory
 			// 
@@ -379,28 +382,28 @@
 			TextBoxName.Size = new Size(311, 23);
 			TextBoxName.TabIndex = 2;
 			// 
-			// tabPage2
+			// TabContacto
 			// 
-			tabPage2.Controls.Add(TextBoxEmail);
-			tabPage2.Controls.Add(LEmail);
-			tabPage2.Controls.Add(LAssitantCellphone);
-			tabPage2.Controls.Add(LAssistantPhone);
-			tabPage2.Controls.Add(LAssitantName);
-			tabPage2.Controls.Add(LAssistent);
-			tabPage2.Controls.Add(ComboBoxAssistant);
-			tabPage2.Controls.Add(TextBoxCellphone);
-			tabPage2.Controls.Add(LCellphone);
-			tabPage2.Controls.Add(TextBoxPhoneExtension);
-			tabPage2.Controls.Add(LPhoneExtension);
-			tabPage2.Controls.Add(TextBoxPhone);
-			tabPage2.Controls.Add(LPhone);
-			tabPage2.Location = new Point(4, 24);
-			tabPage2.Name = "tabPage2";
-			tabPage2.Padding = new Padding(3);
-			tabPage2.Size = new Size(396, 313);
-			tabPage2.TabIndex = 1;
-			tabPage2.Text = "Contacto";
-			tabPage2.UseVisualStyleBackColor = true;
+			TabContacto.Controls.Add(TextBoxEmail);
+			TabContacto.Controls.Add(LEmail);
+			TabContacto.Controls.Add(LAssitantCellphone);
+			TabContacto.Controls.Add(LAssistantPhone);
+			TabContacto.Controls.Add(LAssitantName);
+			TabContacto.Controls.Add(LAssistent);
+			TabContacto.Controls.Add(ComboBoxAssistant);
+			TabContacto.Controls.Add(TextBoxCellphone);
+			TabContacto.Controls.Add(LCellphone);
+			TabContacto.Controls.Add(TextBoxPhoneExtension);
+			TabContacto.Controls.Add(LPhoneExtension);
+			TabContacto.Controls.Add(TextBoxPhone);
+			TabContacto.Controls.Add(LPhone);
+			TabContacto.Location = new Point(4, 24);
+			TabContacto.Name = "TabContacto";
+			TabContacto.Padding = new Padding(3);
+			TabContacto.Size = new Size(396, 313);
+			TabContacto.TabIndex = 1;
+			TabContacto.Text = "Contacto";
+			TabContacto.UseVisualStyleBackColor = true;
 			// 
 			// TextBoxEmail
 			// 
@@ -883,6 +886,9 @@
 			// 
 			// TabElectoral
 			// 
+			TabElectoral.Controls.Add(PoliticalRegisterDate);
+			TabElectoral.Controls.Add(LPoliticalRegisterDate);
+			TabElectoral.Controls.Add(IsPoliticalActivist);
 			TabElectoral.Controls.Add(pictureBox1);
 			TabElectoral.Controls.Add(VoterSection);
 			TabElectoral.Controls.Add(LVoterSection);
@@ -900,27 +906,58 @@
 			TabElectoral.Text = "Electoral";
 			TabElectoral.UseVisualStyleBackColor = true;
 			// 
+			// PoliticalRegisterDate
+			// 
+			PoliticalRegisterDate.CustomFormat = "dd/MM/yyyy";
+			PoliticalRegisterDate.Enabled = false;
+			PoliticalRegisterDate.Format = DateTimePickerFormat.Custom;
+			PoliticalRegisterDate.Location = new Point(134, 281);
+			PoliticalRegisterDate.Name = "PoliticalRegisterDate";
+			PoliticalRegisterDate.Size = new Size(256, 23);
+			PoliticalRegisterDate.TabIndex = 11;
+			// 
+			// LPoliticalRegisterDate
+			// 
+			LPoliticalRegisterDate.AutoSize = true;
+			LPoliticalRegisterDate.Enabled = false;
+			LPoliticalRegisterDate.Location = new Point(10, 285);
+			LPoliticalRegisterDate.Name = "LPoliticalRegisterDate";
+			LPoliticalRegisterDate.Size = new Size(118, 15);
+			LPoliticalRegisterDate.TabIndex = 10;
+			LPoliticalRegisterDate.Text = "Inscripción al padrón";
+			// 
+			// IsPoliticalActivist
+			// 
+			IsPoliticalActivist.AutoSize = true;
+			IsPoliticalActivist.Location = new Point(134, 256);
+			IsPoliticalActivist.Name = "IsPoliticalActivist";
+			IsPoliticalActivist.Size = new Size(87, 19);
+			IsPoliticalActivist.TabIndex = 9;
+			IsPoliticalActivist.Text = "Es militante";
+			IsPoliticalActivist.UseVisualStyleBackColor = true;
+			IsPoliticalActivist.CheckedChanged += IsPoliticalActivist_CheckedChanged;
+			// 
 			// pictureBox1
 			// 
 			pictureBox1.Image = Properties.Resources.credencial_modeloEG;
 			pictureBox1.Location = new Point(10, 6);
 			pictureBox1.Name = "pictureBox1";
-			pictureBox1.Size = new Size(377, 145);
+			pictureBox1.Size = new Size(377, 128);
 			pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
 			pictureBox1.TabIndex = 8;
 			pictureBox1.TabStop = false;
 			// 
 			// VoterSection
 			// 
-			VoterSection.Location = new Point(132, 244);
+			VoterSection.Location = new Point(134, 227);
 			VoterSection.Name = "VoterSection";
-			VoterSection.Size = new Size(258, 23);
+			VoterSection.Size = new Size(256, 23);
 			VoterSection.TabIndex = 3;
 			// 
 			// LVoterSection
 			// 
 			LVoterSection.AutoSize = true;
-			LVoterSection.Location = new Point(10, 247);
+			LVoterSection.Location = new Point(10, 230);
 			LVoterSection.Name = "LVoterSection";
 			LVoterSection.Size = new Size(48, 15);
 			LVoterSection.TabIndex = 6;
@@ -928,15 +965,15 @@
 			// 
 			// VoterCIC
 			// 
-			VoterCIC.Location = new Point(132, 215);
+			VoterCIC.Location = new Point(134, 198);
 			VoterCIC.Name = "VoterCIC";
-			VoterCIC.Size = new Size(258, 23);
+			VoterCIC.Size = new Size(256, 23);
 			VoterCIC.TabIndex = 2;
 			// 
 			// LVoterCIC
 			// 
 			LVoterCIC.AutoSize = true;
-			LVoterCIC.Location = new Point(10, 218);
+			LVoterCIC.Location = new Point(10, 201);
 			LVoterCIC.Name = "LVoterCIC";
 			LVoterCIC.Size = new Size(109, 15);
 			LVoterCIC.TabIndex = 4;
@@ -944,15 +981,15 @@
 			// 
 			// VoterOCR
 			// 
-			VoterOCR.Location = new Point(132, 186);
+			VoterOCR.Location = new Point(134, 169);
 			VoterOCR.Name = "VoterOCR";
-			VoterOCR.Size = new Size(258, 23);
+			VoterOCR.Size = new Size(256, 23);
 			VoterOCR.TabIndex = 1;
 			// 
 			// LVoterOCR
 			// 
 			LVoterOCR.AutoSize = true;
-			LVoterOCR.Location = new Point(10, 189);
+			LVoterOCR.Location = new Point(10, 172);
 			LVoterOCR.Name = "LVoterOCR";
 			LVoterOCR.Size = new Size(116, 15);
 			LVoterOCR.TabIndex = 2;
@@ -960,15 +997,15 @@
 			// 
 			// VoterCode
 			// 
-			VoterCode.Location = new Point(132, 157);
+			VoterCode.Location = new Point(134, 140);
 			VoterCode.Name = "VoterCode";
-			VoterCode.Size = new Size(258, 23);
+			VoterCode.Size = new Size(256, 23);
 			VoterCode.TabIndex = 0;
 			// 
 			// LElectorCode
 			// 
 			LElectorCode.AutoSize = true;
-			LElectorCode.Location = new Point(10, 160);
+			LElectorCode.Location = new Point(10, 143);
 			LElectorCode.Name = "LElectorCode";
 			LElectorCode.Size = new Size(91, 15);
 			LElectorCode.TabIndex = 0;
@@ -995,10 +1032,10 @@
 			Load += FCitizenData_Load;
 			KeyDown += FCitizenData_KeyDown;
 			TabControlCitizen.ResumeLayout(false);
-			tabPage1.ResumeLayout(false);
-			tabPage1.PerformLayout();
-			tabPage2.ResumeLayout(false);
-			tabPage2.PerformLayout();
+			TabGeneral.ResumeLayout(false);
+			TabGeneral.PerformLayout();
+			TabContacto.ResumeLayout(false);
+			TabContacto.PerformLayout();
 			TabAddress.ResumeLayout(false);
 			TabAddress.PerformLayout();
 			TabRol.ResumeLayout(false);
@@ -1014,8 +1051,8 @@
 		private Button BAccept;
 		private Button BCancel;
 		private TabControl TabControlCitizen;
-		private TabPage tabPage1;
-		private TabPage tabPage2;
+		private TabPage TabGeneral;
+		private TabPage TabContacto;
 		private TabPage TabRol;
 		private ComboBox ComboBoxPoliticalParty;
 		private Label LPoliticalParty;
@@ -1096,5 +1133,8 @@
 		private Label LInstitution3;
 		private Panel panel2;
 		private Panel panel1;
+		private CheckBox IsPoliticalActivist;
+		private Label LPoliticalRegisterDate;
+		private DateTimePicker PoliticalRegisterDate;
 	}
 }

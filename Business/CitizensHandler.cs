@@ -55,6 +55,9 @@ namespace Business
 
 		public bool AttentionRequired;
 
+		public bool IsPoliticalActivist;
+		public DateTime PoliticalRegisterDate;
+
 		public TCitizenCategory Category = new TCitizenCategory();
 
 		public string FullName 
@@ -63,14 +66,6 @@ namespace Business
 			{
 				return $"{Name} {PaternalName} {MaternalName}";
 			} 
-		}
-
-		public string FullNameWithAllCapitals
-		{
-			get
-			{
-				return FullName.ToUpper();
-			}
 		}
 
 		public string FullNameWithFirstCapitals
@@ -158,6 +153,8 @@ namespace Business
 			Institution3.Id = reader.GetInt32(29);
 			Role3.Id = reader.GetInt32(30);
 			AttentionRequired = reader.GetBoolean(31);
+			IsPoliticalActivist = reader.GetBoolean(32);
+			PoliticalRegisterDate = reader.GetDateTime(33);
 		}
 	
 		public override string GetAsLogString()
@@ -371,6 +368,23 @@ namespace Business
 				}
 			}
 
+			// ensure no more than one citizen has the same voter code
+			if (citizen.VoterCode != "")
+			{
+				using (var cmd = new NpgsqlCommand("SELECT COUNT(*) FROM citizens WHERE voter_code = @voter_code AND id <> @id;", conn))
+				{
+					cmd.Parameters.AddWithValue("@id", citizen.Id);
+					cmd.Parameters.AddWithValue("@voter_code", citizen.VoterCode);
+
+					int citizens_with_same_voter_code = (Int32)(Int64)cmd.ExecuteScalar();
+
+					if (citizens_with_same_voter_code > 0)
+					{
+						error = Error.CitizenWithSameVoterCode;
+					}
+				}
+			}
+
 			// save address
 			if (error == 0)
 			{
@@ -416,7 +430,9 @@ namespace Business
 								institution3_id = @institution3_id,	
 								institution2_role_id = @institution2_role_id,
 								institution3_role_id = @institution3_role_id,
-								attention_required = @attention_required
+								attention_required = @attention_required,
+								is_political_activist = @is_political_activist,
+								political_register_date = @political_register_date
 							WHERE
 								id=@id;";
 					}
@@ -454,7 +470,9 @@ namespace Business
 								institution3_id,
 								institution2_role_id,
 								institution3_role_id,
-								attention_required
+								attention_required,
+								is_political_activist,
+								political_register_date
 							)
 							VALUES(
 								@name, 
@@ -487,7 +505,9 @@ namespace Business
 								@institution3_id,
 								@institution2_role_id,
 								@institution3_role_id,
-								@attention_required
+								@attention_required,
+								@is_political_activist,
+								@political_register_date
 							) 
 							RETURNING id;";
 					}
@@ -524,6 +544,8 @@ namespace Business
 					cmd.Parameters.AddWithValue("@institution2_role_id", citizen.Role2.Id);
 					cmd.Parameters.AddWithValue("@institution3_role_id", citizen.Role3.Id);
 					cmd.Parameters.AddWithValue("@attention_required", false); // editing should always set attention required to false
+					cmd.Parameters.AddWithValue("@is_political_activist", citizen.IsPoliticalActivist);
+					cmd.Parameters.AddWithValue("@political_register_date", citizen.PoliticalRegisterDate);
 
 					if (is_update)
 					{
@@ -536,7 +558,8 @@ namespace Business
 				}
 			}
 
-			EventLogHandler.AddEventLog(is_update ? TEventLogType.citizen_edit : TEventLogType.citizen_add, citizen.LastEditor.Id, citizen.Id, TEntityType.citizen, citizen, citizen.EditDate);
+			if (error == 0)
+				EventLogHandler.AddEventLog(is_update ? TEventLogType.citizen_edit : TEventLogType.citizen_add, citizen.LastEditor.Id, citizen.Id, TEntityType.citizen, citizen, citizen.EditDate);
 
 			tran.Commit();
 

@@ -24,6 +24,7 @@ namespace Business
 		CitizenNotFound,
 		CitizenWithSameCURP,
 		CitizenWithSameName,
+		CitizenWithSameVoterCode,
 		CitizenInUse,
 		CitizenCategoryNotFound,
 		CitizenCategoryInUse,

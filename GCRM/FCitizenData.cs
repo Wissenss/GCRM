@@ -327,6 +327,9 @@ namespace GCRM
 
 			ComboBoxCategory.Enabled = AccessMode != FAccessMode.Read;
 
+			PoliticalRegisterDate.Enabled = AccessMode != FAccessMode.Read;
+			IsPoliticalActivist.Enabled = AccessMode != FAccessMode.Read;
+
 			BAccept.Visible = AccessMode != FAccessMode.Read;
 			BCancel.Text = AccessMode != FAccessMode.Read ? "&Cancelar" : "&Cerrar";
 		}
@@ -389,7 +392,12 @@ namespace GCRM
 				VoterCIC.Text = citizen.VoterCIC;
 				VoterSection.Text = citizen.VoterSection;
 
-				Text = $"Ciudadano - {citizen.Name} {citizen.PaternalName} {citizen.MaternalName}";
+				PoliticalRegisterDate.Value = citizen.PoliticalRegisterDate;
+				IsPoliticalActivist.Checked = citizen.IsPoliticalActivist;
+
+				IsPoliticalActivist_CheckedChanged(this, null);
+
+				Text = $"Ciudadano - {citizen.FullName}";
 			}
 		}
 
@@ -636,7 +644,15 @@ namespace GCRM
 					{
 						Id = (int)Institution3Role.SelectedValue
 					},
+
+					IsPoliticalActivist = IsPoliticalActivist.Checked,
+					PoliticalRegisterDate = new DateTime(1753, 1, 1)
 				};
+
+				if (IsPoliticalActivist.Checked)
+				{
+					citizen.PoliticalRegisterDate = PoliticalRegisterDate.Value;
+				}
 
 				citizen.Assistant = new TCitizen();
 
@@ -774,6 +790,14 @@ namespace GCRM
 			{
 				BCancel_Click(this, null);
 			}
+		}
+
+		private void IsPoliticalActivist_CheckedChanged(object sender, EventArgs e)
+		{
+			LPoliticalRegisterDate.Enabled = IsPoliticalActivist.Checked && AccessMode != FAccessMode.Read;
+			PoliticalRegisterDate.Enabled = IsPoliticalActivist.Checked && AccessMode != FAccessMode.Read;
+
+			PoliticalRegisterDate.Refresh();
 		}
 	}
 }
