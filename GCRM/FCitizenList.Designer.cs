@@ -91,6 +91,7 @@
 			SaveFileDialog = new SaveFileDialog();
 			DataGridCitizens = new DataGridView();
 			statusStrip1 = new StatusStrip();
+			TSSLRecordAttentionRequiredCount = new ToolStripStatusLabel();
 			TSSLRecordCount = new ToolStripStatusLabel();
 			TSSLFilters = new ToolStripStatusLabel();
 			ToolStrip.SuspendLayout();
@@ -393,7 +394,7 @@
 			ToolStrip.Location = new Point(2, 2);
 			ToolStrip.Name = "ToolStrip";
 			ToolStrip.RenderMode = ToolStripRenderMode.System;
-			ToolStrip.Size = new Size(949, 40);
+			ToolStrip.Size = new Size(932, 40);
 			ToolStrip.TabIndex = 4;
 			ToolStrip.Text = "toolStrip1";
 			// 
@@ -586,7 +587,7 @@
 			PanelSearch.Dock = DockStyle.Top;
 			PanelSearch.Location = new Point(2, 42);
 			PanelSearch.Name = "PanelSearch";
-			PanelSearch.Size = new Size(949, 39);
+			PanelSearch.Size = new Size(932, 39);
 			PanelSearch.TabIndex = 6;
 			PanelSearch.Visible = false;
 			// 
@@ -596,7 +597,7 @@
 			TextBoxSearch.Location = new Point(8, 8);
 			TextBoxSearch.Name = "TextBoxSearch";
 			TextBoxSearch.PlaceholderText = "Ingrese el texto a buscar...";
-			TextBoxSearch.Size = new Size(933, 23);
+			TextBoxSearch.Size = new Size(916, 23);
 			TextBoxSearch.TabIndex = 1;
 			TextBoxSearch.TextChanged += TextBoxSearch_TextChanged;
 			// 
@@ -647,7 +648,7 @@
 			DataGridCitizens.RowTemplate.Height = 20;
 			DataGridCitizens.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 			DataGridCitizens.ShowCellToolTips = false;
-			DataGridCitizens.Size = new Size(949, 371);
+			DataGridCitizens.Size = new Size(932, 371);
 			DataGridCitizens.StandardTab = true;
 			DataGridCitizens.TabIndex = 7;
 			DataGridCitizens.CellDoubleClick += DataGridCitizens_CellDoubleClick;
@@ -656,16 +657,26 @@
 			// 
 			// statusStrip1
 			// 
-			statusStrip1.Items.AddRange(new ToolStripItem[] { TSSLRecordCount, TSSLFilters });
+			statusStrip1.Items.AddRange(new ToolStripItem[] { TSSLRecordAttentionRequiredCount, TSSLRecordCount, TSSLFilters });
 			statusStrip1.Location = new Point(2, 452);
 			statusStrip1.Name = "statusStrip1";
-			statusStrip1.Size = new Size(949, 22);
+			statusStrip1.Size = new Size(932, 22);
 			statusStrip1.TabIndex = 8;
 			statusStrip1.Text = "statusStrip1";
+			// 
+			// TSSLRecordAttentionRequiredCount
+			// 
+			TSSLRecordAttentionRequiredCount.Font = new Font("Segoe UI Semibold", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+			TSSLRecordAttentionRequiredCount.ForeColor = Color.Red;
+			TSSLRecordAttentionRequiredCount.Margin = new Padding(0, 3, 5, 2);
+			TSSLRecordAttentionRequiredCount.Name = "TSSLRecordAttentionRequiredCount";
+			TSSLRecordAttentionRequiredCount.Size = new Size(115, 17);
+			TSSLRecordAttentionRequiredCount.Text = "Atención requerida: 0";
 			// 
 			// TSSLRecordCount
 			// 
 			TSSLRecordCount.Font = new Font("Segoe UI Variable Small Light", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+			TSSLRecordCount.Margin = new Padding(0, 3, 5, 2);
 			TSSLRecordCount.Name = "TSSLRecordCount";
 			TSSLRecordCount.Size = new Size(78, 17);
 			TSSLRecordCount.Text = "Registros: 524";
@@ -673,15 +684,17 @@
 			// TSSLFilters
 			// 
 			TSSLFilters.Font = new Font("Segoe UI Variable Small Light", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+			TSSLFilters.Margin = new Padding(0, 3, 5, 2);
 			TSSLFilters.Name = "TSSLFilters";
-			TSSLFilters.Size = new Size(147, 17);
-			TSSLFilters.Text = "     Filtros: Sexo = Masculino";
+			TSSLFilters.Size = new Size(132, 17);
+			TSSLFilters.Text = "Filtros: Sexo = Masculino";
+			TSSLFilters.TextAlign = ContentAlignment.MiddleLeft;
 			// 
 			// FCitizenList
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
-			ClientSize = new Size(953, 476);
+			ClientSize = new Size(936, 476);
 			Controls.Add(DataGridCitizens);
 			Controls.Add(statusStrip1);
 			Controls.Add(PanelSearch);
@@ -767,5 +780,6 @@
 		private ToolStripSeparator toolStripSeparator5;
 		private ToolStripButton BAttentionRequired;
 		private ToolStripSeparator toolStripSeparator3;
+		private ToolStripStatusLabel TSSLRecordAttentionRequiredCount;
 	}
 }

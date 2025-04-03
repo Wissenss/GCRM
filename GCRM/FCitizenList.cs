@@ -60,9 +60,18 @@ namespace GCRM
 			DataGridUtilities.AddColumn(DataGridCitizens, "colAssistantPhoneAndExtension", "Tel. Asistente", "assistant_phone_full", false);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colAssistantCellphone", "Cel. Asistente", "assistant_cellphone", false);
 
-			DataGridUtilities.AddColumn(DataGridCitizens, "colPhone", "Teléfono", "phone", false);
+			//DataGridUtilities.AddColumn(DataGridCitizens, "colPhone", "Número Teléfono", "phone", false);
+			//DataGridUtilities.AddColumn(DataGridCitizens, "colPhoneExtension", "Extensión Teléfono", "phone_extension", false);
+
+			//DataGridUtilities.AddColumn(DataGridCitizens, "colPhone2", "Número Teléfono 2", "phone2", false);
+			//DataGridUtilities.AddColumn(DataGridCitizens, "colPhone2Extension", "Extensión Teléfono 2", "phone2_extension", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colPhone2AndExtension", "Teléfono 2", "phone2_full", false);
+
+			//DataGridUtilities.AddColumn(DataGridCitizens, "colPhone3", "Número Teléfono 3", "phone3", false);
+			//DataGridUtilities.AddColumn(DataGridCitizens, "colPhone3Extension", "Extensión Teléfono 3", "phone3_extension", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colPhone3AndExtension", "Teléfono 3", "phone3_full", false);
+
 			DataGridUtilities.AddColumn(DataGridCitizens, "colPoliticalParty", "Id Partido", "political_party", false);
-			DataGridUtilities.AddColumn(DataGridCitizens, "colPhoneExtension", "Extensión Teléfono", "phone_extension", false);
 
 			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionId", "Id Institución", "institution_id", false);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionCategoryId", "Id Categoría", "institution_category_id", false);
@@ -120,6 +129,12 @@ namespace GCRM
 			DTCitizens.Columns.Add("phone", typeof(string));
 			DTCitizens.Columns.Add("phone_extension", typeof(string));
 			DTCitizens.Columns.Add("phone_full", typeof(string));
+			DTCitizens.Columns.Add("phone2", typeof(string));
+			DTCitizens.Columns.Add("phone2_extension", typeof(string));
+			DTCitizens.Columns.Add("phone2_full", typeof(string));
+			DTCitizens.Columns.Add("phone3", typeof(string));
+			DTCitizens.Columns.Add("phone3_extension", typeof(string));
+			DTCitizens.Columns.Add("phone3_full", typeof(string));
 			DTCitizens.Columns.Add("cellphone", typeof(string));
 			DTCitizens.Columns.Add("political_party", typeof(TPoliticalParty));
 			DTCitizens.Columns.Add("political_party_name", typeof(string));
@@ -247,9 +262,9 @@ namespace GCRM
 					{
 						row["assistant_id"] = citizen.Assistant.Id;
 						row["assistant_name"] = $"{citizen.Assistant.Name} {citizen.Assistant.PaternalName} {citizen.Assistant.MaternalName}";
-						row["assistant_phone"] = citizen.Assistant.Phone;
-						row["assistant_phone_extension"] = citizen.Assistant.PhoneExtension;
-						row["assistant_phone_full"] = $"{citizen.Assistant.Phone}" + (citizen.Assistant.PhoneExtension.Length > 0 ? $" Ext. {citizen.Assistant.PhoneExtension}" : "");
+						row["assistant_phone"] = citizen.Assistant.Phone.Number;
+						row["assistant_phone_extension"] = citizen.Assistant.Phone.Extension;
+						row["assistant_phone_full"] = $"{citizen.Assistant.Phone.FullNumber}";
 						row["assistant_cellphone"] = citizen.Assistant.Cellphone;
 					}
 					else
@@ -262,9 +277,18 @@ namespace GCRM
 						row["assistant_cellphone"] = "";
 					}
 
-					row["phone"] = citizen.Phone;
-					row["phone_extension"] = citizen.PhoneExtension;
-					row["phone_full"] = $"{citizen.Phone}" + (citizen.PhoneExtension.Length > 0 ? $" Ext. {citizen.PhoneExtension}" : "");
+					row["phone"] = citizen.Phone.Number;
+					row["phone_extension"] = citizen.Phone.Extension;
+					row["phone_full"] = $"{citizen.Phone.FullNumber}";
+
+					row["phone2"] = citizen.Phone2.Number;
+					row["phone2_extension"] = citizen.Phone2.Extension;
+					row["phone2_full"] = $"{citizen.Phone2.FullNumber}";
+
+					row["phone3"] = citizen.Phone3.Number;
+					row["phone3_extension"] = citizen.Phone3.Extension;
+					row["phone3_full"] = $"{citizen.Phone3.FullNumber}";
+
 					row["cellphone"] = citizen.Cellphone;
 					row["political_party"] = citizen.PoliticalParty;
 					row["political_party_name"] = BConstants.GetPoliticalPartyCommonName(citizen.PoliticalParty);
@@ -386,6 +410,18 @@ namespace GCRM
 		{
 			// record count
 			TSSLRecordCount.Text = $"Total: {DataGridCitizens.RowCount}";
+
+			// records that require attention
+			int attentrion_required = 0;
+
+			foreach(DataRow row in DTCitizens.Rows)
+			{
+				if ((bool)row["attention_required"])
+					attentrion_required++;
+			}
+
+			TSSLRecordAttentionRequiredCount.Visible = attentrion_required > 0;
+			TSSLRecordAttentionRequiredCount.Text    = $"Atención requerida: {attentrion_required}";
 
 			// the filters label
 			string filtros = "";
@@ -534,6 +570,8 @@ namespace GCRM
 
 					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "CURP", headers_color, 30);
 					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Teléfono", headers_color, 25);
+					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Teléfono 2", headers_color, 25);
+					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Teléfono 3", headers_color, 25);
 					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Celular", headers_color, 20);
 					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Partido", headers_color, 10);
 
@@ -575,6 +613,8 @@ namespace GCRM
 
 						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colCURP"].Value);
 						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colPhoneAndExtension"].Value);
+						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colPhone2AndExtension"].Value);
+						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colPhone3AndExtension"].Value);
 						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colCellphone"].Value);
 						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colPoliticalPartyName"].Value);
 
@@ -710,11 +750,12 @@ namespace GCRM
 				Name = (string)row.Cells["colName"].Value,
 				PaternalName = (string)row.Cells["colPaternalName"].Value,
 				MaternalName = (string)row.Cells["colMaternalName"].Value,
-				Phone = (string)row.Cells["colPhone"].Value,
-				PhoneExtension = (string)row.Cells["colPhoneExtension"].Value,
 				Cellphone = (string)row.Cells["colCellphone"].Value
 			};
 
+			selected_citizen.Phone.Number = (string)row.Cells["colPhone"].Value;
+			selected_citizen.Phone.Extension = (string)row.Cells["colPhoneExtension"].Value;
+			
 			return selected_citizen;
 		}
 
@@ -761,6 +802,8 @@ namespace GCRM
 			row.Cells["colAttentionRequired"].Value = attentionRequired;
 
 			DataGridCitizens.InvalidateRow(row.Index);
+
+			UpdateStatusStrip();
 		}
 
 		private void DataGridCitizens_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)

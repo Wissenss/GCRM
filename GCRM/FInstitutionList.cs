@@ -313,6 +313,19 @@ namespace GCRM
 		{
 			TSSLRecordCount.Text = $"Registros: {DataGridInstitutions.RowCount}";
 
+			// records that require attention
+			int attentrion_required = 0;
+
+			foreach (DataRow row in Catalogs.DTInstitutions.Rows)
+			{
+				if ((bool)row["attention_required"])
+					attentrion_required++;
+			}
+
+			TSSLRecordAttentionRequiredCount.Visible = attentrion_required > 0;
+			TSSLRecordAttentionRequiredCount.Text = $"Atención requerida: {attentrion_required}";
+
+			// filtros
 			TSSLFilters.Text = "";
 
 			if (FiltersDlg.FilterCategory)
@@ -396,6 +409,8 @@ namespace GCRM
 			row.Cells["colAttentionRequired"].Value = attentionRequired;
 
 			DataGridInstitutions.InvalidateRow(row.Index);
+
+			UpdateStatusStrip();
 		}
 
 		private void DataGridInstitutions_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)

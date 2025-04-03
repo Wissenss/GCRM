@@ -310,15 +310,9 @@ namespace GCRM
 
 					TextBoxLeadCitizen.Text = $"{LeadCitizen.Name} {LeadCitizen.PaternalName} {LeadCitizen.MaternalName}";
 
-					LLeadCitizenInfo.Text = $"Tel. {LeadCitizen.Phone}";
-					if (LeadCitizen.PhoneExtension != "")
-					{
-						LLeadCitizenInfo.Text += $" Ext. {LeadCitizen.PhoneExtension}";
-					}
+					LLeadCitizenInfo.Text = $"{LeadCitizen.Phone.FullNumberWithPrefix}";
 
 					LLeadCitizenInfo.Text += $" Cel. {LeadCitizen.Cellphone}";
-
-					//RefreshMembersStructure();
 				}
 			}
 		}

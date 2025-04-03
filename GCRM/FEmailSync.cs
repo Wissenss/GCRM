@@ -156,13 +156,15 @@ namespace GCRM
 
 						vcard.AppendLine($"BEGIN:VCARD");
 						vcard.AppendLine($"VERSION:3.0");
-						vcard.AppendLine($"N:{citizen.MaternalName};{citizen.Name};{citizen.PaternalName};{BConstants.GetCitizenBriefTitle(citizen.Title, citizen.Sex)}");
+						vcard.AppendLine($"N:{citizen.MaternalNameWithFirstCapitals};{citizen.NameWithFirstCapitals};{citizen.PaternalNameWithFirstCapitals};{BConstants.GetCitizenBriefTitle(citizen.Title, citizen.Sex)}");
 						vcard.AppendLine($"FN:{citizen.FullNameWithFirstCapitals}");
 						vcard.AppendLine($"EMAIL:{citizen.Email}");
 						vcard.AppendLine($"BDAY:{citizen.Birthday.ToString("yyyyMMdd")}");
-						vcard.AppendLine($"TEL;TYPE=WORK:{citizen.FullPhone}");
+						vcard.AppendLine($"TEL;TYPE=WORK:{citizen.Phone.FullNumber}");
+						vcard.AppendLine($"TEL;TYPE=WORK:{citizen.Phone2.FullNumber}");
+						vcard.AppendLine($"TEL;TYPE=WORK:{citizen.Phone3.FullNumber}");
 						vcard.AppendLine($"TEL;TYPE=CELL:{citizen.Cellphone}");
-						vcard.AppendLine($"NOTE:Alta: {created_by_user.Name}");
+						vcard.AppendLine($"NOTE:Alta: {citizen.Author.Name}\\nEdición: {citizen.LastEditor.Name}\\nSincornización: {DateTime.Now.ToString("dd MMMM yyyy hh:mm:ss")}");
 						vcard.AppendLine($"UID:{uid}");
 						vcard.AppendLine($"ORG:{citizen.Institution.Name}");
 						vcard.AppendLine($"TITLE:{citizen.Role.Name}");

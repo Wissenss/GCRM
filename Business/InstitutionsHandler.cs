@@ -19,6 +19,20 @@ namespace Business
 		}
 	}
 
+	public class TInstitutionTemplateRole
+	{
+
+	}
+
+	public class TInstitutionTemplate
+	{
+		public int Id;
+		public string Name;
+		public string Description;
+
+		public List<TInstitutionTemplateRole> Roles;
+	}
+
 	public class TInstitutionRole
 	{
 		public int Id;

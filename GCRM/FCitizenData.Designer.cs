@@ -32,6 +32,7 @@
 			BCancel = new Button();
 			TabControlCitizen = new TabControl();
 			TabGeneral = new TabPage();
+			BGenerateCURP = new Button();
 			LCategory = new Label();
 			ComboBoxCategory = new ComboBox();
 			MaskedTextBoxCURP = new MaskedTextBox();
@@ -54,6 +55,14 @@
 			LName = new Label();
 			TextBoxName = new TextBox();
 			TabContacto = new TabPage();
+			Phone3Extension = new TextBox();
+			LPhone3Extension = new Label();
+			Phone3 = new TextBox();
+			LPhone3 = new Label();
+			Phone2Extension = new TextBox();
+			LPhone2Extension = new Label();
+			Phone2 = new TextBox();
+			LPhone2 = new Label();
 			TextBoxEmail = new TextBox();
 			LEmail = new Label();
 			LAssitantCellphone = new Label();
@@ -116,7 +125,6 @@
 			LVoterOCR = new Label();
 			VoterCode = new TextBox();
 			LElectorCode = new Label();
-			BGenerateCURP = new Button();
 			TabControlCitizen.SuspendLayout();
 			TabGeneral.SuspendLayout();
 			TabContacto.SuspendLayout();
@@ -196,6 +204,17 @@
 			TabGeneral.TabIndex = 0;
 			TabGeneral.Text = "General";
 			TabGeneral.UseVisualStyleBackColor = true;
+			// 
+			// BGenerateCURP
+			// 
+			BGenerateCURP.Image = Properties.Resources.Fatcow_Farm_Fresh_Widgets_16;
+			BGenerateCURP.Location = new Point(359, 180);
+			BGenerateCURP.Name = "BGenerateCURP";
+			BGenerateCURP.Size = new Size(31, 23);
+			BGenerateCURP.TabIndex = 42;
+			BGenerateCURP.TextImageRelation = TextImageRelation.ImageBeforeText;
+			BGenerateCURP.UseVisualStyleBackColor = true;
+			BGenerateCURP.Click += BGenerateCURP_Click;
 			// 
 			// LCategory
 			// 
@@ -386,6 +405,14 @@
 			// 
 			// TabContacto
 			// 
+			TabContacto.Controls.Add(Phone3Extension);
+			TabContacto.Controls.Add(LPhone3Extension);
+			TabContacto.Controls.Add(Phone3);
+			TabContacto.Controls.Add(LPhone3);
+			TabContacto.Controls.Add(Phone2Extension);
+			TabContacto.Controls.Add(LPhone2Extension);
+			TabContacto.Controls.Add(Phone2);
+			TabContacto.Controls.Add(LPhone2);
 			TabContacto.Controls.Add(TextBoxEmail);
 			TabContacto.Controls.Add(LEmail);
 			TabContacto.Controls.Add(LAssitantCellphone);
@@ -407,17 +434,81 @@
 			TabContacto.Text = "Contacto";
 			TabContacto.UseVisualStyleBackColor = true;
 			// 
+			// Phone3Extension
+			// 
+			Phone3Extension.Location = new Point(289, 67);
+			Phone3Extension.Name = "Phone3Extension";
+			Phone3Extension.Size = new Size(101, 23);
+			Phone3Extension.TabIndex = 46;
+			// 
+			// LPhone3Extension
+			// 
+			LPhone3Extension.AutoSize = true;
+			LPhone3Extension.Location = new Point(257, 70);
+			LPhone3Extension.Name = "LPhone3Extension";
+			LPhone3Extension.Size = new Size(25, 15);
+			LPhone3Extension.TabIndex = 48;
+			LPhone3Extension.Text = "Ext.";
+			// 
+			// Phone3
+			// 
+			Phone3.Location = new Point(75, 67);
+			Phone3.Name = "Phone3";
+			Phone3.Size = new Size(176, 23);
+			Phone3.TabIndex = 45;
+			// 
+			// LPhone3
+			// 
+			LPhone3.AutoSize = true;
+			LPhone3.Location = new Point(7, 70);
+			LPhone3.Name = "LPhone3";
+			LPhone3.Size = new Size(62, 15);
+			LPhone3.TabIndex = 47;
+			LPhone3.Text = "Teléfono 3";
+			// 
+			// Phone2Extension
+			// 
+			Phone2Extension.Location = new Point(289, 38);
+			Phone2Extension.Name = "Phone2Extension";
+			Phone2Extension.Size = new Size(101, 23);
+			Phone2Extension.TabIndex = 42;
+			// 
+			// LPhone2Extension
+			// 
+			LPhone2Extension.AutoSize = true;
+			LPhone2Extension.Location = new Point(257, 41);
+			LPhone2Extension.Name = "LPhone2Extension";
+			LPhone2Extension.Size = new Size(25, 15);
+			LPhone2Extension.TabIndex = 44;
+			LPhone2Extension.Text = "Ext.";
+			// 
+			// Phone2
+			// 
+			Phone2.Location = new Point(75, 38);
+			Phone2.Name = "Phone2";
+			Phone2.Size = new Size(176, 23);
+			Phone2.TabIndex = 41;
+			// 
+			// LPhone2
+			// 
+			LPhone2.AutoSize = true;
+			LPhone2.Location = new Point(7, 41);
+			LPhone2.Name = "LPhone2";
+			LPhone2.Size = new Size(62, 15);
+			LPhone2.TabIndex = 43;
+			LPhone2.Text = "Teléfono 2";
+			// 
 			// TextBoxEmail
 			// 
-			TextBoxEmail.Location = new Point(65, 67);
+			TextBoxEmail.Location = new Point(75, 125);
 			TextBoxEmail.Name = "TextBoxEmail";
-			TextBoxEmail.Size = new Size(186, 23);
+			TextBoxEmail.Size = new Size(315, 23);
 			TextBoxEmail.TabIndex = 3;
 			// 
 			// LEmail
 			// 
 			LEmail.AutoSize = true;
-			LEmail.Location = new Point(7, 70);
+			LEmail.Location = new Point(7, 128);
 			LEmail.Name = "LEmail";
 			LEmail.Size = new Size(41, 15);
 			LEmail.TabIndex = 40;
@@ -428,7 +519,7 @@
 			LAssitantCellphone.AutoSize = true;
 			LAssitantCellphone.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
 			LAssitantCellphone.ForeColor = SystemColors.HotTrack;
-			LAssitantCellphone.Location = new Point(65, 190);
+			LAssitantCellphone.Location = new Point(75, 225);
 			LAssitantCellphone.Name = "LAssitantCellphone";
 			LAssitantCellphone.Size = new Size(105, 15);
 			LAssitantCellphone.TabIndex = 38;
@@ -439,7 +530,7 @@
 			LAssistantPhone.AutoSize = true;
 			LAssistantPhone.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
 			LAssistantPhone.ForeColor = SystemColors.HotTrack;
-			LAssistantPhone.Location = new Point(65, 170);
+			LAssistantPhone.Location = new Point(75, 205);
 			LAssistantPhone.Name = "LAssistantPhone";
 			LAssistantPhone.Size = new Size(157, 15);
 			LAssistantPhone.TabIndex = 37;
@@ -450,7 +541,7 @@
 			LAssitantName.AutoSize = true;
 			LAssitantName.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
 			LAssitantName.ForeColor = SystemColors.HotTrack;
-			LAssitantName.Location = new Point(65, 150);
+			LAssitantName.Location = new Point(75, 185);
 			LAssitantName.Name = "LAssitantName";
 			LAssitantName.Size = new Size(149, 15);
 			LAssitantName.TabIndex = 36;
@@ -459,7 +550,7 @@
 			// LAssistent
 			// 
 			LAssistent.AutoSize = true;
-			LAssistent.Location = new Point(7, 122);
+			LAssistent.Location = new Point(7, 157);
 			LAssistent.Name = "LAssistent";
 			LAssistent.Size = new Size(55, 15);
 			LAssistent.TabIndex = 21;
@@ -469,23 +560,23 @@
 			// 
 			ComboBoxAssistant.DropDownStyle = ComboBoxStyle.DropDownList;
 			ComboBoxAssistant.FormattingEnabled = true;
-			ComboBoxAssistant.Location = new Point(65, 119);
+			ComboBoxAssistant.Location = new Point(75, 154);
 			ComboBoxAssistant.Name = "ComboBoxAssistant";
-			ComboBoxAssistant.Size = new Size(325, 23);
+			ComboBoxAssistant.Size = new Size(315, 23);
 			ComboBoxAssistant.TabIndex = 4;
 			ComboBoxAssistant.SelectedIndexChanged += ComboBoxAssistant_SelectedIndexChanged;
 			// 
 			// TextBoxCellphone
 			// 
-			TextBoxCellphone.Location = new Point(65, 38);
+			TextBoxCellphone.Location = new Point(75, 96);
 			TextBoxCellphone.Name = "TextBoxCellphone";
-			TextBoxCellphone.Size = new Size(186, 23);
+			TextBoxCellphone.Size = new Size(176, 23);
 			TextBoxCellphone.TabIndex = 2;
 			// 
 			// LCellphone
 			// 
 			LCellphone.AutoSize = true;
-			LCellphone.Location = new Point(7, 41);
+			LCellphone.Location = new Point(7, 99);
 			LCellphone.Name = "LCellphone";
 			LCellphone.Size = new Size(44, 15);
 			LCellphone.TabIndex = 18;
@@ -509,9 +600,9 @@
 			// 
 			// TextBoxPhone
 			// 
-			TextBoxPhone.Location = new Point(65, 9);
+			TextBoxPhone.Location = new Point(75, 9);
 			TextBoxPhone.Name = "TextBoxPhone";
-			TextBoxPhone.Size = new Size(186, 23);
+			TextBoxPhone.Size = new Size(176, 23);
 			TextBoxPhone.TabIndex = 0;
 			// 
 			// LPhone
@@ -1013,17 +1104,6 @@
 			LElectorCode.TabIndex = 0;
 			LElectorCode.Text = "Clave de elector";
 			// 
-			// BGenerateCURP
-			// 
-			BGenerateCURP.Image = Properties.Resources.Fatcow_Farm_Fresh_Widgets_16;
-			BGenerateCURP.Location = new Point(359, 180);
-			BGenerateCURP.Name = "BGenerateCURP";
-			BGenerateCURP.Size = new Size(31, 23);
-			BGenerateCURP.TabIndex = 42;
-			BGenerateCURP.TextImageRelation = TextImageRelation.ImageBeforeText;
-			BGenerateCURP.UseVisualStyleBackColor = true;
-			BGenerateCURP.Click += BGenerateCURP_Click;
-			// 
 			// FCitizenData
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
@@ -1150,5 +1230,13 @@
 		private Label LPoliticalRegisterDate;
 		private DateTimePicker PoliticalRegisterDate;
 		private Button BGenerateCURP;
+		private TextBox Phone3Extension;
+		private Label LPhone3Extension;
+		private TextBox Phone3;
+		private Label LPhone3;
+		private TextBox Phone2Extension;
+		private Label LPhone2Extension;
+		private TextBox Phone2;
+		private Label LPhone2;
 	}
 }

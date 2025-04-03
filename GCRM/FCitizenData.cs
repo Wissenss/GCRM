@@ -298,6 +298,11 @@ namespace GCRM
 
 			TextBoxPhone.Enabled = AccessMode != FAccessMode.Read;
 			TextBoxPhoneExtension.Enabled = AccessMode != FAccessMode.Read;
+			Phone2.Enabled = AccessMode != FAccessMode.Read;
+			Phone2Extension.Enabled = AccessMode != FAccessMode.Read;
+			Phone3.Enabled = AccessMode != FAccessMode.Read;
+			Phone3Extension.Enabled = AccessMode != FAccessMode.Read;
+
 			TextBoxCellphone.Enabled = AccessMode != FAccessMode.Read;
 			TextBoxEmail.Enabled = AccessMode != FAccessMode.Read;
 			ComboBoxAssistant.Enabled = AccessMode != FAccessMode.Read;
@@ -362,8 +367,12 @@ namespace GCRM
 				TextBoxObservations.Text = citizen.Observations;
 				ComboBoxPoliticalParty.SelectedValue = citizen.PoliticalParty;
 
-				TextBoxPhone.Text = citizen.Phone;
-				TextBoxPhoneExtension.Text = citizen.PhoneExtension;
+				TextBoxPhone.Text = citizen.Phone.Number;
+				TextBoxPhoneExtension.Text = citizen.Phone.Extension;
+				Phone2.Text = citizen.Phone2.Number;
+				Phone2Extension.Text = citizen.Phone2.Extension;
+				Phone3.Text = citizen.Phone3.Number;
+				Phone3Extension.Text = citizen.Phone3.Extension;
 				TextBoxCellphone.Text = citizen.Cellphone;
 				ComboBoxAssistant.SelectedValue = citizen.Assistant.Id;
 				TextBoxEmail.Text = citizen.Email;
@@ -442,8 +451,8 @@ namespace GCRM
 					return;
 				}
 
-				LAssitantName.Text = $"{assistant.Name} {assistant.PaternalName} {assistant.MaternalName}";
-				LAssistantPhone.Text = $"Tel. {assistant.Phone} Ext. {assistant.PhoneExtension}";
+				LAssitantName.Text = $"{assistant.FullName}";
+				LAssistantPhone.Text = $"{assistant.Phone.FullNumberWithPrefix}";
 				LAssitantCellphone.Text = $"Cel. {assistant.Cellphone}";
 			}
 		}
@@ -589,8 +598,6 @@ namespace GCRM
 					Observations = TextBoxObservations.Text.Trim(),
 					PoliticalParty = (TPoliticalParty)ComboBoxPoliticalParty.SelectedValue,
 
-					Phone = TextBoxPhone.Text.Trim(),
-					PhoneExtension = TextBoxPhoneExtension.Text.Trim(),
 					Cellphone = TextBoxCellphone.Text.Trim(),
 					Email = TextBoxEmail.Text.Trim(),
 
@@ -650,6 +657,13 @@ namespace GCRM
 					IsPoliticalActivist = IsPoliticalActivist.Checked,
 					PoliticalRegisterDate = new DateTime(1753, 1, 1)
 				};
+
+				citizen.Phone.Number = TextBoxPhone.Text.Trim();
+				citizen.Phone.Extension = TextBoxPhoneExtension.Text.Trim();
+				citizen.Phone2.Number = Phone2.Text.Trim();
+				citizen.Phone2.Extension = Phone2Extension.Text.Trim();
+				citizen.Phone3.Number = Phone3.Text.Trim();
+				citizen.Phone3.Extension = Phone3Extension.Text.Trim();
 
 				if (IsPoliticalActivist.Checked)
 				{

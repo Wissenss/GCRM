@@ -180,7 +180,7 @@ namespace Business
 				{ TCitizenTitle.PhD, "Dr." },
 				{ TCitizenTitle.Arq, "Arq." },
 
-				{ TCitizenTitle.PublicAccountant, "C.P." },
+				{ TCitizenTitle.PublicAccountant, "CP." },
 				{ TCitizenTitle.Councilor, "Regidor(a)" },
 				{ TCitizenTitle.Syndic, "Síndico(a)" },
 				{ TCitizenTitle.MunicipalPresident, "Presidente(a) Municipal" },
@@ -204,7 +204,7 @@ namespace Business
 					{ TCitizenTitle.PhD, "Dr." },
 					{ TCitizenTitle.Arq, "Arq." },
 
-					{ TCitizenTitle.PublicAccountant, "C.P." },
+					{ TCitizenTitle.PublicAccountant, "CP." },
 					{ TCitizenTitle.Councilor, "Regidor" },
 					{ TCitizenTitle.Syndic, "Síndico" },
 					{ TCitizenTitle.MunicipalPresident, "Presidente Municipal" },
@@ -229,7 +229,7 @@ namespace Business
 					{ TCitizenTitle.PhD, "Dra." },
 					{ TCitizenTitle.Arq, "Arq." },
 
-					{ TCitizenTitle.PublicAccountant, "C.P." },
+					{ TCitizenTitle.PublicAccountant, "CP." },
 					{ TCitizenTitle.Councilor, "Regidora" },
 					{ TCitizenTitle.Syndic, "Síndica" },
 					{ TCitizenTitle.MunicipalPresident, "Presidenta Municipal" },

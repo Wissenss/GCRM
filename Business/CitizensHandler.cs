@@ -1,5 +1,6 @@
 ﻿using Connection;
 using Npgsql;
+using System.Data;
 using System.Data.Common;
 using System.Text;
 
@@ -19,6 +20,76 @@ namespace Business
 		}
 	}
 
+	public class TCitizenContactNumber
+	{
+		public string Number;
+		public string Extension;
+
+		private string GetNumericString(string raw_string)
+		{
+			string clean_string = "";
+
+			foreach (char character in raw_string)
+			{
+				if (Char.IsNumber(character))
+				{
+					clean_string += character;
+				}
+			}
+
+			return clean_string;
+		}
+
+		public string NumericNumber
+		{
+			get
+			{
+				return GetNumericString(Number);
+			}
+		}
+
+		public string NumericExtension
+		{
+			get
+			{
+				return GetNumericString(Extension);
+			}
+		}
+
+		public string FullNumber
+		{
+			get
+			{
+				string number = "";
+
+				if (Number.Length > 0)
+				{
+					number += Number;
+
+					if (Extension.Length > 0)
+					{
+						number += $" Ext. {Extension}";
+					}
+				}
+
+				return number;
+			}
+		}
+
+		public string FullNumberWithPrefix
+		{
+			get
+			{
+				if (FullNumber.Length > 0)
+				{
+					return "Tel. " + FullNumber;
+				}
+
+				return FullNumber;
+			}
+		}
+	}
+
 	public class TCitizen : TEntity
 	{
 		public int Id;
@@ -32,8 +103,9 @@ namespace Business
 		public TSex Sex;
 		public TAddress Address = new TAddress();
 		public TCitizen Assistant;
-		public string Phone;
-		public string PhoneExtension;
+		public TCitizenContactNumber Phone = new TCitizenContactNumber();
+		public TCitizenContactNumber Phone2 = new TCitizenContactNumber();
+		public TCitizenContactNumber Phone3 = new TCitizenContactNumber();
 		public string Cellphone;
 		public string Email;
 		public TPoliticalParty PoliticalParty;
@@ -68,50 +140,64 @@ namespace Business
 			} 
 		}
 
+		private string GetNameStringWithFirstCapitals(string name_string)
+		{
+			List<string> word_list = name_string.Split(' ').ToList();
+			string[] uncapitalizable_words = { "de", "del", "la" };
+
+			string formated_name = "";
+
+			foreach (string word in word_list)
+			{
+				string formated_word = word;
+
+				if (uncapitalizable_words.Contains(word.ToLower()) == false)
+				{
+					if (formated_word.Length == 0)
+						continue;
+
+					formated_word = formated_word.First().ToString().ToUpper() + formated_word.Substring(1).ToLower();
+				}
+				else
+				{
+					formated_word = formated_word.ToLower();
+				}
+
+				formated_name += formated_word + " ";
+			}
+
+			return formated_name.Trim();
+		}
+
 		public string FullNameWithFirstCapitals
 		{
 			get
 			{
-				List<string> word_list = FullName.Split(' ').ToList();
-				string[] uncapitalizable_words = { "de", "del", "la" };
-
-				string formated_name = "";
-
-				foreach (string word in word_list)
-				{
-					string formated_word = word;
-
-					if (uncapitalizable_words.Contains(word.ToLower()) == false)
-					{
-						if (formated_word.Length == 0)
-							continue;
-
-						formated_word = formated_word.First().ToString().ToUpper() + formated_word.Substring(1).ToLower();
-					}
-					else
-					{
-						formated_word = formated_word.ToLower();
-					}
-
-					formated_name += formated_word + " ";
-				}
-
-				return formated_name.Trim();
+				return GetNameStringWithFirstCapitals(FullName);
 			}
 		}
 
-		public string FullPhone
+		public string NameWithFirstCapitals
+		{
+			get 
+			{
+				return GetNameStringWithFirstCapitals(Name);
+			}
+		}
+
+		public string MaternalNameWithFirstCapitals
 		{
 			get
 			{
-				string full_phone = Phone;
+				return GetNameStringWithFirstCapitals(MaternalName);
+			}
+		}
 
-				if (PhoneExtension?.Trim().Length > 0)
-				{
-					full_phone += $" Ext. {PhoneExtension}";
-				}
-
-				return full_phone;	
+		public string PaternalNameWithFirstCapitals
+		{
+			get
+			{
+				return GetNameStringWithFirstCapitals(PaternalName);
 			}
 		}
 
@@ -132,8 +218,8 @@ namespace Business
 			Sex = (TSex)reader.GetInt32(8);
 			Address.Id = reader.GetInt32(9);
 			Assistant.Id = reader.GetInt32(10);
-			Phone = reader.GetString(11);
-			PhoneExtension = reader.GetString(12);
+			Phone.Number = reader.GetString(11);
+			Phone.Extension = reader.GetString(12);
 			Cellphone = reader.GetString(13);
 			PoliticalParty = (TPoliticalParty)reader.GetInt32(14);
 			Institution.Id = reader.GetInt32(15);
@@ -155,6 +241,10 @@ namespace Business
 			AttentionRequired = reader.GetBoolean(31);
 			IsPoliticalActivist = reader.GetBoolean(32);
 			PoliticalRegisterDate = reader.GetDateTime(33);
+			Phone2.Number = reader.GetString(34);
+			Phone2.Extension = reader.GetString(35);
+			Phone3.Number = reader.GetString(36);
+			Phone3.Extension = reader.GetString(37);
 		}
 	
 		public override string GetAsLogString()
@@ -172,8 +262,12 @@ namespace Business
 			log_string.AppendLine($"Sex:             \t{Sex}");
 			log_string.AppendLine($"Address:         \t{Address.Id}");
 			log_string.AppendLine($"Assistant:       \t{Assistant.Id}");
-			log_string.AppendLine($"Phone:           \t{Phone}");
-			log_string.AppendLine($"Phone Ext:       \t{PhoneExtension}");
+			log_string.AppendLine($"Phone:           \t{Phone.Number}");
+			log_string.AppendLine($"Phone Ext:       \t{Phone.Extension}");
+			log_string.AppendLine($"Phone2:          \t{Phone2.Number}");
+			log_string.AppendLine($"Phone2 Ext:      \t{Phone2.Extension}");
+			log_string.AppendLine($"Phone3:          \t{Phone3.Number}");
+			log_string.AppendLine($"Phone3 Ext:      \t{Phone3.Extension}");
 			log_string.AppendLine($"Cellphone:       \t{Cellphone}");
 			log_string.AppendLine($"Email:           \t{Email}");
 			log_string.AppendLine($"Political Party: \t{PoliticalParty}");
@@ -432,7 +526,11 @@ namespace Business
 								institution3_role_id = @institution3_role_id,
 								attention_required = @attention_required,
 								is_political_activist = @is_political_activist,
-								political_register_date = @political_register_date
+								political_register_date = @political_register_date,
+								phone2 = @phone2,
+								phone2_extension = @phone2_extension,
+								phone3 = @phone3,
+								phone3_extension = @phone3_extension
 							WHERE
 								id=@id;";
 					}
@@ -472,7 +570,11 @@ namespace Business
 								institution3_role_id,
 								attention_required,
 								is_political_activist,
-								political_register_date
+								political_register_date,
+								phone2,
+								phone2_extension,
+								phone3,
+								phone3_extension
 							)
 							VALUES(
 								@name, 
@@ -507,7 +609,11 @@ namespace Business
 								@institution3_role_id,
 								@attention_required,
 								@is_political_activist,
-								@political_register_date
+								@political_register_date,
+								@phone2,
+								@phone2_extension,
+								@phone3,
+								@phone3_extension
 							) 
 							RETURNING id;";
 					}
@@ -523,8 +629,12 @@ namespace Business
 					cmd.Parameters.AddWithValue("@sex", (int)citizen.Sex);
 					cmd.Parameters.AddWithValue("@address_id", citizen.Address.Id);
 					cmd.Parameters.AddWithValue("@assistant_id", citizen.Assistant.Id);
-					cmd.Parameters.AddWithValue("@phone", citizen.Phone);
-					cmd.Parameters.AddWithValue("@phone_extension", citizen.PhoneExtension);
+					cmd.Parameters.AddWithValue("@phone", citizen.Phone.Number);
+					cmd.Parameters.AddWithValue("@phone_extension", citizen.Phone.Extension);
+					cmd.Parameters.AddWithValue("@phone2", citizen.Phone2.Number);
+					cmd.Parameters.AddWithValue("@phone2_extension", citizen.Phone2.Extension);
+					cmd.Parameters.AddWithValue("@phone3", citizen.Phone3.Number);
+					cmd.Parameters.AddWithValue("@phone3_extension", citizen.Phone3.Extension);
 					cmd.Parameters.AddWithValue("@cellphone", citizen.Cellphone);
 					cmd.Parameters.AddWithValue("@political_party", (int)citizen.PoliticalParty);
 					cmd.Parameters.AddWithValue("@institution_id", citizen.Institution.Id);
