@@ -447,22 +447,22 @@ namespace GCRM
 					model.SocietySector = FiltersDlg.Sector;
 
 				// institution list
-				foreach(DataGridViewRow row in DataGridInstitutions.Rows)
+				foreach (DataGridViewRow row in DataGridInstitutions.Rows)
 				{
 					TInstitution institution = new TInstitution();
 
-					institution.Id            = (int)row.Cells["colId"].Value;
-					institution.Name          = (string)row.Cells["colName"].Value;
-					institution.Acronym       = (string)row.Cells["colAcronym"].Value;
-					institution.Category.Id   = (int)row.Cells["colCategoryId"].Value;
+					institution.Id = (int)row.Cells["colId"].Value;
+					institution.Name = (string)row.Cells["colName"].Value;
+					institution.Acronym = (string)row.Cells["colAcronym"].Value;
+					institution.Category.Id = (int)row.Cells["colCategoryId"].Value;
 
 					if (institution.Category.Id != 0)
 					{
 						institution.Category.Name = (string)row.Cells["colCategoryName"].Value;
 					}
 
-					institution.Sector        = (TSocietySector)row.Cells["colSocietySector"].Value;
-					institution.Description   = (string)row.Cells["colDescription"].Value;
+					institution.Sector = (TSocietySector)row.Cells["colSocietySector"].Value;
+					institution.Description = (string)row.Cells["colDescription"].Value;
 
 					model.Institutions.Add(institution);
 				}
@@ -470,6 +470,14 @@ namespace GCRM
 				R004Document document = new R004Document(model);
 
 				document.GeneratePdfAndShow();
+			}
+		}
+
+		private void BInstitutionTemplates_Click(object sender, EventArgs e)
+		{
+			using (FInstitutionTemplateList template_list_dlt = new FInstitutionTemplateList())
+			{
+				template_list_dlt.ShowDialog();
 			}
 		}
 	}

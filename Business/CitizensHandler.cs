@@ -205,7 +205,6 @@ namespace Business
 		{
 			Assistant = new TCitizen();
 			Institution = new TInstitution();
-			Role = new TInstitutionRole();
 
 			Id = reader.GetInt32(0);
 			Name = reader.GetString(1);	
@@ -245,6 +244,11 @@ namespace Business
 			Phone2.Extension = reader.GetString(35);
 			Phone3.Number = reader.GetString(36);
 			Phone3.Extension = reader.GetString(37);
+
+			// if the value of the template is set for the role, then it is a template role 
+			Role.InstitutionTemplateId = reader.GetInt32(38);
+			Role2.InstitutionTemplateId = reader.GetInt32(39);
+			Role3.InstitutionTemplateId = reader.GetInt32(40);
 		}
 	
 		public override string GetAsLogString()
@@ -325,13 +329,13 @@ namespace Business
 							error = InstitutionsHandler.GetInstitutionById(citizen.Institution3.Id, out citizen.Institution3);
 
 						if (error == 0 && citizen.Role.Id != 0)
-							error = InstitutionsHandler.GetInstitutionRoleById(citizen.Role.Id, out citizen.Role);
+							error = InstitutionsHandler.GetInstitutionRoleById(citizen.Role.Id, citizen.Role.IsTemplateRole, out citizen.Role);
 
 						if (error == 0 && citizen.Role2.Id != 0)
-							error = InstitutionsHandler.GetInstitutionRoleById(citizen.Role2.Id, out citizen.Role2);
+							error = InstitutionsHandler.GetInstitutionRoleById(citizen.Role2.Id, citizen.Role2.IsTemplateRole, out citizen.Role2);
 
 						if (error == 0 && citizen.Role3.Id != 0)
-							error = InstitutionsHandler.GetInstitutionRoleById(citizen.Role3.Id, out citizen.Role3);
+							error = InstitutionsHandler.GetInstitutionRoleById(citizen.Role3.Id, citizen.Role3.IsTemplateRole, out citizen.Role3);
 					}
 					else
 					{
@@ -530,7 +534,10 @@ namespace Business
 								phone2 = @phone2,
 								phone2_extension = @phone2_extension,
 								phone3 = @phone3,
-								phone3_extension = @phone3_extension
+								phone3_extension = @phone3_extension,
+								institution_template_role_id = @institution_template_role_id,
+								institution2_template_role_id = @institution2_template_role_id,
+								institution3_template_role_id = @institution3_template_role_id
 							WHERE
 								id=@id;";
 					}
@@ -574,7 +581,10 @@ namespace Business
 								phone2,
 								phone2_extension,
 								phone3,
-								phone3_extension
+								phone3_extension,
+								institution_template_role_id,
+								institution2_template_role_id
+								institution3_template_role_id
 							)
 							VALUES(
 								@name, 
@@ -613,7 +623,10 @@ namespace Business
 								@phone2,
 								@phone2_extension,
 								@phone3,
-								@phone3_extension
+								@phone3_extension,
+								@institution_template_role_id,		
+								@institution2_template_role_id,	
+								@institution3_template_role_id
 							) 
 							RETURNING id;";
 					}
@@ -656,6 +669,9 @@ namespace Business
 					cmd.Parameters.AddWithValue("@attention_required", false); // editing should always set attention required to false
 					cmd.Parameters.AddWithValue("@is_political_activist", citizen.IsPoliticalActivist);
 					cmd.Parameters.AddWithValue("@political_register_date", citizen.PoliticalRegisterDate);
+					cmd.Parameters.AddWithValue("@institution_template_role_id", citizen.Role.InstitutionTemplateId);
+					cmd.Parameters.AddWithValue("@institution2_template_role_id", citizen.Role2.InstitutionTemplateId);
+					cmd.Parameters.AddWithValue("@institution3_template_role_id", citizen.Role3.InstitutionTemplateId);
 
 					if (is_update)
 					{

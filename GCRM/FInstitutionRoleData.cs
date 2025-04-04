@@ -11,11 +11,11 @@ using System.Windows.Forms;
 
 namespace GCRM
 {
-	public partial class FInstitutionRole : Form
+	public partial class FInstitutionRoleData : Form
 	{
 		FAccessMode AccessMode = FAccessMode.Create;
 
-		public FInstitutionRole()
+		public FInstitutionRoleData()
 		{
 			InitializeComponent();
 		}

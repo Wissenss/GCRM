@@ -19,18 +19,20 @@ namespace Business
 		}
 	}
 
-	public class TInstitutionTemplateRole
-	{
-
-	}
-
 	public class TInstitutionTemplate
 	{
 		public int Id;
 		public string Name;
 		public string Description;
 
-		public List<TInstitutionTemplateRole> Roles;
+		public List<TInstitutionRole> Roles = new List<TInstitutionRole>();
+
+		public void FillFromReader(DbDataReader reader)
+		{
+			Id = reader.GetInt32(0);
+			Name = reader.GetString(1);
+			Description = reader.GetString(2);
+		}
 	}
 
 	public class TInstitutionRole
@@ -38,6 +40,7 @@ namespace Business
 		public int Id;
 		public string Name;
 		public int InstitutionId;
+		public int InstitutionTemplateId;
 		public int ParentRoleId;
 		public string Description;
 
@@ -56,6 +59,14 @@ namespace Business
 			}
 		}
 
+		public bool IsTemplateRole
+		{
+			get
+			{
+				return InstitutionTemplateId > 0;
+			}
+		}
+
 		public void FillFromReader(DbDataReader reader)
 		{
 			Id = reader.GetInt32(0);
@@ -63,6 +74,19 @@ namespace Business
 			InstitutionId = reader.GetInt32(2);
 			ParentRoleId = reader.GetInt32(3);
 			Description = reader.GetString(4);
+
+			InstitutionTemplateId = 0;
+		}
+
+		public void FillFromReaderTemplate(DbDataReader reader)
+		{
+			Id = reader.GetInt32(0);
+			InstitutionTemplateId = reader.GetInt32(1);
+			Name = reader.GetString(2);
+			Description = reader.GetString(3);
+
+			ParentRoleId = 0;
+			InstitutionId = 0;
 		}
 	}
 
@@ -81,6 +105,7 @@ namespace Business
 		public DateTime EditDate;
 		public string Acronym;
 		public bool AttentionRequired;
+		public TInstitutionTemplate Template = new TInstitutionTemplate();
 
 		public string NameWithFirstCapital
 		{
@@ -111,6 +136,7 @@ namespace Business
 			EditDate = reader.GetDateTime(9);
 			Acronym = reader.GetString(10);
 			AttentionRequired = reader.GetBoolean(11);
+			Template.Id = reader.GetInt32(12);
 		}
 
 		public override string GetAsLogString()
@@ -129,13 +155,15 @@ namespace Business
 			log_string.AppendLine($"LastEditor:          \t{LastEditor.Id}");
 			log_string.AppendLine($"EditDate:            \t{EditDate}");
 			log_string.AppendLine($"Acronym:             \t{Acronym}");
+			log_string.AppendLine($"AttentionRequired:   \t{AttentionRequired}");
+			log_string.AppendLine($"Template:            \t{Template.Id}");
 
 			return log_string.ToString();
 		}
 	}
 
 	public static class InstitutionsHandler
-	{ 
+	{
 		public static Error SaveInstitution(TInstitution institution, bool is_update)
 		{
 			var conn = ConnectionPool.GetConnection();
@@ -176,7 +204,8 @@ namespace Business
 						edit_by_id = @edit_by_id,
 						edit_date = @edit_date,
 						acronym = @acronym,
-						attention_required = @attention_required
+						attention_required = @attention_required,
+						institution_template_id = @institution_template_id	
 					WHERE 
 						id = @id;";
 			}
@@ -194,7 +223,8 @@ namespace Business
 						edit_by_id,
 						edit_date,
 						acronym,
-						attention_required
+						attention_required,
+						institution_template_id
 					) 
 					VALUES(
 						@name, 
@@ -207,7 +237,9 @@ namespace Business
 						@edit_by_id,
 						@edit_date,
 						@acronym,
-						@attention_required) 
+						@attention_required,
+						@institution_template_id
+					) 
 					RETURNING id;";
 			}
 
@@ -225,6 +257,7 @@ namespace Business
 				cmd.Parameters.AddWithValue("@edit_date", institution.EditDate);
 				cmd.Parameters.AddWithValue("@acronym", institution.Acronym);
 				cmd.Parameters.AddWithValue("@attention_required", false); // editing the institution will always set the attention required flag to false
+				cmd.Parameters.AddWithValue("@institution_template_id", institution.Template.Id);
 
 				if (is_update)
 				{
@@ -241,11 +274,11 @@ namespace Business
 					{
 						cmd.CommandText = "INSERT INTO institution_roles(name, institution_id, parent_role_id, description) VALUES(@name, @institution_id, @parent_role_id, @description);";
 					}
-          else
-          {
+					else
+					{
 						cmd.CommandText = "UPDATE institution_roles SET name = @name, institution_id=@institution_id, parent_role_id=@parent_role_id, description=@description WHERE id = @id";
-          }
-					
+					}
+
 					cmd.Parameters.Clear();
 					cmd.Parameters.AddWithValue("@id", role.Id);
 					cmd.Parameters.AddWithValue("@name", role.Name);
@@ -299,7 +332,7 @@ namespace Business
 					if (citizens_with_role > 0)
 					{
 						tran.Rollback();
-						
+
 						ConnectionPool.ReleaseConnection(ref conn);
 
 						return Error.InstitutionRoleInUser;
@@ -313,7 +346,7 @@ namespace Business
 
 			EventLogHandler.AddEventLog(is_update ? TEventLogType.institution_edit : TEventLogType.institution_add, institution.LastEditor.Id, institution.Id, TEntityType.institution, institution, DateTime.Now);
 
-			tran.Commit();	
+			tran.Commit();
 
 			ConnectionPool.ReleaseConnection(ref conn);
 
@@ -454,7 +487,7 @@ namespace Business
 		}
 
 		public static Error GetInstitutionById(int id, out TInstitution institution)
-		{ 
+		{
 			institution = new TInstitution();
 
 			var conn = ConnectionPool.GetConnection();
@@ -465,8 +498,8 @@ namespace Business
 			{
 				cmd.Parameters.AddWithValue("@id", id);
 
-				using (var reader = cmd.ExecuteReader()) 
-				{	
+				using (var reader = cmd.ExecuteReader())
+				{
 					if (reader.HasRows)
 					{
 						reader.Read();
@@ -474,6 +507,11 @@ namespace Business
 						institution.FillFromReader(reader);
 
 						error = GetInstitutionCategoryById(institution.Category.Id, out institution.Category);
+
+						if (error == 0 && institution.Template.Id > 0)
+						{
+							error = GetInstitutionTemplateById(institution.Template.Id, out institution.Template);
+						}
 					}
 					else
 					{
@@ -501,16 +539,18 @@ namespace Business
 					ic.name as category_name,
 					ic.description as category_description,
 					u.name as author_name,	
-					u2.name as editor_name
+					u2.name as editor_name,
+					it.name as template_name	
 				FROM 
 					institutions i
 					LEFT JOIN institution_categories ic ON i.category_id = ic.id 
 					LEFT JOIN users u ON i.created_by_id = u.id
 					LEFT JOIN users u2 ON i.edit_by_id = u2.id
+					LEFT JOIN institution_templates it ON i.institution_template_id = it.id
 				ORDER BY name;";
 
 			using (var cmd = new NpgsqlCommand(sql, conn))
-			using (var reader = cmd.ExecuteReader()) 
+			using (var reader = cmd.ExecuteReader())
 			{
 				while (reader.Read())
 				{
@@ -534,7 +574,12 @@ namespace Business
 						institution.LastEditor.Name = reader.GetString(reader.GetOrdinal("editor_name"));
 					}
 
-					institution_list.Add(institution);	
+					if (institution.Template.Id != 0)
+					{
+						institution.Template.Name = reader.GetString(reader.GetOrdinal("template_name"));
+					}
+
+					institution_list.Add(institution);
 				}
 			}
 
@@ -545,15 +590,19 @@ namespace Business
 
 		public static Error GetInstitutionRoles(int institution_id, out List<TInstitutionRole> institution_roles)
 		{
+			Error error = 0;
+
 			var conn = ConnectionPool.GetConnection();
 
 			string sql = "SELECT * FROM institution_roles WHERE institution_id = @institution_id ORDER BY id;";
-
+			
 			institution_roles = new List<TInstitutionRole>();
 
 			using (var cmd = new NpgsqlCommand(sql, conn))
 			{
 				cmd.Parameters.AddWithValue("@institution_id", institution_id);
+				
+				// get the roles
 
 				using (var reader = cmd.ExecuteReader())
 				{
@@ -566,11 +615,23 @@ namespace Business
 						institution_roles.Add(role);
 					}
 				}
+
+				// get the template roles
+
+				error = GetInstitutionTemplateRoles(institution_id, out List<TInstitutionRole> template_roles_list);
+
+				if (error == 0)
+				{
+					foreach (TInstitutionRole role in template_roles_list)
+					{
+						institution_roles.Add(role);
+					}
+				}
 			}
 
 			ConnectionPool.ReleaseConnection(ref conn);
 
-			return 0;
+			return error;
 		}
 
 		public static Error SaveInstitutionCategory(TInstitutionCategory category, bool is_update)
@@ -659,8 +720,8 @@ namespace Business
 
 			return 0;
 		}
-	
-		public static Error GetInstitutionRoleById(int id, out TInstitutionRole role)
+
+		public static Error GetInstitutionRoleById(int id, bool is_template_role, out TInstitutionRole role)
 		{
 			role = new TInstitutionRole();
 
@@ -668,7 +729,65 @@ namespace Business
 
 			Error error = 0;
 
-			using (var cmd = new NpgsqlCommand("SELECT * FROM institution_roles WHERE id = @id;", conn))
+			if (is_template_role)
+			{
+				using (var cmd = new NpgsqlCommand("SELECT * FROM institution_template_roles WHERE id = @id;", conn))
+				{
+					cmd.Parameters.AddWithValue("@id", id);
+
+					using (var reader = cmd.ExecuteReader())
+					{
+						if (reader.HasRows)
+						{
+							reader.Read();
+
+							role.FillFromReaderTemplate(reader);
+						}
+						else
+						{
+							error = Error.InstitutionTemplateRoleNotFound;
+						}
+					}
+				}
+			}
+			else
+			{
+				using (var cmd = new NpgsqlCommand("SELECT * FROM institution_roles WHERE id = @id;", conn))
+				{
+					cmd.Parameters.AddWithValue("@id", id);
+
+					using (var reader = cmd.ExecuteReader())
+					{
+						if (reader.HasRows)
+						{
+							reader.Read();
+
+							role.FillFromReader(reader);
+						}
+						else
+						{
+							error = Error.InstitutionRoleNotFound;
+						}
+					}
+				}
+			}
+
+			ConnectionPool.ReleaseConnection(ref conn);
+
+			return error;
+		}
+
+		public static Error GetInstitutionTemplateById(int id, out TInstitutionTemplate template)
+		{
+			Error error = 0;
+
+			template = new TInstitutionTemplate();
+
+			var conn = ConnectionPool.GetConnection();
+
+			string sql = "SELECT * FROM institution_templates WHERE id = @id;";
+
+			using (var cmd = new NpgsqlCommand(sql, conn))
 			{
 				cmd.Parameters.AddWithValue("@id", id);
 
@@ -678,15 +797,181 @@ namespace Business
 					{
 						reader.Read();
 
-						role.FillFromReader(reader);
+						template.Id = reader.GetInt32(0);
+						template.Name = reader.GetString(1);
+						template.Description = reader.GetString(2);
+
+						error = GetInstitutionTemplateRoles(template.Id, out template.Roles);
 					}
 					else
 					{
-						error = Error.InstitutionRoleNotFound;
+						error = Error.InstitutionNotFound;
 					}
 				}
 			}
 
+			ConnectionPool.ReleaseConnection(ref conn);
+
+			return error;
+		}
+
+		public static Error GetInstitutionTemplateRoles(int institution_id, out List<TInstitutionRole> template_roles_list)
+		{
+			Error error = 0;
+
+			var conn = ConnectionPool.GetConnection();
+
+			template_roles_list = new List<TInstitutionRole>();
+
+			string sql = @"
+				SELECT 
+					itr.*
+				FROM 
+					institution_template_roles itr 
+				ORDER BY 
+					itr.id;";
+
+			using (var cmd = new NpgsqlCommand(sql, conn))
+			{
+				cmd.Parameters.AddWithValue("@institution_template_id", institution_id);
+
+				using (var reader = cmd.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						TInstitutionRole role = new TInstitutionRole();
+
+						role.FillFromReaderTemplate(reader);
+
+						template_roles_list.Add(role);
+					}
+				}
+			}
+
+			ConnectionPool.ReleaseConnection(ref conn);
+
+			return error;
+		}
+
+		public static Error GetInstitutionTemplates(out List<TInstitutionTemplate> institution_templates)
+		{
+			Error error = 0;
+
+			var conn = ConnectionPool.GetConnection();
+
+			institution_templates = new List<TInstitutionTemplate>();
+
+			string sql = "SELECT * FROM institution_templates ORDER BY name;";
+
+			using (var cmd = new NpgsqlCommand(sql, conn))
+			{
+				using (var reader = cmd.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						TInstitutionTemplate template = new TInstitutionTemplate();
+
+						template.FillFromReader(reader);
+
+						institution_templates.Add(template);
+					}
+				}
+			}
+
+			ConnectionPool.ReleaseConnection(ref conn);
+
+			return error;
+		}
+
+		public static Error SaveInstitutionTemplate(TInstitutionTemplate institution_template, bool is_update)
+		{
+			Error error = 0;
+
+			var conn = ConnectionPool.GetConnection();
+			var tran = conn.BeginTransaction();
+
+			string sql = "";
+
+			if (is_update)
+			{
+				sql = "UPDATE institution_templates SET name = @name, description = @description WHERE id = @id;";
+			}
+			else
+			{
+				sql = "INSERT INTO institution_templates(name, description) VALUES(@name, @description);";
+			}
+
+			using (var cmd = new NpgsqlCommand(sql, conn))
+			{
+				cmd.Parameters.AddWithValue("@id", institution_template.Id);
+				cmd.Parameters.AddWithValue("@name", institution_template.Name);
+				cmd.Parameters.AddWithValue("@description", institution_template.Description);
+
+				cmd.ExecuteNonQuery();
+
+				// save the roles
+				foreach (TInstitutionRole role in institution_template.Roles)
+				{
+					if (role.Id == 0)
+					{
+						cmd.CommandText = "INSERT INTO institution_template_roles(name, institution_template_id, description) VALUES(@name, @institution_template_id, @description);";
+					}
+					else
+					{
+						cmd.CommandText = "UPDATE institution_template_roles SET name = @name, institution_template_id=@institution_template_id, description=@description WHERE id = @id";
+					}
+
+					cmd.Parameters.Clear();
+					cmd.Parameters.AddWithValue("@id", role.Id);
+					cmd.Parameters.AddWithValue("@name", role.Name);
+					cmd.Parameters.AddWithValue("@institution_template_id", institution_template.Id);
+					cmd.Parameters.AddWithValue("@description", role.Description);
+
+					cmd.ExecuteNonQuery();
+				}
+			}
+
+			tran.Commit();
+
+			return error;
+		}
+
+		public static Error DeleteInstitutionTemplateById(int id)
+		{
+			Error error = 0;
+
+			var conn = ConnectionPool.GetConnection();
+			var tran = conn.BeginTransaction();
+
+			// check there is no institution using this template
+
+			using (var cmd = new NpgsqlCommand("SELECT * FROM institutions WHERE institution_template_id = @id;", conn))
+			{
+				cmd.Parameters.AddWithValue("@id", id);
+
+				using (var reader = cmd.ExecuteReader())
+				{
+					if (reader.HasRows)
+					{
+						tran.Rollback();
+						ConnectionPool.ReleaseConnection(ref conn);
+						return Error.InstitutionTemplateInUse;
+					}
+				}
+			}
+
+			using (var cmd = new NpgsqlCommand("DELETE FROM institution_template_roles WHERE institution_template_id = @id;", conn))
+			{
+				cmd.Parameters.AddWithValue("@id", id);
+
+				cmd.ExecuteNonQuery();
+
+				cmd.CommandText = "DELETE FROM institution_templates WHERE id = @id;";
+
+				cmd.ExecuteNonQuery();
+			}
+
+			tran.Commit();
 			ConnectionPool.ReleaseConnection(ref conn);
 
 			return error;

@@ -35,8 +35,14 @@ namespace Business
 		InstitutionRepeatedName,
 		InstitutionRoleNotFound,
 		InstitutionRoleInUser,
+		
 		InstitutionCategoryNotFound,
 		InstitutionCategoryInUse,
+
+		InstitutionTemplateNotFound,
+		InstitutionTemplateInUse,
+		InstitutionTemplateRoleNotFound,
+		InstitutionTemplateRoleInUse,
 
 		// errors related to settings
 		SettingNotFound,
@@ -73,6 +79,10 @@ namespace Business
 			{ Error.InstitutionRoleInUser, "Cargo de institución esta siendo utilizado" },
 			{ Error.InstitutionCategoryNotFound, "Categoría de institución no encontrada" },
 			{ Error.InstitutionCategoryInUse, "Categoría de institutción esta siendo utilizada" },
+			{ Error.InstitutionTemplateNotFound, "Plantilla de institutción no encontrada" },
+			{ Error.InstitutionTemplateInUse, "Plantilla de institución esta siendo utilizada" },
+			{ Error.InstitutionTemplateRoleNotFound, "Cargo de plantilla de institución no encontrado" },
+			{ Error.InstitutionTemplateRoleInUse, "Cargo de plantilla de institución esta siendo utilizado" },
 			{ Error.SettingNotFound, "No se encontró la configuración en la base de datos" },
 			{ Error.AddressNotFound, "Dirección no encontrada" },
 			{ Error.CitizenNetworkNotFound, "Estructura ciudadana no encontrada" },

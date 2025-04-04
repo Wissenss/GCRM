@@ -34,6 +34,8 @@
 			BCancel = new Button();
 			BAccept = new Button();
 			TabGeneral = new TabPage();
+			Template = new ComboBox();
+			LTemplate = new Label();
 			LAcronym = new Label();
 			TextBoxAcronym = new TextBox();
 			ComboBoxCategory = new ComboBox();
@@ -84,6 +86,9 @@
 			// 
 			// TabGeneral
 			// 
+			TabGeneral.BackColor = Color.Transparent;
+			TabGeneral.Controls.Add(Template);
+			TabGeneral.Controls.Add(LTemplate);
 			TabGeneral.Controls.Add(LAcronym);
 			TabGeneral.Controls.Add(TextBoxAcronym);
 			TabGeneral.Controls.Add(ComboBoxCategory);
@@ -102,12 +107,31 @@
 			TabGeneral.Size = new Size(383, 323);
 			TabGeneral.TabIndex = 0;
 			TabGeneral.Text = "General";
-			TabGeneral.UseVisualStyleBackColor = true;
+			// 
+			// Template
+			// 
+			Template.DropDownStyle = ComboBoxStyle.DropDownList;
+			Template.FlatStyle = FlatStyle.System;
+			Template.FormattingEnabled = true;
+			Template.Location = new Point(82, 101);
+			Template.Name = "Template";
+			Template.Size = new Size(295, 23);
+			Template.TabIndex = 17;
+			Template.SelectedIndexChanged += Template_SelectedIndexChanged;
+			// 
+			// LTemplate
+			// 
+			LTemplate.AutoSize = true;
+			LTemplate.Location = new Point(7, 104);
+			LTemplate.Name = "LTemplate";
+			LTemplate.Size = new Size(49, 15);
+			LTemplate.TabIndex = 18;
+			LTemplate.Text = "Plantilla";
 			// 
 			// LAcronym
 			// 
 			LAcronym.AutoSize = true;
-			LAcronym.Location = new Point(7, 132);
+			LAcronym.Location = new Point(7, 162);
 			LAcronym.Name = "LAcronym";
 			LAcronym.Size = new Size(60, 15);
 			LAcronym.TabIndex = 16;
@@ -115,9 +139,9 @@
 			// 
 			// TextBoxAcronym
 			// 
-			TextBoxAcronym.Location = new Point(82, 129);
+			TextBoxAcronym.Location = new Point(82, 159);
 			TextBoxAcronym.Name = "TextBoxAcronym";
-			TextBoxAcronym.Size = new Size(143, 23);
+			TextBoxAcronym.Size = new Size(217, 23);
 			TextBoxAcronym.TabIndex = 4;
 			// 
 			// ComboBoxCategory
@@ -126,7 +150,7 @@
 			ComboBoxCategory.FormattingEnabled = true;
 			ComboBoxCategory.Location = new Point(82, 43);
 			ComboBoxCategory.Name = "ComboBoxCategory";
-			ComboBoxCategory.Size = new Size(143, 23);
+			ComboBoxCategory.Size = new Size(217, 23);
 			ComboBoxCategory.TabIndex = 1;
 			// 
 			// ComboBoxParentInstitution
@@ -160,7 +184,7 @@
 			// LDescription
 			// 
 			LDescription.AutoSize = true;
-			LDescription.Location = new Point(7, 160);
+			LDescription.Location = new Point(7, 190);
 			LDescription.Name = "LDescription";
 			LDescription.Size = new Size(69, 15);
 			LDescription.TabIndex = 10;
@@ -168,7 +192,7 @@
 			// 
 			// TextBoxDescription
 			// 
-			TextBoxDescription.Location = new Point(82, 158);
+			TextBoxDescription.Location = new Point(82, 188);
 			TextBoxDescription.Multiline = true;
 			TextBoxDescription.Name = "TextBoxDescription";
 			TextBoxDescription.Size = new Size(295, 69);
@@ -181,7 +205,7 @@
 			ComboBoxSocietySector.FormattingEnabled = true;
 			ComboBoxSocietySector.Location = new Point(82, 15);
 			ComboBoxSocietySector.Name = "ComboBoxSocietySector";
-			ComboBoxSocietySector.Size = new Size(143, 23);
+			ComboBoxSocietySector.Size = new Size(217, 23);
 			ComboBoxSocietySector.TabIndex = 0;
 			// 
 			// LSocietySector
@@ -196,7 +220,7 @@
 			// LName
 			// 
 			LName.AutoSize = true;
-			LName.Location = new Point(7, 103);
+			LName.Location = new Point(7, 133);
 			LName.Name = "LName";
 			LName.Size = new Size(51, 15);
 			LName.TabIndex = 6;
@@ -204,7 +228,7 @@
 			// 
 			// TextBoxName
 			// 
-			TextBoxName.Location = new Point(82, 100);
+			TextBoxName.Location = new Point(82, 130);
 			TextBoxName.Name = "TextBoxName";
 			TextBoxName.Size = new Size(295, 23);
 			TextBoxName.TabIndex = 3;
@@ -383,5 +407,7 @@
 		private TextBox TextBoxAcronym;
 		private ToolStripButton BDeleteRole;
 		private DataGridView DataGridInstitutionRoles;
+		private ComboBox Template;
+		private Label LTemplate;
 	}
 }

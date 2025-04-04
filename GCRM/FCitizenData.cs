@@ -50,16 +50,28 @@ namespace GCRM
 			DTInstitutionRole = new DataTable("DTInstitutionRoles");
 			DTInstitutionRole.Columns.Add("id", typeof(int));
 			DTInstitutionRole.Columns.Add("name", typeof(string));
+			DTInstitutionRole.Columns.Add("institution_id", typeof(int));
+			DTInstitutionRole.Columns.Add("template_id", typeof(int));
+			DTInstitutionRole.Columns.Add("is_template_role", typeof(int));
+			DTInstitutionRole.Columns.Add("description", typeof(string));
 			DSCitizen.Tables.Add(DTInstitutionRole);
 
 			DTInstitution2Role = new DataTable("DTInstitution2Roles");
 			DTInstitution2Role.Columns.Add("id", typeof(int));
 			DTInstitution2Role.Columns.Add("name", typeof(string));
+			DTInstitution2Role.Columns.Add("institution_id", typeof(int));
+			DTInstitution2Role.Columns.Add("template_id", typeof(int));
+			DTInstitution2Role.Columns.Add("is_template_role", typeof(int));
+			DTInstitution2Role.Columns.Add("description", typeof(string));
 			DSCitizen.Tables.Add(DTInstitution2Role);
 
 			DTInstitution3Role = new DataTable("DTInstitution3Roles");
 			DTInstitution3Role.Columns.Add("id", typeof(int));
 			DTInstitution3Role.Columns.Add("name", typeof(string));
+			DTInstitution3Role.Columns.Add("institution_id", typeof(int));
+			DTInstitution3Role.Columns.Add("template_id", typeof(int));
+			DTInstitution3Role.Columns.Add("is_template_role", typeof(int));
+			DTInstitution3Role.Columns.Add("description", typeof(string));
 			DSCitizen.Tables.Add(DTInstitution3Role);
 
 			DTCategories = new DataTable("DTCategories");
@@ -388,13 +400,16 @@ namespace GCRM
 				TextBoxDistrict.Text = citizen.Address.District;
 
 				ComboBoxInstitution.SelectedValue = citizen.Institution.Id;
-				ComboBoxInstitutionRole.SelectedValue = citizen.Role.Id;
+				//ComboBoxInstitutionRole.SelectedValue = citizen.Role.Id;
+				SelectInstitutionRoleValue(ComboBoxInstitutionRole, DTInstitutionRole, citizen.Role.Id, citizen.Role.InstitutionTemplateId);
 
 				Insitution2.SelectedValue = citizen.Institution2.Id;
-				Institution2Role.SelectedValue = citizen.Role2.Id;
+				//Institution2Role.SelectedValue = citizen.Role2.Id;
+				SelectInstitutionRoleValue(Institution2Role, DTInstitution2Role, citizen.Role2.Id, citizen.Role2.InstitutionTemplateId);
 
 				Institution3.SelectedValue = citizen.Institution3.Id;
-				Institution3Role.SelectedValue = citizen.Role3.Id;
+				//Institution3Role.SelectedValue = citizen.Role3.Id;
+				SelectInstitutionRoleValue(Institution3Role, DTInstitution3Role, citizen.Role3.Id, citizen.Role3.InstitutionTemplateId);
 
 				ComboBoxCategory.SelectedValue = citizen.Category.Id;
 
@@ -629,19 +644,9 @@ namespace GCRM
 						Id = (int)ComboBoxInstitution.SelectedValue
 					},
 
-					Role = new TInstitutionRole()
-					{
-						Id = (int)ComboBoxInstitutionRole.SelectedValue
-					},
-
 					Institution2 = new TInstitution()
 					{
 						Id = (int)Insitution2.SelectedValue
-					},
-
-					Role2 = new TInstitutionRole()
-					{
-						Id = (int)Institution2Role.SelectedValue
 					},
 
 					Institution3 = new TInstitution()
@@ -649,14 +654,13 @@ namespace GCRM
 						Id = (int)Institution3.SelectedValue
 					},
 
-					Role3 = new TInstitutionRole()
-					{
-						Id = (int)Institution3Role.SelectedValue
-					},
-
 					IsPoliticalActivist = IsPoliticalActivist.Checked,
 					PoliticalRegisterDate = new DateTime(1753, 1, 1)
 				};
+
+				GetSelectedRoleValue(ComboBoxInstitutionRole, DTInstitutionRole, out citizen.Role.Id, out citizen.Role.InstitutionTemplateId);
+				GetSelectedRoleValue(Institution2Role, DTInstitution2Role, out citizen.Role2.Id, out citizen.Role2.InstitutionTemplateId);
+				GetSelectedRoleValue(Institution3Role, DTInstitution3Role, out citizen.Role3.Id, out citizen.Role3.InstitutionTemplateId);
 
 				citizen.Phone.Number = TextBoxPhone.Text.Trim();
 				citizen.Phone.Extension = TextBoxPhoneExtension.Text.Trim();
@@ -702,6 +706,30 @@ namespace GCRM
 			}
 		}
 
+		private void SelectInstitutionRoleValue(ComboBox combobox, DataTable datatable, int role_id, int template_id)
+		{
+			for (int i = 0; i < datatable.Rows.Count; i++)
+			{
+				DataRow row = datatable.Rows[i];
+
+				if((int)row["id"] == role_id && (int)row["template_id"] == template_id)
+				{
+					combobox.SelectedIndex = i;
+					break;
+				}
+			}
+		}
+
+		private void GetSelectedRoleValue(ComboBox combobox, DataTable datatable, out int role_id, out int template_id)
+		{
+			int index = combobox.SelectedIndex;
+
+			DataRow row = datatable.Rows[index];
+
+			role_id = (int)row["id"];
+			template_id = (int)row["template_id"];
+		}
+
 		private void LoadDTInstitutionRoles(DataTable datatable, ComboBox combobox, int institution_id)
 		{
 			using (new CursorWait())
@@ -729,12 +757,17 @@ namespace GCRM
 				datatable.BeginLoadData();
 				datatable.Clear();
 
+				// se agregan los roles de normal 
 				foreach (TInstitutionRole role in role_list)
 				{
 					DataRow row = datatable.NewRow();
 
 					row["id"] = role.Id;
 					row["name"] = role.Name;
+					row["description"] = role.Description;
+					row["institution_id"] = role.InstitutionId;
+					row["template_id"] = role.InstitutionTemplateId;
+					row["is_template_role"] = role.IsTemplateRole;
 
 					datatable.Rows.Add(row);
 				}

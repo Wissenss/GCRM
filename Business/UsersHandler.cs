@@ -165,6 +165,16 @@ namespace Business
 				new TUserPermission(253, "Instituciones.Categorias.Eliminar"),
 				new TUserPermission(254, "Instituciones.Categorias.Crear"),
 
+				new TUserPermission(271, "Instituciones.Plantillas.Editar"),
+				new TUserPermission(272, "Instituciones.Plantillas.Consultar"),
+				new TUserPermission(273, "Instituciones.Plantillas.Eliminar"),
+				new TUserPermission(274, "Instituciones.Plantillas.Crear"),
+
+				new TUserPermission(281, "Instituciones.Plantillas.Roles.Editar"),
+				new TUserPermission(282, "Instituciones.Plantillas.Roles.Consultar"),
+				new TUserPermission(283, "Instituciones.Plantillas.Roles.Eliminar"),
+				new TUserPermission(284, "Instituciones.Plantillas.Roles.Crear"),
+
 				// citizen related permissions
 				new TUserPermission(301, "Ciudadanos.Editar"),
 				new TUserPermission(302, "Ciudadanos.Consultar"),
