@@ -506,7 +506,10 @@ namespace Business
 
 						institution.FillFromReader(reader);
 
-						error = GetInstitutionCategoryById(institution.Category.Id, out institution.Category);
+						if (error == 0 && institution.Category.Id > 0)
+						{
+							error = GetInstitutionCategoryById(institution.Category.Id, out institution.Category);
+						}
 
 						if (error == 0 && institution.Template.Id > 0)
 						{
