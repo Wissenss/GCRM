@@ -953,6 +953,8 @@ namespace Business
 				{
 					if (reader.HasRows)
 					{
+						reader.Close();
+
 						tran.Rollback();
 						ConnectionPool.ReleaseConnection(ref conn);
 						return Error.InstitutionTemplateInUse;

@@ -40,5 +40,16 @@ ALTER TABLE IF EXISTS public.citizens
 ALTER TABLE IF EXISTS public.citizens
     ADD COLUMN institution3_template_role_id bigint DEFAULT 0;
 
+-- fields to specify if a birthday is known
+ALTER TABLE IF EXISTS public.citizens
+    ADD COLUMN known_birthday boolean DEFAULT true;
+
+ALTER TABLE IF EXISTS public.citizens
+    ADD COLUMN known_birthyear boolean DEFAULT true;
+
+-- field to specify if the date a citizen registered in the political register is known
+ALTER TABLE IF EXISTS public.citizens
+		ADD COLUMN known_political_register_date boolean DEFAULT false;
+
 -- update client version
 UPDATE settings SET string_value = '0.1.1.2-alpha' WHERE name = 'client_version';

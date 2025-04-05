@@ -216,13 +216,13 @@ namespace Reporter
 					string contact_str = "";
 
 					if (citizen.Phone.Number.Length > 0)
-						contact_str += $"{citizen.Phone.FullNumber.ToUpper()}\n";
+						contact_str += $"{citizen.Phone.FullNumberWithPrefix.ToUpper()}\n";
 
 					if (citizen.Phone2.Number.Length > 0)
-						contact_str += $"{citizen.Phone2.FullNumber.ToUpper()}\n";
+						contact_str += $"{citizen.Phone2.FullNumberWithPrefix.ToUpper()}\n";
 
 					if (citizen.Phone3.Number.Length > 0)
-						contact_str += $"{citizen.Phone3.FullNumber.ToUpper()}\n";
+						contact_str += $"{citizen.Phone3.FullNumberWithPrefix.ToUpper()}\n";
 
 					if (citizen.Cellphone.Length > 0)
 						contact_str += $"CEL. {citizen.Cellphone.ToUpper()}";

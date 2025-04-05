@@ -130,6 +130,10 @@ namespace Business
 		public bool IsPoliticalActivist;
 		public DateTime PoliticalRegisterDate;
 
+		public bool KnownBirthday;
+		public bool KnownBirthyear;
+		public bool KnownPoliticalRegisterDate;
+
 		public TCitizenCategory Category = new TCitizenCategory();
 
 		public string FullName 
@@ -249,6 +253,10 @@ namespace Business
 			Role.InstitutionTemplateId = reader.GetInt32(38);
 			Role2.InstitutionTemplateId = reader.GetInt32(39);
 			Role3.InstitutionTemplateId = reader.GetInt32(40);
+
+			KnownBirthday = reader.GetBoolean(41);
+			KnownBirthyear = reader.GetBoolean(42);
+			KnownPoliticalRegisterDate = reader.GetBoolean(43);
 		}
 	
 		public override string GetAsLogString()
@@ -261,6 +269,8 @@ namespace Business
 			log_string.AppendLine($"Maternal Name:   \t{MaternalName}");
 			log_string.AppendLine($"Title:           \t{Title}");
 			log_string.AppendLine($"CURP:            \t{CURP}");
+			log_string.AppendLine($"Known Birthday:  \t{KnownBirthday}");
+			log_string.AppendLine($"Known Birthyear: \t{KnownBirthyear}");
 			log_string.AppendLine($"Birthday:        \t{Birthday}");
 			log_string.AppendLine($"Observations:    \t{Observations}");
 			log_string.AppendLine($"Sex:             \t{Sex}");
@@ -281,11 +291,21 @@ namespace Business
 			log_string.AppendLine($"Created Date:    \t{CreatedDate}");
 			log_string.AppendLine($"Last Editor:     \t{LastEditor.Id}");
 			log_string.AppendLine($"Edit Date:       \t{EditDate}");
+			log_string.AppendLine($"Category:        \t{Category.Id}");
+			log_string.AppendLine($"Institution2:    \t{Institution2.Id}");
+			log_string.AppendLine($"Role2:           \t{Role2.Id}");
+			log_string.AppendLine($"Institution3:    \t{Institution3.Id}");
+			log_string.AppendLine($"Role3:           \t{Role3.Id}");
+
+			log_string.AppendLine($"Attention Required:\t{AttentionRequired}");
+
 			log_string.AppendLine($"Voter Code:      \t{VoterCode}");
 			log_string.AppendLine($"Voter OCR:       \t{VoterOCR}");
 			log_string.AppendLine($"Voter CIC:       \t{VoterCIC}");
 			log_string.AppendLine($"Voter Section:   \t{VoterSection}");
-			log_string.AppendLine($"Category:        \t{Category.Id}");
+			log_string.AppendLine($"Is Political Activist:\t{IsPoliticalActivist}");
+			log_string.AppendLine($"Knonw political register Date: \t{KnownPoliticalRegisterDate}");
+			log_string.AppendLine($"Political Register Date:\t{PoliticalRegisterDate}");
 
 			return log_string.ToString();
 		}
@@ -537,7 +557,10 @@ namespace Business
 								phone3_extension = @phone3_extension,
 								institution_template_role_id = @institution_template_role_id,
 								institution2_template_role_id = @institution2_template_role_id,
-								institution3_template_role_id = @institution3_template_role_id
+								institution3_template_role_id = @institution3_template_role_id,
+								known_birthday = @known_birthday,
+								known_birthyear = @known_birthyear,
+								known_political_register_date = @known_political_register_date
 							WHERE
 								id=@id;";
 					}
@@ -583,8 +606,10 @@ namespace Business
 								phone3,
 								phone3_extension,
 								institution_template_role_id,
-								institution2_template_role_id
-								institution3_template_role_id
+								institution2_template_role_id,
+								institution3_template_role_id,
+								known_birthday,	
+								known_birthyear
 							)
 							VALUES(
 								@name, 
@@ -626,7 +651,10 @@ namespace Business
 								@phone3_extension,
 								@institution_template_role_id,		
 								@institution2_template_role_id,	
-								@institution3_template_role_id
+								@institution3_template_role_id,
+								@known_birthday,
+								@known_birthyear,
+								@known_political_register_date
 							) 
 							RETURNING id;";
 					}
@@ -672,6 +700,9 @@ namespace Business
 					cmd.Parameters.AddWithValue("@institution_template_role_id", citizen.Role.InstitutionTemplateId);
 					cmd.Parameters.AddWithValue("@institution2_template_role_id", citizen.Role2.InstitutionTemplateId);
 					cmd.Parameters.AddWithValue("@institution3_template_role_id", citizen.Role3.InstitutionTemplateId);
+					cmd.Parameters.AddWithValue("@known_birthday", citizen.KnownBirthday);
+					cmd.Parameters.AddWithValue("@known_birthyear", citizen.KnownBirthyear);
+					cmd.Parameters.AddWithValue("@known_political_register_date", citizen.KnownPoliticalRegisterDate);
 
 					if (is_update)
 					{

@@ -1,5 +1,7 @@
 ﻿using Business;
+using DocumentFormat.OpenXml.Bibliography;
 using System.Data;
+using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -137,6 +139,9 @@ namespace GCRM
 			LInstitution3SectorAndCategory.Text = "";
 
 			LoadPermissions();
+			LoadBirthdayFields();
+
+			PoliticalRegisterDate.Value = DateTime.Now;
 		}
 
 		private void LoadPermissions()
@@ -303,7 +308,12 @@ namespace GCRM
 			TextBoxPaternalName.Enabled = AccessMode != FAccessMode.Read;
 			TextBoxMaternalName.Enabled = AccessMode != FAccessMode.Read;
 			ComboBoxSex.Enabled = AccessMode != FAccessMode.Read;
-			DatePickerBirthday.Enabled = AccessMode != FAccessMode.Read;
+
+			KnownBirthday.Enabled = AccessMode != FAccessMode.Read;
+			BDayMonth.Enabled = AccessMode != FAccessMode.Read;
+			BDayDay.Enabled = AccessMode != FAccessMode.Read;
+			BDayYear.Enabled = AccessMode != FAccessMode.Read;
+
 			MaskedTextBoxCURP.Enabled = AccessMode != FAccessMode.Read;
 			TextBoxObservations.Enabled = AccessMode != FAccessMode.Read;
 			ComboBoxPoliticalParty.Enabled = AccessMode != FAccessMode.Read;
@@ -346,6 +356,7 @@ namespace GCRM
 
 			PoliticalRegisterDate.Enabled = AccessMode != FAccessMode.Read;
 			IsPoliticalActivist.Enabled = AccessMode != FAccessMode.Read;
+			KnownPoliticalRegisterDate.Enabled = AccessMode != FAccessMode.Read;
 
 			BGenerateCURP.Enabled = AccessMode != FAccessMode.Read;
 
@@ -374,7 +385,20 @@ namespace GCRM
 				TextBoxPaternalName.Text = citizen.PaternalName;
 				TextBoxMaternalName.Text = citizen.MaternalName;
 				ComboBoxSex.SelectedValue = citizen.Sex;
-				DatePickerBirthday.Value = citizen.Birthday;
+
+				KnownBirthday.Checked = citizen.KnownBirthday;
+
+				if (KnownBirthday.Checked)
+				{
+					BDayMonth.SelectedIndex = citizen.Birthday.Month - 1;
+					BDayDay.SelectedIndex = citizen.Birthday.Day - 1;
+
+					if (citizen.KnownBirthyear)
+						BDayYear.SelectedIndex = citizen.Birthday.Year - 1914 + 1;
+					else
+						BDayDay.SelectedIndex = 0;
+				}
+
 				MaskedTextBoxCURP.Text = citizen.CURP;
 				TextBoxObservations.Text = citizen.Observations;
 				ComboBoxPoliticalParty.SelectedValue = citizen.PoliticalParty;
@@ -420,11 +444,48 @@ namespace GCRM
 
 				PoliticalRegisterDate.Value = citizen.PoliticalRegisterDate;
 				IsPoliticalActivist.Checked = citizen.IsPoliticalActivist;
+				KnownPoliticalRegisterDate.Checked = citizen.KnownPoliticalRegisterDate;
+
+				if (citizen.KnownPoliticalRegisterDate == false)
+					PoliticalRegisterDate.Value = DateTime.Now;
 
 				IsPoliticalActivist_CheckedChanged(this, null);
+				KnownPoliticalRegisterDate_CheckedChanged(this, null);
 
 				Text = $"Ciudadano - {citizen.FullName}";
 			}
+		}
+
+		private void LoadBirthdayFields()
+		{
+			BDayMonth.Items.Clear();
+			BDayDay.Items.Clear();
+			BDayYear.Items.Clear();
+
+			for (int i = 0; i < 12; i++)
+			{
+				string raw_month_name = DateTimeFormatInfo.CurrentInfo.AbbreviatedMonthNames[i];
+
+				BDayMonth.Items.Add(raw_month_name.ToUpper().First() + raw_month_name.Substring(1));
+			}
+
+			BDayMonth.SelectedIndex = 0;
+
+			for (int i = 1; i <= 31; i++)
+			{
+				BDayDay.Items.Add(i.ToString());
+			}
+
+			BDayDay.SelectedIndex = 0;
+
+			BDayYear.Items.Add("???");
+
+			for (int i = 1914; i <= DateTime.Now.Year; i++)
+			{
+				BDayYear.Items.Add(i.ToString());
+			}
+
+			BDayYear.SelectedIndex = 0;
 		}
 
 		private void FCitizenData_Load(object sender, EventArgs e)
@@ -496,8 +557,17 @@ namespace GCRM
 			string name = TextBoxName.Text.Trim().ToLower();
 			string paternal_name = TextBoxPaternalName.Text.Trim().ToLower();
 			string maternal_name = TextBoxMaternalName.Text.Trim().ToLower();
-			DateTime birthday = DatePickerBirthday.Value;
+			DateTime birthday;
 			TSex sex = (TSex)ComboBoxSex.SelectedValue;
+
+			try
+			{
+				birthday = GetSelectedBirthday();
+			}
+			catch (ArgumentOutOfRangeException ex)
+			{
+				errors.Append("La fecha de nacimiento seleccionada es inválida");
+			}
 
 			if (name.Length == 0)
 			{
@@ -589,6 +659,11 @@ namespace GCRM
 			return true;
 		}
 
+		private DateTime GetSelectedBirthday()
+		{
+			return new DateTime(BDayYear.SelectedIndex == 0 ? 1 : BDayYear.SelectedIndex + 1914 - 1, BDayMonth.SelectedIndex + 1, BDayDay.SelectedIndex + 1);
+		}
+
 		private void BAccept_Click(object sender, EventArgs e)
 		{
 			if (ValidateInput() == false)
@@ -608,7 +683,6 @@ namespace GCRM
 					PaternalName = TextBoxPaternalName.Text.Trim(),
 					MaternalName = TextBoxMaternalName.Text.Trim(),
 					Sex = (TSex)ComboBoxSex.SelectedValue,
-					Birthday = DatePickerBirthday.Value,
 					CURP = MaskedTextBoxCURP.Text.Trim().ToUpper(),
 					Observations = TextBoxObservations.Text.Trim(),
 					PoliticalParty = (TPoliticalParty)ComboBoxPoliticalParty.SelectedValue,
@@ -653,9 +727,6 @@ namespace GCRM
 					{
 						Id = (int)Institution3.SelectedValue
 					},
-
-					IsPoliticalActivist = IsPoliticalActivist.Checked,
-					PoliticalRegisterDate = new DateTime(1753, 1, 1)
 				};
 
 				GetSelectedRoleValue(ComboBoxInstitutionRole, DTInstitutionRole, out citizen.Role.Id, out citizen.Role.InstitutionTemplateId);
@@ -669,10 +740,13 @@ namespace GCRM
 				citizen.Phone3.Number = Phone3.Text.Trim();
 				citizen.Phone3.Extension = Phone3Extension.Text.Trim();
 
-				if (IsPoliticalActivist.Checked)
-				{
-					citizen.PoliticalRegisterDate = PoliticalRegisterDate.Value;
-				}
+				citizen.KnownBirthday = KnownBirthday.Checked;
+				citizen.KnownBirthyear = BDayYear.SelectedIndex != 0;
+				citizen.Birthday = GetSelectedBirthday();
+
+				citizen.IsPoliticalActivist = IsPoliticalActivist.Checked;
+				citizen.KnownPoliticalRegisterDate = KnownPoliticalRegisterDate.Checked;
+				citizen.PoliticalRegisterDate = PoliticalRegisterDate.Value;
 
 				citizen.Assistant = new TCitizen();
 
@@ -712,7 +786,7 @@ namespace GCRM
 			{
 				DataRow row = datatable.Rows[i];
 
-				if((int)row["id"] == role_id && (int)row["template_id"] == template_id)
+				if ((int)row["id"] == role_id && (int)row["template_id"] == template_id)
 				{
 					combobox.SelectedIndex = i;
 					break;
@@ -843,8 +917,8 @@ namespace GCRM
 
 		private void IsPoliticalActivist_CheckedChanged(object sender, EventArgs e)
 		{
-			LPoliticalRegisterDate.Enabled = IsPoliticalActivist.Checked && AccessMode != FAccessMode.Read;
-			PoliticalRegisterDate.Enabled = IsPoliticalActivist.Checked && AccessMode != FAccessMode.Read;
+			KnownPoliticalRegisterDate.Enabled = IsPoliticalActivist.Checked && AccessMode != FAccessMode.Read;
+			PoliticalRegisterDate.Enabled = IsPoliticalActivist.Checked && KnownPoliticalRegisterDate.Checked && AccessMode != FAccessMode.Read;
 
 			PoliticalRegisterDate.Refresh();
 		}
@@ -854,7 +928,7 @@ namespace GCRM
 			string paternal_name = TextBoxPaternalName.Text.Trim().ToLower();
 			string maternal_name = TextBoxMaternalName.Text.Trim().ToLower();
 			string name = TextBoxName.Text.Trim().ToLower();
-			DateTime bday = DatePickerBirthday.Value;
+			DateTime bday = GetSelectedBirthday();
 			TSex sex = (TSex)ComboBoxSex.SelectedValue;
 
 			// validate necessary inputs
@@ -898,7 +972,7 @@ namespace GCRM
 			// 2 - primera vocal interna del primer apellido
 			curp[1] = 'X';
 
-			foreach(char letter in paternal_name.Trim().Substring(1))
+			foreach (char letter in paternal_name.Trim().Substring(1))
 			{
 				if (Utilities.IsVowel(letter))
 				{
@@ -913,11 +987,21 @@ namespace GCRM
 			// 4 - primera letra del nombre
 			curp[3] = name.First();
 
-			// 5 - penultimo digito del año de nacimiento // este se esta dejando como 0 por convencion
+			// 5 - penultimo digito del año de nacimiento // si no se conoce se esta dejando como 0 por convencion
 			curp[4] = '0';
 
-			// 6 - ultimo digito del año de nacimiento // este se esta dejando como 0 por convencion
+			if (BDayYear.SelectedIndex != 0)
+			{
+				curp[4] = (char)(bday.Year.ToString()[bday.Year.ToString().Length - 2]);
+			}
+
+			// 6 - ultimo digito del año de nacimiento // si no se conoce se esta dejando como 0 por convencion
 			curp[5] = '0';
+
+			if (BDayYear.SelectedIndex != 0)
+			{
+				curp[4] = (char)(bday.Year.ToString().Last());
+			}
 
 			// 7 - primer digito del mes de nacimiento, cuando es menor a 10 se pone un 0
 			curp[6] = bday.Month < 10 ? '0' : bday.Month.ToString().First();
@@ -952,7 +1036,7 @@ namespace GCRM
 
 			// 15 - primera consonante interna del segundo apellido
 			curp[14] = 'X';
-			
+
 			foreach (char letter in maternal_name.Substring(1))
 			{
 				if (!Utilities.IsVowel(letter))
@@ -981,6 +1065,20 @@ namespace GCRM
 			curp[17] = '0';
 
 			MaskedTextBoxCURP.Text = (new string(curp)).ToUpper();
+		}
+
+		private void KnownBirthday_CheckedChanged(object sender, EventArgs e)
+		{
+			BDayMonth.Enabled = KnownBirthday.Checked && AccessMode != FAccessMode.Read;
+			BDayDay.Enabled = KnownBirthday.Checked && AccessMode != FAccessMode.Read;
+			BDayYear.Enabled = KnownBirthday.Checked && AccessMode != FAccessMode.Read;
+		}
+
+		private void KnownPoliticalRegisterDate_CheckedChanged(object sender, EventArgs e)
+		{
+			PoliticalRegisterDate.Enabled = KnownPoliticalRegisterDate.Checked && IsPoliticalActivist.Checked && AccessMode != FAccessMode.Read;
+
+			PoliticalRegisterDate.Refresh();
 		}
 	}
 }
