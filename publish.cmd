@@ -1,5 +1,5 @@
 :: compile
-set version=0.1.1.2-alpha
+set version=0.1.1.3-alpha
 
 set "output_path_x64=.\GCRM\bin\Release\gcrm_%version%_x64"
 set "output_path_x86=.\GCRM\bin\Release\gcrm_%version%_x86"
