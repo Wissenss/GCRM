@@ -396,7 +396,7 @@ namespace GCRM
 					if (citizen.KnownBirthyear)
 						BDayYear.SelectedIndex = citizen.Birthday.Year - 1914 + 1;
 					else
-						BDayDay.SelectedIndex = 0;
+						BDayYear.SelectedIndex = 0;
 				}
 
 				MaskedTextBoxCURP.Text = citizen.CURP;

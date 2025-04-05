@@ -1,0 +1,1 @@
+SELECT psa.client_addr, COUNT(*) as open_connections FROM pg_stat_activity psa WHERE datname = 'gcrm' GROUP BY psa.client_addr;
