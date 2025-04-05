@@ -831,6 +831,8 @@ namespace Business
 					itr.*
 				FROM 
 					institution_template_roles itr 
+				WHERE 
+					itr.id = @institution_template_id
 				ORDER BY 
 					itr.id;";
 

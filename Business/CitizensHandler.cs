@@ -799,7 +799,14 @@ namespace Business
 					ic3.name as institution3_category_name,	
 					ic3.description as institution3_category_description,
 					ir3.name as institution3_role_name,
-					ir3.description as institution3_role_description
+					ir3.description as institution3_role_description,
+
+					itr.name as institution_template_role_name,
+					itr.description as institution_template_role_description,
+					itr2.name as institution2_template_role_name,
+					itr2.description as institution2_template_role_description,
+					itr3.name as institution3_template_role_name,
+					itr3.description as institution3_template_role_description
 				FROM 
 					citizens c 
 					LEFT JOIN users u ON c.created_by_id = u.id 
@@ -816,6 +823,9 @@ namespace Business
 					LEFT JOIN institutions i3 ON c.institution_id = i3.id 
 					LEFT JOIN institution_categories ic3 ON i3.category_id = ic3.id
 					LEFT JOIN institution_roles ir3 ON c.institution_role_id = ir3.id
+					LEFT JOIN institution_template_roles itr ON c.institution_role_id = itr.id
+					LEFT JOIN institution_template_roles itr2 ON c.institution2_role_id = itr.id
+					LEFT JOIN institution_template_roles itr3 ON c.institution3_role_id = itr.id
 				ORDER BY name, paternal_name, maternal_name;
 			";
 
@@ -854,8 +864,16 @@ namespace Business
 
 					if (citizen.Role.Id != 0)
 					{
-						citizen.Role.Name = reader.GetString(reader.GetOrdinal("institution_role_name"));
-						citizen.Role.Description = reader.GetString(reader.GetOrdinal("institution_role_description"));
+						if (citizen.Role.IsTemplateRole)
+						{
+							citizen.Role.Name = reader.GetString(reader.GetOrdinal("institution_template_role_name"));
+							citizen.Role.Description = reader.GetString(reader.GetOrdinal("institution_template_role_description"));
+						}
+						else
+						{
+							citizen.Role.Name = reader.GetString(reader.GetOrdinal("institution_role_name"));
+							citizen.Role.Description = reader.GetString(reader.GetOrdinal("institution_role_description"));
+						}
 					}
 
 					if (citizen.Institution2.Id != 0)
@@ -874,8 +892,16 @@ namespace Business
 
 					if (citizen.Role2.Id != 0)
 					{
-						citizen.Role2.Name = reader.GetString(reader.GetOrdinal("institution2_role_name"));
-						citizen.Role2.Description = reader.GetString(reader.GetOrdinal("institution2_role_description"));
+						if (citizen.Role2.IsTemplateRole)
+						{
+							citizen.Role2.Name = reader.GetString(reader.GetOrdinal("institution2_template_role_name"));
+							citizen.Role2.Description = reader.GetString(reader.GetOrdinal("institution2_template_role_description"));
+						}
+						else
+						{
+							citizen.Role2.Name = reader.GetString(reader.GetOrdinal("institution2_role_name"));
+							citizen.Role2.Description = reader.GetString(reader.GetOrdinal("institution2_role_description"));
+						}
 					}
 
 					if (citizen.Institution3.Id != 0)
@@ -894,8 +920,16 @@ namespace Business
 
 					if (citizen.Role3.Id != 0)
 					{
-						citizen.Role3.Name = reader.GetString(reader.GetOrdinal("institution3_role_name"));
-						citizen.Role3.Description = reader.GetString(reader.GetOrdinal("institution3_role_description"));
+						if (citizen.Role3.IsTemplateRole)
+						{
+							citizen.Role3.Name = reader.GetString(reader.GetOrdinal("institution3_template_role_name"));
+							citizen.Role3.Description = reader.GetString(reader.GetOrdinal("institution3_template_role_description"));
+						}
+						else
+						{
+							citizen.Role3.Name = reader.GetString(reader.GetOrdinal("institution3_role_name"));
+							citizen.Role3.Description = reader.GetString(reader.GetOrdinal("institution3_role_description"));
+						}
 					}
 
 					if (citizen.Address.Id != 0)
