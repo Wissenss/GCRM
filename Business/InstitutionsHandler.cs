@@ -523,7 +523,7 @@ namespace Business
 				}
 			}
 
-			GetInstitutionRoles(id, out institution.Roles);
+			GetInstitutionRoles(id, institution.Template.Id, out institution.Roles);
 
 			ConnectionPool.ReleaseConnection(ref conn);
 
@@ -591,7 +591,7 @@ namespace Business
 			return 0;
 		}
 
-		public static Error GetInstitutionRoles(int institution_id, out List<TInstitutionRole> institution_roles)
+		public static Error GetInstitutionRoles(int institution_id, int institution_template_id, out List<TInstitutionRole> institution_roles)
 		{
 			Error error = 0;
 
@@ -621,7 +621,7 @@ namespace Business
 
 				// get the template roles
 
-				error = GetInstitutionTemplateRoles(institution_id, out List<TInstitutionRole> template_roles_list);
+				error = GetInstitutionTemplateRoles(institution_template_id, out List<TInstitutionRole> template_roles_list);
 
 				if (error == 0)
 				{
@@ -828,13 +828,13 @@ namespace Business
 
 			string sql = @"
 				SELECT 
-					itr.*
+					*
 				FROM 
-					institution_template_roles itr 
+					institution_template_roles
 				WHERE 
-					itr.id = @institution_template_id
+					institution_template_id = @institution_template_id
 				ORDER BY 
-					itr.id;";
+					name;";
 
 			using (var cmd = new NpgsqlCommand(sql, conn))
 			{

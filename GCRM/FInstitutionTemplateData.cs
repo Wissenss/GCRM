@@ -132,6 +132,7 @@ namespace GCRM
 					role.Id = (int)row["id"];
 					role.Name = (string)row["name"];
 					role.Description = (string)row["description"];
+					role.InstitutionTemplateId = Id;
 
 					template.Roles.Add(role);
 				}
@@ -152,7 +153,6 @@ namespace GCRM
 		{
 			DialogResult = DialogResult.Cancel;
 		}
-
 
 		private void BAddRole_Click(object sender, EventArgs e)
 		{

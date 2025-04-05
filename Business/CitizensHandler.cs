@@ -824,8 +824,8 @@ namespace Business
 					LEFT JOIN institution_categories ic3 ON i3.category_id = ic3.id
 					LEFT JOIN institution_roles ir3 ON c.institution_role_id = ir3.id
 					LEFT JOIN institution_template_roles itr ON c.institution_role_id = itr.id
-					LEFT JOIN institution_template_roles itr2 ON c.institution2_role_id = itr.id
-					LEFT JOIN institution_template_roles itr3 ON c.institution3_role_id = itr.id
+					LEFT JOIN institution_template_roles itr2 ON c.institution2_role_id = itr2.id
+					LEFT JOIN institution_template_roles itr3 ON c.institution3_role_id = itr3.id
 				ORDER BY name, paternal_name, maternal_name;
 			";
 

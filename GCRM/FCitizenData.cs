@@ -128,9 +128,9 @@ namespace GCRM
 			LAssitantCellphone.Text = "";
 
 			LoadDTInstitutions();
-			LoadDTInstitutionRoles(DTInstitutionRole, ComboBoxInstitutionRole, 0);
-			LoadDTInstitutionRoles(DTInstitution2Role, Institution2Role, 0);
-			LoadDTInstitutionRoles(DTInstitution3Role, Institution3Role, 0);
+			LoadDTInstitutionRoles(DTInstitutionRole, ComboBoxInstitutionRole, 0, 0);
+			LoadDTInstitutionRoles(DTInstitution2Role, Institution2Role, 0, 0);
+			LoadDTInstitutionRoles(DTInstitution3Role, Institution3Role, 0, 0);
 			LoadDTCitizens();
 			LoadDTCategories();
 
@@ -804,7 +804,7 @@ namespace GCRM
 			template_id = (int)row["template_id"];
 		}
 
-		private void LoadDTInstitutionRoles(DataTable datatable, ComboBox combobox, int institution_id)
+		private void LoadDTInstitutionRoles(DataTable datatable, ComboBox combobox, int institution_id, int institution_template_id)
 		{
 			using (new CursorWait())
 			{
@@ -812,7 +812,7 @@ namespace GCRM
 
 				if (institution_id != 0)
 				{
-					Error error = InstitutionsHandler.GetInstitutionRoles(institution_id, out role_list);
+					Error error = InstitutionsHandler.GetInstitutionRoles(institution_id, institution_template_id, out role_list);
 
 					if (error != 0)
 					{
@@ -868,9 +868,11 @@ namespace GCRM
 
 				label.Text = "";
 
+				TInstitution institution = new TInstitution();
+
 				if (id != 0)
 				{
-					Error error = InstitutionsHandler.GetInstitutionById(id, out TInstitution institution);
+					Error error = InstitutionsHandler.GetInstitutionById(id, out institution);
 
 					if (error != 0)
 					{
@@ -881,7 +883,7 @@ namespace GCRM
 					label.Text = $"{BConstants.GetSocietySectorName(institution.Sector)} - {institution.Category.Name}";
 				}
 
-				LoadDTInstitutionRoles(datatables_roles, combobox_roles, id);
+				LoadDTInstitutionRoles(datatables_roles, combobox_roles, id, institution.Template.Id);
 			}
 		}
 
