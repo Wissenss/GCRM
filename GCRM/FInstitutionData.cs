@@ -29,6 +29,7 @@ namespace GCRM
 			DTInstitutionRoles.Columns.Add("description", typeof(string));
 			DTInstitutionRoles.Columns.Add("delete", typeof(bool));
 			DTInstitutionRoles.Columns.Add("template_id", typeof(int));
+			DTInstitutionRoles.Columns.Add("citizens_with_role", typeof(int));	
 			DSInstitution.Tables.Add(DTInstitutionRoles);
 
 			int display_index = 0;
@@ -39,6 +40,7 @@ namespace GCRM
 			DataGridUtilities.AddColumn(DataGridInstitutionRoles, "colTemplateId", "Id Plantilla", "template_id", false);
 			DataGridUtilities.AddColumn(DataGridInstitutionRoles, "colName", "Cargo", "name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
 			DataGridUtilities.AddColumn(DataGridInstitutionRoles, "colDescription", "Descripción", "description", true, display_index++, 200, 20, DataGridViewAutoSizeColumnMode.Fill);
+			DataGridUtilities.AddColumn(DataGridInstitutionRoles, "colCitizensWithRole", "Usos", "citizens_with_role", true, display_index++, 200, 20, DataGridViewAutoSizeColumnMode.AllCells);
 
 			DataGridInstitutionRoles.DataSource = DSInstitution;
 			DataGridInstitutionRoles.DataMember = DTInstitutionRoles.TableName;
@@ -165,6 +167,8 @@ namespace GCRM
 			DTInstitutionRoles.BeginLoadData();
 			DTInstitutionRoles.Clear();
 
+			int citizens_with_template_roles = 0;
+
 			foreach (TInstitutionRole role in institution.Roles)
 			{
 				DataRow row = DTInstitutionRoles.NewRow();
@@ -175,9 +179,17 @@ namespace GCRM
 				row["description"] = role.Description;
 				row["delete"] = false;
 				row["template_id"] = role.InstitutionTemplateId;
+				row["citizens_with_role"] = role.NoCitizensWithThisRole;	
+
+				if (role.IsTemplateRole == true)
+				{
+					citizens_with_template_roles += role.NoCitizensWithThisRole;
+				}
 
 				DTInstitutionRoles.Rows.Add(row);
 			}
+
+			Template.Enabled = citizens_with_template_roles == 0 && AccessMode != FAccessMode.Read;
 
 			DTInstitutionRoles.EndLoadData();
 
@@ -624,7 +636,7 @@ namespace GCRM
 				if (id == 0)
 					return;
 
-				Error error = InstitutionsHandler.GetInstitutionTemplateRoles(id, out List<TInstitutionRole> roles);
+				Error error = InstitutionsHandler.GetInstitutionTemplateRoles(id, 0, out List<TInstitutionRole> roles);
 
 				DTInstitutionRoles.BeginLoadData();
 

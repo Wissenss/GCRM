@@ -43,6 +43,7 @@ namespace Business
 		public int InstitutionTemplateId;
 		public int ParentRoleId;
 		public string Description;
+		public int NoCitizensWithThisRole;
 
 		public string NameWithFirstCapital
 		{
@@ -614,7 +615,24 @@ namespace Business
 
 			var conn = ConnectionPool.GetConnection();
 
-			string sql = "SELECT * FROM institution_roles WHERE institution_id = @institution_id ORDER BY id;";
+			string sql = @"
+				SELECT 
+					ir.*, 
+					(SELECT 
+						COUNT(*) 
+					FROM 
+						citizens 
+					WHERE
+						(institution_role_id = ir.id AND institution_template_role_id = 0) OR	
+						(institution2_role_id = ir.id AND institution2_template_role_id = 0) OR
+						(institution3_role_id = ir.id AND institution3_template_role_id = 0)
+					) AS citizens_with_role
+				FROM 
+					institution_roles ir 
+				WHERE 
+					ir.institution_id = @institution_id 
+				ORDER BY 
+					ir.id;";
 			
 			institution_roles = new List<TInstitutionRole>();
 
@@ -632,13 +650,15 @@ namespace Business
 
 						role.FillFromReader(reader);
 
+						role.NoCitizensWithThisRole = reader.GetInt32(reader.GetOrdinal("citizens_with_role"));
+
 						institution_roles.Add(role);
 					}
 				}
 
 				// get the template roles
 
-				error = GetInstitutionTemplateRoles(institution_template_id, out List<TInstitutionRole> template_roles_list);
+				error = GetInstitutionTemplateRoles(institution_template_id, institution_id, out List<TInstitutionRole> template_roles_list);
 
 				if (error == 0)
 				{
@@ -821,7 +841,7 @@ namespace Business
 						template.Name = reader.GetString(1);
 						template.Description = reader.GetString(2);
 
-						error = GetInstitutionTemplateRoles(template.Id, out template.Roles);
+						error = GetInstitutionTemplateRoles(template.Id, 0, out template.Roles);
 					}
 					else
 					{
@@ -835,7 +855,7 @@ namespace Business
 			return error;
 		}
 
-		public static Error GetInstitutionTemplateRoles(int institution_id, out List<TInstitutionRole> template_roles_list)
+		public static Error GetInstitutionTemplateRoles(int institution_template_id, int institution_id, out List<TInstitutionRole> template_roles_list)
 		{
 			Error error = 0;
 
@@ -845,17 +865,28 @@ namespace Business
 
 			string sql = @"
 				SELECT 
-					*
+					itr.*,
+					(SELECT 
+						COUNT(*) 
+					FROM 
+						citizens c 
+					WHERE
+						(c.institution_role_id  = itr.id AND c.institution_template_role_id  = itr.institution_template_id AND (c.institution_id = @institution_id  OR @institution_id = 0)) OR	
+						(c.institution2_role_id = itr.id AND c.institution2_template_role_id = itr.institution_template_id AND (c.institution2_id = @institution_id OR @institution_id = 0)) OR
+						(c.institution3_role_id = itr.id AND c.institution3_template_role_id = itr.institution_template_id AND (c.institution3_id = @institution_id OR @institution_id = 0))
+					) AS citizens_with_role
 				FROM 
-					institution_template_roles
+					institution_template_roles itr
+					LEFT JOIN	institution_templates it ON itr.institution_template_id = it.id
 				WHERE 
-					institution_template_id = @institution_template_id
+					itr.institution_template_id = @institution_template_id
 				ORDER BY 
-					name;";
+					itr.name;";
 
 			using (var cmd = new NpgsqlCommand(sql, conn))
 			{
-				cmd.Parameters.AddWithValue("@institution_template_id", institution_id);
+				cmd.Parameters.AddWithValue("@institution_template_id", institution_template_id);
+				cmd.Parameters.AddWithValue("@institution_id", institution_id);
 
 				using (var reader = cmd.ExecuteReader())
 				{
@@ -864,6 +895,8 @@ namespace Business
 						TInstitutionRole role = new TInstitutionRole();
 
 						role.FillFromReaderTemplate(reader);
+
+						role.NoCitizensWithThisRole = reader.GetInt32(reader.GetOrdinal("citizens_with_role"));
 
 						template_roles_list.Add(role);
 					}

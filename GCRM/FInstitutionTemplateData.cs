@@ -29,6 +29,7 @@ namespace GCRM
 			DTTemplateRoles.Columns.Add("id", typeof(int));
 			DTTemplateRoles.Columns.Add("name", typeof(string));
 			DTTemplateRoles.Columns.Add("description", typeof(string));
+			DTTemplateRoles.Columns.Add("citizens_with_role", typeof(int));
 			DSTemplate.Tables.Add(DTTemplateRoles);
 
 			DataGridTemplateRoles.AutoGenerateColumns = false;
@@ -38,6 +39,7 @@ namespace GCRM
 			DataGridUtilities.AddColumn(DataGridTemplateRoles, "colName", "Nombre", "name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.AllCells);
 			DataGridUtilities.AddColumn(DataGridTemplateRoles, "colDescription", "Descripción", "description", true, display_index++, 200, 20, DataGridViewAutoSizeColumnMode.Fill);
 			DataGridUtilities.AddColumn(DataGridTemplateRoles, "colId", "Id", "id", false, display_index++);
+			DataGridUtilities.AddColumn(DataGridTemplateRoles, "colUses", "Usos", "citizens_with_role", true, display_index++, 22, 20, DataGridViewAutoSizeColumnMode.AllCells);
 
 			DataGridTemplateRoles.DataSource = DSTemplate;
 			DataGridTemplateRoles.DataMember = DTTemplateRoles.TableName;
@@ -103,6 +105,7 @@ namespace GCRM
 					row["id"] = role.Id;
 					row["name"] = role.Name;
 					row["description"] = role.Description;
+					row["citizens_with_role"] = role.NoCitizensWithThisRole;
 
 					DTTemplateRoles.Rows.Add(row);
 				}

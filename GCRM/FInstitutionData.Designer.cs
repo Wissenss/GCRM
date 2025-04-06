@@ -110,6 +110,7 @@
 			// 
 			// Template
 			// 
+			Template.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 			Template.DropDownStyle = ComboBoxStyle.DropDownList;
 			Template.FlatStyle = FlatStyle.System;
 			Template.FormattingEnabled = true;
@@ -155,6 +156,7 @@
 			// 
 			// ComboBoxParentInstitution
 			// 
+			ComboBoxParentInstitution.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 			ComboBoxParentInstitution.DropDownStyle = ComboBoxStyle.DropDownList;
 			ComboBoxParentInstitution.FlatStyle = FlatStyle.System;
 			ComboBoxParentInstitution.FormattingEnabled = true;
@@ -192,10 +194,11 @@
 			// 
 			// TextBoxDescription
 			// 
+			TextBoxDescription.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
 			TextBoxDescription.Location = new Point(82, 188);
 			TextBoxDescription.Multiline = true;
 			TextBoxDescription.Name = "TextBoxDescription";
-			TextBoxDescription.Size = new Size(295, 69);
+			TextBoxDescription.Size = new Size(295, 129);
 			TextBoxDescription.TabIndex = 5;
 			// 
 			// ComboBoxSocietySector
@@ -228,6 +231,7 @@
 			// 
 			// TextBoxName
 			// 
+			TextBoxName.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 			TextBoxName.Location = new Point(82, 130);
 			TextBoxName.Name = "TextBoxName";
 			TextBoxName.Size = new Size(295, 23);
@@ -365,11 +369,9 @@
 			Controls.Add(TabControlInstitution);
 			Controls.Add(BCancel);
 			Controls.Add(BAccept);
-			MaximumSize = new Size(420, 450);
 			Name = "FInstitutionData";
 			ShowIcon = false;
 			ShowInTaskbar = false;
-			SizeGripStyle = SizeGripStyle.Hide;
 			Text = "Institución - Nueva";
 			Load += FInstitutionData_Load;
 			TabGeneral.ResumeLayout(false);
