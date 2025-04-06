@@ -205,6 +205,30 @@ namespace Business
 			}
 		}
 
+		public string DisplayBirthday
+		{
+			get
+			{
+				string birthday = "";
+
+				if (KnownBirthday)
+				{
+					string day = Birthday.ToString("dd");
+					string month = Birthday.ToString("MMMM").ToUpper().First() + Birthday.ToString("MMMM").Substring(1);
+					string year = Birthday.ToString("yyyy");
+
+					birthday += $"{day} de {month}";
+
+					if (KnownBirthyear)
+					{
+						birthday += $" de {year}";
+					}
+				}
+
+				return birthday;
+			}
+		}
+
 		public void FillFromReader(DbDataReader reader)
 		{
 			Assistant = new TCitizen();
@@ -809,23 +833,28 @@ namespace Business
 					itr3.description as institution3_template_role_description
 				FROM 
 					citizens c 
+					LEFT JOIN citizen_categories cc ON c.citizen_category_id = cc.id
+					LEFT JOIN citizens c_self ON c.assistant_id = c.id
 					LEFT JOIN users u ON c.created_by_id = u.id 
+					LEFT JOIN users u2 ON c.edit_by_id = u2.id
+
 					LEFT JOIN institutions i ON c.institution_id = i.id 
 					LEFT JOIN institution_categories ic ON i.category_id = ic.id
 					LEFT JOIN institution_roles ir ON c.institution_role_id = ir.id
-					LEFT JOIN addresses a ON c.address_id = a.id
-					LEFT JOIN citizens c_self ON c.assistant_id = c.id
-					LEFT JOIN citizen_categories cc ON c.citizen_category_id = cc.id 
-					LEFT JOIN users u2 ON c.edit_by_id = u2.id
-					LEFT JOIN institutions i2 ON c.institution2_id = i2.id 
+					LEFT JOIN institution_template_roles itr ON c.institution_role_id = itr.id
+
+					LEFT JOIN institutions i2 ON c.institution2_id = i2.id
 					LEFT JOIN institution_categories ic2 ON i2.category_id = ic2.id
-					LEFT JOIN institution_roles ir2 ON c.institution_role_id = ir2.id
-					LEFT JOIN institutions i3 ON c.institution_id = i3.id 
+					LEFT JOIN institution_roles ir2 ON c.institution2_role_id = ir2.id
+					LEFT JOIN institution_template_roles itr2 ON c.institution2_role_id = itr2.id
+
+					LEFT JOIN institutions i3 ON c.institution3_id = i3.id 
 					LEFT JOIN institution_categories ic3 ON i3.category_id = ic3.id
 					LEFT JOIN institution_roles ir3 ON c.institution_role_id = ir3.id
-					LEFT JOIN institution_template_roles itr ON c.institution_role_id = itr.id
-					LEFT JOIN institution_template_roles itr2 ON c.institution2_role_id = itr2.id
 					LEFT JOIN institution_template_roles itr3 ON c.institution3_role_id = itr3.id
+
+					LEFT JOIN addresses a ON c.address_id = a.id
+
 				ORDER BY name, paternal_name, maternal_name;
 			";
 
@@ -976,7 +1005,7 @@ namespace Business
 
 			citizen_list = new List<TCitizen>();
 
-			string sql = "SELECT Id FROM citizens WHERE EXTRACT(MONTH FROM birthday) = @month AND EXTRACT(DAY FROM birthday) = @day";
+			string sql = "SELECT Id FROM citizens WHERE EXTRACT(MONTH FROM birthday) = @month AND EXTRACT(DAY FROM birthday) = @day AND known_birthday = true";
 
 			using (var cmd = new NpgsqlCommand(sql, conn))
 			{

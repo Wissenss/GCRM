@@ -82,6 +82,7 @@ namespace GCRM
 			DTInstitutions.Columns.Add("category_name", typeof(string));
 			DTInstitutions.Columns.Add("description", typeof(string));
 			DTInstitutions.Columns.Add("parent_institution_id", typeof(int));
+			DTInstitutions.Columns.Add("parent_institution_name", typeof(string));
 			DTInstitutions.Columns.Add("acronym", typeof(string));	
 			DTInstitutions.Columns.Add("author_id", typeof(int));
 			DTInstitutions.Columns.Add("author_name", typeof(string));
@@ -248,7 +249,8 @@ namespace GCRM
 				row["category_id"] = institution.Category.Id;
 				row["category_name"] = institution.Category.Name;
 				row["description"] = institution.Description;
-				row["parent_institution_id"] = institution.ParentInstitutionId;
+				row["parent_institution_id"] = institution.ParentInstitution.Id;
+				row["parent_institution_name"] = institution.ParentInstitution.Name;
 				row["acronym"] = institution.Acronym;
 				row["author_id"] = institution.Author.Id;
 				row["author_name"] = institution.Author.Name;

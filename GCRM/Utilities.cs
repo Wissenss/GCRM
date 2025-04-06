@@ -312,7 +312,7 @@ namespace GCRM
 			public List<DataGridViewColumnConfiguration> columns { get; set; }  = new List<DataGridViewColumnConfiguration>();
 		}
 
-		public static void AddColumn(DataGridView data_grid, string col_name, string header_text, string data_property_name, bool visible = true, int display_index = 0, int width = 100, int min_width = 20, DataGridViewAutoSizeColumnMode auto_size_mode = DataGridViewAutoSizeColumnMode.None)
+		public static DataGridViewColumn AddColumn(DataGridView data_grid, string col_name, string header_text, string data_property_name, bool visible = true, int display_index = 0, int width = 100, int min_width = 20, DataGridViewAutoSizeColumnMode auto_size_mode = DataGridViewAutoSizeColumnMode.None)
 		{
 			DataGridViewColumn column = new DataGridViewColumn();
 
@@ -339,6 +339,8 @@ namespace GCRM
 			column.Frozen = false;
 
 			data_grid.Columns.Add(column);
+
+			return column;
 		}
 
 		public static int GetSelectedId(DataGridView data_grid, string field = "colId")

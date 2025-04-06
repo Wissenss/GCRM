@@ -124,8 +124,6 @@ namespace GCRM
 
 				FillFromInstitution(institution);
 
-				LoadInstitutions();
-
 				Text = $"Institución - {institution.Name}";
 			}
 		}
@@ -160,7 +158,6 @@ namespace GCRM
 			TextBoxName.Text = institution.Name;
 			TextBoxDescription.Text = institution.Description;
 			TextBoxAcronym.Text = institution.Acronym;
-			ComboBoxParentInstitution.SelectedValue = institution.ParentInstitutionId;
 			ComboBoxCategory.SelectedValue = institution.Category.Id;
 
 			Template.SelectedValue = institution.Template.Id;
@@ -183,6 +180,10 @@ namespace GCRM
 			}
 
 			DTInstitutionRoles.EndLoadData();
+
+			LoadInstitutions();
+
+			ComboBoxParentInstitution.SelectedValue = institution.ParentInstitution.Id;
 		}
 
 		private void LoadInstitutions()
@@ -392,7 +393,10 @@ namespace GCRM
 					},
 					Description = TextBoxDescription.Text.Trim(),
 					Acronym = TextBoxAcronym.Text.Trim(),
-					ParentInstitutionId = (int)ComboBoxParentInstitution.SelectedValue,
+					ParentInstitution = new TInstitution()
+					{
+						Id = (int)ComboBoxParentInstitution.SelectedValue,
+					},
 					Roles = new List<TInstitutionRole>(),
 					Author = new TUser()
 					{
@@ -463,6 +467,7 @@ namespace GCRM
 					row["parent_role_id"] = 0;
 					row["description"] = description;
 					row["delete"] = false;
+					row["template_id"] = 0;
 
 					DTInstitutionRoles.Rows.Add(row);
 				}

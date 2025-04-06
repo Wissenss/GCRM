@@ -28,72 +28,66 @@ namespace GCRM
 			int display_index = 0;
 
 			DataGridUtilities.AddColumn(DataGridCitizens, "colTitleName", "Título", "title_name", true, display_index++, 50, 20);
-			DataGridUtilities.AddColumn(DataGridCitizens, "colFullName", "Nombre", "name_full", true, display_index++, 250, 20);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colFullName", "Nombre completo", "name_full", true, display_index++, 250, 20);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionName", "Institución", "institution_name", true, display_index++, 200, 20);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionRoleName", "Cargo", "institution_role_name", true, display_index++, 100, 20);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionCategoryName", "Categoría de institución", "institution_category_name", true, display_index++, 300, 20);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionSectorName", "Sector", "institution_sector_name", true, display_index++, 100, 20);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colPhoneAndExtension", "Teléfono", "phone_full", true, display_index++, 100, 20);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colCellphone", "Celular", "cellphone", true, display_index++, 100, 20);
-			DataGridUtilities.AddColumn(DataGridCitizens, "colBirthday", "Nacimiento", "birthday", false, display_index++, 20, 20);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colBirthday", "Nacimiento", "birthday_displayed", false, display_index++, 20, 20);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colAuthorName", "Autor", "author_name", true, display_index++, 150, 20);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colEditorName", "Último editor", "editor_name", true, display_index++, 150, 20);
 
-			// ocultas por default
+			// hidden by default
 			DataGridUtilities.AddColumn(DataGridCitizens, "colCategoryName", "Categoría", "category_name", false, display_index++, 100, 20);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colAssistantName", "Asistente", "assistant_name", false, display_index++, 100, 20);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colSexName", "Sexo", "sex_name", false, display_index++, 100, 20);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colPoliticalPartyName", "Partido", "political_party_name", false, display_index++, 100, 20);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colCURP", "CURP", "curp", false, display_index++, 100, 20);
-
-			DataGridUtilities.AddColumn(DataGridCitizens, "colId", "Id", "id", false);
-			DataGridUtilities.AddColumn(DataGridCitizens, "colTitle", "Id Título", "title", false);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colName", "Nombre", "name", false);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colPaternalName", "Apellido paterno", "paternal_name", false);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colMaternalName", "Apellido materno", "maternal_name", false);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colObservations", "Observaciones", "observations", false);
-			DataGridUtilities.AddColumn(DataGridCitizens, "colSex", "Id Sexo", "sex", false);
-
-			DataGridUtilities.AddColumn(DataGridCitizens, "colAssistantId", "Id Asistente", "assistant_id", false);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colAssistantPhone", "Teléfono Asistente", "assistant_phone", false);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colAssistantPhoneExtension", "Extensión Teléfono Asistente", "assistant_phone_extension", false);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colAssistantPhoneAndExtension", "Tel. Asistente", "assistant_phone_full", false);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colAssistantCellphone", "Cel. Asistente", "assistant_cellphone", false);
-
-			//DataGridUtilities.AddColumn(DataGridCitizens, "colPhone", "Número Teléfono", "phone", false);
-			//DataGridUtilities.AddColumn(DataGridCitizens, "colPhoneExtension", "Extensión Teléfono", "phone_extension", false);
-
-			//DataGridUtilities.AddColumn(DataGridCitizens, "colPhone2", "Número Teléfono 2", "phone2", false);
-			//DataGridUtilities.AddColumn(DataGridCitizens, "colPhone2Extension", "Extensión Teléfono 2", "phone2_extension", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colAttentionRequired", "Atención requerida", "attention_required", false);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colPhone2AndExtension", "Teléfono 2", "phone2_full", false);
-
-			//DataGridUtilities.AddColumn(DataGridCitizens, "colPhone3", "Número Teléfono 3", "phone3", false);
-			//DataGridUtilities.AddColumn(DataGridCitizens, "colPhone3Extension", "Extensión Teléfono 3", "phone3_extension", false);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colPhone3AndExtension", "Teléfono 3", "phone3_full", false);
-
-			DataGridUtilities.AddColumn(DataGridCitizens, "colPoliticalParty", "Id Partido", "political_party", false);
-
-			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionId", "Id Institución", "institution_id", false);
-			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionCategoryId", "Id Categoría", "institution_category_id", false);
-			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionSector", "Id Sector", "institution_sector", false);
-			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionRoleId", "Id Cargo", "institution_role_id", false);
-
-			DataGridUtilities.AddColumn(DataGridCitizens, "colAddressId", "Id Dirección", "address_id", false);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colAddressStreet", "Calle", "address_street", false);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colAddressNumber", "Número", "address_number", false);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colAddressInteriorNumber", "Número interior", "address_interior_number", false);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colAddressPostalCode", "Código postal", "address_postal_code", false);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colAddressState", "Estado", "address_state", false);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colAddressCity", "Ciudad", "address_city", false);
-			DataGridUtilities.AddColumn(DataGridCitizens, "colAddressCountry", "Id país", "address_country", false);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colAddressCountryName", "País", "address_country_name", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitution2Name", "Institución 2", "institution2_name", true, display_index++, 200, 20);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitution2RoleName", "Cargo 2", "institution2_role_name", true, display_index++, 100, 20);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitution3Name", "Institución 3", "institution3_name", true, display_index++, 200, 20);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitution3RoleName", "Cargo 3", "institution3_role_name", true, display_index++, 100, 20);
 
+			// ids are less important for the users
+			DataGridUtilities.AddColumn(DataGridCitizens, "colAddressCountry", "Id país", "address_country", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionSector", "Id Sector", "institution_sector", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionCategoryId", "Id Categoría", "institution_category_id", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colPoliticalParty", "Id Partido", "political_party", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colId", "Id", "id", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionId", "Id Institución", "institution_id", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionRoleId", "Id Cargo", "institution_role_id", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitution2Id", "Id Institución 2", "institution2_id", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitution2RoleId", "Id Cargo 2", "institution2_role_id", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitution3Id", "Id Institución 3", "institution3_id", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitution3RoleId", "Id Cargo 3", "institution3_role_id", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colAddressId", "Id Dirección", "address_id", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colTitle", "Id Título", "title", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colSex", "Id Sexo", "sex", false);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colAssistantId", "Id Asistente", "assistant_id", false);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colAuthorId", "Id Autor", "author_id", false);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colLastEditorId", "Id Último Editor", "editor_id", false);
-
 			DataGridUtilities.AddColumn(DataGridCitizens, "colCategoryId", "Categoría Id", "category_id", false);
 
-			DataGridUtilities.AddColumn(DataGridCitizens, "colAttentionRequired", "Atención requerida", "attention_required", false);
 
 			DataGridCitizens.AllowUserToResizeColumns = true;
 			DataGridCitizens.AllowUserToOrderColumns = true;
@@ -113,6 +107,7 @@ namespace GCRM
 			DTCitizens.Columns.Add("curp", typeof(string));
 
 			DTCitizens.Columns.Add("birthday", typeof(DateTime));
+			DTCitizens.Columns.Add("birthday_displayed", typeof(string));
 			DTCitizens.Columns.Add("birthday_year", typeof(int));
 			DTCitizens.Columns.Add("birthday_month", typeof(int));
 			DTCitizens.Columns.Add("birthday_day", typeof(int));
@@ -148,6 +143,16 @@ namespace GCRM
 
 			DTCitizens.Columns.Add("institution_role_id", typeof(int));
 			DTCitizens.Columns.Add("institution_role_name", typeof(string));
+
+			DTCitizens.Columns.Add("institution2_id", typeof(int));
+			DTCitizens.Columns.Add("institution2_name", typeof(string));
+			DTCitizens.Columns.Add("institution2_role_id", typeof(int));
+			DTCitizens.Columns.Add("institution2_role_name", typeof(string));
+
+			DTCitizens.Columns.Add("institution3_id", typeof(int));
+			DTCitizens.Columns.Add("institution3_name", typeof(string));
+			DTCitizens.Columns.Add("institution3_role_id", typeof(int));
+			DTCitizens.Columns.Add("institution3_role_name", typeof(string));
 
 			DTCitizens.Columns.Add("address_id", typeof(int));
 			DTCitizens.Columns.Add("address_street", typeof(string));
@@ -250,6 +255,7 @@ namespace GCRM
 					row["curp"] = citizen.CURP;
 
 					row["birthday"] = citizen.Birthday;
+					row["birthday_displayed"] = citizen.DisplayBirthday;
 					row["birthday_year"] = citizen.Birthday.Year;
 					row["birthday_month"] = citizen.Birthday.Month;
 					row["birthday_day"] = citizen.Birthday.Day;
@@ -302,6 +308,16 @@ namespace GCRM
 
 					row["institution_role_id"] = citizen.Role.Id;
 					row["institution_role_name"] = citizen.Role.Name;
+
+					row["institution2_id"] = citizen.Institution2.Id;
+					row["institution2_name"] = citizen.Institution2.Name;
+					row["institution2_role_id"] = citizen.Role2.Id;
+					row["institution2_role_name"] = citizen.Role2.Name;
+
+					row["institution3_id"] = citizen.Institution3.Id;
+					row["institution3_name"] = citizen.Institution3.Name;
+					row["institution3_role_id"] = citizen.Role3.Id;
+					row["institution3_role_name"] = citizen.Role3.Name;
 
 					row["address_id"] = citizen.Address.Id;
 					row["address_street"] = citizen.Address.Street;
@@ -487,7 +503,7 @@ namespace GCRM
 				filter += $" and title = {(int)FiltersDlg.CitizenTitle}";
 
 			if (FiltersDlg.FilterInstitution)
-				filter += $" and institution_id = {FiltersDlg.InstitutionId}";
+				filter += $" and (institution_id = {FiltersDlg.InstitutionId} or institution2_id = {FiltersDlg.InstitutionId} or institution3_id = {FiltersDlg.InstitutionId})";
 
 			if (FiltersDlg.FilterSector)
 				filter += $" and institution_sector = {(int)FiltersDlg.Sector}";

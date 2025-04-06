@@ -28,9 +28,9 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-			DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-			DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+			DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+			DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+			DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
 			ToolStrip = new ToolStrip();
 			BRefresh = new ToolStripButton();
 			toolStripSeparator1 = new ToolStripSeparator();
@@ -166,36 +166,36 @@
 			DataGridLogs.AllowUserToDeleteRows = false;
 			DataGridLogs.AllowUserToOrderColumns = true;
 			DataGridLogs.AllowUserToResizeRows = false;
-			dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle4.BackColor = Color.WhiteSmoke;
-			dataGridViewCellStyle4.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-			dataGridViewCellStyle4.ForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle4.SelectionBackColor = SystemColors.GradientInactiveCaption;
-			dataGridViewCellStyle4.SelectionForeColor = SystemColors.ControlText;
-			DataGridLogs.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+			dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle1.BackColor = Color.WhiteSmoke;
+			dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+			dataGridViewCellStyle1.ForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle1.SelectionBackColor = SystemColors.GradientInactiveCaption;
+			dataGridViewCellStyle1.SelectionForeColor = SystemColors.ControlText;
+			DataGridLogs.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
 			DataGridLogs.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 			DataGridLogs.BackgroundColor = SystemColors.Control;
 			DataGridLogs.BorderStyle = BorderStyle.None;
 			DataGridLogs.CellBorderStyle = DataGridViewCellBorderStyle.None;
 			DataGridLogs.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
 			DataGridLogs.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-			dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle5.BackColor = SystemColors.ControlLight;
-			dataGridViewCellStyle5.Font = new Font("Segoe UI", 9F);
-			dataGridViewCellStyle5.ForeColor = SystemColors.WindowText;
-			dataGridViewCellStyle5.SelectionBackColor = SystemColors.ControlLight;
-			dataGridViewCellStyle5.SelectionForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
-			DataGridLogs.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+			dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle2.BackColor = SystemColors.ControlLight;
+			dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+			dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
+			dataGridViewCellStyle2.SelectionBackColor = SystemColors.ControlLight;
+			dataGridViewCellStyle2.SelectionForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+			DataGridLogs.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
 			DataGridLogs.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle6.BackColor = SystemColors.Window;
-			dataGridViewCellStyle6.Font = new Font("Segoe UI", 9F);
-			dataGridViewCellStyle6.ForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle6.SelectionBackColor = SystemColors.GradientInactiveCaption;
-			dataGridViewCellStyle6.SelectionForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
-			DataGridLogs.DefaultCellStyle = dataGridViewCellStyle6;
+			dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle3.BackColor = SystemColors.Window;
+			dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
+			dataGridViewCellStyle3.ForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle3.SelectionBackColor = SystemColors.GradientInactiveCaption;
+			dataGridViewCellStyle3.SelectionForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
+			DataGridLogs.DefaultCellStyle = dataGridViewCellStyle3;
 			DataGridLogs.Dock = DockStyle.Fill;
 			DataGridLogs.EnableHeadersVisualStyles = false;
 			DataGridLogs.ImeMode = ImeMode.NoControl;
@@ -244,7 +244,7 @@
 			// LUser
 			// 
 			LUser.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-			LUser.Location = new Point(200, 427);
+			LUser.Location = new Point(199, 427);
 			LUser.Name = "LUser";
 			LUser.Size = new Size(170, 15);
 			LUser.TabIndex = 7;
@@ -264,7 +264,7 @@
 			// LEntity
 			// 
 			LEntity.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-			LEntity.Location = new Point(200, 447);
+			LEntity.Location = new Point(199, 447);
 			LEntity.Name = "LEntity";
 			LEntity.Size = new Size(170, 15);
 			LEntity.TabIndex = 5;
@@ -284,7 +284,7 @@
 			// LDate
 			// 
 			LDate.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-			LDate.Location = new Point(200, 467);
+			LDate.Location = new Point(199, 467);
 			LDate.Name = "LDate";
 			LDate.Size = new Size(170, 15);
 			LDate.TabIndex = 3;
@@ -321,7 +321,7 @@
 			Message.Name = "Message";
 			Message.ReadOnly = true;
 			Message.ScrollBars = ScrollBars.Both;
-			Message.Size = new Size(362, 392);
+			Message.Size = new Size(361, 392);
 			Message.TabIndex = 0;
 			// 
 			// FEventLog

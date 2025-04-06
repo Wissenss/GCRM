@@ -98,7 +98,7 @@ namespace Business
 		public TSocietySector Sector;
 		public TInstitutionCategory Category = new TInstitutionCategory();
 		public List<TInstitutionRole> Roles;
-		public int ParentInstitutionId;
+		public TInstitution ParentInstitution;
 		public TUser Author = new TUser();
 		public DateTime CreatedDate;
 		public TUser LastEditor = new TUser();
@@ -124,12 +124,14 @@ namespace Business
 
 		public void FillFromReader(DbDataReader reader)
 		{
+			ParentInstitution = new TInstitution();
+
 			Id = reader.GetInt32(0);
 			Name= reader.GetString(1);
 			Sector = (TSocietySector)reader.GetInt32(2);
 			Category.Id = reader.GetInt32(3);
 			Description = reader.GetString(4);
-			ParentInstitutionId = reader.GetInt32(5);
+			ParentInstitution.Id = reader.GetInt32(5);
 			Author.Id = reader.GetInt32(6);
 			CreatedDate = reader.GetDateTime(7);
 			LastEditor.Id = reader.GetInt32(8);
@@ -149,7 +151,7 @@ namespace Business
 			log_string.AppendLine($"Sector:              \t{Sector}");
 			log_string.AppendLine($"Category:            \t{Category.Id}");
 			log_string.AppendLine($"Roles:               \t{Roles.Count}");
-			log_string.AppendLine($"ParentInstitutionId: \t{ParentInstitutionId}");
+			log_string.AppendLine($"ParentInstitutionId: \t{ParentInstitution.Id}");
 			log_string.AppendLine($"Author:              \t{Author.Id}");
 			log_string.AppendLine($"CreatedDate:         \t{CreatedDate}");
 			log_string.AppendLine($"LastEditor:          \t{LastEditor.Id}");
@@ -250,7 +252,7 @@ namespace Business
 				cmd.Parameters.AddWithValue("@society_sector", (int)institution.Sector);
 				cmd.Parameters.AddWithValue("@category_id", institution.Category.Id);
 				cmd.Parameters.AddWithValue("@description", institution.Description);
-				cmd.Parameters.AddWithValue("@parent_institution_id", institution.ParentInstitutionId);
+				cmd.Parameters.AddWithValue("@parent_institution_id", institution.ParentInstitution.Id);
 				cmd.Parameters.AddWithValue("@created_by_id", institution.Author.Id);
 				cmd.Parameters.AddWithValue("@created_date", institution.CreatedDate);
 				cmd.Parameters.AddWithValue("@edit_by_id", institution.LastEditor.Id);
@@ -305,7 +307,7 @@ namespace Business
 
 						foreach (TInstitutionRole role in institution.Roles)
 						{
-							if (role.Id == reader.GetInt32(0) || role.Id == 0)
+							if (role.Id == reader.GetInt32(0) && role.IsTemplateRole == false || role.Id == 0)
 							{
 								found = true;
 								break;
@@ -325,7 +327,15 @@ namespace Business
 					cmd.Parameters.AddWithValue("@id", role_id);
 
 					// no citizen can have this role
-					cmd.CommandText = "SELECT COUNT(*) FROM citizens WHERE institution_role_id = @id OR institution2_role_id = @id OR institution3_role_id = @id;";
+					cmd.CommandText = @"
+						SELECT 
+							COUNT(*) 
+						FROM 
+							citizens 
+						WHERE 
+							(institution_role_id  = @id AND institution_template_role_id = 0) OR 
+							(institution2_role_id = @id AND institution2_template_role_id = 0) OR 
+							(institution3_role_id = @id AND institution3_template_role_id = 0);";
 
 					int citizens_with_role = (Int32)(Int64)cmd.ExecuteScalar();
 
@@ -543,13 +553,15 @@ namespace Business
 					ic.description as category_description,
 					u.name as author_name,	
 					u2.name as editor_name,
-					it.name as template_name	
+					it.name as template_name,	
+					pi.name as parent_institution_name
 				FROM 
 					institutions i
 					LEFT JOIN institution_categories ic ON i.category_id = ic.id 
 					LEFT JOIN users u ON i.created_by_id = u.id
 					LEFT JOIN users u2 ON i.edit_by_id = u2.id
 					LEFT JOIN institution_templates it ON i.institution_template_id = it.id
+					LEFT JOIN institutions pi ON i.parent_institution_id = pi.id
 				ORDER BY name;";
 
 			using (var cmd = new NpgsqlCommand(sql, conn))
@@ -580,6 +592,11 @@ namespace Business
 					if (institution.Template.Id != 0)
 					{
 						institution.Template.Name = reader.GetString(reader.GetOrdinal("template_name"));
+					}
+
+					if (institution.ParentInstitution.Id != 0)
+					{
+						institution.ParentInstitution.Name = reader.GetString(reader.GetOrdinal("parent_institution_name"));
 					}
 
 					institution_list.Add(institution);

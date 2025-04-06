@@ -212,7 +212,6 @@ namespace GCRM
 					Id = 0,
 					Name = "Ninguna",
 					Sector = TSocietySector.None,
-					ParentInstitutionId = 0,
 				});
 
 				DTInstitution.BeginLoadData();
@@ -661,7 +660,7 @@ namespace GCRM
 
 		private DateTime GetSelectedBirthday()
 		{
-			return new DateTime(BDayYear.SelectedIndex == 0 ? 1 : BDayYear.SelectedIndex + 1914 - 1, BDayMonth.SelectedIndex + 1, BDayDay.SelectedIndex + 1);
+			return new DateTime(BDayYear.SelectedIndex == 0 ? 4 : BDayYear.SelectedIndex + 1914 - 1, BDayMonth.SelectedIndex + 1, BDayDay.SelectedIndex + 1);
 		}
 
 		private void BAccept_Click(object sender, EventArgs e)
