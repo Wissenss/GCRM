@@ -677,8 +677,7 @@ namespace Business
 								@institution2_template_role_id,	
 								@institution3_template_role_id,
 								@known_birthday,
-								@known_birthyear,
-								@known_political_register_date
+								@known_birthyear
 							) 
 							RETURNING id;";
 					}
