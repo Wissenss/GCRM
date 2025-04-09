@@ -888,17 +888,35 @@ namespace GCRM
 
 		private void ComboBoxInstitution_SelectedValueChanged(object sender, EventArgs e)
 		{
+			ComboBoxInstitutionRole.Enabled = false;
+			BAccept.Enabled = false;
+
 			OnInstitutionSelectedValueChanged(ComboBoxInstitution, DTInstitutionRole, ComboBoxInstitutionRole, LInstitutionSectorAndCategory);
+
+			ComboBoxInstitutionRole.Enabled = true;
+			BAccept.Enabled = true;
 		}
 
 		private void Insitution2_SelectedValueChanged(object sender, EventArgs e)
 		{
+			Institution2Role.Enabled = false;
+			BAccept.Enabled = false;
+
 			OnInstitutionSelectedValueChanged(Insitution2, DTInstitution2Role, Institution2Role, LInstitution2SectorAndCategory);
+
+			Institution2Role.Enabled = true;
+			BAccept.Enabled = true;
 		}
 
 		private void Institution3_SelectedValueChanged(object sender, EventArgs e)
 		{
+			Institution3Role.Enabled = false;
+			BAccept.Enabled = false;
+
 			OnInstitutionSelectedValueChanged(Institution3, DTInstitution3Role, Institution3Role, LInstitution3SectorAndCategory);
+		
+			Institution3Role.Enabled = true;
+			BAccept.Enabled = true;
 		}
 
 		private void LCURP_Click(object sender, EventArgs e)
