@@ -28,9 +28,9 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-			DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-			DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+			DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
+			DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
+			DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
 			BCancel = new Button();
 			BAccept = new Button();
 			TabGeneral = new TabPage();
@@ -55,6 +55,7 @@
 			BAddRole = new ToolStripButton();
 			BEditRole = new ToolStripButton();
 			BDeleteRole = new ToolStripButton();
+			BSearchCitizensWithRole = new ToolStripButton();
 			TabGeneral.SuspendLayout();
 			TabControlInstitution.SuspendLayout();
 			TabPositions.SuspendLayout();
@@ -65,7 +66,7 @@
 			// BCancel
 			// 
 			BCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-			BCancel.Location = new Point(307, 356);
+			BCancel.Location = new Point(387, 356);
 			BCancel.Name = "BCancel";
 			BCancel.Size = new Size(75, 23);
 			BCancel.TabIndex = 2;
@@ -76,7 +77,7 @@
 			// BAccept
 			// 
 			BAccept.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-			BAccept.Location = new Point(229, 356);
+			BAccept.Location = new Point(309, 356);
 			BAccept.Name = "BAccept";
 			BAccept.Size = new Size(75, 23);
 			BAccept.TabIndex = 1;
@@ -104,7 +105,7 @@
 			TabGeneral.Location = new Point(4, 24);
 			TabGeneral.Name = "TabGeneral";
 			TabGeneral.Padding = new Padding(3);
-			TabGeneral.Size = new Size(383, 323);
+			TabGeneral.Size = new Size(463, 323);
 			TabGeneral.TabIndex = 0;
 			TabGeneral.Text = "General";
 			// 
@@ -116,7 +117,7 @@
 			Template.FormattingEnabled = true;
 			Template.Location = new Point(82, 101);
 			Template.Name = "Template";
-			Template.Size = new Size(295, 23);
+			Template.Size = new Size(375, 23);
 			Template.TabIndex = 17;
 			Template.SelectedIndexChanged += Template_SelectedIndexChanged;
 			// 
@@ -162,7 +163,7 @@
 			ComboBoxParentInstitution.FormattingEnabled = true;
 			ComboBoxParentInstitution.Location = new Point(82, 72);
 			ComboBoxParentInstitution.Name = "ComboBoxParentInstitution";
-			ComboBoxParentInstitution.Size = new Size(295, 23);
+			ComboBoxParentInstitution.Size = new Size(375, 23);
 			ComboBoxParentInstitution.TabIndex = 2;
 			// 
 			// LParentInstitution
@@ -198,7 +199,7 @@
 			TextBoxDescription.Location = new Point(82, 188);
 			TextBoxDescription.Multiline = true;
 			TextBoxDescription.Name = "TextBoxDescription";
-			TextBoxDescription.Size = new Size(295, 129);
+			TextBoxDescription.Size = new Size(375, 129);
 			TextBoxDescription.TabIndex = 5;
 			// 
 			// ComboBoxSocietySector
@@ -234,7 +235,7 @@
 			TextBoxName.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 			TextBoxName.Location = new Point(82, 130);
 			TextBoxName.Name = "TextBoxName";
-			TextBoxName.Size = new Size(295, 23);
+			TextBoxName.Size = new Size(375, 23);
 			TextBoxName.TabIndex = 3;
 			// 
 			// TabControlInstitution
@@ -246,7 +247,7 @@
 			TabControlInstitution.Margin = new Padding(1);
 			TabControlInstitution.Name = "TabControlInstitution";
 			TabControlInstitution.SelectedIndex = 0;
-			TabControlInstitution.Size = new Size(391, 351);
+			TabControlInstitution.Size = new Size(471, 351);
 			TabControlInstitution.TabIndex = 0;
 			// 
 			// TabPositions
@@ -256,7 +257,7 @@
 			TabPositions.Location = new Point(4, 24);
 			TabPositions.Name = "TabPositions";
 			TabPositions.Padding = new Padding(3);
-			TabPositions.Size = new Size(383, 323);
+			TabPositions.Size = new Size(463, 323);
 			TabPositions.TabIndex = 1;
 			TabPositions.Text = "Cargos";
 			TabPositions.UseVisualStyleBackColor = true;
@@ -267,36 +268,36 @@
 			DataGridInstitutionRoles.AllowUserToDeleteRows = false;
 			DataGridInstitutionRoles.AllowUserToOrderColumns = true;
 			DataGridInstitutionRoles.AllowUserToResizeRows = false;
-			dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle1.BackColor = Color.WhiteSmoke;
-			dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-			dataGridViewCellStyle1.ForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle1.SelectionBackColor = SystemColors.GradientInactiveCaption;
-			dataGridViewCellStyle1.SelectionForeColor = SystemColors.ControlText;
-			DataGridInstitutionRoles.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle10.Alignment = DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle10.BackColor = Color.WhiteSmoke;
+			dataGridViewCellStyle10.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+			dataGridViewCellStyle10.ForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle10.SelectionBackColor = SystemColors.GradientInactiveCaption;
+			dataGridViewCellStyle10.SelectionForeColor = SystemColors.ControlText;
+			DataGridInstitutionRoles.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle10;
 			DataGridInstitutionRoles.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 			DataGridInstitutionRoles.BackgroundColor = SystemColors.Control;
 			DataGridInstitutionRoles.BorderStyle = BorderStyle.None;
 			DataGridInstitutionRoles.CellBorderStyle = DataGridViewCellBorderStyle.None;
 			DataGridInstitutionRoles.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
 			DataGridInstitutionRoles.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-			dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle2.BackColor = SystemColors.ControlLight;
-			dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
-			dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
-			dataGridViewCellStyle2.SelectionBackColor = SystemColors.ControlLight;
-			dataGridViewCellStyle2.SelectionForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-			DataGridInstitutionRoles.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle11.Alignment = DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle11.BackColor = SystemColors.ControlLight;
+			dataGridViewCellStyle11.Font = new Font("Segoe UI", 9F);
+			dataGridViewCellStyle11.ForeColor = SystemColors.WindowText;
+			dataGridViewCellStyle11.SelectionBackColor = SystemColors.ControlLight;
+			dataGridViewCellStyle11.SelectionForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle11.WrapMode = DataGridViewTriState.True;
+			DataGridInstitutionRoles.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
 			DataGridInstitutionRoles.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle3.BackColor = SystemColors.Window;
-			dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
-			dataGridViewCellStyle3.ForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle3.SelectionBackColor = SystemColors.GradientInactiveCaption;
-			dataGridViewCellStyle3.SelectionForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
-			DataGridInstitutionRoles.DefaultCellStyle = dataGridViewCellStyle3;
+			dataGridViewCellStyle12.Alignment = DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle12.BackColor = SystemColors.Window;
+			dataGridViewCellStyle12.Font = new Font("Segoe UI", 9F);
+			dataGridViewCellStyle12.ForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle12.SelectionBackColor = SystemColors.GradientInactiveCaption;
+			dataGridViewCellStyle12.SelectionForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle12.WrapMode = DataGridViewTriState.False;
+			DataGridInstitutionRoles.DefaultCellStyle = dataGridViewCellStyle12;
 			DataGridInstitutionRoles.Dock = DockStyle.Fill;
 			DataGridInstitutionRoles.EnableHeadersVisualStyles = false;
 			DataGridInstitutionRoles.ImeMode = ImeMode.NoControl;
@@ -308,7 +309,7 @@
 			DataGridInstitutionRoles.RowTemplate.Height = 20;
 			DataGridInstitutionRoles.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 			DataGridInstitutionRoles.ShowCellToolTips = false;
-			DataGridInstitutionRoles.Size = new Size(377, 292);
+			DataGridInstitutionRoles.Size = new Size(457, 292);
 			DataGridInstitutionRoles.StandardTab = true;
 			DataGridInstitutionRoles.TabIndex = 8;
 			DataGridInstitutionRoles.CellFormatting += DataGridInstitutionRoles_CellFormatting;
@@ -317,11 +318,11 @@
 			// toolStrip1
 			// 
 			toolStrip1.GripStyle = ToolStripGripStyle.Hidden;
-			toolStrip1.Items.AddRange(new ToolStripItem[] { BAddRole, BEditRole, BDeleteRole });
+			toolStrip1.Items.AddRange(new ToolStripItem[] { BAddRole, BEditRole, BDeleteRole, BSearchCitizensWithRole });
 			toolStrip1.Location = new Point(3, 3);
 			toolStrip1.Name = "toolStrip1";
 			toolStrip1.RenderMode = ToolStripRenderMode.System;
-			toolStrip1.Size = new Size(377, 25);
+			toolStrip1.Size = new Size(457, 25);
 			toolStrip1.TabIndex = 1;
 			toolStrip1.Text = "ToolStripInstitutionPositions";
 			// 
@@ -360,11 +361,22 @@
 			BDeleteRole.Text = "&Borrar";
 			BDeleteRole.Click += BDeleteRole_Click;
 			// 
+			// BSearchCitizensWithRole
+			// 
+			BSearchCitizensWithRole.Alignment = ToolStripItemAlignment.Right;
+			BSearchCitizensWithRole.Image = Properties.Resources.Fatcow_Farm_Fresh_Search_accounts_16;
+			BSearchCitizensWithRole.ImageScaling = ToolStripItemImageScaling.None;
+			BSearchCitizensWithRole.ImageTransparentColor = Color.Magenta;
+			BSearchCitizensWithRole.Name = "BSearchCitizensWithRole";
+			BSearchCitizensWithRole.Size = new Size(175, 22);
+			BSearchCitizensWithRole.Text = "&Ver ciudadanos con el cargo";
+			BSearchCitizensWithRole.Click += BSearchCitizensWithRole_Click;
+			// 
 			// FInstitutionData
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
-			ClientSize = new Size(394, 391);
+			ClientSize = new Size(474, 391);
 			ControlBox = false;
 			Controls.Add(TabControlInstitution);
 			Controls.Add(BCancel);
@@ -411,5 +423,6 @@
 		private DataGridView DataGridInstitutionRoles;
 		private ComboBox Template;
 		private Label LTemplate;
+		private ToolStripButton BSearchCitizensWithRole;
 	}
 }

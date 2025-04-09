@@ -778,13 +778,13 @@ namespace Business
 			return 0;
 		}
 
-		public static Error GetCitizens(out List<TCitizen> citizen_list)
+		private static Error GetCitizensWithCondition(string condition, out List<TCitizen> citizen_list)
 		{
 			citizen_list = new List<TCitizen>();
 
 			var conn = ConnectionPool.GetConnection();
 
-			string sql = @"
+			string sql = $@"
 				SELECT 
 					c.*, 
 					u.name as author_name, 
@@ -853,7 +853,9 @@ namespace Business
 					LEFT JOIN institution_template_roles itr3 ON c.institution3_role_id = itr3.id
 
 					LEFT JOIN addresses a ON c.address_id = a.id
-
+				WHERE
+					TRUE
+          {condition}
 				ORDER BY name, paternal_name, maternal_name;
 			";
 
@@ -996,6 +998,11 @@ namespace Business
 			return 0;
 		}
 
+		public static Error GetCitizens(out List<TCitizen> citizen_list)
+		{
+			return GetCitizensWithCondition("", out citizen_list);
+		}
+
 		public static Error GetCitizensWhosBirhdayFallsOn(DateTime birthday, out List<TCitizen> citizen_list)
 		{
 			var conn = ConnectionPool.GetConnection();
@@ -1036,6 +1043,26 @@ namespace Business
 			ConnectionPool.ReleaseConnection(ref conn);
 
 			return error;
+		}
+
+		public static Error GetCitizensWithInstitutionRole(int institution_id, int institution_template_id, int role_id, out List<TCitizen> citizen_list)
+		{
+			string condition = $@"
+				AND (
+					(c.institution_id = {institution_id} AND c.institution_role_id = {role_id}) OR
+					(c.institution2_id = {institution_id} AND c.institution2_role_id = {role_id}) OR
+					(c.institution3_id = {institution_id} AND c.institution3_role_id = {role_id}) )";
+
+			if (institution_template_id != 0)
+			{
+				condition += $@" 
+					AND (
+						c.institution_template_role_id = {institution_template_id} OR 
+						c.institution2_template_role_id = {institution_template_id} OR 
+						c.institution3_template_role_id = {institution_template_id})";
+			}
+
+			return GetCitizensWithCondition(condition, out citizen_list);
 		}
 
 		public static Error GetCitizenCategoryById(int id, out TCitizenCategory category)

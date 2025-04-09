@@ -29,7 +29,7 @@ namespace GCRM
 			DTInstitutionRoles.Columns.Add("description", typeof(string));
 			DTInstitutionRoles.Columns.Add("delete", typeof(bool));
 			DTInstitutionRoles.Columns.Add("template_id", typeof(int));
-			DTInstitutionRoles.Columns.Add("citizens_with_role", typeof(int));	
+			DTInstitutionRoles.Columns.Add("citizens_with_role", typeof(int));
 			DSInstitution.Tables.Add(DTInstitutionRoles);
 
 			int display_index = 0;
@@ -179,7 +179,7 @@ namespace GCRM
 				row["description"] = role.Description;
 				row["delete"] = false;
 				row["template_id"] = role.InstitutionTemplateId;
-				row["citizens_with_role"] = role.NoCitizensWithThisRole;	
+				row["citizens_with_role"] = role.NoCitizensWithThisRole;
 
 				if (role.IsTemplateRole == true)
 				{
@@ -655,6 +655,65 @@ namespace GCRM
 				}
 
 				DTInstitutionRoles.EndLoadData();
+			}
+		}
+
+		private void BSearchCitizensWithRole_Click(object sender, EventArgs e)
+		{
+			if (DataGridInstitutionRoles.SelectedRows.Count == 0)
+				return;
+
+			// get selected role info
+			DataGridViewRow row = DataGridInstitutionRoles.SelectedRows[0];
+
+			int role_id = (int)row.Cells["colId"].Value;
+			int template_id = (int)row.Cells["colTemplateId"].Value;
+			int institution_id = Id;
+			string role_name = (string)row.Cells["colName"].Value;	
+
+			using (FSimpleList list_dlg = new FSimpleList())
+			{
+				// configure the list dialog
+				list_dlg.Text = $"Ciudadanos con cargo - \"{role_name}\"";
+				
+				list_dlg.DTSimpleList.Columns.Add("name", typeof(string));	
+
+				int display_index = 0;
+
+				DataGridUtilities.AddColumn(list_dlg.DataGridSimpleList, "colName", "Ciudadano", "name", true, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.Fill);
+				
+				// load the citizen list
+				List<TCitizen> citizens_with_role;
+
+				using (new CursorWait())
+				{
+					Error error = CitizensHandler.GetCitizensWithInstitutionRole(institution_id, template_id, role_id, out citizens_with_role);
+
+					if (error != 0)
+					{
+						Utilities.ShowErrorDialog(error);
+						return;
+					}
+
+					list_dlg.DTSimpleList.BeginLoadData();
+					list_dlg.DTSimpleList.Clear();
+
+					foreach (TCitizen citizen in citizens_with_role)
+					{
+						DataRow row_citizen = list_dlg.DTSimpleList.NewRow();
+
+						row_citizen["name"] = $"{BConstants.GetCitizenBriefTitle(citizen.Title, citizen.Sex)} {citizen.FullNameWithFirstCapitals}";
+
+						list_dlg.DTSimpleList.Rows.Add(row_citizen);
+					}
+
+					list_dlg.DTSimpleList.EndLoadData();
+
+					list_dlg.DataGridSimpleList.DataSource = list_dlg.DTSimpleList;
+				}
+
+				// show the list
+				list_dlg.ShowDialog();
 			}
 		}
 	}
