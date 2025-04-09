@@ -78,7 +78,7 @@
 			// 
 			// BRead
 			// 
-			BRead.Image = Properties.Resources.Fatcow_Farm_Fresh_Magnifier_16;
+			BRead.Image = Properties.Resources.Fatcow_Farm_Fresh_Information_16;
 			BRead.ImageScaling = ToolStripItemImageScaling.None;
 			BRead.ImageTransparentColor = Color.Magenta;
 			BRead.Margin = new Padding(1, 2, 1, 2);

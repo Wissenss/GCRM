@@ -91,6 +91,8 @@ namespace GCRM
 			DTInstitutions.Columns.Add("attention_required", typeof(bool));
 			DTInstitutions.Columns.Add("template_id", typeof(int));
 			DTInstitutions.Columns.Add("template_name", typeof(string));
+			DTInstitutions.Columns.Add("edited_date", typeof(DateTime));
+			DTInstitutions.Columns.Add("created_date", typeof(DateTime));	
 			DSCatalogs.Tables.Add(DTInstitutions);
 		}
 
@@ -254,8 +256,10 @@ namespace GCRM
 				row["acronym"] = institution.Acronym;
 				row["author_id"] = institution.Author.Id;
 				row["author_name"] = institution.Author.Name;
+				row["created_date"] = institution.CreatedDate;
 				row["editor_id"] = institution.LastEditor.Id;
 				row["editor_name"] = institution.LastEditor.Name;
+				row["edited_date"] = institution.EditDate;
 				row["attention_required"] = institution.AttentionRequired;
 				row["template_id"] = institution.Template.Id;
 				row["template_name"] = institution.Template.Name;

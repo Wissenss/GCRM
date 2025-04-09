@@ -9,13 +9,14 @@ namespace Connection
 		private static string __ConnectionString = "Host=localhost;Username=postgres;Password=notecreo;Database=gcrm";
 		private static List<Boolean> __PoolObjectAvailable;
 		private static List<NpgsqlConnection> __Pool;
+		private static bool __IsStarted = false;
 
 		static ConnectionPool()
 		{
 			//Start();
 		}
 
-		public static async void Start(int size = 10)
+		public static async void StartAsync(int size = 10)
 		{
 			__PoolSize = size;
 
@@ -33,10 +34,37 @@ namespace Connection
 				__Pool.Add(await CreateConnectionAsync());
 				__PoolObjectAvailable.Add(true);
 			}
+
+			__IsStarted = true;
+		}
+
+		public static void Start(int size = 10)
+		{
+			__PoolSize = size;
+
+			// create the connection string
+			ConnectionSettings.LoadSettings();
+
+			__ConnectionString = $"Host={ConnectionSettings.Host};Port={ConnectionSettings.Port};Username={ConnectionSettings.Username};Password={ConnectionSettings.Password};Database={ConnectionSettings.Database}";
+
+			// start the pool
+			__PoolObjectAvailable = new List<Boolean>();
+			__Pool = new List<NpgsqlConnection>();
+
+			for (int i = 0; i < __PoolSize; i++)
+			{
+				__Pool.Add(CreateConnection());
+				__PoolObjectAvailable.Add(true);
+			}
+
+			__IsStarted = true;
 		}
 
 		private static void Stop()
 		{
+			if (!__IsStarted)
+				return;
+
 			__PoolObjectAvailable.Clear();
 
 			foreach(NpgsqlConnection connection in __Pool)
@@ -49,6 +77,8 @@ namespace Connection
 			__ConnectionString = "";
 
 			__PoolSize = 0;
+
+			__IsStarted = false;
 		}
 		
 		public static void Refresh()

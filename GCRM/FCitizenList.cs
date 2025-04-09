@@ -67,6 +67,8 @@ namespace GCRM
 			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitution2RoleName", "Cargo 2", "institution2_role_name", true, display_index++, 100, 20);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitution3Name", "Institución 3", "institution3_name", true, display_index++, 200, 20);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitution3RoleName", "Cargo 3", "institution3_role_name", true, display_index++, 100, 20);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colCreatedDate", "Fecha alta", "created_date", false, display_index++, 100, 20);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colEditedDate", "Fecha edición", "edited_date", false, display_index++, 100, 20);
 
 			// ids are less important for the users
 			DataGridUtilities.AddColumn(DataGridCitizens, "colAddressCountry", "Id país", "address_country", false, display_index++);
@@ -166,9 +168,11 @@ namespace GCRM
 
 			DTCitizens.Columns.Add("author_id", typeof(int));
 			DTCitizens.Columns.Add("author_name", typeof(string));
+			DTCitizens.Columns.Add("created_date", typeof(DateTime));
 
 			DTCitizens.Columns.Add("editor_id", typeof(int));
 			DTCitizens.Columns.Add("editor_name", typeof(string));
+			DTCitizens.Columns.Add("edited_date", typeof(DateTime));
 
 			DTCitizens.Columns.Add("category_id", typeof(int));
 			DTCitizens.Columns.Add("category_name", typeof(string));
@@ -331,9 +335,11 @@ namespace GCRM
 
 					row["author_id"] = citizen.Author.Id;
 					row["author_name"] = citizen.Author.Name;
+					row["created_date"] = citizen.CreatedDate;
 
 					row["editor_id"] = citizen.LastEditor.Id;
 					row["editor_name"] = citizen.LastEditor.Name;
+					row["edited_date"] = citizen.EditDate;	
 
 					row["category_id"] = citizen.Category.Id;
 					row["category_name"] = citizen.Category.Name;
