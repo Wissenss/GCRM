@@ -1,32 +1,63 @@
 using NLog;
+using System.Diagnostics;
 using System.Globalization;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace GCRM
 {
 	internal static class Program
 	{
+		[DllImport("user32.dll")]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		static extern bool SetForegroundWindow(IntPtr hWnd);
 		/// <summary>
 		///  The main entry point for the application.
 		/// </summary>
 		[STAThread]
 		static void Main()
 		{
-			SetLogger();
+			bool is_new_instance = true;
+			string application_name = "GCRM";
 
-			AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
+#if DEBUG
+			application_name = "GCRM_DEBUG";
+#endif
 
-			QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
+			using (Mutex mutex = new Mutex(true, application_name, out is_new_instance))
+			{
+				if (is_new_instance)
+				{
+					SetLogger();
 
-			Application.EnableVisualStyles();
-			Application.SetCompatibleTextRenderingDefault(false);
-			Application.SetHighDpiMode(HighDpiMode.SystemAware);
+					AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
 
-			CultureInfo ci = new CultureInfo("es-MX");
-			Thread.CurrentThread.CurrentCulture = ci;
-			Thread.CurrentThread.CurrentUICulture = ci;
+					QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
 
-			Application.Run(new FSplashScreen());
+					Application.EnableVisualStyles();
+					Application.SetCompatibleTextRenderingDefault(false);
+					Application.SetHighDpiMode(HighDpiMode.SystemAware);
+
+					CultureInfo ci = new CultureInfo("es-MX");
+					Thread.CurrentThread.CurrentCulture = ci;
+					Thread.CurrentThread.CurrentUICulture = ci;
+
+					Application.Run(new FSplashScreen());
+				}
+				else
+				{
+					Process current = Process.GetCurrentProcess();
+					
+					foreach (Process process in Process.GetProcessesByName(current.ProcessName))
+					{
+						if (process.Id != current.Id)
+						{
+							SetForegroundWindow(process.MainWindowHandle);
+							break;
+						}
+					}
+				}
+			}
 		}
 
 		static void SetLogger()
