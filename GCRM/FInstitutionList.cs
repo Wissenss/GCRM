@@ -11,6 +11,7 @@ namespace GCRM
 	{
 		FColumnChooser ColumnChooserDlg;
 		FInstitutionListFilters FiltersDlg;
+		FAccessMode AccessMode = FAccessMode.Read;
 
 		public FInstitutionList()
 		{
@@ -31,30 +32,37 @@ namespace GCRM
 			{
 				Catalogs.LoadDTInstitutions();
 
-				TreeView.BeginUpdate();
-				TreeView.Nodes.Clear();
-
-				foreach (DataRow row in Catalogs.DTInstitutions.Rows)
+				if (BShowHierarchy.Checked)
 				{
-					if ((int)row["parent_institution_id"] == 0)
-					{
-						TreeNode head_node = new TreeNode((string)row["name"]);
-
-						TreeView.Nodes.Add(head_node);
-
-						PopulateTreeNode(ref head_node, (int)row["id"]);
-					}
+					RenderTree();
 				}
-
-				TreeView.EndUpdate();
-
-				TreeView.ExpandAll();
 			}
 
 			UpdateStatusStrip();
 		}
 
-		public void PopulateTreeNode(ref TreeNode node, int id)
+		private void RenderTree()
+		{
+			TreeView.BeginUpdate();
+			TreeView.Nodes.Clear();
+
+			foreach (DataRow row in Catalogs.DTInstitutions.Rows)
+			{
+				if ((int)row["parent_institution_id"] == 0)
+				{
+					TreeNode head_node = new TreeNode((string)row["name"]);
+
+					TreeView.Nodes.Add(head_node);
+
+					PopulateTreeNode(ref head_node, (int)row["id"]);
+				}
+			}
+
+			TreeView.EndUpdate();
+			TreeView.ExpandAll();
+		}
+
+		private void PopulateTreeNode(ref TreeNode node, int id)
 		{
 			foreach (DataRow row in Catalogs.DTInstitutions.Rows)
 			{
@@ -74,23 +82,27 @@ namespace GCRM
 			LoadList();
 		}
 
-		private void LoadPermissions()
+		private void SetControls()
 		{
 			using (new CursorWait())
 			{
 				BAdd.Visible = Session.HasPermission("Instituciones.Crear");
 				BEdit.Visible = Session.HasPermission("Instituciones.Editar");
-				BRead.Visible = Session.HasPermission("Instituciones.Consultar");
-				BDelete.Visible = Session.HasPermission("Instituciones.Eliminar");
-				BCategories.Visible = Session.HasPermission("Instituciones.Categorias.Consultar");
-				BDuplicate.Visible = Session.HasPermission("Instituciones.Crear");
+				BRead.Visible = Session.HasPermission("Instituciones.Consultar") && AccessMode != FAccessMode.Select;
+				BDelete.Visible = Session.HasPermission("Instituciones.Eliminar") && AccessMode != FAccessMode.Select;
+				BCategories.Visible = Session.HasPermission("Instituciones.Categorias.Consultar") && AccessMode != FAccessMode.Select;
+				BDuplicate.Visible = Session.HasPermission("Instituciones.Crear") && AccessMode != FAccessMode.Select;
 				BAttentionRequired.Visible = Session.HasPermission("Instituciones.SetAttentionRequired");
+				BInstitutionTemplates.Visible = Session.HasPermission("Instituciones.Plantillas.Consultar") && AccessMode != FAccessMode.Select;
+				BExcelExport.Visible = AccessMode != FAccessMode.Select;
+				BPrint.Visible = AccessMode != FAccessMode.Select;
+				BSelect.Visible = AccessMode == FAccessMode.Select;
 			}
 		}
 
 		private void FInstitutionList_Load(object sender, EventArgs e)
 		{
-			LoadPermissions();
+			SetControls();
 
 			LoadList();
 
@@ -98,7 +110,7 @@ namespace GCRM
 			DataGridUtilities.TryLoadConfiguration(DataGridInstitutions, "institutions\\main_data_grid");
 		}
 
-		private int GetSelectedInstitutionId()
+		public int GetSelectedInstitutionId()
 		{
 			if (DataGridInstitutions.SelectedRows.Count == 0)
 			{
@@ -194,6 +206,8 @@ namespace GCRM
 		private void BShowHierarchy_Click(object sender, EventArgs e)
 		{
 			SplitContainer.Panel2Collapsed = BShowHierarchy.Checked == false;
+
+			RenderTree();
 		}
 
 		private void BSearch_Click(object sender, EventArgs e)
@@ -307,6 +321,13 @@ namespace GCRM
 			{
 				Utilities.ShowExceptionDialog(ex);
 			}
+		}
+
+		public void SetAccessMode(FAccessMode mode)
+		{
+			AccessMode = mode;
+
+			SetControls();
 		}
 
 		private void UpdateStatusStrip()
@@ -478,6 +499,22 @@ namespace GCRM
 			using (FInstitutionTemplateList template_list_dlt = new FInstitutionTemplateList())
 			{
 				template_list_dlt.ShowDialog();
+			}
+		}
+
+		private void BSelect_Click(object sender, EventArgs e)
+		{
+			if (GetSelectedInstitutionId() != 0)
+			{
+				DialogResult = DialogResult.OK;
+			}
+		}
+
+		private void DataGridInstitutions_DoubleClick(object sender, EventArgs e)
+		{
+			if (AccessMode == FAccessMode.Select)
+			{
+				BSelect_Click(sender, null);
 			}
 		}
 	}

@@ -287,6 +287,7 @@ namespace GCRM
 		private void CheckBoxFilterInstitution_CheckedChanged(object sender, EventArgs e)
 		{
 			ComboBoxInstitucion.Enabled = CheckBoxFilterInstitution.Checked;
+			BSelectInstitution.Enabled = CheckBoxFilterInstitution.Checked;	
 		}
 
 		private void CheckBoxFilterSector_CheckedChanged(object sender, EventArgs e)
@@ -332,6 +333,21 @@ namespace GCRM
 		private void CheckBoxFilterCategory_CheckedChanged_1(object sender, EventArgs e)
 		{
 			ComboBoxCategory.Enabled = CheckBoxFilterCategory.Checked;
+		}
+
+		private void BSelectInstitution_Click(object sender, EventArgs e)
+		{
+			using (FInstitutionList select_dlg = new FInstitutionList())
+			{
+				select_dlg.SetAccessMode(FAccessMode.Select);
+
+				if (select_dlg.ShowDialog() == DialogResult.OK)
+				{
+					int institution_id = select_dlg.GetSelectedInstitutionId();
+
+					ComboBoxInstitucion.SelectedValue = institution_id;
+				}
+			}
 		}
 	}
 }

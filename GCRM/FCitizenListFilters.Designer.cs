@@ -50,6 +50,7 @@
 			CheckBoxFilterBirthdayDay = new CheckBox();
 			ComboBoxCategory = new ComboBox();
 			CheckBoxFilterCategory = new CheckBox();
+			BSelectInstitution = new Button();
 			SuspendLayout();
 			// 
 			// CheckBoxFilterParty
@@ -148,7 +149,7 @@
 			ComboBoxInstitucion.FormattingEnabled = true;
 			ComboBoxInstitucion.Location = new Point(114, 213);
 			ComboBoxInstitucion.Name = "ComboBoxInstitucion";
-			ComboBoxInstitucion.Size = new Size(239, 23);
+			ComboBoxInstitucion.Size = new Size(210, 23);
 			ComboBoxInstitucion.TabIndex = 9;
 			// 
 			// CheckBoxFilterInstitution
@@ -294,12 +295,25 @@
 			CheckBoxFilterCategory.UseVisualStyleBackColor = true;
 			CheckBoxFilterCategory.CheckedChanged += CheckBoxFilterCategory_CheckedChanged_1;
 			// 
+			// BSelectInstitution
+			// 
+			BSelectInstitution.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+			BSelectInstitution.Enabled = false;
+			BSelectInstitution.Image = Properties.Resources.Fatcow_Farm_Fresh_Magnifier_16;
+			BSelectInstitution.Location = new Point(330, 213);
+			BSelectInstitution.Name = "BSelectInstitution";
+			BSelectInstitution.Size = new Size(23, 23);
+			BSelectInstitution.TabIndex = 22;
+			BSelectInstitution.UseVisualStyleBackColor = true;
+			BSelectInstitution.Click += BSelectInstitution_Click;
+			// 
 			// FCitizenListFilters
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
 			ClientSize = new Size(365, 344);
 			ControlBox = false;
+			Controls.Add(BSelectInstitution);
 			Controls.Add(ComboBoxCategory);
 			Controls.Add(CheckBoxFilterCategory);
 			Controls.Add(ComboBoxBirthdayDay);
@@ -358,5 +372,6 @@
 		private CheckBox CheckBoxFilterBirthdayDay;
 		private ComboBox ComboBoxCategory;
 		private CheckBox CheckBoxFilterCategory;
+		private Button BSelectInstitution;
 	}
 }

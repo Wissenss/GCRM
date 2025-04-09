@@ -38,6 +38,7 @@
 			BRead = new ToolStripButton();
 			BRefresh = new ToolStripButton();
 			BDelete = new ToolStripButton();
+			BSelect = new ToolStripButton();
 			toolStripSeparator6 = new ToolStripSeparator();
 			BDuplicate = new ToolStripButton();
 			toolStripSeparator1 = new ToolStripSeparator();
@@ -95,11 +96,11 @@
 			// ToolStrip
 			// 
 			ToolStrip.GripStyle = ToolStripGripStyle.Hidden;
-			ToolStrip.Items.AddRange(new ToolStripItem[] { BAdd, BEdit, BRead, BRefresh, BDelete, toolStripSeparator6, BDuplicate, toolStripSeparator1, BShowHierarchy, toolStripSeparator2, BFields, BFilter, toolStripSeparator5, toolStripSeparator3, BExcelExport, BPrint, toolStripSeparator4, BCategories, BInstitutionTemplates, BSearch, toolStripSeparator7, BAttentionRequired });
+			ToolStrip.Items.AddRange(new ToolStripItem[] { BAdd, BEdit, BRead, BRefresh, BDelete, BSelect, toolStripSeparator6, BDuplicate, toolStripSeparator1, BShowHierarchy, toolStripSeparator2, BFields, BFilter, toolStripSeparator5, toolStripSeparator3, BExcelExport, BPrint, toolStripSeparator4, BCategories, BInstitutionTemplates, BSearch, toolStripSeparator7, BAttentionRequired });
 			ToolStrip.Location = new Point(0, 0);
 			ToolStrip.Name = "ToolStrip";
 			ToolStrip.RenderMode = ToolStripRenderMode.System;
-			ToolStrip.Size = new Size(1105, 40);
+			ToolStrip.Size = new Size(1239, 40);
 			ToolStrip.TabIndex = 1;
 			ToolStrip.Text = "toolStrip1";
 			// 
@@ -129,7 +130,7 @@
 			// 
 			// BRead
 			// 
-			BRead.Image = Properties.Resources.Fatcow_Farm_Fresh_Magnifier_16;
+			BRead.Image = Properties.Resources.Fatcow_Farm_Fresh_Information_16;
 			BRead.ImageTransparentColor = Color.Magenta;
 			BRead.Margin = new Padding(1, 2, 1, 2);
 			BRead.Name = "BRead";
@@ -160,6 +161,15 @@
 			BDelete.Size = new Size(59, 37);
 			BDelete.Text = "&Borrar";
 			BDelete.Click += BDelete_Click;
+			// 
+			// BSelect
+			// 
+			BSelect.Image = Properties.Resources.Fatcow_Farm_Fresh_Check_box_16;
+			BSelect.ImageTransparentColor = Color.Magenta;
+			BSelect.Name = "BSelect";
+			BSelect.Size = new Size(87, 37);
+			BSelect.Text = "&Seleccionar";
+			BSelect.Click += BSelect_Click;
 			// 
 			// toolStripSeparator6
 			// 
@@ -303,7 +313,7 @@
 			BAttentionRequired.ImageScaling = ToolStripItemImageScaling.None;
 			BAttentionRequired.ImageTransparentColor = Color.Magenta;
 			BAttentionRequired.Name = "BAttentionRequired";
-			BAttentionRequired.Size = new Size(68, 20);
+			BAttentionRequired.Size = new Size(68, 37);
 			BAttentionRequired.Text = "Resal&tar";
 			BAttentionRequired.Click += BAttentionRequired_Click;
 			// 
@@ -353,10 +363,11 @@
 			DataGridInstitutions.RowHeadersVisible = false;
 			DataGridInstitutions.RowTemplate.Height = 20;
 			DataGridInstitutions.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-			DataGridInstitutions.Size = new Size(1105, 399);
+			DataGridInstitutions.Size = new Size(1239, 602);
 			DataGridInstitutions.StandardTab = true;
 			DataGridInstitutions.TabIndex = 3;
 			DataGridInstitutions.CellFormatting += DataGridInstitutions_CellFormatting;
+			DataGridInstitutions.DoubleClick += DataGridInstitutions_DoubleClick;
 			// 
 			// colTemplateName
 			// 
@@ -537,7 +548,7 @@
 			// 
 			SplitContainer.Panel2.Controls.Add(TreeView);
 			SplitContainer.Panel2Collapsed = true;
-			SplitContainer.Size = new Size(1105, 399);
+			SplitContainer.Size = new Size(1239, 602);
 			SplitContainer.SplitterDistance = 506;
 			SplitContainer.SplitterWidth = 5;
 			SplitContainer.TabIndex = 4;
@@ -558,7 +569,7 @@
 			TextBoxSearch.Location = new Point(8, 8);
 			TextBoxSearch.Name = "TextBoxSearch";
 			TextBoxSearch.PlaceholderText = "Ingrese el texto a buscar...";
-			TextBoxSearch.Size = new Size(1090, 23);
+			TextBoxSearch.Size = new Size(1224, 23);
 			TextBoxSearch.TabIndex = 1;
 			TextBoxSearch.TextChanged += TextBoxSearch_TextChanged;
 			// 
@@ -569,16 +580,16 @@
 			PanelSearch.Dock = DockStyle.Top;
 			PanelSearch.Location = new Point(0, 40);
 			PanelSearch.Name = "PanelSearch";
-			PanelSearch.Size = new Size(1105, 39);
+			PanelSearch.Size = new Size(1239, 39);
 			PanelSearch.TabIndex = 7;
 			PanelSearch.Visible = false;
 			// 
 			// StatusStrip
 			// 
 			StatusStrip.Items.AddRange(new ToolStripItem[] { TSSLRecordAttentionRequiredCount, TSSLRecordCount, TSSLFilters });
-			StatusStrip.Location = new Point(0, 478);
+			StatusStrip.Location = new Point(0, 681);
 			StatusStrip.Name = "StatusStrip";
-			StatusStrip.Size = new Size(1105, 22);
+			StatusStrip.Size = new Size(1239, 22);
 			StatusStrip.TabIndex = 4;
 			StatusStrip.Text = "statusStrip1";
 			// 
@@ -610,7 +621,7 @@
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
-			ClientSize = new Size(1105, 500);
+			ClientSize = new Size(1239, 703);
 			Controls.Add(SplitContainer);
 			Controls.Add(PanelSearch);
 			Controls.Add(ToolStrip);
@@ -689,5 +700,6 @@
 		private DataGridViewTextBoxColumn colCategoryId;
 		private DataGridViewTextBoxColumn colAuthorId;
 		private DataGridViewTextBoxColumn colIdEditor;
+		private ToolStripButton BSelect;
 	}
 }

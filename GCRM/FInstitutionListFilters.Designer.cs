@@ -83,7 +83,7 @@
 			// BAccept
 			// 
 			BAccept.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-			BAccept.Location = new Point(208, 77);
+			BAccept.Location = new Point(208, 82);
 			BAccept.Name = "BAccept";
 			BAccept.Size = new Size(75, 23);
 			BAccept.TabIndex = 26;
@@ -94,7 +94,7 @@
 			// BCancel
 			// 
 			BCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-			BCancel.Location = new Point(289, 77);
+			BCancel.Location = new Point(289, 82);
 			BCancel.Name = "BCancel";
 			BCancel.Size = new Size(75, 23);
 			BCancel.TabIndex = 27;
@@ -106,7 +106,7 @@
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
-			ClientSize = new Size(376, 112);
+			ClientSize = new Size(376, 117);
 			ControlBox = false;
 			Controls.Add(BAccept);
 			Controls.Add(BCancel);
