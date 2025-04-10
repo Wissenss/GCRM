@@ -491,12 +491,11 @@ namespace GCRM
 		private void FilterList()
 		{
 			string filter = "true";
+			string search = TextBoxSearch.Text.Trim();
 
-			if (BSearch.Checked && TextBoxSearch.Text.Trim().Length > 0)
+			if (BSearch.Checked && search.Length > 0)
 			{
-				string search = TextBoxSearch.Text.Trim();
-
-				filter += $" and (name_full like '%{search}%' OR title_name like '%{search}%' OR curp like '%{search}%' OR political_party_name like '%{search}%' OR institution_name like '%{search}%' OR institution_category_name like '%{search}%' OR institution_sector_name like '%{search}%' OR institution_role_name like '%{search}%')";
+				filter += DataGridUtilities.GetFilterCondititonForTextSearch(DataGridCitizens, DTCitizens, search);
 			}
 
 			if (FiltersDlg.FilterSex)
@@ -553,6 +552,9 @@ namespace GCRM
 		private void BSearch_Click(object sender, EventArgs e)
 		{
 			PanelSearch.Visible = BSearch.Checked;
+
+			if (BSearch.Checked)
+				TextBoxSearch.Focus();
 
 			FilterList();
 		}

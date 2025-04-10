@@ -303,7 +303,7 @@
 			// BAbout
 			// 
 			BAbout.Alignment = ToolStripItemAlignment.Right;
-			BAbout.Image = Properties.Resources.Fatcow_Farm_Fresh_Information_32;
+			BAbout.Image = Properties.Resources.Fatcow_Farm_Fresh_Help_32;
 			BAbout.ImageScaling = ToolStripItemImageScaling.None;
 			BAbout.ImageTransparentColor = Color.Magenta;
 			BAbout.Margin = new Padding(1, 2, 1, 2);

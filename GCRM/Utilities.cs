@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Data;
+using System.Diagnostics;
 using System.Net;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -422,6 +423,36 @@ namespace GCRM
 			{
 				Utilities.ShowExceptionDialog(ex);
 			}
+		}
+	
+		public static string GetFilterCondititonForTextSearch(DataGridView data_grid, DataTable dt, string search)
+		{
+			string search_condition = " and ( false or ";
+
+			foreach (DataGridViewColumn column in data_grid.Columns)
+			{
+				if (column.Visible)
+				{
+					if (dt.Columns.Contains(column.DataPropertyName) == false)
+						continue;
+
+					if (dt.Columns[column.DataPropertyName].DataType == typeof(string))
+					{
+						search_condition += $"{column.DataPropertyName} like '%{search}%' or ";
+					}
+					else if (dt.Columns[column.DataPropertyName].DataType == typeof(int))
+					{
+						int number;
+
+						if (Int32.TryParse(search, out number))
+							search_condition += $"{column.DataPropertyName} = {number} or ";
+					}
+				}
+			}
+
+			search_condition = search_condition.TrimEnd("or ".ToCharArray()) + ")";
+
+			return search_condition;
 		}
 	}
 

@@ -570,7 +570,7 @@
 			// 
 			// BAttentionRequired
 			// 
-			BAttentionRequired.Image = Properties.Resources.Fatcow_Farm_Fresh_Tag_red_16;
+			BAttentionRequired.Image = Properties.Resources.Fatcow_Farm_Fresh_Bookmark_red_16;
 			BAttentionRequired.ImageScaling = ToolStripItemImageScaling.None;
 			BAttentionRequired.ImageTransparentColor = Color.Magenta;
 			BAttentionRequired.Margin = new Padding(1, 2, 1, 2);

@@ -214,6 +214,9 @@ namespace GCRM
 		{
 			PanelSearch.Visible = BSearch.Checked;
 
+			if (BSearch.Checked)
+				TextBoxSearch.Focus();
+
 			FilterList();
 		}
 
@@ -224,12 +227,7 @@ namespace GCRM
 
 			if (BSearch.Checked && search.Length > 0)
 			{
-				filter += @$" and (
-												name like '%{search}%' OR
-												society_sector_name like '%{search}%' OR
-												category_name like '%{search}%' OR
-												description like '%{search}%'
-									    )";
+				filter += DataGridUtilities.GetFilterCondititonForTextSearch(DataGridInstitutions, Catalogs.DTInstitutions, search);
 			}
 
 			if (FiltersDlg.FilterCategory)

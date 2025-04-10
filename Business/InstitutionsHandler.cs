@@ -953,7 +953,7 @@ namespace Business
 			}
 			else
 			{
-				sql = "INSERT INTO institution_templates(name, description) VALUES(@name, @description);";
+				sql = "INSERT INTO institution_templates(name, description) VALUES(@name, @description) RETURNING id;";
 			}
 
 			using (var cmd = new NpgsqlCommand(sql, conn))
@@ -962,7 +962,14 @@ namespace Business
 				cmd.Parameters.AddWithValue("@name", institution_template.Name);
 				cmd.Parameters.AddWithValue("@description", institution_template.Description);
 
-				cmd.ExecuteNonQuery();
+				if (is_update)
+				{
+					cmd.ExecuteNonQuery();
+				}
+				else
+				{
+					institution_template.Id = (Int32)(Int64)cmd.ExecuteScalar();
+				}
 
 				// save the roles
 				foreach (TInstitutionRole role in institution_template.Roles)

@@ -149,7 +149,7 @@
 			ComboBoxInstitucion.FormattingEnabled = true;
 			ComboBoxInstitucion.Location = new Point(114, 213);
 			ComboBoxInstitucion.Name = "ComboBoxInstitucion";
-			ComboBoxInstitucion.Size = new Size(210, 23);
+			ComboBoxInstitucion.Size = new Size(213, 23);
 			ComboBoxInstitucion.TabIndex = 9;
 			// 
 			// CheckBoxFilterInstitution
@@ -301,6 +301,7 @@
 			BSelectInstitution.Enabled = false;
 			BSelectInstitution.Image = Properties.Resources.Fatcow_Farm_Fresh_Magnifier_16;
 			BSelectInstitution.Location = new Point(330, 213);
+			BSelectInstitution.Margin = new Padding(0);
 			BSelectInstitution.Name = "BSelectInstitution";
 			BSelectInstitution.Size = new Size(23, 23);
 			BSelectInstitution.TabIndex = 22;
