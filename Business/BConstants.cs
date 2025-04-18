@@ -25,6 +25,8 @@ namespace Business
 		Master = 3,
 		PhD = 4,
 		Arq = 5,
+		Biologist = 6,
+		Technician = 7,
 
 		PublicAccountant	= 50,
 		Councilor = 51,
@@ -35,7 +37,11 @@ namespace Business
 		LocalCongressman = 101,
 		FederalCongressman = 102,
 		Senator = 103,
-		President = 104
+		President = 104,
+
+		Priest = 201,
+		Shepherd = 202,
+		Nun = 203,
 	}
 
 	public enum TCountry
@@ -52,7 +58,8 @@ namespace Business
 		PRI = 2,
 		PRD = 3,
 		MC = 4,
-		MORENA = 5
+		MORENA = 5,
+		PVEM = 6,
 	}
 
 	public enum TSex
@@ -102,6 +109,8 @@ namespace Business
 				{ TCitizenTitle.Master, "Maestro(a)" },
 				{ TCitizenTitle.PhD, "Doctor(a)" },
 				{ TCitizenTitle.Arq, "Arquitecto(a)" },
+				{ TCitizenTitle.Technician, "Técnico(a)" },
+				{ TCitizenTitle.Biologist, "Biólogo(a)" },
 
 				{ TCitizenTitle.PublicAccountant, "Contador(a) Público" },
 				{ TCitizenTitle.Councilor, "Regidor(a)" },
@@ -112,60 +121,69 @@ namespace Business
 				{ TCitizenTitle.LocalCongressman, "Diputado(a) Local" },
 				{ TCitizenTitle.FederalCongressman, "Diputado(a) Federal" },
 				{ TCitizenTitle.Senator, "Senador(a)" },
-				{ TCitizenTitle.President, "Presiente(a) de la República" }
+				{ TCitizenTitle.President, "Presiente(a) de la República" },
+
+				{ TCitizenTitle.Priest, "Sacerdote" },
+				{ TCitizenTitle.Shepherd, "Pastor" },
+				{ TCitizenTitle.Nun, "Monja" }
 			};
 
-			if (sex == TSex.Male)
+			Dictionary<TCitizenTitle, string> mapping_male = new Dictionary<TCitizenTitle, string>()
 			{
-				mapping = new Dictionary<TCitizenTitle, string>()
-				{
-					{ TCitizenTitle.None, "Ciudadano" },
+				{ TCitizenTitle.None, "Ciudadano" },
 
-					{ TCitizenTitle.DegreeLevel, "Licenciado" },
-					{ TCitizenTitle.Engineneer, "Ingeniero" },
-					{ TCitizenTitle.Master, "Maestro" },
-					{ TCitizenTitle.PhD, "Doctor" },
-					{ TCitizenTitle.Arq, "Arquitecto" },
+				{ TCitizenTitle.DegreeLevel, "Licenciado" },
+				{ TCitizenTitle.Engineneer, "Ingeniero" },
+				{ TCitizenTitle.Master, "Maestro" },
+				{ TCitizenTitle.PhD, "Doctor" },
+				{ TCitizenTitle.Arq, "Arquitecto" },
+				{ TCitizenTitle.Technician, "Técnico" },
+				{ TCitizenTitle.Biologist, "Biólogo" },
 
-					{ TCitizenTitle.PublicAccountant, "Contador Público" },
-					{ TCitizenTitle.Councilor, "Regidor" },
-					{ TCitizenTitle.Syndic, "Síndico" },
-					{ TCitizenTitle.MunicipalPresident, "Presidente Municipal" },
-					{ TCitizenTitle.Governor, "Gobernador" },
+				{ TCitizenTitle.PublicAccountant, "Contador Público" },
+				{ TCitizenTitle.Councilor, "Regidor" },
+				{ TCitizenTitle.Syndic, "Síndico" },
+				{ TCitizenTitle.MunicipalPresident, "Presidente Municipal" },
+				{ TCitizenTitle.Governor, "Gobernador" },
 
-					{ TCitizenTitle.LocalCongressman, "Diputado Local" },
-					{ TCitizenTitle.FederalCongressman, "Diputado Federal" },
-					{ TCitizenTitle.Senator, "Senador" },
-					{ TCitizenTitle.President, "Presidente de la República" }
-				};
-			}
+				{ TCitizenTitle.LocalCongressman, "Diputado Local" },
+				{ TCitizenTitle.FederalCongressman, "Diputado Federal" },
+				{ TCitizenTitle.Senator, "Senador" },
+				{ TCitizenTitle.President, "Presidente de la República" }
+			};
 
-			if (sex == TSex.Female)
+			Dictionary<TCitizenTitle, string> mapping_female = new Dictionary<TCitizenTitle, string>()
 			{
-				mapping = new Dictionary<TCitizenTitle, string>()
-				{
-					{ TCitizenTitle.None, "Ciudadana" },
+				{ TCitizenTitle.None, "Ciudadana" },
 
-					{ TCitizenTitle.DegreeLevel, "Licenciada" },
-					{ TCitizenTitle.Engineneer, "Ingeniera" },
-					{ TCitizenTitle.Master, "Maestra" },
-					{ TCitizenTitle.PhD, "Doctora" },
-					{ TCitizenTitle.Arq, "Arquitecta" },
+				{ TCitizenTitle.DegreeLevel, "Licenciada" },
+				{ TCitizenTitle.Engineneer, "Ingeniera" },
+				{ TCitizenTitle.Master, "Maestra" },
+				{ TCitizenTitle.PhD, "Doctora" },
+				{ TCitizenTitle.Arq, "Arquitecta" },
+				{ TCitizenTitle.Technician, "Técnica" },
+				{ TCitizenTitle.Biologist, "Bióloga" },
 
-					{ TCitizenTitle.PublicAccountant, "Contadora Pública" },
-					{ TCitizenTitle.Councilor, "Regidora" },
-					{ TCitizenTitle.Syndic, "Síndica" },
-					{ TCitizenTitle.MunicipalPresident, "Presidenta Municipal" },
-					{ TCitizenTitle.Governor, "Gobernadora" },
+				{ TCitizenTitle.PublicAccountant, "Contadora Pública" },
+				{ TCitizenTitle.Councilor, "Regidora" },
+				{ TCitizenTitle.Syndic, "Síndica" },
+				{ TCitizenTitle.MunicipalPresident, "Presidenta Municipal" },
+				{ TCitizenTitle.Governor, "Gobernadora" },
 
-					{ TCitizenTitle.LocalCongressman, "Diputada Local" },
-					{ TCitizenTitle.FederalCongressman, "Diputada Federal" },
-					{ TCitizenTitle.Senator, "Senadora" },
-					{ TCitizenTitle.President, "Presidenta de la República" }
-				};
-			}
+				{ TCitizenTitle.LocalCongressman, "Diputada Local" },
+				{ TCitizenTitle.FederalCongressman, "Diputada Federal" },
+				{ TCitizenTitle.Senator, "Senadora" },
+				{ TCitizenTitle.President, "Presidenta de la República" }
+			};
 
-			return mapping[title];
+			string title_str = mapping[title];
+
+			if (sex == TSex.Female && mapping_female.ContainsKey(title))
+				title_str = mapping_female[title];
+			else if (sex == TSex.Male && mapping_male.ContainsKey(title))
+				title_str = mapping_male[title];
+
+			return title_str;
 		}
 
 		public static string GetCitizenBriefTitle(TCitizenTitle title, TSex sex = TSex.Unknown)
@@ -179,6 +197,8 @@ namespace Business
 				{ TCitizenTitle.Master, "Mtro(a)." },
 				{ TCitizenTitle.PhD, "Dr." },
 				{ TCitizenTitle.Arq, "Arq." },
+				{ TCitizenTitle.Technician, "Tec." },
+				{ TCitizenTitle.Biologist, "Bio." },
 
 				{ TCitizenTitle.PublicAccountant, "CP." },
 				{ TCitizenTitle.Councilor, "Regidor(a)" },
@@ -189,60 +209,66 @@ namespace Business
 				{ TCitizenTitle.LocalCongressman, "Diputado(a) Local" },
 				{ TCitizenTitle.FederalCongressman, "Diputado(a)" },
 				{ TCitizenTitle.Senator, "Senador(a)" },
-				{ TCitizenTitle.President, "Presidente(a)" }
+				{ TCitizenTitle.President, "Presidente(a)" },
+
+				{ TCitizenTitle.Priest, "Pbro." },
+				{ TCitizenTitle.Shepherd, "Pr." },
+				{ TCitizenTitle.Nun, "Hna." }
 			};
 
-			if (sex == TSex.Male)
+			Dictionary<TCitizenTitle, string> mapping_male = new Dictionary<TCitizenTitle, string>()
 			{
-				mapping = new Dictionary<TCitizenTitle, string>()
-				{
-					{ TCitizenTitle.None, "C." },
+				{ TCitizenTitle.None, "C." },
 
-					{ TCitizenTitle.DegreeLevel, "Lic." },
-					{ TCitizenTitle.Engineneer, "Ing." },
-					{ TCitizenTitle.Master, "Mtro." },
-					{ TCitizenTitle.PhD, "Dr." },
-					{ TCitizenTitle.Arq, "Arq." },
+				{ TCitizenTitle.DegreeLevel, "Lic." },
+				{ TCitizenTitle.Engineneer, "Ing." },
+				{ TCitizenTitle.Master, "Mtro." },
+				{ TCitizenTitle.PhD, "Dr." },
+				{ TCitizenTitle.Arq, "Arq." },
 
-					{ TCitizenTitle.PublicAccountant, "CP." },
-					{ TCitizenTitle.Councilor, "Regidor" },
-					{ TCitizenTitle.Syndic, "Síndico" },
-					{ TCitizenTitle.MunicipalPresident, "Presidente Municipal" },
-					{ TCitizenTitle.Governor, "Gobernador" },
+				{ TCitizenTitle.PublicAccountant, "CP." },
+				{ TCitizenTitle.Councilor, "Regidor" },
+				{ TCitizenTitle.Syndic, "Síndico" },
+				{ TCitizenTitle.MunicipalPresident, "Presidente Municipal" },
+				{ TCitizenTitle.Governor, "Gobernador" },
 
-					{ TCitizenTitle.LocalCongressman, "Diputado Local" },
-					{ TCitizenTitle.FederalCongressman, "Diputado" },
-					{ TCitizenTitle.Senator, "Senador" },
-					{ TCitizenTitle.President, "Presidente" }
-				};
-			}
+				{ TCitizenTitle.LocalCongressman, "Diputado Local" },
+				{ TCitizenTitle.FederalCongressman, "Diputado" },
+				{ TCitizenTitle.Senator, "Senador" },
+				{ TCitizenTitle.President, "Presidente" }
+			};
 
-			if (sex == TSex.Female)
+			Dictionary<TCitizenTitle, string> mapping_female = new Dictionary<TCitizenTitle, string>()
 			{
-				mapping = new Dictionary<TCitizenTitle, string>()
-				{
-					{ TCitizenTitle.None, "C." },
+				{ TCitizenTitle.None, "C." },
 
-					{ TCitizenTitle.DegreeLevel, "Lic." },
-					{ TCitizenTitle.Engineneer, "Ing." },
-					{ TCitizenTitle.Master, "Mtra." },
-					{ TCitizenTitle.PhD, "Dra." },
-					{ TCitizenTitle.Arq, "Arq." },
+				{ TCitizenTitle.DegreeLevel, "Lic." },
+				{ TCitizenTitle.Engineneer, "Ing." },
+				{ TCitizenTitle.Master, "Mtra." },
+				{ TCitizenTitle.PhD, "Dra." },
+				{ TCitizenTitle.Arq, "Arq." },
 
-					{ TCitizenTitle.PublicAccountant, "CP." },
-					{ TCitizenTitle.Councilor, "Regidora" },
-					{ TCitizenTitle.Syndic, "Síndica" },
-					{ TCitizenTitle.MunicipalPresident, "Presidenta Municipal" },
-					{ TCitizenTitle.Governor, "Gobernadora" },
+				{ TCitizenTitle.PublicAccountant, "CP." },
+				{ TCitizenTitle.Councilor, "Regidora" },
+				{ TCitizenTitle.Syndic, "Síndica" },
+				{ TCitizenTitle.MunicipalPresident, "Presidenta Municipal" },
+				{ TCitizenTitle.Governor, "Gobernadora" },
 
-					{ TCitizenTitle.LocalCongressman, "Diputada Local" },
-					{ TCitizenTitle.FederalCongressman, "Diputada" },
-					{ TCitizenTitle.Senator, "Senadora" },
-					{ TCitizenTitle.President, "Presidenta" }
-				};
-			}
+				{ TCitizenTitle.LocalCongressman, "Diputada Local" },
+				{ TCitizenTitle.FederalCongressman, "Diputada" },
+				{ TCitizenTitle.Senator, "Senadora" },
+				{ TCitizenTitle.President, "Presidenta" }
+			};
+			
 
-			return mapping[title];
+			string title_str = mapping[title];
+
+			if (sex == TSex.Female && mapping_female.ContainsKey(title))
+				title_str = mapping_female[title];
+			else if (sex == TSex.Male && mapping_male.ContainsKey(title))
+				title_str = mapping_male[title];
+
+			return title_str;
 		}
 
 		public static string GetCountryCommonName(TCountry country)
@@ -276,7 +302,8 @@ namespace Business
 				{ TPoliticalParty.PRD, "PRD" },
 				{ TPoliticalParty.MORENA, "Morena" },
 				{ TPoliticalParty.PRI, "PRI" },
-				{ TPoliticalParty.MC, "MC" }
+				{ TPoliticalParty.MC, "MC" },
+				{ TPoliticalParty.PVEM, "PVEM" },
 			};
 
 			return mapping[party];
@@ -291,7 +318,8 @@ namespace Business
 				{ TPoliticalParty.PRD, "Partido de la Revolución Democrática" },
 				{ TPoliticalParty.MORENA, "Morena" },
 				{ TPoliticalParty.PRI, "Partido Revolucionario Institucional" },
-				{ TPoliticalParty.MC, "Movimiento Ciudadano" }
+				{ TPoliticalParty.MC, "Movimiento Ciudadano" },
+				{ TPoliticalParty.PVEM, "Partido Verde Ecologista de México" },
 			};
 
 			return mapping[party];

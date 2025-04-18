@@ -71,6 +71,9 @@ namespace GCRM
 			DataGridUtilities.AddColumn(DataGridCitizens, "colEditedDate", "Fecha edición", "edited_date", false, display_index++, 100, 20);
 
 			// ids are less important for the users
+			DataGridUtilities.AddColumn(DataGridCitizens, "colBirthdayRaw", "Nacimiento Crudo", "birthday", false, display_index++, 20, 20);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colBirthdayKnown", "Nacimiento conocido", "birthday_known", false, display_index++, 20, 20);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colBirthdayYearKnown", "Año nacimiento conocido", "birthday_year_known", false, display_index++, 20, 20);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colAddressCountry", "Id país", "address_country", false, display_index++);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionSector", "Id Sector", "institution_sector", false, display_index++);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colInstitutionCategoryId", "Id Categoría", "institution_category_id", false, display_index++);
@@ -113,6 +116,8 @@ namespace GCRM
 			DTCitizens.Columns.Add("birthday_year", typeof(int));
 			DTCitizens.Columns.Add("birthday_month", typeof(int));
 			DTCitizens.Columns.Add("birthday_day", typeof(int));
+			DTCitizens.Columns.Add("birthday_known", typeof(bool));
+			DTCitizens.Columns.Add("birthday_year_known", typeof(bool));
 
 			DTCitizens.Columns.Add("observations", typeof(string));
 			DTCitizens.Columns.Add("sex", typeof(TSex));
@@ -263,6 +268,8 @@ namespace GCRM
 					row["birthday_year"] = citizen.Birthday.Year;
 					row["birthday_month"] = citizen.Birthday.Month;
 					row["birthday_day"] = citizen.Birthday.Day;
+					row["birthday_known"] = citizen.KnownBirthday;
+					row["birthday_year_known"] = citizen.KnownBirthyear;
 
 					row["observations"] = citizen.Observations;
 					row["sex"] = citizen.Sex;
@@ -588,9 +595,9 @@ namespace GCRM
 					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Nombre", headers_color, 30);
 
 					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Nacimiento", headers_color, 15);
-					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Año Nacimiento", headers_color, 15);
-					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Mes Nacimiento", headers_color, 15);
 					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Día Nacimiento", headers_color, 15);
+					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Mes Nacimiento", headers_color, 15);
+					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Año Nacimiento", headers_color, 15);
 
 					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "CURP", headers_color, 30);
 					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Teléfono", headers_color, 25);
@@ -628,12 +635,26 @@ namespace GCRM
 						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colTitleName"].Value);
 						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colFullName"].Value);
 
-						DateTime birthday = (DateTime)row.Cells["colBirthday"].Value;
+						if ((bool)row.Cells["colBirthdayKnown"].Value)
+						{
+							DateTime birthday = (DateTime)row.Cells["colBirthdayRaw"].Value;
 
-						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, birthday.ToString("yyyy/MM/dd"), "yyyy/MM/dd");
-						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, birthday.ToString("yyyy"));
-						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, birthday.ToString("MMMM"));
-						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, birthday.Day.ToString());
+							if ((bool)row.Cells["colBirthdayYearKnown"].Value)
+								ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, birthday.ToString("yyyy/MM/dd"), "yyyy/MM/dd");
+							else
+								ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, birthday.ToString("MM/dd"), "MM/dd");
+
+
+								ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, birthday.Day.ToString());
+							ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, birthday.ToString("MMMM"));
+
+							if ((bool)row.Cells["colBirthdayYearKnown"].Value)
+								ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, birthday.ToString("yyyy"));
+							else
+								row_index++;
+						}
+						else
+							row_index += 4; 
 
 						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colCURP"].Value);
 						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colPhoneAndExtension"].Value);
@@ -656,7 +677,11 @@ namespace GCRM
 							{
 								ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colInstitutionRoleName"].Value);
 							}
+							else
+								row_index++;
 						}
+						else
+							row_index += 4;
 
 						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colAddressStreet"].Value);
 						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colAddressNumber"].Value);
