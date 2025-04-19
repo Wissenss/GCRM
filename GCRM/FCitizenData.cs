@@ -893,8 +893,8 @@ namespace GCRM
 
 			OnInstitutionSelectedValueChanged(ComboBoxInstitution, DTInstitutionRole, ComboBoxInstitutionRole, LInstitutionSectorAndCategory);
 
-			ComboBoxInstitutionRole.Enabled = true;
-			BAccept.Enabled = true;
+			ComboBoxInstitutionRole.Enabled = true && AccessMode != FAccessMode.Read;
+			BAccept.Enabled = AccessMode != FAccessMode.Read;
 		}
 
 		private void Insitution2_SelectedValueChanged(object sender, EventArgs e)
@@ -904,8 +904,8 @@ namespace GCRM
 
 			OnInstitutionSelectedValueChanged(Insitution2, DTInstitution2Role, Institution2Role, LInstitution2SectorAndCategory);
 
-			Institution2Role.Enabled = true;
-			BAccept.Enabled = true;
+			Institution2Role.Enabled = AccessMode != FAccessMode.Read;
+			BAccept.Enabled = AccessMode != FAccessMode.Read;
 		}
 
 		private void Institution3_SelectedValueChanged(object sender, EventArgs e)
@@ -915,8 +915,8 @@ namespace GCRM
 
 			OnInstitutionSelectedValueChanged(Institution3, DTInstitution3Role, Institution3Role, LInstitution3SectorAndCategory);
 		
-			Institution3Role.Enabled = true;
-			BAccept.Enabled = true;
+			Institution3Role.Enabled = AccessMode != FAccessMode.Read;
+			BAccept.Enabled = AccessMode != FAccessMode.Read;
 		}
 
 		private void LCURP_Click(object sender, EventArgs e)
