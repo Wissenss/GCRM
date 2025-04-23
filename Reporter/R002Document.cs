@@ -171,14 +171,17 @@ namespace Reporter
 					if (member.Citizen.Cellphone != null && member.Citizen.Cellphone.Trim().Length > 0)
 						contact_str += $"Cel. {member.Citizen.Cellphone}\n";
 
-					if (member.Citizen.Phone != null && member.Citizen.Phone.Number.Trim().Length > 0)
-						contact_str += $"{member.Citizen.Phone.FullNumber}";
+					if (member.Citizen.Phone != null)
+						if(member.Citizen.Phone.Number.Trim().Length > 0)
+							contact_str += $"{member.Citizen.Phone.FullNumber}";
 
-					if (member.Citizen.Phone2 != null && member.Citizen.Phone2.Number.Trim().Length > 0)
-						contact_str += $"{member.Citizen.Phone2.FullNumber}";
+					if (member.Citizen.Phone2 != null)
+						if (member.Citizen.Phone2.Number.Trim().Length > 0)
+							contact_str += $"{member.Citizen.Phone2.FullNumber}";
 
-					if (member.Citizen.Phone3 != null && member.Citizen.Phone3.Number.Trim().Length > 0)
-						contact_str += $"{member.Citizen.Phone3.FullNumber}";
+					if (member.Citizen.Phone3 != null)
+						if (member.Citizen.Phone3.Number.Trim().Length > 0)
+							contact_str += $"{member.Citizen.Phone3.FullNumber}";
 
 					table.Cell().MinHeight(row_min_height).Element(CellStyle).Text(contact_str).FontSize(row_font_size);
 

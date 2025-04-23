@@ -152,7 +152,7 @@ namespace GCRM
 				TextBoxName.Text = network.Name;
 				TextBoxDescription.Text = network.Description;
 				TextBoxLeadCitizen.Text = $"{network.LeadCitizen.Name} {network.LeadCitizen.PaternalName} {network.LeadCitizen.MaternalName}";
-				LLeadCitizenInfo.Text = $"Tel. {network.LeadCitizen.Phone} Cel. {network.LeadCitizen.Cellphone}";
+				LLeadCitizenInfo.Text = $"Tel. {network.LeadCitizen.Phone.FullNumber} Cel. {network.LeadCitizen.Cellphone}";
 
 				LeadCitizen = network.LeadCitizen;
 

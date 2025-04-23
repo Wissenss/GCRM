@@ -22,8 +22,8 @@ namespace Business
 
 	public class TCitizenContactNumber
 	{
-		public string Number;
-		public string Extension;
+		public string Number = "";
+		public string Extension = "";
 
 		private string GetNumericString(string raw_string)
 		{

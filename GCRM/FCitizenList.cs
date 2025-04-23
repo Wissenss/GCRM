@@ -802,9 +802,11 @@ namespace GCRM
 				Cellphone = (string)row.Cells["colCellphone"].Value
 			};
 
-			selected_citizen.Phone.Number = (string)row.Cells["colPhone"].Value;
-			selected_citizen.Phone.Extension = (string)row.Cells["colPhoneExtension"].Value;
-			
+			//selected_citizen.Phone.Number = (string)row.Cells["colPhone"].Value;
+			//selected_citizen.Phone.Extension = (string)row.Cells["colPhoneExtension"].Value;
+			selected_citizen.Phone.Number = "";
+			selected_citizen.Phone.Extension = "";
+
 			return selected_citizen;
 		}
 
