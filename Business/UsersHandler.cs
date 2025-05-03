@@ -313,6 +313,11 @@ namespace Business
 						reader.Read();
 
 						user.FillFromReader(reader);
+
+						if (user.Citizen.Id != 0)
+						{
+							error = CitizensHandler.GetCitizenById(user.Citizen.Id, out user.Citizen);
+						}
 					}
 				}
 			}
@@ -469,7 +474,8 @@ namespace Business
 						carddav_username=@carddav_username,
 						carddav_password=@carddav_password,
 						user_group_id=@user_group_id,
-						enabled=@enabled	
+						enabled=@enabled,
+						citizen_id=@citizen_id
 					WHERE 
 						id=@id;";
 			}
@@ -485,7 +491,8 @@ namespace Business
 						carddav_username,
 						carddav_password,
 						user_group_id,
-						enabled
+						enabled,
+						citizen_id
 					) VALUES(
 						@name, 
 						@username, 
@@ -495,7 +502,8 @@ namespace Business
 						@carddav_username,
 						@carddav_password,
 						@user_group_id,
-						@enabled
+						@enabled,
+						@citizen_id
 					);";
 			}
 
@@ -511,6 +519,7 @@ namespace Business
 				cmd.Parameters.AddWithValue("carddav_password", user.CardDavPassword);
 				cmd.Parameters.AddWithValue("user_group_id", user.Group.Id);
 				cmd.Parameters.AddWithValue("enabled", user.Enabled);
+				cmd.Parameters.AddWithValue("@citizen_id", user.Citizen.Id);
 
 				cmd.ExecuteNonQuery();
 

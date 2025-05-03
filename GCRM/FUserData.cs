@@ -12,6 +12,7 @@ namespace GCRM
 
 		FAccessMode AccessMode = FAccessMode.Create;
 		int Id = 0;
+		int CitizenId = 0;
 		string PasswordHash = "";
 		bool PasswordChanged = false;
 
@@ -93,7 +94,7 @@ namespace GCRM
 				Group.DataSource = DTUserGroups;
 				Group.DisplayMember = "name";
 				Group.ValueMember = "id";
-				Group.SelectedIndex = 0; 
+				Group.SelectedIndex = 0;
 			}
 		}
 
@@ -112,6 +113,8 @@ namespace GCRM
 
 			Group.Enabled = AccessMode != FAccessMode.Read;
 			Enabled.Enabled = AccessMode != FAccessMode.Read;
+
+			BSelectCitizen.Enabled = AccessMode != FAccessMode.Read;
 
 			BAccept.Visible = AccessMode != FAccessMode.Read;
 			BCancel.Text = AccessMode != FAccessMode.Read ? "&Cancelar" : "&Cerrar";
@@ -148,6 +151,9 @@ namespace GCRM
 
 				DTUserPermissions.BeginLoadData();
 				DTUserPermissions.Clear();
+
+				CitizenId = user.Citizen.Id;
+				CitizenName.Text = user.Citizen.FullName;
 
 				foreach (TUserPermission permission in user.Permissions)
 				{
@@ -250,6 +256,11 @@ namespace GCRM
 					Enabled = Enabled.Checked
 				};
 
+				user.Citizen = new TCitizen()
+				{
+					Id = CitizenId
+				};
+
 				if (PasswordChanged)
 				{
 					user.PasswordHash = UsersHandler.GetPasswordHash(user.Username, TextBoxPassword.Text);
@@ -345,6 +356,22 @@ namespace GCRM
 			CarddavUsername.Enabled = CarddavSyncEnabled.Checked && AccessMode != FAccessMode.Read;
 			LCardDavPassword.Enabled = CarddavSyncEnabled.Checked && AccessMode != FAccessMode.Read;
 			CarddavPassword.Enabled = CarddavSyncEnabled.Checked && AccessMode != FAccessMode.Read;
+		}
+
+		private void BSelectCitizen_Click(object sender, EventArgs e)
+		{
+			using (var citizen_list_dlg = new FCitizenList())
+			{
+				citizen_list_dlg.SetMode(FAccessMode.Select);
+
+				if (citizen_list_dlg.ShowDialog() == DialogResult.OK)
+				{
+					TCitizen selected = citizen_list_dlg.GetSelectedCitizen();
+
+					CitizenId = selected.Id;
+					CitizenName.Text = selected.FullName;
+				}
+			}
 		}
 	}
 }

@@ -28,8 +28,8 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-			DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+			DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+			DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FUserData));
 			BCancel = new Button();
 			BAccept = new Button();
@@ -41,6 +41,10 @@
 			LPassword = new Label();
 			TabControlUser = new TabControl();
 			TabGeneral = new TabPage();
+			BSelectCitizen = new Button();
+			CitizenName = new TextBox();
+			LCitizen = new Label();
+			Enabled = new CheckBox();
 			Group = new ComboBox();
 			LGroup = new Label();
 			TabPermissions = new TabPage();
@@ -56,7 +60,6 @@
 			CardDavURL = new TextBox();
 			LCardDavUrl = new Label();
 			CarddavSyncEnabled = new CheckBox();
-			Enabled = new CheckBox();
 			TabControlUser.SuspendLayout();
 			TabGeneral.SuspendLayout();
 			TabPermissions.SuspendLayout();
@@ -67,7 +70,7 @@
 			// BCancel
 			// 
 			BCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-			BCancel.Location = new Point(272, 202);
+			BCancel.Location = new Point(272, 233);
 			BCancel.Name = "BCancel";
 			BCancel.Size = new Size(75, 23);
 			BCancel.TabIndex = 5;
@@ -78,7 +81,7 @@
 			// BAccept
 			// 
 			BAccept.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-			BAccept.Location = new Point(194, 202);
+			BAccept.Location = new Point(194, 233);
 			BAccept.Name = "BAccept";
 			BAccept.Size = new Size(75, 23);
 			BAccept.TabIndex = 4;
@@ -89,9 +92,9 @@
 			// TextBoxName
 			// 
 			TextBoxName.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-			TextBoxName.Location = new Point(65, 31);
+			TextBoxName.Location = new Point(79, 31);
 			TextBoxName.Name = "TextBoxName";
-			TextBoxName.Size = new Size(278, 23);
+			TextBoxName.Size = new Size(263, 23);
 			TextBoxName.TabIndex = 7;
 			// 
 			// LName
@@ -106,9 +109,9 @@
 			// TextBoxUsername
 			// 
 			TextBoxUsername.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-			TextBoxUsername.Location = new Point(65, 60);
+			TextBoxUsername.Location = new Point(79, 60);
 			TextBoxUsername.Name = "TextBoxUsername";
-			TextBoxUsername.Size = new Size(278, 23);
+			TextBoxUsername.Size = new Size(263, 23);
 			TextBoxUsername.TabIndex = 9;
 			TextBoxUsername.TextChanged += TextBoxUsername_TextChanged;
 			// 
@@ -124,10 +127,10 @@
 			// TextBoxPassword
 			// 
 			TextBoxPassword.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-			TextBoxPassword.Location = new Point(65, 89);
+			TextBoxPassword.Location = new Point(79, 89);
 			TextBoxPassword.Name = "TextBoxPassword";
 			TextBoxPassword.PasswordChar = '*';
-			TextBoxPassword.Size = new Size(278, 23);
+			TextBoxPassword.Size = new Size(263, 23);
 			TextBoxPassword.TabIndex = 11;
 			TextBoxPassword.Enter += TextBoxPassword_Enter;
 			// 
@@ -149,11 +152,14 @@
 			TabControlUser.Location = new Point(1, 1);
 			TabControlUser.Name = "TabControlUser";
 			TabControlUser.SelectedIndex = 0;
-			TabControlUser.Size = new Size(357, 195);
+			TabControlUser.Size = new Size(357, 226);
 			TabControlUser.TabIndex = 12;
 			// 
 			// TabGeneral
 			// 
+			TabGeneral.Controls.Add(BSelectCitizen);
+			TabGeneral.Controls.Add(CitizenName);
+			TabGeneral.Controls.Add(LCitizen);
 			TabGeneral.Controls.Add(Enabled);
 			TabGeneral.Controls.Add(Group);
 			TabGeneral.Controls.Add(LGroup);
@@ -166,18 +172,57 @@
 			TabGeneral.Location = new Point(4, 24);
 			TabGeneral.Name = "TabGeneral";
 			TabGeneral.Padding = new Padding(3);
-			TabGeneral.Size = new Size(349, 167);
+			TabGeneral.Size = new Size(349, 198);
 			TabGeneral.TabIndex = 0;
 			TabGeneral.Text = "General";
 			TabGeneral.UseVisualStyleBackColor = true;
+			// 
+			// BSelectCitizen
+			// 
+			BSelectCitizen.Image = Properties.Resources.Fatcow_Farm_Fresh_Magnifier_16;
+			BSelectCitizen.Location = new Point(319, 147);
+			BSelectCitizen.Name = "BSelectCitizen";
+			BSelectCitizen.Size = new Size(23, 23);
+			BSelectCitizen.TabIndex = 17;
+			BSelectCitizen.UseVisualStyleBackColor = true;
+			BSelectCitizen.Click += BSelectCitizen_Click;
+			// 
+			// CitizenName
+			// 
+			CitizenName.Location = new Point(79, 147);
+			CitizenName.Name = "CitizenName";
+			CitizenName.ReadOnly = true;
+			CitizenName.Size = new Size(234, 23);
+			CitizenName.TabIndex = 16;
+			// 
+			// LCitizen
+			// 
+			LCitizen.AutoSize = true;
+			LCitizen.Location = new Point(8, 150);
+			LCitizen.Name = "LCitizen";
+			LCitizen.Size = new Size(65, 15);
+			LCitizen.TabIndex = 15;
+			LCitizen.Text = "Ciudadano";
+			// 
+			// Enabled
+			// 
+			Enabled.AutoSize = true;
+			Enabled.Checked = true;
+			Enabled.CheckState = CheckState.Checked;
+			Enabled.Location = new Point(79, 6);
+			Enabled.Name = "Enabled";
+			Enabled.Size = new Size(81, 19);
+			Enabled.TabIndex = 14;
+			Enabled.Text = "Habilitado";
+			Enabled.UseVisualStyleBackColor = true;
 			// 
 			// Group
 			// 
 			Group.DropDownStyle = ComboBoxStyle.DropDownList;
 			Group.FormattingEnabled = true;
-			Group.Location = new Point(65, 118);
+			Group.Location = new Point(79, 118);
 			Group.Name = "Group";
-			Group.Size = new Size(278, 23);
+			Group.Size = new Size(263, 23);
 			Group.TabIndex = 13;
 			// 
 			// LGroup
@@ -195,7 +240,7 @@
 			TabPermissions.Location = new Point(4, 24);
 			TabPermissions.Name = "TabPermissions";
 			TabPermissions.Padding = new Padding(3);
-			TabPermissions.Size = new Size(349, 167);
+			TabPermissions.Size = new Size(349, 198);
 			TabPermissions.TabIndex = 1;
 			TabPermissions.Text = "Permisos";
 			TabPermissions.UseVisualStyleBackColor = true;
@@ -210,24 +255,24 @@
 			DataGridUserPermissions.BorderStyle = BorderStyle.None;
 			DataGridUserPermissions.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
 			DataGridUserPermissions.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
-			dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle1.BackColor = SystemColors.Control;
-			dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
-			dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-			dataGridViewCellStyle1.SelectionBackColor = SystemColors.ControlLight;
-			dataGridViewCellStyle1.SelectionForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-			DataGridUserPermissions.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle3.BackColor = SystemColors.Control;
+			dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
+			dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
+			dataGridViewCellStyle3.SelectionBackColor = SystemColors.ControlLight;
+			dataGridViewCellStyle3.SelectionForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+			DataGridUserPermissions.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
 			DataGridUserPermissions.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			DataGridUserPermissions.Columns.AddRange(new DataGridViewColumn[] { colId, colName, colPermited });
-			dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle2.BackColor = SystemColors.Window;
-			dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
-			dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle2.SelectionBackColor = SystemColors.ControlLight;
-			dataGridViewCellStyle2.SelectionForeColor = SystemColors.ControlText;
-			dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-			DataGridUserPermissions.DefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle4.BackColor = SystemColors.Window;
+			dataGridViewCellStyle4.Font = new Font("Segoe UI", 9F);
+			dataGridViewCellStyle4.ForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle4.SelectionBackColor = SystemColors.ControlLight;
+			dataGridViewCellStyle4.SelectionForeColor = SystemColors.ControlText;
+			dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
+			DataGridUserPermissions.DefaultCellStyle = dataGridViewCellStyle4;
 			DataGridUserPermissions.Dock = DockStyle.Fill;
 			DataGridUserPermissions.EditMode = DataGridViewEditMode.EditProgrammatically;
 			DataGridUserPermissions.EnableHeadersVisualStyles = false;
@@ -237,7 +282,7 @@
 			DataGridUserPermissions.RowHeadersVisible = false;
 			DataGridUserPermissions.RowTemplate.Height = 20;
 			DataGridUserPermissions.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-			DataGridUserPermissions.Size = new Size(343, 161);
+			DataGridUserPermissions.Size = new Size(343, 192);
 			DataGridUserPermissions.StandardTab = true;
 			DataGridUserPermissions.TabIndex = 2;
 			DataGridUserPermissions.Click += DataGridUserPermissions_Click;
@@ -277,7 +322,7 @@
 			TabCarddav.Location = new Point(4, 24);
 			TabCarddav.Name = "TabCarddav";
 			TabCarddav.Padding = new Padding(3);
-			TabCarddav.Size = new Size(349, 167);
+			TabCarddav.Size = new Size(349, 198);
 			TabCarddav.TabIndex = 2;
 			TabCarddav.Text = "CardDav";
 			TabCarddav.UseVisualStyleBackColor = true;
@@ -350,23 +395,11 @@
 			CarddavSyncEnabled.UseVisualStyleBackColor = true;
 			CarddavSyncEnabled.CheckedChanged += CarddavSyncEnabled_CheckedChanged;
 			// 
-			// Enabled
-			// 
-			Enabled.AutoSize = true;
-			Enabled.Checked = true;
-			Enabled.CheckState = CheckState.Checked;
-			Enabled.Location = new Point(65, 6);
-			Enabled.Name = "Enabled";
-			Enabled.Size = new Size(81, 19);
-			Enabled.TabIndex = 14;
-			Enabled.Text = "Habilitado";
-			Enabled.UseVisualStyleBackColor = true;
-			// 
 			// FUserData
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
-			ClientSize = new Size(359, 237);
+			ClientSize = new Size(359, 268);
 			ControlBox = false;
 			Controls.Add(TabControlUser);
 			Controls.Add(BCancel);
@@ -415,5 +448,8 @@
 		private ComboBox Group;
 		private Label LGroup;
 		private CheckBox Enabled;
+		private TextBox CitizenName;
+		private Label LCitizen;
+		private Button BSelectCitizen;
 	}
 }
