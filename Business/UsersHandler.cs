@@ -50,9 +50,12 @@ namespace Business
 		public string CardDavPassword;
 		public TUserGroup Group = new TUserGroup();
 		public bool Enabled;
+		public TCitizen Citizen;
 
 		public void FillFromReader(DbDataReader reader)
 		{
+			Citizen = new TCitizen();
+
 			Id = reader.GetInt32(0);
 			Name = reader.GetString(1);
 			Username = reader.GetString(2);
@@ -63,6 +66,7 @@ namespace Business
 			CardDavPassword = reader.GetString(7);
 			Group.Id = reader.GetInt32(8);
 			Enabled = reader.GetBoolean(9);
+			Citizen.Id = reader.GetInt32(10);
 		}
 
 		public bool HasPermission(string permission_name)
@@ -193,6 +197,21 @@ namespace Business
 				new TUserPermission(352, "Ciudadanos.Categorias.Consultar"),
 				new TUserPermission(353, "Ciudadanos.Categorias.Eliminar"),
 				new TUserPermission(354, "Ciudadanos.Categorias.Crear"),
+
+				new TUserPermission(371, "Ciudadanos.Relaciones.Editar"),
+				new TUserPermission(372, "Ciudadanos.Relaciones.Consultar"),
+				new TUserPermission(373, "Ciudadanos.Relaciones.Eliminar"),
+				new TUserPermission(374, "Ciudadanos.Relaciones.Crear"),
+
+				new TUserPermission(381, "Ciudadanos.Relaciones.Personal.Editar"),
+				new TUserPermission(382, "Ciudadanos.Relaciones.Personal.Consultar"),
+				new TUserPermission(383, "Ciudadanos.Relaciones.Personal.Eliminar"),
+				new TUserPermission(384, "Ciudadanos.Relaciones.Personal.Crear"),
+
+				new TUserPermission(391, "Ciudadanos.Relaciones.Roles.Editar"),
+				new TUserPermission(392, "Ciudadanos.Relaciones.Roles.Consultar"),
+				new TUserPermission(393, "Ciudadanos.Relaciones.Roles.Eliminar"),
+				new TUserPermission(394, "Ciudadanos.Relaciones.Roles.Crear"),
 
 				// citizen networks related permissions
 				new TUserPermission(401, "Network.Editar"),

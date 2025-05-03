@@ -526,7 +526,6 @@
 		private TabPage TabElectoral;
 		private ToolStrip toolStrip3;
 		private ToolStripButton BCitizenNetworks;
-		private ToolStripButton BEmails;
 		private ToolStripSeparator toolStripSeparator1;
 		private ToolStripButton BQueries;
 		private ToolStripButton BEventLog;
@@ -539,5 +538,6 @@
 		private Panel BirthdayPanel;
 		private Panel BirthdayPanelTopBar;
 		private Panel BirthdayPanelContent;
+		private ToolStripButton BEmails;
 	}
 }

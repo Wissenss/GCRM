@@ -28,6 +28,8 @@ namespace Business
 		CitizenInUse,
 		CitizenCategoryNotFound,
 		CitizenCategoryInUse,
+		CitizenRelationshipNotFound,
+		CitizenRelationshipRoleNotFound,
 
 		// errors related to institutions
 		InstitutionNotFound,
@@ -72,6 +74,8 @@ namespace Business
 			{ Error.CitizenWithSameCURP, "Existe un ciudadano con la misma clave CURP" },
 			{ Error.CitizenWithSameName, "Existe un ciudadano con el mismo nombre" },
 			{ Error.CitizenInUse, "Ciudadano esta siendo utilizado" },
+			{ Error.CitizenRelationshipNotFound, "Relacion ciudadana no encontrada" },
+			{ Error.CitizenRelationshipRoleNotFound, "Rol de relación ciudadana no encontrado" },
 			{ Error.InstitutionNotFound, "Institución no encontrada" },
 			{ Error.InstitutionInUse, "Institución esta siendo utilizada" },
 			{ Error.InstitutionRepeatedName, "Existe una institución con el mismo nombre" },

@@ -6,6 +6,46 @@ using System.Text;
 
 namespace Business
 {
+	public class TCitizenRelationshipRole
+	{
+		public int Id;
+		public string Name;
+
+		public void FillFromReader(DbDataReader reader)
+		{
+			Id = reader.GetInt32("id");
+			Name = reader.GetString("name");
+		}
+	}
+
+	public class TCitizenRelationship
+	{
+		public int Id;
+		public int CitizenId;
+		public int RelatedCitizenId;
+		public TCitizenRelationshipRole Role = new TCitizenRelationshipRole();
+		public double AffinityScore;
+		public bool KnownStartDate;
+		public bool KnownEndDate;
+		public DateTime StartDate;
+		public DateTime EndDate;
+		public string Notes;
+
+		public void FillFromReader(DbDataReader reader)
+		{
+			Id = reader.GetInt32("id");
+			CitizenId = reader.GetInt32("citizen_id");
+			RelatedCitizenId = reader.GetInt32("related_citizen_id");
+			Role.Id = reader.GetInt32("citizen_relationship_role_id");
+			AffinityScore = reader.GetDouble("affinity_score");
+			KnownStartDate = reader.GetBoolean("known_start_date");
+			KnownEndDate = reader.GetBoolean("known_end_date");
+			StartDate = reader.GetDateTime("start_date");
+			EndDate = reader.GetDateTime("end_date");
+			Notes = reader.GetString("notes");
+		}
+	}
+
 	public class TCitizenCategory
 	{
 		public int Id;
@@ -126,6 +166,12 @@ namespace Business
 		public string VoterSection;
 
 		public bool AttentionRequired;
+
+		public List<TCitizenRelationship> Relationships = new List<TCitizenRelationship>();
+		
+		// this parameter will have the relationship the current user related citizen has with this user
+		// so in a way is kind of the other way around, as the relationships array
+		public TCitizenRelationship UserRelationship = new TCitizenRelationship();
 
 		public bool IsPoliticalActivist;
 		public DateTime PoliticalRegisterDate;
@@ -345,9 +391,21 @@ namespace Business
 
 			var conn = ConnectionPool.GetConnection();
 
-			using (var cmd = new NpgsqlCommand("SELECT * FROM citizens WHERE id = @id;", conn))
+			string sql = @"
+				SELECT 
+					c.*,
+					COALESCE(cr.id, 0) AS UserRelationshipId
+				FROM 
+					citizens c
+					LEFT JOIN citizen_relationships cr ON (cr.citizen_id = @userCitizenId AND cr.related_citizen_id = c.id)
+				WHERE 
+					c.id = @id;
+			";
+
+			using (var cmd = new NpgsqlCommand(sql, conn))
 			{
 				cmd.Parameters.AddWithValue("@id", id);
+				cmd.Parameters.AddWithValue("@userCitizenId", Session.User.Id);
 
 				using (var reader = cmd.ExecuteReader())
 				{
@@ -380,6 +438,14 @@ namespace Business
 
 						if (error == 0 && citizen.Role3.Id != 0)
 							error = InstitutionsHandler.GetInstitutionRoleById(citizen.Role3.Id, citizen.Role3.IsTemplateRole, out citizen.Role3);
+
+						if (error == 0)
+						{
+							citizen.UserRelationship.Id = reader.GetInt32("UserRelationshipId");
+
+							if (citizen.UserRelationship.Id != 0)
+								error = GetCitizenRelationshipById(citizen.UserRelationship.Id, out citizen.UserRelationship);
+						}
 					}
 					else
 					{
@@ -1177,6 +1243,155 @@ namespace Business
 			}
 
 			ConnectionPool.ReleaseConnection(ref conn);
+
+			return 0;
+		}
+	
+		public static Error GetCitizenRelationshipById(int id, out TCitizenRelationship relationship)
+		{
+			Error error = 0;
+
+			relationship = new TCitizenRelationship();
+
+			var conn = ConnectionPool.GetConnection();
+
+			string sql = @"
+				SELECT 
+					cr.* 
+					crr.name AS RoleName
+				FROM 
+					citizen_relationships cr
+					LEFT JOIN citizen_relationship_roles crr ON cr.citizen_relationship_role_id = crr.id
+				WHERE 
+					cr.id = @id;
+			";
+
+			using (var cmd = new NpgsqlCommand(sql, conn))
+			{
+				cmd.Parameters.AddWithValue("@id", id);
+
+				using (var reader = cmd.ExecuteReader())
+				{
+					if (reader.HasRows == false)
+					{
+						ConnectionPool.ReleaseConnection(ref conn);
+						return Error.CitizenRelationshipNotFound;
+					}
+
+					reader.Read();
+
+					relationship.FillFromReader(reader);
+
+					relationship.Role.Name = reader.GetString("RoleName");
+				}
+			}
+
+			ConnectionPool.ReleaseConnection(ref conn);
+
+			return 0;
+		}
+	
+		public static Error GetCitizenRelationshipRoles(out List<TCitizenRelationshipRole> relationshipRoles)
+		{
+			var conn = ConnectionPool.GetConnection();
+
+			relationshipRoles = new List<TCitizenRelationshipRole>();
+
+			using (var cmd = new NpgsqlCommand("SELECT * FROM citizen_relationship_roles;", conn))
+			using (var reader = cmd.ExecuteReader()) 
+			{
+				while (reader.Read())
+				{
+					var role = new TCitizenRelationshipRole();
+
+					role.FillFromReader(reader);
+
+					relationshipRoles.Add(role);
+				}
+			}
+
+			ConnectionPool.ReleaseConnection(ref conn);
+
+			return 0;
+		}
+	
+		public static Error GetCitizenRelationshipRoleById(int id, out TCitizenRelationshipRole role)
+		{
+			var conn = ConnectionPool.GetConnection();
+
+			role = new TCitizenRelationshipRole();	
+
+			using (var cmd = new NpgsqlCommand("SELECT * FROM citizen_relationship_role WHERE id = @id;", conn))
+			{
+				cmd.Parameters.AddWithValue("@id", id);
+
+				using (var reader = cmd.ExecuteReader())
+				{
+					if (reader.HasRows == false)
+					{
+						ConnectionPool.ReleaseConnection(ref conn);
+						return Error.CitizenRelationshipRoleNotFound;
+					}
+
+					reader.Read();
+
+					role.FillFromReader(reader);
+				}
+			}
+
+			ConnectionPool.ReleaseConnection(ref conn);
+
+			return 0;
+		}
+	
+		public static Error SaveCitizenRelationshipRole(TCitizenRelationshipRole role, bool is_update)
+		{
+			var conn = ConnectionPool.GetConnection();
+
+			string sql = "";
+
+			if (is_update)
+			{
+				sql = @"
+					UPDATE 
+						citizen_relationship_roles 
+					SET 
+						name = @name
+					WHERE
+						id = @id;";
+			}
+			else
+			{
+				sql = @"
+					INSERT INTO citizen_relationship_roles (
+						name
+					) VALUES (
+						@name
+					) RETURNING id;";
+			}
+
+			using (var cmd = new NpgsqlCommand(sql, conn))
+			{
+				cmd.Parameters.AddWithValue("@name", role.Name);
+
+				if (is_update)
+				{
+					cmd.ExecuteNonQuery();
+				}
+				else
+				{
+					role.Id = (Int32)(Int64)cmd.ExecuteScalar();
+				}
+			}
+
+			ConnectionPool.ReleaseConnection(ref conn);	
+
+			return 0;
+		}
+	
+		public static Error DeleteCitizenRelationshipRoleById(int id)
+		{
+			// TODO
 
 			return 0;
 		}

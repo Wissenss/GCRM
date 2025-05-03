@@ -94,6 +94,7 @@
 			TSSLRecordAttentionRequiredCount = new ToolStripStatusLabel();
 			TSSLRecordCount = new ToolStripStatusLabel();
 			TSSLFilters = new ToolStripStatusLabel();
+			BRelationships = new ToolStripButton();
 			ToolStrip.SuspendLayout();
 			PanelSearch.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)DataGridCitizens).BeginInit();
@@ -390,11 +391,11 @@
 			// ToolStrip
 			// 
 			ToolStrip.GripStyle = ToolStripGripStyle.Hidden;
-			ToolStrip.Items.AddRange(new ToolStripItem[] { BAdd, BEdit, BRead, BRefresh, toolStripSeparator1, BFields, BFilter, BDelete, toolStripSeparator2, FExcelExport, BPrint, toolStripSeparator4, BSearch, toolStripSeparator5, BCategories, toolStripSeparator3, BSelect, BAttentionRequired });
+			ToolStrip.Items.AddRange(new ToolStripItem[] { BAdd, BEdit, BRead, BRefresh, toolStripSeparator1, BFields, BFilter, BDelete, toolStripSeparator2, FExcelExport, BPrint, toolStripSeparator4, BSearch, toolStripSeparator5, BCategories, BRelationships, toolStripSeparator3, BSelect, BAttentionRequired });
 			ToolStrip.Location = new Point(2, 2);
 			ToolStrip.Name = "ToolStrip";
 			ToolStrip.RenderMode = ToolStripRenderMode.System;
-			ToolStrip.Size = new Size(932, 40);
+			ToolStrip.Size = new Size(1179, 40);
 			ToolStrip.TabIndex = 4;
 			ToolStrip.Text = "toolStrip1";
 			// 
@@ -563,7 +564,7 @@
 			BSelect.ImageScaling = ToolStripItemImageScaling.None;
 			BSelect.ImageTransparentColor = Color.Magenta;
 			BSelect.Name = "BSelect";
-			BSelect.Size = new Size(87, 20);
+			BSelect.Size = new Size(87, 37);
 			BSelect.Text = "&Seleccionar";
 			BSelect.Visible = false;
 			BSelect.Click += BSelect_Click;
@@ -587,7 +588,7 @@
 			PanelSearch.Dock = DockStyle.Top;
 			PanelSearch.Location = new Point(2, 42);
 			PanelSearch.Name = "PanelSearch";
-			PanelSearch.Size = new Size(932, 39);
+			PanelSearch.Size = new Size(1179, 39);
 			PanelSearch.TabIndex = 6;
 			PanelSearch.Visible = false;
 			// 
@@ -597,7 +598,7 @@
 			TextBoxSearch.Location = new Point(8, 8);
 			TextBoxSearch.Name = "TextBoxSearch";
 			TextBoxSearch.PlaceholderText = "Ingrese el texto a buscar...";
-			TextBoxSearch.Size = new Size(916, 23);
+			TextBoxSearch.Size = new Size(1163, 23);
 			TextBoxSearch.TabIndex = 1;
 			TextBoxSearch.TextChanged += TextBoxSearch_TextChanged;
 			// 
@@ -648,7 +649,7 @@
 			DataGridCitizens.RowTemplate.Height = 20;
 			DataGridCitizens.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 			DataGridCitizens.ShowCellToolTips = false;
-			DataGridCitizens.Size = new Size(932, 371);
+			DataGridCitizens.Size = new Size(1179, 520);
 			DataGridCitizens.StandardTab = true;
 			DataGridCitizens.TabIndex = 7;
 			DataGridCitizens.CellDoubleClick += DataGridCitizens_CellDoubleClick;
@@ -658,9 +659,9 @@
 			// statusStrip1
 			// 
 			statusStrip1.Items.AddRange(new ToolStripItem[] { TSSLRecordAttentionRequiredCount, TSSLRecordCount, TSSLFilters });
-			statusStrip1.Location = new Point(2, 452);
+			statusStrip1.Location = new Point(2, 601);
 			statusStrip1.Name = "statusStrip1";
-			statusStrip1.Size = new Size(932, 22);
+			statusStrip1.Size = new Size(1179, 22);
 			statusStrip1.TabIndex = 8;
 			statusStrip1.Text = "statusStrip1";
 			// 
@@ -690,11 +691,21 @@
 			TSSLFilters.Text = "Filtros: Sexo = Masculino";
 			TSSLFilters.TextAlign = ContentAlignment.MiddleLeft;
 			// 
+			// BRelationships
+			// 
+			BRelationships.Image = Properties.Resources.Fatcow_Farm_Fresh_Small_business_16;
+			BRelationships.ImageScaling = ToolStripItemImageScaling.None;
+			BRelationships.ImageTransparentColor = Color.Magenta;
+			BRelationships.Name = "BRelationships";
+			BRelationships.Size = new Size(83, 37);
+			BRelationships.Text = "Relaciones";
+			BRelationships.Click += BRelationships_Click;
+			// 
 			// FCitizenList
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
-			ClientSize = new Size(936, 476);
+			ClientSize = new Size(1183, 625);
 			Controls.Add(DataGridCitizens);
 			Controls.Add(statusStrip1);
 			Controls.Add(PanelSearch);
@@ -781,5 +792,6 @@
 		private ToolStripButton BAttentionRequired;
 		private ToolStripSeparator toolStripSeparator3;
 		private ToolStripStatusLabel TSSLRecordAttentionRequiredCount;
+		private ToolStripButton BRelationships;
 	}
 }

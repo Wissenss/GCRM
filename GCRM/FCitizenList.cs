@@ -198,13 +198,13 @@ namespace GCRM
 		{
 			Mode = mode;
 
-			BEdit.Visible              = Mode != FAccessMode.Select;
-			BRead.Visible              = Mode != FAccessMode.Select;
-			BDelete.Visible            = Mode != FAccessMode.Select;
-			FExcelExport.Visible       = Mode != FAccessMode.Select;
-			BPrint.Visible             = Mode != FAccessMode.Select;
+			BEdit.Visible = Mode != FAccessMode.Select;
+			BRead.Visible = Mode != FAccessMode.Select;
+			BDelete.Visible = Mode != FAccessMode.Select;
+			FExcelExport.Visible = Mode != FAccessMode.Select;
+			BPrint.Visible = Mode != FAccessMode.Select;
 			BAttentionRequired.Visible = Mode != FAccessMode.Select;
-			BCategories.Visible        = Mode != FAccessMode.Select;
+			BCategories.Visible = Mode != FAccessMode.Select;
 
 			BSelect.Visible = Mode == FAccessMode.Select;
 
@@ -221,6 +221,7 @@ namespace GCRM
 			BDelete.Visible = Session.HasPermission("Ciudadanos.Eliminar");
 			BCategories.Visible = Session.HasPermission("Ciudadanos.Categorias.Consultar");
 			BAttentionRequired.Visible = Session.HasPermission("Ciudadanos.SetAttentionRequired");
+			BRelationships.Visible = Session.HasPermission("Ciudadanos.Relaciones.Roles.Consultar");
 
 			Cursor.Current = Cursors.Default;
 		}
@@ -346,7 +347,7 @@ namespace GCRM
 
 					row["editor_id"] = citizen.LastEditor.Id;
 					row["editor_name"] = citizen.LastEditor.Name;
-					row["edited_date"] = citizen.EditDate;	
+					row["edited_date"] = citizen.EditDate;
 
 					row["category_id"] = citizen.Category.Id;
 					row["category_name"] = citizen.Category.Name;
@@ -443,14 +444,14 @@ namespace GCRM
 			// records that require attention
 			int attentrion_required = 0;
 
-			foreach(DataRow row in DTCitizens.Rows)
+			foreach (DataRow row in DTCitizens.Rows)
 			{
 				if ((bool)row["attention_required"])
 					attentrion_required++;
 			}
 
 			TSSLRecordAttentionRequiredCount.Visible = attentrion_required > 0;
-			TSSLRecordAttentionRequiredCount.Text    = $"Atención requerida: {attentrion_required}";
+			TSSLRecordAttentionRequiredCount.Text = $"Atención requerida: {attentrion_required}";
 
 			// the filters label
 			string filtros = "";
@@ -645,7 +646,7 @@ namespace GCRM
 								ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, birthday.ToString("MM/dd"), "MM/dd");
 
 
-								ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, birthday.Day.ToString());
+							ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, birthday.Day.ToString());
 							ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, birthday.ToString("MMMM"));
 
 							if ((bool)row.Cells["colBirthdayYearKnown"].Value)
@@ -654,7 +655,7 @@ namespace GCRM
 								row_index++;
 						}
 						else
-							row_index += 4; 
+							row_index += 4;
 
 						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colCURP"].Value);
 						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colPhoneAndExtension"].Value);
@@ -875,6 +876,14 @@ namespace GCRM
 		{
 			DataGridUtilities.TrySaveConfiguration(DataGridCitizens, "citizens\\main_data_grid");
 			SettingsUtilities.TrySaveFormConfiguration(this, "citizens\\main_form");
+		}
+
+		private void BRelationships_Click(object sender, EventArgs e)
+		{
+			using (FCitizenRelationshipRoleList role_list_dlg = new FCitizenRelationshipRoleList())
+			{
+				role_list_dlg.ShowDialog();
+			}
 		}
 	}
 }
