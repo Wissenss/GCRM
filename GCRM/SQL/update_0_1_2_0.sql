@@ -20,6 +20,12 @@ CREATE TABLE public.citizen_relationships
     PRIMARY KEY (id)
 );
 
+ALTER TABLE IF EXISTS public.citizen_relationships
+    ADD COLUMN enabled boolean NOT NULL DEFAULT false;
+
+ALTER TABLE IF EXISTS public.citizen_relationships
+    ADD COLUMN user_id bigint NOT NULL DEFAULT 0;
+
 ALTER TABLE IF EXISTS public.users
     ADD COLUMN citizen_id bigint NOT NULL DEFAULT 0;
 

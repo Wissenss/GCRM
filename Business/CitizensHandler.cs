@@ -30,6 +30,8 @@ namespace Business
 		public DateTime StartDate;
 		public DateTime EndDate;
 		public string Notes;
+		public bool Enabled;
+		public TUser User = new TUser();
 
 		public void FillFromReader(DbDataReader reader)
 		{
@@ -43,6 +45,8 @@ namespace Business
 			StartDate = reader.GetDateTime("start_date");
 			EndDate = reader.GetDateTime("end_date");
 			Notes = reader.GetString("notes");
+			Enabled = reader.GetBoolean("enabled");
+			User.Id = reader.GetInt32("user_id");
 		}
 	}
 
@@ -405,7 +409,7 @@ namespace Business
 			using (var cmd = new NpgsqlCommand(sql, conn))
 			{
 				cmd.Parameters.AddWithValue("@id", id);
-				cmd.Parameters.AddWithValue("@userCitizenId", Session.User.Id);
+				cmd.Parameters.AddWithValue("@userCitizenId", Session.User.Citizen.Id);
 
 				using (var reader = cmd.ExecuteReader())
 				{
@@ -801,7 +805,21 @@ namespace Business
 					{
 						citizen.Id = (Int32)(Int64)cmd.ExecuteScalar();
 					}
+
+					citizen.UserRelationship.User = Session.User;
+					citizen.UserRelationship.CitizenId = Session.User.Citizen.Id;
+					citizen.UserRelationship.RelatedCitizenId = citizen.Id;
 				}
+			}
+
+			// save the relationship
+			if (error == 0 && citizen.UserRelationship.Enabled)
+			{
+				error = SaveCitizenRelationship(citizen.UserRelationship, citizen.UserRelationship.Id != 0);
+			}
+			else if (error == 0 && citizen.UserRelationship.Id != 0)
+			{
+				error = SetEnabledCitizenRelationship(citizen.UserRelationship.Id, citizen.UserRelationship.Enabled);
 			}
 
 			if (error == 0)
@@ -1257,7 +1275,7 @@ namespace Business
 
 			string sql = @"
 				SELECT 
-					cr.* 
+					cr.*,
 					crr.name AS RoleName
 				FROM 
 					citizen_relationships cr
@@ -1291,6 +1309,108 @@ namespace Business
 			return 0;
 		}
 	
+		public static Error SaveCitizenRelationship(TCitizenRelationship relationship, bool is_update)
+		{
+			var conn = ConnectionPool.GetConnection();
+
+			string sql = "";
+
+			if (is_update)
+			{
+				sql = @"
+					UPDATE 
+						citizen_relationships 
+					SET
+						citizen_id = @citizen_id,
+						related_citizen_id = @related_citizen_id,
+						citizen_relationship_role_id = @citizen_relationship_role_id,
+						affinity_score = @affinity_score,
+						known_start_date = @known_start_date,
+						known_end_date = @known_end_date,
+						start_date = @start_date,
+						end_date = @end_date,
+						notes = @notes,
+						user_id = @user_id,
+						enabled = @enabled
+					WHERE
+						id = @id;";
+			}
+			else
+			{
+				sql = @"
+					INSERT INTO citizen_relationships(
+						citizen_id,
+						related_citizen_id,
+						citizen_relationship_role_id,
+						affinity_score,
+						known_start_date,
+						known_end_date,
+						start_date,
+						end_date,
+						notes,
+						user_id,
+						enabled
+					) VALUES (
+						@citizen_id,
+						@related_citizen_id,
+						@citizen_relationship_role_id,
+						@affinity_score,
+						@known_start_date,
+						@known_end_date,
+						@start_date,
+						@end_date,
+						@notes,
+						@user_id,
+						@enabled
+					) RETURNING id;";
+			}
+
+			using (var cmd = new NpgsqlCommand(sql, conn))
+			{
+				cmd.Parameters.AddWithValue("@id", relationship.Id);
+				cmd.Parameters.AddWithValue("@citizen_id", relationship.CitizenId);
+				cmd.Parameters.AddWithValue("@related_citizen_id", relationship.RelatedCitizenId);
+				cmd.Parameters.AddWithValue("@citizen_relationship_role_id", relationship.Role.Id);
+				cmd.Parameters.AddWithValue("@affinity_score", relationship.AffinityScore);
+				cmd.Parameters.AddWithValue("@known_start_date", relationship.KnownStartDate);
+				cmd.Parameters.AddWithValue("@known_end_date", relationship.KnownEndDate);
+				cmd.Parameters.AddWithValue("@start_date", relationship.StartDate);
+				cmd.Parameters.AddWithValue("@end_date", relationship.EndDate);
+				cmd.Parameters.AddWithValue("@notes", relationship.Notes);
+				cmd.Parameters.AddWithValue("@user_id", relationship.User.Id);
+				cmd.Parameters.AddWithValue("@enabled", relationship.Enabled);
+
+				if (is_update)
+				{
+					cmd.ExecuteNonQuery();
+				}
+				else
+				{
+					relationship.Id = (Int32)(Int64)cmd.ExecuteScalar();
+				}
+			}
+
+			ConnectionPool.ReleaseConnection(ref conn);
+
+			return 0;
+		}
+
+		public static Error SetEnabledCitizenRelationship(int relationshipId, bool enabled)
+		{
+			var conn = ConnectionPool.GetConnection();
+
+			using (var cmd = new NpgsqlCommand("UPDATE citizen_relationships SET enabled = @enabled WHERE id = @id;", conn))
+			{
+				cmd.Parameters.AddWithValue("@enabled", enabled);
+				cmd.Parameters.AddWithValue("@id", relationshipId);
+				cmd.ExecuteNonQuery();
+			}
+
+			ConnectionPool.ReleaseConnection(ref conn);
+
+			return 0;
+		}
+
 		public static Error GetCitizenRelationshipRoles(out List<TCitizenRelationshipRole> relationshipRoles)
 		{
 			var conn = ConnectionPool.GetConnection();
@@ -1321,7 +1441,7 @@ namespace Business
 
 			role = new TCitizenRelationshipRole();	
 
-			using (var cmd = new NpgsqlCommand("SELECT * FROM citizen_relationship_role WHERE id = @id;", conn))
+			using (var cmd = new NpgsqlCommand("SELECT * FROM citizen_relationship_roles WHERE id = @id;", conn))
 			{
 				cmd.Parameters.AddWithValue("@id", id);
 
@@ -1373,6 +1493,7 @@ namespace Business
 			using (var cmd = new NpgsqlCommand(sql, conn))
 			{
 				cmd.Parameters.AddWithValue("@name", role.Name);
+				cmd.Parameters.AddWithValue("@id", role.Id);
 
 				if (is_update)
 				{

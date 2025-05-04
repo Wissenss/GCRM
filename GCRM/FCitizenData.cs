@@ -18,10 +18,12 @@ namespace GCRM
 		DataTable DTInstitution2Role;
 		DataTable DTInstitution3Role;
 		DataTable DTCategories;
+		DataTable DTRelationshipRoles;
 
 		FAccessMode AccessMode = FAccessMode.Create;
 		int Id;
 		int AddressId;
+		int RelationshipId;
 
 		public FCitizenData()
 		{
@@ -82,6 +84,11 @@ namespace GCRM
 			DTCategories.Columns.Add("description", typeof(string));
 			DSCitizen.Tables.Add(DTCategories);
 
+			DTRelationshipRoles = new DataTable("DTRelationshipRoles");
+			DTRelationshipRoles.Columns.Add("id", typeof(int));
+			DTRelationshipRoles.Columns.Add("name", typeof(string));
+			DSCitizen.Tables.Add(DTRelationshipRoles);
+
 			ComboBoxAssistant.DataSource = DTCitizens;
 			ComboBoxAssistant.ValueMember = "id";
 			ComboBoxAssistant.DisplayMember = "name";
@@ -133,6 +140,7 @@ namespace GCRM
 			LoadDTInstitutionRoles(DTInstitution3Role, Institution3Role, 0, 0);
 			LoadDTCitizens();
 			LoadDTCategories();
+			LoadDTRelationshipRoles();
 
 			LInstitutionSectorAndCategory.Text = "";
 			LInstitution2SectorAndCategory.Text = "";
@@ -149,6 +157,11 @@ namespace GCRM
 			if (Session.HasPermission("Ciudadanos.Electoral.Consultar") == false)
 			{
 				TabControlCitizen.TabPages.Remove(TabElectoral);
+			}
+
+			if (Session.HasPermission("Ciudadanos.Relaciones.Personal.Consultar") == false || Session.HasPermission("Ciudadanos.Relaciones.Consultar"))
+			{
+
 			}
 		}
 
@@ -298,6 +311,46 @@ namespace GCRM
 			}
 		}
 
+		private void LoadDTRelationshipRoles()
+		{
+			using (new CursorWait())
+			{
+				Error error = CitizensHandler.GetCitizenRelationshipRoles(out List<TCitizenRelationshipRole> roles);
+
+				if (error != 0)
+				{
+					Utilities.ShowErrorDialog(error);
+					return;
+				}
+
+				roles.Insert(0, new TCitizenRelationshipRole()
+				{
+					Id = 0,
+					Name = "Sin definir"
+				});
+
+				DTRelationshipRoles.BeginLoadData();
+				DTRelationshipRoles.Clear();
+
+				foreach (var role in roles)
+				{
+					DataRow row = DTRelationshipRoles.NewRow();
+
+					row["id"] = role.Id;
+					row["name"] = role.Name;
+
+					DTRelationshipRoles.Rows.Add(row);
+				}
+
+				DTRelationshipRoles.EndLoadData();
+
+				Relationship.DataSource = DTRelationshipRoles;
+				Relationship.ValueMember = "id";
+				Relationship.DisplayMember = "name";
+				Relationship.SelectedValue = 0;
+			}
+		}
+
 		public void SetAccessMode(FAccessMode mode)
 		{
 			AccessMode = mode;
@@ -358,6 +411,15 @@ namespace GCRM
 			KnownPoliticalRegisterDate.Enabled = AccessMode != FAccessMode.Read;
 
 			BGenerateCURP.Enabled = AccessMode != FAccessMode.Read;
+
+			RelationshipEnabled.Enabled = AccessMode != FAccessMode.Read;
+			Relationship.Enabled = AccessMode != FAccessMode.Read;
+			NAffinity.Enabled = AccessMode != FAccessMode.Read;
+			KnownStartDate.Enabled = AccessMode != FAccessMode.Read;
+			KnownEndDate.Enabled = AccessMode != FAccessMode.Read;
+			StartDate.Enabled = AccessMode != FAccessMode.Read;
+			EndDate.Enabled = AccessMode != FAccessMode.Read;
+			RelationshipNotes.Enabled = AccessMode != FAccessMode.Read;
 
 			BAccept.Visible = AccessMode != FAccessMode.Read;
 			BCancel.Text = AccessMode != FAccessMode.Read ? "&Cancelar" : "&Cerrar";
@@ -450,6 +512,28 @@ namespace GCRM
 
 				IsPoliticalActivist_CheckedChanged(this, null);
 				KnownPoliticalRegisterDate_CheckedChanged(this, null);
+
+				RelationshipId = citizen.UserRelationship.Id;
+				RelationshipEnabled.Checked = citizen.UserRelationship.Enabled;
+				Relationship.SelectedValue = citizen.UserRelationship.Role.Id;
+				NAffinity.Value = (decimal)citizen.UserRelationship.AffinityScore;
+				KnownStartDate.Checked = citizen.UserRelationship.KnownStartDate;
+				KnownEndDate.Checked = citizen.UserRelationship.KnownEndDate;
+				RelationshipNotes.Text = citizen.UserRelationship.Notes;
+
+				if (citizen.UserRelationship.KnownStartDate)
+					StartDate.Value = citizen.UserRelationship.StartDate;
+				else
+					StartDate.Value = DateTime.Now;
+
+				if (citizen.UserRelationship.KnownEndDate)
+					EndDate.Value = citizen.UserRelationship.EndDate;
+				else	
+					EndDate.Value = DateTime.Now;
+
+				RelationshipEnabled_CheckedChanged(this, null);
+				KnownStartDate_CheckedChanged(this, null);
+				KnownEndDate_CheckedChanged(this, null);
 
 				Text = $"Ciudadano - {citizen.FullName}";
 			}
@@ -636,6 +720,16 @@ namespace GCRM
 				actions_to_authorize.Add(new TUserPermission(311, "Ciudadanos.NoEspecificarContacto"));
 			}
 
+			// validate relationship
+			if (RelationshipEnabled.Checked)
+			{
+				if ((int)Relationship.SelectedValue == 0)
+					errors.AppendLine("Debe especificar la relación");
+
+				if (KnownStartDate.Checked && KnownEndDate.Checked && StartDate.Value > EndDate.Value)
+					errors.AppendLine("La fecha de inicio de la relación no pude ser posterior a la de término");
+			}
+
 			if (errors.Length > 0)
 			{
 				Utilities.ShowValidationErrorDialog(errors);
@@ -765,6 +859,25 @@ namespace GCRM
 					PostalCode = TextBoxPostalCode.Text.Trim(),
 					Country = (TCountry)ComboBoxCountry.SelectedValue,
 					District = TextBoxDistrict.Text.Trim(),
+				};
+
+				citizen.UserRelationship = new TCitizenRelationship()
+				{
+					Id = RelationshipId,
+					CitizenId = Session.User.Citizen.Id,
+					RelatedCitizenId = Id,
+					Role = new TCitizenRelationshipRole()
+					{
+						Id = (int)Relationship.SelectedValue
+					},
+					AffinityScore = (double)NAffinity.Value,
+					KnownStartDate = KnownStartDate.Checked,
+					KnownEndDate = KnownEndDate.Checked,
+					StartDate = StartDate.Value,
+					EndDate = EndDate.Value,
+					Notes = RelationshipNotes.Text.Trim(),
+					User = Session.User,
+					Enabled = RelationshipEnabled.Checked
 				};
 
 				Error error = CitizensHandler.SaveCitizen(citizen, AccessMode == FAccessMode.Update);
@@ -914,7 +1027,7 @@ namespace GCRM
 			BAccept.Enabled = false;
 
 			OnInstitutionSelectedValueChanged(Institution3, DTInstitution3Role, Institution3Role, LInstitution3SectorAndCategory);
-		
+
 			Institution3Role.Enabled = AccessMode != FAccessMode.Read;
 			BAccept.Enabled = AccessMode != FAccessMode.Read;
 		}
@@ -1098,6 +1211,27 @@ namespace GCRM
 			PoliticalRegisterDate.Enabled = KnownPoliticalRegisterDate.Checked && IsPoliticalActivist.Checked && AccessMode != FAccessMode.Read;
 
 			PoliticalRegisterDate.Refresh();
+		}
+
+		private void RelationshipEnabled_CheckedChanged(object sender, EventArgs e)
+		{
+			Relationship.Enabled = RelationshipEnabled.Checked && AccessMode != FAccessMode.Read;
+			NAffinity.Enabled = RelationshipEnabled.Checked && AccessMode != FAccessMode.Read;
+			KnownStartDate.Enabled = RelationshipEnabled.Checked && AccessMode != FAccessMode.Read;
+			StartDate.Enabled = RelationshipEnabled.Checked && KnownStartDate.Checked && AccessMode != FAccessMode.Read;
+			KnownEndDate.Enabled = RelationshipEnabled.Checked && AccessMode != FAccessMode.Read;
+			EndDate.Enabled = RelationshipEnabled.Checked && KnownEndDate.Checked && AccessMode != FAccessMode.Read;
+			RelationshipNotes.Enabled = RelationshipEnabled.Checked && AccessMode != FAccessMode.Read;
+		}
+
+		private void KnownStartDate_CheckedChanged(object sender, EventArgs e)
+		{
+			StartDate.Enabled = KnownStartDate.Checked && AccessMode != FAccessMode.Read && RelationshipEnabled.Checked;
+		}
+
+		private void KnownEndDate_CheckedChanged(object sender, EventArgs e)
+		{
+			EndDate.Enabled = KnownEndDate.Checked && AccessMode != FAccessMode.Read && RelationshipEnabled.Checked;
 		}
 	}
 }

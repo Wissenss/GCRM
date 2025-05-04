@@ -56,6 +56,31 @@
 			LTitle = new Label();
 			LName = new Label();
 			TextBoxName = new TextBox();
+			TabRelationships = new TabPage();
+			EndDate = new DateTimePicker();
+			KnownEndDate = new CheckBox();
+			RelationshipEnabled = new CheckBox();
+			RelationshipNotes = new TextBox();
+			LRelationshipNotes = new Label();
+			StartDate = new DateTimePicker();
+			KnownStartDate = new CheckBox();
+			LRelationship = new Label();
+			Relationship = new ComboBox();
+			NAffinity = new NumericUpDown();
+			LAffinity = new Label();
+			TabElectoral = new TabPage();
+			KnownPoliticalRegisterDate = new CheckBox();
+			PoliticalRegisterDate = new DateTimePicker();
+			IsPoliticalActivist = new CheckBox();
+			pictureBox1 = new PictureBox();
+			VoterSection = new TextBox();
+			LVoterSection = new Label();
+			VoterCIC = new TextBox();
+			LVoterCIC = new Label();
+			VoterOCR = new TextBox();
+			LVoterOCR = new Label();
+			VoterCode = new TextBox();
+			LElectorCode = new Label();
 			TabContacto = new TabPage();
 			Phone3Extension = new TextBox();
 			LPhone3Extension = new Label();
@@ -114,32 +139,21 @@
 			LInstitutionRole = new Label();
 			ComboBoxInstitution = new ComboBox();
 			LInstitution = new Label();
-			TabElectoral = new TabPage();
-			PoliticalRegisterDate = new DateTimePicker();
-			IsPoliticalActivist = new CheckBox();
-			pictureBox1 = new PictureBox();
-			VoterSection = new TextBox();
-			LVoterSection = new Label();
-			VoterCIC = new TextBox();
-			LVoterCIC = new Label();
-			VoterOCR = new TextBox();
-			LVoterOCR = new Label();
-			VoterCode = new TextBox();
-			LElectorCode = new Label();
-			KnownPoliticalRegisterDate = new CheckBox();
 			TabControlCitizen.SuspendLayout();
 			TabGeneral.SuspendLayout();
+			TabRelationships.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)NAffinity).BeginInit();
+			TabElectoral.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
 			TabContacto.SuspendLayout();
 			TabAddress.SuspendLayout();
 			TabRol.SuspendLayout();
-			TabElectoral.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
 			SuspendLayout();
 			// 
 			// BAccept
 			// 
 			BAccept.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-			BAccept.Location = new Point(282, 348);
+			BAccept.Location = new Point(343, 356);
 			BAccept.Name = "BAccept";
 			BAccept.Size = new Size(75, 23);
 			BAccept.TabIndex = 1;
@@ -150,7 +164,7 @@
 			// BCancel
 			// 
 			BCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-			BCancel.Location = new Point(360, 348);
+			BCancel.Location = new Point(421, 356);
 			BCancel.Name = "BCancel";
 			BCancel.Size = new Size(75, 23);
 			BCancel.TabIndex = 2;
@@ -162,15 +176,16 @@
 			// 
 			TabControlCitizen.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
 			TabControlCitizen.Controls.Add(TabGeneral);
+			TabControlCitizen.Controls.Add(TabRelationships);
+			TabControlCitizen.Controls.Add(TabElectoral);
 			TabControlCitizen.Controls.Add(TabContacto);
 			TabControlCitizen.Controls.Add(TabAddress);
 			TabControlCitizen.Controls.Add(TabRol);
-			TabControlCitizen.Controls.Add(TabElectoral);
 			TabControlCitizen.Location = new Point(1, 1);
 			TabControlCitizen.MinimumSize = new Size(404, 311);
 			TabControlCitizen.Name = "TabControlCitizen";
 			TabControlCitizen.SelectedIndex = 0;
-			TabControlCitizen.Size = new Size(444, 341);
+			TabControlCitizen.Size = new Size(505, 349);
 			TabControlCitizen.SizeMode = TabSizeMode.Fixed;
 			TabControlCitizen.TabIndex = 0;
 			// 
@@ -203,44 +218,48 @@
 			TabGeneral.Location = new Point(4, 24);
 			TabGeneral.Name = "TabGeneral";
 			TabGeneral.Padding = new Padding(3);
-			TabGeneral.Size = new Size(436, 313);
+			TabGeneral.Size = new Size(497, 321);
 			TabGeneral.TabIndex = 0;
 			TabGeneral.Text = "General";
 			TabGeneral.UseVisualStyleBackColor = true;
 			// 
 			// BDayYear
 			// 
+			BDayYear.Anchor = AnchorStyles.Top | AnchorStyles.Right;
 			BDayYear.DropDownStyle = ComboBoxStyle.DropDownList;
 			BDayYear.FormattingEnabled = true;
-			BDayYear.Location = new Point(366, 151);
+			BDayYear.Location = new Point(427, 151);
 			BDayYear.Name = "BDayYear";
 			BDayYear.Size = new Size(64, 23);
 			BDayYear.TabIndex = 9;
 			// 
 			// BDayDay
 			// 
+			BDayDay.Anchor = AnchorStyles.Top | AnchorStyles.Right;
 			BDayDay.DropDownStyle = ComboBoxStyle.DropDownList;
 			BDayDay.FormattingEnabled = true;
-			BDayDay.Location = new Point(320, 151);
+			BDayDay.Location = new Point(381, 151);
 			BDayDay.Name = "BDayDay";
 			BDayDay.Size = new Size(40, 23);
 			BDayDay.TabIndex = 8;
 			// 
 			// BDayMonth
 			// 
+			BDayMonth.Anchor = AnchorStyles.Top | AnchorStyles.Right;
 			BDayMonth.DropDownStyle = ComboBoxStyle.DropDownList;
 			BDayMonth.FormattingEnabled = true;
-			BDayMonth.Location = new Point(250, 151);
+			BDayMonth.Location = new Point(311, 151);
 			BDayMonth.Name = "BDayMonth";
 			BDayMonth.Size = new Size(64, 23);
 			BDayMonth.TabIndex = 7;
 			// 
 			// KnownBirthday
 			// 
+			KnownBirthday.Anchor = AnchorStyles.Top | AnchorStyles.Right;
 			KnownBirthday.AutoSize = true;
 			KnownBirthday.Checked = true;
 			KnownBirthday.CheckState = CheckState.Checked;
-			KnownBirthday.Location = new Point(163, 153);
+			KnownBirthday.Location = new Point(224, 153);
 			KnownBirthday.Name = "KnownBirthday";
 			KnownBirthday.Size = new Size(88, 19);
 			KnownBirthday.TabIndex = 6;
@@ -250,8 +269,9 @@
 			// 
 			// BGenerateCURP
 			// 
+			BGenerateCURP.Anchor = AnchorStyles.Top | AnchorStyles.Right;
 			BGenerateCURP.Image = Properties.Resources.Fatcow_Farm_Fresh_Widgets_16;
-			BGenerateCURP.Location = new Point(399, 180);
+			BGenerateCURP.Location = new Point(460, 180);
 			BGenerateCURP.Name = "BGenerateCURP";
 			BGenerateCURP.Size = new Size(31, 23);
 			BGenerateCURP.TabIndex = 11;
@@ -275,16 +295,17 @@
 			ComboBoxCategory.FormattingEnabled = true;
 			ComboBoxCategory.Location = new Point(79, 35);
 			ComboBoxCategory.Name = "ComboBoxCategory";
-			ComboBoxCategory.Size = new Size(351, 23);
+			ComboBoxCategory.Size = new Size(412, 23);
 			ComboBoxCategory.TabIndex = 1;
 			// 
 			// MaskedTextBoxCURP
 			// 
+			MaskedTextBoxCURP.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 			MaskedTextBoxCURP.Location = new Point(79, 180);
 			MaskedTextBoxCURP.Mask = "AAAAAAAAAAAAAAAAAA";
 			MaskedTextBoxCURP.Name = "MaskedTextBoxCURP";
 			MaskedTextBoxCURP.PromptChar = ' ';
-			MaskedTextBoxCURP.Size = new Size(314, 23);
+			MaskedTextBoxCURP.Size = new Size(375, 23);
 			MaskedTextBoxCURP.TabIndex = 10;
 			// 
 			// LMaternalName
@@ -301,7 +322,7 @@
 			TextBoxMaternalName.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 			TextBoxMaternalName.Location = new Point(79, 122);
 			TextBoxMaternalName.Name = "TextBoxMaternalName";
-			TextBoxMaternalName.Size = new Size(351, 23);
+			TextBoxMaternalName.Size = new Size(412, 23);
 			TextBoxMaternalName.TabIndex = 4;
 			// 
 			// LPaternalName
@@ -318,7 +339,7 @@
 			TextBoxPaternalName.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 			TextBoxPaternalName.Location = new Point(79, 93);
 			TextBoxPaternalName.Name = "TextBoxPaternalName";
-			TextBoxPaternalName.Size = new Size(351, 23);
+			TextBoxPaternalName.Size = new Size(412, 23);
 			TextBoxPaternalName.TabIndex = 3;
 			// 
 			// ComboBoxPoliticalParty
@@ -327,7 +348,7 @@
 			ComboBoxPoliticalParty.FormattingEnabled = true;
 			ComboBoxPoliticalParty.Location = new Point(79, 282);
 			ComboBoxPoliticalParty.Name = "ComboBoxPoliticalParty";
-			ComboBoxPoliticalParty.Size = new Size(94, 23);
+			ComboBoxPoliticalParty.Size = new Size(116, 23);
 			ComboBoxPoliticalParty.TabIndex = 13;
 			// 
 			// LPoliticalParty
@@ -344,7 +365,7 @@
 			LTitleFull.AutoSize = true;
 			LTitleFull.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
 			LTitleFull.ForeColor = SystemColors.HotTrack;
-			LTitleFull.Location = new Point(179, 9);
+			LTitleFull.Location = new Point(201, 9);
 			LTitleFull.Name = "LTitleFull";
 			LTitleFull.Size = new Size(72, 15);
 			LTitleFull.TabIndex = 35;
@@ -367,7 +388,7 @@
 			TextBoxObservations.Location = new Point(79, 209);
 			TextBoxObservations.Multiline = true;
 			TextBoxObservations.Name = "TextBoxObservations";
-			TextBoxObservations.Size = new Size(351, 67);
+			TextBoxObservations.Size = new Size(412, 67);
 			TextBoxObservations.TabIndex = 12;
 			// 
 			// label1
@@ -385,7 +406,7 @@
 			ComboBoxSex.FormattingEnabled = true;
 			ComboBoxSex.Location = new Point(79, 151);
 			ComboBoxSex.Name = "ComboBoxSex";
-			ComboBoxSex.Size = new Size(78, 23);
+			ComboBoxSex.Size = new Size(116, 23);
 			ComboBoxSex.TabIndex = 5;
 			// 
 			// label2
@@ -403,7 +424,7 @@
 			ComboBoxTitle.FormattingEnabled = true;
 			ComboBoxTitle.Location = new Point(79, 6);
 			ComboBoxTitle.Name = "ComboBoxTitle";
-			ComboBoxTitle.Size = new Size(94, 23);
+			ComboBoxTitle.Size = new Size(116, 23);
 			ComboBoxTitle.TabIndex = 0;
 			ComboBoxTitle.SelectedIndexChanged += ComboBoxTitle_SelectedIndexChanged;
 			// 
@@ -430,8 +451,273 @@
 			TextBoxName.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 			TextBoxName.Location = new Point(79, 64);
 			TextBoxName.Name = "TextBoxName";
-			TextBoxName.Size = new Size(351, 23);
+			TextBoxName.Size = new Size(412, 23);
 			TextBoxName.TabIndex = 2;
+			// 
+			// TabRelationships
+			// 
+			TabRelationships.Controls.Add(EndDate);
+			TabRelationships.Controls.Add(KnownEndDate);
+			TabRelationships.Controls.Add(RelationshipEnabled);
+			TabRelationships.Controls.Add(RelationshipNotes);
+			TabRelationships.Controls.Add(LRelationshipNotes);
+			TabRelationships.Controls.Add(StartDate);
+			TabRelationships.Controls.Add(KnownStartDate);
+			TabRelationships.Controls.Add(LRelationship);
+			TabRelationships.Controls.Add(Relationship);
+			TabRelationships.Controls.Add(NAffinity);
+			TabRelationships.Controls.Add(LAffinity);
+			TabRelationships.Location = new Point(4, 24);
+			TabRelationships.Name = "TabRelationships";
+			TabRelationships.Size = new Size(497, 321);
+			TabRelationships.TabIndex = 5;
+			TabRelationships.Text = "Relación";
+			TabRelationships.UseVisualStyleBackColor = true;
+			// 
+			// EndDate
+			// 
+			EndDate.Enabled = false;
+			EndDate.Format = DateTimePickerFormat.Short;
+			EndDate.Location = new Point(126, 118);
+			EndDate.Name = "EndDate";
+			EndDate.Size = new Size(118, 23);
+			EndDate.TabIndex = 36;
+			// 
+			// KnownEndDate
+			// 
+			KnownEndDate.AutoSize = true;
+			KnownEndDate.Enabled = false;
+			KnownEndDate.Location = new Point(65, 121);
+			KnownEndDate.Name = "KnownEndDate";
+			KnownEndDate.Size = new Size(45, 19);
+			KnownEndDate.TabIndex = 35;
+			KnownEndDate.Text = "Fin ";
+			KnownEndDate.UseVisualStyleBackColor = true;
+			KnownEndDate.CheckedChanged += KnownEndDate_CheckedChanged;
+			// 
+			// RelationshipEnabled
+			// 
+			RelationshipEnabled.AutoSize = true;
+			RelationshipEnabled.Location = new Point(65, 6);
+			RelationshipEnabled.Name = "RelationshipEnabled";
+			RelationshipEnabled.Size = new Size(80, 19);
+			RelationshipEnabled.TabIndex = 34;
+			RelationshipEnabled.Text = "Habilitada";
+			RelationshipEnabled.UseVisualStyleBackColor = true;
+			RelationshipEnabled.CheckedChanged += RelationshipEnabled_CheckedChanged;
+			// 
+			// RelationshipNotes
+			// 
+			RelationshipNotes.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+			RelationshipNotes.Enabled = false;
+			RelationshipNotes.Location = new Point(65, 147);
+			RelationshipNotes.Multiline = true;
+			RelationshipNotes.Name = "RelationshipNotes";
+			RelationshipNotes.Size = new Size(423, 168);
+			RelationshipNotes.TabIndex = 32;
+			// 
+			// LRelationshipNotes
+			// 
+			LRelationshipNotes.AutoSize = true;
+			LRelationshipNotes.Location = new Point(7, 147);
+			LRelationshipNotes.Name = "LRelationshipNotes";
+			LRelationshipNotes.Size = new Size(38, 15);
+			LRelationshipNotes.TabIndex = 33;
+			LRelationshipNotes.Text = "Notas";
+			// 
+			// StartDate
+			// 
+			StartDate.Enabled = false;
+			StartDate.Format = DateTimePickerFormat.Short;
+			StartDate.Location = new Point(126, 89);
+			StartDate.Name = "StartDate";
+			StartDate.Size = new Size(118, 23);
+			StartDate.TabIndex = 5;
+			// 
+			// KnownStartDate
+			// 
+			KnownStartDate.AutoSize = true;
+			KnownStartDate.Enabled = false;
+			KnownStartDate.Location = new Point(65, 92);
+			KnownStartDate.Name = "KnownStartDate";
+			KnownStartDate.Size = new Size(55, 19);
+			KnownStartDate.TabIndex = 4;
+			KnownStartDate.Text = "Inicio";
+			KnownStartDate.UseVisualStyleBackColor = true;
+			KnownStartDate.CheckedChanged += KnownStartDate_CheckedChanged;
+			// 
+			// LRelationship
+			// 
+			LRelationship.AutoSize = true;
+			LRelationship.Location = new Point(7, 34);
+			LRelationship.Name = "LRelationship";
+			LRelationship.Size = new Size(52, 15);
+			LRelationship.TabIndex = 3;
+			LRelationship.Text = "Relación";
+			// 
+			// Relationship
+			// 
+			Relationship.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+			Relationship.DropDownStyle = ComboBoxStyle.DropDownList;
+			Relationship.Enabled = false;
+			Relationship.FormattingEnabled = true;
+			Relationship.Location = new Point(65, 31);
+			Relationship.Name = "Relationship";
+			Relationship.Size = new Size(423, 23);
+			Relationship.TabIndex = 2;
+			// 
+			// NAffinity
+			// 
+			NAffinity.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+			NAffinity.Enabled = false;
+			NAffinity.Location = new Point(65, 60);
+			NAffinity.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
+			NAffinity.Name = "NAffinity";
+			NAffinity.Size = new Size(423, 23);
+			NAffinity.TabIndex = 1;
+			// 
+			// LAffinity
+			// 
+			LAffinity.AutoSize = true;
+			LAffinity.Location = new Point(7, 62);
+			LAffinity.Name = "LAffinity";
+			LAffinity.Size = new Size(52, 15);
+			LAffinity.TabIndex = 0;
+			LAffinity.Text = "Afinidad";
+			// 
+			// TabElectoral
+			// 
+			TabElectoral.Controls.Add(KnownPoliticalRegisterDate);
+			TabElectoral.Controls.Add(PoliticalRegisterDate);
+			TabElectoral.Controls.Add(IsPoliticalActivist);
+			TabElectoral.Controls.Add(pictureBox1);
+			TabElectoral.Controls.Add(VoterSection);
+			TabElectoral.Controls.Add(LVoterSection);
+			TabElectoral.Controls.Add(VoterCIC);
+			TabElectoral.Controls.Add(LVoterCIC);
+			TabElectoral.Controls.Add(VoterOCR);
+			TabElectoral.Controls.Add(LVoterOCR);
+			TabElectoral.Controls.Add(VoterCode);
+			TabElectoral.Controls.Add(LElectorCode);
+			TabElectoral.Location = new Point(4, 24);
+			TabElectoral.Name = "TabElectoral";
+			TabElectoral.Padding = new Padding(3);
+			TabElectoral.Size = new Size(497, 321);
+			TabElectoral.TabIndex = 4;
+			TabElectoral.Text = "Electoral";
+			TabElectoral.UseVisualStyleBackColor = true;
+			// 
+			// KnownPoliticalRegisterDate
+			// 
+			KnownPoliticalRegisterDate.AutoSize = true;
+			KnownPoliticalRegisterDate.Location = new Point(132, 280);
+			KnownPoliticalRegisterDate.Name = "KnownPoliticalRegisterDate";
+			KnownPoliticalRegisterDate.Size = new Size(137, 19);
+			KnownPoliticalRegisterDate.TabIndex = 12;
+			KnownPoliticalRegisterDate.Text = "Inscripción al padrón";
+			KnownPoliticalRegisterDate.UseVisualStyleBackColor = true;
+			KnownPoliticalRegisterDate.CheckedChanged += KnownPoliticalRegisterDate_CheckedChanged;
+			// 
+			// PoliticalRegisterDate
+			// 
+			PoliticalRegisterDate.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+			PoliticalRegisterDate.CustomFormat = "dd/MM/yyyy";
+			PoliticalRegisterDate.Enabled = false;
+			PoliticalRegisterDate.Format = DateTimePickerFormat.Custom;
+			PoliticalRegisterDate.Location = new Point(277, 278);
+			PoliticalRegisterDate.Name = "PoliticalRegisterDate";
+			PoliticalRegisterDate.Size = new Size(211, 23);
+			PoliticalRegisterDate.TabIndex = 11;
+			// 
+			// IsPoliticalActivist
+			// 
+			IsPoliticalActivist.AutoSize = true;
+			IsPoliticalActivist.Location = new Point(132, 256);
+			IsPoliticalActivist.Name = "IsPoliticalActivist";
+			IsPoliticalActivist.Size = new Size(87, 19);
+			IsPoliticalActivist.TabIndex = 9;
+			IsPoliticalActivist.Text = "Es militante";
+			IsPoliticalActivist.UseVisualStyleBackColor = true;
+			IsPoliticalActivist.CheckedChanged += IsPoliticalActivist_CheckedChanged;
+			// 
+			// pictureBox1
+			// 
+			pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+			pictureBox1.Image = Properties.Resources.credencial_modeloEG;
+			pictureBox1.Location = new Point(10, 6);
+			pictureBox1.Name = "pictureBox1";
+			pictureBox1.Size = new Size(478, 128);
+			pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+			pictureBox1.TabIndex = 8;
+			pictureBox1.TabStop = false;
+			// 
+			// VoterSection
+			// 
+			VoterSection.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+			VoterSection.Location = new Point(132, 227);
+			VoterSection.Name = "VoterSection";
+			VoterSection.Size = new Size(356, 23);
+			VoterSection.TabIndex = 3;
+			// 
+			// LVoterSection
+			// 
+			LVoterSection.AutoSize = true;
+			LVoterSection.Location = new Point(10, 230);
+			LVoterSection.Name = "LVoterSection";
+			LVoterSection.Size = new Size(48, 15);
+			LVoterSection.TabIndex = 6;
+			LVoterSection.Text = "Sección";
+			// 
+			// VoterCIC
+			// 
+			VoterCIC.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+			VoterCIC.Location = new Point(132, 198);
+			VoterCIC.Name = "VoterCIC";
+			VoterCIC.Size = new Size(356, 23);
+			VoterCIC.TabIndex = 2;
+			// 
+			// LVoterCIC
+			// 
+			LVoterCIC.AutoSize = true;
+			LVoterCIC.Location = new Point(10, 201);
+			LVoterCIC.Name = "LVoterCIC";
+			LVoterCIC.Size = new Size(109, 15);
+			LVoterCIC.TabIndex = 4;
+			LVoterCIC.Text = "Id. Credencial (CIC)";
+			// 
+			// VoterOCR
+			// 
+			VoterOCR.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+			VoterOCR.Location = new Point(132, 169);
+			VoterOCR.Name = "VoterOCR";
+			VoterOCR.Size = new Size(356, 23);
+			VoterOCR.TabIndex = 1;
+			// 
+			// LVoterOCR
+			// 
+			LVoterOCR.AutoSize = true;
+			LVoterOCR.Location = new Point(10, 172);
+			LVoterOCR.Name = "LVoterOCR";
+			LVoterOCR.Size = new Size(116, 15);
+			LVoterOCR.TabIndex = 2;
+			LVoterOCR.Text = "Id. Ciudadano (OCR)";
+			// 
+			// VoterCode
+			// 
+			VoterCode.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+			VoterCode.Location = new Point(132, 140);
+			VoterCode.Name = "VoterCode";
+			VoterCode.Size = new Size(356, 23);
+			VoterCode.TabIndex = 0;
+			// 
+			// LElectorCode
+			// 
+			LElectorCode.AutoSize = true;
+			LElectorCode.Location = new Point(10, 143);
+			LElectorCode.Name = "LElectorCode";
+			LElectorCode.Size = new Size(91, 15);
+			LElectorCode.TabIndex = 0;
+			LElectorCode.Text = "Clave de elector";
 			// 
 			// TabContacto
 			// 
@@ -459,7 +745,7 @@
 			TabContacto.Location = new Point(4, 24);
 			TabContacto.Name = "TabContacto";
 			TabContacto.Padding = new Padding(3);
-			TabContacto.Size = new Size(436, 313);
+			TabContacto.Size = new Size(497, 321);
 			TabContacto.TabIndex = 1;
 			TabContacto.Text = "Contacto";
 			TabContacto.UseVisualStyleBackColor = true;
@@ -467,7 +753,7 @@
 			// Phone3Extension
 			// 
 			Phone3Extension.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-			Phone3Extension.Location = new Point(329, 67);
+			Phone3Extension.Location = new Point(390, 67);
 			Phone3Extension.Name = "Phone3Extension";
 			Phone3Extension.Size = new Size(101, 23);
 			Phone3Extension.TabIndex = 46;
@@ -476,7 +762,7 @@
 			// 
 			LPhone3Extension.Anchor = AnchorStyles.Top | AnchorStyles.Right;
 			LPhone3Extension.AutoSize = true;
-			LPhone3Extension.Location = new Point(298, 70);
+			LPhone3Extension.Location = new Point(359, 70);
 			LPhone3Extension.Name = "LPhone3Extension";
 			LPhone3Extension.Size = new Size(25, 15);
 			LPhone3Extension.TabIndex = 48;
@@ -487,7 +773,7 @@
 			Phone3.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 			Phone3.Location = new Point(75, 67);
 			Phone3.Name = "Phone3";
-			Phone3.Size = new Size(217, 23);
+			Phone3.Size = new Size(278, 23);
 			Phone3.TabIndex = 45;
 			// 
 			// LPhone3
@@ -502,7 +788,7 @@
 			// Phone2Extension
 			// 
 			Phone2Extension.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-			Phone2Extension.Location = new Point(329, 38);
+			Phone2Extension.Location = new Point(390, 38);
 			Phone2Extension.Name = "Phone2Extension";
 			Phone2Extension.Size = new Size(101, 23);
 			Phone2Extension.TabIndex = 42;
@@ -511,7 +797,7 @@
 			// 
 			LPhone2Extension.Anchor = AnchorStyles.Top | AnchorStyles.Right;
 			LPhone2Extension.AutoSize = true;
-			LPhone2Extension.Location = new Point(298, 41);
+			LPhone2Extension.Location = new Point(359, 41);
 			LPhone2Extension.Name = "LPhone2Extension";
 			LPhone2Extension.Size = new Size(25, 15);
 			LPhone2Extension.TabIndex = 44;
@@ -522,7 +808,7 @@
 			Phone2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 			Phone2.Location = new Point(75, 38);
 			Phone2.Name = "Phone2";
-			Phone2.Size = new Size(217, 23);
+			Phone2.Size = new Size(278, 23);
 			Phone2.TabIndex = 41;
 			// 
 			// LPhone2
@@ -539,7 +825,7 @@
 			TextBoxEmail.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 			TextBoxEmail.Location = new Point(75, 125);
 			TextBoxEmail.Name = "TextBoxEmail";
-			TextBoxEmail.Size = new Size(355, 23);
+			TextBoxEmail.Size = new Size(416, 23);
 			TextBoxEmail.TabIndex = 3;
 			// 
 			// LEmail
@@ -600,7 +886,7 @@
 			ComboBoxAssistant.FormattingEnabled = true;
 			ComboBoxAssistant.Location = new Point(75, 154);
 			ComboBoxAssistant.Name = "ComboBoxAssistant";
-			ComboBoxAssistant.Size = new Size(355, 23);
+			ComboBoxAssistant.Size = new Size(416, 23);
 			ComboBoxAssistant.TabIndex = 4;
 			ComboBoxAssistant.SelectedIndexChanged += ComboBoxAssistant_SelectedIndexChanged;
 			// 
@@ -609,7 +895,7 @@
 			TextBoxCellphone.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 			TextBoxCellphone.Location = new Point(75, 96);
 			TextBoxCellphone.Name = "TextBoxCellphone";
-			TextBoxCellphone.Size = new Size(217, 23);
+			TextBoxCellphone.Size = new Size(278, 23);
 			TextBoxCellphone.TabIndex = 2;
 			// 
 			// LCellphone
@@ -624,7 +910,7 @@
 			// TextBoxPhoneExtension
 			// 
 			TextBoxPhoneExtension.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-			TextBoxPhoneExtension.Location = new Point(329, 9);
+			TextBoxPhoneExtension.Location = new Point(390, 9);
 			TextBoxPhoneExtension.Name = "TextBoxPhoneExtension";
 			TextBoxPhoneExtension.Size = new Size(101, 23);
 			TextBoxPhoneExtension.TabIndex = 1;
@@ -633,7 +919,7 @@
 			// 
 			LPhoneExtension.Anchor = AnchorStyles.Top | AnchorStyles.Right;
 			LPhoneExtension.AutoSize = true;
-			LPhoneExtension.Location = new Point(298, 12);
+			LPhoneExtension.Location = new Point(359, 12);
 			LPhoneExtension.Name = "LPhoneExtension";
 			LPhoneExtension.Size = new Size(25, 15);
 			LPhoneExtension.TabIndex = 16;
@@ -644,7 +930,7 @@
 			TextBoxPhone.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 			TextBoxPhone.Location = new Point(75, 9);
 			TextBoxPhone.Name = "TextBoxPhone";
-			TextBoxPhone.Size = new Size(217, 23);
+			TextBoxPhone.Size = new Size(278, 23);
 			TextBoxPhone.TabIndex = 0;
 			// 
 			// LPhone
@@ -678,7 +964,7 @@
 			TabAddress.Location = new Point(4, 24);
 			TabAddress.Name = "TabAddress";
 			TabAddress.Padding = new Padding(3);
-			TabAddress.Size = new Size(436, 313);
+			TabAddress.Size = new Size(497, 321);
 			TabAddress.TabIndex = 3;
 			TabAddress.Text = "Dirección";
 			TabAddress.UseVisualStyleBackColor = true;
@@ -688,7 +974,7 @@
 			TextBoxDistrict.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 			TextBoxDistrict.Location = new Point(54, 67);
 			TextBoxDistrict.Name = "TextBoxDistrict";
-			TextBoxDistrict.Size = new Size(373, 23);
+			TextBoxDistrict.Size = new Size(434, 23);
 			TextBoxDistrict.TabIndex = 38;
 			// 
 			// LDistrict
@@ -705,7 +991,7 @@
 			LCountryFullName.AutoSize = true;
 			LCountryFullName.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
 			LCountryFullName.ForeColor = SystemColors.HotTrack;
-			LCountryFullName.Location = new Point(165, 186);
+			LCountryFullName.Location = new Point(180, 186);
 			LCountryFullName.Name = "LCountryFullName";
 			LCountryFullName.Size = new Size(155, 15);
 			LCountryFullName.TabIndex = 37;
@@ -725,7 +1011,7 @@
 			ComboBoxCountry.FormattingEnabled = true;
 			ComboBoxCountry.Location = new Point(54, 183);
 			ComboBoxCountry.Name = "ComboBoxCountry";
-			ComboBoxCountry.Size = new Size(105, 23);
+			ComboBoxCountry.Size = new Size(120, 23);
 			ComboBoxCountry.TabIndex = 6;
 			ComboBoxCountry.SelectedIndexChanged += ComboBoxCountry_SelectedIndexChanged;
 			// 
@@ -733,7 +1019,7 @@
 			// 
 			TextBoxCity.Location = new Point(54, 96);
 			TextBoxCity.Name = "TextBoxCity";
-			TextBoxCity.Size = new Size(105, 23);
+			TextBoxCity.Size = new Size(120, 23);
 			TextBoxCity.TabIndex = 3;
 			TextBoxCity.Text = "Aguascalientes";
 			// 
@@ -750,7 +1036,7 @@
 			// 
 			TextBoxState.Location = new Point(54, 125);
 			TextBoxState.Name = "TextBoxState";
-			TextBoxState.Size = new Size(105, 23);
+			TextBoxState.Size = new Size(120, 23);
 			TextBoxState.TabIndex = 4;
 			TextBoxState.Text = "Aguascalientes";
 			// 
@@ -767,7 +1053,7 @@
 			// 
 			TextBoxPostalCode.Location = new Point(54, 154);
 			TextBoxPostalCode.Name = "TextBoxPostalCode";
-			TextBoxPostalCode.Size = new Size(105, 23);
+			TextBoxPostalCode.Size = new Size(120, 23);
 			TextBoxPostalCode.TabIndex = 5;
 			// 
 			// LPostalCode
@@ -781,7 +1067,7 @@
 			// 
 			// TextBoxInteriorNumber
 			// 
-			TextBoxInteriorNumber.Location = new Point(238, 38);
+			TextBoxInteriorNumber.Location = new Point(253, 38);
 			TextBoxInteriorNumber.Name = "TextBoxInteriorNumber";
 			TextBoxInteriorNumber.Size = new Size(101, 23);
 			TextBoxInteriorNumber.TabIndex = 2;
@@ -789,7 +1075,7 @@
 			// LInteriorNumber
 			// 
 			LInteriorNumber.AutoSize = true;
-			LInteriorNumber.Location = new Point(165, 41);
+			LInteriorNumber.Location = new Point(180, 41);
 			LInteriorNumber.Name = "LInteriorNumber";
 			LInteriorNumber.Size = new Size(67, 15);
 			LInteriorNumber.TabIndex = 16;
@@ -799,7 +1085,7 @@
 			// 
 			TextBoxNumber.Location = new Point(54, 38);
 			TextBoxNumber.Name = "TextBoxNumber";
-			TextBoxNumber.Size = new Size(105, 23);
+			TextBoxNumber.Size = new Size(120, 23);
 			TextBoxNumber.TabIndex = 1;
 			// 
 			// LNumber
@@ -816,7 +1102,7 @@
 			TextBoxStreet.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 			TextBoxStreet.Location = new Point(54, 9);
 			TextBoxStreet.Name = "TextBoxStreet";
-			TextBoxStreet.Size = new Size(376, 23);
+			TextBoxStreet.Size = new Size(437, 23);
 			TextBoxStreet.TabIndex = 0;
 			// 
 			// LStreet
@@ -850,7 +1136,7 @@
 			TabRol.Location = new Point(4, 24);
 			TabRol.Name = "TabRol";
 			TabRol.Padding = new Padding(3);
-			TabRol.Size = new Size(436, 313);
+			TabRol.Size = new Size(497, 321);
 			TabRol.TabIndex = 2;
 			TabRol.Text = "Cargos";
 			TabRol.UseVisualStyleBackColor = true;
@@ -889,7 +1175,7 @@
 			Institution3Role.FormattingEnabled = true;
 			Institution3Role.Location = new Point(83, 261);
 			Institution3Role.Name = "Institution3Role";
-			Institution3Role.Size = new Size(347, 23);
+			Institution3Role.Size = new Size(408, 23);
 			Institution3Role.TabIndex = 49;
 			// 
 			// LInstitution3Role
@@ -910,7 +1196,7 @@
 			Institution3.FormattingEnabled = true;
 			Institution3.Location = new Point(83, 211);
 			Institution3.Name = "Institution3";
-			Institution3.Size = new Size(347, 23);
+			Institution3.Size = new Size(408, 23);
 			Institution3.TabIndex = 47;
 			Institution3.SelectedValueChanged += Institution3_SelectedValueChanged;
 			// 
@@ -941,7 +1227,7 @@
 			Institution2Role.FormattingEnabled = true;
 			Institution2Role.Location = new Point(83, 160);
 			Institution2Role.Name = "Institution2Role";
-			Institution2Role.Size = new Size(347, 23);
+			Institution2Role.Size = new Size(408, 23);
 			Institution2Role.TabIndex = 43;
 			// 
 			// LInsitution2Role
@@ -962,7 +1248,7 @@
 			Insitution2.FormattingEnabled = true;
 			Insitution2.Location = new Point(83, 110);
 			Insitution2.Name = "Insitution2";
-			Insitution2.Size = new Size(347, 23);
+			Insitution2.Size = new Size(408, 23);
 			Insitution2.TabIndex = 41;
 			Insitution2.SelectedValueChanged += Insitution2_SelectedValueChanged;
 			// 
@@ -993,7 +1279,7 @@
 			ComboBoxInstitutionRole.FormattingEnabled = true;
 			ComboBoxInstitutionRole.Location = new Point(83, 59);
 			ComboBoxInstitutionRole.Name = "ComboBoxInstitutionRole";
-			ComboBoxInstitutionRole.Size = new Size(347, 23);
+			ComboBoxInstitutionRole.Size = new Size(408, 23);
 			ComboBoxInstitutionRole.TabIndex = 3;
 			// 
 			// LInstitutionRole
@@ -1014,7 +1300,7 @@
 			ComboBoxInstitution.FormattingEnabled = true;
 			ComboBoxInstitution.Location = new Point(83, 9);
 			ComboBoxInstitution.Name = "ComboBoxInstitution";
-			ComboBoxInstitution.Size = new Size(347, 23);
+			ComboBoxInstitution.Size = new Size(408, 23);
 			ComboBoxInstitution.TabIndex = 1;
 			ComboBoxInstitution.SelectedValueChanged += ComboBoxInstitution_SelectedValueChanged;
 			// 
@@ -1027,152 +1313,18 @@
 			LInstitution.TabIndex = 0;
 			LInstitution.Text = "Institución";
 			// 
-			// TabElectoral
-			// 
-			TabElectoral.Controls.Add(KnownPoliticalRegisterDate);
-			TabElectoral.Controls.Add(PoliticalRegisterDate);
-			TabElectoral.Controls.Add(IsPoliticalActivist);
-			TabElectoral.Controls.Add(pictureBox1);
-			TabElectoral.Controls.Add(VoterSection);
-			TabElectoral.Controls.Add(LVoterSection);
-			TabElectoral.Controls.Add(VoterCIC);
-			TabElectoral.Controls.Add(LVoterCIC);
-			TabElectoral.Controls.Add(VoterOCR);
-			TabElectoral.Controls.Add(LVoterOCR);
-			TabElectoral.Controls.Add(VoterCode);
-			TabElectoral.Controls.Add(LElectorCode);
-			TabElectoral.Location = new Point(4, 24);
-			TabElectoral.Name = "TabElectoral";
-			TabElectoral.Padding = new Padding(3);
-			TabElectoral.Size = new Size(436, 313);
-			TabElectoral.TabIndex = 4;
-			TabElectoral.Text = "Electoral";
-			TabElectoral.UseVisualStyleBackColor = true;
-			// 
-			// PoliticalRegisterDate
-			// 
-			PoliticalRegisterDate.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-			PoliticalRegisterDate.CustomFormat = "dd/MM/yyyy";
-			PoliticalRegisterDate.Enabled = false;
-			PoliticalRegisterDate.Format = DateTimePickerFormat.Custom;
-			PoliticalRegisterDate.Location = new Point(277, 278);
-			PoliticalRegisterDate.Name = "PoliticalRegisterDate";
-			PoliticalRegisterDate.Size = new Size(150, 23);
-			PoliticalRegisterDate.TabIndex = 11;
-			// 
-			// IsPoliticalActivist
-			// 
-			IsPoliticalActivist.AutoSize = true;
-			IsPoliticalActivist.Location = new Point(132, 256);
-			IsPoliticalActivist.Name = "IsPoliticalActivist";
-			IsPoliticalActivist.Size = new Size(87, 19);
-			IsPoliticalActivist.TabIndex = 9;
-			IsPoliticalActivist.Text = "Es militante";
-			IsPoliticalActivist.UseVisualStyleBackColor = true;
-			IsPoliticalActivist.CheckedChanged += IsPoliticalActivist_CheckedChanged;
-			// 
-			// pictureBox1
-			// 
-			pictureBox1.Image = Properties.Resources.credencial_modeloEG;
-			pictureBox1.Location = new Point(10, 6);
-			pictureBox1.Name = "pictureBox1";
-			pictureBox1.Size = new Size(417, 128);
-			pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-			pictureBox1.TabIndex = 8;
-			pictureBox1.TabStop = false;
-			// 
-			// VoterSection
-			// 
-			VoterSection.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-			VoterSection.Location = new Point(132, 227);
-			VoterSection.Name = "VoterSection";
-			VoterSection.Size = new Size(295, 23);
-			VoterSection.TabIndex = 3;
-			// 
-			// LVoterSection
-			// 
-			LVoterSection.AutoSize = true;
-			LVoterSection.Location = new Point(10, 230);
-			LVoterSection.Name = "LVoterSection";
-			LVoterSection.Size = new Size(48, 15);
-			LVoterSection.TabIndex = 6;
-			LVoterSection.Text = "Sección";
-			// 
-			// VoterCIC
-			// 
-			VoterCIC.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-			VoterCIC.Location = new Point(132, 198);
-			VoterCIC.Name = "VoterCIC";
-			VoterCIC.Size = new Size(295, 23);
-			VoterCIC.TabIndex = 2;
-			// 
-			// LVoterCIC
-			// 
-			LVoterCIC.AutoSize = true;
-			LVoterCIC.Location = new Point(10, 201);
-			LVoterCIC.Name = "LVoterCIC";
-			LVoterCIC.Size = new Size(109, 15);
-			LVoterCIC.TabIndex = 4;
-			LVoterCIC.Text = "Id. Credencial (CIC)";
-			// 
-			// VoterOCR
-			// 
-			VoterOCR.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-			VoterOCR.Location = new Point(132, 169);
-			VoterOCR.Name = "VoterOCR";
-			VoterOCR.Size = new Size(295, 23);
-			VoterOCR.TabIndex = 1;
-			// 
-			// LVoterOCR
-			// 
-			LVoterOCR.AutoSize = true;
-			LVoterOCR.Location = new Point(10, 172);
-			LVoterOCR.Name = "LVoterOCR";
-			LVoterOCR.Size = new Size(116, 15);
-			LVoterOCR.TabIndex = 2;
-			LVoterOCR.Text = "Id. Ciudadano (OCR)";
-			// 
-			// VoterCode
-			// 
-			VoterCode.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-			VoterCode.Location = new Point(132, 140);
-			VoterCode.Name = "VoterCode";
-			VoterCode.Size = new Size(295, 23);
-			VoterCode.TabIndex = 0;
-			// 
-			// LElectorCode
-			// 
-			LElectorCode.AutoSize = true;
-			LElectorCode.Location = new Point(10, 143);
-			LElectorCode.Name = "LElectorCode";
-			LElectorCode.Size = new Size(91, 15);
-			LElectorCode.TabIndex = 0;
-			LElectorCode.Text = "Clave de elector";
-			// 
-			// KnownPoliticalRegisterDate
-			// 
-			KnownPoliticalRegisterDate.AutoSize = true;
-			KnownPoliticalRegisterDate.Location = new Point(132, 280);
-			KnownPoliticalRegisterDate.Name = "KnownPoliticalRegisterDate";
-			KnownPoliticalRegisterDate.Size = new Size(137, 19);
-			KnownPoliticalRegisterDate.TabIndex = 12;
-			KnownPoliticalRegisterDate.Text = "Inscripción al padrón";
-			KnownPoliticalRegisterDate.UseVisualStyleBackColor = true;
-			KnownPoliticalRegisterDate.CheckedChanged += KnownPoliticalRegisterDate_CheckedChanged;
-			// 
 			// FCitizenData
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
 			AutoSize = true;
 			AutoSizeMode = AutoSizeMode.GrowAndShrink;
-			ClientSize = new Size(444, 381);
+			ClientSize = new Size(505, 389);
 			ControlBox = false;
 			Controls.Add(TabControlCitizen);
 			Controls.Add(BCancel);
 			Controls.Add(BAccept);
 			KeyPreview = true;
-			MaximumSize = new Size(460, 450);
 			Name = "FCitizenData";
 			ShowIcon = false;
 			ShowInTaskbar = false;
@@ -1183,15 +1335,18 @@
 			TabControlCitizen.ResumeLayout(false);
 			TabGeneral.ResumeLayout(false);
 			TabGeneral.PerformLayout();
+			TabRelationships.ResumeLayout(false);
+			TabRelationships.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)NAffinity).EndInit();
+			TabElectoral.ResumeLayout(false);
+			TabElectoral.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
 			TabContacto.ResumeLayout(false);
 			TabContacto.PerformLayout();
 			TabAddress.ResumeLayout(false);
 			TabAddress.PerformLayout();
 			TabRol.ResumeLayout(false);
 			TabRol.PerformLayout();
-			TabElectoral.ResumeLayout(false);
-			TabElectoral.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
 			ResumeLayout(false);
 		}
 
@@ -1296,5 +1451,17 @@
 		private CheckBox KnownBirthday;
 		private ComboBox BDayYear;
 		private CheckBox KnownPoliticalRegisterDate;
+		private TabPage TabRelationships;
+		private Label LRelationship;
+		private ComboBox Relationship;
+		private NumericUpDown NAffinity;
+		private Label LAffinity;
+		private DateTimePicker StartDate;
+		private CheckBox KnownStartDate;
+		private TextBox RelationshipNotes;
+		private Label LRelationshipNotes;
+		private CheckBox RelationshipEnabled;
+		private DateTimePicker EndDate;
+		private CheckBox KnownEndDate;
 	}
 }
