@@ -21,8 +21,8 @@ namespace Business
 	public class TCitizenRelationship
 	{
 		public int Id;
-		public int CitizenId;
-		public int RelatedCitizenId;
+		public TCitizen Citizen;
+		public TCitizen RelatedTo;
 		public TCitizenRelationshipRole Role = new TCitizenRelationshipRole();
 		public double AffinityScore;
 		public bool KnownStartDate;
@@ -35,9 +35,12 @@ namespace Business
 
 		public void FillFromReader(DbDataReader reader)
 		{
+			Citizen = new TCitizen();
+			RelatedTo = new TCitizen();
+
 			Id = reader.GetInt32("id");
-			CitizenId = reader.GetInt32("citizen_id");
-			RelatedCitizenId = reader.GetInt32("related_citizen_id");
+			Citizen.Id = reader.GetInt32("citizen_id");
+			RelatedTo.Id = reader.GetInt32("related_citizen_id");
 			Role.Id = reader.GetInt32("citizen_relationship_role_id");
 			AffinityScore = reader.GetDouble("affinity_score");
 			KnownStartDate = reader.GetBoolean("known_start_date");
@@ -175,7 +178,7 @@ namespace Business
 		
 		// this parameter will have the relationship the current user related citizen has with this user
 		// so in a way is kind of the other way around, as the relationships array
-		public TCitizenRelationship UserRelationship = new TCitizenRelationship();
+		public TCitizenRelationship UserRelationship;
 
 		public bool IsPoliticalActivist;
 		public DateTime PoliticalRegisterDate;
@@ -283,6 +286,7 @@ namespace Business
 		{
 			Assistant = new TCitizen();
 			Institution = new TInstitution();
+			UserRelationship = new TCitizenRelationship();
 
 			Id = reader.GetInt32(0);
 			Name = reader.GetString(1);	
@@ -807,8 +811,8 @@ namespace Business
 					}
 
 					citizen.UserRelationship.User = Session.User;
-					citizen.UserRelationship.CitizenId = Session.User.Citizen.Id;
-					citizen.UserRelationship.RelatedCitizenId = citizen.Id;
+					citizen.UserRelationship.Citizen.Id = Session.User.Citizen.Id;
+					citizen.UserRelationship.RelatedTo.Id = citizen.Id;
 				}
 			}
 
@@ -1368,8 +1372,8 @@ namespace Business
 			using (var cmd = new NpgsqlCommand(sql, conn))
 			{
 				cmd.Parameters.AddWithValue("@id", relationship.Id);
-				cmd.Parameters.AddWithValue("@citizen_id", relationship.CitizenId);
-				cmd.Parameters.AddWithValue("@related_citizen_id", relationship.RelatedCitizenId);
+				cmd.Parameters.AddWithValue("@citizen_id", relationship.Citizen.Id);
+				cmd.Parameters.AddWithValue("@related_citizen_id", relationship.RelatedTo.Id);
 				cmd.Parameters.AddWithValue("@citizen_relationship_role_id", relationship.Role.Id);
 				cmd.Parameters.AddWithValue("@affinity_score", relationship.AffinityScore);
 				cmd.Parameters.AddWithValue("@known_start_date", relationship.KnownStartDate);
@@ -1404,6 +1408,70 @@ namespace Business
 				cmd.Parameters.AddWithValue("@enabled", enabled);
 				cmd.Parameters.AddWithValue("@id", relationshipId);
 				cmd.ExecuteNonQuery();
+			}
+
+			ConnectionPool.ReleaseConnection(ref conn);
+
+			return 0;
+		}
+
+		public static Error GetCitizenRelationships(out List<TCitizenRelationship> relationships)
+		{
+			var conn = ConnectionPool.GetConnection();
+
+			relationships = new List<TCitizenRelationship>();
+
+			string sql = @"
+				SELECT
+					cr.*,
+					c1.name AS citizen_name,
+					c1.paternal_name AS citizen_paternal_name,
+					c1.maternal_name AS citizen_maternal_name,
+					c2.name AS related_name,
+					c2.paternal_name AS related_paternal_name,
+					c2.maternal_name AS related_maternal_name,
+					crr.name AS role_name
+				FROM 
+					citizen_relationships cr
+					LEFT JOIN citizens c1 ON c1.id = cr.citizen_id
+					LEFT JOIN citizens c2 ON c2.id = cr.related_citizen_id
+					LEFT JOIN citizen_relationship_roles crr ON crr.id = cr.citizen_relationship_role_id
+				WHERE 
+					true;
+			";
+
+			using (var cmd = new NpgsqlCommand(sql, conn))
+			{
+				using (var reader = cmd.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						var relation = new TCitizenRelationship();
+
+						relation.FillFromReader(reader);
+
+						if (relation.Citizen.Id != 0)
+						{
+							relation.Citizen.Name = reader.GetString("citizen_name");
+							relation.Citizen.PaternalName = reader.GetString("citizen_paternal_name");
+							relation.Citizen.MaternalName = reader.GetString("citizen_maternal_name");
+						}
+
+						if (relation.RelatedTo.Id != 0)
+						{
+							relation.RelatedTo.Name = reader.GetString("related_name");
+							relation.RelatedTo.PaternalName = reader.GetString("related_paternal_name");
+							relation.RelatedTo.MaternalName = reader.GetString("related_maternal_name");
+						}
+
+						if (relation.Role.Id != 0)
+						{
+							relation.Role.Name = reader.GetString("role_name");
+						}
+
+						relationships.Add(relation);	
+					}
+				}
 			}
 
 			ConnectionPool.ReleaseConnection(ref conn);

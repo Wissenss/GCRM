@@ -35,6 +35,8 @@
 			LToolstripVersion = new ToolStripStatusLabel();
 			toolStrip1 = new ToolStrip();
 			BCitizens = new ToolStripButton();
+			toolStripSeparator4 = new ToolStripSeparator();
+			BRelationships = new ToolStripButton();
 			toolStripSeparator2 = new ToolStripSeparator();
 			BInstitutions = new ToolStripButton();
 			TabControl = new TabControl();
@@ -120,7 +122,7 @@
 			// 
 			toolStrip1.Dock = DockStyle.Fill;
 			toolStrip1.GripStyle = ToolStripGripStyle.Hidden;
-			toolStrip1.Items.AddRange(new ToolStripItem[] { BCitizens, toolStripSeparator2, BInstitutions });
+			toolStrip1.Items.AddRange(new ToolStripItem[] { BCitizens, toolStripSeparator4, BRelationships, toolStripSeparator2, BInstitutions });
 			toolStrip1.Location = new Point(3, 3);
 			toolStrip1.Name = "toolStrip1";
 			toolStrip1.RenderMode = ToolStripRenderMode.System;
@@ -138,6 +140,23 @@
 			BCitizens.Text = "&Ciudadanos";
 			BCitizens.TextImageRelation = TextImageRelation.ImageAboveText;
 			BCitizens.Click += BCitizens_Click;
+			// 
+			// toolStripSeparator4
+			// 
+			toolStripSeparator4.Name = "toolStripSeparator4";
+			toolStripSeparator4.Size = new Size(6, 55);
+			// 
+			// BRelationships
+			// 
+			BRelationships.Image = Properties.Resources.Fatcow_Farm_Fresh_Group_link_32;
+			BRelationships.ImageScaling = ToolStripItemImageScaling.None;
+			BRelationships.ImageTransparentColor = Color.Magenta;
+			BRelationships.Name = "BRelationships";
+			BRelationships.Padding = new Padding(5, 0, 5, 0);
+			BRelationships.Size = new Size(77, 52);
+			BRelationships.Text = "&Relaciones";
+			BRelationships.TextImageRelation = TextImageRelation.ImageAboveText;
+			BRelationships.Click += BRelationships_Click;
 			// 
 			// toolStripSeparator2
 			// 
@@ -175,7 +194,7 @@
 			TabPageCatalogs.Padding = new Padding(3);
 			TabPageCatalogs.Size = new Size(793, 61);
 			TabPageCatalogs.TabIndex = 0;
-			TabPageCatalogs.Text = "Catálogos";
+			TabPageCatalogs.Text = "General";
 			TabPageCatalogs.UseVisualStyleBackColor = true;
 			// 
 			// TabElectoral
@@ -539,5 +558,7 @@
 		private Panel BirthdayPanelTopBar;
 		private Panel BirthdayPanelContent;
 		private ToolStripButton BEmails;
+		private ToolStripSeparator toolStripSeparator4;
+		private ToolStripButton BRelationships;
 	}
 }

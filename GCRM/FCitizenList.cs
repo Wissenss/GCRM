@@ -221,7 +221,7 @@ namespace GCRM
 			BDelete.Visible = Session.HasPermission("Ciudadanos.Eliminar");
 			BCategories.Visible = Session.HasPermission("Ciudadanos.Categorias.Consultar");
 			BAttentionRequired.Visible = Session.HasPermission("Ciudadanos.SetAttentionRequired");
-			BRelationships.Visible = Session.HasPermission("Ciudadanos.Relaciones.Roles.Consultar");
+			//BRelationships.Visible = Session.HasPermission("Ciudadanos.Relaciones.Roles.Consultar");
 
 			Cursor.Current = Cursors.Default;
 		}
@@ -876,14 +876,6 @@ namespace GCRM
 		{
 			DataGridUtilities.TrySaveConfiguration(DataGridCitizens, "citizens\\main_data_grid");
 			SettingsUtilities.TrySaveFormConfiguration(this, "citizens\\main_form");
-		}
-
-		private void BRelationships_Click(object sender, EventArgs e)
-		{
-			using (FCitizenRelationshipRoleList role_list_dlg = new FCitizenRelationshipRoleList())
-			{
-				role_list_dlg.ShowDialog();
-			}
 		}
 	}
 }

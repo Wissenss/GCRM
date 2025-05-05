@@ -94,7 +94,6 @@
 			TSSLRecordAttentionRequiredCount = new ToolStripStatusLabel();
 			TSSLRecordCount = new ToolStripStatusLabel();
 			TSSLFilters = new ToolStripStatusLabel();
-			BRelationships = new ToolStripButton();
 			ToolStrip.SuspendLayout();
 			PanelSearch.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)DataGridCitizens).BeginInit();
@@ -391,7 +390,7 @@
 			// ToolStrip
 			// 
 			ToolStrip.GripStyle = ToolStripGripStyle.Hidden;
-			ToolStrip.Items.AddRange(new ToolStripItem[] { BAdd, BEdit, BRead, BRefresh, toolStripSeparator1, BFields, BFilter, BDelete, toolStripSeparator2, FExcelExport, BPrint, toolStripSeparator4, BSearch, toolStripSeparator5, BCategories, BRelationships, toolStripSeparator3, BSelect, BAttentionRequired });
+			ToolStrip.Items.AddRange(new ToolStripItem[] { BAdd, BEdit, BRead, BRefresh, toolStripSeparator1, BFields, BFilter, BDelete, toolStripSeparator2, FExcelExport, BPrint, toolStripSeparator4, BSearch, toolStripSeparator5, BCategories, toolStripSeparator3, BSelect, BAttentionRequired });
 			ToolStrip.Location = new Point(2, 2);
 			ToolStrip.Name = "ToolStrip";
 			ToolStrip.RenderMode = ToolStripRenderMode.System;
@@ -691,16 +690,6 @@
 			TSSLFilters.Text = "Filtros: Sexo = Masculino";
 			TSSLFilters.TextAlign = ContentAlignment.MiddleLeft;
 			// 
-			// BRelationships
-			// 
-			BRelationships.Image = Properties.Resources.Fatcow_Farm_Fresh_Small_business_16;
-			BRelationships.ImageScaling = ToolStripItemImageScaling.None;
-			BRelationships.ImageTransparentColor = Color.Magenta;
-			BRelationships.Name = "BRelationships";
-			BRelationships.Size = new Size(83, 37);
-			BRelationships.Text = "Relaciones";
-			BRelationships.Click += BRelationships_Click;
-			// 
 			// FCitizenList
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
@@ -792,6 +781,5 @@
 		private ToolStripButton BAttentionRequired;
 		private ToolStripSeparator toolStripSeparator3;
 		private ToolStripStatusLabel TSSLRecordAttentionRequiredCount;
-		private ToolStripButton BRelationships;
 	}
 }

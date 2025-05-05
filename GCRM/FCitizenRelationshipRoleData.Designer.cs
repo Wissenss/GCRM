@@ -72,7 +72,7 @@
 			TBName.Size = new Size(264, 23);
 			TBName.TabIndex = 6;
 			// 
-			// FCitizenRelationshipRoleDate
+			// FCitizenRelationshipRoleData
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
@@ -82,8 +82,8 @@
 			Controls.Add(LName);
 			Controls.Add(BCancel);
 			Controls.Add(BAccept);
-			Name = "FCitizenRelationshipRoleDate";
-			Text = "Relación ciudadana";
+			Name = "FCitizenRelationshipRoleData";
+			Text = "Tipo de relación ciudadana";
 			ResumeLayout(false);
 			PerformLayout();
 		}

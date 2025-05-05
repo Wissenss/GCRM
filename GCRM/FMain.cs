@@ -117,6 +117,7 @@ namespace GCRM
 			using (new CursorWait())
 			{
 				BCitizens.Visible = Session.HasPermission("Ciudadanos.Consultar");
+				BRelationships.Visible = Session.HasPermission("Ciudadanos.Relaciones.Consultar");
 				BInstitutions.Visible = Session.HasPermission("Instituciones.Consultar");
 
 				BCitizenNetworks.Visible = Session.HasPermission("Network.Consultar");
@@ -250,6 +251,14 @@ namespace GCRM
 		{
 			SettingsUtilities.TrySaveTabControlConfiguration(TabControl, "main_tab_control");
 			SettingsUtilities.TrySaveFormConfiguration(this, "main_form");
+		}
+
+		private void BRelationships_Click(object sender, EventArgs e)
+		{
+			using (FCitizenRelationshipList list_dlg = new FCitizenRelationshipList())
+			{
+				list_dlg.ShowDialog();
+			}
 		}
 	}
 }

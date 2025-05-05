@@ -864,8 +864,14 @@ namespace GCRM
 				citizen.UserRelationship = new TCitizenRelationship()
 				{
 					Id = RelationshipId,
-					CitizenId = Session.User.Citizen.Id,
-					RelatedCitizenId = Id,
+					Citizen = new TCitizen()
+					{
+						Id = Session.User.Citizen.Id,
+					},
+					RelatedTo = new TCitizen()
+					{
+						Id = Id,
+					},
 					Role = new TCitizenRelationshipRole()
 					{
 						Id = (int)Relationship.SelectedValue
