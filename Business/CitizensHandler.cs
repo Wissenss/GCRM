@@ -56,14 +56,20 @@ namespace Business
 	public class TCitizenCategory
 	{
 		public int Id;
-		public string Name;
-		public string Description;
+		public string Name = "";
+		public string Description = "";
 
 		public void FillFromReader(DbDataReader reader)
 		{
 			Id = reader.GetInt32(reader.GetOrdinal("id"));
 			Name = reader.GetString(reader.GetOrdinal("name"));
 			Description = reader.GetString(reader.GetOrdinal("description"));
+		}
+
+		public void PropertiesToUpper()
+		{
+			Name = Name.ToUpper();
+			Description = Description.ToUpper();
 		}
 	}
 
@@ -140,9 +146,9 @@ namespace Business
 	public class TCitizen : TEntity
 	{
 		public int Id;
-		public string Name;
-		public string PaternalName;
-		public string MaternalName;
+		public string Name = "";
+		public string PaternalName = "";
+		public string MaternalName = "";
 		public TCitizenTitle Title;
 		public string CURP;
 		public DateTime Birthday;
@@ -337,6 +343,34 @@ namespace Business
 			KnownPoliticalRegisterDate = reader.GetBoolean(43);
 		}
 	
+		public void PropertiesToUpper()
+		{
+			Name = Name.ToUpper();
+			PaternalName = PaternalName.ToUpper();
+			MaternalName = MaternalName.ToUpper();
+			CURP = CURP.ToUpper();
+			Observations = Observations.ToUpper();
+			Address.PropertiesToUpper();
+			if (Assistant != null)
+			{
+				Assistant.Name.ToUpper();
+				Assistant.PaternalName.ToUpper();
+				Assistant.PaternalName.ToUpper();
+			}
+			Email = Email.ToUpper();
+			Institution.PropertiesToUpper();
+			Institution2.PropertiesToUpper();
+			Institution3.PropertiesToUpper();
+			Role.PropertiesToUpper();
+			Role2.PropertiesToUpper(); 
+			Role3.PropertiesToUpper();
+			VoterCode = VoterCode.ToUpper();
+			VoterOCR = VoterOCR.ToUpper();
+			VoterCIC = VoterCIC.ToUpper();
+			VoterSection = VoterSection.ToUpper();
+			Category.PropertiesToUpper();
+		}
+
 		public override string GetAsLogString()
 		{
 			StringBuilder log_string = new StringBuilder();

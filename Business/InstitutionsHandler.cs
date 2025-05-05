@@ -8,14 +8,20 @@ namespace Business
 	public class TInstitutionCategory
 	{
 		public int Id;
-		public string Name;
-		public string Description;
+		public string Name = "";
+		public string Description = "";
 
 		public void FillFromReader(DbDataReader reader)
 		{
 			Id = reader.GetInt32(0);
 			Name = reader.GetString(1);
 			Description = reader.GetString(2);
+		}
+	
+		public void PropertiesToUpper()
+		{
+			Name = Name.ToUpper();
+			Description = Description.ToUpper();
 		}
 	}
 
@@ -38,11 +44,11 @@ namespace Business
 	public class TInstitutionRole
 	{
 		public int Id;
-		public string Name;
+		public string Name = "";
 		public int InstitutionId;
 		public int InstitutionTemplateId;
 		public int ParentRoleId;
-		public string Description;
+		public string Description = "";
 		public int NoCitizensWithThisRole;
 
 		public string NameWithFirstCapital
@@ -89,13 +95,19 @@ namespace Business
 			ParentRoleId = 0;
 			InstitutionId = 0;
 		}
+
+		public void PropertiesToUpper()
+		{
+			Name = Name.ToUpper();
+			Description = Description.ToUpper();
+		}
 	}
 
 	public class TInstitution : TEntity
 	{
 		public int Id;
-		public string Name;
-		public string Description;
+		public string Name = "";
+		public string Description = "";
 		public TSocietySector Sector;
 		public TInstitutionCategory Category = new TInstitutionCategory();
 		public List<TInstitutionRole> Roles;
@@ -104,7 +116,7 @@ namespace Business
 		public DateTime CreatedDate;
 		public TUser LastEditor = new TUser();
 		public DateTime EditDate;
-		public string Acronym;
+		public string Acronym = "";
 		public bool AttentionRequired;
 		public TInstitutionTemplate Template = new TInstitutionTemplate();
 
@@ -140,6 +152,14 @@ namespace Business
 			Acronym = reader.GetString(10);
 			AttentionRequired = reader.GetBoolean(11);
 			Template.Id = reader.GetInt32(12);
+		}
+
+		public void PropertiesToUpper()
+		{
+			Name = Name.ToUpper();
+			Description = Description.ToUpper();
+			Category.PropertiesToUpper();
+			Acronym.ToUpper();
 		}
 
 		public override string GetAsLogString()

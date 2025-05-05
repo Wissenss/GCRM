@@ -1,4 +1,5 @@
 ﻿using Business;
+using Business.Business;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -243,6 +244,9 @@ namespace GCRM
 			foreach(TInstitution institution in institutions_list)
 			{
 				DataRow row = DTInstitutions.NewRow();
+
+				if (SettingsHandler.GetSetting<bool>("UI.DisplayUppercase", false) == true)
+					institution.PropertiesToUpper();
 
 				row["id"] = institution.Id;
 				row["name"] = institution.Name;

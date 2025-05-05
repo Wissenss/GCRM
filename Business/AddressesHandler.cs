@@ -69,6 +69,17 @@ namespace Business
 			Country = (TCountry)reader.GetInt32(7);
 			District = reader.GetString(8);
 		}
+
+		public void PropertiesToUpper()
+		{
+			Street = Street.ToUpper();
+			Number = Number.ToUpper();
+			InteriorNumber = InteriorNumber.ToUpper();
+			PostalCode = PostalCode.ToUpper();
+			State = State.ToUpper();
+			City = City.ToUpper();
+			District = District.ToUpper();
+		}
 	}
 
 	public static class AddressesHandler

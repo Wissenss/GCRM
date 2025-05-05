@@ -32,6 +32,7 @@
 			BAccept = new Button();
 			TabControlSettings = new TabControl();
 			TabGlobalSettings = new TabPage();
+			BClearBackgroundImage = new Button();
 			BSelectBackgroundImage = new Button();
 			LPicture = new Label();
 			BackgroundImage = new PictureBox();
@@ -39,7 +40,7 @@
 			LPurelymailAPIKey = new Label();
 			TabPersonalSettings = new TabPage();
 			OpenFileDialog = new OpenFileDialog();
-			BClearBackgroundImage = new Button();
+			DisplayUppercase = new CheckBox();
 			TabControlSettings.SuspendLayout();
 			TabGlobalSettings.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)BackgroundImage).BeginInit();
@@ -48,7 +49,7 @@
 			// BCancel
 			// 
 			BCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-			BCancel.Location = new Point(377, 293);
+			BCancel.Location = new Point(377, 292);
 			BCancel.Name = "BCancel";
 			BCancel.Size = new Size(75, 23);
 			BCancel.TabIndex = 2;
@@ -59,7 +60,7 @@
 			// BAccept
 			// 
 			BAccept.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-			BAccept.Location = new Point(299, 293);
+			BAccept.Location = new Point(299, 292);
 			BAccept.Name = "BAccept";
 			BAccept.Size = new Size(75, 23);
 			BAccept.TabIndex = 1;
@@ -78,12 +79,13 @@
 			TabControlSettings.Multiline = true;
 			TabControlSettings.Name = "TabControlSettings";
 			TabControlSettings.SelectedIndex = 0;
-			TabControlSettings.Size = new Size(440, 276);
+			TabControlSettings.Size = new Size(440, 275);
 			TabControlSettings.SizeMode = TabSizeMode.Fixed;
 			TabControlSettings.TabIndex = 0;
 			// 
 			// TabGlobalSettings
 			// 
+			TabGlobalSettings.Controls.Add(DisplayUppercase);
 			TabGlobalSettings.Controls.Add(BClearBackgroundImage);
 			TabGlobalSettings.Controls.Add(BSelectBackgroundImage);
 			TabGlobalSettings.Controls.Add(LPicture);
@@ -93,10 +95,20 @@
 			TabGlobalSettings.Location = new Point(4, 24);
 			TabGlobalSettings.Name = "TabGlobalSettings";
 			TabGlobalSettings.Padding = new Padding(5);
-			TabGlobalSettings.Size = new Size(432, 248);
+			TabGlobalSettings.Size = new Size(432, 247);
 			TabGlobalSettings.TabIndex = 0;
 			TabGlobalSettings.Text = "Global";
 			TabGlobalSettings.UseVisualStyleBackColor = true;
+			// 
+			// BClearBackgroundImage
+			// 
+			BClearBackgroundImage.Location = new Point(8, 84);
+			BClearBackgroundImage.Name = "BClearBackgroundImage";
+			BClearBackgroundImage.Size = new Size(101, 23);
+			BClearBackgroundImage.TabIndex = 6;
+			BClearBackgroundImage.Text = "Limpiar";
+			BClearBackgroundImage.UseVisualStyleBackColor = true;
+			BClearBackgroundImage.Click += BClearBackgroundImage_Click;
 			// 
 			// BSelectBackgroundImage
 			// 
@@ -148,20 +160,20 @@
 			TabPersonalSettings.Location = new Point(4, 24);
 			TabPersonalSettings.Name = "TabPersonalSettings";
 			TabPersonalSettings.Padding = new Padding(5);
-			TabPersonalSettings.Size = new Size(432, 249);
+			TabPersonalSettings.Size = new Size(432, 248);
 			TabPersonalSettings.TabIndex = 1;
 			TabPersonalSettings.Text = "Personal";
 			TabPersonalSettings.UseVisualStyleBackColor = true;
 			// 
-			// BClearBackgroundImage
+			// DisplayUppercase
 			// 
-			BClearBackgroundImage.Location = new Point(8, 84);
-			BClearBackgroundImage.Name = "BClearBackgroundImage";
-			BClearBackgroundImage.Size = new Size(101, 23);
-			BClearBackgroundImage.TabIndex = 6;
-			BClearBackgroundImage.Text = "Limpiar";
-			BClearBackgroundImage.UseVisualStyleBackColor = true;
-			BClearBackgroundImage.Click += BClearBackgroundImage_Click;
+			DisplayUppercase.AutoSize = true;
+			DisplayUppercase.Location = new Point(120, 154);
+			DisplayUppercase.Name = "DisplayUppercase";
+			DisplayUppercase.Size = new Size(121, 19);
+			DisplayUppercase.TabIndex = 7;
+			DisplayUppercase.Text = "Display uppercase";
+			DisplayUppercase.UseVisualStyleBackColor = true;
 			// 
 			// FSettings
 			// 
@@ -199,5 +211,6 @@
 		private OpenFileDialog OpenFileDialog;
 		private Button BSelectBackgroundImage;
 		private Button BClearBackgroundImage;
+		private CheckBox DisplayUppercase;
 	}
 }

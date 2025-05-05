@@ -1,4 +1,5 @@
 ﻿using Business;
+using Business.Business;
 using ClosedXML.Excel;
 using DocumentFormat.OpenXml.Bibliography;
 using Reporter;
@@ -255,6 +256,11 @@ namespace GCRM
 				{
 					DataRow row = DTCitizens.NewRow();
 
+					bool display_upper = SettingsHandler.GetSetting<bool>("UI.DisplayUppercase", false);
+
+					if (display_upper)
+						citizen.PropertiesToUpper();
+
 					row["id"] = citizen.Id;
 					row["name"] = citizen.Name;
 					row["paternal_name"] = citizen.PaternalName;
@@ -353,6 +359,11 @@ namespace GCRM
 					row["category_name"] = citizen.Category.Name;
 
 					row["attention_required"] = citizen.AttentionRequired;
+
+					if (display_upper)
+					{
+						row["title_name"] = row["title_name"].ToString().ToUpper();
+					}
 
 					DTCitizens.Rows.Add(row);
 				}

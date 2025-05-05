@@ -51,6 +51,8 @@ namespace GCRM
 
 						BackgroundImage.Image = Image.FromStream(ms);
 					}
+
+					DisplayUppercase.Checked = SettingsHandler.GetSetting<bool>("UI.DisplayUppercase", false);
 				}
 			}
 		}
@@ -76,6 +78,8 @@ namespace GCRM
 					{
 						SettingsHandler.DeleteSetting("Interface.BackgroundImage", 0);
 					}
+
+					SettingsHandler.SetSetting("UI.DisplayUppercase", DisplayUppercase.Checked);
 				}
 			}
 		}
