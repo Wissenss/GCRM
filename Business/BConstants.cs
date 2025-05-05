@@ -194,21 +194,21 @@ namespace Business
 
 				{ TCitizenTitle.DegreeLevel, "Lic." },
 				{ TCitizenTitle.Engineneer, "Ing." },
-				{ TCitizenTitle.Master, "Mtro(a)." },
+				{ TCitizenTitle.Master, "M." },
 				{ TCitizenTitle.PhD, "Dr." },
 				{ TCitizenTitle.Arq, "Arq." },
 				{ TCitizenTitle.Technician, "Tec." },
 				{ TCitizenTitle.Biologist, "Bio." },
 
-				{ TCitizenTitle.PublicAccountant, "CP." },
+				{ TCitizenTitle.PublicAccountant, "C.P." },
 				{ TCitizenTitle.Councilor, "Regidor(a)" },
 				{ TCitizenTitle.Syndic, "Síndico(a)" },
 				{ TCitizenTitle.MunicipalPresident, "Presidente(a) Municipal" },
 				{ TCitizenTitle.Governor, "Gobernador(a)" },
 
-				{ TCitizenTitle.LocalCongressman, "Diputado(a) Local" },
-				{ TCitizenTitle.FederalCongressman, "Diputado(a)" },
-				{ TCitizenTitle.Senator, "Senador(a)" },
+				{ TCitizenTitle.LocalCongressman, "Dip." },
+				{ TCitizenTitle.FederalCongressman, "Dip." },
+				{ TCitizenTitle.Senator, "Sen." },
 				{ TCitizenTitle.President, "Presidente(a)" },
 
 				{ TCitizenTitle.Priest, "Pbro." },
@@ -226,7 +226,7 @@ namespace Business
 				{ TCitizenTitle.PhD, "Dr." },
 				{ TCitizenTitle.Arq, "Arq." },
 
-				{ TCitizenTitle.PublicAccountant, "CP." },
+				{ TCitizenTitle.PublicAccountant, "C.P." },
 				{ TCitizenTitle.Councilor, "Regidor" },
 				{ TCitizenTitle.Syndic, "Síndico" },
 				{ TCitizenTitle.MunicipalPresident, "Presidente Municipal" },
@@ -248,7 +248,7 @@ namespace Business
 				{ TCitizenTitle.PhD, "Dra." },
 				{ TCitizenTitle.Arq, "Arq." },
 
-				{ TCitizenTitle.PublicAccountant, "CP." },
+				{ TCitizenTitle.PublicAccountant, "C.P." },
 				{ TCitizenTitle.Councilor, "Regidora" },
 				{ TCitizenTitle.Syndic, "Síndica" },
 				{ TCitizenTitle.MunicipalPresident, "Presidenta Municipal" },

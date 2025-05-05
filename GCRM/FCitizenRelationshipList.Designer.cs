@@ -220,7 +220,7 @@
 			// 
 			// FExcelExport
 			// 
-			FExcelExport.Image = Properties.Resources.Fatcow_Farm_Fresh_Export_excel_16;
+			FExcelExport.Image = Properties.Resources.Fatcow_Farm_Fresh_Excel_exports_16;
 			FExcelExport.ImageScaling = ToolStripItemImageScaling.None;
 			FExcelExport.ImageTransparentColor = Color.Magenta;
 			FExcelExport.Margin = new Padding(1, 2, 1, 2);

@@ -9,6 +9,7 @@ namespace Business
 	public enum Error
 	{
 		None = 0,
+		Unknown = 1,
 
 		// errors related to the session
 		LoginInvalid,
@@ -64,6 +65,7 @@ namespace Business
 	{
 		private static readonly Dictionary<Error, string> DescriptionsMapping = new Dictionary<Error, string>()
 		{
+			{ Error.Unknown, "Desconocido" },
 			{ Error.LoginInvalid, "Login inválido" },
 			{ Error.UserNotFound, "Usuario no encontrado" },
 			{ Error.UserUnauthorized, "Usuario no tiene autorizada esta acción" },

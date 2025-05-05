@@ -50,6 +50,18 @@ namespace GCRM
 			return character.ToCharArray()[0];
 		}
 
+		public static string GetStringWithoutDiacritics(string input)
+		{
+			var result = new char[input.Length];
+
+			for (int i = 0; i < input.Length; i++)
+			{
+				result[i] = GetLetterWithoutDiacritics(input[i]);
+			}
+
+			return new string(result);
+		}
+
 		public static int TrimOnRange(int lowest_value, int highest_value, int value)
 		{
 			value = Math.Max(value, lowest_value);

@@ -221,7 +221,7 @@ namespace GCRM
 			BDelete.Visible = Session.HasPermission("Ciudadanos.Eliminar");
 			BCategories.Visible = Session.HasPermission("Ciudadanos.Categorias.Consultar");
 			BAttentionRequired.Visible = Session.HasPermission("Ciudadanos.SetAttentionRequired");
-			//BRelationships.Visible = Session.HasPermission("Ciudadanos.Relaciones.Roles.Consultar");
+			BExcelImport.Visible = Session.HasPermission("Ciudadanos.Excel.Import");
 
 			Cursor.Current = Cursors.Default;
 		}
@@ -671,7 +671,12 @@ namespace GCRM
 						if ((int)row.Cells["colInstitutionId"].Value != 0)
 						{
 							ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colInstitutionSectorName"].Value);
-							ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colInstitutionCategoryName"].Value);
+
+							if ((int)row.Cells["colInstitutionCategoryId"].Value != 0)
+								ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colInstitutionCategoryName"].Value);
+							else
+								row_index ++;
+							
 							ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colInstitutionName"].Value);
 
 							if ((int)row.Cells["colInstitutionRoleId"].Value != 0)
@@ -876,6 +881,14 @@ namespace GCRM
 		{
 			DataGridUtilities.TrySaveConfiguration(DataGridCitizens, "citizens\\main_data_grid");
 			SettingsUtilities.TrySaveFormConfiguration(this, "citizens\\main_form");
+		}
+
+		private void BExcelImport_Click(object sender, EventArgs e)
+		{
+			using (var import_dlg = new FCitizenListImportExcel())
+			{
+				import_dlg.ShowDialog();
+			}
 		}
 	}
 }

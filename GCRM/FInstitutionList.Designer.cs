@@ -249,7 +249,7 @@
 			// 
 			// BExcelExport
 			// 
-			BExcelExport.Image = Properties.Resources.Fatcow_Farm_Fresh_Export_excel_16;
+			BExcelExport.Image = Properties.Resources.Fatcow_Farm_Fresh_Excel_exports_16;
 			BExcelExport.ImageScaling = ToolStripItemImageScaling.None;
 			BExcelExport.ImageTransparentColor = Color.Magenta;
 			BExcelExport.Name = "BExcelExport";

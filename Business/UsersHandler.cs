@@ -184,6 +184,7 @@ namespace Business
 				new TUserPermission(302, "Ciudadanos.Consultar"),
 				new TUserPermission(303, "Ciudadanos.Eliminar"),
 				new TUserPermission(304, "Ciudadanos.Crear"),
+				new TUserPermission(305, "Ciudadanos.Excel.Import"),
 
 				new TUserPermission(311, "Ciudadanos.NoEspecificarContacto"),
 				new TUserPermission(312, "Ciudadanos.NoEspecificarInstitucion"),

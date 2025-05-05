@@ -1153,6 +1153,234 @@ namespace Business
 			return GetCitizensWithCondition(condition, out citizen_list);
 		}
 
+		public static Error ImportCitizens(List<TCitizen> to_import, out string import_log, Action<int> callback)
+		{
+			Error error = 0;
+
+			StringBuilder log = new StringBuilder();
+
+			var conn = ConnectionPool.GetConnection();
+			var tran = conn.BeginTransaction();
+
+			try
+			{
+				for(int i = 0; i < to_import.Count; i++)
+				{
+					callback(i);
+
+					TCitizen citizen = to_import[i];
+
+					// first, check if there is a user with the given name, if so, skip it...
+					using (var cmd = new NpgsqlCommand("SELECT COUNT(*) FROM citizens WHERE name = @name", conn))
+					{
+						cmd.Parameters.AddWithValue("@name", citizen.Name);
+
+						if ((Int32)(Int64)cmd.ExecuteScalar() > 0)
+						{
+							log.AppendLine($"found citizen with same: \"{citizen.Name}\"... skipped!");
+
+							continue;
+						}
+					}
+
+					// if category id == 0, then lookup category by name, if not found, create it
+					if (citizen.Category.Id == 0)
+					{
+						using (var cmd = new NpgsqlCommand("SELECT Id FROM citizen_categories WHERE name = @name;", conn))
+						{
+							cmd.Parameters.AddWithValue("@name", citizen.Category.Name);
+
+							using (var reader = cmd.ExecuteReader())
+							{
+								if (reader.HasRows)
+								{
+									reader.Read();
+
+									citizen.Category.Id = reader.GetInt32(0);
+								}
+								else
+								{
+									reader.Close();
+
+									cmd.CommandText = "INSERT INTO citizen_categories(name) VALUES(@name) RETURNING id;";
+
+									citizen.Category.Id = (Int32)(Int64)cmd.ExecuteScalar();
+
+									log.AppendLine($"category created:");
+									log.AppendLine($"  id  : {citizen.Category.Id}");
+									log.AppendLine($"  name: {citizen.Category.Name}");
+								}
+							}
+						}
+					}
+
+					// if institution id == 0, then lookup institution by name, if not found, create it
+					if (citizen.Institution.Id == 0)
+					{
+						using (var cmd = new NpgsqlCommand("SELECT id FROM institutions WHERE name = @name;", conn))
+						{
+							cmd.Parameters.AddWithValue("@name", citizen.Institution.Name);
+
+							using (var reader = cmd.ExecuteReader())
+							{
+								if (reader.HasRows)
+								{
+									reader.Read();
+
+									citizen.Institution.Id = reader.GetInt32(0);
+								}
+								else
+								{
+									reader.Close();
+
+									cmd.CommandText = @"
+										INSERT INTO institutions(
+											name,
+											society_sector_type
+										) VALUES(
+											@name,
+											0
+										) RETURNING id;";
+
+									citizen.Institution.Id = (Int32)(Int64)cmd.ExecuteScalar();
+
+									log.AppendLine($"institution created:");
+									log.AppendLine($"  id:   {citizen.Institution.Id}");
+									log.AppendLine($"  name: {citizen.Institution.Name}");
+								}
+							}
+						}
+					}
+
+					// if role id == 0, then lookup role by name and institution id, if not found, create it within the given institution
+					if (citizen.Role.Id == 0)
+					{
+						using (var cmd = new NpgsqlCommand("SELECT id FROM institution_roles WHERE name = @name AND institution_id = @institution_id;", conn))
+						{
+							cmd.Parameters.AddWithValue("@name", citizen.Role.Name);
+							cmd.Parameters.AddWithValue("@institution_id", citizen.Institution.Id);
+
+							using (var reader = cmd.ExecuteReader())
+							{
+								if (reader.HasRows)
+								{
+									reader.Read();
+
+									citizen.Role.Id = reader.GetInt32(0);
+								}
+								else
+								{
+									reader.Close();
+
+									cmd.CommandText = "INSERT INTO institution_roles(name, institution_id) VALUES(@name, @institution_id) RETURNING id;";
+
+									log.AppendLine($"institution created:");
+									log.AppendLine($"  id:             {citizen.Role.Id}");
+									log.AppendLine($"  name:           {citizen.Role.Name}");
+									log.AppendLine($"  institution_id: {citizen.Role.InstitutionId}");
+
+									citizen.Role.Id = (Int32)(Int64)cmd.ExecuteScalar();
+								}
+							}
+						}
+					}
+
+					// el nuevo usario necesita una dirección sí o sí
+					using (var cmd = new NpgsqlCommand("INSERT INTO addresses DEFAULT VALUES RETURNING id;", conn))
+					{
+						citizen.Address = new TAddress();
+						citizen.Address.Id = (Int32)(Int64)cmd.ExecuteScalar();
+					}
+
+					citizen.Title = TCitizenTitle.None;
+					citizen.Sex = TSex.Unknown;
+
+					// un intento por determinar el título y sexo del ciudadano en base a lo que pudiese venir en el nombre
+					foreach (TCitizenTitle title in Enum.GetValues(typeof(TCitizenTitle)))
+					{
+						string low_name = citizen.Name.ToLower();
+
+						if (low_name.StartsWith(BConstants.GetCitizenBriefTitle(title).ToLower()))
+						{
+							citizen.Title = title;
+						}
+						else if (low_name.StartsWith(BConstants.GetCitizenBriefTitle(title, TSex.Male).ToLower()))
+						{
+							citizen.Title = title;
+							citizen.Sex = TSex.Male;
+						}
+						else if (low_name.StartsWith(BConstants.GetCitizenBriefTitle(title, TSex.Female).ToLower()))
+						{
+							citizen.Title = title;
+							citizen.Sex = TSex.Female;
+						}
+					}
+
+					// finalmente, creamos al usuario
+					string sql = @"
+						INSERT INTO citizens(
+							name,
+							title_type,
+							sex_type,
+							citizen_category_id,
+							institution_id,
+							institution_role_id,
+							address_id,
+							known_birthday,
+							known_birthyear
+						) VALUES (
+							@name,
+							@title_type,
+							@sex_type,
+							@citizen_category_id,
+							@institution_id,
+							@institution_role_id,
+							@address_id,
+							false,
+							false
+						) RETURNING id;
+					";
+					
+					using (var cmd = new NpgsqlCommand(sql, conn))
+					{
+						cmd.Parameters.AddWithValue("@name", citizen.Name);
+						cmd.Parameters.AddWithValue("@title_type", (int)citizen.Title);
+						cmd.Parameters.AddWithValue("@sex_type", (int)citizen.Sex);
+						cmd.Parameters.AddWithValue("@citizen_category_id", citizen.Category.Id);
+						cmd.Parameters.AddWithValue("@institution_id", citizen.Institution.Id);
+						cmd.Parameters.AddWithValue("@institution_role_id", citizen.Role.Id);
+						cmd.Parameters.AddWithValue("@address_id", citizen.Address.Id);
+
+						citizen.Id = (Int32)(Int64)cmd.ExecuteScalar();
+
+						log.AppendLine($"citizen created: ");
+						log.AppendLine($"  id:                  {citizen.Id}");
+						log.AppendLine($"  name:                {citizen.Name}");
+						log.AppendLine($"  institution id:      {citizen.Institution.Id}");
+						log.AppendLine($"  institution role id: {citizen.Role.Id}");
+					}
+				}
+
+				tran.Commit();
+			}
+			catch (Exception ex)
+			{
+				error = Error.Unknown;
+
+				log.AppendLine($"unknown exception: {ex.Message}");
+
+				tran.Rollback();
+			}
+			finally
+			{
+				ConnectionPool.ReleaseConnection(ref conn);
+
+				import_log = log.ToString();
+			}
+
+			return error;
+		}
+
 		public static Error GetCitizenCategoryById(int id, out TCitizenCategory category)
 		{
 			category = new TCitizenCategory();

@@ -159,9 +159,9 @@ namespace GCRM
 				TabControlCitizen.TabPages.Remove(TabElectoral);
 			}
 
-			if (Session.HasPermission("Ciudadanos.Relaciones.Personal.Consultar") == false || Session.HasPermission("Ciudadanos.Relaciones.Consultar"))
+			if (Session.HasPermission("Ciudadanos.Relaciones.Personal.Consultar") == false)
 			{
-
+				TabControlCitizen.TabPages.Remove(TabRelationships);
 			}
 		}
 

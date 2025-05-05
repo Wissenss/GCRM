@@ -131,6 +131,11 @@ namespace GCRM
 				BEventLog.Visible = Session.HasPermission("EventLog.Consultar");
 
 				BSync.Enabled = Session.User.CardDavSyncEnabled;
+
+				if (Session.HasPermission("Network.Consultar") == false)
+				{
+					TabControl.TabPages.Remove(TabElectoral);
+				}
 			}
 		}
 

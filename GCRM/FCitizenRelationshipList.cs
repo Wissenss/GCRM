@@ -104,6 +104,8 @@ namespace GCRM
 
 				DTRelationships.EndLoadData();
 			}
+
+			UpdateStatusStrip();
 		}
 
 		private void BRelationshipRoles_Click(object sender, EventArgs e)
