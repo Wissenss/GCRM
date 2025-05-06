@@ -201,7 +201,7 @@
 			BFilter.Padding = new Padding(2, 8, 2, 8);
 			BFilter.Size = new Size(61, 36);
 			BFilter.Text = "&Filtrar";
-			BFilter.Visible = false;
+			BFilter.Click += BFilter_Click;
 			// 
 			// BDelete
 			// 
@@ -300,10 +300,10 @@
 			// TextBoxSearch
 			// 
 			TextBoxSearch.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-			TextBoxSearch.Location = new Point(8, 8);
+			TextBoxSearch.Location = new Point(6, 8);
 			TextBoxSearch.Name = "TextBoxSearch";
 			TextBoxSearch.PlaceholderText = "Ingrese el texto a buscar...";
-			TextBoxSearch.Size = new Size(2051, 23);
+			TextBoxSearch.Size = new Size(1075, 23);
 			TextBoxSearch.TabIndex = 1;
 			TextBoxSearch.TextChanged += TextBoxSearch_TextChanged;
 			// 

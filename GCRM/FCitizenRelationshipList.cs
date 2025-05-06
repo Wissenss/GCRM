@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,7 @@ namespace GCRM
 		DataTable DTRelationships;
 
 		FColumnChooser ColumnChooserDlg;
+		FCitizenRelationshipListFilters Filters;
 
 		public FCitizenRelationshipList()
 		{
@@ -26,6 +28,7 @@ namespace GCRM
 
 			DTRelationships = new DataTable();
 			DTRelationships.Columns.Add("id", typeof(int));
+			DTRelationships.Columns.Add("user_id", typeof(int));
 			DTRelationships.Columns.Add("citizen_id", typeof(int));
 			DTRelationships.Columns.Add("citizen_fullname", typeof(string));
 			DTRelationships.Columns.Add("related_citizen_id", typeof(int));
@@ -51,6 +54,7 @@ namespace GCRM
 			DataGridUtilities.AddColumn(DataGridRelationships, "colEndDate", "Termino", "end_date", true, display_index++, 100, 20);
 
 			DataGridUtilities.AddColumn(DataGridRelationships, "colId", "Id", "id", false, display_index++);
+			DataGridUtilities.AddColumn(DataGridRelationships, "colUserId", "Usuario Id", "user_id", false, display_index++);
 			DataGridUtilities.AddColumn(DataGridRelationships, "colCitizenId", "Ciudadano Id", "citizen_id", false, display_index++);
 			DataGridUtilities.AddColumn(DataGridRelationships, "colRelatedCitizenId", "Ciudadano Relacionado Id", "related_citizen_id", false, display_index++);
 			DataGridUtilities.AddColumn(DataGridRelationships, "colRoleId", "Rol Id", "citizen_relationship_role_id", false, display_index++);
@@ -61,6 +65,7 @@ namespace GCRM
 			DataGridRelationships.DataMember = DTRelationships.TableName;
 
 			ColumnChooserDlg = new FColumnChooser(DataGridRelationships);
+			Filters = new FCitizenRelationshipListFilters();
 		}
 
 		private void LoadList()
@@ -83,6 +88,7 @@ namespace GCRM
 					DataRow row = DTRelationships.NewRow();
 
 					row["id"] = relation.Id;
+					row["user_id"] = relation.User.Id;
 					row["citizen_id"] = relation.Citizen.Id;
 					row["citizen_fullname"] = relation.Citizen.FullName;
 					row["related_citizen_id"] = relation.RelatedTo.Id;
@@ -150,35 +156,23 @@ namespace GCRM
 				filter += DataGridUtilities.GetFilterCondititonForTextSearch(DataGridRelationships, DTRelationships, search);
 			}
 
-			//if (FiltersDlg.FilterSex)
-			//	filter += $" and sex = {(int)FiltersDlg.Sex}";
+			if (Filters.FilterUser.Checked)
+				filter += $" and user_id = {(int)Filters.User.SelectedValue}";
 
-			//if (FiltersDlg.FilterParty)
-			//	filter += $" and political_party = {(int)FiltersDlg.Party}";
+			if (Filters.FilterCitizen.Checked)
+				filter += $" and citizen_id = {(int)Filters.Citizen.SelectedValue}";
 
-			//if (FiltersDlg.FilterCitizenTitle)
-			//	filter += $" and title = {(int)FiltersDlg.CitizenTitle}";
+			if (Filters.FilterRelatedTo.Checked)
+				filter += $" and realted_citizen_id = {(int)Filters.RelatedTo.SelectedValue}";
 
-			//if (FiltersDlg.FilterInstitution)
-			//	filter += $" and (institution_id = {FiltersDlg.InstitutionId} or institution2_id = {FiltersDlg.InstitutionId} or institution3_id = {FiltersDlg.InstitutionId})";
+			if (Filters.FilterRelationshipRole.Checked)
+				filter += $" and citizen_relationship_role_id = {(int)Filters.RelationshipRole.SelectedValue}";
 
-			//if (FiltersDlg.FilterSector)
-			//	filter += $" and institution_sector = {(int)FiltersDlg.Sector}";
+			if (Filters.FilterMinAffinity.Checked)
+				filter += $" and affinity_score >= {Filters.MinAffinity.Value}";
 
-			//if (FiltersDlg.FilterInstitutionCategory)
-			//	filter += $" and institution_category_id = {(int)FiltersDlg.InstitutionCategoryId}";
-
-			//if (FiltersDlg.FilterBirthdayYear)
-			//	filter += $" and birthday_year = {FiltersDlg.BirthdayYear}";
-
-			//if (FiltersDlg.FilterBirthdayMonth)
-			//	filter += $" and birthday_month = {FiltersDlg.BirthdayMonth}";
-
-			//if (FiltersDlg.FilterBirthdayDay)
-			//	filter += $" and birthday_day = {FiltersDlg.BirthdayDay}";
-
-			//if (FiltersDlg.FilterCategory)
-			//	filter += $" and category_id = {FiltersDlg.CategoryId}";
+			if (Filters.FilterMaxAffinity.Checked)
+				filter += $" and affinity_score <= {Filters.MaxAffinity.Value}";
 
 			DTRelationships.DefaultView.RowFilter = filter;
 			DataGridRelationships.DataSource = DTRelationships;
@@ -192,6 +186,36 @@ namespace GCRM
 			TSSLRecordCount.Text = $"Total: {DataGridRelationships.RowCount}";
 
 			TSSLFilters.Text = "";
+
+			// the filters label
+			string filtros = "";
+
+			if (Filters.FilterUser.Checked)
+				filtros += $" Usuario = {Filters.User.Text}, ";
+
+			if (Filters.FilterCitizen.Checked)
+				filtros += $" Ciudadano = {Filters.Citizen.Text}, ";
+
+			if (Filters.FilterRelatedTo.Checked)
+				filtros += $" Relación con = {Filters.RelatedTo.Text}, ";
+
+			if (Filters.FilterRelationshipRole.Checked)
+				filtros += $" Vínculo = {Filters.RelationshipRole.Text}, ";
+
+			if (Filters.FilterMinAffinity.Checked)
+				filtros += $" Afinidad >= {Filters.MinAffinity.Value}, ";
+
+			if (Filters.FilterMaxAffinity.Checked)
+				filtros += $" Afinidad <= {Filters.MaxAffinity.Value}, ";
+
+			if (filtros.Length > 0)
+			{
+				TSSLFilters.Text = $"  Filtros: {filtros.TrimEnd(',', ' ')}";
+			}
+			else
+			{
+				TSSLFilters.Text = "";
+			}
 		}
 
 		private void BSearch_Click(object sender, EventArgs e)
@@ -219,6 +243,14 @@ namespace GCRM
 				return;
 
 			DataGridUtilities.ExportToExcel(DataGridRelationships, SaveFileDialog.FileName);
+		}
+
+		private void BFilter_Click(object sender, EventArgs e)
+		{
+			if (Filters.ShowDialog() == DialogResult.OK)
+			{
+				FilterList();
+			}
 		}
 	}
 }
