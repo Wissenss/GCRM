@@ -439,7 +439,7 @@ namespace Business
 					COALESCE(cr.id, 0) AS UserRelationshipId
 				FROM 
 					citizens c
-					LEFT JOIN citizen_relationships cr ON (cr.citizen_id = @userCitizenId AND cr.related_citizen_id = c.id)
+					LEFT JOIN citizen_relationships cr ON (cr.user_id = @userId AND cr.related_citizen_id = c.id)
 				WHERE 
 					c.id = @id;
 			";
@@ -447,7 +447,7 @@ namespace Business
 			using (var cmd = new NpgsqlCommand(sql, conn))
 			{
 				cmd.Parameters.AddWithValue("@id", id);
-				cmd.Parameters.AddWithValue("@userCitizenId", Session.User.Citizen.Id);
+				cmd.Parameters.AddWithValue("@userId", Session.User.Id);
 
 				using (var reader = cmd.ExecuteReader())
 				{
@@ -1692,12 +1692,14 @@ namespace Business
 					c2.name AS related_name,
 					c2.paternal_name AS related_paternal_name,
 					c2.maternal_name AS related_maternal_name,
-					crr.name AS role_name
+					crr.name AS role_name,
+					u.name AS user_name
 				FROM 
 					citizen_relationships cr
 					LEFT JOIN citizens c1 ON c1.id = cr.citizen_id
 					LEFT JOIN citizens c2 ON c2.id = cr.related_citizen_id
 					LEFT JOIN citizen_relationship_roles crr ON crr.id = cr.citizen_relationship_role_id
+					LEFT JOIN users u ON cr.user_id = u.id
 				WHERE 
 					true;
 			";
@@ -1729,6 +1731,11 @@ namespace Business
 						if (relation.Role.Id != 0)
 						{
 							relation.Role.Name = reader.GetString("role_name");
+						}
+
+						if (relation.User.Id != 0)
+						{
+							relation.User.Name = reader.GetString("user_name");
 						}
 
 						relationships.Add(relation);	

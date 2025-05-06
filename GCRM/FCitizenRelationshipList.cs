@@ -29,6 +29,7 @@ namespace GCRM
 			DTRelationships = new DataTable();
 			DTRelationships.Columns.Add("id", typeof(int));
 			DTRelationships.Columns.Add("user_id", typeof(int));
+			DTRelationships.Columns.Add("user_name", typeof(string));
 			DTRelationships.Columns.Add("citizen_id", typeof(int));
 			DTRelationships.Columns.Add("citizen_fullname", typeof(string));
 			DTRelationships.Columns.Add("related_citizen_id", typeof(int));
@@ -55,6 +56,7 @@ namespace GCRM
 
 			DataGridUtilities.AddColumn(DataGridRelationships, "colId", "Id", "id", false, display_index++);
 			DataGridUtilities.AddColumn(DataGridRelationships, "colUserId", "Usuario Id", "user_id", false, display_index++);
+			DataGridUtilities.AddColumn(DataGridRelationships, "colUserName", "Usuario", "user_name", false, display_index++);
 			DataGridUtilities.AddColumn(DataGridRelationships, "colCitizenId", "Ciudadano Id", "citizen_id", false, display_index++);
 			DataGridUtilities.AddColumn(DataGridRelationships, "colRelatedCitizenId", "Ciudadano Relacionado Id", "related_citizen_id", false, display_index++);
 			DataGridUtilities.AddColumn(DataGridRelationships, "colRoleId", "Rol Id", "citizen_relationship_role_id", false, display_index++);
@@ -89,6 +91,7 @@ namespace GCRM
 
 					row["id"] = relation.Id;
 					row["user_id"] = relation.User.Id;
+					row["user_name"] = relation.User.Name;
 					row["citizen_id"] = relation.Citizen.Id;
 					row["citizen_fullname"] = relation.Citizen.FullName;
 					row["related_citizen_id"] = relation.RelatedTo.Id;
