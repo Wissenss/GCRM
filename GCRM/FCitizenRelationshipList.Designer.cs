@@ -54,6 +54,7 @@
 			statusStrip1 = new StatusStrip();
 			TSSLRecordCount = new ToolStripStatusLabel();
 			TSSLFilters = new ToolStripStatusLabel();
+			SaveFileDialog = new SaveFileDialog();
 			((System.ComponentModel.ISupportInitialize)DataGridRelationships).BeginInit();
 			ToolStrip.SuspendLayout();
 			PanelSearch.SuspendLayout();
@@ -228,7 +229,7 @@
 			FExcelExport.Padding = new Padding(2, 8, 2, 8);
 			FExcelExport.Size = new Size(74, 36);
 			FExcelExport.Text = "E&xportar";
-			FExcelExport.Visible = false;
+			FExcelExport.Click += FExcelExport_Click;
 			// 
 			// BPrint
 			// 
@@ -381,5 +382,6 @@
 		private StatusStrip statusStrip1;
 		private ToolStripStatusLabel TSSLRecordCount;
 		private ToolStripStatusLabel TSSLFilters;
+		private SaveFileDialog SaveFileDialog;
 	}
 }

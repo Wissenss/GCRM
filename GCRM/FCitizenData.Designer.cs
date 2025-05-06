@@ -551,9 +551,9 @@
 			LRelationship.AutoSize = true;
 			LRelationship.Location = new Point(7, 34);
 			LRelationship.Name = "LRelationship";
-			LRelationship.Size = new Size(52, 15);
+			LRelationship.Size = new Size(47, 15);
 			LRelationship.TabIndex = 3;
-			LRelationship.Text = "Relación";
+			LRelationship.Text = "Vínculo";
 			// 
 			// Relationship
 			// 

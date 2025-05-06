@@ -466,6 +466,71 @@ namespace GCRM
 
 			return search_condition;
 		}
+	
+		public static void ExportToExcel(DataGridView dataGrid, string filePath)
+		{
+			try
+			{
+				using (new CursorWait())
+				using (var workbook = new XLWorkbook())
+				{
+					var worksheet = workbook.Worksheets.Add(dataGrid.Name);
+
+					XLColor headersColor = XLColor.LightGray;
+					int colIndex = 1;
+					int rowIndex = 1;
+
+					// create the headers
+					foreach (DataGridViewColumn column in dataGrid.Columns)
+					{
+						if (column.Visible == false)
+							continue;
+
+						ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, colIndex, column.HeaderText, headersColor, 50);
+
+						colIndex++;
+					}
+
+					rowIndex++;
+
+					// fill each row
+					foreach (DataGridViewRow row in dataGrid.Rows)
+					{
+						colIndex = 1;
+
+						foreach (DataGridViewCell cell in row.Cells)
+						{
+							if (cell.OwningColumn.Visible == false)
+								continue;
+
+							try
+							{
+								string textValue = "";
+
+								if (cell.Value is DBNull)
+									textValue = "";
+								else
+									textValue = cell.Value.ToString();
+
+								ExcelUtilities.SetWorksheetCell(worksheet, rowIndex, colIndex, textValue);
+							}
+							finally
+							{
+								colIndex++;
+							}
+						}
+
+						rowIndex++;
+					}
+
+					workbook.SaveAs(filePath);
+				}
+			}
+			catch (Exception ex)
+			{
+				Utilities.ShowExceptionDialog(ex);
+			}
+		}
 	}
 
 	public static class ExcelUtilities

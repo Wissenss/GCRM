@@ -208,5 +208,17 @@ namespace GCRM
 		{
 			FilterList();
 		}
+
+		private void FExcelExport_Click(object sender, EventArgs e)
+		{
+			SaveFileDialog.DefaultExt = $".xlsx";
+			SaveFileDialog.FileName = $"listado_relaciones_{DateTime.Now.ToString("yyyyMMdd")}";
+			SaveFileDialog.Filter = $"Excel (*.xlsx) | *.xlsx | Todos (*.*) | *.*";
+
+			if (SaveFileDialog.ShowDialog() != DialogResult.OK)
+				return;
+
+			DataGridUtilities.ExportToExcel(DataGridRelationships, SaveFileDialog.FileName);
+		}
 	}
 }

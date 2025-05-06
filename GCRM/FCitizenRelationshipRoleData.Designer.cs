@@ -83,7 +83,7 @@
 			Controls.Add(BCancel);
 			Controls.Add(BAccept);
 			Name = "FCitizenRelationshipRoleData";
-			Text = "Tipo de relación ciudadana";
+			Text = "Vínculo relacional";
 			ResumeLayout(false);
 			PerformLayout();
 		}
