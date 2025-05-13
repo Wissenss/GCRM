@@ -955,7 +955,7 @@ namespace Business
 				FROM 
 					citizens c 
 					LEFT JOIN citizen_categories cc ON c.citizen_category_id = cc.id
-					LEFT JOIN citizens c_self ON c.assistant_id = c.id
+					LEFT JOIN citizens c_self ON c.assistant_id = c_self.id
 					LEFT JOIN users u ON c.created_by_id = u.id 
 					LEFT JOIN users u2 ON c.edit_by_id = u2.id
 
@@ -993,11 +993,11 @@ namespace Business
 					if (citizen.Assistant.Id != 0)
 					{
 						citizen.Assistant.Name = reader.GetString(reader.GetOrdinal("assistant_name"));
-						citizen.Assistant.Name = reader.GetString(reader.GetOrdinal("assistant_paternal_name"));
-						citizen.Assistant.Name = reader.GetString(reader.GetOrdinal("assistant_maternal_name"));
-						citizen.Assistant.Name = reader.GetString(reader.GetOrdinal("assistant_phone"));
-						citizen.Assistant.Name = reader.GetString(reader.GetOrdinal("assistant_phone_extension"));
-						citizen.Assistant.Name = reader.GetString(reader.GetOrdinal("assistant_cellphone"));
+						citizen.Assistant.PaternalName = reader.GetString(reader.GetOrdinal("assistant_paternal_name"));
+						citizen.Assistant.MaternalName = reader.GetString(reader.GetOrdinal("assistant_maternal_name"));
+						citizen.Assistant.Phone.Number = reader.GetString(reader.GetOrdinal("assistant_phone"));
+						citizen.Assistant.Phone.Extension = reader.GetString(reader.GetOrdinal("assistant_phone_extension"));
+						citizen.Assistant.Cellphone = reader.GetString(reader.GetOrdinal("assistant_cellphone"));
 					}
 
 					if (citizen.Institution.Id != 0)

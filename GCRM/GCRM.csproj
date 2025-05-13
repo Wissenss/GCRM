@@ -7,7 +7,7 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <Title>gcrm</Title>
-    <Version>$(VersionPrefix)0.1.2.0-alpha</Version>
+    <Version>$(VersionPrefix)0.1.2.1-alpha</Version>
     <ApplicationIcon>Fatcow-Farm-Fresh-Bookmark.ico</ApplicationIcon>
     <Copyright>Leonardo Merino</Copyright>
     <StartupObject>GCRM.Program</StartupObject>
@@ -36,7 +36,7 @@
     <PackageReference Include="ClosedXML" Version="0.104.2" />
     <PackageReference Include="NLog" Version="5.4.0" />
     <PackageReference Include="ObjectListView.Repack.NET6Plus" Version="2.9.5" />
-    <PackageReference Include="QuestPDF" Version="2025.4.2" />
+    <PackageReference Include="QuestPDF" Version="2025.4.4" />
   </ItemGroup>
 
   <ItemGroup>
@@ -142,6 +142,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="SQL\update_0_1_0_8.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="SQL\update_0_1_2_0.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="SQL\update_0_1_2_1.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

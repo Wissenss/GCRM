@@ -98,8 +98,8 @@ namespace GCRM
 			update_script.Append($" & (timeout 4)");
 			update_script.Append($" & (echo 'replacing files')");
 			update_script.Append($" & (xcopy \"{update_uncompress_file}\" \"{install_directory}\" /Y /E /H /C /I)");
-			update_script.Append($" & (echo 're-starting system')");
-			update_script.Append($" & (start {System.Environment.ProcessPath})");
+			//update_script.Append($" & (echo 're-starting system')");
+			//update_script.Append($" & (start {System.Environment.ProcessPath})");
 			update_script.Append($" & (echo 'system update finished, you may close this window')");
 			update_script.Append($" & (exit)");
 
