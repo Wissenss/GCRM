@@ -27,6 +27,7 @@ namespace Business
 		Arq = 5,
 		Biologist = 6,
 		Technician = 7,
+		Lawyer = 8,
 
 		PublicAccountant	= 50,
 		Councilor = 51,
@@ -111,6 +112,7 @@ namespace Business
 				{ TCitizenTitle.Arq, "Arquitecto(a)" },
 				{ TCitizenTitle.Technician, "Técnico(a)" },
 				{ TCitizenTitle.Biologist, "Biólogo(a)" },
+				{ TCitizenTitle.Lawyer, "Abogado(a)" },
 
 				{ TCitizenTitle.PublicAccountant, "Contador(a) Público" },
 				{ TCitizenTitle.Councilor, "Regidor(a)" },
@@ -139,6 +141,7 @@ namespace Business
 				{ TCitizenTitle.Arq, "Arquitecto" },
 				{ TCitizenTitle.Technician, "Técnico" },
 				{ TCitizenTitle.Biologist, "Biólogo" },
+				{ TCitizenTitle.Lawyer, "Abogado" },
 
 				{ TCitizenTitle.PublicAccountant, "Contador Público" },
 				{ TCitizenTitle.Councilor, "Regidor" },
@@ -163,6 +166,7 @@ namespace Business
 				{ TCitizenTitle.Arq, "Arquitecta" },
 				{ TCitizenTitle.Technician, "Técnica" },
 				{ TCitizenTitle.Biologist, "Bióloga" },
+				{ TCitizenTitle.Lawyer, "Abogada" },
 
 				{ TCitizenTitle.PublicAccountant, "Contadora Pública" },
 				{ TCitizenTitle.Councilor, "Regidora" },
@@ -199,6 +203,7 @@ namespace Business
 				{ TCitizenTitle.Arq, "Arq." },
 				{ TCitizenTitle.Technician, "Tec." },
 				{ TCitizenTitle.Biologist, "Bio." },
+				{ TCitizenTitle.Lawyer, "Abg." },
 
 				{ TCitizenTitle.PublicAccountant, "C.P." },
 				{ TCitizenTitle.Councilor, "Regidor(a)" },
@@ -218,15 +223,9 @@ namespace Business
 
 			Dictionary<TCitizenTitle, string> mapping_male = new Dictionary<TCitizenTitle, string>()
 			{
-				{ TCitizenTitle.None, "C." },
-
-				{ TCitizenTitle.DegreeLevel, "Lic." },
-				{ TCitizenTitle.Engineneer, "Ing." },
 				{ TCitizenTitle.Master, "Mtro." },
 				{ TCitizenTitle.PhD, "Dr." },
-				{ TCitizenTitle.Arq, "Arq." },
 
-				{ TCitizenTitle.PublicAccountant, "C.P." },
 				{ TCitizenTitle.Councilor, "Regidor" },
 				{ TCitizenTitle.Syndic, "Síndico" },
 				{ TCitizenTitle.MunicipalPresident, "Presidente Municipal" },
@@ -240,15 +239,9 @@ namespace Business
 
 			Dictionary<TCitizenTitle, string> mapping_female = new Dictionary<TCitizenTitle, string>()
 			{
-				{ TCitizenTitle.None, "C." },
-
-				{ TCitizenTitle.DegreeLevel, "Lic." },
-				{ TCitizenTitle.Engineneer, "Ing." },
 				{ TCitizenTitle.Master, "Mtra." },
 				{ TCitizenTitle.PhD, "Dra." },
-				{ TCitizenTitle.Arq, "Arq." },
 
-				{ TCitizenTitle.PublicAccountant, "C.P." },
 				{ TCitizenTitle.Councilor, "Regidora" },
 				{ TCitizenTitle.Syndic, "Síndica" },
 				{ TCitizenTitle.MunicipalPresident, "Presidenta Municipal" },
