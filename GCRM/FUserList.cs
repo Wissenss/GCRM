@@ -8,6 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using GCRM.Domain;
+using GCRM.Domain.Enums;
+using GCRM.Shared;
 
 namespace GCRM
 {

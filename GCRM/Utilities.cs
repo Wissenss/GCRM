@@ -16,6 +16,7 @@ using DocumentFormat.OpenXml.Office.CoverPageProps;
 using DocumentFormat.OpenXml.Office2010.ExcelAc;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Wordprocessing;
+using GCRM.Domain.Enums;
 
 namespace GCRM
 {

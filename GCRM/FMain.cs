@@ -4,6 +4,9 @@ using Connection;
 using Microsoft.VisualBasic;
 using System.Diagnostics;
 using System.Reflection;
+using GCRM.Domain;
+using GCRM.Domain.Enums;
+using GCRM.Shared;
 
 namespace GCRM
 {

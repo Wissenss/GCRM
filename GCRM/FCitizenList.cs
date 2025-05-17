@@ -5,6 +5,9 @@ using DocumentFormat.OpenXml.Bibliography;
 using Reporter;
 using System.Data;
 using System.Globalization;
+using GCRM.Domain;
+using GCRM.Domain.Enums;
+using GCRM.Shared;
 
 namespace GCRM
 {

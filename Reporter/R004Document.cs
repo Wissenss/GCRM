@@ -1,15 +1,13 @@
 ﻿using Business;
-using QuestPDF.Drawing;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
-using System.Diagnostics;
-using System.Globalization;
-using System.Reflection;
+using GCRM.Domain;
+using GCRM.Domain.Enums;
+using GCRM.Shared;
 
 namespace Reporter
 {
-
 	public class R004DocumentModel
 	{
 		public TInstitutionCategory? Category;

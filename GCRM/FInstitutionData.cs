@@ -1,6 +1,9 @@
 ﻿using Business;
 using System.Data;
 using System.Text;
+using GCRM.Domain;
+using GCRM.Domain.Enums;
+using GCRM.Shared;
 
 namespace GCRM
 {

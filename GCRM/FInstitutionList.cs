@@ -4,6 +4,9 @@ using DocumentFormat.OpenXml.Spreadsheet;
 using QuestPDF.Fluent;
 using Reporter;
 using System.Data;
+using GCRM.Domain;
+using GCRM.Domain.Enums;
+using GCRM.Shared;
 
 namespace GCRM
 {

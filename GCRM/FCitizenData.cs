@@ -1,9 +1,11 @@
 ﻿using Business;
-using DocumentFormat.OpenXml.Bibliography;
 using System.Data;
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
+using GCRM.Domain;
+using GCRM.Domain.Enums;
+using GCRM.Shared;
 
 namespace GCRM
 {

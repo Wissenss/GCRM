@@ -3,6 +3,9 @@ using Business;
 using Connection;
 using System.Diagnostics;
 using System.Text;
+using GCRM.Domain;
+using GCRM.Domain.Enums;
+using GCRM.Shared;
 
 namespace GCRM
 {

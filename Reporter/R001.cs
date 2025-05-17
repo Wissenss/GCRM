@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GCRM.Domain;
+using GCRM.Domain.Enums;
 
 namespace Reporter
 {

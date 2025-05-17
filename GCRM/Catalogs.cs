@@ -1,13 +1,9 @@
 ﻿using Business;
 using Business.Business;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading.Tasks;
-using static Business.BConstants;
+using GCRM.Domain;
+using GCRM.Domain.Enums;
+using GCRM.Shared;
 
 namespace GCRM
 {
@@ -128,7 +124,7 @@ namespace GCRM
 
 			foreach (TSocietySector value in Enum.GetValues(typeof(TSocietySector)))
 			{
-				AddValueTextToDT(DTSocietySector, value, GetSocietySectorName(value));
+				AddValueTextToDT(DTSocietySector, value, BConstants.GetSocietySectorName(value));
 			}
 
 			DTSocietySector.EndLoadData();
@@ -143,7 +139,7 @@ namespace GCRM
 
 			foreach (TCitizenTitle value in Enum.GetValues(typeof(TCitizenTitle)))
 			{
-				AddValueTextToDT(DTCitizenTitles, value, GetCitizenBriefTitle(value));
+				AddValueTextToDT(DTCitizenTitles, value, BConstants.GetCitizenBriefTitle(value));
 			}
 
 			DTCitizenTitles.EndLoadData();
@@ -158,7 +154,7 @@ namespace GCRM
 
 			foreach (TCountry value in Enum.GetValues(typeof(TCountry)))
 			{
-				AddValueTextToDT(DTCountries, value, GetCountryCommonName(value));
+				AddValueTextToDT(DTCountries, value, BConstants.GetCountryCommonName(value));
 			}
 
 			DTCountries.EndLoadData();
@@ -173,7 +169,7 @@ namespace GCRM
 
 			foreach (TPoliticalParty value in Enum.GetValues(typeof(TPoliticalParty)))
 			{
-				AddValueTextToDT(DTPoliticalParties, value, GetPoliticalPartyCommonName(value));
+				AddValueTextToDT(DTPoliticalParties, value, BConstants.GetPoliticalPartyCommonName(value));
 			}
 
 			DTPoliticalParties.EndLoadData();
@@ -188,7 +184,7 @@ namespace GCRM
 
 			foreach (TSex value in Enum.GetValues(typeof(TSex)))
 			{
-				AddValueTextToDT(DTSex, value, GetSexName(value));
+				AddValueTextToDT(DTSex, value, BConstants.GetSexName(value));
 			}
 
 			DTSex.EndLoadData();

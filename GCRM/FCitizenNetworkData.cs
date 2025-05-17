@@ -1,26 +1,10 @@
 ﻿using BrightIdeasSoftware;
 using Business;
-using ClosedXML.Excel;
-using DocumentFormat.OpenXml.Office.Word;
-using DocumentFormat.OpenXml.Presentation;
-using DocumentFormat.OpenXml.Spreadsheet;
-using DocumentFormat.OpenXml.Wordprocessing;
-using Microsoft.Extensions.Logging.Abstractions;
 using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
 using Reporter;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Drawing.Interop;
-using System.Dynamic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
+using GCRM.Domain;
 
 namespace GCRM
 {
