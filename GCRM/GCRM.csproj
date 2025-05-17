@@ -147,6 +147,9 @@
     <None Update="SQL\update_0_1_2_0.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="SQL\update_0_1_2_3.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="SQL\update_0_1_2_2.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

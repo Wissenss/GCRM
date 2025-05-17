@@ -237,11 +237,13 @@ namespace GCRM
 				return;	
 			}
 
-			foreach(TInstitution institution in institutions_list)
+			bool display_upper = SettingsHandler.GetSetting<bool>("UI.DisplayUppercase", false);
+
+			foreach (TInstitution institution in institutions_list)
 			{
 				DataRow row = DTInstitutions.NewRow();
 
-				if (SettingsHandler.GetSetting<bool>("UI.DisplayUppercase", false) == true)
+				if (display_upper)
 					institution.PropertiesToUpper();
 
 				row["id"] = institution.Id;

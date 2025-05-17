@@ -8,6 +8,7 @@ using System.Globalization;
 using GCRM.Domain;
 using GCRM.Domain.Enums;
 using GCRM.Shared;
+using System.Diagnostics;
 
 namespace GCRM
 {
@@ -242,6 +243,8 @@ namespace GCRM
 		{
 			using (new CursorWait())
 			{
+				var stopwatch = Stopwatch.StartNew();
+
 				DTCitizens.BeginLoadData();
 				DTCitizens.Clear();
 
@@ -254,12 +257,12 @@ namespace GCRM
 					Utilities.ShowErrorDialog(error);
 					return;
 				}
+				
+				bool display_upper = SettingsHandler.GetSetting<bool>("UI.DisplayUppercase", false);
 
 				foreach (TCitizen citizen in citizen_list)
 				{
 					DataRow row = DTCitizens.NewRow();
-
-					bool display_upper = SettingsHandler.GetSetting<bool>("UI.DisplayUppercase", false);
 
 					if (display_upper)
 						citizen.PropertiesToUpper();
@@ -376,6 +379,10 @@ namespace GCRM
 				FilterList();
 
 				DataGridCitizens.Refresh();
+
+				stopwatch.Stop();
+
+				//TSSLDebug.Text = $"time elapsed: {stopwatch.ElapsedMilliseconds} ms";
 			}
 		}
 
@@ -392,9 +399,7 @@ namespace GCRM
 
 		private void BRefresh_Click(object sender, EventArgs e)
 		{
-			Cursor.Current = Cursors.WaitCursor;
 			LoadList();
-			Cursor.Current = Cursors.Default;
 		}
 
 		private int GetSelectedCitizenId()
@@ -883,12 +888,13 @@ namespace GCRM
 
 			if (row.Cells["colAttentionRequired"].Value == null)
 				return;
-
+			/*
 			if ((bool)row.Cells["colAttentionRequired"].Value)
 			{
 				e.CellStyle.BackColor = Color.FromArgb(255, 200, 200);
 				e.CellStyle.SelectionBackColor = Color.FromArgb(255, 150, 150);
 			}
+			*/
 		}
 
 		private void FCitizenList_FormClosing(object sender, FormClosingEventArgs e)

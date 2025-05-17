@@ -344,6 +344,7 @@
 			SizeGripStyle = SizeGripStyle.Hide;
 			StartPosition = FormStartPosition.CenterParent;
 			Text = "Filtros";
+			Load += FCitizenListFilters_Load;
 			Shown += FCitizenListFilters_Shown;
 			ResumeLayout(false);
 			PerformLayout();

@@ -16,6 +16,8 @@ namespace GCRM
 {
 	public partial class FCitizenListFilters : Form
 	{
+		bool loaded = false;
+
 		public bool FilterParty;
 		public TPoliticalParty Party;
 		public bool FilterSex;
@@ -46,13 +48,6 @@ namespace GCRM
 		{
 			InitializeComponent();
 
-			Cursor.Current = Cursors.WaitCursor;
-
-			// load the datasource
-			Catalogs.LoadDTInstitutions();
-			Catalogs.LoadDTInstitutionCategories();
-			Catalogs.LoadDTCitizenCategories();
-
 			DSFilters = new DataSet();
 
 			DTYears = new DataTable("DTYears");
@@ -67,62 +62,6 @@ namespace GCRM
 			DTDays = new DataTable("DTDays");
 			DTDays.Columns.Add("value", typeof(int));
 			DSFilters.Tables.Add(DTDays);
-
-			LoadDTYears();
-			LoadDTMonths();
-			LoadDTDays();
-
-			// bind the comboboxes
-			ComboBoxCitizenTitle.DataSource = Catalogs.DTCitizenTitles;
-			ComboBoxCitizenTitle.ValueMember = "value";
-			ComboBoxCitizenTitle.DisplayMember = "text";
-
-			ComboBoxPoliticalParty.DataSource = Catalogs.DTPoliticalParties;
-			ComboBoxPoliticalParty.ValueMember = "value";
-			ComboBoxPoliticalParty.DisplayMember = "text";
-
-			ComboBoxSex.DataSource = Catalogs.DTSex;
-			ComboBoxSex.ValueMember = "value";
-			ComboBoxSex.DisplayMember = "text";
-
-			ComboBoxInstitucion.DataSource = Catalogs.DTInstitutions;
-			ComboBoxInstitucion.ValueMember = "id";
-			ComboBoxInstitucion.DisplayMember = "name";
-
-			if (Catalogs.DTInstitutions.Rows.Count > 0)
-				ComboBoxInstitucion.SelectedIndex = 0;
-
-			ComboBoxSector.DataSource = Catalogs.DTSocietySector;
-			ComboBoxSector.ValueMember = "value";
-			ComboBoxSector.DisplayMember = "text";
-
-			ComboBoxInstitutionCategory.DataSource = Catalogs.DTInstitutionCategories;
-			ComboBoxInstitutionCategory.ValueMember = "id";
-			ComboBoxInstitutionCategory.DisplayMember = "name";
-
-			if (Catalogs.DTInstitutionCategories.Rows.Count > 0)
-				ComboBoxInstitutionCategory.SelectedIndex = 0;
-
-			ComboBoxBirthdayYear.DataSource = DTYears;
-			ComboBoxBirthdayYear.ValueMember = "value";
-			ComboBoxBirthdayYear.DisplayMember = "value";
-
-			ComboBoxBirthdayMonth.DataSource = DTMonths;
-			ComboBoxBirthdayMonth.ValueMember = "value";
-			ComboBoxBirthdayMonth.DisplayMember = "text";
-
-			ComboBoxBirthdayDay.DataSource = DTDays;
-			ComboBoxBirthdayDay.ValueMember = "value";
-			ComboBoxBirthdayDay.DisplayMember = "value";
-
-			ComboBoxCategory.DataSource = Catalogs.DTCitizenCategories;
-			ComboBoxCategory.ValueMember = "id";
-			ComboBoxCategory.DisplayMember = "name";
-
-			if (Catalogs.DTCitizenCategories.Rows.Count > 0)
-				ComboBoxCategory.SelectedIndex = 0;
-
-			Cursor.Current = Cursors.Default;
 		}
 
 		private void LoadDTYears()
@@ -260,25 +199,7 @@ namespace GCRM
 
 		private void FCitizenListFilters_Shown(object sender, EventArgs e)
 		{
-			//Cursor.Current = Cursors.WaitCursor;
-
-			//CheckBoxFilterTitle.Checked = FilterCitizenTitle;
-			//ComboBoxCitizenTitle.SelectedValue = CitizenTitle;
-			//CheckBoxFilterParty.Checked = FilterParty;
-			//ComboBoxPoliticalParty.SelectedValue = Party;
-			//CheckBoxFilterSex.Checked = FilterSex;
-			//ComboBoxSex.SelectedValue = Sex;
-			//CheckBoxFilterInstitution.Checked = FilterInstitution;
-			//ComboBoxInstitucion.SelectedValue = InstitutionId;
-			//CheckBoxFilterSector.Checked = FilterSector;
-			//ComboBoxSector.SelectedValue = Sector;
-			//CheckBoxFilterInstitutionCategory.Checked = FilterInstitutionCategory;
-			//ComboBoxInstitutionCategory.SelectedValue = InstitutionCategoryId;
-			//ComboBoxBirthdayYear.SelectedValue = BirthdayYear;
-			//ComboBoxBirthdayMonth.SelectedValue = BirthdayMonth;
-			//ComboBoxBirthdayDay.SelectedValue = BirthdayDay;
-
-			//Cursor.Current = Cursors.Default;
+			
 		}
 
 		private void BCancel_Click(object sender, EventArgs e)
@@ -289,7 +210,7 @@ namespace GCRM
 		private void CheckBoxFilterInstitution_CheckedChanged(object sender, EventArgs e)
 		{
 			ComboBoxInstitucion.Enabled = CheckBoxFilterInstitution.Checked;
-			BSelectInstitution.Enabled = CheckBoxFilterInstitution.Checked;	
+			BSelectInstitution.Enabled = CheckBoxFilterInstitution.Checked;
 		}
 
 		private void CheckBoxFilterSector_CheckedChanged(object sender, EventArgs e)
@@ -350,6 +271,75 @@ namespace GCRM
 					ComboBoxInstitucion.SelectedValue = institution_id;
 				}
 			}
+		}
+
+		private void FCitizenListFilters_Load(object sender, EventArgs e)
+		{
+			if (loaded)
+				return;
+
+			using (new CursorWait())
+			{
+				// load the datasource
+				Catalogs.LoadDTInstitutions();
+				Catalogs.LoadDTInstitutionCategories();
+				Catalogs.LoadDTCitizenCategories();
+				LoadDTYears();
+				LoadDTMonths();
+				LoadDTDays();
+
+				// bind the comboboxes
+				ComboBoxCitizenTitle.DataSource = Catalogs.DTCitizenTitles;
+				ComboBoxCitizenTitle.ValueMember = "value";
+				ComboBoxCitizenTitle.DisplayMember = "text";
+
+				ComboBoxPoliticalParty.DataSource = Catalogs.DTPoliticalParties;
+				ComboBoxPoliticalParty.ValueMember = "value";
+				ComboBoxPoliticalParty.DisplayMember = "text";
+
+				ComboBoxSex.DataSource = Catalogs.DTSex;
+				ComboBoxSex.ValueMember = "value";
+				ComboBoxSex.DisplayMember = "text";
+
+				ComboBoxInstitucion.DataSource = Catalogs.DTInstitutions;
+				ComboBoxInstitucion.ValueMember = "id";
+				ComboBoxInstitucion.DisplayMember = "name";
+
+				if (Catalogs.DTInstitutions.Rows.Count > 0)
+					ComboBoxInstitucion.SelectedIndex = 0;
+
+				ComboBoxSector.DataSource = Catalogs.DTSocietySector;
+				ComboBoxSector.ValueMember = "value";
+				ComboBoxSector.DisplayMember = "text";
+
+				ComboBoxInstitutionCategory.DataSource = Catalogs.DTInstitutionCategories;
+				ComboBoxInstitutionCategory.ValueMember = "id";
+				ComboBoxInstitutionCategory.DisplayMember = "name";
+
+				if (Catalogs.DTInstitutionCategories.Rows.Count > 0)
+					ComboBoxInstitutionCategory.SelectedIndex = 0;
+
+				ComboBoxBirthdayYear.DataSource = DTYears;
+				ComboBoxBirthdayYear.ValueMember = "value";
+				ComboBoxBirthdayYear.DisplayMember = "value";
+
+				ComboBoxBirthdayMonth.DataSource = DTMonths;
+				ComboBoxBirthdayMonth.ValueMember = "value";
+				ComboBoxBirthdayMonth.DisplayMember = "text";
+
+				ComboBoxBirthdayDay.DataSource = DTDays;
+				ComboBoxBirthdayDay.ValueMember = "value";
+				ComboBoxBirthdayDay.DisplayMember = "value";
+
+				ComboBoxCategory.DataSource = Catalogs.DTCitizenCategories;
+				ComboBoxCategory.ValueMember = "id";
+				ComboBoxCategory.DisplayMember = "name";
+
+				if (Catalogs.DTCitizenCategories.Rows.Count > 0)
+					ComboBoxCategory.SelectedIndex = 0;
+			}
+
+			loaded = true;
 		}
 	}
 }

@@ -77,6 +77,7 @@
 			BFilter = new ToolStripButton();
 			BDelete = new ToolStripButton();
 			toolStripSeparator2 = new ToolStripSeparator();
+			BExcelImport = new ToolStripButton();
 			FExcelExport = new ToolStripButton();
 			BPrint = new ToolStripButton();
 			toolStripSeparator4 = new ToolStripSeparator();
@@ -94,7 +95,7 @@
 			TSSLRecordAttentionRequiredCount = new ToolStripStatusLabel();
 			TSSLRecordCount = new ToolStripStatusLabel();
 			TSSLFilters = new ToolStripStatusLabel();
-			BExcelImport = new ToolStripButton();
+			TSSLDebug = new ToolStripStatusLabel();
 			ToolStrip.SuspendLayout();
 			PanelSearch.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)DataGridCitizens).BeginInit();
@@ -494,6 +495,16 @@
 			toolStripSeparator2.Name = "toolStripSeparator2";
 			toolStripSeparator2.Size = new Size(6, 40);
 			// 
+			// BExcelImport
+			// 
+			BExcelImport.Image = Properties.Resources.Fatcow_Farm_Fresh_Excel_imports_16;
+			BExcelImport.ImageScaling = ToolStripItemImageScaling.None;
+			BExcelImport.ImageTransparentColor = Color.Magenta;
+			BExcelImport.Name = "BExcelImport";
+			BExcelImport.Size = new Size(73, 37);
+			BExcelImport.Text = "&Importar";
+			BExcelImport.Click += BExcelImport_Click;
+			// 
 			// FExcelExport
 			// 
 			FExcelExport.Image = Properties.Resources.Fatcow_Farm_Fresh_Excel_exports_16;
@@ -658,7 +669,7 @@
 			// 
 			// statusStrip1
 			// 
-			statusStrip1.Items.AddRange(new ToolStripItem[] { TSSLRecordAttentionRequiredCount, TSSLRecordCount, TSSLFilters });
+			statusStrip1.Items.AddRange(new ToolStripItem[] { TSSLRecordAttentionRequiredCount, TSSLRecordCount, TSSLFilters, TSSLDebug });
 			statusStrip1.Location = new Point(2, 601);
 			statusStrip1.Name = "statusStrip1";
 			statusStrip1.Size = new Size(1179, 22);
@@ -691,15 +702,10 @@
 			TSSLFilters.Text = "Filtros: Sexo = Masculino";
 			TSSLFilters.TextAlign = ContentAlignment.MiddleLeft;
 			// 
-			// BExcelImport
+			// TSSLDebug
 			// 
-			BExcelImport.Image = Properties.Resources.Fatcow_Farm_Fresh_Excel_imports_16;
-			BExcelImport.ImageScaling = ToolStripItemImageScaling.None;
-			BExcelImport.ImageTransparentColor = Color.Magenta;
-			BExcelImport.Name = "BExcelImport";
-			BExcelImport.Size = new Size(73, 37);
-			BExcelImport.Text = "&Importar";
-			BExcelImport.Click += BExcelImport_Click;
+			TSSLDebug.Name = "TSSLDebug";
+			TSSLDebug.Size = new Size(0, 17);
 			// 
 			// FCitizenList
 			// 
@@ -793,5 +799,6 @@
 		private ToolStripSeparator toolStripSeparator3;
 		private ToolStripStatusLabel TSSLRecordAttentionRequiredCount;
 		private ToolStripButton BExcelImport;
+		private ToolStripStatusLabel TSSLDebug;
 	}
 }

@@ -504,7 +504,16 @@ namespace Business
 					ic.description as institution_category_description,
 					ir.name as institution_role_name,
 					ir.description as institution_role_description,
-					a.*,
+
+					a.street,
+					a.number,
+					a.interior_number,
+					a.postal_code,
+					a.state,
+					a.city,
+					a.country_type,
+					a.district,
+
 					c_self.name as assistant_name,
 					c_self.paternal_name as assistant_paternal_name,
 					c_self.maternal_name as assistant_maternal_name,
@@ -568,136 +577,138 @@ namespace Business
 			";
 
 			using (var cmd = new NpgsqlCommand(sql, conn))
-			using (var reader = cmd.ExecuteReader()) 
 			{
-				while (reader.Read())
+				using (var reader = cmd.ExecuteReader(CommandBehavior.SequentialAccess)) 
 				{
-					TCitizen citizen = new TCitizen();
-
-					citizen.FillFromReader(reader);
-
-					if (citizen.Assistant.Id != 0)
+					while (reader.Read())
 					{
-						citizen.Assistant.Name = reader.GetString(reader.GetOrdinal("assistant_name"));
-						citizen.Assistant.PaternalName = reader.GetString(reader.GetOrdinal("assistant_paternal_name"));
-						citizen.Assistant.MaternalName = reader.GetString(reader.GetOrdinal("assistant_maternal_name"));
-						citizen.Assistant.Phone.Number = reader.GetString(reader.GetOrdinal("assistant_phone"));
-						citizen.Assistant.Phone.Extension = reader.GetString(reader.GetOrdinal("assistant_phone_extension"));
-						citizen.Assistant.Cellphone = reader.GetString(reader.GetOrdinal("assistant_cellphone"));
-					}
-
-					if (citizen.Institution.Id != 0)
-					{
-						citizen.Institution.Name = reader.GetString(reader.GetOrdinal("institution_name"));
-						citizen.Institution.Sector = (TSocietySector)reader.GetInt32(reader.GetOrdinal("institution_society_sector_type"));
-						citizen.Institution.Description = reader.GetString(reader.GetOrdinal("institution_description"));
-						citizen.Institution.Category.Id = reader.GetInt32(reader.GetOrdinal("institution_category_id"));
-
-						if (citizen.Institution.Category.Id != 0)
+						TCitizen citizen = new TCitizen();
+						
+						citizen.FillFromReader(reader);
+						
+						if (citizen.Assistant.Id != 0)
 						{
-							citizen.Institution.Category.Name = reader.GetString(reader.GetOrdinal("institution_category_name"));
-							citizen.Institution.Category.Description = reader.GetString(reader.GetOrdinal("institution_category_description"));
+							citizen.Assistant.Name = reader.GetString("assistant_name");
+							citizen.Assistant.PaternalName = reader.GetString("assistant_paternal_name");
+							citizen.Assistant.MaternalName = reader.GetString("assistant_maternal_name");
+							citizen.Assistant.Phone.Number = reader.GetString("assistant_phone");
+							citizen.Assistant.Phone.Extension = reader.GetString("assistant_phone_extension");
+							citizen.Assistant.Cellphone = reader.GetString("assistant_cellphone");
 						}
-					}
 
-					if (citizen.Role.Id != 0)
-					{
-						if (citizen.Role.IsTemplateRole)
+						if (citizen.Institution.Id != 0)
 						{
-							citizen.Role.Name = reader.GetString(reader.GetOrdinal("institution_template_role_name"));
-							citizen.Role.Description = reader.GetString(reader.GetOrdinal("institution_template_role_description"));
+							citizen.Institution.Name = reader.GetString("institution_name");
+							citizen.Institution.Sector = (TSocietySector)reader.GetInt32("institution_society_sector_type");
+							citizen.Institution.Description = reader.GetString("institution_description");
+							citizen.Institution.Category.Id = reader.GetInt32("institution_category_id");
+
+							if (citizen.Institution.Category.Id != 0)
+							{
+								citizen.Institution.Category.Name = reader.GetString("institution_category_name");
+								citizen.Institution.Category.Description = reader.GetString("institution_category_description");
+							}
 						}
-						else
+
+						if (citizen.Role.Id != 0)
 						{
-							citizen.Role.Name = reader.GetString(reader.GetOrdinal("institution_role_name"));
-							citizen.Role.Description = reader.GetString(reader.GetOrdinal("institution_role_description"));
+							if (citizen.Role.IsTemplateRole)
+							{
+								citizen.Role.Name = reader.GetString("institution_template_role_name");
+								citizen.Role.Description = reader.GetString("institution_template_role_description");
+							}
+							else
+							{
+								citizen.Role.Name = reader.GetString("institution_role_name");
+								citizen.Role.Description = reader.GetString("institution_role_description");
+							}
 						}
-					}
 
-					if (citizen.Institution2.Id != 0)
-					{
-						citizen.Institution2.Name = reader.GetString(reader.GetOrdinal("institution2_name"));
-						citizen.Institution2.Sector = (TSocietySector)reader.GetInt32(reader.GetOrdinal("institution2_society_sector_type"));
-						citizen.Institution2.Description = reader.GetString(reader.GetOrdinal("institution2_description"));
-						citizen.Institution2.Category.Id = reader.GetInt32(reader.GetOrdinal("institution2_category_id"));
-
-						if (citizen.Institution2.Category.Id != 0)
+						if (citizen.Institution2.Id != 0)
 						{
-							citizen.Institution2.Category.Name = reader.GetString(reader.GetOrdinal("institution2_category_name"));
-							citizen.Institution2.Category.Description = reader.GetString(reader.GetOrdinal("institution2_category_description"));
-						}
-					}
+							citizen.Institution2.Name = reader.GetString("institution2_name");
+							citizen.Institution2.Sector = (TSocietySector)reader.GetInt32("institution2_society_sector_type");
+							citizen.Institution2.Description = reader.GetString("institution2_description");
+							citizen.Institution2.Category.Id = reader.GetInt32("institution2_category_id");
 
-					if (citizen.Role2.Id != 0)
-					{
-						if (citizen.Role2.IsTemplateRole)
+							if (citizen.Institution2.Category.Id != 0)
+							{
+								citizen.Institution2.Category.Name = reader.GetString("institution2_category_name");
+								citizen.Institution2.Category.Description = reader.GetString("institution2_category_description");
+							}
+						}
+
+						if (citizen.Role2.Id != 0)
 						{
-							citizen.Role2.Name = reader.GetString(reader.GetOrdinal("institution2_template_role_name"));
-							citizen.Role2.Description = reader.GetString(reader.GetOrdinal("institution2_template_role_description"));
+							if (citizen.Role2.IsTemplateRole)
+							{
+								citizen.Role2.Name = reader.GetString("institution2_template_role_name");
+								citizen.Role2.Description = reader.GetString("institution2_template_role_description");
+							}
+							else
+							{
+								citizen.Role2.Name = reader.GetString("institution2_role_name");
+								citizen.Role2.Description = reader.GetString("institution2_role_description");
+							}
 						}
-						else
+
+						if (citizen.Institution3.Id != 0)
 						{
-							citizen.Role2.Name = reader.GetString(reader.GetOrdinal("institution2_role_name"));
-							citizen.Role2.Description = reader.GetString(reader.GetOrdinal("institution2_role_description"));
+							citizen.Institution3.Name = reader.GetString("institution3_name");
+							citizen.Institution3.Sector = (TSocietySector)reader.GetInt32("institution3_society_sector_type");
+							citizen.Institution3.Description = reader.GetString("institution3_description");
+							citizen.Institution3.Category.Id = reader.GetInt32("institution3_category_id");
+
+							if (citizen.Institution3.Category.Id != 0)
+							{
+								citizen.Institution3.Category.Name = reader.GetString("institution3_category_name");
+								citizen.Institution3.Category.Description = reader.GetString("institution3_category_description");
+							}
 						}
-					}
 
-					if (citizen.Institution3.Id != 0)
-					{
-						citizen.Institution3.Name = reader.GetString(reader.GetOrdinal("institution3_name"));
-						citizen.Institution3.Sector = (TSocietySector)reader.GetInt32(reader.GetOrdinal("institution3_society_sector_type"));
-						citizen.Institution3.Description = reader.GetString(reader.GetOrdinal("institution3_description"));
-						citizen.Institution3.Category.Id = reader.GetInt32(reader.GetOrdinal("institution3_category_id"));
-
-						if (citizen.Institution3.Category.Id != 0)
+						if (citizen.Role3.Id != 0)
 						{
-							citizen.Institution3.Category.Name = reader.GetString(reader.GetOrdinal("institution3_category_name"));
-							citizen.Institution3.Category.Description = reader.GetString(reader.GetOrdinal("institution3_category_description"));
+							if (citizen.Role3.IsTemplateRole)
+							{
+								citizen.Role3.Name = reader.GetString("institution3_template_role_name");
+								citizen.Role3.Description = reader.GetString("institution3_template_role_description");
+							}
+							else
+							{
+								citizen.Role3.Name = reader.GetString("institution3_role_name");
+								citizen.Role3.Description = reader.GetString("institution3_role_description");
+							}
 						}
-					}
 
-					if (citizen.Role3.Id != 0)
-					{
-						if (citizen.Role3.IsTemplateRole)
+						if (citizen.Address.Id != 0)
 						{
-							citizen.Role3.Name = reader.GetString(reader.GetOrdinal("institution3_template_role_name"));
-							citizen.Role3.Description = reader.GetString(reader.GetOrdinal("institution3_template_role_description"));
+							citizen.Address.Street = reader.GetString("street");
+							citizen.Address.Number = reader.GetString("number");
+							citizen.Address.InteriorNumber = reader.GetString("interior_number");
+							citizen.Address.PostalCode = reader.GetString("postal_code");
+							citizen.Address.State = reader.GetString("state");
+							citizen.Address.City = reader.GetString("city");
+							citizen.Address.Country = (TCountry)reader.GetInt32("country_type");
+							citizen.Address.District = reader.GetString("district");
 						}
-						else
+
+						if (citizen.Author.Id != 0)
 						{
-							citizen.Role3.Name = reader.GetString(reader.GetOrdinal("institution3_role_name"));
-							citizen.Role3.Description = reader.GetString(reader.GetOrdinal("institution3_role_description"));
+							citizen.Author.Name = reader.GetString("author_name");
 						}
-					}
 
-					if (citizen.Address.Id != 0)
-					{
-						citizen.Address.Street = reader.GetString(reader.GetOrdinal("street"));
-						citizen.Address.Number = reader.GetString(reader.GetOrdinal("number"));
-						citizen.Address.InteriorNumber = reader.GetString(reader.GetOrdinal("interior_number"));
-						citizen.Address.PostalCode = reader.GetString(reader.GetOrdinal("postal_code"));
-						citizen.Address.State = reader.GetString(reader.GetOrdinal("state"));
-						citizen.Address.City = reader.GetString(reader.GetOrdinal("city"));
-						citizen.Address.Country = (TCountry)reader.GetInt32(reader.GetOrdinal("country_type"));
-						citizen.Address.District = reader.GetString(reader.GetOrdinal("district"));
-					}
+						if (citizen.LastEditor.Id != 0)
+						{
+							citizen.LastEditor.Name = reader.GetString("editor_name");
+						}
 
-					if (citizen.Author.Id != 0)
-					{
-						citizen.Author.Name = reader.GetString(reader.GetOrdinal("author_name"));
-					}
+						if (citizen.Category.Id != 0)
+						{
+							citizen.Category.Name = reader.GetString("category_name");
+						}
 
-					if (citizen.LastEditor.Id != 0)
-					{
-						citizen.LastEditor.Name = reader.GetString(reader.GetOrdinal("editor_name"));
+						citizen_list.Add(citizen);
 					}
-
-					if (citizen.Category.Id != 0)
-					{
-						citizen.Category.Name = reader.GetString(reader.GetOrdinal("category_name"));
-					}
-
-					citizen_list.Add(citizen);
 				}
 			}
 
