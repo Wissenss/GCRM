@@ -53,7 +53,7 @@ namespace GCRM
 
 		private void BCancel_Click(object sender, EventArgs e)
 		{
-			Application.Exit();
+			System.Windows.Forms.Application.Exit();
 		}
 
 		private void TextBoxUser_KeyDown(object sender, KeyEventArgs e)

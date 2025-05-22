@@ -30,19 +30,20 @@ namespace GCRM
 				{
 					SetLogger();
 
-					AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
+					System.Windows.Forms.Application.ThreadException += OnUnhandledThreadException;
+					AppDomain.CurrentDomain.UnhandledException += OnCurrentDomainUnhandledException;
 
 					QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
 
-					Application.EnableVisualStyles();
-					Application.SetCompatibleTextRenderingDefault(false);
-					Application.SetHighDpiMode(HighDpiMode.SystemAware);
+					System.Windows.Forms.Application.EnableVisualStyles();
+					System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
+					System.Windows.Forms.Application.SetHighDpiMode(HighDpiMode.SystemAware);
 
 					CultureInfo ci = new CultureInfo("es-MX");
 					Thread.CurrentThread.CurrentCulture = ci;
 					Thread.CurrentThread.CurrentUICulture = ci;
 
-					Application.Run(new FSplashScreen());
+					System.Windows.Forms.Application.Run(new FSplashScreen());
 				}
 				else
 				{
@@ -70,17 +71,29 @@ namespace GCRM
 			});
 		}
 
-		static void OnUnhandledException(object sender, UnhandledExceptionEventArgs args)
+		static void OnUnhandledException(Exception exception)
 		{
 			Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
-			Exception ex = (Exception)args.ExceptionObject;
-
 			StringBuilder message = new StringBuilder();
 
-			message.AppendLine($"Something went wrong! Unhandled Exception... \n\n{ex.ToString()}\n\n");
+			message.AppendLine($"Something went wrong! Unhandled Exception... \n\n{exception.ToString()}\n\n");
 
 			Logger.Debug(message);
+		}
+
+		static void OnCurrentDomainUnhandledException(object sender, UnhandledExceptionEventArgs args)
+		{
+			Exception ex = (Exception)args.ExceptionObject;
+
+			OnUnhandledException(ex);
+		}
+
+		static void OnUnhandledThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
+		{
+			Exception ex = e.Exception;
+
+			OnUnhandledException(ex);
 		}
 	}
 }

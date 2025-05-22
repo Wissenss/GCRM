@@ -144,7 +144,7 @@ namespace GCRM
 
 		private void FMain_FormClosed(object sender, FormClosedEventArgs e)
 		{
-			Application.Exit();
+			System.Windows.Forms.Application.Exit();
 		}
 
 		private void BConnection_Click(object sender, EventArgs e)
@@ -264,6 +264,14 @@ namespace GCRM
 		private void BRelationships_Click(object sender, EventArgs e)
 		{
 			using (FCitizenRelationshipList list_dlg = new FCitizenRelationshipList())
+			{
+				list_dlg.ShowDialog();
+			}
+		}
+
+		private void BCitizenGroups_Click(object sender, EventArgs e)
+		{
+			using (FCitizenGroupList list_dlg = new FCitizenGroupList())
 			{
 				list_dlg.ShowDialog();
 			}

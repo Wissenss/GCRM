@@ -36,6 +36,7 @@
 			toolStrip1 = new ToolStrip();
 			BCitizens = new ToolStripButton();
 			toolStripSeparator4 = new ToolStripSeparator();
+			BCitizenGroups = new ToolStripButton();
 			BRelationships = new ToolStripButton();
 			toolStripSeparator2 = new ToolStripSeparator();
 			BInstitutions = new ToolStripButton();
@@ -122,7 +123,7 @@
 			// 
 			toolStrip1.Dock = DockStyle.Fill;
 			toolStrip1.GripStyle = ToolStripGripStyle.Hidden;
-			toolStrip1.Items.AddRange(new ToolStripItem[] { BCitizens, toolStripSeparator4, BRelationships, toolStripSeparator2, BInstitutions });
+			toolStrip1.Items.AddRange(new ToolStripItem[] { BCitizens, toolStripSeparator4, BCitizenGroups, BRelationships, toolStripSeparator2, BInstitutions });
 			toolStrip1.Location = new Point(3, 3);
 			toolStrip1.Name = "toolStrip1";
 			toolStrip1.RenderMode = ToolStripRenderMode.System;
@@ -145,6 +146,19 @@
 			// 
 			toolStripSeparator4.Name = "toolStripSeparator4";
 			toolStripSeparator4.Size = new Size(6, 55);
+			// 
+			// BCitizenGroups
+			// 
+			BCitizenGroups.Image = Properties.Resources.Fatcow_Farm_Fresh_Users_5_32;
+			BCitizenGroups.ImageScaling = ToolStripItemImageScaling.None;
+			BCitizenGroups.ImageTransparentColor = Color.Magenta;
+			BCitizenGroups.Name = "BCitizenGroups";
+			BCitizenGroups.Padding = new Padding(10, 0, 10, 0);
+			BCitizenGroups.Size = new Size(69, 52);
+			BCitizenGroups.Text = "&Grupos";
+			BCitizenGroups.TextImageRelation = TextImageRelation.ImageAboveText;
+			BCitizenGroups.Visible = false;
+			BCitizenGroups.Click += BCitizenGroups_Click;
 			// 
 			// BRelationships
 			// 
@@ -560,5 +574,6 @@
 		private ToolStripButton BEmails;
 		private ToolStripSeparator toolStripSeparator4;
 		private ToolStripButton BRelationships;
+		private ToolStripButton BCitizenGroups;
 	}
 }

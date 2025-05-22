@@ -3,6 +3,7 @@ using Business;
 using Connection;
 using System.Diagnostics;
 using System.Text;
+using GCRM;
 using GCRM.Domain;
 using GCRM.Domain.Enums;
 using GCRM.Shared;
@@ -32,7 +33,7 @@ namespace GCRM
 
 					if (connection_dlg.ShowDialog() == DialogResult.Cancel)
 					{
-						Application.Exit();
+						System.Windows.Forms.Application.Exit();
 					}
 
 					Show();
@@ -59,7 +60,7 @@ namespace GCRM
 				}
 				else
 				{
-					Application.Exit();
+					System.Windows.Forms.Application.Exit();
 				}
 			}
 
@@ -115,7 +116,7 @@ namespace GCRM
 			});
 
 			// kill current process
-			Application.Exit();
+			System.Windows.Forms.Application.Exit();
 
 			return true;
 		}

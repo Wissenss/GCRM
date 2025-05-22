@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace GCRM
 {
@@ -12,14 +14,14 @@ namespace GCRM
 		{
 			// Wait
 			Cursor.Current = appStarting ? Cursors.AppStarting : Cursors.WaitCursor;
-			if (applicationCursor) Application.UseWaitCursor = true;
+			if (applicationCursor) System.Windows.Forms.Application.UseWaitCursor = true;
 		}
 
 		public void Dispose()
 		{
 			// Reset
 			Cursor.Current = Cursors.Default;
-			Application.UseWaitCursor = false;
+			System.Windows.Forms.Application.UseWaitCursor = false;
 		}
 	}
 }

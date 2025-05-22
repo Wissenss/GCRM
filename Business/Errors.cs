@@ -31,6 +31,7 @@ namespace Business
 		CitizenCategoryInUse,
 		CitizenRelationshipNotFound,
 		CitizenRelationshipRoleNotFound,
+		CitizenGroupNotFound,
 
 		// errors related to institutions
 		InstitutionNotFound,

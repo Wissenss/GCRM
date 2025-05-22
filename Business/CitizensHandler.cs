@@ -578,7 +578,7 @@ namespace Business
 
 			using (var cmd = new NpgsqlCommand(sql, conn))
 			{
-				using (var reader = cmd.ExecuteReader(CommandBehavior.SequentialAccess)) 
+				using (var reader = cmd.ExecuteReader()) 
 				{
 					while (reader.Read())
 					{

@@ -21,9 +21,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reporter", "Reporter\Reporter.csproj", "{F377CCFB-79CF-421B-B808-6E32666B5809}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GCRM.Domain", "GCRM.Domain\GCRM.Domain.csproj", "{60A70664-DC2B-4910-83B8-EEBCD4ADE07F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GCRM.Domain", "GCRM.Domain\GCRM.Domain.csproj", "{60A70664-DC2B-4910-83B8-EEBCD4ADE07F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GCRM.Shared", "GCRM.Shared\GCRM.Shared.csproj", "{3B65C597-232D-4A29-BF28-9B9CC70868E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GCRM.Shared", "GCRM.Shared\GCRM.Shared.csproj", "{3B65C597-232D-4A29-BF28-9B9CC70868E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GCRM.Infraestructure", "GCRM.Infraestructure\GCRM.Infraestructure.csproj", "{546668E8-3086-4528-AAB3-1AE0A1E11F06}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GCRM.Application", "GCRM.Application\GCRM.Application.csproj", "{1D2DCE55-4BE2-4421-83EA-F671AA4E14DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +59,14 @@ Global
 		{3B65C597-232D-4A29-BF28-9B9CC70868E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B65C597-232D-4A29-BF28-9B9CC70868E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B65C597-232D-4A29-BF28-9B9CC70868E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{546668E8-3086-4528-AAB3-1AE0A1E11F06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{546668E8-3086-4528-AAB3-1AE0A1E11F06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{546668E8-3086-4528-AAB3-1AE0A1E11F06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{546668E8-3086-4528-AAB3-1AE0A1E11F06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D2DCE55-4BE2-4421-83EA-F671AA4E14DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D2DCE55-4BE2-4421-83EA-F671AA4E14DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D2DCE55-4BE2-4421-83EA-F671AA4E14DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D2DCE55-4BE2-4421-83EA-F671AA4E14DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -167,5 +167,9 @@ namespace Connection
 			}
 		}
 
+		public static void ReleaseConnection(NpgsqlConnection connection)
+		{
+			ReleaseConnection(ref connection);
+		}
 	}
 }
