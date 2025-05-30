@@ -25,9 +25,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GCRM.Domain", "GCRM.Domain\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GCRM.Shared", "GCRM.Shared\GCRM.Shared.csproj", "{3B65C597-232D-4A29-BF28-9B9CC70868E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GCRM.Infraestructure", "GCRM.Infraestructure\GCRM.Infraestructure.csproj", "{546668E8-3086-4528-AAB3-1AE0A1E11F06}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GCRM.Infraestructure", "GCRM.Infraestructure\GCRM.Infraestructure.csproj", "{546668E8-3086-4528-AAB3-1AE0A1E11F06}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GCRM.Application", "GCRM.Application\GCRM.Application.csproj", "{1D2DCE55-4BE2-4421-83EA-F671AA4E14DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GCRM.Application", "GCRM.Application\GCRM.Application.csproj", "{1D2DCE55-4BE2-4421-83EA-F671AA4E14DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

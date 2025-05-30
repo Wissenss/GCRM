@@ -54,6 +54,9 @@ namespace Business
 		// errors related to addresses
 		AddressNotFound,
 
+		// errors related to contact numbers
+		ContactNumberWithCarddavSyncEnabledRepeated,
+
 		// errors related to citizen networks
 		CitizenNetworkNotFound,
 		CitizenNetworkRoleNotFound,
@@ -92,6 +95,7 @@ namespace Business
 			{ Error.InstitutionTemplateRoleInUse, "Cargo de plantilla de institución esta siendo utilizado" },
 			{ Error.SettingNotFound, "No se encontró la configuración en la base de datos" },
 			{ Error.AddressNotFound, "Dirección no encontrada" },
+			{ Error.ContactNumberWithCarddavSyncEnabledRepeated, "Número para carddav repetido" },
 			{ Error.CitizenNetworkNotFound, "Estructura ciudadana no encontrada" },
 			{ Error.CitizenNetworkRoleNotFound, "Rol de estructura ciudadana no encontrado" },
 			{ Error.CitizenNetworkMemberNotFound, "Miembro de estructura ciudadana no encontrado" },

@@ -20,12 +20,76 @@ namespace Business
 			var conn = ConnectionPool.GetConnection();
 
 			string sql = @"
+				WITH ranked_contact_numbers AS (
+					SELECT 
+						cn.id,
+						cn.entity_id,
+						cn.number,
+						cn.extension,
+						cn.carddav_sync,
+						ROW_NUMBER() OVER (PARTITION BY cn.entity_id ORDER BY cn.id) AS row_number
+					FROM 
+						contact_numbers cn
+					WHERE 
+						entity_type = 1001 AND entity_id = @id
+				),
+
+				normalized_ranked_contact_numbers AS (
+					SELECT
+						entity_id,
+						MAX(CASE WHEN row_number = 1 THEN id END)                AS phone1_id,
+						MAX(CASE WHEN row_number = 1 THEN number END)            AS phone1_number,
+						MAX(CASE WHEN row_number = 1 THEN extension END)         AS phone1_number_extension,
+						MAX(CASE WHEN row_number = 2 THEN id END)                AS phone2_id,						
+						MAX(CASE WHEN row_number = 2 THEN number END)            AS phone2_number,
+						MAX(CASE WHEN row_number = 2 THEN extension END)         AS phone2_number_extension,
+						MAX(CASE WHEN row_number = 3 THEN id END)                AS phone3_id,						
+						MAX(CASE WHEN row_number = 3 THEN number END)            AS phone3_number,
+						MAX(CASE WHEN row_number = 3 THEN extension END)         AS phone3_number_extension,
+						MAX(CASE WHEN row_number = 4 THEN id END)                AS cellphone_id,						
+						MAX(CASE WHEN row_number = 4 THEN number END)            AS cellphone,
+						MAX(CASE WHEN row_number = 5 THEN id END)                AS carddav_sync_id,
+						MAX(CASE WHEN row_number = 5 THEN carddav_sync::int END) AS carddav_sync_enabled,
+						MAX(CASE WHEN row_number = 5 THEN number END)            AS carddav_sync_number,
+						MAX(CASE WHEN row_number = 5 THEN extension END)         AS carddav_sync_extension
+					FROM ranked_contact_numbers
+					GROUP BY entity_id
+				)
+
 				SELECT 
 					c.*,
+					a.id AS address_id,
+					a.street AS address_street,
+					a.number AS address_number,
+					a.interior_number AS address_interior_number,
+					a.postal_code AS address_postal_code,
+					a.state AS address_state,
+					a.city AS address_city,
+					a.country_type AS address_country_type,
+					a.district AS address_district,
+					
+					COALESCE(nrcn.phone1_id, 0) AS phone1_id,
+					COALESCE(nrcn.phone1_number, '') AS phone1_number,
+					COALESCE(nrcn.phone1_number_extension, '') AS phone1_number_extension,
+					COALESCE(nrcn.phone2_id, 0) AS phone2_id,					
+					COALESCE(nrcn.phone2_number, '') AS phone2_number,
+					COALESCE(nrcn.phone2_number_extension, '') AS phone2_number_extension,
+					COALESCE(nrcn.phone3_id, 0) AS phone3_id,					
+					COALESCE(nrcn.phone3_number, '') AS phone3_number,	
+					COALESCE(nrcn.phone3_number_extension, '') AS phone3_number_extension,
+					COALESCE(nrcn.cellphone_id, 0) AS cellphone_id,					
+					COALESCE(nrcn.cellphone, '') AS cellphone,
+					COALESCE(nrcn.carddav_sync_id, 0) AS carddav_sync_id,					
+					COALESCE(nrcn.carddav_sync_number, '') AS carddav_sync_number,
+					COALESCE(nrcn.carddav_sync_extension, '') AS carddav_sync_extension,
+					COALESCE(nrcn.carddav_sync_enabled, 0) <> 0 AS carddav_sync_enabled,
+
 					COALESCE(cr.id, 0) AS UserRelationshipId
 				FROM 
 					citizens c
 					LEFT JOIN citizen_relationships cr ON (cr.user_id = @userId AND cr.related_citizen_id = c.id)
+					LEFT JOIN addresses a ON a.id = c.address_id
+					LEFT JOIN normalized_ranked_contact_numbers nrcn ON c.id = nrcn.entity_id
 				WHERE 
 					c.id = @id;
 			";
@@ -43,11 +107,36 @@ namespace Business
 
 						citizen.FillFromReader(reader);
 
+						citizen.Phone.Id = reader.GetInt32("phone1_id");
+						citizen.Phone.Number = reader.GetString("phone1_number");
+						citizen.Phone.Extension = reader.GetString("phone1_number_extension");
+						citizen.Phone2.Id = reader.GetInt32("phone2_id");
+						citizen.Phone2.Number = reader.GetString("phone2_number");
+						citizen.Phone2.Extension = reader.GetString("phone2_number_extension");
+						citizen.Phone3.Id = reader.GetInt32("phone3_id");
+						citizen.Phone3.Number = reader.GetString("phone3_number");
+						citizen.Phone3.Extension = reader.GetString("phone3_number_extension");
+						citizen.Cellphone.Id = reader.GetInt32("cellphone_id");
+						citizen.Cellphone.Number = reader.GetString("cellphone");
+						citizen.CardDavSyncNumber.Id = reader.GetInt32("carddav_sync_id");
+						citizen.CardDavSyncNumber.Number = reader.GetString("carddav_sync_number");
+						citizen.CardDavSyncNumber.Extension = reader.GetString("carddav_sync_extension");
+						citizen.CardDavSyncNumber.CarddavSync = reader.GetBoolean("carddav_sync_enabled");
+
 						if (error == 0 && citizen.Assistant.Id != 0)
 							error = GetCitizenAssistantById(citizen.Assistant.Id, out citizen.Assistant);
 
 						if (error == 0 && citizen.Address.Id != 0)
-							error = AddressesHandler.GetAddressById(citizen.Address.Id, out citizen.Address);
+						{
+							citizen.Address.Street = reader.GetString("address_street");
+							citizen.Address.Number = reader.GetString("address_number");
+							citizen.Address.InteriorNumber = reader.GetString("address_interior_number");
+							citizen.Address.PostalCode = reader.GetString("address_postal_code");
+							citizen.Address.State = reader.GetString("address_state");
+							citizen.Address.City = reader.GetString("address_city");
+							citizen.Address.Country = (TCountry)reader.GetInt32("address_country_type");
+							citizen.Address.District = reader.GetString("address_district");
+						}
 
 						if (error == 0 && citizen.Institution.Id != 0)
 							error = InstitutionsHandler.GetInstitutionById(citizen.Institution.Id, out citizen.Institution);
@@ -93,6 +182,8 @@ namespace Business
 
 			var conn = ConnectionPool.GetConnection();
 
+			var tran = conn.BeginTransaction();
+
 			// check there is no citizen having this as assistant
 			using (var cmd = new NpgsqlCommand("SELECT * FROM citizens WHERE assistant_id = @id;", conn))
 			{
@@ -121,9 +212,40 @@ namespace Business
 				}
 			}
 
+			// delete related contact numbers
+			if (error == 0)
+			{
+				using (var cmd = new NpgsqlCommand("DELETE FROM contact_numbers WHERE entity_id = @id AND entity_type = @type;"))
+				{
+					cmd.Parameters.AddWithValue("@id", citizen.Id);
+
+					cmd.ExecuteNonQuery();
+				}
+			}
+
+			// delete related address
+			if (error == 0)
+			{
+				using (var cmd = new NpgsqlCommand("DELETE FROM addresses WHERE id = @address_id;"))
+				{
+					cmd.Parameters.AddWithValue("@address_id", citizen.Address.Id);
+
+					cmd.ExecuteNonQuery();
+				}
+			}
+
 			if (error == 0)
 			{
 				EventLogHandler.AddEventLog(TEventLogType.citizen_delete, Session.User.Id, id, TEntityType.citizen, citizen, DateTime.Now);
+			}
+			
+			if (error == 0)
+			{
+				tran.Commit();
+			}
+			else
+			{
+				tran.Rollback();
 			}
 
 			ConnectionPool.ReleaseConnection(ref conn);
@@ -221,10 +343,86 @@ namespace Business
 				}
 			}
 
+			// ensure the carddav sync number is not repeated
+			if (citizen.CardDavSyncNumber.CarddavSync == true)
+			{
+				using (var cmd = new NpgsqlCommand("SELECT COUNT(*) FROM contact_numbers WHERE carddav_sync = TRUE AND number = @number AND extension = @extension AND id <> @id", conn))
+				{
+					cmd.Parameters.AddWithValue("@id", citizen.CardDavSyncNumber.Id);
+					cmd.Parameters.AddWithValue("@number", citizen.CardDavSyncNumber.Number);
+					cmd.Parameters.AddWithValue("@extension", citizen.CardDavSyncNumber.Extension);
+
+					int contact_numbers_repeated = (Int32)(Int64)cmd.ExecuteScalar();
+
+					if (contact_numbers_repeated > 0)
+					{
+						error = Error.ContactNumberWithCarddavSyncEnabledRepeated;
+					}
+				}
+			}
+
 			// save address
 			if (error == 0)
 			{
 				error = AddressesHandler.SaveAddress(citizen.Address, is_update, out citizen.Address.Id);
+			}
+
+			// save contacts numbers
+			using (var cmd = new NpgsqlCommand("DELETE FROM contact_numbers WHERE entity_id = @entity_id AND entity_type = 1001;", conn))
+			{
+				cmd.Parameters.AddWithValue("@entity_id", citizen.Id);
+
+				cmd.ExecuteNonQuery();
+			}
+
+			if (error == 0)
+			{
+				TCitizenContactNumber[] phones = new TCitizenContactNumber[] {
+					citizen.Phone,
+					citizen.Phone2,
+					citizen.Phone3,
+					citizen.Cellphone,
+					citizen.CardDavSyncNumber
+				};
+
+				string sql = "";
+
+				sql = @"
+					INSERT INTO 
+						contact_numbers(
+							contact_number_type,
+							number,
+							extension,
+							carddav_sync,
+							entity_id,
+							entity_type
+					) VALUES (
+							@type,
+							@number,
+							@extension,
+							@carddav_sync,
+							@entity_id,
+							1001
+					) 
+				";
+				
+				using (var batch = conn.CreateBatch())
+				{
+					foreach (TCitizenContactNumber cn in phones) {
+						var cmd = new NpgsqlBatchCommand(sql);
+
+						cmd.Parameters.AddWithValue("@type", (int)cn.ContactNumberType);
+						cmd.Parameters.AddWithValue("@number", cn.Number);
+						cmd.Parameters.AddWithValue("@extension", cn.Extension);
+						cmd.Parameters.AddWithValue("@carddav_sync", cn.CarddavSync);
+						cmd.Parameters.AddWithValue("@entity_id", citizen.Id);
+						cmd.Parameters.AddWithValue("@id", cn.Id);
+
+						batch.BatchCommands.Add(cmd);
+					}
+
+					batch.ExecuteNonQuery();
+				}
 			}
 
 			// save citizen record
@@ -248,9 +446,9 @@ namespace Business
 								sex_type=@sex,
 								address_id=@address_id,
 								assistant_id=@assistant_id,
-								phone=@phone,
-								phone_extension=@phone_extension,
-								cellphone=@cellphone,
+								-- phone=@phone,
+								-- phone_extension=@phone_extension,
+								-- cellphone=@cellphone,
 								political_party_type=@political_party,
 								institution_id=@institution_id,
 								institution_role_id=@institution_role_id,
@@ -269,10 +467,10 @@ namespace Business
 								attention_required = @attention_required,
 								is_political_activist = @is_political_activist,
 								political_register_date = @political_register_date,
-								phone2 = @phone2,
-								phone2_extension = @phone2_extension,
-								phone3 = @phone3,
-								phone3_extension = @phone3_extension,
+								-- phone2 = @phone2,
+								-- phone2_extension = @phone2_extension,
+								-- phone3 = @phone3,
+								-- phone3_extension = @phone3_extension,
 								institution_template_role_id = @institution_template_role_id,
 								institution2_template_role_id = @institution2_template_role_id,
 								institution3_template_role_id = @institution3_template_role_id,
@@ -296,9 +494,9 @@ namespace Business
 								sex_type,
 								address_id,
 								assistant_id,
-								phone,
-								phone_extension,
-								cellphone,
+								-- phone,
+								-- phone_extension,
+								-- cellphone,
 								political_party_type,
 								institution_id,
 								institution_role_id,
@@ -319,10 +517,10 @@ namespace Business
 								attention_required,
 								is_political_activist,
 								political_register_date,
-								phone2,
-								phone2_extension,
-								phone3,
-								phone3_extension,
+								-- phone2,
+								-- phone2_extension,
+								-- phone3,
+								-- phone3_extension,
 								institution_template_role_id,
 								institution2_template_role_id,
 								institution3_template_role_id,
@@ -340,9 +538,9 @@ namespace Business
 								@sex,
 								@address_id,
 								@assistant_id,
-								@phone,
-								@phone_extension,
-								@cellphone,
+								-- @phone,
+								-- @phone_extension,
+								-- @cellphone,
 								@political_party,
 								@institution_id,
 								@institution_role_id,
@@ -363,10 +561,10 @@ namespace Business
 								@attention_required,
 								@is_political_activist,
 								@political_register_date,
-								@phone2,
-								@phone2_extension,
-								@phone3,
-								@phone3_extension,
+								-- @phone2,
+								-- @phone2_extension,
+								-- @phone3,
+								-- @phone3_extension,
 								@institution_template_role_id,		
 								@institution2_template_role_id,	
 								@institution3_template_role_id,
@@ -387,13 +585,13 @@ namespace Business
 					cmd.Parameters.AddWithValue("@sex", (int)citizen.Sex);
 					cmd.Parameters.AddWithValue("@address_id", citizen.Address.Id);
 					cmd.Parameters.AddWithValue("@assistant_id", citizen.Assistant.Id);
-					cmd.Parameters.AddWithValue("@phone", citizen.Phone.Number);
-					cmd.Parameters.AddWithValue("@phone_extension", citizen.Phone.Extension);
-					cmd.Parameters.AddWithValue("@phone2", citizen.Phone2.Number);
-					cmd.Parameters.AddWithValue("@phone2_extension", citizen.Phone2.Extension);
-					cmd.Parameters.AddWithValue("@phone3", citizen.Phone3.Number);
-					cmd.Parameters.AddWithValue("@phone3_extension", citizen.Phone3.Extension);
-					cmd.Parameters.AddWithValue("@cellphone", citizen.Cellphone);
+					//cmd.Parameters.AddWithValue("@phone", citizen.Phone.Number);
+					//cmd.Parameters.AddWithValue("@phone_extension", citizen.Phone.Extension);
+					//cmd.Parameters.AddWithValue("@phone2", citizen.Phone2.Number);
+					//cmd.Parameters.AddWithValue("@phone2_extension", citizen.Phone2.Extension);
+					//cmd.Parameters.AddWithValue("@phone3", citizen.Phone3.Number);
+					//cmd.Parameters.AddWithValue("@phone3_extension", citizen.Phone3.Extension);
+					//cmd.Parameters.AddWithValue("@cellphone", citizen.Cellphone);
 					cmd.Parameters.AddWithValue("@political_party", (int)citizen.PoliticalParty);
 					cmd.Parameters.AddWithValue("@institution_id", citizen.Institution.Id);
 					cmd.Parameters.AddWithValue("@institution_role_id", citizen.Role.Id);
@@ -493,8 +691,40 @@ namespace Business
 			var conn = ConnectionPool.GetConnection();
 
 			string sql = $@"
+
+				WITH ranked_contact_numbers AS (
+					SELECT 
+						cn.entity_id,
+						cn.number,
+						cn.extension,
+						cn.carddav_sync,
+						ROW_NUMBER() OVER (PARTITION BY cn.entity_id ORDER BY cn.id) AS row_number
+					FROM 
+						contact_numbers cn
+					WHERE 
+						entity_type = 1001
+				),
+
+				normalized_ranked_contact_numbers AS (
+					SELECT
+						entity_id,
+						MAX(CASE WHEN row_number = 1 THEN number END)    AS phone1_number,
+						MAX(CASE WHEN row_number = 1 THEN extension END) AS phone1_number_extension,
+						MAX(CASE WHEN row_number = 2 THEN number END)    AS phone2_number,
+						MAX(CASE WHEN row_number = 2 THEN extension END) AS phone2_number_extension,
+						MAX(CASE WHEN row_number = 3 THEN number END)    AS phone3_number,
+						MAX(CASE WHEN row_number = 3 THEN extension END) AS phone3_number_extension,
+						MAX(CASE WHEN row_number = 4 THEN number END)    AS cellphone,
+						MAX(CASE WHEN row_number = 5 THEN carddav_sync::int END) AS carddav_sync_enabled,
+						MAX(CASE WHEN row_number = 5 THEN number END)    AS carddav_sync_number,
+						MAX(CASE WHEN row_number = 5 THEN extension END) AS carddav_sync_extension
+					FROM ranked_contact_numbers
+					GROUP BY entity_id
+				)
+
 				SELECT 
-					c.*, 
+					c.*,
+
 					u.name as author_name, 
 					i.name as institution_name,
 					i.society_sector_type as institution_society_sector_type,
@@ -514,12 +744,23 @@ namespace Business
 					a.country_type,
 					a.district,
 
+					COALESCE(nrcn.phone1_number, '') AS phone1_number,
+					COALESCE(nrcn.phone1_number_extension, '') AS phone1_number_extension,
+					COALESCE(nrcn.phone2_number, '') AS phone2_number,
+					COALESCE(nrcn.phone2_number_extension, '') AS phone2_number_extension,
+					COALESCE(nrcn.phone3_number, '') AS phone3_number,
+					COALESCE(nrcn.phone3_number_extension, '') AS phone3_number_extension,
+					COALESCE(nrcn.cellphone, '') AS cellphone,
+					COALESCE(nrcn.carddav_sync_number, '') AS carddav_sync_number,
+					COALESCE(nrcn.carddav_sync_extension, '') AS carddav_sync_extension,
+					COALESCE(nrcn.carddav_sync_enabled, 0) <> 0 AS carddav_sync_enabled,
+
 					c_self.name as assistant_name,
 					c_self.paternal_name as assistant_paternal_name,
 					c_self.maternal_name as assistant_maternal_name,
-					c_self.phone as assistant_phone,
-					c_self.phone_extension as assistant_phone_extension,
-					c_self.cellphone as assistant_cellphone,
+					-- c_self.phone as assistant_phone,
+					-- c_self.phone_extension as assistant_phone_extension,
+					-- c_self.cellphone as assistant_cellphone,
 					cc.name as category_name,
 					u2.name as editor_name,
 
@@ -553,6 +794,8 @@ namespace Business
 					LEFT JOIN citizens c_self ON c.assistant_id = c_self.id
 					LEFT JOIN users u ON c.created_by_id = u.id 
 					LEFT JOIN users u2 ON c.edit_by_id = u2.id
+
+					LEFT JOIN normalized_ranked_contact_numbers nrcn ON (c.id = nrcn.entity_id)
 
 					LEFT JOIN institutions i ON c.institution_id = i.id 
 					LEFT JOIN institution_categories ic ON i.category_id = ic.id
@@ -591,9 +834,9 @@ namespace Business
 							citizen.Assistant.Name = reader.GetString("assistant_name");
 							citizen.Assistant.PaternalName = reader.GetString("assistant_paternal_name");
 							citizen.Assistant.MaternalName = reader.GetString("assistant_maternal_name");
-							citizen.Assistant.Phone.Number = reader.GetString("assistant_phone");
-							citizen.Assistant.Phone.Extension = reader.GetString("assistant_phone_extension");
-							citizen.Assistant.Cellphone = reader.GetString("assistant_cellphone");
+							//citizen.Assistant.Phone.Number = reader.GetString("assistant_phone");
+							//citizen.Assistant.Phone.Extension = reader.GetString("assistant_phone_extension");
+							//citizen.Assistant.Cellphone = reader.GetString("assistant_cellphone");
 						}
 
 						if (citizen.Institution.Id != 0)
@@ -706,6 +949,17 @@ namespace Business
 						{
 							citizen.Category.Name = reader.GetString("category_name");
 						}
+
+						citizen.Phone.Number = reader.GetString("phone1_number");
+						citizen.Phone.Extension = reader.GetString("phone1_number_extension");
+						citizen.Phone2.Number = reader.GetString("phone2_number");
+						citizen.Phone2.Extension = reader.GetString("phone2_number_extension");
+						citizen.Phone3.Number = reader.GetString("phone3_number");
+						citizen.Phone3.Extension = reader.GetString("phone3_number_extension");
+						citizen.Cellphone.Number = reader.GetString("cellphone");
+						citizen.CardDavSyncNumber.Number = reader.GetString("carddav_sync_number");
+						citizen.CardDavSyncNumber.Extension = reader.GetString("carddav_sync_extension");
+						citizen.CardDavSyncNumber.CarddavSync = reader.GetBoolean("carddav_sync_enabled");
 
 						citizen_list.Add(citizen);
 					}

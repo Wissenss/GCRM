@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GCRM.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
@@ -9,8 +10,20 @@ namespace GCRM.Domain
 {
 	public class TCitizenContactNumber
 	{
+		public int Id;
 		public string Number = "";
 		public string Extension = "";
+		public TContactNumberType ContactNumberType = TContactNumberType.work_landline;
+		public bool CarddavSync = false;
+
+		public TCitizenContactNumber() { }
+		
+		public TCitizenContactNumber(TContactNumberType type, bool carddav_sync = false) 
+		{ 
+			ContactNumberType = type;
+			CarddavSync = carddav_sync;
+		}
+
 
 		private string GetNumericString(string raw_string)
 		{

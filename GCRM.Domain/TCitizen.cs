@@ -21,10 +21,11 @@ namespace GCRM.Domain
 		public TSex Sex;
 		public TAddress Address = new TAddress();
 		public TCitizen Assistant;
-		public TCitizenContactNumber Phone = new TCitizenContactNumber();
-		public TCitizenContactNumber Phone2 = new TCitizenContactNumber();
-		public TCitizenContactNumber Phone3 = new TCitizenContactNumber();
-		public string Cellphone;
+		public TCitizenContactNumber Phone = new TCitizenContactNumber(TContactNumberType.work_landline);
+		public TCitizenContactNumber Phone2 = new TCitizenContactNumber(TContactNumberType.work_landline);
+		public TCitizenContactNumber Phone3 = new TCitizenContactNumber(TContactNumberType.work_landline);
+		public TCitizenContactNumber Cellphone = new TCitizenContactNumber(TContactNumberType.work_mobile);
+		public TCitizenContactNumber CardDavSyncNumber = new TCitizenContactNumber();
 		public string Email;
 		public TPoliticalParty PoliticalParty;
 		public TInstitution Institution = new TInstitution();
@@ -170,9 +171,9 @@ namespace GCRM.Domain
 			Sex = (TSex)reader.GetInt32(8);
 			Address.Id = reader.GetInt32(9);
 			Assistant.Id = reader.GetInt32(10);
-			Phone.Number = reader.GetString(11);
-			Phone.Extension = reader.GetString(12);
-			Cellphone = reader.GetString(13);
+			//Phone.Number = reader.GetString(11);
+			//Phone.Extension = reader.GetString(12);
+			//Cellphone = reader.GetString(13);
 			PoliticalParty = (TPoliticalParty)reader.GetInt32(14);
 			Institution.Id = reader.GetInt32(15);
 			Role.Id = reader.GetInt32(16);
@@ -193,10 +194,10 @@ namespace GCRM.Domain
 			AttentionRequired = reader.GetBoolean(31);
 			IsPoliticalActivist = reader.GetBoolean(32);
 			PoliticalRegisterDate = reader.GetDateTime(33);
-			Phone2.Number = reader.GetString(34);
-			Phone2.Extension = reader.GetString(35);
-			Phone3.Number = reader.GetString(36);
-			Phone3.Extension = reader.GetString(37);
+			//Phone2.Number = reader.GetString(34);
+			//Phone2.Extension = reader.GetString(35);
+			//Phone3.Number = reader.GetString(36);
+			//Phone3.Extension = reader.GetString(37);
 
 			// if the value of the template is set for the role, then it is a template role 
 			Role.InstitutionTemplateId = reader.GetInt32(38);

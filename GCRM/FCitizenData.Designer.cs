@@ -139,6 +139,11 @@
 			LInstitutionRole = new Label();
 			ComboBoxInstitution = new ComboBox();
 			LInstitution = new Label();
+			TelSyncEnabled = new CheckBox();
+			PhoneSyncExtension = new TextBox();
+			label3 = new Label();
+			PhoneSync = new TextBox();
+			LPhoneSync = new Label();
 			TabControlCitizen.SuspendLayout();
 			TabGeneral.SuspendLayout();
 			TabRelationships.SuspendLayout();
@@ -721,6 +726,11 @@
 			// 
 			// TabContacto
 			// 
+			TabContacto.Controls.Add(PhoneSyncExtension);
+			TabContacto.Controls.Add(label3);
+			TabContacto.Controls.Add(PhoneSync);
+			TabContacto.Controls.Add(LPhoneSync);
+			TabContacto.Controls.Add(TelSyncEnabled);
 			TabContacto.Controls.Add(Phone3Extension);
 			TabContacto.Controls.Add(LPhone3Extension);
 			TabContacto.Controls.Add(Phone3);
@@ -771,9 +781,9 @@
 			// Phone3
 			// 
 			Phone3.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-			Phone3.Location = new Point(75, 67);
+			Phone3.Location = new Point(97, 67);
 			Phone3.Name = "Phone3";
-			Phone3.Size = new Size(278, 23);
+			Phone3.Size = new Size(256, 23);
 			Phone3.TabIndex = 45;
 			// 
 			// LPhone3
@@ -806,9 +816,9 @@
 			// Phone2
 			// 
 			Phone2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-			Phone2.Location = new Point(75, 38);
+			Phone2.Location = new Point(97, 38);
 			Phone2.Name = "Phone2";
-			Phone2.Size = new Size(278, 23);
+			Phone2.Size = new Size(256, 23);
 			Phone2.TabIndex = 41;
 			// 
 			// LPhone2
@@ -823,9 +833,9 @@
 			// TextBoxEmail
 			// 
 			TextBoxEmail.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-			TextBoxEmail.Location = new Point(75, 125);
+			TextBoxEmail.Location = new Point(97, 125);
 			TextBoxEmail.Name = "TextBoxEmail";
-			TextBoxEmail.Size = new Size(416, 23);
+			TextBoxEmail.Size = new Size(394, 23);
 			TextBoxEmail.TabIndex = 3;
 			// 
 			// LEmail
@@ -842,7 +852,7 @@
 			LAssitantCellphone.AutoSize = true;
 			LAssitantCellphone.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
 			LAssitantCellphone.ForeColor = SystemColors.HotTrack;
-			LAssitantCellphone.Location = new Point(75, 225);
+			LAssitantCellphone.Location = new Point(97, 221);
 			LAssitantCellphone.Name = "LAssitantCellphone";
 			LAssitantCellphone.Size = new Size(105, 15);
 			LAssitantCellphone.TabIndex = 38;
@@ -853,7 +863,7 @@
 			LAssistantPhone.AutoSize = true;
 			LAssistantPhone.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
 			LAssistantPhone.ForeColor = SystemColors.HotTrack;
-			LAssistantPhone.Location = new Point(75, 205);
+			LAssistantPhone.Location = new Point(97, 203);
 			LAssistantPhone.Name = "LAssistantPhone";
 			LAssistantPhone.Size = new Size(157, 15);
 			LAssistantPhone.TabIndex = 37;
@@ -864,7 +874,7 @@
 			LAssitantName.AutoSize = true;
 			LAssitantName.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
 			LAssitantName.ForeColor = SystemColors.HotTrack;
-			LAssitantName.Location = new Point(75, 185);
+			LAssitantName.Location = new Point(97, 185);
 			LAssitantName.Name = "LAssitantName";
 			LAssitantName.Size = new Size(149, 15);
 			LAssitantName.TabIndex = 36;
@@ -884,18 +894,18 @@
 			ComboBoxAssistant.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 			ComboBoxAssistant.DropDownStyle = ComboBoxStyle.DropDownList;
 			ComboBoxAssistant.FormattingEnabled = true;
-			ComboBoxAssistant.Location = new Point(75, 154);
+			ComboBoxAssistant.Location = new Point(97, 154);
 			ComboBoxAssistant.Name = "ComboBoxAssistant";
-			ComboBoxAssistant.Size = new Size(416, 23);
+			ComboBoxAssistant.Size = new Size(394, 23);
 			ComboBoxAssistant.TabIndex = 4;
 			ComboBoxAssistant.SelectedIndexChanged += ComboBoxAssistant_SelectedIndexChanged;
 			// 
 			// TextBoxCellphone
 			// 
 			TextBoxCellphone.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-			TextBoxCellphone.Location = new Point(75, 96);
+			TextBoxCellphone.Location = new Point(97, 96);
 			TextBoxCellphone.Name = "TextBoxCellphone";
-			TextBoxCellphone.Size = new Size(278, 23);
+			TextBoxCellphone.Size = new Size(256, 23);
 			TextBoxCellphone.TabIndex = 2;
 			// 
 			// LCellphone
@@ -928,9 +938,9 @@
 			// TextBoxPhone
 			// 
 			TextBoxPhone.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-			TextBoxPhone.Location = new Point(75, 9);
+			TextBoxPhone.Location = new Point(97, 9);
 			TextBoxPhone.Name = "TextBoxPhone";
-			TextBoxPhone.Size = new Size(278, 23);
+			TextBoxPhone.Size = new Size(256, 23);
 			TextBoxPhone.TabIndex = 0;
 			// 
 			// LPhone
@@ -1313,6 +1323,51 @@
 			LInstitution.TabIndex = 0;
 			LInstitution.Text = "Institución";
 			// 
+			// TelSyncEnabled
+			// 
+			TelSyncEnabled.AutoSize = true;
+			TelSyncEnabled.Location = new Point(97, 251);
+			TelSyncEnabled.Name = "TelSyncEnabled";
+			TelSyncEnabled.Size = new Size(332, 19);
+			TelSyncEnabled.TabIndex = 49;
+			TelSyncEnabled.Text = "Sincronizar número de contacto con el directorio CardDav";
+			TelSyncEnabled.UseVisualStyleBackColor = true;
+			// 
+			// PhoneSyncExtension
+			// 
+			PhoneSyncExtension.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+			PhoneSyncExtension.Location = new Point(390, 276);
+			PhoneSyncExtension.Name = "PhoneSyncExtension";
+			PhoneSyncExtension.Size = new Size(101, 23);
+			PhoneSyncExtension.TabIndex = 51;
+			// 
+			// label3
+			// 
+			label3.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+			label3.AutoSize = true;
+			label3.Location = new Point(359, 279);
+			label3.Name = "label3";
+			label3.Size = new Size(25, 15);
+			label3.TabIndex = 53;
+			label3.Text = "Ext.";
+			// 
+			// PhoneSync
+			// 
+			PhoneSync.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+			PhoneSync.Location = new Point(97, 276);
+			PhoneSync.Name = "PhoneSync";
+			PhoneSync.Size = new Size(256, 23);
+			PhoneSync.TabIndex = 50;
+			// 
+			// LPhoneSync
+			// 
+			LPhoneSync.AutoSize = true;
+			LPhoneSync.Location = new Point(7, 279);
+			LPhoneSync.Name = "LPhoneSync";
+			LPhoneSync.Size = new Size(84, 15);
+			LPhoneSync.TabIndex = 52;
+			LPhoneSync.Text = "Teléfono Sync.";
+			// 
 			// FCitizenData
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
@@ -1463,5 +1518,10 @@
 		private CheckBox RelationshipEnabled;
 		private DateTimePicker EndDate;
 		private CheckBox KnownEndDate;
+		private TextBox PhoneSyncExtension;
+		private Label label3;
+		private TextBox PhoneSync;
+		private Label LPhoneSync;
+		private CheckBox TelSyncEnabled;
 	}
 }

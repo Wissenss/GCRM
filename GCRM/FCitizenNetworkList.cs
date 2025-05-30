@@ -378,7 +378,7 @@ namespace GCRM
 							ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, member.Citizen.VoterSection);
 							ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, member.Citizen.Address.FullAddress);
 							ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, member.Citizen.Phone.FullNumber);
-							ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, member.Citizen.Cellphone);
+							ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, member.Citizen.Cellphone.FullNumber);
 
 							string full_parent_name = "";
 

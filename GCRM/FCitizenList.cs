@@ -319,7 +319,7 @@ namespace GCRM
 					row["phone3_extension"] = citizen.Phone3.Extension;
 					row["phone3_full"] = $"{citizen.Phone3.FullNumber}";
 
-					row["cellphone"] = citizen.Cellphone;
+					row["cellphone"] = citizen.Cellphone.FullNumber;
 					row["political_party"] = citizen.PoliticalParty;
 					row["political_party_name"] = BConstants.GetPoliticalPartyCommonName(citizen.PoliticalParty);
 
@@ -824,7 +824,10 @@ namespace GCRM
 				Name = (string)row.Cells["colName"].Value,
 				PaternalName = (string)row.Cells["colPaternalName"].Value,
 				MaternalName = (string)row.Cells["colMaternalName"].Value,
-				Cellphone = (string)row.Cells["colCellphone"].Value
+				Cellphone = new TCitizenContactNumber()
+				{
+					Number = (string)row.Cells["colCellphone"].Value
+				}
 			};
 
 			//selected_citizen.Phone.Number = (string)row.Cells["colPhone"].Value;

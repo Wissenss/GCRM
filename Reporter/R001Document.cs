@@ -227,8 +227,8 @@ namespace Reporter
 					if (citizen.Phone3.Number.Length > 0)
 						contact_str += $"{citizen.Phone3.FullNumberWithPrefix.ToUpper()}\n";
 
-					if (citizen.Cellphone.Length > 0)
-						contact_str += $"CEL. {citizen.Cellphone.ToUpper()}";
+					if (citizen.Cellphone.FullNumber.Length > 0)
+						contact_str += $"CEL. {citizen.Cellphone.FullNumber.ToUpper()}";
 
 					table.Cell().Element(CellStyle).Text(contact_str).FontSize(row_font_size);
 

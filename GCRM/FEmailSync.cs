@@ -152,16 +152,15 @@ namespace GCRM
 						vcard.AppendLine($"FN:{citizen.FullNameWithFirstCapitals}");
 						vcard.AppendLine($"EMAIL:{citizen.Email}");
 						vcard.AppendLine($"BDAY:{citizen.Birthday.ToString("yyyyMMdd")}");
-						vcard.AppendLine($"TEL;TYPE=WORK:{citizen.Phone.FullNumber}");
-						vcard.AppendLine($"TEL;TYPE=WORK:{citizen.Phone2.FullNumber}");
-						vcard.AppendLine($"TEL;TYPE=WORK:{citizen.Phone3.FullNumber}");
-						vcard.AppendLine($"TEL;TYPE=CELL:{citizen.Cellphone}");
 						vcard.AppendLine($"NOTE:Alta: {citizen.Author.Name}\\nEdición: {citizen.LastEditor.Name}\\nSincornización: {DateTime.Now.ToString("dd MMMM yyyy hh:mm:ss")}");
 						vcard.AppendLine($"UID:{uid}");
 						vcard.AppendLine($"ORG:{citizen.Institution.Name}");
 						vcard.AppendLine($"TITLE:{citizen.Role.Name}");
 						vcard.AppendLine($"REV:{citizen.EditDate}");
 						vcard.AppendLine($"CATEGORIES:{citizen.Category.Name},{citizen.Institution.Category.Name}");
+
+						if (citizen.CardDavSyncNumber.CarddavSync == true)
+							vcard.AppendLine($"TEL;TYPE=WORK:{citizen.CardDavSyncNumber.FullNumber}");
 
 						vcard.AppendLine($"END:VCARD");
 

@@ -168,8 +168,8 @@ namespace Reporter
 
 					string contact_str = "";
 
-					if (member.Citizen.Cellphone != null && member.Citizen.Cellphone.Trim().Length > 0)
-						contact_str += $"Cel. {member.Citizen.Cellphone}\n";
+					if (member.Citizen.Cellphone != null && member.Citizen.Cellphone.FullNumber.Trim().Length > 0)
+						contact_str += $"Cel. {member.Citizen.Cellphone.FullNumber}\n";
 
 					if (member.Citizen.Phone != null)
 						if(member.Citizen.Phone.Number.Trim().Length > 0)

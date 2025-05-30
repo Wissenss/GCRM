@@ -27,6 +27,12 @@ namespace GCRM
 		int AddressId;
 		int RelationshipId;
 
+		int Phone1Id;
+		int Phone2Id;
+		int Phone3Id;
+		int CellphoneId;
+		int PhoneSyncId;
+
 		public FCitizenData()
 		{
 			InitializeComponent();
@@ -423,6 +429,10 @@ namespace GCRM
 			EndDate.Enabled = AccessMode != FAccessMode.Read;
 			RelationshipNotes.Enabled = AccessMode != FAccessMode.Read;
 
+			TelSyncEnabled.Enabled = AccessMode != FAccessMode.Read;
+			PhoneSync.Enabled = AccessMode != FAccessMode.Read;
+			PhoneSyncExtension.Enabled = AccessMode != FAccessMode.Read;
+
 			BAccept.Visible = AccessMode != FAccessMode.Read;
 			BCancel.Text = AccessMode != FAccessMode.Read ? "&Cancelar" : "&Cerrar";
 		}
@@ -466,13 +476,22 @@ namespace GCRM
 				TextBoxObservations.Text = citizen.Observations;
 				ComboBoxPoliticalParty.SelectedValue = citizen.PoliticalParty;
 
+				Phone1Id = citizen.Phone.Id;
 				TextBoxPhone.Text = citizen.Phone.Number;
 				TextBoxPhoneExtension.Text = citizen.Phone.Extension;
+				Phone2Id = citizen.Phone.Id;
 				Phone2.Text = citizen.Phone2.Number;
 				Phone2Extension.Text = citizen.Phone2.Extension;
+				Phone3Id = citizen.Phone.Id;
 				Phone3.Text = citizen.Phone3.Number;
 				Phone3Extension.Text = citizen.Phone3.Extension;
-				TextBoxCellphone.Text = citizen.Cellphone;
+				CellphoneId = citizen.Cellphone.Id;
+				TextBoxCellphone.Text = citizen.Cellphone.FullNumber;
+				PhoneSyncId = citizen.CardDavSyncNumber.Id;
+				PhoneSync.Text = citizen.CardDavSyncNumber.Number;
+				PhoneSyncExtension.Text = citizen.CardDavSyncNumber.Extension;
+				TelSyncEnabled.Checked = citizen.CardDavSyncNumber.CarddavSync;
+
 				ComboBoxAssistant.SelectedValue = citizen.Assistant.Id;
 				TextBoxEmail.Text = citizen.Email;
 
@@ -782,7 +801,6 @@ namespace GCRM
 					Observations = TextBoxObservations.Text.Trim(),
 					PoliticalParty = (TPoliticalParty)ComboBoxPoliticalParty.SelectedValue,
 
-					Cellphone = TextBoxCellphone.Text.Trim(),
 					Email = TextBoxEmail.Text.Trim(),
 
 					Author = new TUser()
@@ -828,12 +846,21 @@ namespace GCRM
 				GetSelectedRoleValue(Institution2Role, DTInstitution2Role, out citizen.Role2.Id, out citizen.Role2.InstitutionTemplateId);
 				GetSelectedRoleValue(Institution3Role, DTInstitution3Role, out citizen.Role3.Id, out citizen.Role3.InstitutionTemplateId);
 
+				citizen.Phone.Id = Phone1Id;
 				citizen.Phone.Number = TextBoxPhone.Text.Trim();
 				citizen.Phone.Extension = TextBoxPhoneExtension.Text.Trim();
+				citizen.Phone2.Id = Phone2Id;
 				citizen.Phone2.Number = Phone2.Text.Trim();
 				citizen.Phone2.Extension = Phone2Extension.Text.Trim();
+				citizen.Phone3.Id = Phone3Id;
 				citizen.Phone3.Number = Phone3.Text.Trim();
 				citizen.Phone3.Extension = Phone3Extension.Text.Trim();
+				citizen.Cellphone.Id = CellphoneId;
+				citizen.Cellphone.Number = TextBoxCellphone.Text.Trim();
+				citizen.CardDavSyncNumber.Id = PhoneSyncId;
+				citizen.CardDavSyncNumber.Number = PhoneSync.Text.Trim();
+				citizen.CardDavSyncNumber.Extension = PhoneSyncExtension.Text.Trim();
+				citizen.CardDavSyncNumber.CarddavSync = TelSyncEnabled.Checked;
 
 				citizen.KnownBirthday = KnownBirthday.Checked;
 				citizen.KnownBirthyear = BDayYear.SelectedIndex != 0;
