@@ -82,6 +82,11 @@
 			VoterCode = new TextBox();
 			LElectorCode = new Label();
 			TabContacto = new TabPage();
+			PhoneSyncExtension = new TextBox();
+			label3 = new Label();
+			PhoneSync = new TextBox();
+			LPhoneSync = new Label();
+			TelSyncEnabled = new CheckBox();
 			Phone3Extension = new TextBox();
 			LPhone3Extension = new Label();
 			Phone3 = new TextBox();
@@ -139,11 +144,8 @@
 			LInstitutionRole = new Label();
 			ComboBoxInstitution = new ComboBox();
 			LInstitution = new Label();
-			TelSyncEnabled = new CheckBox();
-			PhoneSyncExtension = new TextBox();
-			label3 = new Label();
-			PhoneSync = new TextBox();
-			LPhoneSync = new Label();
+			NumPriorityScore = new NumericUpDown();
+			label4 = new Label();
 			TabControlCitizen.SuspendLayout();
 			TabGeneral.SuspendLayout();
 			TabRelationships.SuspendLayout();
@@ -153,6 +155,7 @@
 			TabContacto.SuspendLayout();
 			TabAddress.SuspendLayout();
 			TabRol.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)NumPriorityScore).BeginInit();
 			SuspendLayout();
 			// 
 			// BAccept
@@ -461,6 +464,8 @@
 			// 
 			// TabRelationships
 			// 
+			TabRelationships.Controls.Add(NumPriorityScore);
+			TabRelationships.Controls.Add(label4);
 			TabRelationships.Controls.Add(EndDate);
 			TabRelationships.Controls.Add(KnownEndDate);
 			TabRelationships.Controls.Add(RelationshipEnabled);
@@ -483,7 +488,7 @@
 			// 
 			EndDate.Enabled = false;
 			EndDate.Format = DateTimePickerFormat.Short;
-			EndDate.Location = new Point(126, 118);
+			EndDate.Location = new Point(125, 147);
 			EndDate.Name = "EndDate";
 			EndDate.Size = new Size(118, 23);
 			EndDate.TabIndex = 36;
@@ -492,7 +497,7 @@
 			// 
 			KnownEndDate.AutoSize = true;
 			KnownEndDate.Enabled = false;
-			KnownEndDate.Location = new Point(65, 121);
+			KnownEndDate.Location = new Point(64, 150);
 			KnownEndDate.Name = "KnownEndDate";
 			KnownEndDate.Size = new Size(45, 19);
 			KnownEndDate.TabIndex = 35;
@@ -515,16 +520,16 @@
 			// 
 			RelationshipNotes.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
 			RelationshipNotes.Enabled = false;
-			RelationshipNotes.Location = new Point(65, 147);
+			RelationshipNotes.Location = new Point(65, 176);
 			RelationshipNotes.Multiline = true;
 			RelationshipNotes.Name = "RelationshipNotes";
-			RelationshipNotes.Size = new Size(423, 168);
+			RelationshipNotes.Size = new Size(423, 139);
 			RelationshipNotes.TabIndex = 32;
 			// 
 			// LRelationshipNotes
 			// 
 			LRelationshipNotes.AutoSize = true;
-			LRelationshipNotes.Location = new Point(7, 147);
+			LRelationshipNotes.Location = new Point(7, 179);
 			LRelationshipNotes.Name = "LRelationshipNotes";
 			LRelationshipNotes.Size = new Size(38, 15);
 			LRelationshipNotes.TabIndex = 33;
@@ -534,7 +539,7 @@
 			// 
 			StartDate.Enabled = false;
 			StartDate.Format = DateTimePickerFormat.Short;
-			StartDate.Location = new Point(126, 89);
+			StartDate.Location = new Point(125, 118);
 			StartDate.Name = "StartDate";
 			StartDate.Size = new Size(118, 23);
 			StartDate.TabIndex = 5;
@@ -543,7 +548,7 @@
 			// 
 			KnownStartDate.AutoSize = true;
 			KnownStartDate.Enabled = false;
-			KnownStartDate.Location = new Point(65, 92);
+			KnownStartDate.Location = new Point(64, 121);
 			KnownStartDate.Name = "KnownStartDate";
 			KnownStartDate.Size = new Size(55, 19);
 			KnownStartDate.TabIndex = 4;
@@ -759,6 +764,51 @@
 			TabContacto.TabIndex = 1;
 			TabContacto.Text = "Contacto";
 			TabContacto.UseVisualStyleBackColor = true;
+			// 
+			// PhoneSyncExtension
+			// 
+			PhoneSyncExtension.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+			PhoneSyncExtension.Location = new Point(390, 276);
+			PhoneSyncExtension.Name = "PhoneSyncExtension";
+			PhoneSyncExtension.Size = new Size(101, 23);
+			PhoneSyncExtension.TabIndex = 51;
+			// 
+			// label3
+			// 
+			label3.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+			label3.AutoSize = true;
+			label3.Location = new Point(359, 279);
+			label3.Name = "label3";
+			label3.Size = new Size(25, 15);
+			label3.TabIndex = 53;
+			label3.Text = "Ext.";
+			// 
+			// PhoneSync
+			// 
+			PhoneSync.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+			PhoneSync.Location = new Point(97, 276);
+			PhoneSync.Name = "PhoneSync";
+			PhoneSync.Size = new Size(256, 23);
+			PhoneSync.TabIndex = 50;
+			// 
+			// LPhoneSync
+			// 
+			LPhoneSync.AutoSize = true;
+			LPhoneSync.Location = new Point(7, 279);
+			LPhoneSync.Name = "LPhoneSync";
+			LPhoneSync.Size = new Size(84, 15);
+			LPhoneSync.TabIndex = 52;
+			LPhoneSync.Text = "Teléfono Sync.";
+			// 
+			// TelSyncEnabled
+			// 
+			TelSyncEnabled.AutoSize = true;
+			TelSyncEnabled.Location = new Point(97, 251);
+			TelSyncEnabled.Name = "TelSyncEnabled";
+			TelSyncEnabled.Size = new Size(332, 19);
+			TelSyncEnabled.TabIndex = 49;
+			TelSyncEnabled.Text = "Sincronizar número de contacto con el directorio CardDav";
+			TelSyncEnabled.UseVisualStyleBackColor = true;
 			// 
 			// Phone3Extension
 			// 
@@ -1323,50 +1373,25 @@
 			LInstitution.TabIndex = 0;
 			LInstitution.Text = "Institución";
 			// 
-			// TelSyncEnabled
+			// NumPriorityScore
 			// 
-			TelSyncEnabled.AutoSize = true;
-			TelSyncEnabled.Location = new Point(97, 251);
-			TelSyncEnabled.Name = "TelSyncEnabled";
-			TelSyncEnabled.Size = new Size(332, 19);
-			TelSyncEnabled.TabIndex = 49;
-			TelSyncEnabled.Text = "Sincronizar número de contacto con el directorio CardDav";
-			TelSyncEnabled.UseVisualStyleBackColor = true;
+			NumPriorityScore.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+			NumPriorityScore.Enabled = false;
+			NumPriorityScore.Location = new Point(65, 89);
+			NumPriorityScore.Maximum = new decimal(new int[] { 3, 0, 0, 0 });
+			NumPriorityScore.Name = "NumPriorityScore";
+			NumPriorityScore.Size = new Size(423, 23);
+			NumPriorityScore.TabIndex = 38;
+			NumPriorityScore.Value = new decimal(new int[] { 1, 0, 0, 0 });
 			// 
-			// PhoneSyncExtension
+			// label4
 			// 
-			PhoneSyncExtension.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-			PhoneSyncExtension.Location = new Point(390, 276);
-			PhoneSyncExtension.Name = "PhoneSyncExtension";
-			PhoneSyncExtension.Size = new Size(101, 23);
-			PhoneSyncExtension.TabIndex = 51;
-			// 
-			// label3
-			// 
-			label3.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-			label3.AutoSize = true;
-			label3.Location = new Point(359, 279);
-			label3.Name = "label3";
-			label3.Size = new Size(25, 15);
-			label3.TabIndex = 53;
-			label3.Text = "Ext.";
-			// 
-			// PhoneSync
-			// 
-			PhoneSync.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-			PhoneSync.Location = new Point(97, 276);
-			PhoneSync.Name = "PhoneSync";
-			PhoneSync.Size = new Size(256, 23);
-			PhoneSync.TabIndex = 50;
-			// 
-			// LPhoneSync
-			// 
-			LPhoneSync.AutoSize = true;
-			LPhoneSync.Location = new Point(7, 279);
-			LPhoneSync.Name = "LPhoneSync";
-			LPhoneSync.Size = new Size(84, 15);
-			LPhoneSync.TabIndex = 52;
-			LPhoneSync.Text = "Teléfono Sync.";
+			label4.AutoSize = true;
+			label4.Location = new Point(7, 91);
+			label4.Name = "label4";
+			label4.Size = new Size(55, 15);
+			label4.TabIndex = 37;
+			label4.Text = "Prioridad";
 			// 
 			// FCitizenData
 			// 
@@ -1402,6 +1427,7 @@
 			TabAddress.PerformLayout();
 			TabRol.ResumeLayout(false);
 			TabRol.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)NumPriorityScore).EndInit();
 			ResumeLayout(false);
 		}
 
@@ -1523,5 +1549,7 @@
 		private TextBox PhoneSync;
 		private Label LPhoneSync;
 		private CheckBox TelSyncEnabled;
+		private NumericUpDown NumPriorityScore;
+		private Label label4;
 	}
 }

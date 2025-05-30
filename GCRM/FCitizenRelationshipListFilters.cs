@@ -90,17 +90,17 @@ namespace GCRM
 
 				foreach (TCitizen citizen in citizen_list)
 				{
-					DataRow row = DTUsers.NewRow();
+					DataRow row = DTCitizens.NewRow();
 
 					row["id"] = citizen.Id;
-					row["name"] = citizen.Name;
+					row["name"] = citizen.FullNameWithFirstCapitals;
 
-					DTUsers.Rows.Add(row);
+					DTCitizens.Rows.Add(row);
 				}
 
 				DTCitizens.EndLoadData();
 
-				Citizen.DataSource = DTUsers;
+				Citizen.DataSource = DTCitizens;
 				Citizen.ValueMember = "id";
 				Citizen.DisplayMember = "name";
 				Citizen.SelectedIndex = 0;
@@ -134,6 +134,12 @@ namespace GCRM
 					Utilities.ShowErrorDialog(error);
 					return;
 				}
+
+				roles.Insert(0, new TCitizenRelationshipRole()
+				{
+					Id = 0,
+					Name = "Ninguno"
+				});
 
 				DTRelationshipRole.BeginLoadData();
 				DTRelationshipRole.Clear();
@@ -195,6 +201,16 @@ namespace GCRM
 		private void FilterMaxAffinity_CheckedChanged(object sender, EventArgs e)
 		{
 			MaxAffinity.Enabled = FilterMaxAffinity.Checked;
+		}
+
+		private void FilterMinPriority_CheckedChanged(object sender, EventArgs e)
+		{
+			MinPriority.Enabled = FilterMinPriority.Checked;
+		}
+
+		private void FilterMaxPriority_CheckedChanged(object sender, EventArgs e)
+		{
+			MaxPriority.Enabled = FilterMaxPriority.Checked;
 		}
 	}
 }

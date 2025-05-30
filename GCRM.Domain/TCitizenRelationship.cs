@@ -22,6 +22,7 @@ namespace GCRM.Domain
 		public string Notes;
 		public bool Enabled;
 		public TUser User = new TUser();
+		public double PriorityScore;
 
 		public void FillFromReader(DbDataReader reader)
 		{
@@ -40,6 +41,7 @@ namespace GCRM.Domain
 			Notes = reader.GetString("notes");
 			Enabled = reader.GetBoolean("enabled");
 			User.Id = reader.GetInt32("user_id");
+			PriorityScore = reader.GetDouble("priority_score");
 		}
 	}
 }

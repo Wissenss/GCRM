@@ -1448,7 +1448,8 @@ namespace Business
 						end_date = @end_date,
 						notes = @notes,
 						user_id = @user_id,
-						enabled = @enabled
+						enabled = @enabled,
+						priority_score = @priority_score
 					WHERE
 						id = @id;";
 			}
@@ -1466,7 +1467,8 @@ namespace Business
 						end_date,
 						notes,
 						user_id,
-						enabled
+						enabled,
+						priority_score
 					) VALUES (
 						@citizen_id,
 						@related_citizen_id,
@@ -1478,7 +1480,8 @@ namespace Business
 						@end_date,
 						@notes,
 						@user_id,
-						@enabled
+						@enabled,
+						@priority_score
 					) RETURNING id;";
 			}
 
@@ -1496,6 +1499,7 @@ namespace Business
 				cmd.Parameters.AddWithValue("@notes", relationship.Notes);
 				cmd.Parameters.AddWithValue("@user_id", relationship.User.Id);
 				cmd.Parameters.AddWithValue("@enabled", relationship.Enabled);
+				cmd.Parameters.AddWithValue("@priority_score", relationship.PriorityScore);
 
 				if (is_update)
 				{

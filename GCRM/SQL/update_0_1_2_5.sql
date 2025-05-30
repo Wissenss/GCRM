@@ -81,5 +81,9 @@ FROM citizens;
 
 -- TODO: delete deprecated columns, the contact columns
 
+-- In other things, add the requested field for citizen relationships
+ALTER TABLE IF EXISTS public.citizen_relationships
+    ADD COLUMN priority_score numeric DEFAULT 0;
+
 -- update client version
 UPDATE settings SET string_value = '0.1.2.5-alpha' WHERE name = 'client_version';

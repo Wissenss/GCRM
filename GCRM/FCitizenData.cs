@@ -428,6 +428,7 @@ namespace GCRM
 			StartDate.Enabled = AccessMode != FAccessMode.Read;
 			EndDate.Enabled = AccessMode != FAccessMode.Read;
 			RelationshipNotes.Enabled = AccessMode != FAccessMode.Read;
+			NumPriorityScore.Enabled = AccessMode != FAccessMode.Read;
 
 			TelSyncEnabled.Enabled = AccessMode != FAccessMode.Read;
 			PhoneSync.Enabled = AccessMode != FAccessMode.Read;
@@ -541,6 +542,7 @@ namespace GCRM
 				KnownStartDate.Checked = citizen.UserRelationship.KnownStartDate;
 				KnownEndDate.Checked = citizen.UserRelationship.KnownEndDate;
 				RelationshipNotes.Text = citizen.UserRelationship.Notes;
+				NumPriorityScore.Value = (decimal)citizen.UserRelationship.PriorityScore;
 
 				if (citizen.UserRelationship.KnownStartDate)
 					StartDate.Value = citizen.UserRelationship.StartDate;
@@ -912,7 +914,8 @@ namespace GCRM
 					EndDate = EndDate.Value,
 					Notes = RelationshipNotes.Text.Trim(),
 					User = Session.User,
-					Enabled = RelationshipEnabled.Checked
+					Enabled = RelationshipEnabled.Checked,
+					PriorityScore = (double)NumPriorityScore.Value,
 				};
 
 				Error error = CitizensHandler.SaveCitizen(citizen, AccessMode == FAccessMode.Update);
@@ -1257,6 +1260,7 @@ namespace GCRM
 			KnownEndDate.Enabled = RelationshipEnabled.Checked && AccessMode != FAccessMode.Read;
 			EndDate.Enabled = RelationshipEnabled.Checked && KnownEndDate.Checked && AccessMode != FAccessMode.Read;
 			RelationshipNotes.Enabled = RelationshipEnabled.Checked && AccessMode != FAccessMode.Read;
+			NumPriorityScore.Enabled = RelationshipEnabled.Checked && AccessMode != FAccessMode.Read;
 		}
 
 		private void KnownStartDate_CheckedChanged(object sender, EventArgs e)

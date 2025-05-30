@@ -42,14 +42,20 @@
 			FilterMaxAffinity = new CheckBox();
 			FilterRelationshipRole = new CheckBox();
 			RelationshipRole = new ComboBox();
+			MaxPriority = new NumericUpDown();
+			FilterMaxPriority = new CheckBox();
+			MinPriority = new NumericUpDown();
+			FilterMinPriority = new CheckBox();
 			((System.ComponentModel.ISupportInitialize)MinAffinity).BeginInit();
 			((System.ComponentModel.ISupportInitialize)MaxAffinity).BeginInit();
+			((System.ComponentModel.ISupportInitialize)MaxPriority).BeginInit();
+			((System.ComponentModel.ISupportInitialize)MinPriority).BeginInit();
 			SuspendLayout();
 			// 
 			// BAccept
 			// 
 			BAccept.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-			BAccept.Location = new Point(195, 194);
+			BAccept.Location = new Point(195, 257);
 			BAccept.Name = "BAccept";
 			BAccept.Size = new Size(75, 23);
 			BAccept.TabIndex = 4;
@@ -60,7 +66,7 @@
 			// BCancel
 			// 
 			BCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-			BCancel.Location = new Point(276, 194);
+			BCancel.Location = new Point(276, 257);
 			BCancel.Name = "BCancel";
 			BCancel.Size = new Size(75, 23);
 			BCancel.TabIndex = 5;
@@ -84,9 +90,9 @@
 			User.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 			User.Enabled = false;
 			User.FormattingEnabled = true;
-			User.Location = new Point(112, 10);
+			User.Location = new Point(120, 10);
 			User.Name = "User";
-			User.Size = new Size(239, 23);
+			User.Size = new Size(231, 23);
 			User.TabIndex = 7;
 			// 
 			// Citizen
@@ -94,9 +100,9 @@
 			Citizen.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 			Citizen.Enabled = false;
 			Citizen.FormattingEnabled = true;
-			Citizen.Location = new Point(112, 39);
+			Citizen.Location = new Point(120, 39);
 			Citizen.Name = "Citizen";
-			Citizen.Size = new Size(239, 23);
+			Citizen.Size = new Size(231, 23);
 			Citizen.TabIndex = 9;
 			// 
 			// FilterCitizen
@@ -115,9 +121,9 @@
 			RelatedTo.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 			RelatedTo.Enabled = false;
 			RelatedTo.FormattingEnabled = true;
-			RelatedTo.Location = new Point(112, 68);
+			RelatedTo.Location = new Point(120, 68);
 			RelatedTo.Name = "RelatedTo";
-			RelatedTo.Size = new Size(239, 23);
+			RelatedTo.Size = new Size(231, 23);
 			RelatedTo.TabIndex = 11;
 			// 
 			// FilterRelatedTo
@@ -145,17 +151,17 @@
 			// MinAffinity
 			// 
 			MinAffinity.Enabled = false;
-			MinAffinity.Location = new Point(112, 126);
+			MinAffinity.Location = new Point(120, 126);
 			MinAffinity.Name = "MinAffinity";
-			MinAffinity.Size = new Size(239, 23);
+			MinAffinity.Size = new Size(231, 23);
 			MinAffinity.TabIndex = 13;
 			// 
 			// MaxAffinity
 			// 
 			MaxAffinity.Enabled = false;
-			MaxAffinity.Location = new Point(112, 155);
+			MaxAffinity.Location = new Point(120, 155);
 			MaxAffinity.Name = "MaxAffinity";
-			MaxAffinity.Size = new Size(239, 23);
+			MaxAffinity.Size = new Size(231, 23);
 			MaxAffinity.TabIndex = 15;
 			// 
 			// FilterMaxAffinity
@@ -184,17 +190,59 @@
 			// 
 			RelationshipRole.Enabled = false;
 			RelationshipRole.FormattingEnabled = true;
-			RelationshipRole.Location = new Point(112, 97);
+			RelationshipRole.Location = new Point(120, 97);
 			RelationshipRole.Name = "RelationshipRole";
-			RelationshipRole.Size = new Size(239, 23);
+			RelationshipRole.Size = new Size(231, 23);
 			RelationshipRole.TabIndex = 17;
+			// 
+			// MaxPriority
+			// 
+			MaxPriority.Enabled = false;
+			MaxPriority.Location = new Point(120, 213);
+			MaxPriority.Name = "MaxPriority";
+			MaxPriority.Size = new Size(231, 23);
+			MaxPriority.TabIndex = 21;
+			// 
+			// FilterMaxPriority
+			// 
+			FilterMaxPriority.AutoSize = true;
+			FilterMaxPriority.Location = new Point(12, 214);
+			FilterMaxPriority.Name = "FilterMaxPriority";
+			FilterMaxPriority.Size = new Size(102, 19);
+			FilterMaxPriority.TabIndex = 20;
+			FilterMaxPriority.Text = "Max. Prioridad";
+			FilterMaxPriority.UseVisualStyleBackColor = true;
+			FilterMaxPriority.CheckedChanged += FilterMaxPriority_CheckedChanged;
+			// 
+			// MinPriority
+			// 
+			MinPriority.Enabled = false;
+			MinPriority.Location = new Point(120, 184);
+			MinPriority.Name = "MinPriority";
+			MinPriority.Size = new Size(231, 23);
+			MinPriority.TabIndex = 19;
+			// 
+			// FilterMinPriority
+			// 
+			FilterMinPriority.AutoSize = true;
+			FilterMinPriority.Location = new Point(12, 185);
+			FilterMinPriority.Name = "FilterMinPriority";
+			FilterMinPriority.Size = new Size(101, 19);
+			FilterMinPriority.TabIndex = 18;
+			FilterMinPriority.Text = "Min. Prioridad";
+			FilterMinPriority.UseVisualStyleBackColor = true;
+			FilterMinPriority.CheckedChanged += FilterMinPriority_CheckedChanged;
 			// 
 			// FCitizenRelationshipListFilters
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
-			ClientSize = new Size(363, 229);
+			ClientSize = new Size(363, 292);
 			ControlBox = false;
+			Controls.Add(MaxPriority);
+			Controls.Add(FilterMaxPriority);
+			Controls.Add(MinPriority);
+			Controls.Add(FilterMinPriority);
 			Controls.Add(RelationshipRole);
 			Controls.Add(FilterRelationshipRole);
 			Controls.Add(MaxAffinity);
@@ -213,6 +261,8 @@
 			Text = "Filtros";
 			((System.ComponentModel.ISupportInitialize)MinAffinity).EndInit();
 			((System.ComponentModel.ISupportInitialize)MaxAffinity).EndInit();
+			((System.ComponentModel.ISupportInitialize)MaxPriority).EndInit();
+			((System.ComponentModel.ISupportInitialize)MinPriority).EndInit();
 			ResumeLayout(false);
 			PerformLayout();
 		}
@@ -233,5 +283,9 @@
 		public CheckBox FilterMaxAffinity;
 		public CheckBox FilterRelationshipRole;
 		public ComboBox RelationshipRole;
+		public NumericUpDown MaxPriority;
+		public CheckBox FilterMaxPriority;
+		public NumericUpDown MinPriority;
+		public CheckBox FilterMinPriority;
 	}
 }

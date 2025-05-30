@@ -35,6 +35,7 @@ namespace GCRM
 			DTRelationships.Columns.Add("known_end_date", typeof(bool));
 			DTRelationships.Columns.Add("start_date", typeof(DateTime));
 			DTRelationships.Columns.Add("end_date", typeof(DateTime));
+			DTRelationships.Columns.Add("priority_score", typeof(double));
 			DSRelationships.Tables.Add(DTRelationships);
 
 			DataGridRelationships.AutoGenerateColumns = false;
@@ -45,6 +46,7 @@ namespace GCRM
 			DataGridUtilities.AddColumn(DataGridRelationships, "colRelatedToFullname", "Relacionado con", "related_citizen_fullname", true, display_index++, 150, 20);
 			DataGridUtilities.AddColumn(DataGridRelationships, "colRoleName", "Relación", "citizen_relationship_role_name", true, display_index++, 100, 20);
 			DataGridUtilities.AddColumn(DataGridRelationships, "colAffinityScore", "Afinidad", "affinity_score", true, display_index++, 100, 20);
+			DataGridUtilities.AddColumn(DataGridRelationships, "colPriorityScore", "Prioridad", "priority_score", true, display_index++, 100, 20);
 			DataGridUtilities.AddColumn(DataGridRelationships, "colStartDate", "Inicio", "start_date", true, display_index++, 100, 20);
 			DataGridUtilities.AddColumn(DataGridRelationships, "colEndDate", "Termino", "end_date", true, display_index++, 100, 20);
 
@@ -95,6 +97,7 @@ namespace GCRM
 					row["affinity_score"] = relation.AffinityScore;
 					row["known_start_date"] = relation.KnownStartDate;
 					row["known_end_date"] = relation.KnownEndDate;
+					row["priority_score"] = relation.PriorityScore;
 
 					if (relation.KnownStartDate)
 						row["start_date"] = relation.StartDate;
@@ -171,6 +174,12 @@ namespace GCRM
 			if (Filters.FilterMaxAffinity.Checked)
 				filter += $" and affinity_score <= {Filters.MaxAffinity.Value}";
 
+			if (Filters.FilterMinPriority.Checked)
+				filter += $" and priority_score >= {Filters.MinPriority.Value}";
+
+			if (Filters.FilterMaxPriority.Checked)
+				filter += $" and priority_score <= {Filters.MaxPriority.Value}";
+
 			DTRelationships.DefaultView.RowFilter = filter;
 			DataGridRelationships.DataSource = DTRelationships;
 			DataGridRelationships.Refresh();
@@ -204,6 +213,12 @@ namespace GCRM
 
 			if (Filters.FilterMaxAffinity.Checked)
 				filtros += $" Afinidad <= {Filters.MaxAffinity.Value}, ";
+
+			if (Filters.FilterMinPriority.Checked)
+				filtros += $" Prioridad >= {Filters.MinPriority.Value}, ";
+
+			if (Filters.FilterMaxPriority.Checked)
+				filtros += $" Prioridad <= {Filters.MaxPriority.Value}, ";
 
 			if (filtros.Length > 0)
 			{
