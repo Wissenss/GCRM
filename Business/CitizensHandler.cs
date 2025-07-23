@@ -198,6 +198,20 @@ namespace Business
 				}
 			}
 
+			// check there is no citizen network having this as a member
+			using (var cmd = new NpgsqlCommand("SELECT * FROM citizennetwork_citizens WHERE citizen_id = @id", conn))
+			{
+				cmd.Parameters.AddWithValue("@id", id);
+
+				using (var reader = cmd.ExecuteReader())
+				{
+					if (reader.HasRows)
+					{
+						error = Error.CitizenInUse;
+					}
+				}
+			}
+
 			TCitizen citizen;
 
 			error = GetCitizenById(id, out citizen);
