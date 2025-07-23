@@ -7,7 +7,7 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <Title>gcrm</Title>
-    <Version>$(VersionPrefix)0.1.2.5-alpha</Version>
+    <Version>$(VersionPrefix)0.1.2.6-alpha</Version>
     <ApplicationIcon>Fatcow-Farm-Fresh-Bookmark.ico</ApplicationIcon>
     <Copyright>Leonardo Merino</Copyright>
     <StartupObject>GCRM.Program</StartupObject>
@@ -161,6 +161,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="SQL\update_0_1_2_1.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="SQL\update_0_1_2_6.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

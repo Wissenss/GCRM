@@ -184,37 +184,43 @@ namespace Business
 
 			var tran = conn.BeginTransaction();
 
-			// check there is no citizen having this as assistant
-			using (var cmd = new NpgsqlCommand("SELECT * FROM citizens WHERE assistant_id = @id;", conn))
-			{
-				cmd.Parameters.AddWithValue("@id", id);
+			TCitizen citizen;
 
-				using (var reader = cmd.ExecuteReader())
+			error = GetCitizenById(id, out citizen);
+
+			// check there is no citizen having this as assistant
+			if (error == 0)
+			{
+				using (var cmd = new NpgsqlCommand("SELECT * FROM citizens WHERE assistant_id = @id;", conn))
 				{
-					if (reader.HasRows)
+					cmd.Parameters.AddWithValue("@id", id);
+
+					using (var reader = cmd.ExecuteReader())
 					{
-						error = Error.CitizenInUse;
+						if (reader.HasRows)
+						{
+							error = Error.CitizenInUse;
+						}
 					}
 				}
 			}
 
 			// check there is no citizen network having this as a member
-			using (var cmd = new NpgsqlCommand("SELECT * FROM citizennetwork_citizens WHERE citizen_id = @id", conn))
+			if (error == 0)
 			{
-				cmd.Parameters.AddWithValue("@id", id);
-
-				using (var reader = cmd.ExecuteReader())
+				using (var cmd = new NpgsqlCommand("SELECT * FROM citizennetwork_citizens WHERE citizen_id = @id;", conn))
 				{
-					if (reader.HasRows)
+					cmd.Parameters.AddWithValue("@id", id);
+
+					using (var reader = cmd.ExecuteReader())
 					{
-						error = Error.CitizenInUse;
+						if (reader.HasRows)
+						{
+							error = Error.CitizenInUseOnNetwork;
+						}
 					}
 				}
 			}
-
-			TCitizen citizen;
-
-			error = GetCitizenById(id, out citizen);
 
 			if (error == 0)
 			{
