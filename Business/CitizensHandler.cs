@@ -57,7 +57,55 @@ namespace Business
 				)
 
 				SELECT 
-					c.*,
+					c.id,
+					c.name,
+					c.paternal_name,
+					c.maternal_name,
+					c.title_type,
+					c.curp,
+					c.birthday,
+					c.observations,
+					c.sex_type,
+					c.address_id,
+					c.assistant_id,
+					-- skip phone fields
+					c.phone AS deprecated_phone,
+					c.phone_extension AS deprecated_phone_extension,
+					c.cellphone AS deprecated_cellphone,
+					-- just filler for know, must remove!
+					c.political_party_type,
+					c.institution_id,
+					c.institution_role_id,
+					c.email,
+					c.created_by_id,
+					c.created_date,
+					c.edit_by_id,
+					c.edit_date,
+					c.voter_code,
+					c.voter_ocr,
+					c.voter_cic,
+					c.voter_section,
+					c.citizen_category_id,
+					c.institution2_id,
+					c.institution2_role_id,
+					c.institution3_id,
+					c.institution3_role_id,
+					c.attention_required,
+					c.is_political_activist,
+					c.political_register_date,
+					-- skip more phones
+					c.phone2 AS deprecated_phone2,
+					c.phone2_extension AS deprecated_phone2_extension,
+					c.phone3 AS deprecated_phone3,
+					c.phone3_extension AS deprecated_phone3_extension,
+					-- just filler for know, must remove!
+					c.institution_template_role_id,
+					c.institution2_template_role_id,
+					c.institution3_template_role_id,
+					c.known_birthday,
+					c.known_birthyear,
+					c.known_political_register_date,
+
 					a.id AS address_id,
 					a.street AS address_street,
 					a.number AS address_number,
@@ -235,9 +283,10 @@ namespace Business
 			// delete related contact numbers
 			if (error == 0)
 			{
-				using (var cmd = new NpgsqlCommand("DELETE FROM contact_numbers WHERE entity_id = @id AND entity_type = @type;"))
+				using (var cmd = new NpgsqlCommand("DELETE FROM contact_numbers WHERE entity_id = @id AND entity_type = @type;", conn))
 				{
 					cmd.Parameters.AddWithValue("@id", citizen.Id);
+					cmd.Parameters.AddWithValue("@type", (int)TEntityType.citizen);
 
 					cmd.ExecuteNonQuery();
 				}
@@ -246,7 +295,7 @@ namespace Business
 			// delete related address
 			if (error == 0)
 			{
-				using (var cmd = new NpgsqlCommand("DELETE FROM addresses WHERE id = @address_id;"))
+				using (var cmd = new NpgsqlCommand("DELETE FROM addresses WHERE id = @address_id;", conn))
 				{
 					cmd.Parameters.AddWithValue("@address_id", citizen.Address.Id);
 
