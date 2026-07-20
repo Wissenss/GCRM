@@ -905,7 +905,7 @@ namespace GCRM
 					},
 					Role = new TCitizenRelationshipRole()
 					{
-						Id = (int)Relationship.SelectedValue
+						Id = Relationship.SelectedValue as int? ?? 0
 					},
 					AffinityScore = (double)NAffinity.Value,
 					KnownStartDate = KnownStartDate.Checked,

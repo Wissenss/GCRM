@@ -48,6 +48,7 @@ namespace Business
 				Session.User.Name = "root";
 				Session.User.Username = "root";
 				Session.User.Enabled = true;
+				Session.User.Citizen = new TCitizen();
 
 				return 0;
 			}
