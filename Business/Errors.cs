@@ -10,6 +10,7 @@ namespace Business
 	{
 		None = 0,
 		Unknown = 1,
+		UserCancelled = 100,
 
 		// errors related to the session
 		LoginInvalid,

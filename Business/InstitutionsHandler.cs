@@ -882,5 +882,45 @@ namespace Business
 
 			return error;
 		}
+	
+		public static Error SaveInstitutionRole(int institutionId, TInstitutionRole role)
+		{
+			var conn = ConnectionPool.GetConnection();
+
+			string sql;
+
+			if (role.Id == 0)
+			{
+				sql = "INSERT INTO institution_roles(name, institution_id, parent_role_id, description) VALUES(@name, @institution_id, @parent_role_id, @description) RETURNING id;";
+			}
+			else
+			{
+				sql = "UPDATE institution_roles SET name = @name, institution_id = @institution_id, parent_role_id = @parent_role_id, description = @description WHERE id = @id;";
+			}
+
+			using (var cmd = new NpgsqlCommand(sql, conn))
+			{
+				cmd.Parameters.AddWithValue("@id", role.Id);
+				cmd.Parameters.AddWithValue("@name", role.Name);
+				cmd.Parameters.AddWithValue("@institution_id", institutionId);
+				cmd.Parameters.AddWithValue("@parent_role_id", role.ParentRoleId);
+				cmd.Parameters.AddWithValue("@description", role.Description);
+
+				if (role.Id == 0)
+				{
+					role.Id = (Int32)(Int64)cmd.ExecuteScalar();
+				}
+				else
+				{
+					cmd.ExecuteNonQuery();
+				}
+			}
+
+			role.InstitutionId = institutionId;
+
+			ConnectionPool.ReleaseConnection(ref conn);
+
+			return 0;
+		}
 	}
 }

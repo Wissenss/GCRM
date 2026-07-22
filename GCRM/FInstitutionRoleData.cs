@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml.Bibliography;
+using GCRM.Domain;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -40,6 +41,15 @@ namespace GCRM
 		{
 			name = TextBoxName.Text;
 			description = TextBoxDescription.Text;
+		}
+
+		public TInstitutionRole GetValues()
+		{
+			return new TInstitutionRole()
+			{
+				Name = TextBoxName.Text,
+				Description = TextBoxDescription.Text
+			};
 		}
 
 		private bool ValidateInput()
