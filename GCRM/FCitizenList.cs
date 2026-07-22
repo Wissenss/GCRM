@@ -910,13 +910,12 @@ namespace GCRM
 
 			if (row.Cells["colAttentionRequired"].Value == null)
 				return;
-			/*
+
 			if ((bool)row.Cells["colAttentionRequired"].Value)
 			{
-				e.CellStyle.BackColor = Color.FromArgb(255, 200, 200);
-				e.CellStyle.SelectionBackColor = Color.FromArgb(255, 150, 150);
+				e.CellStyle.BackColor = System.Drawing.Color.FromArgb(255, 200, 200);
+				e.CellStyle.SelectionBackColor = System.Drawing.Color.FromArgb(255, 150, 150);
 			}
-			*/
 		}
 
 		private void FCitizenList_FormClosing(object sender, FormClosingEventArgs e)
