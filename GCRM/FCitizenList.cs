@@ -41,6 +41,8 @@ namespace GCRM
 			DataGridUtilities.AddColumn(DataGridCitizens, "colPhoneAndExtension", "Teléfono", "phone_full", true, display_index++, 100, 20);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colCellphone", "Celular", "cellphone", true, display_index++, 100, 20);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colBirthday", "Nacimiento", "birthday_displayed", false, display_index++, 20, 20);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colBirthdayMonth", "Mes nacimiento", "birthday_month_name", true, display_index++, 100, 20);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colBirthdayDay", "Día nacimiento", "birthday_day", true, display_index++, 20, 20);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colAuthorName", "Autor", "author_name", true, display_index++, 150, 20);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colEditorName", "Último editor", "editor_name", true, display_index++, 150, 20);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colVerified", "Verificado", "verified", true, display_index++, 80, 20, DataGridViewAutoSizeColumnMode.None, DataGridColumnType.CheckBox);
@@ -124,6 +126,7 @@ namespace GCRM
 			DTCitizens.Columns.Add("birthday_displayed", typeof(string));
 			DTCitizens.Columns.Add("birthday_year", typeof(int));
 			DTCitizens.Columns.Add("birthday_month", typeof(int));
+			DTCitizens.Columns.Add("birthday_month_name", typeof(string));
 			DTCitizens.Columns.Add("birthday_day", typeof(int));
 			DTCitizens.Columns.Add("birthday_known", typeof(bool));
 			DTCitizens.Columns.Add("birthday_year_known", typeof(bool));
@@ -289,6 +292,8 @@ namespace GCRM
 					row["birthday_displayed"] = citizen.DisplayBirthday;
 					row["birthday_year"] = citizen.Birthday.Year;
 					row["birthday_month"] = citizen.Birthday.Month;
+					string birthday_month_name = DateTimeFormatInfo.CurrentInfo.MonthNames[citizen.Birthday.Month - 1];
+					row["birthday_month_name"] = birthday_month_name.ToUpper().First() + birthday_month_name.Substring(1);
 					row["birthday_day"] = citizen.Birthday.Day;
 					row["birthday_known"] = citizen.KnownBirthday;
 					row["birthday_year_known"] = citizen.KnownBirthyear;
