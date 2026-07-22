@@ -436,64 +436,6 @@ namespace Business
 				error = AddressesHandler.SaveAddress(citizen.Address, is_update, out citizen.Address.Id);
 			}
 
-			// save contacts numbers
-			using (var cmd = new NpgsqlCommand("DELETE FROM contact_numbers WHERE entity_id = @entity_id AND entity_type = 1001;", conn))
-			{
-				cmd.Parameters.AddWithValue("@entity_id", citizen.Id);
-
-				cmd.ExecuteNonQuery();
-			}
-
-			if (error == 0)
-			{
-				TCitizenContactNumber[] phones = new TCitizenContactNumber[] {
-					citizen.Phone,
-					citizen.Phone2,
-					citizen.Phone3,
-					citizen.Cellphone,
-					citizen.CardDavSyncNumber
-				};
-
-				string sql = "";
-
-				sql = @"
-					INSERT INTO 
-						contact_numbers(
-							contact_number_type,
-							number,
-							extension,
-							carddav_sync,
-							entity_id,
-							entity_type
-					) VALUES (
-							@type,
-							@number,
-							@extension,
-							@carddav_sync,
-							@entity_id,
-							1001
-					) 
-				";
-				
-				using (var batch = conn.CreateBatch())
-				{
-					foreach (TCitizenContactNumber cn in phones) {
-						var cmd = new NpgsqlBatchCommand(sql);
-
-						cmd.Parameters.AddWithValue("@type", (int)cn.ContactNumberType);
-						cmd.Parameters.AddWithValue("@number", cn.Number);
-						cmd.Parameters.AddWithValue("@extension", cn.Extension);
-						cmd.Parameters.AddWithValue("@carddav_sync", cn.CarddavSync);
-						cmd.Parameters.AddWithValue("@entity_id", citizen.Id);
-						cmd.Parameters.AddWithValue("@id", cn.Id);
-
-						batch.BatchCommands.Add(cmd);
-					}
-
-					batch.ExecuteNonQuery();
-				}
-			}
-
 			// save citizen record
 			if (error == 0)
 			{
@@ -700,6 +642,64 @@ namespace Business
 					citizen.UserRelationship.User = Session.User;
 					citizen.UserRelationship.Citizen.Id = Session.User.Citizen.Id;
 					citizen.UserRelationship.RelatedTo.Id = citizen.Id;
+				}
+			}
+
+			// save contacts numbers
+			using (var cmd = new NpgsqlCommand("DELETE FROM contact_numbers WHERE entity_id = @entity_id AND entity_type = 1001;", conn))
+			{
+				cmd.Parameters.AddWithValue("@entity_id", citizen.Id);
+
+				cmd.ExecuteNonQuery();
+			}
+
+			if (error == 0)
+			{
+				TCitizenContactNumber[] phones = new TCitizenContactNumber[] {
+					citizen.Phone,
+					citizen.Phone2,
+					citizen.Phone3,
+					citizen.Cellphone,
+					citizen.CardDavSyncNumber
+				};
+
+				string sql = "";
+
+				sql = @"
+					INSERT INTO
+						contact_numbers(
+							contact_number_type,
+							number,
+							extension,
+							carddav_sync,
+							entity_id,
+							entity_type
+					) VALUES (
+							@type,
+							@number,
+							@extension,
+							@carddav_sync,
+							@entity_id,
+							1001
+					)
+				";
+
+				using (var batch = conn.CreateBatch())
+				{
+					foreach (TCitizenContactNumber cn in phones) {
+						var cmd = new NpgsqlBatchCommand(sql);
+
+						cmd.Parameters.AddWithValue("@type", (int)cn.ContactNumberType);
+						cmd.Parameters.AddWithValue("@number", cn.Number);
+						cmd.Parameters.AddWithValue("@extension", cn.Extension);
+						cmd.Parameters.AddWithValue("@carddav_sync", cn.CarddavSync);
+						cmd.Parameters.AddWithValue("@entity_id", citizen.Id);
+						cmd.Parameters.AddWithValue("@id", cn.Id);
+
+						batch.BatchCommands.Add(cmd);
+					}
+
+					batch.ExecuteNonQuery();
 				}
 			}
 
