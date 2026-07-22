@@ -33,6 +33,8 @@ namespace GCRM
         int CellphoneId;
         int PhoneSyncId;
 
+        int VerificationAuthorId;
+
         public FCitizenData()
         {
             InitializeComponent();
@@ -434,6 +436,8 @@ namespace GCRM
             PhoneSync.Enabled = AccessMode != FAccessMode.Read;
             PhoneSyncExtension.Enabled = AccessMode != FAccessMode.Read;
 
+            Verified.Enabled = AccessMode != FAccessMode.Read;
+
             BAccept.Visible = AccessMode != FAccessMode.Read;
             BCancel.Text = AccessMode != FAccessMode.Read ? "&Cancelar" : "&Cerrar";
         }
@@ -557,6 +561,14 @@ namespace GCRM
                 RelationshipEnabled_CheckedChanged(this, null);
                 KnownStartDate_CheckedChanged(this, null);
                 KnownEndDate_CheckedChanged(this, null);
+
+                VerificationAuthorId = citizen.VerifiedBy.Id;
+                VerificationAuthor.Text = citizen.VerifiedBy.Name;
+                VerificationDate.Value = citizen.Verified ? citizen.VerifiedAt : DateTime.Now;
+
+                Verified.CheckedChanged -= Verified_CheckedChanged;
+                Verified.Checked = citizen.Verified;
+                Verified.CheckedChanged += Verified_CheckedChanged;
 
                 Text = $"Ciudadano - {citizen.FullName}";
             }
@@ -872,6 +884,13 @@ namespace GCRM
                 citizen.KnownPoliticalRegisterDate = KnownPoliticalRegisterDate.Checked;
                 citizen.PoliticalRegisterDate = PoliticalRegisterDate.Value;
 
+                citizen.Verified = Verified.Checked;
+                citizen.VerifiedAt = VerificationDate.Value;
+                citizen.VerifiedBy = new TUser()
+                {
+                    Id = VerificationAuthorId
+                };
+
                 citizen.Assistant = new TCitizen();
 
                 if (ComboBoxAssistant.SelectedValue != null)
@@ -1077,7 +1096,7 @@ namespace GCRM
             if (Insitution2.SelectedValue != null)
             {
                 int institution_id = (int)Insitution2.SelectedValue;
-                
+
                 if (institution_id != 0)
                 {
                     institution_selected = true;
@@ -1394,7 +1413,22 @@ namespace GCRM
 
             SelectInstitutionRoleValue(Institution3Role, DTInstitution3Role, role.Id, role.InstitutionTemplateId);
         }
-    
-        
+
+        private void Verified_CheckedChanged(object sender, EventArgs e)
+        {
+            if (Verified.Checked == true)
+            {
+                if (Utilities.ShowConfirmDialog("¿Desea marcar este ciudadano como verificado? \n\n Al hacer esto asume la responsabilidad en la veracidad del registro") != DialogResult.Yes)
+                {
+                    Verified.Checked = false;
+
+                    return;
+                }
+
+                VerificationAuthorId = Session.User.Id;
+                VerificationAuthor.Text = Session.User.Name;
+                VerificationDate.Value = DateTime.Now;
+            }
+        }
     }
 }

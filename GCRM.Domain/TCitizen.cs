@@ -46,6 +46,10 @@ namespace GCRM.Domain
 
 		public bool AttentionRequired;
 
+		public bool Verified;
+		public DateTime VerifiedAt;
+		public TUser VerifiedBy = new TUser();
+
 		public List<TCitizenRelationship> Relationships = new List<TCitizenRelationship>();
 
 		// this parameter will have the relationship the current user related citizen has with this user
@@ -159,6 +163,7 @@ namespace GCRM.Domain
 			Assistant = new TCitizen();
 			Institution = new TInstitution();
 			UserRelationship = new TCitizenRelationship();
+			VerifiedBy = new TUser();
 
 			Id = reader.GetInt32(0);
 			Name = reader.GetString(1);
@@ -207,6 +212,10 @@ namespace GCRM.Domain
 			KnownBirthday = reader.GetBoolean(41);
 			KnownBirthyear = reader.GetBoolean(42);
 			KnownPoliticalRegisterDate = reader.GetBoolean(43);
+
+			VerifiedBy.Id = reader.IsDBNull(44) ? 0 : reader.GetInt32(44);
+			VerifiedAt = reader.IsDBNull(45) ? DateTime.MinValue : reader.GetDateTime(45);
+			Verified = reader.GetBoolean(46);
 		}
 
 		public void PropertiesToUpper()
@@ -276,6 +285,10 @@ namespace GCRM.Domain
 			log_string.AppendLine($"Role3:           \t{Role3.Id}");
 
 			log_string.AppendLine($"Attention Required:\t{AttentionRequired}");
+
+			log_string.AppendLine($"Verified:        \t{Verified}");
+			log_string.AppendLine($"Verified At:     \t{VerifiedAt}");
+			log_string.AppendLine($"Verified By:     \t{VerifiedBy.Id}");
 
 			log_string.AppendLine($"Voter Code:      \t{VoterCode}");
 			log_string.AppendLine($"Voter OCR:       \t{VoterOCR}");

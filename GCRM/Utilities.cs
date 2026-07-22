@@ -311,6 +311,12 @@ namespace GCRM
 		}
 	}
 
+	public enum DataGridColumnType
+	{
+		TextBox,
+		CheckBox
+	}
+
 	public static class DataGridUtilities
 	{
 		public class DataGridViewColumnConfiguration
@@ -326,13 +332,14 @@ namespace GCRM
 			public List<DataGridViewColumnConfiguration> columns { get; set; }  = new List<DataGridViewColumnConfiguration>();
 		}
 
-		public static DataGridViewColumn AddColumn(DataGridView data_grid, string col_name, string header_text, string data_property_name, bool visible = true, int display_index = 0, int width = 100, int min_width = 20, DataGridViewAutoSizeColumnMode auto_size_mode = DataGridViewAutoSizeColumnMode.None)
+		public static DataGridViewColumn AddColumn(DataGridView data_grid, string col_name, string header_text, string data_property_name, bool visible = true, int display_index = 0, int width = 100, int min_width = 20, DataGridViewAutoSizeColumnMode auto_size_mode = DataGridViewAutoSizeColumnMode.None, DataGridColumnType column_type = DataGridColumnType.TextBox)
 		{
 			DataGridViewColumn column = new DataGridViewColumn();
 
 			// cell template
-			DataGridViewCell cell = new DataGridViewTextBoxCell();
+			DataGridViewCell cell = column_type == DataGridColumnType.CheckBox ? new DataGridViewCheckBoxCell() : new DataGridViewTextBoxCell();
 			column.CellTemplate = cell;
+			column.ReadOnly = column_type == DataGridColumnType.CheckBox;
 
 			// customaizable values
 			column.Name = col_name;

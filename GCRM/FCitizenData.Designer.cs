@@ -149,6 +149,12 @@
             LInstitutionRole = new Label();
             ComboBoxInstitution = new ComboBox();
             LInstitution = new Label();
+            TabOtros = new TabPage();
+            VerificationAuthor = new TextBox();
+            LVerificationAuthor = new Label();
+            LVerificationDate = new Label();
+            VerificationDate = new DateTimePicker();
+            Verified = new CheckBox();
             TabControlCitizen.SuspendLayout();
             TabGeneral.SuspendLayout();
             TabRelationships.SuspendLayout();
@@ -159,12 +165,13 @@
             TabContacto.SuspendLayout();
             TabAddress.SuspendLayout();
             TabRol.SuspendLayout();
+            TabOtros.SuspendLayout();
             SuspendLayout();
             // 
             // BAccept
             // 
             BAccept.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            BAccept.Location = new Point(343, 356);
+            BAccept.Location = new Point(360, 353);
             BAccept.Name = "BAccept";
             BAccept.Size = new Size(75, 23);
             BAccept.TabIndex = 1;
@@ -175,7 +182,7 @@
             // BCancel
             // 
             BCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            BCancel.Location = new Point(421, 356);
+            BCancel.Location = new Point(438, 353);
             BCancel.Name = "BCancel";
             BCancel.Size = new Size(75, 23);
             BCancel.TabIndex = 2;
@@ -192,11 +199,12 @@
             TabControlCitizen.Controls.Add(TabContacto);
             TabControlCitizen.Controls.Add(TabAddress);
             TabControlCitizen.Controls.Add(TabRol);
+            TabControlCitizen.Controls.Add(TabOtros);
             TabControlCitizen.Location = new Point(1, 1);
             TabControlCitizen.MinimumSize = new Size(404, 311);
             TabControlCitizen.Name = "TabControlCitizen";
             TabControlCitizen.SelectedIndex = 0;
-            TabControlCitizen.Size = new Size(505, 349);
+            TabControlCitizen.Size = new Size(522, 346);
             TabControlCitizen.SizeMode = TabSizeMode.Fixed;
             TabControlCitizen.TabIndex = 0;
             // 
@@ -229,7 +237,7 @@
             TabGeneral.Location = new Point(4, 24);
             TabGeneral.Name = "TabGeneral";
             TabGeneral.Padding = new Padding(3);
-            TabGeneral.Size = new Size(497, 321);
+            TabGeneral.Size = new Size(514, 318);
             TabGeneral.TabIndex = 0;
             TabGeneral.Text = "General";
             TabGeneral.UseVisualStyleBackColor = true;
@@ -239,7 +247,7 @@
             BDayYear.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             BDayYear.DropDownStyle = ComboBoxStyle.DropDownList;
             BDayYear.FormattingEnabled = true;
-            BDayYear.Location = new Point(427, 151);
+            BDayYear.Location = new Point(444, 151);
             BDayYear.Name = "BDayYear";
             BDayYear.Size = new Size(64, 23);
             BDayYear.TabIndex = 9;
@@ -249,7 +257,7 @@
             BDayDay.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             BDayDay.DropDownStyle = ComboBoxStyle.DropDownList;
             BDayDay.FormattingEnabled = true;
-            BDayDay.Location = new Point(381, 151);
+            BDayDay.Location = new Point(398, 151);
             BDayDay.Name = "BDayDay";
             BDayDay.Size = new Size(40, 23);
             BDayDay.TabIndex = 8;
@@ -259,7 +267,7 @@
             BDayMonth.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             BDayMonth.DropDownStyle = ComboBoxStyle.DropDownList;
             BDayMonth.FormattingEnabled = true;
-            BDayMonth.Location = new Point(311, 151);
+            BDayMonth.Location = new Point(328, 151);
             BDayMonth.Name = "BDayMonth";
             BDayMonth.Size = new Size(64, 23);
             BDayMonth.TabIndex = 7;
@@ -270,7 +278,7 @@
             KnownBirthday.AutoSize = true;
             KnownBirthday.Checked = true;
             KnownBirthday.CheckState = CheckState.Checked;
-            KnownBirthday.Location = new Point(224, 153);
+            KnownBirthday.Location = new Point(241, 153);
             KnownBirthday.Name = "KnownBirthday";
             KnownBirthday.Size = new Size(88, 19);
             KnownBirthday.TabIndex = 6;
@@ -282,7 +290,7 @@
             // 
             BGenerateCURP.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             BGenerateCURP.Image = Properties.Resources.Fatcow_Farm_Fresh_Widgets_16;
-            BGenerateCURP.Location = new Point(460, 180);
+            BGenerateCURP.Location = new Point(477, 180);
             BGenerateCURP.Name = "BGenerateCURP";
             BGenerateCURP.Size = new Size(31, 23);
             BGenerateCURP.TabIndex = 11;
@@ -306,7 +314,7 @@
             ComboBoxCategory.FormattingEnabled = true;
             ComboBoxCategory.Location = new Point(79, 35);
             ComboBoxCategory.Name = "ComboBoxCategory";
-            ComboBoxCategory.Size = new Size(412, 23);
+            ComboBoxCategory.Size = new Size(429, 23);
             ComboBoxCategory.TabIndex = 1;
             // 
             // MaskedTextBoxCURP
@@ -316,7 +324,7 @@
             MaskedTextBoxCURP.Mask = "AAAAAAAAAAAAAAAAAA";
             MaskedTextBoxCURP.Name = "MaskedTextBoxCURP";
             MaskedTextBoxCURP.PromptChar = ' ';
-            MaskedTextBoxCURP.Size = new Size(375, 23);
+            MaskedTextBoxCURP.Size = new Size(392, 23);
             MaskedTextBoxCURP.TabIndex = 10;
             // 
             // LMaternalName
@@ -333,7 +341,7 @@
             TextBoxMaternalName.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             TextBoxMaternalName.Location = new Point(79, 122);
             TextBoxMaternalName.Name = "TextBoxMaternalName";
-            TextBoxMaternalName.Size = new Size(412, 23);
+            TextBoxMaternalName.Size = new Size(429, 23);
             TextBoxMaternalName.TabIndex = 4;
             // 
             // LPaternalName
@@ -350,7 +358,7 @@
             TextBoxPaternalName.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             TextBoxPaternalName.Location = new Point(79, 93);
             TextBoxPaternalName.Name = "TextBoxPaternalName";
-            TextBoxPaternalName.Size = new Size(412, 23);
+            TextBoxPaternalName.Size = new Size(429, 23);
             TextBoxPaternalName.TabIndex = 3;
             // 
             // ComboBoxPoliticalParty
@@ -399,7 +407,7 @@
             TextBoxObservations.Location = new Point(79, 209);
             TextBoxObservations.Multiline = true;
             TextBoxObservations.Name = "TextBoxObservations";
-            TextBoxObservations.Size = new Size(412, 67);
+            TextBoxObservations.Size = new Size(429, 67);
             TextBoxObservations.TabIndex = 12;
             // 
             // label1
@@ -462,7 +470,7 @@
             TextBoxName.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             TextBoxName.Location = new Point(79, 64);
             TextBoxName.Name = "TextBoxName";
-            TextBoxName.Size = new Size(412, 23);
+            TextBoxName.Size = new Size(429, 23);
             TextBoxName.TabIndex = 2;
             // 
             // TabRelationships
@@ -482,7 +490,7 @@
             TabRelationships.Controls.Add(LAffinity);
             TabRelationships.Location = new Point(4, 24);
             TabRelationships.Name = "TabRelationships";
-            TabRelationships.Size = new Size(497, 321);
+            TabRelationships.Size = new Size(514, 318);
             TabRelationships.TabIndex = 5;
             TabRelationships.Text = "Relación";
             TabRelationships.UseVisualStyleBackColor = true;
@@ -494,7 +502,7 @@
             NumPriorityScore.Location = new Point(65, 89);
             NumPriorityScore.Maximum = new decimal(new int[] { 3, 0, 0, 0 });
             NumPriorityScore.Name = "NumPriorityScore";
-            NumPriorityScore.Size = new Size(423, 23);
+            NumPriorityScore.Size = new Size(440, 23);
             NumPriorityScore.TabIndex = 38;
             NumPriorityScore.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
@@ -546,7 +554,7 @@
             RelationshipNotes.Location = new Point(65, 176);
             RelationshipNotes.Multiline = true;
             RelationshipNotes.Name = "RelationshipNotes";
-            RelationshipNotes.Size = new Size(423, 139);
+            RelationshipNotes.Size = new Size(440, 136);
             RelationshipNotes.TabIndex = 32;
             // 
             // LRelationshipNotes
@@ -596,7 +604,7 @@
             Relationship.FormattingEnabled = true;
             Relationship.Location = new Point(65, 31);
             Relationship.Name = "Relationship";
-            Relationship.Size = new Size(423, 23);
+            Relationship.Size = new Size(440, 23);
             Relationship.TabIndex = 2;
             // 
             // NAffinity
@@ -606,7 +614,7 @@
             NAffinity.Location = new Point(65, 60);
             NAffinity.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
             NAffinity.Name = "NAffinity";
-            NAffinity.Size = new Size(423, 23);
+            NAffinity.Size = new Size(440, 23);
             NAffinity.TabIndex = 1;
             // 
             // LAffinity
@@ -635,7 +643,7 @@
             TabElectoral.Location = new Point(4, 24);
             TabElectoral.Name = "TabElectoral";
             TabElectoral.Padding = new Padding(3);
-            TabElectoral.Size = new Size(497, 321);
+            TabElectoral.Size = new Size(514, 318);
             TabElectoral.TabIndex = 4;
             TabElectoral.Text = "Electoral";
             TabElectoral.UseVisualStyleBackColor = true;
@@ -659,7 +667,7 @@
             PoliticalRegisterDate.Format = DateTimePickerFormat.Custom;
             PoliticalRegisterDate.Location = new Point(277, 278);
             PoliticalRegisterDate.Name = "PoliticalRegisterDate";
-            PoliticalRegisterDate.Size = new Size(211, 23);
+            PoliticalRegisterDate.Size = new Size(228, 23);
             PoliticalRegisterDate.TabIndex = 11;
             // 
             // IsPoliticalActivist
@@ -679,7 +687,7 @@
             pictureBox1.Image = Properties.Resources.credencial_modeloEG;
             pictureBox1.Location = new Point(10, 6);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(478, 128);
+            pictureBox1.Size = new Size(495, 125);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 8;
             pictureBox1.TabStop = false;
@@ -689,7 +697,7 @@
             VoterSection.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             VoterSection.Location = new Point(132, 227);
             VoterSection.Name = "VoterSection";
-            VoterSection.Size = new Size(356, 23);
+            VoterSection.Size = new Size(373, 23);
             VoterSection.TabIndex = 3;
             // 
             // LVoterSection
@@ -706,7 +714,7 @@
             VoterCIC.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             VoterCIC.Location = new Point(132, 198);
             VoterCIC.Name = "VoterCIC";
-            VoterCIC.Size = new Size(356, 23);
+            VoterCIC.Size = new Size(373, 23);
             VoterCIC.TabIndex = 2;
             // 
             // LVoterCIC
@@ -723,7 +731,7 @@
             VoterOCR.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             VoterOCR.Location = new Point(132, 169);
             VoterOCR.Name = "VoterOCR";
-            VoterOCR.Size = new Size(356, 23);
+            VoterOCR.Size = new Size(373, 23);
             VoterOCR.TabIndex = 1;
             // 
             // LVoterOCR
@@ -740,7 +748,7 @@
             VoterCode.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             VoterCode.Location = new Point(132, 140);
             VoterCode.Name = "VoterCode";
-            VoterCode.Size = new Size(356, 23);
+            VoterCode.Size = new Size(373, 23);
             VoterCode.TabIndex = 0;
             // 
             // LElectorCode
@@ -783,7 +791,7 @@
             TabContacto.Location = new Point(4, 24);
             TabContacto.Name = "TabContacto";
             TabContacto.Padding = new Padding(3);
-            TabContacto.Size = new Size(497, 321);
+            TabContacto.Size = new Size(514, 318);
             TabContacto.TabIndex = 1;
             TabContacto.Text = "Contacto";
             TabContacto.UseVisualStyleBackColor = true;
@@ -791,7 +799,7 @@
             // PhoneSyncExtension
             // 
             PhoneSyncExtension.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            PhoneSyncExtension.Location = new Point(390, 276);
+            PhoneSyncExtension.Location = new Point(407, 276);
             PhoneSyncExtension.Name = "PhoneSyncExtension";
             PhoneSyncExtension.Size = new Size(101, 23);
             PhoneSyncExtension.TabIndex = 51;
@@ -800,7 +808,7 @@
             // 
             label3.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label3.AutoSize = true;
-            label3.Location = new Point(359, 279);
+            label3.Location = new Point(376, 279);
             label3.Name = "label3";
             label3.Size = new Size(25, 15);
             label3.TabIndex = 53;
@@ -811,7 +819,7 @@
             PhoneSync.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             PhoneSync.Location = new Point(97, 276);
             PhoneSync.Name = "PhoneSync";
-            PhoneSync.Size = new Size(256, 23);
+            PhoneSync.Size = new Size(273, 23);
             PhoneSync.TabIndex = 50;
             // 
             // LPhoneSync
@@ -836,7 +844,7 @@
             // Phone3Extension
             // 
             Phone3Extension.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            Phone3Extension.Location = new Point(390, 67);
+            Phone3Extension.Location = new Point(407, 67);
             Phone3Extension.Name = "Phone3Extension";
             Phone3Extension.Size = new Size(101, 23);
             Phone3Extension.TabIndex = 46;
@@ -845,7 +853,7 @@
             // 
             LPhone3Extension.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             LPhone3Extension.AutoSize = true;
-            LPhone3Extension.Location = new Point(359, 70);
+            LPhone3Extension.Location = new Point(376, 70);
             LPhone3Extension.Name = "LPhone3Extension";
             LPhone3Extension.Size = new Size(25, 15);
             LPhone3Extension.TabIndex = 48;
@@ -856,7 +864,7 @@
             Phone3.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             Phone3.Location = new Point(97, 67);
             Phone3.Name = "Phone3";
-            Phone3.Size = new Size(256, 23);
+            Phone3.Size = new Size(273, 23);
             Phone3.TabIndex = 45;
             // 
             // LPhone3
@@ -871,7 +879,7 @@
             // Phone2Extension
             // 
             Phone2Extension.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            Phone2Extension.Location = new Point(390, 38);
+            Phone2Extension.Location = new Point(407, 38);
             Phone2Extension.Name = "Phone2Extension";
             Phone2Extension.Size = new Size(101, 23);
             Phone2Extension.TabIndex = 42;
@@ -880,7 +888,7 @@
             // 
             LPhone2Extension.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             LPhone2Extension.AutoSize = true;
-            LPhone2Extension.Location = new Point(359, 41);
+            LPhone2Extension.Location = new Point(376, 41);
             LPhone2Extension.Name = "LPhone2Extension";
             LPhone2Extension.Size = new Size(25, 15);
             LPhone2Extension.TabIndex = 44;
@@ -891,7 +899,7 @@
             Phone2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             Phone2.Location = new Point(97, 38);
             Phone2.Name = "Phone2";
-            Phone2.Size = new Size(256, 23);
+            Phone2.Size = new Size(273, 23);
             Phone2.TabIndex = 41;
             // 
             // LPhone2
@@ -908,7 +916,7 @@
             TextBoxEmail.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             TextBoxEmail.Location = new Point(97, 125);
             TextBoxEmail.Name = "TextBoxEmail";
-            TextBoxEmail.Size = new Size(394, 23);
+            TextBoxEmail.Size = new Size(411, 23);
             TextBoxEmail.TabIndex = 3;
             // 
             // LEmail
@@ -969,7 +977,7 @@
             ComboBoxAssistant.FormattingEnabled = true;
             ComboBoxAssistant.Location = new Point(97, 154);
             ComboBoxAssistant.Name = "ComboBoxAssistant";
-            ComboBoxAssistant.Size = new Size(394, 23);
+            ComboBoxAssistant.Size = new Size(411, 23);
             ComboBoxAssistant.TabIndex = 4;
             ComboBoxAssistant.SelectedIndexChanged += ComboBoxAssistant_SelectedIndexChanged;
             // 
@@ -978,7 +986,7 @@
             TextBoxCellphone.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             TextBoxCellphone.Location = new Point(97, 96);
             TextBoxCellphone.Name = "TextBoxCellphone";
-            TextBoxCellphone.Size = new Size(256, 23);
+            TextBoxCellphone.Size = new Size(273, 23);
             TextBoxCellphone.TabIndex = 2;
             // 
             // LCellphone
@@ -993,7 +1001,7 @@
             // TextBoxPhoneExtension
             // 
             TextBoxPhoneExtension.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            TextBoxPhoneExtension.Location = new Point(390, 9);
+            TextBoxPhoneExtension.Location = new Point(407, 9);
             TextBoxPhoneExtension.Name = "TextBoxPhoneExtension";
             TextBoxPhoneExtension.Size = new Size(101, 23);
             TextBoxPhoneExtension.TabIndex = 1;
@@ -1002,7 +1010,7 @@
             // 
             LPhoneExtension.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             LPhoneExtension.AutoSize = true;
-            LPhoneExtension.Location = new Point(359, 12);
+            LPhoneExtension.Location = new Point(376, 12);
             LPhoneExtension.Name = "LPhoneExtension";
             LPhoneExtension.Size = new Size(25, 15);
             LPhoneExtension.TabIndex = 16;
@@ -1013,7 +1021,7 @@
             TextBoxPhone.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             TextBoxPhone.Location = new Point(97, 9);
             TextBoxPhone.Name = "TextBoxPhone";
-            TextBoxPhone.Size = new Size(256, 23);
+            TextBoxPhone.Size = new Size(273, 23);
             TextBoxPhone.TabIndex = 0;
             // 
             // LPhone
@@ -1047,7 +1055,7 @@
             TabAddress.Location = new Point(4, 24);
             TabAddress.Name = "TabAddress";
             TabAddress.Padding = new Padding(3);
-            TabAddress.Size = new Size(497, 321);
+            TabAddress.Size = new Size(514, 318);
             TabAddress.TabIndex = 3;
             TabAddress.Text = "Dirección";
             TabAddress.UseVisualStyleBackColor = true;
@@ -1057,7 +1065,7 @@
             TextBoxDistrict.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             TextBoxDistrict.Location = new Point(54, 67);
             TextBoxDistrict.Name = "TextBoxDistrict";
-            TextBoxDistrict.Size = new Size(434, 23);
+            TextBoxDistrict.Size = new Size(451, 23);
             TextBoxDistrict.TabIndex = 38;
             // 
             // LDistrict
@@ -1185,7 +1193,7 @@
             TextBoxStreet.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             TextBoxStreet.Location = new Point(54, 9);
             TextBoxStreet.Name = "TextBoxStreet";
-            TextBoxStreet.Size = new Size(437, 23);
+            TextBoxStreet.Size = new Size(454, 23);
             TextBoxStreet.TabIndex = 0;
             // 
             // LStreet
@@ -1222,7 +1230,7 @@
             TabRol.Location = new Point(4, 24);
             TabRol.Name = "TabRol";
             TabRol.Padding = new Padding(3);
-            TabRol.Size = new Size(497, 321);
+            TabRol.Size = new Size(514, 318);
             TabRol.TabIndex = 2;
             TabRol.Text = "Cargos";
             TabRol.UseVisualStyleBackColor = true;
@@ -1294,7 +1302,7 @@
             Institution3Role.FormattingEnabled = true;
             Institution3Role.Location = new Point(83, 261);
             Institution3Role.Name = "Institution3Role";
-            Institution3Role.Size = new Size(330, 23);
+            Institution3Role.Size = new Size(347, 23);
             Institution3Role.TabIndex = 49;
             // 
             // LInstitution3Role
@@ -1315,7 +1323,7 @@
             Institution3.FormattingEnabled = true;
             Institution3.Location = new Point(83, 211);
             Institution3.Name = "Institution3";
-            Institution3.Size = new Size(408, 23);
+            Institution3.Size = new Size(425, 23);
             Institution3.TabIndex = 47;
             Institution3.SelectedValueChanged += Institution3_SelectedValueChanged;
             // 
@@ -1346,7 +1354,7 @@
             Institution2Role.FormattingEnabled = true;
             Institution2Role.Location = new Point(83, 160);
             Institution2Role.Name = "Institution2Role";
-            Institution2Role.Size = new Size(330, 23);
+            Institution2Role.Size = new Size(347, 23);
             Institution2Role.TabIndex = 43;
             // 
             // LInsitution2Role
@@ -1367,7 +1375,7 @@
             Insitution2.FormattingEnabled = true;
             Insitution2.Location = new Point(83, 110);
             Insitution2.Name = "Insitution2";
-            Insitution2.Size = new Size(408, 23);
+            Insitution2.Size = new Size(425, 23);
             Insitution2.TabIndex = 41;
             Insitution2.SelectedValueChanged += Insitution2_SelectedValueChanged;
             // 
@@ -1398,7 +1406,7 @@
             ComboBoxInstitutionRole.FormattingEnabled = true;
             ComboBoxInstitutionRole.Location = new Point(83, 59);
             ComboBoxInstitutionRole.Name = "ComboBoxInstitutionRole";
-            ComboBoxInstitutionRole.Size = new Size(330, 23);
+            ComboBoxInstitutionRole.Size = new Size(347, 23);
             ComboBoxInstitutionRole.TabIndex = 3;
             // 
             // LInstitutionRole
@@ -1419,7 +1427,7 @@
             ComboBoxInstitution.FormattingEnabled = true;
             ComboBoxInstitution.Location = new Point(83, 9);
             ComboBoxInstitution.Name = "ComboBoxInstitution";
-            ComboBoxInstitution.Size = new Size(408, 23);
+            ComboBoxInstitution.Size = new Size(425, 23);
             ComboBoxInstitution.TabIndex = 1;
             ComboBoxInstitution.SelectedValueChanged += ComboBoxInstitution_SelectedValueChanged;
             // 
@@ -1432,13 +1440,74 @@
             LInstitution.TabIndex = 0;
             LInstitution.Text = "Institución";
             // 
+            // TabOtros
+            // 
+            TabOtros.Controls.Add(VerificationAuthor);
+            TabOtros.Controls.Add(LVerificationAuthor);
+            TabOtros.Controls.Add(LVerificationDate);
+            TabOtros.Controls.Add(VerificationDate);
+            TabOtros.Controls.Add(Verified);
+            TabOtros.Location = new Point(4, 24);
+            TabOtros.Name = "TabOtros";
+            TabOtros.Size = new Size(514, 318);
+            TabOtros.TabIndex = 6;
+            TabOtros.Text = "Otros";
+            TabOtros.UseVisualStyleBackColor = true;
+            // 
+            // VerificationAuthor
+            // 
+            VerificationAuthor.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            VerificationAuthor.Enabled = false;
+            VerificationAuthor.Location = new Point(127, 73);
+            VerificationAuthor.Name = "VerificationAuthor";
+            VerificationAuthor.Size = new Size(378, 23);
+            VerificationAuthor.TabIndex = 51;
+            // 
+            // LVerificationAuthor
+            // 
+            LVerificationAuthor.AutoSize = true;
+            LVerificationAuthor.Location = new Point(41, 78);
+            LVerificationAuthor.Name = "LVerificationAuthor";
+            LVerificationAuthor.Size = new Size(80, 15);
+            LVerificationAuthor.TabIndex = 47;
+            LVerificationAuthor.Text = "Verificado por";
+            // 
+            // LVerificationDate
+            // 
+            LVerificationDate.AutoSize = true;
+            LVerificationDate.Location = new Point(19, 50);
+            LVerificationDate.Name = "LVerificationDate";
+            LVerificationDate.Size = new Size(102, 15);
+            LVerificationDate.TabIndex = 46;
+            LVerificationDate.Text = "Fecha verificación";
+            // 
+            // VerificationDate
+            // 
+            VerificationDate.Enabled = false;
+            VerificationDate.Format = DateTimePickerFormat.Short;
+            VerificationDate.Location = new Point(127, 44);
+            VerificationDate.Name = "VerificationDate";
+            VerificationDate.Size = new Size(378, 23);
+            VerificationDate.TabIndex = 45;
+            // 
+            // Verified
+            // 
+            Verified.AutoSize = true;
+            Verified.Location = new Point(127, 19);
+            Verified.Name = "Verified";
+            Verified.Size = new Size(78, 19);
+            Verified.TabIndex = 44;
+            Verified.Text = "Verificado";
+            Verified.UseVisualStyleBackColor = true;
+            Verified.CheckedChanged += Verified_CheckedChanged;
+            // 
             // FCitizenData
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            ClientSize = new Size(505, 389);
+            ClientSize = new Size(522, 386);
             ControlBox = false;
             Controls.Add(TabControlCitizen);
             Controls.Add(BCancel);
@@ -1467,6 +1536,8 @@
             TabAddress.PerformLayout();
             TabRol.ResumeLayout(false);
             TabRol.PerformLayout();
+            TabOtros.ResumeLayout(false);
+            TabOtros.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -1593,5 +1664,11 @@
         private Button BNuevoCargo1;
         private Button BNuevoCargo3;
         private Button BNuevoCargo2;
+        private TabPage TabOtros;
+        private Label LVerificationDate;
+        private DateTimePicker VerificationDate;
+        private CheckBox Verified;
+        private Label LVerificationAuthor;
+        private TextBox VerificationAuthor;
     }
 }

@@ -106,6 +106,10 @@ namespace Business
 					c.known_birthyear,
 					c.known_political_register_date,
 
+					c.verified_by_id,
+					c.verified_at,
+					c.verified,
+
 					a.id AS address_id,
 					a.street AS address_street,
 					a.number AS address_number,
@@ -203,6 +207,9 @@ namespace Business
 
 						if (error == 0 && citizen.Role3.Id != 0)
 							error = InstitutionsHandler.GetInstitutionRoleById(citizen.Role3.Id, citizen.Role3.IsTemplateRole, out citizen.Role3);
+
+						if (error == 0 && citizen.VerifiedBy.Id != 0)
+							error = UsersHandler.GetUserById(citizen.VerifiedBy.Id, out citizen.VerifiedBy);
 
 						if (error == 0)
 						{
@@ -487,7 +494,10 @@ namespace Business
 								institution3_template_role_id = @institution3_template_role_id,
 								known_birthday = @known_birthday,
 								known_birthyear = @known_birthyear,
-								known_political_register_date = @known_political_register_date
+								known_political_register_date = @known_political_register_date,
+								verified_by_id = @verified_by_id,
+								verified_at = @verified_at,
+								verified = @verified
 							WHERE
 								id=@id;";
 					}
@@ -535,8 +545,11 @@ namespace Business
 								institution_template_role_id,
 								institution2_template_role_id,
 								institution3_template_role_id,
-								known_birthday,	
-								known_birthyear
+								known_birthday,
+								known_birthyear,
+								verified_by_id,
+								verified_at,
+								verified
 							)
 							VALUES(
 								@name, 
@@ -576,12 +589,15 @@ namespace Business
 								-- @phone2_extension,
 								-- @phone3,
 								-- @phone3_extension,
-								@institution_template_role_id,		
-								@institution2_template_role_id,	
+								@institution_template_role_id,
+								@institution2_template_role_id,
 								@institution3_template_role_id,
 								@known_birthday,
-								@known_birthyear
-							) 
+								@known_birthyear,
+								@verified_by_id,
+								@verified_at,
+								@verified
+							)
 							RETURNING id;";
 					}
 
@@ -629,6 +645,9 @@ namespace Business
 					cmd.Parameters.AddWithValue("@known_birthday", citizen.KnownBirthday);
 					cmd.Parameters.AddWithValue("@known_birthyear", citizen.KnownBirthyear);
 					cmd.Parameters.AddWithValue("@known_political_register_date", citizen.KnownPoliticalRegisterDate);
+					cmd.Parameters.AddWithValue("@verified_by_id", citizen.VerifiedBy.Id == 0 ? (object)DBNull.Value : citizen.VerifiedBy.Id);
+					cmd.Parameters.AddWithValue("@verified_at", citizen.Verified ? (object)citizen.VerifiedAt : DBNull.Value);
+					cmd.Parameters.AddWithValue("@verified", citizen.Verified);
 
 					if (is_update)
 					{
@@ -832,6 +851,7 @@ namespace Business
 					-- c_self.cellphone as assistant_cellphone,
 					cc.name as category_name,
 					u2.name as editor_name,
+					u3.name as verified_by_name,
 
 					i2.name as institution2_name,
 					i2.society_sector_type as institution2_society_sector_type,
@@ -861,8 +881,9 @@ namespace Business
 					citizens c 
 					LEFT JOIN citizen_categories cc ON c.citizen_category_id = cc.id
 					LEFT JOIN citizens c_self ON c.assistant_id = c_self.id
-					LEFT JOIN users u ON c.created_by_id = u.id 
+					LEFT JOIN users u ON c.created_by_id = u.id
 					LEFT JOIN users u2 ON c.edit_by_id = u2.id
+					LEFT JOIN users u3 ON c.verified_by_id = u3.id
 
 					LEFT JOIN normalized_ranked_contact_numbers nrcn ON (c.id = nrcn.entity_id)
 
@@ -1012,6 +1033,11 @@ namespace Business
 						if (citizen.LastEditor.Id != 0)
 						{
 							citizen.LastEditor.Name = reader.GetString("editor_name");
+						}
+
+						if (citizen.VerifiedBy.Id != 0)
+						{
+							citizen.VerifiedBy.Name = reader.GetString("verified_by_name");
 						}
 
 						if (citizen.Category.Id != 0)

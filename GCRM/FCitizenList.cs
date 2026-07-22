@@ -43,6 +43,9 @@ namespace GCRM
 			DataGridUtilities.AddColumn(DataGridCitizens, "colBirthday", "Nacimiento", "birthday_displayed", false, display_index++, 20, 20);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colAuthorName", "Autor", "author_name", true, display_index++, 150, 20);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colEditorName", "Último editor", "editor_name", true, display_index++, 150, 20);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colVerified", "Verificado", "verified", true, display_index++, 80, 20, DataGridViewAutoSizeColumnMode.None, DataGridColumnType.CheckBox);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colVerifiedByName", "Verificado por", "verified_by_name", true, display_index++, 150, 20);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colVerifiedDate", "Fecha verificación", "verified_at", true, display_index++, 100, 20);
 
 			// hidden by default
 			DataGridUtilities.AddColumn(DataGridCitizens, "colCategoryName", "Categoría", "category_name", false, display_index++, 100, 20);
@@ -96,6 +99,7 @@ namespace GCRM
 			DataGridUtilities.AddColumn(DataGridCitizens, "colAssistantId", "Id Asistente", "assistant_id", false, display_index++);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colAuthorId", "Id Autor", "author_id", false, display_index++);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colLastEditorId", "Id Último Editor", "editor_id", false, display_index++);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colVerifiedById", "Id Verificado por", "verified_by_id", false, display_index++);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colCategoryId", "Categoría Id", "category_id", false, display_index++);
 
 
@@ -183,6 +187,11 @@ namespace GCRM
 			DTCitizens.Columns.Add("editor_id", typeof(int));
 			DTCitizens.Columns.Add("editor_name", typeof(string));
 			DTCitizens.Columns.Add("edited_date", typeof(DateTime));
+
+			DTCitizens.Columns.Add("verified", typeof(bool));
+			DTCitizens.Columns.Add("verified_by_id", typeof(int));
+			DTCitizens.Columns.Add("verified_by_name", typeof(string));
+			DTCitizens.Columns.Add("verified_at", typeof(DateTime));
 
 			DTCitizens.Columns.Add("category_id", typeof(int));
 			DTCitizens.Columns.Add("category_name", typeof(string));
@@ -360,6 +369,11 @@ namespace GCRM
 					row["editor_id"] = citizen.LastEditor.Id;
 					row["editor_name"] = citizen.LastEditor.Name;
 					row["edited_date"] = citizen.EditDate;
+
+					row["verified"] = citizen.Verified;
+					row["verified_by_id"] = citizen.VerifiedBy.Id;
+					row["verified_by_name"] = citizen.VerifiedBy.Name ?? "";
+					row["verified_at"] = citizen.VerifiedAt;
 
 					row["category_id"] = citizen.Category.Id;
 					row["category_name"] = citizen.Category.Name;
