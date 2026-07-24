@@ -23,6 +23,8 @@ namespace Business
 
 				new TUserPermission(81, "EventLog.Consultar"),
 
+				new TUserPermission(91, "Backups.Consultar"),
+
 				// user related permissions
 				new TUserPermission(101, "Usuarios.Editar"),							// editar usuarios
 				new TUserPermission(102, "Usuarios.Consultar"),						// consultar la lista de todos los usuarios
