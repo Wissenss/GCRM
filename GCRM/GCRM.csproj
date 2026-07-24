@@ -103,6 +103,9 @@
     <None Update="SQL\create_schema.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="SQL\query_citizen_count_per_category.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="SQL\query_institution_created_by_user.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
