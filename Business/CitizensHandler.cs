@@ -27,10 +27,12 @@ namespace Business
 						cn.number,
 						cn.extension,
 						cn.carddav_sync,
-						ROW_NUMBER() OVER (PARTITION BY cn.entity_id ORDER BY cn.id) AS row_number
-					FROM 
+						cn.contact_number_type,
+						ROW_NUMBER() OVER (PARTITION BY cn.entity_id ORDER BY cn.id) AS row_number,
+						ROW_NUMBER() OVER (PARTITION BY cn.entity_id, cn.contact_number_type ORDER BY cn.id) AS type_row_number
+					FROM
 						contact_numbers cn
-					WHERE 
+					WHERE
 						entity_type = 1001 AND entity_id = @id
 				),
 
@@ -46,8 +48,8 @@ namespace Business
 						MAX(CASE WHEN row_number = 3 THEN id END)                AS phone3_id,						
 						MAX(CASE WHEN row_number = 3 THEN number END)            AS phone3_number,
 						MAX(CASE WHEN row_number = 3 THEN extension END)         AS phone3_number_extension,
-						MAX(CASE WHEN row_number = 4 THEN id END)                AS cellphone_id,						
-						MAX(CASE WHEN row_number = 4 THEN number END)            AS cellphone,
+						MAX(CASE WHEN contact_number_type = 20 AND type_row_number = 1 THEN id END)     AS cellphone_id,
+						MAX(CASE WHEN contact_number_type = 20 AND type_row_number = 1 THEN number END) AS cellphone,
 						MAX(CASE WHEN row_number = 5 THEN id END)                AS carddav_sync_id,
 						MAX(CASE WHEN row_number = 5 THEN carddav_sync::int END) AS carddav_sync_enabled,
 						MAX(CASE WHEN row_number = 5 THEN number END)            AS carddav_sync_number,
@@ -786,10 +788,12 @@ namespace Business
 						cn.number,
 						cn.extension,
 						cn.carddav_sync,
-						ROW_NUMBER() OVER (PARTITION BY cn.entity_id ORDER BY cn.id) AS row_number
-					FROM 
+						cn.contact_number_type,
+						ROW_NUMBER() OVER (PARTITION BY cn.entity_id ORDER BY cn.id) AS row_number,
+						ROW_NUMBER() OVER (PARTITION BY cn.entity_id, cn.contact_number_type ORDER BY cn.id) AS type_row_number
+					FROM
 						contact_numbers cn
-					WHERE 
+					WHERE
 						entity_type = 1001
 				),
 
@@ -802,7 +806,7 @@ namespace Business
 						MAX(CASE WHEN row_number = 2 THEN extension END) AS phone2_number_extension,
 						MAX(CASE WHEN row_number = 3 THEN number END)    AS phone3_number,
 						MAX(CASE WHEN row_number = 3 THEN extension END) AS phone3_number_extension,
-						MAX(CASE WHEN row_number = 4 THEN number END)    AS cellphone,
+						MAX(CASE WHEN contact_number_type = 20 AND type_row_number = 1 THEN number END) AS cellphone,
 						MAX(CASE WHEN row_number = 5 THEN carddav_sync::int END) AS carddav_sync_enabled,
 						MAX(CASE WHEN row_number = 5 THEN number END)    AS carddav_sync_number,
 						MAX(CASE WHEN row_number = 5 THEN extension END) AS carddav_sync_extension
@@ -838,7 +842,7 @@ namespace Business
 					COALESCE(nrcn.phone2_number_extension, '') AS phone2_number_extension,
 					COALESCE(nrcn.phone3_number, '') AS phone3_number,
 					COALESCE(nrcn.phone3_number_extension, '') AS phone3_number_extension,
-					COALESCE(nrcn.cellphone, '') AS cellphone,
+					COALESCE(nrcn.cellphone, '') AS contact_cellphone,
 					COALESCE(nrcn.carddav_sync_number, '') AS carddav_sync_number,
 					COALESCE(nrcn.carddav_sync_extension, '') AS carddav_sync_extension,
 					COALESCE(nrcn.carddav_sync_enabled, 0) <> 0 AS carddav_sync_enabled,
@@ -1051,7 +1055,7 @@ namespace Business
 						citizen.Phone2.Extension = reader.GetString("phone2_number_extension");
 						citizen.Phone3.Number = reader.GetString("phone3_number");
 						citizen.Phone3.Extension = reader.GetString("phone3_number_extension");
-						citizen.Cellphone.Number = reader.GetString("cellphone");
+						citizen.Cellphone.Number = reader.GetString("contact_cellphone");
 						citizen.CardDavSyncNumber.Number = reader.GetString("carddav_sync_number");
 						citizen.CardDavSyncNumber.Extension = reader.GetString("carddav_sync_extension");
 						citizen.CardDavSyncNumber.CarddavSync = reader.GetBoolean("carddav_sync_enabled");
