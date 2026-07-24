@@ -1237,8 +1237,9 @@
             // 
             // BNuevoCargo3
             // 
+            BNuevoCargo3.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             BNuevoCargo3.Enabled = false;
-            BNuevoCargo3.Location = new Point(419, 261);
+            BNuevoCargo3.Location = new Point(433, 261);
             BNuevoCargo3.Name = "BNuevoCargo3";
             BNuevoCargo3.Size = new Size(72, 23);
             BNuevoCargo3.TabIndex = 55;
@@ -1248,8 +1249,9 @@
             // 
             // BNuevoCargo2
             // 
+            BNuevoCargo2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             BNuevoCargo2.Enabled = false;
-            BNuevoCargo2.Location = new Point(419, 160);
+            BNuevoCargo2.Location = new Point(433, 160);
             BNuevoCargo2.Name = "BNuevoCargo2";
             BNuevoCargo2.Size = new Size(72, 23);
             BNuevoCargo2.TabIndex = 54;
@@ -1259,8 +1261,9 @@
             // 
             // BNuevoCargo1
             // 
+            BNuevoCargo1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             BNuevoCargo1.Enabled = false;
-            BNuevoCargo1.Location = new Point(419, 58);
+            BNuevoCargo1.Location = new Point(433, 58);
             BNuevoCargo1.Name = "BNuevoCargo1";
             BNuevoCargo1.Size = new Size(72, 23);
             BNuevoCargo1.TabIndex = 53;
