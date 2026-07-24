@@ -83,6 +83,8 @@ namespace Business
 			{ Error.CitizenWithSameName, "Existe un ciudadano con el mismo nombre" },
 			{ Error.CitizenInUse, "Ciudadano esta siendo utilizado" },
 			{ Error.CitizenInUseOnNetwork, "El ciudadno esta siendo utilizado en una red ciudadana"},
+			{ Error.CitizenCategoryNotFound, "Categoría de ciudadano no encontrada" },
+			{ Error.CitizenCategoryInUse, "Categoría de ciudadano esta siendo utilizada" },
 			{ Error.CitizenRelationshipNotFound, "Relacion ciudadana no encontrada" },
 			{ Error.CitizenRelationshipRoleNotFound, "Rol de relación ciudadana no encontrado" },
 			{ Error.InstitutionNotFound, "Institución no encontrada" },

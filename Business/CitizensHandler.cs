@@ -1460,7 +1460,7 @@ namespace Business
 		{
 			var conn = ConnectionPool.GetConnection();
 
-			using (var cmd = new NpgsqlCommand("SELECT * FROM citizens WHERE citizen_category_id = @id;"))
+			using (var cmd = new NpgsqlCommand("SELECT COUNT(*) FROM citizens WHERE citizen_category_id = @id;", conn))
 			{
 				cmd.Parameters.AddWithValue("@id", id);
 
@@ -1472,7 +1472,7 @@ namespace Business
 					return Error.CitizenCategoryInUse;
 				}
 
-				cmd.CommandText = "DELETE citizen_categories WHERE id = @id;";
+				cmd.CommandText = "DELETE FROM citizen_categories WHERE id = @id;";
 				cmd.ExecuteNonQuery();
 			}
 
