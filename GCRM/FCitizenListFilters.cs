@@ -38,11 +38,14 @@ namespace GCRM
 		public int BirthdayDay = DateTime.Now.Day;
 		public bool FilterCategory;
 		public int CategoryId;
+		public bool FilterStatus;
+		public int Status;
 
 		DataSet DSFilters;
 		DataTable DTYears;
 		DataTable DTMonths;
 		DataTable DTDays;
+		DataTable DTStatus;
 
 		public FCitizenListFilters()
 		{
@@ -62,6 +65,11 @@ namespace GCRM
 			DTDays = new DataTable("DTDays");
 			DTDays.Columns.Add("value", typeof(int));
 			DSFilters.Tables.Add(DTDays);
+
+			DTStatus = new DataTable("DTStatus");
+			DTStatus.Columns.Add("value", typeof(int));
+			DTStatus.Columns.Add("text", typeof(string));
+			DSFilters.Tables.Add(DTStatus);
 		}
 
 		private void LoadDTYears()
@@ -118,6 +126,26 @@ namespace GCRM
 			DTDays.EndLoadData();
 
 			ComboBoxBirthdayDay.SelectedValue = DateTime.Now.Day;
+		}
+
+		private void LoadDTStatus()
+		{
+			DTStatus.BeginLoadData();
+			DTStatus.Clear();
+
+			DataRow r1 = DTStatus.NewRow();
+			r1["value"] = 1;
+			r1["text"] = "Verificados";
+			DTStatus.Rows.Add(r1);
+
+			DataRow r2 = DTStatus.NewRow();
+			r2["value"] = 1;
+			r2["text"] = "No verificados";
+			DTStatus.Rows.Add(r1);
+			
+			DTStatus.EndLoadData();
+
+			ComboBoxStatus.SelectedValue = 1;
 		}
 
 		private bool ValidateInput()
@@ -199,7 +227,7 @@ namespace GCRM
 
 		private void FCitizenListFilters_Shown(object sender, EventArgs e)
 		{
-			
+
 		}
 
 		private void BCancel_Click(object sender, EventArgs e)
@@ -287,6 +315,7 @@ namespace GCRM
 				LoadDTYears();
 				LoadDTMonths();
 				LoadDTDays();
+				LoadDTStatus();
 
 				// bind the comboboxes
 				ComboBoxCitizenTitle.DataSource = Catalogs.DTCitizenTitles;

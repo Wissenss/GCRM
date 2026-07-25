@@ -524,6 +524,18 @@ namespace GCRM
 			if (FiltersDlg.FilterCategory)
 				filtros += $"Categoría = {FiltersDlg.CategoryId}, ";
 
+			if (FiltersDlg.FilterStatus)
+			{
+				if (FiltersDlg.Status == 1)
+				{
+					filtros += $"Verificados, ";
+				}
+				else if (FiltersDlg.Status == 2)
+				{
+					filtros += $"No verificados, ";
+				}
+			}
+
 			if (filtros.Length > 0)
 			{
 				TSSLFilters.Text = $"  Filtros: {filtros.TrimEnd(',', ' ')}";
@@ -573,6 +585,18 @@ namespace GCRM
 
 			if (FiltersDlg.FilterCategory)
 				filter += $" and category_id = {FiltersDlg.CategoryId}";
+
+			if (FiltersDlg.FilterStatus)
+			{
+				if (FiltersDlg.Status == 1)
+				{
+					filter += $" and verificado = true";
+				}
+				else if (FiltersDlg.Status == 2)
+				{
+					filter += $" and verificado = false";
+				}
+			}
 
 			DTCitizens.DefaultView.RowFilter = filter;
 

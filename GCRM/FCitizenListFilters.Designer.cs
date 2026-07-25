@@ -51,6 +51,8 @@
 			ComboBoxCategory = new ComboBox();
 			CheckBoxFilterCategory = new CheckBox();
 			BSelectInstitution = new Button();
+			CheckBoxFilterStatus = new CheckBox();
+			ComboBoxStatus = new ComboBox();
 			SuspendLayout();
 			// 
 			// CheckBoxFilterParty
@@ -78,7 +80,7 @@
 			// BCancel
 			// 
 			BCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-			BCancel.Location = new Point(278, 309);
+			BCancel.Location = new Point(278, 339);
 			BCancel.Name = "BCancel";
 			BCancel.Size = new Size(75, 23);
 			BCancel.TabIndex = 3;
@@ -89,7 +91,7 @@
 			// BAccept
 			// 
 			BAccept.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-			BAccept.Location = new Point(197, 309);
+			BAccept.Location = new Point(197, 339);
 			BAccept.Name = "BAccept";
 			BAccept.Size = new Size(75, 23);
 			BAccept.TabIndex = 2;
@@ -308,12 +310,35 @@
 			BSelectInstitution.UseVisualStyleBackColor = true;
 			BSelectInstitution.Click += BSelectInstitution_Click;
 			// 
+			// CheckBoxFilterStatus
+			// 
+			CheckBoxFilterStatus.AutoSize = true;
+			CheckBoxFilterStatus.Location = new Point(12, 302);
+			CheckBoxFilterStatus.Name = "CheckBoxFilterStatus";
+			CheckBoxFilterStatus.Size = new Size(61, 19);
+			CheckBoxFilterStatus.TabIndex = 23;
+			CheckBoxFilterStatus.Text = "Estado";
+			CheckBoxFilterStatus.UseVisualStyleBackColor = true;
+			// 
+			// ComboBoxStatus
+			// 
+			ComboBoxStatus.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+			ComboBoxStatus.DropDownStyle = ComboBoxStyle.DropDownList;
+			ComboBoxStatus.Enabled = false;
+			ComboBoxStatus.FormattingEnabled = true;
+			ComboBoxStatus.Location = new Point(114, 300);
+			ComboBoxStatus.Name = "ComboBoxStatus";
+			ComboBoxStatus.Size = new Size(239, 23);
+			ComboBoxStatus.TabIndex = 24;
+			// 
 			// FCitizenListFilters
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
-			ClientSize = new Size(365, 344);
+			ClientSize = new Size(365, 374);
 			ControlBox = false;
+			Controls.Add(ComboBoxStatus);
+			Controls.Add(CheckBoxFilterStatus);
 			Controls.Add(BSelectInstitution);
 			Controls.Add(ComboBoxCategory);
 			Controls.Add(CheckBoxFilterCategory);
@@ -375,5 +400,7 @@
 		private ComboBox ComboBoxCategory;
 		private CheckBox CheckBoxFilterCategory;
 		private Button BSelectInstitution;
+		private CheckBox CheckBoxFilterStatus;
+		private ComboBox ComboBoxStatus;
 	}
 }
