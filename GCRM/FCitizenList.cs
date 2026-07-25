@@ -590,11 +590,11 @@ namespace GCRM
 			{
 				if (FiltersDlg.Status == 1)
 				{
-					filter += $" and verificado = true";
+					filter += $" and verified = true";
 				}
 				else if (FiltersDlg.Status == 2)
 				{
-					filter += $" and verificado = false";
+					filter += $" and verified = false";
 				}
 			}
 
