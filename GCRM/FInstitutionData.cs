@@ -192,7 +192,7 @@ namespace GCRM
 				DTInstitutionRoles.Rows.Add(row);
 			}
 
-			Template.Enabled = citizens_with_template_roles == 0 && AccessMode != FAccessMode.Read;
+			Template.Enabled = (citizens_with_template_roles == 0 && AccessMode != FAccessMode.Read) || AccessMode == FAccessMode.Create;
 
 			DTInstitutionRoles.EndLoadData();
 
