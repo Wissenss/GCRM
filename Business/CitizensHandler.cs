@@ -871,6 +871,20 @@ namespace Business
 			return 0;
 		}
 
+		public static Error GetAttentionRequiredCitizenCount(out int count)
+		{
+			var conn = ConnectionPool.GetConnection();
+
+			using (var cmd = new NpgsqlCommand("SELECT COUNT(*) FROM citizens WHERE attention_required = TRUE;", conn))
+			{
+				count = (Int32)(Int64)cmd.ExecuteScalar();
+			}
+
+			ConnectionPool.ReleaseConnection(ref conn);
+
+			return 0;
+		}
+
 		private static Error GetCitizensWithCondition(string condition, out List<TCitizen> citizen_list)
 		{
 			citizen_list = new List<TCitizen>();

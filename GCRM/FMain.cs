@@ -17,6 +17,7 @@ namespace GCRM
             InitializeComponent();
 
             LoadBirhdayList();
+            LoadWarningList();
         }
 
         private void BUsers_Click(object sender, EventArgs e)
@@ -55,7 +56,7 @@ namespace GCRM
             Assembly assembly = Assembly.GetExecutingAssembly();
             FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
             string version = fileVersionInfo.ProductVersion;
-            LToolstripVersion.Text = $"Versi�n: {version}";
+            LToolstripVersion.Text = $"Versi�n: {version}";
         }
 
         private void LoadBirhdayList()
@@ -86,6 +87,42 @@ namespace GCRM
             }
         }
 
+        private void LoadWarningList()
+        {
+            using (new CursorWait())
+            {
+                Error error = CitizensHandler.GetAttentionRequiredCitizenCount(out int citizen_count);
+
+                if (error != 0)
+                    return;
+
+                error = InstitutionsHandler.GetAttentionRequiredInstitutionCount(out int institution_count);
+
+                if (error != 0)
+                    return;
+
+                WarningPanel.Visible = citizen_count > 0 || institution_count > 0;
+
+                ListBoxWarnings.Items.Clear();
+
+                if (citizen_count > 0)
+                    if (citizen_count == 1)
+                        ListBoxWarnings.Items.Add($" - {citizen_count} ciudadano requiere atención");
+                    else
+                        ListBoxWarnings.Items.Add($" - {citizen_count} ciudadanos requieren atención");
+
+                if (institution_count > 0)
+                    if (institution_count == 1)
+                        ListBoxWarnings.Items.Add($" - {institution_count} institución requiere atención");
+                    else        
+                        ListBoxWarnings.Items.Add($" - {institution_count} instituciónes requieren atención");
+
+                WarningPanelContent.MinimumSize = new Size(0, ListBoxWarnings.ItemHeight * ListBoxWarnings.Items.Count + 10);
+
+                WarningPanel.Refresh();
+            }
+        }
+        
         private void FMain_Load(object sender, EventArgs e)
         {
             RefreshStatusStrip();
@@ -170,6 +207,8 @@ namespace GCRM
             using (FInstitutionList institution_list_dlg = new FInstitutionList())
             {
                 institution_list_dlg.ShowDialog();
+
+                LoadWarningList();
             }
         }
 
@@ -178,6 +217,8 @@ namespace GCRM
             using (FCitizenList citizen_list_dlg = new FCitizenList())
             {
                 citizen_list_dlg.ShowDialog();
+
+                LoadWarningList();
             }
         }
 
@@ -234,7 +275,7 @@ namespace GCRM
 
         private async void BSync_Click(object sender, EventArgs e)
         {
-            if (Utilities.ShowConfirmDialog("�Est� seguro que desea sincronizar los contactos?") != DialogResult.Yes)
+            if (Utilities.ShowConfirmDialog("�Est� seguro que desea sincronizar los contactos?") != DialogResult.Yes)
             {
                 return;
             }

@@ -69,6 +69,13 @@
             BirthdayPanel = new Panel();
             BirthdayPanelContent = new Panel();
             BirthdayPanelTopBar = new Panel();
+            NotificationsPanel = new Panel();
+            WarningPanel = new Panel();
+            WarningPanelContent = new Panel();
+            ListBoxWarnings = new ListBox();
+            WarningPanelTopBar = new Panel();
+            label1 = new Label();
+            PictureBoxWarning = new PictureBox();
             statusStrip1.SuspendLayout();
             toolStrip1.SuspendLayout();
             TabControl.SuspendLayout();
@@ -82,12 +89,17 @@
             BirthdayPanel.SuspendLayout();
             BirthdayPanelContent.SuspendLayout();
             BirthdayPanelTopBar.SuspendLayout();
+            NotificationsPanel.SuspendLayout();
+            WarningPanel.SuspendLayout();
+            WarningPanelContent.SuspendLayout();
+            WarningPanelTopBar.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)PictureBoxWarning).BeginInit();
             SuspendLayout();
             // 
             // statusStrip1
             // 
             statusStrip1.Items.AddRange(new ToolStripItem[] { LToolStripUsername, LToolStripServer, LToolstripVersion });
-            statusStrip1.Location = new Point(0, 390);
+            statusStrip1.Location = new Point(0, 391);
             statusStrip1.Name = "statusStrip1";
             statusStrip1.Size = new Size(801, 22);
             statusStrip1.TabIndex = 0;
@@ -440,7 +452,7 @@
             ListBoxBirhdays.Margin = new Padding(5, 20, 5, 5);
             ListBoxBirhdays.Name = "ListBoxBirhdays";
             ListBoxBirhdays.SelectionMode = SelectionMode.None;
-            ListBoxBirhdays.Size = new Size(295, 0);
+            ListBoxBirhdays.Size = new Size(313, 0);
             ListBoxBirhdays.TabIndex = 2;
             // 
             // LBirthdayList
@@ -471,7 +483,7 @@
             BackgroundImage.Dock = DockStyle.Fill;
             BackgroundImage.Location = new Point(0, 89);
             BackgroundImage.Name = "BackgroundImage";
-            BackgroundImage.Size = new Size(801, 301);
+            BackgroundImage.Size = new Size(801, 302);
             BackgroundImage.SizeMode = PictureBoxSizeMode.CenterImage;
             BackgroundImage.TabIndex = 5;
             BackgroundImage.TabStop = false;
@@ -483,9 +495,10 @@
             BirthdayPanel.BorderStyle = BorderStyle.FixedSingle;
             BirthdayPanel.Controls.Add(BirthdayPanelContent);
             BirthdayPanel.Controls.Add(BirthdayPanelTopBar);
-            BirthdayPanel.Location = new Point(7, 95);
+            BirthdayPanel.Dock = DockStyle.Top;
+            BirthdayPanel.Location = new Point(0, 0);
             BirthdayPanel.Name = "BirthdayPanel";
-            BirthdayPanel.Size = new Size(303, 37);
+            BirthdayPanel.Size = new Size(321, 37);
             BirthdayPanel.TabIndex = 6;
             // 
             // BirthdayPanelContent
@@ -497,7 +510,7 @@
             BirthdayPanelContent.MinimumSize = new Size(200, 0);
             BirthdayPanelContent.Name = "BirthdayPanelContent";
             BirthdayPanelContent.Padding = new Padding(5, 5, 1, 5);
-            BirthdayPanelContent.Size = new Size(301, 10);
+            BirthdayPanelContent.Size = new Size(319, 10);
             BirthdayPanelContent.TabIndex = 6;
             // 
             // BirthdayPanelTopBar
@@ -512,15 +525,101 @@
             BirthdayPanelTopBar.MinimumSize = new Size(200, 0);
             BirthdayPanelTopBar.Name = "BirthdayPanelTopBar";
             BirthdayPanelTopBar.Padding = new Padding(5);
-            BirthdayPanelTopBar.Size = new Size(301, 25);
+            BirthdayPanelTopBar.Size = new Size(319, 25);
             BirthdayPanelTopBar.TabIndex = 5;
+            // 
+            // NotificationsPanel
+            // 
+            NotificationsPanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            NotificationsPanel.Controls.Add(WarningPanel);
+            NotificationsPanel.Controls.Add(BirthdayPanel);
+            NotificationsPanel.Location = new Point(7, 95);
+            NotificationsPanel.Name = "NotificationsPanel";
+            NotificationsPanel.Size = new Size(321, 290);
+            NotificationsPanel.TabIndex = 7;
+            // 
+            // WarningPanel
+            // 
+            WarningPanel.AutoSize = true;
+            WarningPanel.BorderStyle = BorderStyle.FixedSingle;
+            WarningPanel.Controls.Add(WarningPanelContent);
+            WarningPanel.Controls.Add(WarningPanelTopBar);
+            WarningPanel.Dock = DockStyle.Top;
+            WarningPanel.Location = new Point(0, 37);
+            WarningPanel.Name = "WarningPanel";
+            WarningPanel.Size = new Size(321, 37);
+            WarningPanel.TabIndex = 7;
+            // 
+            // WarningPanelContent
+            // 
+            WarningPanelContent.AutoSize = true;
+            WarningPanelContent.BackColor = Color.MistyRose;
+            WarningPanelContent.Controls.Add(ListBoxWarnings);
+            WarningPanelContent.Dock = DockStyle.Fill;
+            WarningPanelContent.Location = new Point(0, 25);
+            WarningPanelContent.MinimumSize = new Size(200, 0);
+            WarningPanelContent.Name = "WarningPanelContent";
+            WarningPanelContent.Padding = new Padding(5, 5, 1, 5);
+            WarningPanelContent.Size = new Size(319, 10);
+            WarningPanelContent.TabIndex = 8;
+            // 
+            // ListBoxWarnings
+            // 
+            ListBoxWarnings.BackColor = Color.MistyRose;
+            ListBoxWarnings.BorderStyle = BorderStyle.None;
+            ListBoxWarnings.Dock = DockStyle.Fill;
+            ListBoxWarnings.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            ListBoxWarnings.FormattingEnabled = true;
+            ListBoxWarnings.ItemHeight = 15;
+            ListBoxWarnings.Location = new Point(5, 5);
+            ListBoxWarnings.Margin = new Padding(5, 20, 5, 5);
+            ListBoxWarnings.Name = "ListBoxWarnings";
+            ListBoxWarnings.SelectionMode = SelectionMode.None;
+            ListBoxWarnings.Size = new Size(313, 0);
+            ListBoxWarnings.TabIndex = 0;
+            // 
+            // WarningPanelTopBar
+            // 
+            WarningPanelTopBar.AutoSize = true;
+            WarningPanelTopBar.BackColor = Color.LightCoral;
+            WarningPanelTopBar.Controls.Add(label1);
+            WarningPanelTopBar.Controls.Add(PictureBoxWarning);
+            WarningPanelTopBar.Dock = DockStyle.Top;
+            WarningPanelTopBar.Location = new Point(0, 0);
+            WarningPanelTopBar.Margin = new Padding(3, 3, 3, 10);
+            WarningPanelTopBar.MinimumSize = new Size(200, 0);
+            WarningPanelTopBar.Name = "WarningPanelTopBar";
+            WarningPanelTopBar.Padding = new Padding(5);
+            WarningPanelTopBar.Size = new Size(319, 25);
+            WarningPanelTopBar.TabIndex = 0;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Dock = DockStyle.Fill;
+            label1.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Location = new Point(23, 5);
+            label1.Name = "label1";
+            label1.Size = new Size(280, 15);
+            label1.TabIndex = 1;
+            label1.Text = "Existen los siguientes problemas con la información";
+            // 
+            // PictureBoxWarning
+            // 
+            PictureBoxWarning.Dock = DockStyle.Left;
+            PictureBoxWarning.Image = Properties.Resources.Fatcow_Farm_Fresh_Error_16;
+            PictureBoxWarning.Location = new Point(5, 5);
+            PictureBoxWarning.Name = "PictureBoxWarning";
+            PictureBoxWarning.Size = new Size(18, 15);
+            PictureBoxWarning.TabIndex = 0;
+            PictureBoxWarning.TabStop = false;
             // 
             // FMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(801, 412);
-            Controls.Add(BirthdayPanel);
+            ClientSize = new Size(801, 413);
+            Controls.Add(NotificationsPanel);
             Controls.Add(BackgroundImage);
             Controls.Add(TabControl);
             Controls.Add(statusStrip1);
@@ -553,6 +652,14 @@
             BirthdayPanelContent.ResumeLayout(false);
             BirthdayPanelTopBar.ResumeLayout(false);
             BirthdayPanelTopBar.PerformLayout();
+            NotificationsPanel.ResumeLayout(false);
+            NotificationsPanel.PerformLayout();
+            WarningPanel.ResumeLayout(false);
+            WarningPanel.PerformLayout();
+            WarningPanelContent.ResumeLayout(false);
+            WarningPanelTopBar.ResumeLayout(false);
+            WarningPanelTopBar.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)PictureBoxWarning).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -599,5 +706,12 @@
 		private ToolStripButton BCitizenGroups;
         private ToolStripSeparator toolStripSeparator6;
         private ToolStripButton BBackup;
+        private Panel NotificationsPanel;
+        private Panel WarningPanel;
+        private Panel WarningPanelTopBar;
+        private PictureBox PictureBoxWarning;
+        private Label label1;
+        private Panel WarningPanelContent;
+        private ListBox ListBoxWarnings;
     }
 }

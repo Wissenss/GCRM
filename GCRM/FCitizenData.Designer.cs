@@ -1276,7 +1276,7 @@
             panel2.BackColor = SystemColors.AppWorkspace;
             panel2.Location = new Point(7, 198);
             panel2.Name = "panel2";
-            panel2.Size = new Size(420, 1);
+            panel2.Size = new Size(495, 1);
             panel2.TabIndex = 52;
             // 
             // panel1
@@ -1284,7 +1284,7 @@
             panel1.BackColor = SystemColors.AppWorkspace;
             panel1.Location = new Point(7, 96);
             panel1.Name = "panel1";
-            panel1.Size = new Size(420, 1);
+            panel1.Size = new Size(495, 1);
             panel1.TabIndex = 51;
             // 
             // LInstitution3SectorAndCategory

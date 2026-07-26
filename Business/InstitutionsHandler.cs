@@ -234,6 +234,20 @@ namespace Business
 			return 0;
 		}
 
+		public static Error GetAttentionRequiredInstitutionCount(out int count)
+		{
+			var conn = ConnectionPool.GetConnection();
+
+			using (var cmd = new NpgsqlCommand("SELECT COUNT(*) FROM institutions WHERE attention_required = TRUE;", conn))
+			{
+				count = (Int32)(Int64)cmd.ExecuteScalar();
+			}
+
+			ConnectionPool.ReleaseConnection(ref conn);
+
+			return 0;
+		}
+
 		public static Error DeleteInstitutionById(int id)
 		{
 			Error error = 0;

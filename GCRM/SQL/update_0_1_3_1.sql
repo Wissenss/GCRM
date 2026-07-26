@@ -113,6 +113,7 @@ ALTER TABLE citizens DROP COLUMN institution3_role_id;
 ALTER TABLE citizens DROP COLUMN institution3_template_role_id;
 
 -- drop legacy contact number columns, this are now stored in the contact_numbers table
+
 ALTER TABLE citizens DROP COLUMN phone;
 ALTER TABLE citizens DROP COLUMN phone_extension;
 ALTER TABLE citizens DROP COLUMN cellphone;
