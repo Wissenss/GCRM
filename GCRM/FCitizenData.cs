@@ -1078,7 +1078,7 @@ namespace GCRM
                 }
             }
 
-            BNuevoCargo1.Enabled = institution_selected && AccessMode != FAccessMode.Read;
+            BNuevoCargo1.Enabled = institution_selected && AccessMode != FAccessMode.Read && Session.HasPermission("Instituciones.Roles.Crear");
         }
 
         private void Insitution2_SelectedValueChanged(object sender, EventArgs e)
@@ -1103,7 +1103,7 @@ namespace GCRM
                 }
             }
 
-            BNuevoCargo2.Enabled = institution_selected && AccessMode != FAccessMode.Read;
+            BNuevoCargo2.Enabled = institution_selected && AccessMode != FAccessMode.Read && Session.HasPermission("Instituciones.Roles.Crear");
         }
 
         private void Institution3_SelectedValueChanged(object sender, EventArgs e)
@@ -1128,7 +1128,7 @@ namespace GCRM
                 }
             }
 
-            BNuevoCargo3.Enabled = institution_selected && AccessMode != FAccessMode.Read;
+            BNuevoCargo3.Enabled = institution_selected && AccessMode != FAccessMode.Read && Session.HasPermission("Instituciones.Roles.Crear");
         }
 
         private void LCURP_Click(object sender, EventArgs e)
