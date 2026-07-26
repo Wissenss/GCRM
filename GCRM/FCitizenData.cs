@@ -647,7 +647,7 @@ namespace GCRM
 
                 LAssitantName.Text = $"{assistant.FullName}";
                 LAssistantPhone.Text = $"{assistant.Phone.FullNumberWithPrefix}";
-                LAssitantCellphone.Text = $"Cel. {assistant.Cellphone}";
+                LAssitantCellphone.Text = $"Cel. {assistant.Cellphone.FullNumber}";
             }
         }
 

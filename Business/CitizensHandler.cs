@@ -109,14 +109,9 @@ namespace Business
 					c.sex_type,
 					c.address_id,
 					c.assistant_id,
-					-- skip phone fields
-					c.phone AS deprecated_phone,
-					c.phone_extension AS deprecated_phone_extension,
-					c.cellphone AS deprecated_cellphone,
-					-- just filler for know, must remove!
 					c.political_party_type,
 					COALESCE(nrir.institution_id, 0) AS institution_id,
-					COALESCE(nrir.institution_role_id, 0) AS institution_role_id,
+					COALESCE(nrir.institution_role_id, nrir.institution_template_role_id, 0) AS institution_role_id,
 					c.email,
 					c.created_by_id,
 					c.created_date,
@@ -128,18 +123,12 @@ namespace Business
 					c.voter_section,
 					c.citizen_category_id,
 					COALESCE(nrir.institution2_id, 0) AS institution2_id,
-					COALESCE(nrir.institution2_role_id, 0) AS institution2_role_id,
+					COALESCE(nrir.institution2_role_id, nrir.institution2_template_role_id, 0) AS institution2_role_id,
 					COALESCE(nrir.institution3_id, 0) AS institution3_id,
-					COALESCE(nrir.institution3_role_id, 0) AS institution3_role_id,
+					COALESCE(nrir.institution3_role_id, nrir.institution3_template_role_id, 0) AS institution3_role_id,
 					c.attention_required,
 					c.is_political_activist,
 					c.political_register_date,
-					-- skip more phones
-					c.phone2 AS deprecated_phone2,
-					c.phone2_extension AS deprecated_phone2_extension,
-					c.phone3 AS deprecated_phone3,
-					c.phone3_extension AS deprecated_phone3_extension,
-					-- just filler for know, must remove!
 					COALESCE(itr.institution_template_id, 0) AS institution_template_role_id,
 					COALESCE(itr2.institution_template_id, 0) AS institution2_template_role_id,
 					COALESCE(itr3.institution_template_id, 0) AS institution3_template_role_id,
@@ -382,7 +371,44 @@ namespace Business
 
 			var conn = ConnectionPool.GetConnection();
 
-			using (var cmd = new NpgsqlCommand("SELECT * FROM citizens WHERE id = @id;", conn))
+			string sql = @"
+				WITH ranked_contact_numbers AS (
+					SELECT
+						cn.number,
+						cn.extension,
+						cn.contact_number_type,
+						ROW_NUMBER() OVER (ORDER BY cn.id) AS row_number,
+						ROW_NUMBER() OVER (PARTITION BY cn.contact_number_type ORDER BY cn.id) AS type_row_number
+					FROM
+						contact_numbers cn
+					WHERE
+						entity_type = 1001 AND entity_id = @id
+				),
+
+				normalized_ranked_contact_numbers AS (
+					SELECT
+						MAX(CASE WHEN row_number = 1 THEN number END) AS phone_number,
+						MAX(CASE WHEN row_number = 1 THEN extension END) AS phone_extension,
+						MAX(CASE WHEN contact_number_type = 20 AND type_row_number = 1 THEN number END) AS cellphone
+					FROM ranked_contact_numbers
+				)
+
+				SELECT
+					c.id,
+					c.name,
+					c.paternal_name,
+					c.maternal_name,
+					COALESCE(nrcn.phone_number, '') AS phone_number,
+					COALESCE(nrcn.phone_extension, '') AS phone_extension,
+					COALESCE(nrcn.cellphone, '') AS cellphone
+				FROM
+					citizens c
+					LEFT JOIN normalized_ranked_contact_numbers nrcn ON TRUE
+				WHERE
+					c.id = @id;
+			";
+
+			using (var cmd = new NpgsqlCommand(sql, conn))
 			{
 				cmd.Parameters.AddWithValue("@id", id);
 
@@ -392,7 +418,13 @@ namespace Business
 					{
 						reader.Read();
 
-						citizen_assistant.FillFromReader(reader);
+						citizen_assistant.Id = reader.GetInt32("id");
+						citizen_assistant.Name = reader.GetString("name");
+						citizen_assistant.PaternalName = reader.GetString("paternal_name");
+						citizen_assistant.MaternalName = reader.GetString("maternal_name");
+						citizen_assistant.Phone.Number = reader.GetString("phone_number");
+						citizen_assistant.Phone.Extension = reader.GetString("phone_extension");
+						citizen_assistant.Cellphone.Number = reader.GetString("cellphone");
 					}
 					else
 					{
@@ -928,12 +960,9 @@ namespace Business
 					c.sex_type,
 					c.address_id,
 					c.assistant_id,
-					c.phone,
-					c.phone_extension,
-					c.cellphone,
 					c.political_party_type,
 					COALESCE(nrir.institution_id, 0) AS institution_id,
-					COALESCE(nrir.institution_role_id, 0) AS institution_role_id,
+					COALESCE(nrir.institution_role_id, nrir.institution_template_role_id, 0) AS institution_role_id,
 					c.email,
 					c.created_by_id,
 					c.created_date,
@@ -945,16 +974,12 @@ namespace Business
 					c.voter_section,
 					c.citizen_category_id,
 					COALESCE(nrir.institution2_id, 0) AS institution2_id,
-					COALESCE(nrir.institution2_role_id, 0) AS institution2_role_id,
+					COALESCE(nrir.institution2_role_id, nrir.institution2_template_role_id, 0) AS institution2_role_id,
 					COALESCE(nrir.institution3_id, 0) AS institution3_id,
-					COALESCE(nrir.institution3_role_id, 0) AS institution3_role_id,
+					COALESCE(nrir.institution3_role_id, nrir.institution3_template_role_id, 0) AS institution3_role_id,
 					c.attention_required,
 					c.is_political_activist,
 					c.political_register_date,
-					c.phone2,
-					c.phone2_extension,
-					c.phone3,
-					c.phone3_extension,
 					COALESCE(itr.institution_template_id, 0) AS institution_template_role_id,
 					COALESCE(itr2.institution_template_id, 0) AS institution2_template_role_id,
 					COALESCE(itr3.institution_template_id, 0) AS institution3_template_role_id,

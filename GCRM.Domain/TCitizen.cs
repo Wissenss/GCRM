@@ -158,64 +158,62 @@ namespace GCRM.Domain
 			}
 		}
 
-		public void FillFromReader(DbDataReader reader)
+		public void FillFromReader(DbDataReader reader, string prefix = "")
 		{
 			Assistant = new TCitizen();
 			Institution = new TInstitution();
 			UserRelationship = new TCitizenRelationship();
 			VerifiedBy = new TUser();
 
-			Id = reader.GetInt32(0);
-			Name = reader.GetString(1);
-			PaternalName = reader.GetString(2);
-			MaternalName = reader.GetString(3);
-			Title = (TCitizenTitle)reader.GetInt32(4);
-			CURP = reader.GetString(5);
-			Birthday = reader.GetDateTime(6);
-			Observations = reader.GetString(7);
-			Sex = (TSex)reader.GetInt32(8);
-			Address.Id = reader.GetInt32(9);
-			Assistant.Id = reader.GetInt32(10);
-			//Phone.Number = reader.GetString(11);
-			//Phone.Extension = reader.GetString(12);
-			//Cellphone = reader.GetString(13);
-			PoliticalParty = (TPoliticalParty)reader.GetInt32(14);
-			Institution.Id = reader.GetInt32(15);
-			Role.Id = reader.GetInt32(16);
-			Email = reader.GetString(17);
-			Author.Id = reader.GetInt32(18);
-			CreatedDate = reader.GetDateTime(19);
-			LastEditor.Id = reader.GetInt32(20);
-			EditDate = reader.GetDateTime(21);
-			VoterCode = reader.GetString(22);
-			VoterOCR = reader.GetString(23);
-			VoterCIC = reader.GetString(24);
-			VoterSection = reader.GetString(25);
-			Category.Id = reader.GetInt32(26);
-			Institution2.Id = reader.GetInt32(27);
-			Role2.Id = reader.GetInt32(28);
-			Institution3.Id = reader.GetInt32(29);
-			Role3.Id = reader.GetInt32(30);
-			AttentionRequired = reader.GetBoolean(31);
-			IsPoliticalActivist = reader.GetBoolean(32);
-			PoliticalRegisterDate = reader.GetDateTime(33);
-			//Phone2.Number = reader.GetString(34);
-			//Phone2.Extension = reader.GetString(35);
-			//Phone3.Number = reader.GetString(36);
-			//Phone3.Extension = reader.GetString(37);
+			int Ordinal(string column) => reader.GetOrdinal(prefix + column);
 
-			// if the value of the template is set for the role, then it is a template role 
-			Role.InstitutionTemplateId = reader.GetInt32(38);
-			Role2.InstitutionTemplateId = reader.GetInt32(39);
-			Role3.InstitutionTemplateId = reader.GetInt32(40);
+			Id = reader.GetInt32(Ordinal("id"));
+			Name = reader.GetString(Ordinal("name"));
+			PaternalName = reader.GetString(Ordinal("paternal_name"));
+			MaternalName = reader.GetString(Ordinal("maternal_name"));
+			Title = (TCitizenTitle)reader.GetInt32(Ordinal("title_type"));
+			CURP = reader.GetString(Ordinal("curp"));
+			Birthday = reader.GetDateTime(Ordinal("birthday"));
+			Observations = reader.GetString(Ordinal("observations"));
+			Sex = (TSex)reader.GetInt32(Ordinal("sex_type"));
+			Address.Id = reader.GetInt32(Ordinal("address_id"));
+			Assistant.Id = reader.GetInt32(Ordinal("assistant_id"));
+			PoliticalParty = (TPoliticalParty)reader.GetInt32(Ordinal("political_party_type"));
+			Institution.Id = reader.GetInt32(Ordinal("institution_id"));
+			Role.Id = reader.GetInt32(Ordinal("institution_role_id"));
+			Email = reader.GetString(Ordinal("email"));
+			Author.Id = reader.GetInt32(Ordinal("created_by_id"));
+			CreatedDate = reader.GetDateTime(Ordinal("created_date"));
+			LastEditor.Id = reader.GetInt32(Ordinal("edit_by_id"));
+			EditDate = reader.GetDateTime(Ordinal("edit_date"));
+			VoterCode = reader.GetString(Ordinal("voter_code"));
+			VoterOCR = reader.GetString(Ordinal("voter_ocr"));
+			VoterCIC = reader.GetString(Ordinal("voter_cic"));
+			VoterSection = reader.GetString(Ordinal("voter_section"));
+			Category.Id = reader.GetInt32(Ordinal("citizen_category_id"));
+			Institution2.Id = reader.GetInt32(Ordinal("institution2_id"));
+			Role2.Id = reader.GetInt32(Ordinal("institution2_role_id"));
+			Institution3.Id = reader.GetInt32(Ordinal("institution3_id"));
+			Role3.Id = reader.GetInt32(Ordinal("institution3_role_id"));
+			AttentionRequired = reader.GetBoolean(Ordinal("attention_required"));
+			IsPoliticalActivist = reader.GetBoolean(Ordinal("is_political_activist"));
+			PoliticalRegisterDate = reader.GetDateTime(Ordinal("political_register_date"));
 
-			KnownBirthday = reader.GetBoolean(41);
-			KnownBirthyear = reader.GetBoolean(42);
-			KnownPoliticalRegisterDate = reader.GetBoolean(43);
+			// if the value of the template is set for the role, then it is a template role
+			Role.InstitutionTemplateId = reader.GetInt32(Ordinal("institution_template_role_id"));
+			Role2.InstitutionTemplateId = reader.GetInt32(Ordinal("institution2_template_role_id"));
+			Role3.InstitutionTemplateId = reader.GetInt32(Ordinal("institution3_template_role_id"));
 
-			VerifiedBy.Id = reader.IsDBNull(44) ? 0 : reader.GetInt32(44);
-			VerifiedAt = reader.IsDBNull(45) ? DateTime.MinValue : reader.GetDateTime(45);
-			Verified = reader.GetBoolean(46);
+			KnownBirthday = reader.GetBoolean(Ordinal("known_birthday"));
+			KnownBirthyear = reader.GetBoolean(Ordinal("known_birthyear"));
+			KnownPoliticalRegisterDate = reader.GetBoolean(Ordinal("known_political_register_date"));
+
+			int verified_by_ordinal = Ordinal("verified_by_id");
+			int verified_at_ordinal = Ordinal("verified_at");
+
+			VerifiedBy.Id = reader.IsDBNull(verified_by_ordinal) ? 0 : reader.GetInt32(verified_by_ordinal);
+			VerifiedAt = reader.IsDBNull(verified_at_ordinal) ? DateTime.MinValue : reader.GetDateTime(verified_at_ordinal);
+			Verified = reader.GetBoolean(Ordinal("verified"));
 		}
 
 		public void PropertiesToUpper()

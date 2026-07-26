@@ -112,5 +112,14 @@ ALTER TABLE citizens DROP COLUMN institution3_id;
 ALTER TABLE citizens DROP COLUMN institution3_role_id;
 ALTER TABLE citizens DROP COLUMN institution3_template_role_id;
 
+-- drop legacy contact number columns, this are now stored in the contact_numbers table
+ALTER TABLE citizens DROP COLUMN phone;
+ALTER TABLE citizens DROP COLUMN phone_extension;
+ALTER TABLE citizens DROP COLUMN cellphone;
+ALTER TABLE citizens DROP COLUMN phone2;
+ALTER TABLE citizens DROP COLUMN phone2_extension;
+ALTER TABLE citizens DROP COLUMN phone3;
+ALTER TABLE citizens DROP COLUMN phone3_extension;
+
 -- update client version
 UPDATE public.settings SET string_value = '0.1.3.1-alpha' WHERE name = 'client_version';
