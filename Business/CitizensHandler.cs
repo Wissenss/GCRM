@@ -36,6 +36,45 @@ namespace Business
 						entity_type = 1001 AND entity_id = @id
 				),
 
+				ranked_institution_roles AS (
+					SELECT
+						cir.citizen_id,
+						cir.position,
+						cir.institution_id,
+						cir.institution_role_id,
+						cir.institution_template_role_id,
+						cir.is_institution_template_role,
+						is_active,
+						is_start_defined,
+						started_at,
+						is_end_defined,
+						ended_at,
+						ROW_NUMBER() OVER (PARTITION BY cir.citizen_id ORDER BY cir.position) AS row_number
+					FROM
+						citizen_institution_roles cir
+					WHERE
+						cir.citizen_id = @id
+				),
+
+				normalized_ranked_institution_roles AS (
+					SELECT
+						citizen_id,
+						MAX(CASE WHEN row_number = 1 THEN institution_id END) AS institution_id,
+						MAX(CASE WHEN row_number = 1 THEN institution_role_id END) AS institution_role_id,
+						MAX(CASE WHEN row_number = 1 THEN institution_template_role_id END) AS institution_template_role_id,
+						(SUM(CASE WHEN row_number = 1 AND is_institution_template_role THEN 1 ELSE 0 END) > 0) AS is_institution_template_role,
+						MAX(CASE WHEN row_number = 2 THEN institution_id END) AS institution2_id,
+						MAX(CASE WHEN row_number = 2 THEN institution_role_id END) AS institution2_role_id,
+						MAX(CASE WHEN row_number = 2 THEN institution_template_role_id END) AS institution2_template_role_id,
+						(SUM(CASE WHEN row_number = 2 AND is_institution_template_role THEN 1 ELSE 0 END) > 0) AS is_institution2_template_role,
+						MAX(CASE WHEN row_number = 3 THEN institution_id END) AS institution3_id,
+						MAX(CASE WHEN row_number = 3 THEN institution_role_id END) AS institution3_role_id,
+						MAX(CASE WHEN row_number = 3 THEN institution_template_role_id END) AS institution3_template_role_id,
+						(SUM(CASE WHEN row_number = 3 AND is_institution_template_role THEN 1 ELSE 0 END) > 0) AS is_institution3_template_role
+					FROM ranked_institution_roles
+					GROUP BY citizen_id
+				),
+
 				normalized_ranked_contact_numbers AS (
 					SELECT
 						entity_id,
@@ -76,8 +115,8 @@ namespace Business
 					c.cellphone AS deprecated_cellphone,
 					-- just filler for know, must remove!
 					c.political_party_type,
-					c.institution_id,
-					c.institution_role_id,
+					COALESCE(nrir.institution_id, 0) AS institution_id,
+					COALESCE(nrir.institution_role_id, 0) AS institution_role_id,
 					c.email,
 					c.created_by_id,
 					c.created_date,
@@ -88,10 +127,10 @@ namespace Business
 					c.voter_cic,
 					c.voter_section,
 					c.citizen_category_id,
-					c.institution2_id,
-					c.institution2_role_id,
-					c.institution3_id,
-					c.institution3_role_id,
+					COALESCE(nrir.institution2_id, 0) AS institution2_id,
+					COALESCE(nrir.institution2_role_id, 0) AS institution2_role_id,
+					COALESCE(nrir.institution3_id, 0) AS institution3_id,
+					COALESCE(nrir.institution3_role_id, 0) AS institution3_role_id,
 					c.attention_required,
 					c.is_political_activist,
 					c.political_register_date,
@@ -101,9 +140,9 @@ namespace Business
 					c.phone3 AS deprecated_phone3,
 					c.phone3_extension AS deprecated_phone3_extension,
 					-- just filler for know, must remove!
-					c.institution_template_role_id,
-					c.institution2_template_role_id,
-					c.institution3_template_role_id,
+					COALESCE(itr.institution_template_id, 0) AS institution_template_role_id,
+					COALESCE(itr2.institution_template_id, 0) AS institution2_template_role_id,
+					COALESCE(itr3.institution_template_id, 0) AS institution3_template_role_id,
 					c.known_birthday,
 					c.known_birthyear,
 					c.known_political_register_date,
@@ -144,7 +183,11 @@ namespace Business
 					LEFT JOIN citizen_relationships cr ON (cr.user_id = @userId AND cr.related_citizen_id = c.id)
 					LEFT JOIN addresses a ON a.id = c.address_id
 					LEFT JOIN normalized_ranked_contact_numbers nrcn ON c.id = nrcn.entity_id
-				WHERE 
+					LEFT JOIN normalized_ranked_institution_roles nrir ON c.id = nrir.citizen_id
+					LEFT JOIN institution_template_roles itr ON nrir.institution_template_role_id = itr.id
+					LEFT JOIN institution_template_roles itr2 ON nrir.institution2_template_role_id = itr2.id
+					LEFT JOIN institution_template_roles itr3 ON nrir.institution3_template_role_id = itr3.id
+				WHERE
 					c.id = @id;
 			";
 
@@ -470,8 +513,6 @@ namespace Business
 								-- phone_extension=@phone_extension,
 								-- cellphone=@cellphone,
 								political_party_type=@political_party,
-								institution_id=@institution_id,
-								institution_role_id=@institution_role_id,
 								email=@email,
 								edit_by_id=@edit_by_id,
 								edit_Date=@edit_date,
@@ -480,10 +521,6 @@ namespace Business
 								voter_cic = @voter_cic,
 								voter_section = @voter_section,
 								citizen_category_id = @category_id,
-								institution2_id = @institution2_id,
-								institution3_id = @institution3_id,	
-								institution2_role_id = @institution2_role_id,
-								institution3_role_id = @institution3_role_id,
 								attention_required = @attention_required,
 								is_political_activist = @is_political_activist,
 								political_register_date = @political_register_date,
@@ -491,9 +528,6 @@ namespace Business
 								-- phone2_extension = @phone2_extension,
 								-- phone3 = @phone3,
 								-- phone3_extension = @phone3_extension,
-								institution_template_role_id = @institution_template_role_id,
-								institution2_template_role_id = @institution2_template_role_id,
-								institution3_template_role_id = @institution3_template_role_id,
 								known_birthday = @known_birthday,
 								known_birthyear = @known_birthyear,
 								known_political_register_date = @known_political_register_date,
@@ -521,8 +555,6 @@ namespace Business
 								-- phone_extension,
 								-- cellphone,
 								political_party_type,
-								institution_id,
-								institution_role_id,
 								email,
 								created_by_id,
 								created_date,
@@ -533,10 +565,6 @@ namespace Business
 								voter_cic,
 								voter_section,
 								citizen_category_id,
-								institution2_id,	
-								institution3_id,
-								institution2_role_id,
-								institution3_role_id,
 								attention_required,
 								is_political_activist,
 								political_register_date,
@@ -544,9 +572,6 @@ namespace Business
 								-- phone2_extension,
 								-- phone3,
 								-- phone3_extension,
-								institution_template_role_id,
-								institution2_template_role_id,
-								institution3_template_role_id,
 								known_birthday,
 								known_birthyear,
 								verified_by_id,
@@ -568,8 +593,6 @@ namespace Business
 								-- @phone_extension,
 								-- @cellphone,
 								@political_party,
-								@institution_id,
-								@institution_role_id,
 								@email,
 								@created_by_id,
 								@created_date,
@@ -580,10 +603,6 @@ namespace Business
 								@voter_cic,
 								@voter_section,
 								@category_id,
-								@institution2_id,
-								@institution3_id,
-								@institution2_role_id,
-								@institution3_role_id,
 								@attention_required,
 								@is_political_activist,
 								@political_register_date,
@@ -591,9 +610,6 @@ namespace Business
 								-- @phone2_extension,
 								-- @phone3,
 								-- @phone3_extension,
-								@institution_template_role_id,
-								@institution2_template_role_id,
-								@institution3_template_role_id,
 								@known_birthday,
 								@known_birthyear,
 								@verified_by_id,
@@ -622,8 +638,6 @@ namespace Business
 					//cmd.Parameters.AddWithValue("@phone3_extension", citizen.Phone3.Extension);
 					//cmd.Parameters.AddWithValue("@cellphone", citizen.Cellphone);
 					cmd.Parameters.AddWithValue("@political_party", (int)citizen.PoliticalParty);
-					cmd.Parameters.AddWithValue("@institution_id", citizen.Institution.Id);
-					cmd.Parameters.AddWithValue("@institution_role_id", citizen.Role.Id);
 					cmd.Parameters.AddWithValue("@email", citizen.Email);
 					cmd.Parameters.AddWithValue("@created_by_id", citizen.Author.Id);
 					cmd.Parameters.AddWithValue("@created_date", citizen.CreatedDate);
@@ -634,16 +648,9 @@ namespace Business
 					cmd.Parameters.AddWithValue("@voter_cic", citizen.VoterCIC);
 					cmd.Parameters.AddWithValue("@voter_section", citizen.VoterSection);
 					cmd.Parameters.AddWithValue("@category_id", citizen.Category.Id);
-					cmd.Parameters.AddWithValue("@institution2_id", citizen.Institution2.Id);
-					cmd.Parameters.AddWithValue("@institution3_id", citizen.Institution3.Id);
-					cmd.Parameters.AddWithValue("@institution2_role_id", citizen.Role2.Id);
-					cmd.Parameters.AddWithValue("@institution3_role_id", citizen.Role3.Id);
 					cmd.Parameters.AddWithValue("@attention_required", false); // editing should always set attention required to false
 					cmd.Parameters.AddWithValue("@is_political_activist", citizen.IsPoliticalActivist);
 					cmd.Parameters.AddWithValue("@political_register_date", citizen.PoliticalRegisterDate);
-					cmd.Parameters.AddWithValue("@institution_template_role_id", citizen.Role.InstitutionTemplateId);
-					cmd.Parameters.AddWithValue("@institution2_template_role_id", citizen.Role2.InstitutionTemplateId);
-					cmd.Parameters.AddWithValue("@institution3_template_role_id", citizen.Role3.InstitutionTemplateId);
 					cmd.Parameters.AddWithValue("@known_birthday", citizen.KnownBirthday);
 					cmd.Parameters.AddWithValue("@known_birthyear", citizen.KnownBirthyear);
 					cmd.Parameters.AddWithValue("@known_political_register_date", citizen.KnownPoliticalRegisterDate);
@@ -663,6 +670,64 @@ namespace Business
 					citizen.UserRelationship.User = Session.User;
 					citizen.UserRelationship.Citizen.Id = Session.User.Citizen.Id;
 					citizen.UserRelationship.RelatedTo.Id = citizen.Id;
+				}
+			}
+
+			// save institution roles
+			using (var cmd = new NpgsqlCommand("DELETE FROM citizen_institution_roles WHERE citizen_id = @citizen_id;", conn))
+			{
+				cmd.Parameters.AddWithValue("@citizen_id", citizen.Id);
+
+				cmd.ExecuteNonQuery();
+			}
+
+			if (error == 0)
+			{
+				var institution_roles = new[] {
+					(position: 1, institution: citizen.Institution, role: citizen.Role),
+					(position: 2, institution: citizen.Institution2, role: citizen.Role2),
+					(position: 3, institution: citizen.Institution3, role: citizen.Role3)
+				};
+
+				string sql_institution_role = @"
+					INSERT INTO citizen_institution_roles(
+						position,
+						citizen_id,
+						institution_id,
+						institution_role_id,
+						institution_template_role_id,
+						is_institution_template_role
+					) VALUES (
+						@position,
+						@citizen_id,
+						@institution_id,
+						@institution_role_id,
+						@institution_template_role_id,
+						@is_institution_template_role
+					);
+				";
+
+				using (var batch = conn.CreateBatch())
+				{
+					foreach (var (position, institution, role) in institution_roles)
+					{
+						if (institution.Id == 0)
+							continue;
+
+						var cmd = new NpgsqlBatchCommand(sql_institution_role);
+
+						cmd.Parameters.AddWithValue("@position", position);
+						cmd.Parameters.AddWithValue("@citizen_id", citizen.Id);
+						cmd.Parameters.AddWithValue("@institution_id", institution.Id);
+						cmd.Parameters.AddWithValue("@institution_role_id", (!role.IsTemplateRole && role.Id != 0) ? (object)role.Id : DBNull.Value);
+						cmd.Parameters.AddWithValue("@institution_template_role_id", (role.IsTemplateRole && role.Id != 0) ? (object)role.Id : DBNull.Value);
+						cmd.Parameters.AddWithValue("@is_institution_template_role", role.IsTemplateRole);
+
+						batch.BatchCommands.Add(cmd);
+					}
+
+					if (batch.BatchCommands.Count > 0)
+						batch.ExecuteNonQuery();
 				}
 			}
 
@@ -812,12 +877,95 @@ namespace Business
 						MAX(CASE WHEN row_number = 5 THEN extension END) AS carddav_sync_extension
 					FROM ranked_contact_numbers
 					GROUP BY entity_id
+				),
+
+				ranked_institution_roles AS(
+					SELECT
+						cir.citizen_id,
+						cir.position,
+						cir.institution_id,
+						cir.institution_role_id,
+						cir.institution_template_role_id,
+						cir.is_institution_template_role,
+						is_active,
+						is_start_defined,
+						started_at,
+						is_end_defined,
+						ended_at,
+						ROW_NUMBER() OVER (PARTITION BY cir.citizen_id ORDER BY cir.position) AS row_number
+					FROM
+						citizen_institution_roles cir
+				),
+
+				normalized_ranked_institution_roles AS(
+					SELECT
+						citizen_id,
+						MAX(CASE WHEN row_number = 1 THEN institution_id END) AS institution_id,
+						MAX(CASE WHEN row_number = 1 THEN institution_role_id END) AS institution_role_id,
+						MAX(CASE WHEN row_number = 1 THEN institution_template_role_id END) AS institution_template_role_id,
+						(SUM(CASE WHEN row_number = 1 AND is_institution_template_role THEN 1 ELSE 0 END) > 0)AS is_institution_template_role,
+						MAX(CASE WHEN row_number = 2 THEN institution_id END) AS institution2_id,
+						MAX(CASE WHEN row_number = 2 THEN institution_role_id END) AS institution2_role_id,
+						MAX(CASE WHEN row_number = 2 THEN institution_template_role_id END) AS institution2_template_role_id,
+						(SUM(CASE WHEN row_number = 2 AND is_institution_template_role THEN 1 ELSE 0 END) > 0) AS is_institution2_template_role,
+						MAX(CASE WHEN row_number = 3 THEN institution_id END) AS institution3_id,
+						MAX(CASE WHEN row_number = 3 THEN institution_role_id END) AS institution3_role_id,
+						MAX(CASE WHEN row_number = 3 THEN institution_template_role_id END) AS institution3_template_role_id,
+						(SUM(CASE WHEN row_number = 3 AND is_institution_template_role THEN 1 ELSE 0 END) > 0) AS is_institution3_template_role
+					FROM ranked_institution_roles
+					GROUP BY citizen_id
 				)
 
-				SELECT 
-					c.*,
+				SELECT
+					c.id,
+					c.name,
+					c.paternal_name,
+					c.maternal_name,
+					c.title_type,
+					c.curp,
+					c.birthday,
+					c.observations,
+					c.sex_type,
+					c.address_id,
+					c.assistant_id,
+					c.phone,
+					c.phone_extension,
+					c.cellphone,
+					c.political_party_type,
+					COALESCE(nrir.institution_id, 0) AS institution_id,
+					COALESCE(nrir.institution_role_id, 0) AS institution_role_id,
+					c.email,
+					c.created_by_id,
+					c.created_date,
+					c.edit_by_id,
+					c.edit_date,
+					c.voter_code,
+					c.voter_ocr,
+					c.voter_cic,
+					c.voter_section,
+					c.citizen_category_id,
+					COALESCE(nrir.institution2_id, 0) AS institution2_id,
+					COALESCE(nrir.institution2_role_id, 0) AS institution2_role_id,
+					COALESCE(nrir.institution3_id, 0) AS institution3_id,
+					COALESCE(nrir.institution3_role_id, 0) AS institution3_role_id,
+					c.attention_required,
+					c.is_political_activist,
+					c.political_register_date,
+					c.phone2,
+					c.phone2_extension,
+					c.phone3,
+					c.phone3_extension,
+					COALESCE(itr.institution_template_id, 0) AS institution_template_role_id,
+					COALESCE(itr2.institution_template_id, 0) AS institution2_template_role_id,
+					COALESCE(itr3.institution_template_id, 0) AS institution3_template_role_id,
+					c.known_birthday,
+					c.known_birthyear,
+					c.known_political_register_date,
+					c.verified_by_id,
+					c.verified_at,
+					c.verified,
 
-					u.name as author_name, 
+					u.name as author_name,
 					i.name as institution_name,
 					i.society_sector_type as institution_society_sector_type,
 					i.description as institution_description,
@@ -850,9 +998,6 @@ namespace Business
 					c_self.name as assistant_name,
 					c_self.paternal_name as assistant_paternal_name,
 					c_self.maternal_name as assistant_maternal_name,
-					-- c_self.phone as assistant_phone,
-					-- c_self.phone_extension as assistant_phone_extension,
-					-- c_self.cellphone as assistant_cellphone,
 					cc.name as category_name,
 					u2.name as editor_name,
 					u3.name as verified_by_name,
@@ -891,20 +1036,22 @@ namespace Business
 
 					LEFT JOIN normalized_ranked_contact_numbers nrcn ON (c.id = nrcn.entity_id)
 
-					LEFT JOIN institutions i ON c.institution_id = i.id 
+					LEFT JOIN normalized_ranked_institution_roles nrir ON (c.id = nrir.citizen_id)
+
+					LEFT JOIN institutions i ON nrir.institution_id = i.id
 					LEFT JOIN institution_categories ic ON i.category_id = ic.id
-					LEFT JOIN institution_roles ir ON c.institution_role_id = ir.id
-					LEFT JOIN institution_template_roles itr ON c.institution_role_id = itr.id
+					LEFT JOIN institution_roles ir ON nrir.institution_role_id = ir.id
+					LEFT JOIN institution_template_roles itr ON nrir.institution_template_role_id = itr.id
 
-					LEFT JOIN institutions i2 ON c.institution2_id = i2.id
+					LEFT JOIN institutions i2 ON nrir.institution2_id = i2.id
 					LEFT JOIN institution_categories ic2 ON i2.category_id = ic2.id
-					LEFT JOIN institution_roles ir2 ON c.institution2_role_id = ir2.id
-					LEFT JOIN institution_template_roles itr2 ON c.institution2_role_id = itr2.id
+					LEFT JOIN institution_roles ir2 ON nrir.institution2_role_id = ir2.id
+					LEFT JOIN institution_template_roles itr2 ON nrir.institution2_template_role_id = itr2.id
 
-					LEFT JOIN institutions i3 ON c.institution3_id = i3.id 
+					LEFT JOIN institutions i3 ON nrir.institution3_id = i3.id
 					LEFT JOIN institution_categories ic3 ON i3.category_id = ic3.id
-					LEFT JOIN institution_roles ir3 ON c.institution_role_id = ir3.id
-					LEFT JOIN institution_template_roles itr3 ON c.institution3_role_id = itr3.id
+					LEFT JOIN institution_roles ir3 ON nrir.institution3_role_id = ir3.id
+					LEFT JOIN institution_template_roles itr3 ON nrir.institution3_template_role_id = itr3.id
 
 					LEFT JOIN addresses a ON c.address_id = a.id
 				WHERE
@@ -928,9 +1075,6 @@ namespace Business
 							citizen.Assistant.Name = reader.GetString("assistant_name");
 							citizen.Assistant.PaternalName = reader.GetString("assistant_paternal_name");
 							citizen.Assistant.MaternalName = reader.GetString("assistant_maternal_name");
-							//citizen.Assistant.Phone.Number = reader.GetString("assistant_phone");
-							//citizen.Assistant.Phone.Extension = reader.GetString("assistant_phone_extension");
-							//citizen.Assistant.Cellphone = reader.GetString("assistant_cellphone");
 						}
 
 						if (citizen.Institution.Id != 0)
@@ -1117,22 +1261,21 @@ namespace Business
 			return error;
 		}
 
-		public static Error GetCitizensWithInstitutionRole(int institution_id, int institution_template_id, int role_id, out List<TCitizen> citizen_list)
+		public static Error GetCitizensWithInstitutionRole(int institution_id, int role_id, out List<TCitizen> citizen_list)
 		{
 			string condition = $@"
 				AND (
-					(c.institution_id = {institution_id} AND c.institution_role_id = {role_id}) OR
-					(c.institution2_id = {institution_id} AND c.institution2_role_id = {role_id}) OR
-					(c.institution3_id = {institution_id} AND c.institution3_role_id = {role_id}) )";
-
-			if (institution_template_id != 0)
-			{
-				condition += $@" 
-					AND (
-						c.institution_template_role_id = {institution_template_id} OR 
-						c.institution2_template_role_id = {institution_template_id} OR 
-						c.institution3_template_role_id = {institution_template_id})";
-			}
+					c.id IN (
+						SELECT 
+							citizen_id 
+						FROM 
+							citizen_institution_roles cir_ 
+						WHERE 
+							( cir_.institution_id = {institution_id} AND cir_.institution_role_id = {role_id} )
+							OR ( cir_.institution_id = {institution_id} AND cir_.institution_template_role_id = {role_id} )
+					)
+				)
+			";
 
 			return GetCitizensWithCondition(condition, out citizen_list);
 		}
@@ -1300,15 +1443,13 @@ namespace Business
 						}
 					}
 
-					// finalmente, creamos al usuario
+					// finalmente, creamos al ciudadano
 					string sql = @"
 						INSERT INTO citizens(
 							name,
 							title_type,
 							sex_type,
 							citizen_category_id,
-							institution_id,
-							institution_role_id,
 							address_id,
 							known_birthday,
 							known_birthyear
@@ -1317,22 +1458,18 @@ namespace Business
 							@title_type,
 							@sex_type,
 							@citizen_category_id,
-							@institution_id,
-							@institution_role_id,
 							@address_id,
 							false,
 							false
 						) RETURNING id;
 					";
-					
+
 					using (var cmd = new NpgsqlCommand(sql, conn))
 					{
 						cmd.Parameters.AddWithValue("@name", citizen.Name);
 						cmd.Parameters.AddWithValue("@title_type", (int)citizen.Title);
 						cmd.Parameters.AddWithValue("@sex_type", (int)citizen.Sex);
 						cmd.Parameters.AddWithValue("@citizen_category_id", citizen.Category.Id);
-						cmd.Parameters.AddWithValue("@institution_id", citizen.Institution.Id);
-						cmd.Parameters.AddWithValue("@institution_role_id", citizen.Role.Id);
 						cmd.Parameters.AddWithValue("@address_id", citizen.Address.Id);
 
 						citizen.Id = (Int32)(Int64)cmd.ExecuteScalar();
@@ -1342,6 +1479,34 @@ namespace Business
 						log.AppendLine($"  name:                {citizen.Name}");
 						log.AppendLine($"  institution id:      {citizen.Institution.Id}");
 						log.AppendLine($"  institution role id: {citizen.Role.Id}");
+					}
+
+					// save the institution/role assignment (position 1) if one was resolved above
+					if (citizen.Institution.Id != 0)
+					{
+						using (var cmd = new NpgsqlCommand(@"
+							INSERT INTO citizen_institution_roles(
+								position,
+								citizen_id,
+								institution_id,
+								institution_role_id,
+								institution_template_role_id,
+								is_institution_template_role
+							) VALUES (
+								1,
+								@citizen_id,
+								@institution_id,
+								@institution_role_id,
+								NULL,
+								false
+							);", conn))
+						{
+							cmd.Parameters.AddWithValue("@citizen_id", citizen.Id);
+							cmd.Parameters.AddWithValue("@institution_id", citizen.Institution.Id);
+							cmd.Parameters.AddWithValue("@institution_role_id", citizen.Role.Id == 0 ? (object)DBNull.Value : citizen.Role.Id);
+
+							cmd.ExecuteNonQuery();
+						}
 					}
 				}
 

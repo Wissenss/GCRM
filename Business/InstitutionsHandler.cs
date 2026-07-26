@@ -174,11 +174,9 @@ namespace Business
 						SELECT 
 							COUNT(*) 
 						FROM 
-							citizens 
+							citizen_institution_roles cir
 						WHERE 
-							(institution_role_id  = @id AND institution_template_role_id = 0) OR 
-							(institution2_role_id = @id AND institution2_template_role_id = 0) OR 
-							(institution3_role_id = @id AND institution3_template_role_id = 0);";
+							cir.institution_role_id = @id AND NOT cir.is_institution_template_role;";
 
 					int citizens_with_role = (Int32)(Int64)cmd.ExecuteScalar();
 
@@ -243,7 +241,7 @@ namespace Business
 			var conn = ConnectionPool.GetConnection();
 
 			// check there is no citizen with this institution
-			using (var cmd = new NpgsqlCommand("SELECT * FROM citizens WHERE institution_id = @id OR institution2_id = @id OR institution3_id = @id;", conn))
+			using (var cmd = new NpgsqlCommand("SELECT * FROM citizen_institution_roles WHERE institution_id = @id;", conn))
 			{
 				cmd.Parameters.AddWithValue("@id", id);
 
@@ -458,22 +456,20 @@ namespace Business
 			var conn = ConnectionPool.GetConnection();
 
 			string sql = @"
-				SELECT 
-					ir.*, 
-					(SELECT 
-						COUNT(*) 
-					FROM 
-						citizens 
+				SELECT
+					ir.*,
+					(SELECT
+						COUNT(DISTINCT cir.citizen_id)
+					FROM
+						citizen_institution_roles cir
 					WHERE
-						(institution_role_id = ir.id AND institution_template_role_id = 0) OR	
-						(institution2_role_id = ir.id AND institution2_template_role_id = 0) OR
-						(institution3_role_id = ir.id AND institution3_template_role_id = 0)
+						cir.institution_role_id = ir.id AND NOT cir.is_institution_template_role
 					) AS citizens_with_role
-				FROM 
-					institution_roles ir 
-				WHERE 
-					ir.institution_id = @institution_id 
-				ORDER BY 
+				FROM
+					institution_roles ir
+				WHERE
+					ir.institution_id = @institution_id
+				ORDER BY
 					ir.id;";
 			
 			institution_roles = new List<TInstitutionRole>();
@@ -706,23 +702,23 @@ namespace Business
 			template_roles_list = new List<TInstitutionRole>();
 
 			string sql = @"
-				SELECT 
+				SELECT
 					itr.*,
-					(SELECT 
-						COUNT(*) 
-					FROM 
-						citizens c 
+					(SELECT
+						COUNT(DISTINCT cir.citizen_id)
+					FROM
+						citizen_institution_roles cir
 					WHERE
-						(c.institution_role_id  = itr.id AND c.institution_template_role_id  = itr.institution_template_id AND (c.institution_id = @institution_id  OR @institution_id = 0)) OR	
-						(c.institution2_role_id = itr.id AND c.institution2_template_role_id = itr.institution_template_id AND (c.institution2_id = @institution_id OR @institution_id = 0)) OR
-						(c.institution3_role_id = itr.id AND c.institution3_template_role_id = itr.institution_template_id AND (c.institution3_id = @institution_id OR @institution_id = 0))
+						cir.institution_template_role_id = itr.id AND
+						cir.is_institution_template_role AND
+						(cir.institution_id = @institution_id OR @institution_id = 0)
 					) AS citizens_with_role
-				FROM 
+				FROM
 					institution_template_roles itr
 					LEFT JOIN	institution_templates it ON itr.institution_template_id = it.id
-				WHERE 
+				WHERE
 					itr.institution_template_id = @institution_template_id
-				ORDER BY 
+				ORDER BY
 					itr.name;";
 
 			using (var cmd = new NpgsqlCommand(sql, conn))

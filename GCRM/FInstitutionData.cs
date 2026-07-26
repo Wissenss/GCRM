@@ -670,7 +670,6 @@ namespace GCRM
 			DataGridViewRow row = DataGridInstitutionRoles.SelectedRows[0];
 
 			int role_id = (int)row.Cells["colId"].Value;
-			int template_id = (int)row.Cells["colTemplateId"].Value;
 			int institution_id = Id;
 			string role_name = (string)row.Cells["colName"].Value;	
 
@@ -690,7 +689,7 @@ namespace GCRM
 
 				using (new CursorWait())
 				{
-					Error error = CitizensHandler.GetCitizensWithInstitutionRole(institution_id, template_id, role_id, out citizens_with_role);
+					Error error = CitizensHandler.GetCitizensWithInstitutionRole(institution_id, role_id, out citizens_with_role);
 
 					if (error != 0)
 					{
