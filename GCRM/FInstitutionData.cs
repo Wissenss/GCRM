@@ -325,7 +325,7 @@ namespace GCRM
 				Template.DataSource = DTTemplates;
 				Template.ValueMember = "id";
 				Template.DisplayMember = "name";
-				Template.SelectedIndex = 0;
+				Template.SelectedValue = 0;
 			}
 		}
 
