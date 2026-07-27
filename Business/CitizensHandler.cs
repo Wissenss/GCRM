@@ -336,21 +336,13 @@ namespace Business
 			// delete related address
 			if (error == 0)
 			{
-				using (var cmd = new NpgsqlCommand("DELETE FROM addresses WHERE id = @address_id;", conn))
-				{
-					cmd.Parameters.AddWithValue("@address_id", citizen.Address.Id);
-
-					cmd.ExecuteNonQuery();
-				}
-			}
-
-			if (error == 0)
-			{
-				EventLogHandler.AddEventLog(TEventLogType.citizen_delete, Session.User.Id, id, TEntityType.citizen, citizen, DateTime.Now);
+				error = AddressesHandler.DeleteAddressById(citizen.Address.Id, conn);
 			}
 			
 			if (error == 0)
 			{
+				EventLogHandler.AddEventLog(TEventLogType.citizen_delete, Session.User.Id, id, TEntityType.citizen, citizen, DateTime.Now);
+				
 				tran.Commit();
 			}
 			else
@@ -517,7 +509,7 @@ namespace Business
 			// save address
 			if (error == 0)
 			{
-				error = AddressesHandler.SaveAddress(citizen.Address, is_update, out citizen.Address.Id);
+				error = AddressesHandler.SaveAddress(citizen.Address, is_update, out citizen.Address.Id, conn);
 			}
 
 			// save citizen record

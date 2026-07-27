@@ -6,10 +6,8 @@ namespace Business
 {
 	public static class AddressesHandler
 	{
-		public static Error SaveAddress(TAddress address, bool is_update, out int address_id)
+		public static Error SaveAddress(TAddress address, bool is_update, out int address_id, NpgsqlConnection conn)
 		{
-			var conn = ConnectionPool.GetConnection();
-
 			string sql = "";
 
 			if (is_update)
@@ -42,8 +40,6 @@ namespace Business
 					address.Id = (Int32)(Int64)cmd.ExecuteScalar();
 				}
 			}
-
-			ConnectionPool.ReleaseConnection(ref conn);	
 
 			address_id = address.Id;
 
@@ -80,6 +76,18 @@ namespace Business
 			ConnectionPool.ReleaseConnection(ref conn);
 
 			return error;
+		}
+
+		public static Error DeleteAddressById(int id, NpgsqlConnection conn)
+		{
+			using (var cmd = new NpgsqlCommand("DELETE FROM addresses WHERE id = @id;", conn))
+			{
+				cmd.Parameters.AddWithValue("@id", id);
+
+				cmd.ExecuteNonQuery();
+			}
+
+			return 0;
 		}
 
 		public static Error GetCitizenAddress(int citizen_id, out TAddress address)

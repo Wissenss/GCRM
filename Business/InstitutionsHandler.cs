@@ -28,18 +28,20 @@ namespace Business
 				{
 					tran.Rollback();
 					ConnectionPool.ReleaseConnection(ref conn);
-
 					return Error.InstitutionRepeatedName;
 				}
 			}
 
-            // todo: this is not transactional, if the address save fails, the institution will be saved but not the address... we gotta implement the unit of work pattern 
-            Error error = AddressesHandler.SaveAddress(institution.Address, institution.Address.Id != 0, out int address_id);
+            Error error = AddressesHandler.SaveAddress(institution.Address, institution.Address.Id != 0, out int address_id, conn);
 
-			if (error == 0)
+			if (error != 0)
 			{
-				institution.Address.Id = address_id;
-			}
+                tran.Rollback();
+				ConnectionPool.ReleaseConnection(ref conn);
+				return error;
+            }
+			
+			institution.Address.Id = address_id;
 
             string sql = "";
 
@@ -267,8 +269,10 @@ namespace Business
 
 			var conn = ConnectionPool.GetConnection();
 
-			// check there is no citizen with this institution
-			using (var cmd = new NpgsqlCommand("SELECT * FROM citizen_institution_roles WHERE institution_id = @id;", conn))
+            var tran = conn.BeginTransaction();
+
+            // check there is no citizen with this institution
+            using (var cmd = new NpgsqlCommand("SELECT * FROM citizen_institution_roles WHERE institution_id = @id;", conn))
 			{
 				cmd.Parameters.AddWithValue("@id", id);
 
@@ -321,7 +325,18 @@ namespace Business
 
 			if (error == 0)
 			{
+				error = AddressesHandler.DeleteAddressById(institution.Address.Id, conn);
+			}
+
+			if (error == 0)
+			{
 				error = EventLogHandler.AddEventLog(TEventLogType.institution_delete, Session.User.Id, institution.Id, TEntityType.institution, institution, DateTime.Now);
+
+				tran.Commit();
+			}
+			else
+			{
+				tran.Rollback();
 			}
 
 			ConnectionPool.ReleaseConnection(ref conn);

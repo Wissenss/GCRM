@@ -126,5 +126,25 @@ ALTER TABLE citizens DROP COLUMN phone3_extension;
 
 ALTER TABLE institutions ADD COLUMN address_id BIGINT REFERENCES addresses(id) ON DELETE CASCADE;
 
+-- delete orphan address records
+
+DELETE FROM
+	addresses a
+WHERE
+	a.id NOT IN 
+	(
+		SELECT
+			address_id
+		FROM
+			(
+			SELECT i.address_id FROM institutions i
+			UNION
+			SELECT c.address_id FROM citizens c
+			)
+		WHERE
+			address_id IS NOT NULL
+	)
+;
+
 -- update client version
 UPDATE public.settings SET string_value = '0.1.3.1-alpha' WHERE name = 'client_version';
