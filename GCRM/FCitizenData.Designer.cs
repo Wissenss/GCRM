@@ -1063,9 +1063,9 @@
             // TextBoxDistrict
             // 
             TextBoxDistrict.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            TextBoxDistrict.Location = new Point(54, 67);
+            TextBoxDistrict.Location = new Point(57, 67);
             TextBoxDistrict.Name = "TextBoxDistrict";
-            TextBoxDistrict.Size = new Size(451, 23);
+            TextBoxDistrict.Size = new Size(448, 23);
             TextBoxDistrict.TabIndex = 38;
             // 
             // LDistrict
@@ -1073,16 +1073,16 @@
             LDistrict.AutoSize = true;
             LDistrict.Location = new Point(7, 70);
             LDistrict.Name = "LDistrict";
-            LDistrict.Size = new Size(45, 15);
+            LDistrict.Size = new Size(48, 15);
             LDistrict.TabIndex = 39;
-            LDistrict.Text = "Distrito";
+            LDistrict.Text = "Colonia";
             // 
             // LCountryFullName
             // 
             LCountryFullName.AutoSize = true;
             LCountryFullName.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             LCountryFullName.ForeColor = SystemColors.HotTrack;
-            LCountryFullName.Location = new Point(180, 186);
+            LCountryFullName.Location = new Point(183, 186);
             LCountryFullName.Name = "LCountryFullName";
             LCountryFullName.Size = new Size(155, 15);
             LCountryFullName.TabIndex = 37;
@@ -1100,7 +1100,7 @@
             // ComboBoxCountry
             // 
             ComboBoxCountry.FormattingEnabled = true;
-            ComboBoxCountry.Location = new Point(54, 183);
+            ComboBoxCountry.Location = new Point(57, 183);
             ComboBoxCountry.Name = "ComboBoxCountry";
             ComboBoxCountry.Size = new Size(120, 23);
             ComboBoxCountry.TabIndex = 6;
@@ -1108,7 +1108,7 @@
             // 
             // TextBoxCity
             // 
-            TextBoxCity.Location = new Point(54, 96);
+            TextBoxCity.Location = new Point(57, 96);
             TextBoxCity.Name = "TextBoxCity";
             TextBoxCity.Size = new Size(120, 23);
             TextBoxCity.TabIndex = 3;
@@ -1125,7 +1125,7 @@
             // 
             // TextBoxState
             // 
-            TextBoxState.Location = new Point(54, 125);
+            TextBoxState.Location = new Point(57, 125);
             TextBoxState.Name = "TextBoxState";
             TextBoxState.Size = new Size(120, 23);
             TextBoxState.TabIndex = 4;
@@ -1142,7 +1142,7 @@
             // 
             // TextBoxPostalCode
             // 
-            TextBoxPostalCode.Location = new Point(54, 154);
+            TextBoxPostalCode.Location = new Point(57, 154);
             TextBoxPostalCode.Name = "TextBoxPostalCode";
             TextBoxPostalCode.Size = new Size(120, 23);
             TextBoxPostalCode.TabIndex = 5;
@@ -1158,7 +1158,7 @@
             // 
             // TextBoxInteriorNumber
             // 
-            TextBoxInteriorNumber.Location = new Point(253, 38);
+            TextBoxInteriorNumber.Location = new Point(256, 38);
             TextBoxInteriorNumber.Name = "TextBoxInteriorNumber";
             TextBoxInteriorNumber.Size = new Size(101, 23);
             TextBoxInteriorNumber.TabIndex = 2;
@@ -1166,7 +1166,7 @@
             // LInteriorNumber
             // 
             LInteriorNumber.AutoSize = true;
-            LInteriorNumber.Location = new Point(180, 41);
+            LInteriorNumber.Location = new Point(183, 41);
             LInteriorNumber.Name = "LInteriorNumber";
             LInteriorNumber.Size = new Size(67, 15);
             LInteriorNumber.TabIndex = 16;
@@ -1174,7 +1174,7 @@
             // 
             // TextBoxNumber
             // 
-            TextBoxNumber.Location = new Point(54, 38);
+            TextBoxNumber.Location = new Point(57, 38);
             TextBoxNumber.Name = "TextBoxNumber";
             TextBoxNumber.Size = new Size(120, 23);
             TextBoxNumber.TabIndex = 1;
@@ -1191,9 +1191,9 @@
             // TextBoxStreet
             // 
             TextBoxStreet.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            TextBoxStreet.Location = new Point(54, 9);
+            TextBoxStreet.Location = new Point(57, 9);
             TextBoxStreet.Name = "TextBoxStreet";
-            TextBoxStreet.Size = new Size(454, 23);
+            TextBoxStreet.Size = new Size(448, 23);
             TextBoxStreet.TabIndex = 0;
             // 
             // LStreet

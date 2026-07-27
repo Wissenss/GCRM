@@ -11,6 +11,7 @@ namespace GCRM
 	{
 		FAccessMode AccessMode = FAccessMode.Create;
 		int Id;
+		int AddressId;
 
 		DataSet DSInstitution;
 		DataTable DTInstitutionRoles;
@@ -81,6 +82,11 @@ namespace GCRM
 			ComboBoxParentInstitution.ValueMember = "id";
 			ComboBoxParentInstitution.DisplayMember = "name";
 
+			// configure the country combo box
+			ComboBoxCountry.DataSource = Catalogs.DTCountries;
+			ComboBoxCountry.ValueMember = "value";
+			ComboBoxCountry.DisplayMember = "text";
+
 			Template.DataSource = DTTemplates;
 			Template.ValueMember = "id";
 			Template.DisplayMember = "name";
@@ -106,6 +112,15 @@ namespace GCRM
 			BDeleteRole.Enabled = AccessMode != FAccessMode.Read;
 
 			Template.Enabled = AccessMode != FAccessMode.Read;
+
+			TextBoxStreet.Enabled = AccessMode != FAccessMode.Read;
+			TextBoxNumber.Enabled = AccessMode != FAccessMode.Read;
+			TextBoxInteriorNumber.Enabled = AccessMode != FAccessMode.Read;
+			TextBoxCity.Enabled = AccessMode != FAccessMode.Read;
+			TextBoxState.Enabled = AccessMode != FAccessMode.Read;
+			TextBoxPostalCode.Enabled = AccessMode != FAccessMode.Read;
+			ComboBoxCountry.Enabled = AccessMode != FAccessMode.Read;
+			TextBoxDistrict.Enabled = AccessMode != FAccessMode.Read;
 
 			BAccept.Visible = AccessMode != FAccessMode.Read;
 			BCancel.Text = AccessMode != FAccessMode.Read ? "&Cancelar" : "&Cerrar";
@@ -166,6 +181,16 @@ namespace GCRM
 			ComboBoxCategory.SelectedValue = institution.Category.Id;
 
 			Template.SelectedValue = institution.Template.Id;
+
+			AddressId = institution.Address.Id;
+			TextBoxStreet.Text = institution.Address.Street;
+			TextBoxNumber.Text = institution.Address.Number;
+			TextBoxInteriorNumber.Text = institution.Address.InteriorNumber;
+			TextBoxCity.Text = institution.Address.City;
+			TextBoxState.Text = institution.Address.State;
+			TextBoxPostalCode.Text = institution.Address.PostalCode;
+			ComboBoxCountry.SelectedValue = institution.Address.Country;
+			TextBoxDistrict.Text = institution.Address.District;
 
 			DTInstitutionRoles.BeginLoadData();
 			DTInstitutionRoles.Clear();
@@ -426,6 +451,19 @@ namespace GCRM
 				};
 
 				institution.Template.Id = (int)Template.SelectedValue;
+
+				institution.Address = new TAddress()
+				{
+					Id = AddressId,
+					Street = TextBoxStreet.Text.Trim(),
+					Number = TextBoxNumber.Text.Trim(),
+					InteriorNumber = TextBoxInteriorNumber.Text.Trim(),
+					City = TextBoxCity.Text.Trim(),
+					State = TextBoxState.Text.Trim(),
+					PostalCode = TextBoxPostalCode.Text.Trim(),
+					Country = (TCountry)ComboBoxCountry.SelectedValue,
+					District = TextBoxDistrict.Text.Trim(),
+				};
 
 				foreach (DataRow row in DTInstitutionRoles.Rows)
 				{

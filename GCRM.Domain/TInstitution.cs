@@ -24,8 +24,9 @@ namespace GCRM.Domain
 		public string Acronym = "";
 		public bool AttentionRequired;
 		public TInstitutionTemplate Template = new TInstitutionTemplate();
+		public TAddress Address = new TAddress();
 
-		public string NameWithFirstCapital
+        public string NameWithFirstCapital
 		{
 			get
 			{
@@ -57,6 +58,7 @@ namespace GCRM.Domain
 			Acronym = reader.GetString(10);
 			AttentionRequired = reader.GetBoolean(11);
 			Template.Id = reader.GetInt32(12);
+			Address.Id = reader.IsDBNull(13) ? 0 : reader.GetInt32(13);
 		}
 
 		public void PropertiesToUpper()
@@ -85,6 +87,11 @@ namespace GCRM.Domain
 			log_string.AppendLine($"Acronym:             \t{Acronym}");
 			log_string.AppendLine($"AttentionRequired:   \t{AttentionRequired}");
 			log_string.AppendLine($"Template:            \t{Template.Id}");
+			log_string.AppendLine($"Address:             \t{Address.GetFullAddress()}");
+			log_string.AppendLine($"AddressState:        \t{Address.State}");
+			log_string.AppendLine($"AddressCity:         \t{Address.City}");
+			log_string.AppendLine($"AddressPostalCode:   \t{Address.PostalCode}");
+			log_string.AppendLine($"AddressCountry:      \t{Address.Country}");
 
 			return log_string.ToString();
 		}

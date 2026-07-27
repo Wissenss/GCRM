@@ -662,13 +662,6 @@ namespace Business
 					cmd.Parameters.AddWithValue("@sex", (int)citizen.Sex);
 					cmd.Parameters.AddWithValue("@address_id", citizen.Address.Id);
 					cmd.Parameters.AddWithValue("@assistant_id", citizen.Assistant.Id);
-					//cmd.Parameters.AddWithValue("@phone", citizen.Phone.Number);
-					//cmd.Parameters.AddWithValue("@phone_extension", citizen.Phone.Extension);
-					//cmd.Parameters.AddWithValue("@phone2", citizen.Phone2.Number);
-					//cmd.Parameters.AddWithValue("@phone2_extension", citizen.Phone2.Extension);
-					//cmd.Parameters.AddWithValue("@phone3", citizen.Phone3.Number);
-					//cmd.Parameters.AddWithValue("@phone3_extension", citizen.Phone3.Extension);
-					//cmd.Parameters.AddWithValue("@cellphone", citizen.Cellphone);
 					cmd.Parameters.AddWithValue("@political_party", (int)citizen.PoliticalParty);
 					cmd.Parameters.AddWithValue("@email", citizen.Email);
 					cmd.Parameters.AddWithValue("@created_by_id", citizen.Author.Id);

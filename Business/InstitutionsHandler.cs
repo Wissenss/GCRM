@@ -33,7 +33,15 @@ namespace Business
 				}
 			}
 
-			string sql = "";
+            // todo: this is not transactional, if the address save fails, the institution will be saved but not the address... we gotta implement the unit of work pattern 
+            Error error = AddressesHandler.SaveAddress(institution.Address, institution.Address.Id != 0, out int address_id);
+
+			if (error == 0)
+			{
+				institution.Address.Id = address_id;
+			}
+
+            string sql = "";
 
 			if (is_update)
 			{
@@ -50,7 +58,8 @@ namespace Business
 						edit_date = @edit_date,
 						acronym = @acronym,
 						attention_required = @attention_required,
-						institution_template_id = @institution_template_id	
+						institution_template_id = @institution_template_id,
+						address_id = @address_id
 					WHERE 
 						id = @id;";
 			}
@@ -69,7 +78,8 @@ namespace Business
 						edit_date,
 						acronym,
 						attention_required,
-						institution_template_id
+						institution_template_id,
+						address_id
 					) 
 					VALUES(
 						@name, 
@@ -83,7 +93,8 @@ namespace Business
 						@edit_date,
 						@acronym,
 						@attention_required,
-						@institution_template_id
+						@institution_template_id,
+						@address_id
 					) 
 					RETURNING id;";
 			}
@@ -103,8 +114,9 @@ namespace Business
 				cmd.Parameters.AddWithValue("@acronym", institution.Acronym);
 				cmd.Parameters.AddWithValue("@attention_required", false); // editing the institution will always set the attention required flag to false
 				cmd.Parameters.AddWithValue("@institution_template_id", institution.Template.Id);
+				cmd.Parameters.AddWithValue("@address_id", institution.Address.Id);
 
-				if (is_update)
+                if (is_update)
 				{
 					cmd.ExecuteNonQuery();
 				}
@@ -194,6 +206,7 @@ namespace Business
 					cmd.ExecuteNonQuery();
 				}
 			}
+
 
 			EventLogHandler.AddEventLog(is_update ? TEventLogType.institution_edit : TEventLogType.institution_add, institution.LastEditor.Id, institution.Id, TEntityType.institution, institution, DateTime.Now);
 
@@ -379,6 +392,11 @@ namespace Business
 						if (error == 0 && institution.Template.Id > 0)
 						{
 							error = GetInstitutionTemplateById(institution.Template.Id, out institution.Template);
+						}
+
+						if (error == 0 && institution.Address.Id > 0)
+						{
+							error = AddressesHandler.GetAddressById(institution.Address.Id, out institution.Address);
 						}
 					}
 					else
