@@ -475,7 +475,7 @@ namespace GCRM
 			return search_condition;
 		}
 	
-		public static void ExportToExcel(DataGridView dataGrid, string filePath)
+		public static void ExportToExcel(DataGridView dataGrid, string filePath, string title = "")
 		{
 			try
 			{
@@ -488,13 +488,31 @@ namespace GCRM
 					int colIndex = 1;
 					int rowIndex = 1;
 
+					if (string.IsNullOrEmpty(title) == false)
+					{
+						int visibleColumnCount = 0;
+
+						foreach (DataGridViewColumn column in dataGrid.Columns)
+						{
+							if (column.Visible)
+								visibleColumnCount++;
+						}
+
+						if (visibleColumnCount > 1)
+							worksheet.Range(rowIndex, 1, rowIndex, visibleColumnCount).Merge();
+						
+						ExcelUtilities.SetWorksheetHeaderCell(worksheet, rowIndex, colIndex, title, headersColor);
+
+						rowIndex++;
+					}
+
 					// create the headers
 					foreach (DataGridViewColumn column in dataGrid.Columns)
 					{
 						if (column.Visible == false)
 							continue;
 
-						ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, colIndex, column.HeaderText, headersColor, 50);
+						ExcelUtilities.SetWorksheetHeaderCell(worksheet, rowIndex, colIndex, column.HeaderText, headersColor, 50);
 
 						colIndex++;
 					}

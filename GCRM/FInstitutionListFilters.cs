@@ -8,7 +8,8 @@ namespace GCRM
 	public partial class FInstitutionListFilters : Form
 	{
 		public bool FilterCategory;
-		public TInstitutionCategory Category;
+		public int CategoryId;
+		public string CategoryName;
 		public bool FilterSector;
 		public TSocietySector Sector;
 
@@ -45,13 +46,13 @@ namespace GCRM
 			}
 
 			FilterCategory = CheckBoxFilterCategory.Checked;
-			Category = new TInstitutionCategory()
-			{
-				Id = (int)ComboBoxCategory.SelectedValue,
-				Name = (string)ComboBoxCategory.Text,
-			};
+			if (ComboBoxCategory.SelectedValue != null)
+				CategoryId = (int)ComboBoxCategory.SelectedValue;
+			CategoryName = ComboBoxCategory.Text;
+
 			FilterSector = CheckBoxFilterSector.Checked;
-			Sector = (TSocietySector)ComboBoxSector.SelectedValue;
+			if (ComboBoxSector.SelectedValue != null)
+				Sector = (TSocietySector)ComboBoxSector.SelectedValue;
 
 			DialogResult = DialogResult.OK;
 		}

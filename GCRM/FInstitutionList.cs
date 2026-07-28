@@ -1,5 +1,4 @@
 ﻿using Business;
-using ClosedXML.Excel;
 using DocumentFormat.OpenXml.Spreadsheet;
 using QuestPDF.Fluent;
 using Reporter;
@@ -235,7 +234,7 @@ namespace GCRM
 
 			if (FiltersDlg.FilterCategory)
 			{
-				filter += $" and category_id = {FiltersDlg.Category.Id}";
+				filter += $" and category_id = {FiltersDlg.CategoryId}";
 			}
 
 			if (FiltersDlg.FilterSector)
@@ -283,45 +282,14 @@ namespace GCRM
 				return;
 			}
 
-			try
+			String title = $"Listado de Instituciones al {DateTime.Now.ToString("yyyy-MM-dd")}";
+
+			if (TSSLFilters.Text.Trim().Length > 0)
 			{
-				using (new CursorWait())
-				using (var workbook = new XLWorkbook())
-				{
-					var worksheet = workbook.Worksheets.Add("Instituciones");
-
-					XLColor headers_color = XLColor.LightGray;
-
-					int row_index = 1;
-
-					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "#", headers_color, 3);
-					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Id", headers_color, 3);
-					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Nombre", headers_color, 30);
-					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Sector", headers_color, 25);
-					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Categoría", headers_color, 30);
-					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Descripción", headers_color, 100);
-
-					for (int i = 0; i < DataGridInstitutions.Rows.Count; i++)
-					{
-						DataGridViewRow row = DataGridInstitutions.Rows[i];
-
-						row_index = 1;
-
-						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, i.ToString());
-						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, ((int)row.Cells["colId"].Value).ToString());
-						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colName"].Value);
-						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colSocietySectorName"].Value);
-						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colCategoryName"].Value);
-						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colDescription"].Value);
-					}
-
-					workbook.SaveAs(SaveFileDialog.FileName);
-				}
+				title += $" ({TSSLFilters.Text} ) ";
 			}
-			catch (Exception ex)
-			{
-				Utilities.ShowExceptionDialog(ex);
-			}
+
+			DataGridUtilities.ExportToExcel(DataGridInstitutions, SaveFileDialog.FileName, title);
 		}
 
 		public void SetAccessMode(FAccessMode mode)
@@ -352,7 +320,7 @@ namespace GCRM
 
 			if (FiltersDlg.FilterCategory)
 			{
-				TSSLFilters.Text += $"Categoría = {FiltersDlg.Category.Name}, ";
+				TSSLFilters.Text += $"Categoría = {FiltersDlg.CategoryName}, ";
 			}
 
 			if (FiltersDlg.FilterSector)
@@ -463,7 +431,7 @@ namespace GCRM
 
 				// filters
 				if (FiltersDlg.FilterCategory)
-					model.Category = FiltersDlg.Category;
+					model.Category = new TInstitutionCategory() { Id = FiltersDlg.CategoryId, Name = FiltersDlg.CategoryName };
 
 				if (FiltersDlg.FilterSector)
 					model.SocietySector = FiltersDlg.Sector;

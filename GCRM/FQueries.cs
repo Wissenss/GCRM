@@ -1,5 +1,4 @@
-﻿using ClosedXML.Excel;
-using Connection;
+﻿using Connection;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Npgsql;
 using Npgsql.Schema;
@@ -158,39 +157,7 @@ namespace GCRM
 				return;
 			}
 
-			try
-			{
-				using (new CursorWait())
-				using (XLWorkbook workbook = new XLWorkbook())
-				{
-					var worksheet = workbook.Worksheets.Add("consulta");
-
-					XLColor headers_color = XLColor.LightGray;
-
-					for (int i = 0; i < DataGridResults.Columns.Count; i++)
-					{
-						DataGridViewColumn column = DataGridResults.Columns[i];
-
-						ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, i + 1, column.HeaderText, headers_color, 20);
-					}
-
-					for (int i = 0; i < DataGridResults.Rows.Count; i++)
-					{
-						DataGridViewRow row = DataGridResults.Rows[i];
-
-						for (int j = 0; j < DataGridResults.Columns.Count; j++)
-						{
-							ExcelUtilities.SetWorksheetCell(worksheet, i + 2, j + 1, $"{row.Cells[j].Value}");
-						}
-					}
-
-					workbook.SaveAs(SaveFileDialog.FileName);
-				}
-			}
-			catch (Exception ex)
-			{
-				Utilities.ShowExceptionDialog(ex);
-			}
+			DataGridUtilities.ExportToExcel(DataGridResults, SaveFileDialog.FileName);
 		}
 	}
 }

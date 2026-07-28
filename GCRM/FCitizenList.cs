@@ -1,6 +1,5 @@
 ﻿using Business;
 using Business.Business;
-using ClosedXML.Excel;
 using DocumentFormat.OpenXml.Bibliography;
 using Reporter;
 using System.Data;
@@ -658,133 +657,14 @@ namespace GCRM
 				return;
 			}
 
-			try
+			String title = $"Listado de Ciudadanos al {DateTime.Now.ToString("yyyy-MM-dd")}";
+
+			if (TSSLFilters.Text.Trim().Length > 0)
 			{
-				using (new CursorWait())
-				using (var workbook = new XLWorkbook())
-				{
-					var worksheet = workbook.Worksheets.Add("Ciudadanos");
-
-					// set the header column style
-					XLColor headers_color = XLColor.LightGray;
-
-					int row_index = 1;
-
-					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "#", headers_color, 3);
-					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Id", headers_color, 3);
-					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Título", headers_color, 10);
-					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Nombre", headers_color, 30);
-
-					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Nacimiento", headers_color, 15);
-					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Día Nacimiento", headers_color, 15);
-					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Mes Nacimiento", headers_color, 15);
-					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Año Nacimiento", headers_color, 15);
-
-					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "CURP", headers_color, 30);
-					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Teléfono", headers_color, 25);
-					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Teléfono 2", headers_color, 25);
-					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Teléfono 3", headers_color, 25);
-					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Celular", headers_color, 20);
-					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Partido", headers_color, 10);
-
-					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Asistente", headers_color, 30);
-					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Tel. Asistente", headers_color, 25);
-					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Cel. Asistente", headers_color, 20);
-
-					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Sector", headers_color, 10);
-					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Categoría", headers_color, 20);
-					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Institución", headers_color, 40);
-					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Cargo", headers_color, 20);
-
-					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Calle", headers_color, 35);
-					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Número", headers_color, 15);
-					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Número Interior", headers_color, 15);
-					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Código Postal", headers_color, 15);
-					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Estado", headers_color, 20);
-					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "Ciudad", headers_color, 20);
-					ExcelUtilities.SetWorksheetHeaderCell(worksheet, 1, row_index++, "País", headers_color, 20);
-
-					// fill the workseet
-					for (int i = 0; i < DataGridCitizens.Rows.Count; i++)
-					{
-						DataGridViewRow row = DataGridCitizens.Rows[i];
-
-						row_index = 1;
-
-						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, i.ToString());
-						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, ((int)row.Cells["colId"].Value).ToString());
-						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colTitleName"].Value);
-						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colFullName"].Value);
-
-						if ((bool)row.Cells["colBirthdayKnown"].Value)
-						{
-							DateTime birthday = (DateTime)row.Cells["colBirthdayRaw"].Value;
-
-							if ((bool)row.Cells["colBirthdayYearKnown"].Value)
-								ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, birthday.ToString("yyyy/MM/dd"), "yyyy/MM/dd");
-							else
-								ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, birthday.ToString("MM/dd"), "MM/dd");
-
-
-							ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, birthday.Day.ToString());
-							ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, birthday.ToString("MMMM"));
-
-							if ((bool)row.Cells["colBirthdayYearKnown"].Value)
-								ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, birthday.ToString("yyyy"));
-							else
-								row_index++;
-						}
-						else
-							row_index += 4;
-
-						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colCURP"].Value);
-						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colPhoneAndExtension"].Value);
-						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colPhone2AndExtension"].Value);
-						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colPhone3AndExtension"].Value);
-						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colCellphone"].Value);
-						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colPoliticalPartyName"].Value);
-
-						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colAssistantName"].Value);
-						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colAssistantPhoneAndExtension"].Value);
-						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colAssistantCellphone"].Value);
-
-						if ((int)row.Cells["colInstitutionId"].Value != 0)
-						{
-							ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colInstitutionSectorName"].Value);
-
-							if ((int)row.Cells["colInstitutionCategoryId"].Value != 0)
-								ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colInstitutionCategoryName"].Value);
-							else
-								row_index ++;
-							
-							ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colInstitutionName"].Value);
-
-							if ((int)row.Cells["colInstitutionRoleId"].Value != 0)
-							{
-								ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colInstitutionRoleName"].Value);
-							}
-							else
-								row_index++;
-						}
-						else
-							row_index += 4;
-
-						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colAddressStreet"].Value);
-						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colAddressNumber"].Value);
-						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colAddressInteriorNumber"].Value);
-						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colAddressPostalCode"].Value);
-						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colAddressState"].Value);
-						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colAddressCity"].Value);
-						ExcelUtilities.SetWorksheetCell(worksheet, i + 2, row_index++, (string)row.Cells["colAddressCountryName"].Value);
-					}
-
-					workbook.SaveAs(SaveFileDialog.FileName);
-				}
+				title += $" ({TSSLFilters.Text} ) ";
 			}
-			catch (Exception ex)
-			{
-				Utilities.ShowExceptionDialog(ex);
-			}
+
+            DataGridUtilities.ExportToExcel(DataGridCitizens, SaveFileDialog.FileName, title);
 		}
 
 		private void BPrint_Click(object sender, EventArgs e)
