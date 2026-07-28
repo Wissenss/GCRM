@@ -53,6 +53,12 @@
             BSelectInstitution = new Button();
             CheckBoxFilterStatus = new CheckBox();
             ComboBoxStatus = new ComboBox();
+            ComboBoxVerifiedBy = new ComboBox();
+            CheckBoxFilterVerifiedBy = new CheckBox();
+            ComboBoxCreatedBy = new ComboBox();
+            CheckBoxFilterCreatedBy = new CheckBox();
+            ComboBoxEditedBy = new ComboBox();
+            CheckBoxFilterEditedBy = new CheckBox();
             SuspendLayout();
             // 
             // CheckBoxFilterParty
@@ -80,7 +86,7 @@
             // BCancel
             // 
             BCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            BCancel.Location = new Point(278, 339);
+            BCancel.Location = new Point(278, 428);
             BCancel.Name = "BCancel";
             BCancel.Size = new Size(75, 23);
             BCancel.TabIndex = 3;
@@ -91,7 +97,7 @@
             // BAccept
             // 
             BAccept.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            BAccept.Location = new Point(197, 339);
+            BAccept.Location = new Point(197, 428);
             BAccept.Name = "BAccept";
             BAccept.Size = new Size(75, 23);
             BAccept.TabIndex = 2;
@@ -332,12 +338,84 @@
             ComboBoxStatus.Size = new Size(239, 23);
             ComboBoxStatus.TabIndex = 24;
             // 
+            // ComboBoxVerifiedBy
+            // 
+            ComboBoxVerifiedBy.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            ComboBoxVerifiedBy.DropDownStyle = ComboBoxStyle.DropDownList;
+            ComboBoxVerifiedBy.Enabled = false;
+            ComboBoxVerifiedBy.FormattingEnabled = true;
+            ComboBoxVerifiedBy.Location = new Point(114, 329);
+            ComboBoxVerifiedBy.Name = "ComboBoxVerifiedBy";
+            ComboBoxVerifiedBy.Size = new Size(239, 23);
+            ComboBoxVerifiedBy.TabIndex = 26;
+            // 
+            // CheckBoxFilterVerifiedBy
+            // 
+            CheckBoxFilterVerifiedBy.AutoSize = true;
+            CheckBoxFilterVerifiedBy.Location = new Point(12, 331);
+            CheckBoxFilterVerifiedBy.Name = "CheckBoxFilterVerifiedBy";
+            CheckBoxFilterVerifiedBy.Size = new Size(99, 19);
+            CheckBoxFilterVerifiedBy.TabIndex = 25;
+            CheckBoxFilterVerifiedBy.Text = "Verificado por";
+            CheckBoxFilterVerifiedBy.UseVisualStyleBackColor = true;
+            CheckBoxFilterVerifiedBy.CheckedChanged += CheckBoxFilterVerifiedBy_CheckedChanged;
+            //
+            // ComboBoxCreatedBy
+            //
+            ComboBoxCreatedBy.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            ComboBoxCreatedBy.DropDownStyle = ComboBoxStyle.DropDownList;
+            ComboBoxCreatedBy.Enabled = false;
+            ComboBoxCreatedBy.FormattingEnabled = true;
+            ComboBoxCreatedBy.Location = new Point(114, 358);
+            ComboBoxCreatedBy.Name = "ComboBoxCreatedBy";
+            ComboBoxCreatedBy.Size = new Size(239, 23);
+            ComboBoxCreatedBy.TabIndex = 28;
+            //
+            // CheckBoxFilterCreatedBy
+            //
+            CheckBoxFilterCreatedBy.AutoSize = true;
+            CheckBoxFilterCreatedBy.Location = new Point(12, 360);
+            CheckBoxFilterCreatedBy.Name = "CheckBoxFilterCreatedBy";
+            CheckBoxFilterCreatedBy.Size = new Size(85, 19);
+            CheckBoxFilterCreatedBy.TabIndex = 27;
+            CheckBoxFilterCreatedBy.Text = "Creado por";
+            CheckBoxFilterCreatedBy.UseVisualStyleBackColor = true;
+            CheckBoxFilterCreatedBy.CheckedChanged += CheckBoxFilterCreatedBy_CheckedChanged;
+            //
+            // ComboBoxEditedBy
+            //
+            ComboBoxEditedBy.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            ComboBoxEditedBy.DropDownStyle = ComboBoxStyle.DropDownList;
+            ComboBoxEditedBy.Enabled = false;
+            ComboBoxEditedBy.FormattingEnabled = true;
+            ComboBoxEditedBy.Location = new Point(114, 387);
+            ComboBoxEditedBy.Name = "ComboBoxEditedBy";
+            ComboBoxEditedBy.Size = new Size(239, 23);
+            ComboBoxEditedBy.TabIndex = 30;
+            //
+            // CheckBoxFilterEditedBy
+            //
+            CheckBoxFilterEditedBy.AutoSize = true;
+            CheckBoxFilterEditedBy.Location = new Point(12, 389);
+            CheckBoxFilterEditedBy.Name = "CheckBoxFilterEditedBy";
+            CheckBoxFilterEditedBy.Size = new Size(87, 19);
+            CheckBoxFilterEditedBy.TabIndex = 29;
+            CheckBoxFilterEditedBy.Text = "Editado por";
+            CheckBoxFilterEditedBy.UseVisualStyleBackColor = true;
+            CheckBoxFilterEditedBy.CheckedChanged += CheckBoxFilterEditedBy_CheckedChanged;
+            // 
             // FCitizenListFilters
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(365, 374);
+            ClientSize = new Size(365, 463);
             ControlBox = false;
+            Controls.Add(ComboBoxEditedBy);
+            Controls.Add(CheckBoxFilterEditedBy);
+            Controls.Add(ComboBoxCreatedBy);
+            Controls.Add(CheckBoxFilterCreatedBy);
+            Controls.Add(ComboBoxVerifiedBy);
+            Controls.Add(CheckBoxFilterVerifiedBy);
             Controls.Add(ComboBoxStatus);
             Controls.Add(CheckBoxFilterStatus);
             Controls.Add(BSelectInstitution);
@@ -403,5 +481,11 @@
 		private Button BSelectInstitution;
 		private CheckBox CheckBoxFilterStatus;
 		private ComboBox ComboBoxStatus;
-	}
+        private ComboBox ComboBoxVerifiedBy;
+        private CheckBox CheckBoxFilterVerifiedBy;
+        private ComboBox ComboBoxCreatedBy;
+        private CheckBox CheckBoxFilterCreatedBy;
+        private ComboBox ComboBoxEditedBy;
+        private CheckBox CheckBoxFilterEditedBy;
+    }
 }

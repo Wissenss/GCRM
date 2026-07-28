@@ -178,6 +178,8 @@ namespace GCRM
                 {
                     TabControl.TabPages.Remove(TabElectoral);
                 }
+
+                ToolStripSeparator2.Visible = BRelationships.Visible || BCitizenGroups.Visible;
             }
         }
 

@@ -26,10 +26,12 @@ namespace GCRM
         public TCitizenTitle CitizenTitle;
         public bool FilterInstitution;
         public int InstitutionId;
+        public string InstitutionName;
         public bool FilterSector;
         public TSocietySector Sector;
         public bool FilterInstitutionCategory;
         public int InstitutionCategoryId;
+        public string InstitutionCategoryName;
         public bool FilterBirthdayYear;
         public int BirthdayYear = DateTime.Now.Year;
         public bool FilterBirthdayMonth;
@@ -38,14 +40,27 @@ namespace GCRM
         public int BirthdayDay = DateTime.Now.Day;
         public bool FilterCategory;
         public int CategoryId;
+        public string CategoryName;
         public bool FilterStatus;
         public int Status;
+        public bool FilterVerifiedBy;
+        public int VerifiedById;
+        public string VerifiedByName;
+        public bool FilterCreatedBy;
+        public int CreatedById;
+        public string CreatedByName;
+        public bool FilterEditedBy;
+        public int EditedById;
+        public string EditedByName;
 
         DataSet DSFilters;
         DataTable DTYears;
         DataTable DTMonths;
         DataTable DTDays;
         DataTable DTStatus;
+        DataTable DTUsersVerifiedBy;
+        DataTable DTUsersCreatedBy;
+        DataTable DTUsersEditedBy;
 
         public FCitizenListFilters()
         {
@@ -70,6 +85,21 @@ namespace GCRM
             DTStatus.Columns.Add("value", typeof(int));
             DTStatus.Columns.Add("text", typeof(string));
             DSFilters.Tables.Add(DTStatus);
+
+            DTUsersVerifiedBy = new DataTable("DTUsersVerifiedBy");
+            DTUsersVerifiedBy.Columns.Add("id", typeof(int));
+            DTUsersVerifiedBy.Columns.Add("name", typeof(string));
+            DSFilters.Tables.Add(DTUsersVerifiedBy);
+
+            DTUsersCreatedBy = new DataTable("DTUsersCreatedBy");
+            DTUsersCreatedBy.Columns.Add("id", typeof(int));
+            DTUsersCreatedBy.Columns.Add("name", typeof(string));
+            DSFilters.Tables.Add(DTUsersCreatedBy);
+
+            DTUsersEditedBy = new DataTable("DTUsersEditedBy");
+            DTUsersEditedBy.Columns.Add("id", typeof(int));
+            DTUsersEditedBy.Columns.Add("name", typeof(string));
+            DSFilters.Tables.Add(DTUsersEditedBy);
         }
 
         private void LoadDTYears()
@@ -148,6 +178,39 @@ namespace GCRM
             ComboBoxStatus.SelectedValue = 1;
         }
 
+        private void FillDTUsers(DataTable table, List<TUser> users)
+        {
+            table.BeginLoadData();
+            table.Clear();
+
+            foreach (TUser user in users)
+            {
+                DataRow row = table.NewRow();
+
+                row["id"] = user.Id;
+                row["name"] = user.Name;
+
+                table.Rows.Add(row);
+            }
+
+            table.EndLoadData();
+        }
+
+        private void LoadDTUsers()
+        {
+            Error error = UsersHandler.GetUsers(out List<TUser> users);
+
+            if (error != 0)
+            {
+                Utilities.ShowErrorDialog(error);
+                return;
+            }
+
+            FillDTUsers(DTUsersVerifiedBy, users);
+            FillDTUsers(DTUsersCreatedBy, users);
+            FillDTUsers(DTUsersEditedBy, users);
+        }
+
         private bool ValidateInput()
         {
             StringBuilder errors = new StringBuilder();
@@ -170,6 +233,21 @@ namespace GCRM
             if (CheckBoxFilterCategory.Checked && ComboBoxCategory.SelectedValue == null)
             {
                 errors.AppendLine("Debe especificar la categoría a filtrar");
+            }
+
+            if (CheckBoxFilterVerifiedBy.Checked && ComboBoxVerifiedBy.SelectedValue == null)
+            {
+                errors.AppendLine("Debe especificar el usuario que verificó a filtrar");
+            }
+
+            if (CheckBoxFilterCreatedBy.Checked && ComboBoxCreatedBy.SelectedValue == null)
+            {
+                errors.AppendLine("Debe especificar el usuario que creó a filtrar");
+            }
+
+            if (CheckBoxFilterEditedBy.Checked && ComboBoxEditedBy.SelectedValue == null)
+            {
+                errors.AppendLine("Debe especificar el usuario que editó a filtrar");
             }
 
             if (errors.Length > 0)
@@ -200,6 +278,7 @@ namespace GCRM
             FilterInstitution = CheckBoxFilterInstitution.Checked;
             if (ComboBoxInstitucion.SelectedValue != null)
                 InstitutionId = (int)ComboBoxInstitucion.SelectedValue;
+            InstitutionName = ComboBoxInstitucion.Text;
 
             FilterSector = CheckBoxFilterSector.Checked;
             if (ComboBoxSector.SelectedValue != null)
@@ -208,6 +287,7 @@ namespace GCRM
             FilterInstitutionCategory = CheckBoxFilterInstitutionCategory.Checked;
             if (ComboBoxInstitutionCategory.SelectedValue != null)
                 InstitutionCategoryId = (int)ComboBoxInstitutionCategory.SelectedValue;
+            InstitutionCategoryName = ComboBoxInstitutionCategory.Text;
 
             FilterBirthdayYear = CheckBoxFilterBirthdayYear.Checked;
             BirthdayYear = (int)ComboBoxBirthdayYear.SelectedValue;
@@ -221,9 +301,25 @@ namespace GCRM
             FilterCategory = CheckBoxFilterCategory.Checked;
             if (ComboBoxCategory.SelectedValue != null)
                 CategoryId = (int)ComboBoxCategory.SelectedValue;
+            CategoryName = ComboBoxCategory.Text;
 
             FilterStatus = CheckBoxFilterStatus.Checked;
             Status = (int)ComboBoxStatus.SelectedValue;
+
+            FilterVerifiedBy = CheckBoxFilterVerifiedBy.Checked;
+            if (ComboBoxVerifiedBy.SelectedValue != null)
+                VerifiedById = (int)ComboBoxVerifiedBy.SelectedValue;
+            VerifiedByName = ComboBoxVerifiedBy.Text;
+
+            FilterCreatedBy = CheckBoxFilterCreatedBy.Checked;
+            if (ComboBoxCreatedBy.SelectedValue != null)
+                CreatedById = (int)ComboBoxCreatedBy.SelectedValue;
+            CreatedByName = ComboBoxCreatedBy.Text;
+
+            FilterEditedBy = CheckBoxFilterEditedBy.Checked;
+            if (ComboBoxEditedBy.SelectedValue != null)
+                EditedById = (int)ComboBoxEditedBy.SelectedValue;
+            EditedByName = ComboBoxEditedBy.Text;
 
             DialogResult = DialogResult.OK;
         }
@@ -319,6 +415,7 @@ namespace GCRM
                 LoadDTMonths();
                 LoadDTDays();
                 LoadDTStatus();
+                LoadDTUsers();
 
                 // bind the comboboxes
                 ComboBoxCitizenTitle.DataSource = Catalogs.DTCitizenTitles;
@@ -373,6 +470,25 @@ namespace GCRM
 
                 if (Catalogs.DTCitizenCategories.Rows.Count > 0)
                     ComboBoxCategory.SelectedIndex = 0;
+
+                ComboBoxVerifiedBy.DataSource = DTUsersVerifiedBy;
+                ComboBoxVerifiedBy.ValueMember = "id";
+                ComboBoxVerifiedBy.DisplayMember = "name";
+
+                ComboBoxCreatedBy.DataSource = DTUsersCreatedBy;
+                ComboBoxCreatedBy.ValueMember = "id";
+                ComboBoxCreatedBy.DisplayMember = "name";
+
+                ComboBoxEditedBy.DataSource = DTUsersEditedBy;
+                ComboBoxEditedBy.ValueMember = "id";
+                ComboBoxEditedBy.DisplayMember = "name";
+
+                if (DTUsersVerifiedBy.Rows.Count > 0)
+                {
+                    ComboBoxVerifiedBy.SelectedIndex = 0;
+                    ComboBoxCreatedBy.SelectedIndex = 0;
+                    ComboBoxEditedBy.SelectedIndex = 0;
+                }
             }
 
             loaded = true;
@@ -381,6 +497,21 @@ namespace GCRM
         private void CheckBoxFilterStatus_CheckedChanged(object sender, EventArgs e)
         {
             ComboBoxStatus.Enabled = CheckBoxFilterStatus.Checked;
+        }
+
+        private void CheckBoxFilterVerifiedBy_CheckedChanged(object sender, EventArgs e)
+        {
+            ComboBoxVerifiedBy.Enabled = CheckBoxFilterVerifiedBy.Checked;
+        }
+
+        private void CheckBoxFilterCreatedBy_CheckedChanged(object sender, EventArgs e)
+        {
+            ComboBoxCreatedBy.Enabled = CheckBoxFilterCreatedBy.Checked;
+        }
+
+        private void CheckBoxFilterEditedBy_CheckedChanged(object sender, EventArgs e)
+        {
+            ComboBoxEditedBy.Enabled = CheckBoxFilterEditedBy.Checked;
         }
     }
 }

@@ -495,10 +495,10 @@ namespace GCRM
 			string filtros = "";
 
 			if (FiltersDlg.FilterInstitutionCategory)
-				filtros += $"Categoría de institución = {FiltersDlg.InstitutionCategoryId}, ";
+				filtros += $"Categoría de institución = {FiltersDlg.InstitutionCategoryName}, ";
 
 			if (FiltersDlg.FilterInstitution)
-				filtros += $"Institución = {FiltersDlg.InstitutionId}, "; // todo: make the institution and category not appear as Id but with his actual name
+				filtros += $"Institución = {FiltersDlg.InstitutionName}, ";
 
 			if (FiltersDlg.FilterSector)
 				filtros += $"Sector = {BConstants.GetSocietySectorName(FiltersDlg.Sector)}, ";
@@ -522,7 +522,7 @@ namespace GCRM
 				filtros += $"Día Nac = {FiltersDlg.BirthdayDay}, ";
 
 			if (FiltersDlg.FilterCategory)
-				filtros += $"Categoría = {FiltersDlg.CategoryId}, ";
+				filtros += $"Categoría = {FiltersDlg.CategoryName}, ";
 
 			if (FiltersDlg.FilterStatus)
 			{
@@ -535,6 +535,15 @@ namespace GCRM
 					filtros += $"No verificados, ";
 				}
 			}
+
+			if (FiltersDlg.FilterVerifiedBy)
+				filtros += $"Verificado por = {FiltersDlg.VerifiedByName}, ";
+
+			if (FiltersDlg.FilterCreatedBy)
+				filtros += $"Creado por = {FiltersDlg.CreatedByName}, ";
+
+			if (FiltersDlg.FilterEditedBy)
+				filtros += $"Editado por = {FiltersDlg.EditedByName}, ";
 
 			if (filtros.Length > 0)
 			{
@@ -597,6 +606,15 @@ namespace GCRM
 					filter += $" and verified = false";
 				}
 			}
+
+			if (FiltersDlg.FilterVerifiedBy)
+				filter += $" and verified_by_id = {FiltersDlg.VerifiedById}";
+
+			if (FiltersDlg.FilterCreatedBy)
+				filter += $" and author_id = {FiltersDlg.CreatedById}";
+
+			if (FiltersDlg.FilterEditedBy)
+				filter += $" and editor_id = {FiltersDlg.EditedById}";
 
 			DTCitizens.DefaultView.RowFilter = filter;
 

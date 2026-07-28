@@ -35,10 +35,10 @@
             LToolstripVersion = new ToolStripStatusLabel();
             toolStrip1 = new ToolStrip();
             BCitizens = new ToolStripButton();
-            toolStripSeparator4 = new ToolStripSeparator();
+            ToolStripSeparator4 = new ToolStripSeparator();
             BCitizenGroups = new ToolStripButton();
             BRelationships = new ToolStripButton();
-            toolStripSeparator2 = new ToolStripSeparator();
+            ToolStripSeparator2 = new ToolStripSeparator();
             BInstitutions = new ToolStripButton();
             TabControl = new TabControl();
             TabPageCatalogs = new TabPage();
@@ -76,6 +76,7 @@
             WarningPanelTopBar = new Panel();
             label1 = new Label();
             PictureBoxWarning = new PictureBox();
+            ToolStripSeparator7 = new ToolStripSeparator();
             statusStrip1.SuspendLayout();
             toolStrip1.SuspendLayout();
             TabControl.SuspendLayout();
@@ -137,7 +138,7 @@
             // 
             toolStrip1.Dock = DockStyle.Fill;
             toolStrip1.GripStyle = ToolStripGripStyle.Hidden;
-            toolStrip1.Items.AddRange(new ToolStripItem[] { BCitizens, toolStripSeparator4, BCitizenGroups, BRelationships, toolStripSeparator2, BInstitutions });
+            toolStrip1.Items.AddRange(new ToolStripItem[] { BCitizens, ToolStripSeparator4, BCitizenGroups, BRelationships, ToolStripSeparator2, BInstitutions, ToolStripSeparator7 });
             toolStrip1.Location = new Point(3, 3);
             toolStrip1.Name = "toolStrip1";
             toolStrip1.RenderMode = ToolStripRenderMode.System;
@@ -156,10 +157,10 @@
             BCitizens.TextImageRelation = TextImageRelation.ImageAboveText;
             BCitizens.Click += BCitizens_Click;
             // 
-            // toolStripSeparator4
+            // ToolStripSeparator4
             // 
-            toolStripSeparator4.Name = "toolStripSeparator4";
-            toolStripSeparator4.Size = new Size(6, 55);
+            ToolStripSeparator4.Name = "ToolStripSeparator4";
+            ToolStripSeparator4.Size = new Size(6, 55);
             // 
             // BCitizenGroups
             // 
@@ -186,10 +187,10 @@
             BRelationships.TextImageRelation = TextImageRelation.ImageAboveText;
             BRelationships.Click += BRelationships_Click;
             // 
-            // toolStripSeparator2
+            // ToolStripSeparator2
             // 
-            toolStripSeparator2.Name = "toolStripSeparator2";
-            toolStripSeparator2.Size = new Size(6, 55);
+            ToolStripSeparator2.Name = "ToolStripSeparator2";
+            ToolStripSeparator2.Size = new Size(6, 55);
             // 
             // BInstitutions
             // 
@@ -614,6 +615,11 @@
             PictureBoxWarning.TabIndex = 0;
             PictureBoxWarning.TabStop = false;
             // 
+            // ToolStripSeparator7
+            // 
+            ToolStripSeparator7.Name = "ToolStripSeparator7";
+            ToolStripSeparator7.Size = new Size(6, 55);
+            // 
             // FMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -675,7 +681,7 @@
 		private TabPage TabOthers;
 		private ToolStrip ToolStripOther;
 		private ToolStripButton BSettings;
-		private ToolStripSeparator toolStripSeparator2;
+		private ToolStripSeparator ToolStripSeparator2;
 		private ToolStripButton BUsers;
 		private ToolStripStatusLabel LToolstripVersion;
 		private ToolStripStatusLabel LToolStripServer;
@@ -701,7 +707,7 @@
 		private Panel BirthdayPanelTopBar;
 		private Panel BirthdayPanelContent;
 		private ToolStripButton BEmails;
-		private ToolStripSeparator toolStripSeparator4;
+		private ToolStripSeparator ToolStripSeparator4;
 		private ToolStripButton BRelationships;
 		private ToolStripButton BCitizenGroups;
         private ToolStripSeparator toolStripSeparator6;
@@ -713,5 +719,6 @@
         private Label label1;
         private Panel WarningPanelContent;
         private ListBox ListBoxWarnings;
+        private ToolStripSeparator ToolStripSeparator7;
     }
 }
