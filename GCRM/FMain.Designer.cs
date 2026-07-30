@@ -40,6 +40,8 @@
             BRelationships = new ToolStripButton();
             ToolStripSeparator2 = new ToolStripSeparator();
             BInstitutions = new ToolStripButton();
+            ToolStripSeparator7 = new ToolStripSeparator();
+            BReportList = new ToolStripButton();
             TabControl = new TabControl();
             TabPageCatalogs = new TabPage();
             TabElectoral = new TabPage();
@@ -76,7 +78,6 @@
             WarningPanelTopBar = new Panel();
             label1 = new Label();
             PictureBoxWarning = new PictureBox();
-            ToolStripSeparator7 = new ToolStripSeparator();
             statusStrip1.SuspendLayout();
             toolStrip1.SuspendLayout();
             TabControl.SuspendLayout();
@@ -138,7 +139,7 @@
             // 
             toolStrip1.Dock = DockStyle.Fill;
             toolStrip1.GripStyle = ToolStripGripStyle.Hidden;
-            toolStrip1.Items.AddRange(new ToolStripItem[] { BCitizens, ToolStripSeparator4, BCitizenGroups, BRelationships, ToolStripSeparator2, BInstitutions, ToolStripSeparator7 });
+            toolStrip1.Items.AddRange(new ToolStripItem[] { BCitizens, ToolStripSeparator4, BCitizenGroups, BRelationships, ToolStripSeparator2, BInstitutions, ToolStripSeparator7, BReportList });
             toolStrip1.Location = new Point(3, 3);
             toolStrip1.Name = "toolStrip1";
             toolStrip1.RenderMode = ToolStripRenderMode.System;
@@ -202,6 +203,22 @@
             BInstitutions.Text = "&Instituciones";
             BInstitutions.TextImageRelation = TextImageRelation.ImageAboveText;
             BInstitutions.Click += BInstitutions_Click;
+            // 
+            // ToolStripSeparator7
+            // 
+            ToolStripSeparator7.Name = "ToolStripSeparator7";
+            ToolStripSeparator7.Size = new Size(6, 55);
+            // 
+            // BReportList
+            // 
+            BReportList.Image = Properties.Resources.Fatcow_Farm_Fresh_Report_32;
+            BReportList.ImageScaling = ToolStripItemImageScaling.None;
+            BReportList.ImageTransparentColor = Color.Magenta;
+            BReportList.Name = "BReportList";
+            BReportList.Size = new Size(57, 52);
+            BReportList.Text = "R&eportes";
+            BReportList.TextImageRelation = TextImageRelation.ImageAboveText;
+            BReportList.Click += BReportList_Click;
             // 
             // TabControl
             // 
@@ -615,11 +632,6 @@
             PictureBoxWarning.TabIndex = 0;
             PictureBoxWarning.TabStop = false;
             // 
-            // ToolStripSeparator7
-            // 
-            ToolStripSeparator7.Name = "ToolStripSeparator7";
-            ToolStripSeparator7.Size = new Size(6, 55);
-            // 
             // FMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -720,5 +732,6 @@
         private Panel WarningPanelContent;
         private ListBox ListBoxWarnings;
         private ToolStripSeparator ToolStripSeparator7;
+        private ToolStripButton BReportList;
     }
 }

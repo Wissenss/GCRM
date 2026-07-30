@@ -1117,7 +1117,9 @@ namespace Business
 
 						if (citizen.Role.Id != 0)
 						{
-							if (citizen.Role.IsTemplateRole)
+                            citizen.Role.InstitutionId = citizen.Institution.Id;
+
+                            if (citizen.Role.IsTemplateRole)
 							{
 								citizen.Role.Name = reader.GetString("institution_template_role_name");
 								citizen.Role.Description = reader.GetString("institution_template_role_description");
@@ -1145,6 +1147,8 @@ namespace Business
 
 						if (citizen.Role2.Id != 0)
 						{
+							citizen.Role2.InstitutionId = citizen.Institution2.Id;
+
 							if (citizen.Role2.IsTemplateRole)
 							{
 								citizen.Role2.Name = reader.GetString("institution2_template_role_name");
@@ -1173,7 +1177,9 @@ namespace Business
 
 						if (citizen.Role3.Id != 0)
 						{
-							if (citizen.Role3.IsTemplateRole)
+                            citizen.Role3.InstitutionId = citizen.Institution3.Id;
+
+                            if (citizen.Role3.IsTemplateRole)
 							{
 								citizen.Role3.Name = reader.GetString("institution3_template_role_name");
 								citizen.Role3.Description = reader.GetString("institution3_template_role_description");
@@ -1303,6 +1309,24 @@ namespace Business
 
 			return GetCitizensWithCondition(condition, out citizen_list);
 		}
+
+		public static Error GetCitizensWithRoleInInstitution(int institution_id, out List<TCitizen> citizens)
+		{
+            string condition = $@"
+				AND (
+					c.id IN (
+						SELECT 
+							citizen_id 
+						FROM 
+							citizen_institution_roles cir_ 
+						WHERE 
+							cir_.institution_id = {institution_id}
+					)
+				)
+			";
+
+            return GetCitizensWithCondition(condition, out citizens);
+        }
 
 		public static Error ImportCitizens(List<TCitizen> to_import, out string import_log, Action<int> callback)
 		{

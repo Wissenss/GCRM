@@ -873,6 +873,16 @@ namespace GCRM.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Fatcow_Farm_Fresh_Report_32 {
+            get {
+                object obj = ResourceManager.GetObject("Fatcow-Farm-Fresh-Report.32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Fatcow_Farm_Fresh_Reseller_programm_32 {
             get {
                 object obj = ResourceManager.GetObject("Fatcow-Farm-Fresh-Reseller-programm.32", resourceCulture);
@@ -976,16 +986,6 @@ namespace GCRM.Properties {
         internal static System.Drawing.Bitmap Fatcow_Farm_Fresh_Users_5_32 {
             get {
                 object obj = ResourceManager.GetObject("Fatcow-Farm-Fresh-Users-5.32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Fatcow_Farm_Fresh_Warning_16 {
-            get {
-                object obj = ResourceManager.GetObject("Fatcow-Farm-Fresh-Warning.16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

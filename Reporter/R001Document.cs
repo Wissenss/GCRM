@@ -183,6 +183,8 @@ namespace Reporter
 
 		void ComposeTable(IContainer container)
 		{
+			// this seems like a common scenario, we need some ReportDocumentUtilities for common compositions like this ones
+
 			container.Table(table =>
 			{
 				table.ColumnsDefinition(columns =>

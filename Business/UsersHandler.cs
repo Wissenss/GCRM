@@ -129,8 +129,18 @@ namespace Business
 
 				new TUserPermission(601, "Emails.Consultar"),
 
-				new TUserPermission(611, "Emails.CardDav.Sync")
-			};
+				new TUserPermission(611, "Emails.CardDav.Sync"),
+
+				// reports related permissions
+				new TUserPermission(701, "Reportes.Consultar"),
+                new TUserPermission(702, "Reportes.Generar"),
+
+                new TUserPermission(711, "Reportes.Generar.R001"),
+                new TUserPermission(712, "Reportes.Generar.R002"),
+                new TUserPermission(713, "Reportes.Generar.R003"),
+                new TUserPermission(714, "Reportes.Generar.R004"),
+                new TUserPermission(715, "Reportes.Generar.R005")
+            };
 		}
 
 		public static Error GetUserByUsername(string username, out TUser user)

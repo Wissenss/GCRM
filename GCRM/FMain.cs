@@ -114,7 +114,7 @@ namespace GCRM
                 if (institution_count > 0)
                     if (institution_count == 1)
                         ListBoxWarnings.Items.Add($" - {institution_count} institución requiere atención");
-                    else        
+                    else
                         ListBoxWarnings.Items.Add($" - {institution_count} instituciónes requieren atención");
 
                 WarningPanelContent.MinimumSize = new Size(0, ListBoxWarnings.ItemHeight * ListBoxWarnings.Items.Count + 10);
@@ -122,7 +122,7 @@ namespace GCRM
                 WarningPanel.Refresh();
             }
         }
-        
+
         private void FMain_Load(object sender, EventArgs e)
         {
             RefreshStatusStrip();
@@ -173,6 +173,8 @@ namespace GCRM
                 BBackup.Visible = Session.HasPermission("Backups.Consultar");
 
                 BSync.Enabled = Session.User.CardDavSyncEnabled;
+
+                BReportList.Visible = Session.HasPermission("Reportes.Consultar");
 
                 if (Session.HasPermission("Network.Consultar") == false)
                 {
@@ -327,6 +329,14 @@ namespace GCRM
             using (FBackup backup_dlg = new FBackup())
             {
                 backup_dlg.ShowDialog();
+            }
+        }
+
+        private void BReportList_Click(object sender, EventArgs e)
+        {
+            using (FReportList report_dlg = new FReportList())
+            {
+                report_dlg.ShowDialog();
             }
         }
     }
