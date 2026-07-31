@@ -1,5 +1,6 @@
 ﻿using Connection;
 using Npgsql;
+using System.Linq;
 using System.Text;
 using GCRM.Domain;
 using GCRM.Domain.Enums;
@@ -72,7 +73,56 @@ namespace Business
 
 			return 0;
 		}
-	
+
+		public static Error GetEventLogs(out List<TEventLog> logs, List<int> user_ids, List<TEventLogType> types, DateTime date_from, DateTime date_to)
+		{
+			logs = new List<TEventLog>();
+
+			var conn = ConnectionPool.GetConnection();
+
+			StringBuilder sql = new StringBuilder(
+				"SELECT el.*, u.name as user_name FROM event_logs el LEFT JOIN users u ON el.user_id = u.id WHERE el.datetime >= @date_from AND el.datetime < @date_to");
+
+			if (user_ids != null && user_ids.Count > 0)
+				sql.Append(" AND el.user_id = ANY(@user_ids)");
+
+			if (types != null && types.Count > 0)
+				sql.Append(" AND el.type = ANY(@types)");
+
+			sql.Append(" ORDER BY el.datetime;");
+
+			using (var cmd = new NpgsqlCommand(sql.ToString(), conn))
+			{
+				cmd.Parameters.AddWithValue("@date_from", date_from);
+				cmd.Parameters.AddWithValue("@date_to", date_to);
+
+				if (user_ids != null && user_ids.Count > 0)
+					cmd.Parameters.AddWithValue("@user_ids", user_ids.ToArray());
+
+				if (types != null && types.Count > 0)
+					cmd.Parameters.AddWithValue("@types", types.Select(t => (int)t).ToArray());
+
+				using (var reader = cmd.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						var log = new TEventLog();
+
+						log.FillFromReader(reader);
+
+						if (log.User.Id != 0)
+							log.User.Name = reader.GetString(reader.GetOrdinal("user_name"));
+
+						logs.Add(log);
+					}
+				}
+			}
+
+			ConnectionPool.ReleaseConnection(ref conn);
+
+			return 0;
+		}
+
 		public static Error AddEventLog(TEventLogType event_type, int user_id, int entity_id, TEntityType entity_type, TEntity entity, DateTime datetime)
 		{
 			TEventLog log = new TEventLog()

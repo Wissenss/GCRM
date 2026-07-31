@@ -140,7 +140,8 @@ namespace Business
                 new TUserPermission(713, "Reportes.Generar.R003"),
                 new TUserPermission(714, "Reportes.Generar.R004"),
                 new TUserPermission(715, "Reportes.Generar.R005"),
-                new TUserPermission(716, "Reportes.Generar.R006")
+                new TUserPermission(716, "Reportes.Generar.R006"),
+                new TUserPermission(717, "Reportes.Generar.R007")
             };
 		}
 

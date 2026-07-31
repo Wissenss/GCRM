@@ -56,6 +56,7 @@ namespace GCRM
                 AddItem("R004", "Catálogo de instituciones", "Listado de instituciones, con filtros opcionales");
                 AddItem("R005", "Institución", "Información de la institución y de su plantilla actual");
                 AddItem("R006", "Ciudadano", "Información del ciudadano y de sus instituciones y cargos");
+                AddItem("R007", "Actividad de los usuarios", "Actividad de los usuarios en el sistema, con filtros de usuario, grupo, evento y fecha");
 
                 DTReports.EndLoadData();
             }
@@ -78,6 +79,7 @@ namespace GCRM
                 case "R004": (new FReport004()).ShowDialog(); break;
                 case "R005": (new FReport005()).ShowDialog(); break;
                 case "R006": (new FReport006()).ShowDialog(); break;
+                case "R007": (new FReport007()).ShowDialog(); break;
             }
         }
     }
