@@ -43,8 +43,10 @@ namespace GCRM
             LoadCatalogs();
         }
 
-        private async void BAccept_Click(object sender, EventArgs e)
+        private bool TryBuildDocument(out R005Document document)
         {
+            document = null;
+
             R005DocumentModel model = new R005DocumentModel();
 
             Error error = InstitutionsHandler.GetInstitutionById((int)Institution.SelectedValue, out model.Institution);
@@ -52,7 +54,7 @@ namespace GCRM
             if (error != Error.None)
             {
                 Utilities.ShowErrorDialog(error);
-                return;
+                return false;
             }
 
             error = CitizensHandler.GetCitizensWithRoleInInstitution(model.Institution.Id, out model.Citizens);
@@ -60,12 +62,33 @@ namespace GCRM
             if (error != Error.None)
             {
                 Utilities.ShowErrorDialog(error);
-                return;
+                return false;
             }
 
-            var doc = new R005Document(model);
+            document = new R005Document(model);
 
-            doc.GeneratePdfAndShow();
+            return true;
+        }
+
+        private void BAccept_Click(object sender, EventArgs e)
+        {
+            if (TryBuildDocument(out R005Document document))
+                document.GeneratePdfAndShow();
+        }
+
+        private void BExport_Click(object sender, EventArgs e)
+        {
+            if (TryBuildDocument(out R005Document document) == false)
+                return;
+
+            using SaveFileDialog dialog = new SaveFileDialog()
+            {
+                Filter = "Archivos PDF (*.pdf)|*.pdf",
+                FileName = "R005_Institucion.pdf"
+            };
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+                document.GeneratePdf(dialog.FileName);
         }
 
         private void BCancel_Click(object sender, EventArgs e)

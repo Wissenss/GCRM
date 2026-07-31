@@ -31,6 +31,7 @@ namespace GCRM
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FReport006));
             BCancel = new Button();
             BAccept = new Button();
+            BExport = new Button();
             Citizen = new ComboBox();
             LCitizen = new Label();
             SuspendLayout();
@@ -53,9 +54,20 @@ namespace GCRM
             BAccept.Name = "BAccept";
             BAccept.Size = new Size(75, 23);
             BAccept.TabIndex = 3;
-            BAccept.Text = "&Generar";
+            BAccept.Text = "&Ver";
             BAccept.UseVisualStyleBackColor = true;
             BAccept.Click += BAccept_Click;
+            //
+            // BExport
+            //
+            BExport.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            BExport.Location = new Point(142, 49);
+            BExport.Name = "BExport";
+            BExport.Size = new Size(75, 23);
+            BExport.TabIndex = 5;
+            BExport.Text = "&Guardar";
+            BExport.UseVisualStyleBackColor = true;
+            BExport.Click += BExport_Click;
             //
             // Citizen
             //
@@ -82,10 +94,12 @@ namespace GCRM
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(385, 84);
             ControlBox = false;
+            FormBorderStyle = FormBorderStyle.FixedDialog;
             Controls.Add(LCitizen);
             Controls.Add(Citizen);
             Controls.Add(BCancel);
             Controls.Add(BAccept);
+            Controls.Add(BExport);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "FReport006";
             Text = "006: Ciudadano";
@@ -98,6 +112,7 @@ namespace GCRM
 
         private Button BCancel;
         private Button BAccept;
+        private Button BExport;
         private ComboBox Citizen;
         private Label LCitizen;
     }

@@ -31,6 +31,7 @@ namespace GCRM
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FReport004));
             BCancel = new Button();
             BAccept = new Button();
+            BExport = new Button();
             Category = new ComboBox();
             CheckBoxFilterCategory = new CheckBox();
             Sector = new ComboBox();
@@ -55,9 +56,20 @@ namespace GCRM
             BAccept.Name = "BAccept";
             BAccept.Size = new Size(75, 23);
             BAccept.TabIndex = 3;
-            BAccept.Text = "&Generar";
+            BAccept.Text = "&Ver";
             BAccept.UseVisualStyleBackColor = true;
             BAccept.Click += BAccept_Click;
+            //
+            // BExport
+            //
+            BExport.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            BExport.Location = new Point(142, 76);
+            BExport.Name = "BExport";
+            BExport.Size = new Size(75, 23);
+            BExport.TabIndex = 14;
+            BExport.Text = "&Guardar";
+            BExport.UseVisualStyleBackColor = true;
+            BExport.Click += BExport_Click;
             //
             // Category
             //
@@ -109,12 +121,14 @@ namespace GCRM
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(385, 111);
             ControlBox = false;
+            FormBorderStyle = FormBorderStyle.FixedDialog;
             Controls.Add(CheckBoxFilterSector);
             Controls.Add(Sector);
             Controls.Add(CheckBoxFilterCategory);
             Controls.Add(Category);
             Controls.Add(BCancel);
             Controls.Add(BAccept);
+            Controls.Add(BExport);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "FReport004";
             Text = "004: Catálogo de instituciones";
@@ -127,6 +141,7 @@ namespace GCRM
 
         private Button BCancel;
         private Button BAccept;
+        private Button BExport;
         private ComboBox Category;
         private CheckBox CheckBoxFilterCategory;
         private ComboBox Sector;

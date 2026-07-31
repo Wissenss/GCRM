@@ -31,6 +31,7 @@ namespace GCRM
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FReport001));
             BCancel = new Button();
             BAccept = new Button();
+            BExport = new Button();
             CitizenTitle = new ComboBox();
             CheckBoxFilterCitizenTitle = new CheckBox();
             Sex = new ComboBox();
@@ -69,9 +70,20 @@ namespace GCRM
             BAccept.Name = "BAccept";
             BAccept.Size = new Size(75, 23);
             BAccept.TabIndex = 19;
-            BAccept.Text = "&Generar";
+            BAccept.Text = "&Ver";
             BAccept.UseVisualStyleBackColor = true;
             BAccept.Click += BAccept_Click;
+            //
+            // BExport
+            //
+            BExport.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            BExport.Location = new Point(197, 279);
+            BExport.Name = "BExport";
+            BExport.Size = new Size(75, 23);
+            BExport.TabIndex = 18;
+            BExport.Text = "&Guardar";
+            BExport.UseVisualStyleBackColor = true;
+            BExport.Click += BExport_Click;
             //
             // CitizenTitle
             //
@@ -277,6 +289,7 @@ namespace GCRM
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(450, 314);
             ControlBox = false;
+            FormBorderStyle = FormBorderStyle.FixedDialog;
             Controls.Add(CheckBoxFilterBirthdayDay);
             Controls.Add(BirthdayDay);
             Controls.Add(CheckBoxFilterBirthdayMonth);
@@ -297,6 +310,7 @@ namespace GCRM
             Controls.Add(CitizenTitle);
             Controls.Add(BCancel);
             Controls.Add(BAccept);
+            Controls.Add(BExport);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "FReport001";
             Text = "001: Catálogo de ciudadanos";
@@ -309,6 +323,7 @@ namespace GCRM
 
         private Button BCancel;
         private Button BAccept;
+        private Button BExport;
         private ComboBox CitizenTitle;
         private CheckBox CheckBoxFilterCitizenTitle;
         private ComboBox Sex;

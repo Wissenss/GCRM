@@ -110,14 +110,16 @@ namespace GCRM
             Sector.Enabled = CheckBoxFilterSector.Checked;
         }
 
-        private void BAccept_Click(object sender, EventArgs e)
+        private bool TryBuildDocument(out R004Document document)
         {
+            document = null;
+
             Error error = InstitutionsHandler.GetInstitutions(out List<TInstitution> institution_list);
 
             if (error != Error.None)
             {
                 Utilities.ShowErrorDialog(error);
-                return;
+                return false;
             }
 
             R004DocumentModel model = new R004DocumentModel();
@@ -134,7 +136,7 @@ namespace GCRM
                 if (error != Error.None)
                 {
                     Utilities.ShowErrorDialog(error);
-                    return;
+                    return false;
                 }
 
                 model.Category = category;
@@ -157,9 +159,30 @@ namespace GCRM
                 model.Institutions.Add(institution);
             }
 
-            var doc = new R004Document(model);
+            document = new R004Document(model);
 
-            doc.GeneratePdfAndShow();
+            return true;
+        }
+
+        private void BAccept_Click(object sender, EventArgs e)
+        {
+            if (TryBuildDocument(out R004Document document))
+                document.GeneratePdfAndShow();
+        }
+
+        private void BExport_Click(object sender, EventArgs e)
+        {
+            if (TryBuildDocument(out R004Document document) == false)
+                return;
+
+            using SaveFileDialog dialog = new SaveFileDialog()
+            {
+                Filter = "Archivos PDF (*.pdf)|*.pdf",
+                FileName = "R004_CatalogoInstituciones.pdf"
+            };
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+                document.GeneratePdf(dialog.FileName);
         }
 
         private void BCancel_Click(object sender, EventArgs e)

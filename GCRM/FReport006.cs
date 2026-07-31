@@ -74,8 +74,10 @@ namespace GCRM
             LoadCatalogs();
         }
 
-        private async void BAccept_Click(object sender, EventArgs e)
+        private bool TryBuildDocument(out R006Document document)
         {
+            document = null;
+
             R006DocumentModel model = new R006DocumentModel();
 
             Error error = CitizensHandler.GetCitizenById((int)Citizen.SelectedValue, out model.Citizen);
@@ -83,12 +85,33 @@ namespace GCRM
             if (error != Error.None)
             {
                 Utilities.ShowErrorDialog(error);
-                return;
+                return false;
             }
 
-            var doc = new R006Document(model);
+            document = new R006Document(model);
 
-            doc.GeneratePdfAndShow();
+            return true;
+        }
+
+        private void BAccept_Click(object sender, EventArgs e)
+        {
+            if (TryBuildDocument(out R006Document document))
+                document.GeneratePdfAndShow();
+        }
+
+        private void BExport_Click(object sender, EventArgs e)
+        {
+            if (TryBuildDocument(out R006Document document) == false)
+                return;
+
+            using SaveFileDialog dialog = new SaveFileDialog()
+            {
+                Filter = "Archivos PDF (*.pdf)|*.pdf",
+                FileName = "R006_Ciudadano.pdf"
+            };
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+                document.GeneratePdf(dialog.FileName);
         }
 
         private void BCancel_Click(object sender, EventArgs e)

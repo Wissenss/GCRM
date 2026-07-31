@@ -267,12 +267,12 @@ namespace GCRM
             BirthdayDay.Enabled = CheckBoxFilterBirthdayDay.Checked;
         }
 
-        private void BAccept_Click(object sender, EventArgs e)
+        private bool TryBuildReport(out R001 report)
         {
             int? birthday_month = CheckBoxFilterBirthdayMonth.Checked ? (int)BirthdayMonth.SelectedValue : null;
             int? birthday_day = CheckBoxFilterBirthdayDay.Checked ? (int)BirthdayDay.SelectedValue : null;
 
-            R001 report = new R001()
+            report = new R001()
             {
                 InstitutionId = CheckBoxFilterInstitution.Checked ? (int)Institution.SelectedValue : 0,
                 InstitutionCategoryId = CheckBoxFilterInstitutionCategory.Checked ? (int)InstitutionCategory.SelectedValue : 0,
@@ -286,7 +286,36 @@ namespace GCRM
                 Order = (birthday_month != null || birthday_day != null) ? TR001Order.CitizenBirthday : TR001Order.CitizenName
             };
 
-            report.GeneratePdfAndShow();
+            Error error = report.PrepareReport();
+
+            if (error != Error.None)
+            {
+                Utilities.ShowErrorDialog(error);
+                return false;
+            }
+
+            return true;
+        }
+
+        private void BAccept_Click(object sender, EventArgs e)
+        {
+            if (TryBuildReport(out R001 report))
+                report.RDocument.GeneratePdfAndShow();
+        }
+
+        private void BExport_Click(object sender, EventArgs e)
+        {
+            if (TryBuildReport(out R001 report) == false)
+                return;
+
+            using SaveFileDialog dialog = new SaveFileDialog()
+            {
+                Filter = "Archivos PDF (*.pdf)|*.pdf",
+                FileName = "R001_CatalogoCiudadanos.pdf"
+            };
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+                report.RDocument.GeneratePdf(dialog.FileName);
         }
 
         private void BCancel_Click(object sender, EventArgs e)
