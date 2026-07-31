@@ -1,6 +1,5 @@
-﻿using Business;
+using Business;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -53,7 +52,10 @@ namespace GCRM
                 DTReports.BeginLoadData();
                 DTReports.Rows.Clear();
 
+                AddItem("R001", "Catálogo de ciudadanos", "Listado de ciudadanos, con filtros opcionales");
+                AddItem("R004", "Catálogo de instituciones", "Listado de instituciones, con filtros opcionales");
                 AddItem("R005", "Institución", "Información de la institución y de su plantilla actual");
+                AddItem("R006", "Ciudadano", "Información del ciudadano y de sus instituciones y cargos");
 
                 DTReports.EndLoadData();
             }
@@ -70,11 +72,12 @@ namespace GCRM
 
             string key = (string)row.Cells[0].Value;
 
-            //Utilities.ShowErrorDialog($"selected key: {key}");
-
             switch (key)
             {
+                case "R001": (new FReport001()).ShowDialog(); break;
+                case "R004": (new FReport004()).ShowDialog(); break;
                 case "R005": (new FReport005()).ShowDialog(); break;
+                case "R006": (new FReport006()).ShowDialog(); break;
             }
         }
     }
