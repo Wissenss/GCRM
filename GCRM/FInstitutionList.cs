@@ -97,7 +97,7 @@ namespace GCRM
 				BAttentionRequired.Visible = Session.HasPermission("Instituciones.SetAttentionRequired");
 				BInstitutionTemplates.Visible = Session.HasPermission("Instituciones.Plantillas.Consultar") && AccessMode != FAccessMode.Select;
 				BExcelExport.Visible = AccessMode != FAccessMode.Select;
-				BPrint.Visible = AccessMode != FAccessMode.Select;
+				//BPrint.Visible = AccessMode != FAccessMode.Select;
 				BSelect.Visible = AccessMode == FAccessMode.Select;
 			}
 		}

@@ -218,7 +218,7 @@ namespace GCRM
 			BRead.Visible = Mode != FAccessMode.Select;
 			BDelete.Visible = Mode != FAccessMode.Select;
 			FExcelExport.Visible = Mode != FAccessMode.Select;
-			BPrint.Visible = Mode != FAccessMode.Select;
+			//BPrint.Visible = Mode != FAccessMode.Select;
 			BAttentionRequired.Visible = Mode != FAccessMode.Select;
 			BCategories.Visible = Mode != FAccessMode.Select;
 
