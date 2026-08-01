@@ -59,7 +59,6 @@ namespace Business
 						edit_by_id = @edit_by_id,
 						edit_date = @edit_date,
 						acronym = @acronym,
-						attention_required = @attention_required,
 						institution_template_id = @institution_template_id,
 						address_id = @address_id
 					WHERE 
@@ -114,7 +113,8 @@ namespace Business
 				cmd.Parameters.AddWithValue("@edit_by_id", institution.LastEditor.Id);
 				cmd.Parameters.AddWithValue("@edit_date", institution.EditDate);
 				cmd.Parameters.AddWithValue("@acronym", institution.Acronym);
-				cmd.Parameters.AddWithValue("@attention_required", false); // editing the institution will always set the attention required flag to false
+				// attention_required is not part of the UPDATE, so editing an institution never clears it; it is only set on creation and toggled via SetInstitutionAttentionRequired
+				cmd.Parameters.AddWithValue("@attention_required", false);
 				cmd.Parameters.AddWithValue("@institution_template_id", institution.Template.Id);
 				cmd.Parameters.AddWithValue("@address_id", institution.Address.Id);
 

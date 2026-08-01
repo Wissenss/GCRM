@@ -545,7 +545,6 @@ namespace Business
 								voter_cic = @voter_cic,
 								voter_section = @voter_section,
 								citizen_category_id = @category_id,
-								attention_required = @attention_required,
 								is_political_activist = @is_political_activist,
 								political_register_date = @political_register_date,
 								-- phone2 = @phone2,
@@ -665,7 +664,8 @@ namespace Business
 					cmd.Parameters.AddWithValue("@voter_cic", citizen.VoterCIC);
 					cmd.Parameters.AddWithValue("@voter_section", citizen.VoterSection);
 					cmd.Parameters.AddWithValue("@category_id", citizen.Category.Id);
-					cmd.Parameters.AddWithValue("@attention_required", false); // editing should always set attention required to false
+					// attention_required is not part of the UPDATE, so editing a citizen never clears it; it is only set on creation and toggled via SetCitizenAttentionRequired
+					cmd.Parameters.AddWithValue("@attention_required", false);
 					cmd.Parameters.AddWithValue("@is_political_activist", citizen.IsPoliticalActivist);
 					cmd.Parameters.AddWithValue("@political_register_date", citizen.PoliticalRegisterDate);
 					cmd.Parameters.AddWithValue("@known_birthday", citizen.KnownBirthday);
