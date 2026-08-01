@@ -35,9 +35,9 @@ namespace GCRM
             Citizen = new ComboBox();
             LCitizen = new Label();
             SuspendLayout();
-            //
+            // 
             // BCancel
-            //
+            // 
             BCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             BCancel.Location = new Point(298, 49);
             BCancel.Name = "BCancel";
@@ -46,31 +46,31 @@ namespace GCRM
             BCancel.Text = "&Cancelar";
             BCancel.UseVisualStyleBackColor = true;
             BCancel.Click += BCancel_Click;
-            //
+            // 
             // BAccept
-            //
+            // 
             BAccept.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            BAccept.Location = new Point(220, 49);
+            BAccept.Location = new Point(136, 49);
             BAccept.Name = "BAccept";
             BAccept.Size = new Size(75, 23);
             BAccept.TabIndex = 3;
             BAccept.Text = "&Ver";
             BAccept.UseVisualStyleBackColor = true;
             BAccept.Click += BAccept_Click;
-            //
+            // 
             // BExport
-            //
+            // 
             BExport.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            BExport.Location = new Point(142, 49);
+            BExport.Location = new Point(217, 49);
             BExport.Name = "BExport";
             BExport.Size = new Size(75, 23);
             BExport.TabIndex = 5;
             BExport.Text = "&Guardar";
             BExport.UseVisualStyleBackColor = true;
             BExport.Click += BExport_Click;
-            //
+            // 
             // Citizen
-            //
+            // 
             Citizen.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             Citizen.DropDownStyle = ComboBoxStyle.DropDownList;
             Citizen.FormattingEnabled = true;
@@ -78,28 +78,28 @@ namespace GCRM
             Citizen.Name = "Citizen";
             Citizen.Size = new Size(292, 23);
             Citizen.TabIndex = 10;
-            //
+            // 
             // LCitizen
-            //
+            // 
             LCitizen.AutoSize = true;
             LCitizen.Location = new Point(12, 15);
             LCitizen.Name = "LCitizen";
-            LCitizen.Size = new Size(63, 15);
+            LCitizen.Size = new Size(65, 15);
             LCitizen.TabIndex = 11;
             LCitizen.Text = "Ciudadano";
-            //
+            // 
             // FReport006
-            //
+            // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(385, 84);
             ControlBox = false;
-            FormBorderStyle = FormBorderStyle.FixedDialog;
             Controls.Add(LCitizen);
             Controls.Add(Citizen);
             Controls.Add(BCancel);
             Controls.Add(BAccept);
             Controls.Add(BExport);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "FReport006";
             Text = "006: Ciudadano";

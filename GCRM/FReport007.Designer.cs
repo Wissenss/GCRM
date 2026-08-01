@@ -31,127 +31,111 @@ namespace GCRM
             BCancel = new Button();
             BAccept = new Button();
             BExport = new Button();
-            RadioUsers = new RadioButton();
-            RadioGroups = new RadioButton();
-            Users = new CheckedListBox();
-            UserGroups = new CheckedListBox();
-            LEvents = new Label();
+            LFilterType = new Label();
+            FilterType = new ComboBox();
+            FilterItems = new CheckedListBox();
             Events = new CheckedListBox();
             LFechaInicial = new Label();
             FechaInicial = new DateTimePicker();
             LFechaFinal = new Label();
             FechaFinal = new DateTimePicker();
+            LEvents = new Label();
+            CMSCheckedList = new ContextMenuStrip();
+            MISelectAll = new ToolStripMenuItem();
+            MISelectNone = new ToolStripMenuItem();
+            MIInvertSelection = new ToolStripMenuItem();
+            CMSCheckedList.SuspendLayout();
             SuspendLayout();
-            //
+            // 
             // BCancel
-            //
+            // 
             BCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            BCancel.Location = new Point(413, 385);
+            BCancel.Location = new Point(326, 301);
             BCancel.Name = "BCancel";
             BCancel.Size = new Size(75, 23);
-            BCancel.TabIndex = 10;
+            BCancel.TabIndex = 12;
             BCancel.Text = "&Cancelar";
             BCancel.UseVisualStyleBackColor = true;
             BCancel.Click += BCancel_Click;
-            //
+            // 
             // BAccept
-            //
+            // 
             BAccept.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            BAccept.Location = new Point(332, 385);
+            BAccept.Location = new Point(164, 301);
             BAccept.Name = "BAccept";
             BAccept.Size = new Size(75, 23);
-            BAccept.TabIndex = 9;
+            BAccept.TabIndex = 11;
             BAccept.Text = "&Ver";
             BAccept.UseVisualStyleBackColor = true;
             BAccept.Click += BAccept_Click;
-            //
+            // 
             // BExport
-            //
+            // 
             BExport.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            BExport.Location = new Point(251, 385);
+            BExport.Location = new Point(245, 301);
             BExport.Name = "BExport";
             BExport.Size = new Size(75, 23);
-            BExport.TabIndex = 8;
+            BExport.TabIndex = 10;
             BExport.Text = "&Guardar";
             BExport.UseVisualStyleBackColor = true;
             BExport.Click += BExport_Click;
+            // 
+            // LFilterType
+            // 
+            LFilterType.AutoSize = true;
+            LFilterType.Location = new Point(12, 15);
+            LFilterType.Name = "LFilterType";
+            LFilterType.Size = new Size(58, 15);
+            LFilterType.TabIndex = 0;
+            LFilterType.Text = "Filtrar por";
+            // 
+            // FilterType
+            // 
+            FilterType.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            FilterType.DropDownStyle = ComboBoxStyle.DropDownList;
+            FilterType.FormattingEnabled = true;
+            FilterType.Items.AddRange(new object[] { "Usuarios", "Grupos de usuarios" });
+            FilterType.Location = new Point(76, 12);
+            FilterType.Name = "FilterType";
+            FilterType.Size = new Size(325, 23);
+            FilterType.TabIndex = 1;
+            FilterType.SelectedIndexChanged += FilterType_SelectedIndexChanged;
+            // 
+            // FilterItems
             //
-            // RadioUsers
-            //
-            RadioUsers.AutoSize = true;
-            RadioUsers.Checked = true;
-            RadioUsers.Location = new Point(12, 12);
-            RadioUsers.Name = "RadioUsers";
-            RadioUsers.Size = new Size(75, 19);
-            RadioUsers.TabIndex = 0;
-            RadioUsers.TabStop = true;
-            RadioUsers.Text = "Usuario(s)";
-            RadioUsers.UseVisualStyleBackColor = true;
-            RadioUsers.CheckedChanged += RadioUsers_CheckedChanged;
-            //
-            // RadioGroups
-            //
-            RadioGroups.AutoSize = true;
-            RadioGroups.Location = new Point(120, 12);
-            RadioGroups.Name = "RadioGroups";
-            RadioGroups.Size = new Size(150, 19);
-            RadioGroups.TabIndex = 1;
-            RadioGroups.Text = "Grupo(s) de usuarios";
-            RadioGroups.UseVisualStyleBackColor = true;
-            //
-            // Users
-            //
-            Users.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            Users.CheckOnClick = true;
-            Users.FormattingEnabled = true;
-            Users.Location = new Point(12, 35);
-            Users.Name = "Users";
-            Users.Size = new Size(476, 94);
-            Users.TabIndex = 2;
-            //
-            // UserGroups
-            //
-            UserGroups.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            UserGroups.CheckOnClick = true;
-            UserGroups.FormattingEnabled = true;
-            UserGroups.Location = new Point(12, 35);
-            UserGroups.Name = "UserGroups";
-            UserGroups.Size = new Size(476, 94);
-            UserGroups.TabIndex = 3;
-            UserGroups.Visible = false;
-            //
-            // LEvents
-            //
-            LEvents.AutoSize = true;
-            LEvents.Location = new Point(12, 136);
-            LEvents.Name = "LEvents";
-            LEvents.Size = new Size(58, 15);
-            LEvents.TabIndex = 4;
-            LEvents.Text = "Evento(s)";
+            FilterItems.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            FilterItems.CheckOnClick = true;
+            FilterItems.ContextMenuStrip = CMSCheckedList;
+            FilterItems.FormattingEnabled = true;
+            FilterItems.Location = new Point(76, 41);
+            FilterItems.Name = "FilterItems";
+            FilterItems.Size = new Size(325, 94);
+            FilterItems.TabIndex = 2;
             //
             // Events
             //
             Events.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             Events.CheckOnClick = true;
+            Events.ContextMenuStrip = CMSCheckedList;
             Events.FormattingEnabled = true;
-            Events.Location = new Point(12, 154);
+            Events.Location = new Point(76, 147);
             Events.Name = "Events";
-            Events.Size = new Size(476, 94);
+            Events.Size = new Size(325, 94);
             Events.TabIndex = 5;
             //
             // LFechaInicial
             //
             LFechaInicial.AutoSize = true;
-            LFechaInicial.Location = new Point(12, 258);
+            LFechaInicial.Location = new Point(12, 257);
             LFechaInicial.Name = "LFechaInicial";
-            LFechaInicial.Size = new Size(72, 15);
+            LFechaInicial.Size = new Size(38, 15);
             LFechaInicial.TabIndex = 6;
-            LFechaInicial.Text = "Fecha inicial";
+            LFechaInicial.Text = "Fecha";
             //
             // FechaInicial
             //
             FechaInicial.Format = DateTimePickerFormat.Short;
-            FechaInicial.Location = new Point(100, 254);
+            FechaInicial.Location = new Point(76, 253);
             FechaInicial.Name = "FechaInicial";
             FechaInicial.Size = new Size(150, 23);
             FechaInicial.TabIndex = 7;
@@ -159,43 +143,79 @@ namespace GCRM
             // LFechaFinal
             //
             LFechaFinal.AutoSize = true;
-            LFechaFinal.Location = new Point(272, 258);
+            LFechaFinal.Location = new Point(231, 257);
             LFechaFinal.Name = "LFechaFinal";
-            LFechaFinal.Size = new Size(66, 15);
-            LFechaFinal.TabIndex = 11;
-            LFechaFinal.Text = "Fecha final";
+            LFechaFinal.Size = new Size(16, 15);
+            LFechaFinal.TabIndex = 8;
+            LFechaFinal.Text = "al";
             //
             // FechaFinal
             //
             FechaFinal.Format = DateTimePickerFormat.Short;
-            FechaFinal.Location = new Point(350, 254);
+            FechaFinal.Location = new Point(251, 253);
             FechaFinal.Name = "FechaFinal";
             FechaFinal.Size = new Size(150, 23);
-            FechaFinal.TabIndex = 12;
+            FechaFinal.TabIndex = 9;
+            //
+            // LEvents
+            //
+            LEvents.AutoSize = true;
+            LEvents.Location = new Point(12, 147);
+            LEvents.Name = "LEvents";
+            LEvents.Size = new Size(48, 15);
+            LEvents.TabIndex = 4;
+            LEvents.Text = "Eventos";
+            //
+            // CMSCheckedList
+            //
+            CMSCheckedList.Items.AddRange(new ToolStripItem[] { MISelectAll, MISelectNone, MIInvertSelection });
+            CMSCheckedList.Name = "CMSCheckedList";
+            CMSCheckedList.Size = new Size(191, 70);
+            //
+            // MISelectAll
+            //
+            MISelectAll.Name = "MISelectAll";
+            MISelectAll.Size = new Size(190, 22);
+            MISelectAll.Text = "Seleccionar todos";
+            MISelectAll.Click += MISelectAll_Click;
+            //
+            // MISelectNone
+            //
+            MISelectNone.Name = "MISelectNone";
+            MISelectNone.Size = new Size(190, 22);
+            MISelectNone.Text = "Deseleccionar todos";
+            MISelectNone.Click += MISelectNone_Click;
+            //
+            // MIInvertSelection
+            //
+            MIInvertSelection.Name = "MIInvertSelection";
+            MIInvertSelection.Size = new Size(190, 22);
+            MIInvertSelection.Text = "Invertir selección";
+            MIInvertSelection.Click += MIInvertSelection_Click;
             //
             // FReport007
             //
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(500, 420);
+            ClientSize = new Size(413, 336);
             ControlBox = false;
-            FormBorderStyle = FormBorderStyle.FixedDialog;
+            Controls.Add(LEvents);
             Controls.Add(FechaFinal);
             Controls.Add(LFechaFinal);
             Controls.Add(FechaInicial);
             Controls.Add(LFechaInicial);
             Controls.Add(Events);
-            Controls.Add(LEvents);
-            Controls.Add(UserGroups);
-            Controls.Add(Users);
-            Controls.Add(RadioGroups);
-            Controls.Add(RadioUsers);
+            Controls.Add(FilterItems);
+            Controls.Add(FilterType);
+            Controls.Add(LFilterType);
             Controls.Add(BCancel);
             Controls.Add(BAccept);
             Controls.Add(BExport);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
             Name = "FReport007";
             Text = "007: Actividad de los usuarios";
             Load += FReport007_Load;
+            CMSCheckedList.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -205,15 +225,18 @@ namespace GCRM
         private Button BCancel;
         private Button BAccept;
         private Button BExport;
-        private RadioButton RadioUsers;
-        private RadioButton RadioGroups;
-        private CheckedListBox Users;
-        private CheckedListBox UserGroups;
-        private Label LEvents;
+        private Label LFilterType;
+        private ComboBox FilterType;
+        private CheckedListBox FilterItems;
         private CheckedListBox Events;
         private Label LFechaInicial;
         private DateTimePicker FechaInicial;
         private Label LFechaFinal;
         private DateTimePicker FechaFinal;
+        private Label LEvents;
+        private ContextMenuStrip CMSCheckedList;
+        private ToolStripMenuItem MISelectAll;
+        private ToolStripMenuItem MISelectNone;
+        private ToolStripMenuItem MIInvertSelection;
     }
 }

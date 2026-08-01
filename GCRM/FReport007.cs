@@ -40,6 +40,8 @@ namespace GCRM
             DTUserGroups.Columns.Add("id", typeof(int));
             DTUserGroups.Columns.Add("name", typeof(string));
             DSFilters.Tables.Add(DTUserGroups);
+
+            FilterType.SelectedIndex = 0;
         }
 
         List<TUser> AllUsers = new List<TUser>();
@@ -64,10 +66,6 @@ namespace GCRM
 
                 DTUsers.EndLoadData();
 
-                Users.DataSource = DTUsers;
-                Users.ValueMember = "id";
-                Users.DisplayMember = "name";
-
                 error = UsersHandler.GetUserGroups(out List<TUserGroup> user_groups);
 
                 if (error != Error.None)
@@ -84,9 +82,7 @@ namespace GCRM
 
                 DTUserGroups.EndLoadData();
 
-                UserGroups.DataSource = DTUserGroups;
-                UserGroups.ValueMember = "id";
-                UserGroups.DisplayMember = "name";
+                UpdateFilterItems();
 
                 List<EventItem> event_items = new List<EventItem>();
 
@@ -111,10 +107,43 @@ namespace GCRM
             LoadCatalogs();
         }
 
-        private void RadioUsers_CheckedChanged(object sender, EventArgs e)
+        void UpdateFilterItems()
         {
-            Users.Visible = RadioUsers.Checked;
-            UserGroups.Visible = RadioUsers.Checked == false;
+            FilterItems.DataSource = null;
+            FilterItems.DataSource = FilterType.SelectedIndex == 0 ? DTUsers : DTUserGroups;
+            FilterItems.ValueMember = "id";
+            FilterItems.DisplayMember = "name";
+        }
+
+        private void FilterType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UpdateFilterItems();
+        }
+
+        CheckedListBox GetContextMenuTarget(object sender) => (CheckedListBox)((ContextMenuStrip)((ToolStripMenuItem)sender).Owner).SourceControl;
+
+        private void MISelectAll_Click(object sender, EventArgs e)
+        {
+            CheckedListBox list_box = GetContextMenuTarget(sender);
+
+            for (int i = 0; i < list_box.Items.Count; i++)
+                list_box.SetItemChecked(i, true);
+        }
+
+        private void MISelectNone_Click(object sender, EventArgs e)
+        {
+            CheckedListBox list_box = GetContextMenuTarget(sender);
+
+            for (int i = 0; i < list_box.Items.Count; i++)
+                list_box.SetItemChecked(i, false);
+        }
+
+        private void MIInvertSelection_Click(object sender, EventArgs e)
+        {
+            CheckedListBox list_box = GetContextMenuTarget(sender);
+
+            for (int i = 0; i < list_box.Items.Count; i++)
+                list_box.SetItemChecked(i, list_box.GetItemChecked(i) == false);
         }
 
         List<int> GetCheckedIds(CheckedListBox list_box, string value_column)
@@ -144,28 +173,22 @@ namespace GCRM
                 return false;
             }
 
-            bool user_filter_applied;
+            List<int> selected_ids = GetCheckedIds(FilterItems, "id");
 
-            if (RadioUsers.Checked)
+            bool user_filter_applied = selected_ids.Count > 0;
+
+            if (FilterType.SelectedIndex == 0)
             {
-                List<int> user_ids = GetCheckedIds(Users, "id");
-
-                user_filter_applied = user_ids.Count > 0;
-
-                model.Users = AllUsers.Where(u => user_ids.Contains(u.Id)).ToList();
+                model.Users = AllUsers.Where(u => selected_ids.Contains(u.Id)).ToList();
             }
             else
             {
-                List<int> group_ids = GetCheckedIds(UserGroups, "id");
-
-                user_filter_applied = group_ids.Count > 0;
-
                 model.UserGroups = DTUserGroups.Rows.Cast<DataRow>()
-                    .Where(r => group_ids.Contains((int)r["id"]))
+                    .Where(r => selected_ids.Contains((int)r["id"]))
                     .Select(r => new TUserGroup { Id = (int)r["id"], Name = (string)r["name"] })
                     .ToList();
 
-                model.Users = AllUsers.Where(u => group_ids.Contains(u.Group.Id)).ToList();
+                model.Users = AllUsers.Where(u => selected_ids.Contains(u.Group.Id)).ToList();
             }
 
             model.EventTypes = Events.CheckedItems.Cast<EventItem>().Select(i => i.Type).ToList();

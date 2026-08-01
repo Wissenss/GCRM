@@ -1,4 +1,4 @@
-using GCRM.Domain;
+﻿using GCRM.Domain;
 using GCRM.Domain.Enums;
 using GCRM.Shared;
 using QuestPDF.Fluent;
@@ -24,14 +24,24 @@ namespace Reporter
 	{
 		static readonly Color[] SeriesColors = new[]
 		{
-			Colors.Blue.Medium,
-			Colors.Green.Medium,
-			Colors.Orange.Medium,
-			Colors.Purple.Medium,
-			Colors.Red.Medium,
-			Colors.Teal.Medium,
-			Colors.Yellow.Darken2,
-			Colors.Brown.Medium,
+			Colors.Blue.Lighten1,
+			Colors.Green.Lighten1,
+			Colors.Orange.Lighten1,
+			Colors.Purple.Lighten1,
+			Colors.Red.Lighten1,
+			Colors.Teal.Lighten1,
+			Colors.Yellow.Lighten1,
+			Colors.Brown.Lighten1,
+			Colors.Cyan.Lighten1,
+			Colors.Lime.Lighten1,
+			Colors.Pink.Lighten1,
+			Colors.Indigo.Lighten1,
+			Colors.DeepPurple.Lighten1,
+			Colors.LightBlue.Lighten1,
+			Colors.LightGreen.Lighten1,
+			Colors.Amber.Lighten1,
+			Colors.DeepOrange.Lighten1,
+			Colors.BlueGrey.Lighten1,
 		};
 
 		R007DocumentModel Model;
@@ -90,7 +100,7 @@ namespace Reporter
 			if (list.Count <= max_names)
 				return string.Join(", ", list);
 
-			return $"{string.Join(", ", list.Take(max_names))} y {list.Count - max_names} más";
+			return $"{string.Join(", ", list.Take(max_names))} y {list.Count - max_names} mÃ¡s";
 		}
 
 		void ComposeHeaderDetail(IContainer container)
@@ -103,18 +113,18 @@ namespace Reporter
 				{
 					if (Model.UserGroups.Count > 0)
 					{
-						column.Item().PaddingLeft(1).Text($"Grupo(s): {FormatFilterList(Model.UserGroups.Select(g => g.Name))}").FontSize(filter_font_size);
-						column.Item().PaddingLeft(1).Text($"Usuario(s): {Model.Users.Count} usuario(s) del/los grupo(s)").FontSize(filter_font_size);
+						column.Item().PaddingLeft(1).Text($"Grupos: {FormatFilterList(Model.UserGroups.Select(g => g.Name))}").FontSize(filter_font_size);
+						column.Item().PaddingLeft(1).Text($"Usuarios: {Model.Users.Count} dentro de los grupos").FontSize(filter_font_size);
 					}
 					else
 					{
-						column.Item().PaddingLeft(1).Text($"Usuario(s): {FormatFilterList(Model.Users.Select(u => u.Name))}").FontSize(filter_font_size);
+						column.Item().PaddingLeft(1).Text($"Usuarios: {FormatFilterList(Model.Users.Select(u => u.Name))}").FontSize(filter_font_size);
 					}
 				});
 
 				row.RelativeItem().Column(column =>
 				{
-					string str_events = $"Evento(s): {FormatFilterList(Model.EventTypes.Select(BConstants.GetEventLogTypeName))}";
+					string str_events = $"Eventos: {FormatFilterList(Model.EventTypes.Select(BConstants.GetEventLogTypeName))}";
 
 					column.Item().PaddingLeft(1).Text(str_events).FontSize(filter_font_size);
 
@@ -137,7 +147,7 @@ namespace Reporter
 
 				column.Item()
 					.BorderBottom(1).BorderColor(Colors.Grey.Lighten1).PaddingBottom(5).PaddingTop(20)
-					.Text("Detalle por usuario").FontSize(10).Bold().FontColor(Colors.Black);
+					.Text("Eventos por usuario").FontSize(10).Bold().FontColor(Colors.Black);
 
 				column.Item().PaddingTop(5).Element(ComposeUserTable);
 			});
@@ -264,24 +274,36 @@ namespace Reporter
 				? Model.Users.OrderBy(u => u.Name).ToList()
 				: Model.Logs.Select(l => l.User).GroupBy(u => u.Id).Select(g => g.First()).OrderBy(u => u.Name).ToList();
 
-			Dictionary<int, int> counts_per_user = Model.Logs
-				.GroupBy(l => l.User.Id)
+			List<TEventLogType> event_types = Model.EventTypes.Count > 0
+				? Model.EventTypes
+				: Model.Logs.Select(l => l.Type).Distinct().OrderBy(t => t).ToList();
+
+			Dictionary<(int UserId, TEventLogType Type), int> counts = Model.Logs
+				.GroupBy(l => (l.User.Id, l.Type))
 				.ToDictionary(g => g.Key, g => g.Count());
 
 			container.Table(table =>
 			{
 				table.ColumnsDefinition(columns =>
 				{
+					columns.RelativeColumn(2);
+
+					foreach (TEventLogType _ in event_types)
+						columns.RelativeColumn();
+
 					columns.RelativeColumn();
-					columns.ConstantColumn(120);
 				});
 
 				table.Header(header =>
 				{
-					float header_font_size = 8;
+					float header_font_size = 7;
 
-					header.Cell().Element(CellStyle).Text("Usuario").FontSize(header_font_size).SemiBold();
-					header.Cell().Element(CellStyle).Text("Total de eventos").FontSize(header_font_size).SemiBold().AlignCenter();
+					header.Cell().Element(CellStyle).Text("Usuario").FontSize(8).SemiBold();
+
+					foreach (TEventLogType type in event_types)
+						header.Cell().Element(CellStyle).Text(BConstants.GetEventLogTypeName(type)).FontSize(header_font_size).SemiBold().AlignCenter();
+
+					header.Cell().Element(CellStyle).Text("Total").FontSize(8).SemiBold().AlignCenter();
 
 					static IContainer CellStyle(IContainer container)
 					{
@@ -289,19 +311,47 @@ namespace Reporter
 					}
 				});
 
+				int[] type_totals = new int[event_types.Count];
+				int grand_total = 0;
+
 				foreach (TUser user in users)
 				{
-					counts_per_user.TryGetValue(user.Id, out int count);
-
 					float row_font_size = 8;
 
 					table.Cell().Element(CellStyle).Text(user.Name).FontSize(row_font_size);
-					table.Cell().Element(CellStyle).Text(count.ToString()).FontSize(row_font_size).AlignCenter();
+
+					int user_total = 0;
+
+					for (int i = 0; i < event_types.Count; i++)
+					{
+						counts.TryGetValue((user.Id, event_types[i]), out int count);
+
+						table.Cell().Element(CellStyle).Text(count.ToString()).FontSize(row_font_size).AlignCenter();
+
+						type_totals[i] += count;
+						user_total += count;
+					}
+
+					table.Cell().Element(CellStyle).Text(user_total.ToString()).FontSize(row_font_size).AlignCenter().SemiBold();
+
+					grand_total += user_total;
 
 					static IContainer CellStyle(IContainer container)
 					{
 						return container.BorderBottom(0.1f).BorderColor(Colors.Grey.Lighten2).Padding(2);
 					}
+				}
+
+				table.Cell().Element(TotalCellStyle).Text("Total").FontSize(8).SemiBold();
+
+				foreach (int type_total in type_totals)
+					table.Cell().Element(TotalCellStyle).Text(type_total.ToString()).FontSize(8).SemiBold().AlignCenter();
+
+				table.Cell().Element(TotalCellStyle).Text(grand_total.ToString()).FontSize(8).SemiBold().AlignCenter();
+
+				static IContainer TotalCellStyle(IContainer container)
+				{
+					return container.BorderTop(0.5f).BorderColor(Colors.Grey.Darken1).Background(Colors.Grey.Lighten3).Padding(2);
 				}
 			});
 		}

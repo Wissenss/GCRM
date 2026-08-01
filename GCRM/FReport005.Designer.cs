@@ -50,25 +50,25 @@
             // BAccept
             // 
             BAccept.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            BAccept.Location = new Point(220, 49);
+            BAccept.Location = new Point(136, 49);
             BAccept.Name = "BAccept";
             BAccept.Size = new Size(75, 23);
             BAccept.TabIndex = 3;
             BAccept.Text = "&Ver";
             BAccept.UseVisualStyleBackColor = true;
             BAccept.Click += BAccept_Click;
-            //
+            // 
             // BExport
-            //
+            // 
             BExport.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            BExport.Location = new Point(142, 49);
+            BExport.Location = new Point(217, 49);
             BExport.Name = "BExport";
             BExport.Size = new Size(75, 23);
             BExport.TabIndex = 5;
             BExport.Text = "&Guardar";
             BExport.UseVisualStyleBackColor = true;
             BExport.Click += BExport_Click;
-            //
+            // 
             // Institution
             // 
             Institution.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
@@ -94,12 +94,12 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(385, 84);
             ControlBox = false;
-            FormBorderStyle = FormBorderStyle.FixedDialog;
             Controls.Add(LInstitution);
             Controls.Add(Institution);
             Controls.Add(BCancel);
             Controls.Add(BAccept);
             Controls.Add(BExport);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "FReport005";
             Text = "005: Institución";
