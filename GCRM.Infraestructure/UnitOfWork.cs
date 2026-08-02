@@ -34,12 +34,19 @@ namespace GCRM.Infraestructure
 			transaction?.Rollback();
 		}
 
-		public void Dispose() 
+		public void Dispose()
 		{
-			transaction?.Dispose();
+			try
+			{
+				// transaction dispose may throw an exception in some connection failure states 
 
-			if (connection != null) 
-				ConnectionPool.ReleaseConnection(connection);
+				transaction?.Dispose();
+			}
+			finally
+			{
+				if (connection != null)
+					ConnectionPool.ReleaseConnection(connection);
+			}
 		}
 	}
 }
