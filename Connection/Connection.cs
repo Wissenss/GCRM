@@ -10,6 +10,7 @@ namespace Connection
 		private static List<Boolean> __PoolObjectAvailable;
 		private static List<NpgsqlConnection> __Pool;
 		private static bool __IsStarted = false;
+		private static readonly object __PoolLock = new object();
 
 		static ConnectionPool()
 		{
@@ -107,62 +108,71 @@ namespace Connection
 
 		public static async Task<NpgsqlConnection> GetConnectionAsync()
 		{
-			for (int i = 0; i < __Pool.Count; i++)
+			lock (__PoolLock)
 			{
-				NpgsqlConnection connection = __Pool[i];
-				bool available = __PoolObjectAvailable[i];
-
-				if (available)
+				for (int i = 0; i < __Pool.Count; i++)
 				{
-					__PoolObjectAvailable[i] = false;
-					return connection;
+					if (__PoolObjectAvailable[i])
+					{
+						__PoolObjectAvailable[i] = false;
+						return __Pool[i];
+					}
 				}
 			}
 
 			NpgsqlConnection new_connection = await CreateConnectionAsync();
 
-			__Pool.Add(new_connection);
-			__PoolObjectAvailable.Add(false);
+			lock (__PoolLock)
+			{
+				__Pool.Add(new_connection);
+				__PoolObjectAvailable.Add(false);
+			}
 
 			return new_connection;
 		}
 
 		public static NpgsqlConnection GetConnection()
 		{
-			for (int i = 0; i < __Pool.Count; i++)
+			lock (__PoolLock)
 			{
-				NpgsqlConnection connection = __Pool[i];
-				bool available = __PoolObjectAvailable[i];
-
-				if (available)
+				for (int i = 0; i < __Pool.Count; i++)
 				{
-					__PoolObjectAvailable[i] = false;
-					return connection;
+					if (__PoolObjectAvailable[i])
+					{
+						__PoolObjectAvailable[i] = false;
+						return __Pool[i];
+					}
 				}
 			}
 
 			NpgsqlConnection new_connection = CreateConnection();
 
-			__Pool.Add(new_connection);
-			__PoolObjectAvailable.Add(false);
+			lock (__PoolLock)
+			{
+				__Pool.Add(new_connection);
+				__PoolObjectAvailable.Add(false);
+			}
 
 			return new_connection;
 		}
 
 		public static void ReleaseConnection(ref NpgsqlConnection connection)
 		{
-			int connection_index = __Pool.IndexOf(connection);
-
-			if (connection_index != -1)
+			lock (__PoolLock)
 			{
-				if (connection_index >= __PoolSize)
+				int connection_index = __Pool.IndexOf(connection);
+
+				if (connection_index != -1)
 				{
-					__PoolObjectAvailable.RemoveAt(connection_index);
-					__Pool.RemoveAt(connection_index);
-				}
-				else
-				{
-					__PoolObjectAvailable[connection_index] = true;
+					if (connection_index >= __PoolSize)
+					{
+						__PoolObjectAvailable.RemoveAt(connection_index);
+						__Pool.RemoveAt(connection_index);
+					}
+					else
+					{
+						__PoolObjectAvailable[connection_index] = true;
+					}
 				}
 			}
 		}
