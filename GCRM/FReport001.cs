@@ -297,13 +297,25 @@ namespace GCRM
             return true;
         }
 
-        private void BAccept_Click(object sender, EventArgs e)
+        private void BCancel_Click(object sender, EventArgs e)
         {
-            if (TryBuildReport(out R001 report))
-                report.RDocument.GeneratePdfAndShow();
+            Close();
         }
 
-        private void BExport_Click(object sender, EventArgs e)
+        private void BGenerate_Click(object sender, EventArgs e)
+        {
+            if (TryBuildReport(out R001 report))
+            {
+                using (FDocumentViewer viewer = new FDocumentViewer())
+                {
+                    viewer.PrintSettings.Landscape = false;
+                    viewer.LoadDocument(report.RDocument);
+                    viewer.ShowDialog();
+                }
+            }
+        }
+
+        private void BSave_Click(object sender, EventArgs e)
         {
             if (TryBuildReport(out R001 report) == false)
                 return;
@@ -316,11 +328,6 @@ namespace GCRM
 
             if (dialog.ShowDialog() == DialogResult.OK)
                 report.RDocument.GeneratePdf(dialog.FileName);
-        }
-
-        private void BCancel_Click(object sender, EventArgs e)
-        {
-            Close();
         }
     }
 }

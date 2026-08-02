@@ -30,14 +30,14 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FReport005));
             BCancel = new Button();
-            BAccept = new Button();
-            BExport = new Button();
+            BSave = new Button();
             Institution = new ComboBox();
             LInstitution = new Label();
+            BGenerate = new Button();
             SuspendLayout();
-            // 
+            //
             // BCancel
-            // 
+            //
             BCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             BCancel.Location = new Point(298, 49);
             BCancel.Name = "BCancel";
@@ -46,31 +46,21 @@
             BCancel.Text = "&Cancelar";
             BCancel.UseVisualStyleBackColor = true;
             BCancel.Click += BCancel_Click;
-            // 
-            // BAccept
-            // 
-            BAccept.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            BAccept.Location = new Point(136, 49);
-            BAccept.Name = "BAccept";
-            BAccept.Size = new Size(75, 23);
-            BAccept.TabIndex = 3;
-            BAccept.Text = "&Ver";
-            BAccept.UseVisualStyleBackColor = true;
-            BAccept.Click += BAccept_Click;
-            // 
-            // BExport
-            // 
-            BExport.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            BExport.Location = new Point(217, 49);
-            BExport.Name = "BExport";
-            BExport.Size = new Size(75, 23);
-            BExport.TabIndex = 5;
-            BExport.Text = "&Guardar";
-            BExport.UseVisualStyleBackColor = true;
-            BExport.Click += BExport_Click;
-            // 
+            //
+            // BSave
+            //
+            BSave.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            BSave.Location = new Point(12, 49);
+            BSave.Name = "BSave";
+            BSave.Size = new Size(75, 23);
+            BSave.TabIndex = 5;
+            BSave.Text = "&Guardar";
+            BSave.UseVisualStyleBackColor = true;
+            BSave.Visible = false;
+            BSave.Click += BSave_Click;
+            //
             // Institution
-            // 
+            //
             Institution.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             Institution.DropDownStyle = ComboBoxStyle.DropDownList;
             Institution.FormattingEnabled = true;
@@ -78,16 +68,27 @@
             Institution.Name = "Institution";
             Institution.Size = new Size(292, 23);
             Institution.TabIndex = 10;
-            // 
+            //
             // LInstitution
-            // 
+            //
             LInstitution.AutoSize = true;
             LInstitution.Location = new Point(12, 15);
             LInstitution.Name = "LInstitution";
             LInstitution.Size = new Size(63, 15);
             LInstitution.TabIndex = 11;
             LInstitution.Text = "Institución";
-            // 
+            //
+            // BGenerate
+            //
+            BGenerate.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            BGenerate.Location = new Point(217, 49);
+            BGenerate.Name = "BGenerate";
+            BGenerate.Size = new Size(75, 23);
+            BGenerate.TabIndex = 3;
+            BGenerate.Text = "G&enerar";
+            BGenerate.UseVisualStyleBackColor = true;
+            BGenerate.Click += BGenerate_Click;
+            //
             // FReport005
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -97,8 +98,8 @@
             Controls.Add(LInstitution);
             Controls.Add(Institution);
             Controls.Add(BCancel);
-            Controls.Add(BAccept);
-            Controls.Add(BExport);
+            Controls.Add(BGenerate);
+            Controls.Add(BSave);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "FReport005";
@@ -111,9 +112,9 @@
         #endregion
 
         private Button BCancel;
-        private Button BAccept;
-        private Button BExport;
+        private Button BSave;
         private ComboBox Institution;
         private Label LInstitution;
+        private Button BGenerate;
     }
 }

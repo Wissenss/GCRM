@@ -68,6 +68,7 @@ namespace Reporter
 			{
 				page.Size(PageSizes.A4.Landscape());
 				page.Margin(15);
+				page.PageColor(Colors.White);
 
 				page.Header().Element(ComposeHeader);
 				page.Content().Element(ComposeContent);

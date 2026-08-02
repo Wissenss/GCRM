@@ -30,8 +30,7 @@ namespace GCRM
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FReport001));
             BCancel = new Button();
-            BAccept = new Button();
-            BExport = new Button();
+            BSave = new Button();
             CitizenTitle = new ComboBox();
             CheckBoxFilterCitizenTitle = new CheckBox();
             Sex = new ComboBox();
@@ -50,6 +49,7 @@ namespace GCRM
             CheckBoxFilterBirthdayMonth = new CheckBox();
             BirthdayDay = new ComboBox();
             CheckBoxFilterBirthdayDay = new CheckBox();
+            BGenerate = new Button();
             SuspendLayout();
             // 
             // BCancel
@@ -63,28 +63,18 @@ namespace GCRM
             BCancel.UseVisualStyleBackColor = true;
             BCancel.Click += BCancel_Click;
             // 
-            // BAccept
-            // 
-            BAccept.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            BAccept.Location = new Point(201, 279);
-            BAccept.Name = "BAccept";
-            BAccept.Size = new Size(75, 23);
-            BAccept.TabIndex = 19;
-            BAccept.Text = "&Ver";
-            BAccept.UseVisualStyleBackColor = true;
-            BAccept.Click += BAccept_Click;
-            // 
-            // BExport
-            // 
-            BExport.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            BExport.Location = new Point(282, 279);
-            BExport.Name = "BExport";
-            BExport.Size = new Size(75, 23);
-            BExport.TabIndex = 18;
-            BExport.Text = "&Guardar";
-            BExport.UseVisualStyleBackColor = true;
-            BExport.Click += BExport_Click;
-            // 
+            // BSave
+            //
+            BSave.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            BSave.Location = new Point(12, 279);
+            BSave.Name = "BSave";
+            BSave.Size = new Size(75, 23);
+            BSave.TabIndex = 18;
+            BSave.Text = "&Guardar";
+            BSave.UseVisualStyleBackColor = true;
+            BSave.Visible = false;
+            BSave.Click += BSave_Click;
+            //
             // CitizenTitle
             // 
             CitizenTitle.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
@@ -282,7 +272,18 @@ namespace GCRM
             CheckBoxFilterBirthdayDay.Text = "Día de nacimiento";
             CheckBoxFilterBirthdayDay.UseVisualStyleBackColor = true;
             CheckBoxFilterBirthdayDay.CheckedChanged += CheckBoxFilterBirthdayDay_CheckedChanged;
-            // 
+            //
+            // BGenerate
+            //
+            BGenerate.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            BGenerate.Location = new Point(282, 279);
+            BGenerate.Name = "BGenerate";
+            BGenerate.Size = new Size(75, 23);
+            BGenerate.TabIndex = 19;
+            BGenerate.Text = "G&enerar";
+            BGenerate.UseVisualStyleBackColor = true;
+            BGenerate.Click += BGenerate_Click;
+            //
             // FReport001
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -308,8 +309,8 @@ namespace GCRM
             Controls.Add(CheckBoxFilterCitizenTitle);
             Controls.Add(CitizenTitle);
             Controls.Add(BCancel);
-            Controls.Add(BAccept);
-            Controls.Add(BExport);
+            Controls.Add(BGenerate);
+            Controls.Add(BSave);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "FReport001";
@@ -322,8 +323,7 @@ namespace GCRM
         #endregion
 
         private Button BCancel;
-        private Button BAccept;
-        private Button BExport;
+        private Button BSave;
         private ComboBox CitizenTitle;
         private CheckBox CheckBoxFilterCitizenTitle;
         private ComboBox Sex;
@@ -342,5 +342,6 @@ namespace GCRM
         private CheckBox CheckBoxFilterBirthdayMonth;
         private ComboBox BirthdayDay;
         private CheckBox CheckBoxFilterBirthdayDay;
+        private Button BGenerate;
     }
 }

@@ -30,12 +30,12 @@ namespace GCRM
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FReport004));
             BCancel = new Button();
-            BAccept = new Button();
-            BExport = new Button();
+            BSave = new Button();
             Category = new ComboBox();
             CheckBoxFilterCategory = new CheckBox();
             Sector = new ComboBox();
             CheckBoxFilterSector = new CheckBox();
+            BGenerate = new Button();
             SuspendLayout();
             // 
             // BCancel
@@ -49,28 +49,18 @@ namespace GCRM
             BCancel.UseVisualStyleBackColor = true;
             BCancel.Click += BCancel_Click;
             // 
-            // BAccept
-            // 
-            BAccept.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            BAccept.Location = new Point(136, 76);
-            BAccept.Name = "BAccept";
-            BAccept.Size = new Size(75, 23);
-            BAccept.TabIndex = 3;
-            BAccept.Text = "&Ver";
-            BAccept.UseVisualStyleBackColor = true;
-            BAccept.Click += BAccept_Click;
-            // 
-            // BExport
-            // 
-            BExport.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            BExport.Location = new Point(217, 76);
-            BExport.Name = "BExport";
-            BExport.Size = new Size(75, 23);
-            BExport.TabIndex = 14;
-            BExport.Text = "&Guardar";
-            BExport.UseVisualStyleBackColor = true;
-            BExport.Click += BExport_Click;
-            // 
+            // BSave
+            //
+            BSave.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            BSave.Location = new Point(12, 76);
+            BSave.Name = "BSave";
+            BSave.Size = new Size(75, 23);
+            BSave.TabIndex = 14;
+            BSave.Text = "&Guardar";
+            BSave.UseVisualStyleBackColor = true;
+            BSave.Visible = false;
+            BSave.Click += BSave_Click;
+            //
             // Category
             // 
             Category.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
@@ -114,7 +104,18 @@ namespace GCRM
             CheckBoxFilterSector.Text = "Sector";
             CheckBoxFilterSector.UseVisualStyleBackColor = true;
             CheckBoxFilterSector.CheckedChanged += CheckBoxFilterSector_CheckedChanged;
-            // 
+            //
+            // BGenerate
+            //
+            BGenerate.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            BGenerate.Location = new Point(217, 76);
+            BGenerate.Name = "BGenerate";
+            BGenerate.Size = new Size(75, 23);
+            BGenerate.TabIndex = 3;
+            BGenerate.Text = "G&enerar";
+            BGenerate.UseVisualStyleBackColor = true;
+            BGenerate.Click += BGenerate_Click;
+            //
             // FReport004
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -126,8 +127,8 @@ namespace GCRM
             Controls.Add(CheckBoxFilterCategory);
             Controls.Add(Category);
             Controls.Add(BCancel);
-            Controls.Add(BAccept);
-            Controls.Add(BExport);
+            Controls.Add(BGenerate);
+            Controls.Add(BSave);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "FReport004";
@@ -140,11 +141,11 @@ namespace GCRM
         #endregion
 
         private Button BCancel;
-        private Button BAccept;
-        private Button BExport;
+        private Button BSave;
         private ComboBox Category;
         private CheckBox CheckBoxFilterCategory;
         private ComboBox Sector;
         private CheckBox CheckBoxFilterSector;
+        private Button BGenerate;
     }
 }
