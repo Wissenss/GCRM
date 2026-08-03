@@ -101,7 +101,7 @@ namespace Reporter
 			if (list.Count <= max_names)
 				return string.Join(", ", list);
 
-			return $"{string.Join(", ", list.Take(max_names))} y {list.Count - max_names} mÃ¡s";
+			return $"{string.Join(", ", list.Take(max_names))} y {list.Count - max_names} más";
 		}
 
 		void ComposeHeaderDetail(IContainer container)

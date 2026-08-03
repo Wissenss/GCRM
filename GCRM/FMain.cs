@@ -56,7 +56,7 @@ namespace GCRM
             Assembly assembly = Assembly.GetExecutingAssembly();
             FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
             string version = fileVersionInfo.ProductVersion;
-            LToolstripVersion.Text = $"Versi�n: {version}";
+            LToolstripVersion.Text = $"Versión: {version}";
         }
 
         private void LoadBirhdayList()
