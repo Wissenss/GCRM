@@ -11,8 +11,15 @@ using System.Threading.Tasks;
 
 namespace Reporter
 {
+    public class R005DocumentRequest
+    {
+        public int InstitutionId;
+        public bool IncludeChildInstitutionsInCitizenListing;
+    }
+
     public class R005DocumentModel
     {
+        public R005DocumentRequest Request;
         public TInstitution Institution;
         public List<TCitizen> Citizens;
     }
@@ -42,6 +49,7 @@ namespace Reporter
             container.Page(page =>
             {
                 page.Margin(15);
+                page.Size(PageSizes.A4);
 
                 page.Header().Element(ComposeHeader);
                 page.Content().Element(ComposeContent);
@@ -110,38 +118,55 @@ namespace Reporter
             {
                 c.Item()
                 .BorderBottom(1).BorderColor(Colors.Grey.Lighten1).PaddingBottom(5).PaddingTop(30)
-                .Text("Miembros").FontSize(Colors.Black).Bold().FontSize(10);
+                .Text("Miembros de la institución").FontSize(Colors.Black).Bold().FontSize(10);
 
                 c.Item().BorderBottom(1).BorderColor(Colors.Grey.Lighten1).PaddingVertical(2).Row(r =>
                 {
-                    r.RelativeItem().Text("Nombre").FontSize(10).FontColor(Colors.Black);
-                    r.ConstantItem(150).Text("Cargo").FontSize(10).FontColor(Colors.Black);
-                    r.ConstantItem(50).Text("Activo").AlignCenter().FontSize(10).FontColor(Colors.Black);
-                    r.ConstantItem(50).Text("Inicio").FontSize(10).FontColor(Colors.Black);
-                    r.ConstantItem(50).Text("Fin").FontSize(10).FontColor(Colors.Black);
+                    r.RelativeItem().Text("Nombre").FontSize(10).FontColor(Colors.Black).Bold();
+                    r.ConstantItem(200).Text("Cargo").FontSize(10).FontColor(Colors.Black).Bold();
+                    r.ConstantItem(50).Text("Activo").AlignCenter().FontSize(10).FontColor(Colors.Black).Bold();
+                    r.ConstantItem(50).Text("Inicio").FontSize(10).FontColor(Colors.Black).Bold();
+                    r.ConstantItem(50).Text("Fin").FontSize(10).FontColor(Colors.Black).Bold();
                 });
+
+                int lastInstitutionId = -1;
 
                 foreach (var item in Model.Citizens)
                 {
-                    foreach (var role in new List<TInstitutionRole> { item.Role, item.Role2, item.Role3 })
+                    if (Model.Request.IncludeChildInstitutionsInCitizenListing == false && item.Institution.Id != Model.Institution.Id)
                     {
-                        if (role.InstitutionId == Model.Institution.Id || role.InstitutionTemplateId == Model.Institution.Id)
-                        {
-                            c.Item()
-                            .PaddingTop(2)
-                            .Row(r =>
-                            {
-                                int size = 10;
-
-                                r.RelativeItem().Text(item.FullNameWithFirstCapitals).FontSize(size).FontColor(Colors.Black).Light();
-                                r.ConstantItem(150).Text(role.Name).FontSize(size).FontColor(Colors.Black).Light();
-                                r.ConstantItem(50).Text("Sí").AlignCenter().FontSize(size).FontColor(Colors.Black).Light();
-                                r.ConstantItem(50).Text("-").FontSize(size).FontColor(Colors.Black).Light();
-                                r.ConstantItem(50).Text("-").FontSize(size).FontColor(Colors.Black).Light();
-
-                            });
-                        }
+                        continue;
                     }
+
+                    if (lastInstitutionId != item.Institution.Id)
+                    {
+                        lastInstitutionId = item.Institution.Id;
+
+                        c.Item()
+                        .BorderBottom(1)
+                        .BorderColor(Colors.Grey.Lighten2)
+                        .Background(Colors.Grey.Lighten4)
+                        .Row(r =>
+                        {
+                            r.RelativeItem()
+                            .PaddingVertical(2)
+                            .Text(item.Institution.Name).FontSize(10).FontColor(Colors.Black);
+                        });
+                    }
+
+                    c.Item()
+                    .PaddingTop(2)
+                    .Row(r =>
+                    {
+                        int size = 10;
+
+                        r.RelativeItem().Text(item.FullNameWithFirstCapitals).FontSize(size).FontColor(Colors.Black);
+                        r.ConstantItem(200).Text(item.Role.Name).FontSize(size).FontColor(Colors.Black);
+                        r.ConstantItem(50).Text("Sí").AlignCenter().FontSize(size).FontColor(Colors.Black);
+                        r.ConstantItem(50).Text("-").FontSize(size).FontColor(Colors.Black);
+                        r.ConstantItem(50).Text("-").FontSize(size).FontColor(Colors.Black);
+
+                    });
                 }
             });
         }

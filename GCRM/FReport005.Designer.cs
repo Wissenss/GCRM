@@ -34,23 +34,24 @@
             Institution = new ComboBox();
             LInstitution = new Label();
             BGenerate = new Button();
+            IncludeChildInstitutions = new CheckBox();
             SuspendLayout();
-            //
+            // 
             // BCancel
-            //
+            // 
             BCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            BCancel.Location = new Point(298, 49);
+            BCancel.Location = new Point(298, 77);
             BCancel.Name = "BCancel";
             BCancel.Size = new Size(75, 23);
             BCancel.TabIndex = 4;
             BCancel.Text = "&Cancelar";
             BCancel.UseVisualStyleBackColor = true;
             BCancel.Click += BCancel_Click;
-            //
+            // 
             // BSave
-            //
+            // 
             BSave.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            BSave.Location = new Point(12, 49);
+            BSave.Location = new Point(12, 77);
             BSave.Name = "BSave";
             BSave.Size = new Size(75, 23);
             BSave.TabIndex = 5;
@@ -58,9 +59,9 @@
             BSave.UseVisualStyleBackColor = true;
             BSave.Visible = false;
             BSave.Click += BSave_Click;
-            //
+            // 
             // Institution
-            //
+            // 
             Institution.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             Institution.DropDownStyle = ComboBoxStyle.DropDownList;
             Institution.FormattingEnabled = true;
@@ -68,33 +69,46 @@
             Institution.Name = "Institution";
             Institution.Size = new Size(292, 23);
             Institution.TabIndex = 10;
-            //
+            // 
             // LInstitution
-            //
+            // 
             LInstitution.AutoSize = true;
             LInstitution.Location = new Point(12, 15);
             LInstitution.Name = "LInstitution";
             LInstitution.Size = new Size(63, 15);
             LInstitution.TabIndex = 11;
             LInstitution.Text = "Institución";
-            //
+            // 
             // BGenerate
-            //
+            // 
             BGenerate.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            BGenerate.Location = new Point(217, 49);
+            BGenerate.Location = new Point(217, 77);
             BGenerate.Name = "BGenerate";
             BGenerate.Size = new Size(75, 23);
             BGenerate.TabIndex = 3;
             BGenerate.Text = "G&enerar";
             BGenerate.UseVisualStyleBackColor = true;
             BGenerate.Click += BGenerate_Click;
-            //
+            // 
+            // IncludeChildInstitutions
+            // 
+            IncludeChildInstitutions.AutoSize = true;
+            IncludeChildInstitutions.Checked = true;
+            IncludeChildInstitutions.CheckState = CheckState.Checked;
+            IncludeChildInstitutions.Location = new Point(81, 41);
+            IncludeChildInstitutions.Name = "IncludeChildInstitutions";
+            IncludeChildInstitutions.Size = new Size(286, 19);
+            IncludeChildInstitutions.TabIndex = 12;
+            IncludeChildInstitutions.Text = "Incluir información de las instituciones delegadas";
+            IncludeChildInstitutions.UseVisualStyleBackColor = true;
+            // 
             // FReport005
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(385, 84);
+            ClientSize = new Size(385, 112);
             ControlBox = false;
+            Controls.Add(IncludeChildInstitutions);
             Controls.Add(LInstitution);
             Controls.Add(Institution);
             Controls.Add(BCancel);
@@ -116,5 +130,6 @@
         private ComboBox Institution;
         private Label LInstitution;
         private Button BGenerate;
+        private CheckBox IncludeChildInstitutions;
     }
 }

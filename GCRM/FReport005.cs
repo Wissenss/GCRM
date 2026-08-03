@@ -1,4 +1,5 @@
 ﻿using Business;
+using GCRM.Application;
 using GCRM.Domain;
 using QuestPDF.Companion;
 using QuestPDF.Fluent;
@@ -45,27 +46,27 @@ namespace GCRM
 
         private bool TryBuildDocument(out R005Document document)
         {
-            document = null;
-
-            R005DocumentModel model = new R005DocumentModel();
-
-            Error error = InstitutionsHandler.GetInstitutionById((int)Institution.SelectedValue, out model.Institution);
-
-            if (error != Error.None)
+            using (var cursor = new CursorWait())
             {
-                Utilities.ShowErrorDialog(error);
-                return false;
+                document = null;
+
+                R005DocumentRequest request = new R005DocumentRequest()
+                {
+                    InstitutionId = (int)Institution.SelectedValue,
+                    IncludeChildInstitutionsInCitizenListing = IncludeChildInstitutions.Checked
+                };
+
+                Error error = ReportService.GetR005DocumentModel(request, out R005DocumentModel model);
+
+                if (error != Error.None)
+                {
+                    Utilities.ShowErrorDialog(error);
+
+                    return false;
+                }
+
+                document = new R005Document(model);
             }
-
-            error = CitizensHandler.GetCitizensWithRoleInInstitution(model.Institution.Id, out model.Citizens);
-
-            if (error != Error.None)
-            {
-                Utilities.ShowErrorDialog(error);
-                return false;
-            }
-
-            document = new R005Document(model);
 
             return true;
         }

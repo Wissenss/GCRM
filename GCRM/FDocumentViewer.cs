@@ -50,13 +50,9 @@ namespace GCRM
 
                 PrintDocument = CreatePrintDocument();
 
-                PageIndex = 0;
-                PrintPreviewControl.StartPage = PageIndex;
-                SLPageNumber.Text = $"{PageIndex + 1} / {Images.Count()}";
-                TSSBPrevious.Enabled = PageIndex > 0 && Images.Count() > 0;
-                TSSBNext.Enabled = PageIndex < Images.Count() - 1 && Images.Count() > 0;
-
                 PrintPreviewControl.Document = PrintDocument;
+                
+                SetCurrentPage(0);
             }
         }
 
