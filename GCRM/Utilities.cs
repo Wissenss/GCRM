@@ -1,4 +1,13 @@
-﻿using System.Data;
+﻿using BrightIdeasSoftware;
+using Business;
+using Business.Business;
+using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Office.CoverPageProps;
+using DocumentFormat.OpenXml.Office2010.ExcelAc;
+using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml.Wordprocessing;
+using GCRM.Domain.Enums;
+using System.Data;
 using System.Diagnostics;
 using System.Drawing.Printing;
 using System.Net;
@@ -9,15 +18,7 @@ using System.Text;
 using System.Text.Json;
 using System.Windows.Forms;
 using System.Xml.Serialization;
-using BrightIdeasSoftware;
-using Business;
-using Business.Business;
-using ClosedXML.Excel;
-using DocumentFormat.OpenXml.Office.CoverPageProps;
-using DocumentFormat.OpenXml.Office2010.ExcelAc;
-using DocumentFormat.OpenXml.Spreadsheet;
-using DocumentFormat.OpenXml.Wordprocessing;
-using GCRM.Domain.Enums;
+using static GCRM.SettingsUtilities;
 
 namespace GCRM
 {
@@ -174,6 +175,30 @@ namespace GCRM
             public int selectedIndex { get; set; }
         }
 
+        public class InstanceConfiguration 
+        {
+            // this are settings that are meant to control how the system behaves in each
+            // specific installation, for example, if a specific feature is enabled or not, or if a specific behavior is enabled or not
+            // mainly to control certain windows version who may not play well with certain features of the system
+
+            public bool UseExternalPDFViewer { get; set; }
+        }
+
+        public static void SaveInstanceConfiguration(InstanceConfiguration setting)
+        {
+            SaveLocalPersistentSetting(setting, "instance_configuration");
+        }
+
+        public static InstanceConfiguration LoadInstanceConfiguration()
+        {
+            InstanceConfiguration setting = GetLocalPersistentSetting<InstanceConfiguration>("instance_configuration");
+            
+            if (setting == null)
+                setting = new InstanceConfiguration();
+
+            return setting;
+        }
+
         private static string GetTempSettingFullPath(string path)
         {
             path = Path.Join(Path.GetTempPath(), "GCRM", "gcrm_temp_settings", $"{path}.xml");
@@ -181,10 +206,17 @@ namespace GCRM
             return path;
         }
 
-        public static void SaveTempSetting<T>(T setting, string path)
+        private static string GetLocalPersistentSettingFullPath(string path)
         {
-            path = GetTempSettingFullPath(path);
+            string app_data = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            
+            path = Path.Join(app_data, "GCRM", "gcrm_persistent_settings", $"{path}.xml");
+         
+            return path;
+        }
 
+        public static void SaveXmlSetting<T>(T setting, string path)
+        {
             string directory = Path.GetDirectoryName(path);
 
             if (!Directory.Exists(directory))
@@ -197,10 +229,8 @@ namespace GCRM
             }
         }
 
-        public static T GetTempSetting<T>(string path)
+        public static T ReadXmlSetting<T>(string path)
         {
-            path = GetTempSettingFullPath(path);
-
             if (!File.Exists(path))
                 return default(T);
 
@@ -211,6 +241,32 @@ namespace GCRM
 
                 return setting;
             }
+        }
+
+        public static void SaveTempSetting<T>(T setting, string path)
+        {
+            path = GetTempSettingFullPath(path);
+
+            SaveXmlSetting(setting, path);
+        }
+
+        public static T GetTempSetting<T>(string path)
+        {
+            path = GetTempSettingFullPath(path);
+
+            return ReadXmlSetting<T>(path);
+        }
+
+        public static void SaveLocalPersistentSetting<T>(T setting, string path)
+        {
+            path = GetLocalPersistentSettingFullPath(path);
+            SaveXmlSetting(setting, path);
+        }
+
+        public static T GetLocalPersistentSetting<T>(string path)
+        {
+            path = GetLocalPersistentSettingFullPath(path);
+            return ReadXmlSetting<T>(path);
         }
 
         public static bool TempSettingExists(string path)

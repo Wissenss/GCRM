@@ -54,6 +54,10 @@ namespace GCRM
 
 					DisplayUppercase.Checked = SettingsHandler.GetSetting<bool>("UI.DisplayUppercase", false);
 				}
+
+				SettingsUtilities.InstanceConfiguration instance_configuration = SettingsUtilities.LoadInstanceConfiguration();
+
+				CheckBoxUseExternalPDFViewer.Checked = instance_configuration.UseExternalPDFViewer;
 			}
 		}
 
@@ -81,6 +85,13 @@ namespace GCRM
 
 					SettingsHandler.SetSetting("UI.DisplayUppercase", DisplayUppercase.Checked);
 				}
+
+				SettingsUtilities.InstanceConfiguration instance_configuration = new SettingsUtilities.InstanceConfiguration()
+				{
+					UseExternalPDFViewer = CheckBoxUseExternalPDFViewer.Checked,
+				};
+
+				SettingsUtilities.SaveInstanceConfiguration(instance_configuration);
 			}
 		}
 

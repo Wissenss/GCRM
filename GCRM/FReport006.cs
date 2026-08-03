@@ -102,11 +102,18 @@ namespace GCRM
         {
             if (TryBuildDocument(out R006Document document))
             {
-                using (FDocumentViewer viewer = new FDocumentViewer())
+                if (SettingsUtilities.LoadInstanceConfiguration().UseExternalPDFViewer)
                 {
-                    viewer.PrintSettings.Landscape = false;
-                    viewer.LoadDocument(document);
-                    viewer.ShowDialog();
+                    document.GeneratePdfAndShow();
+                }
+                else
+                {
+                    using (FDocumentViewer viewer = new FDocumentViewer())
+                    {
+                        viewer.PrintSettings.Landscape = false;
+                        viewer.LoadDocument(document);
+                        viewer.ShowDialog();
+                    }
                 }
             }
         }

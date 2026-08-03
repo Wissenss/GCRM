@@ -41,8 +41,11 @@
 			TabPersonalSettings = new TabPage();
 			OpenFileDialog = new OpenFileDialog();
 			DisplayUppercase = new CheckBox();
+			TabInstallationSettings = new TabPage();
+			CheckBoxUseExternalPDFViewer = new CheckBox();
 			TabControlSettings.SuspendLayout();
 			TabGlobalSettings.SuspendLayout();
+			TabInstallationSettings.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)BackgroundImage).BeginInit();
 			SuspendLayout();
 			// 
@@ -73,6 +76,7 @@
 			TabControlSettings.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
 			TabControlSettings.Controls.Add(TabGlobalSettings);
 			TabControlSettings.Controls.Add(TabPersonalSettings);
+			TabControlSettings.Controls.Add(TabInstallationSettings);
 			TabControlSettings.ImeMode = ImeMode.NoControl;
 			TabControlSettings.Location = new Point(12, 12);
 			TabControlSettings.Margin = new Padding(0);
@@ -174,7 +178,28 @@
 			DisplayUppercase.TabIndex = 7;
 			DisplayUppercase.Text = "Display uppercase";
 			DisplayUppercase.UseVisualStyleBackColor = true;
-			// 
+			//
+			// TabInstallationSettings
+			//
+			TabInstallationSettings.Controls.Add(CheckBoxUseExternalPDFViewer);
+			TabInstallationSettings.Location = new Point(4, 24);
+			TabInstallationSettings.Name = "TabInstallationSettings";
+			TabInstallationSettings.Padding = new Padding(5);
+			TabInstallationSettings.Size = new Size(432, 247);
+			TabInstallationSettings.TabIndex = 2;
+			TabInstallationSettings.Text = "Instalación";
+			TabInstallationSettings.UseVisualStyleBackColor = true;
+			//
+			// CheckBoxUseExternalPDFViewer
+			//
+			CheckBoxUseExternalPDFViewer.AutoSize = true;
+			CheckBoxUseExternalPDFViewer.Location = new Point(8, 8);
+			CheckBoxUseExternalPDFViewer.Name = "CheckBoxUseExternalPDFViewer";
+			CheckBoxUseExternalPDFViewer.Size = new Size(158, 19);
+			CheckBoxUseExternalPDFViewer.TabIndex = 0;
+			CheckBoxUseExternalPDFViewer.Text = "Usar visor de PDF externo";
+			CheckBoxUseExternalPDFViewer.UseVisualStyleBackColor = true;
+			//
 			// FSettings
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
@@ -193,6 +218,8 @@
 			TabControlSettings.ResumeLayout(false);
 			TabGlobalSettings.ResumeLayout(false);
 			TabGlobalSettings.PerformLayout();
+			TabInstallationSettings.ResumeLayout(false);
+			TabInstallationSettings.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)BackgroundImage).EndInit();
 			ResumeLayout(false);
 		}
@@ -212,5 +239,7 @@
 		private Button BSelectBackgroundImage;
 		private Button BClearBackgroundImage;
 		private CheckBox DisplayUppercase;
+		private TabPage TabInstallationSettings;
+		private CheckBox CheckBoxUseExternalPDFViewer;
 	}
 }

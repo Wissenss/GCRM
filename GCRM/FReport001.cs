@@ -306,11 +306,18 @@ namespace GCRM
         {
             if (TryBuildReport(out R001 report))
             {
-                using (FDocumentViewer viewer = new FDocumentViewer())
+                if (SettingsUtilities.LoadInstanceConfiguration().UseExternalPDFViewer)
                 {
-                    viewer.PrintSettings.Landscape = false;
-                    viewer.LoadDocument(report.RDocument);
-                    viewer.ShowDialog();
+                    report.RDocument.GeneratePdfAndShow();
+                }
+                else
+                {
+                    using (FDocumentViewer viewer = new FDocumentViewer())
+                    {
+                        viewer.PrintSettings.Landscape = false;
+                        viewer.LoadDocument(report.RDocument);
+                        viewer.ShowDialog();
+                    }
                 }
             }
         }
