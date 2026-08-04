@@ -351,6 +351,16 @@ namespace Business
 		{
 			Error error = 0;
 
+			// keep the category data to be able to log it after it is deleted
+			TInstitutionCategory category;
+
+			error = GetInstitutionCategoryById(id, out category);
+
+			if (error != 0)
+			{
+				return error;
+			}
+
 			var conn = ConnectionPool.GetConnection();
 
 			// check there is no institution using this category
@@ -378,6 +388,11 @@ namespace Business
 			}
 
 			ConnectionPool.ReleaseConnection(ref conn);
+
+			if (error == 0)
+			{
+				error = EventLogHandler.AddEventLog(TEventLogType.institution_category_delete, Session.User.Id, id, TEntityType.institution_category, category, DateTime.Now);
+			}
 
 			return error;
 		}
@@ -574,7 +589,7 @@ namespace Business
 			}
 			else
 			{
-				sql = "INSERT INTO institution_categories(name, description) VALUES(@name, @description);";
+				sql = "INSERT INTO institution_categories(name, description) VALUES(@name, @description) RETURNING id;";
 			}
 
 			using (var cmd = new NpgsqlCommand(sql, conn))
@@ -583,10 +598,16 @@ namespace Business
 				cmd.Parameters.AddWithValue("@name", category.Name);
 				cmd.Parameters.AddWithValue("@description", category.Description);
 
-				cmd.ExecuteNonQuery();
+				if (is_update)
+					cmd.ExecuteNonQuery();
+				else
+					category.Id = (Int32)(Int64)cmd.ExecuteScalar();
 			}
 
 			ConnectionPool.ReleaseConnection(ref conn);
+
+			EventLogHandler.AddEventLog(is_update ? TEventLogType.institution_category_edit : TEventLogType.institution_category_add, Session.User.Id, category.Id,
+				TEntityType.institution_category, category, DateTime.Now);
 
 			return 0;
 		}

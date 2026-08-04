@@ -274,9 +274,9 @@ namespace GCRM.Shared
 				{ TEventLogType.institution_edit,               "Editar institución" },
 				{ TEventLogType.institution_delete,             "Eliminar institución" },
 				{ TEventLogType.institution_attention_required, "Institución atención requerido" },
-				{ TEventLogType.institution_category_add,       "Añadir categoría ciudadana" },
-				{ TEventLogType.institution_category_edit,      "Editar categoría ciudadana" },
-				{ TEventLogType.institution_category_delete,    "Eliminar categoría ciudadana" },
+				{ TEventLogType.institution_category_add,       "Añadir categoría de institución" },
+				{ TEventLogType.institution_category_edit,      "Editar categoría de institución" },
+				{ TEventLogType.institution_category_delete,    "Eliminar categoría de institución" },
 			};
 
 			return mapping[event_log_type];

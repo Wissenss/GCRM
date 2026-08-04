@@ -1650,7 +1650,7 @@ namespace Business
 				}
 				else
 				{
-					sql = @"INSERT INTO citizen_categories(name, description) VALUES (@name, @description);";
+					sql = @"INSERT INTO citizen_categories(name, description) VALUES (@name, @description) RETURNING id;";
 				}
 
 				using (var cmd = new NpgsqlCommand(sql, conn))
@@ -1659,23 +1659,39 @@ namespace Business
 					cmd.Parameters.AddWithValue("@name", category.Name);
 					cmd.Parameters.AddWithValue("@description", category.Description);
 
-					cmd.ExecuteNonQuery();
+					if (is_update)
+						cmd.ExecuteNonQuery();
+					else
+						category.Id = (Int32)(Int64)cmd.ExecuteScalar();
 				}
-				
+
 				tran.Commit();
+
+				EventLogHandler.AddEventLog(is_update ? TEventLogType.citizen_category_edit : TEventLogType.citizen_category_add, Session.User.Id, category.Id,
+					TEntityType.citizen_category, category, DateTime.Now);
 			}
 			catch (Exception ex)
 			{
 				tran.Rollback();
 			}
 
-			ConnectionPool.ReleaseConnection(ref conn);	
+			ConnectionPool.ReleaseConnection(ref conn);
 
 			return 0;
 		}
 
 		public static Error DeleteCitizenCategoryById(int id)
 		{
+			// keep the category data to be able to log it after it is deleted
+			TCitizenCategory category;
+
+			Error error = GetCitizenCategoryById(id, out category);
+
+			if (error != 0)
+			{
+				return error;
+			}
+
 			var conn = ConnectionPool.GetConnection();
 
 			using (var cmd = new NpgsqlCommand("SELECT COUNT(*) FROM citizens WHERE citizen_category_id = @id;", conn))
@@ -1695,6 +1711,8 @@ namespace Business
 			}
 
 			ConnectionPool.ReleaseConnection(ref conn);
+
+			EventLogHandler.AddEventLog(TEventLogType.citizen_category_delete, Session.User.Id, id, TEntityType.citizen_category, category, DateTime.Now);
 
 			return 0;
 		}

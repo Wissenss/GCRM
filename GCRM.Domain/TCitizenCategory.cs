@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GCRM.Domain
 {
-	public class TCitizenCategory
+	public class TCitizenCategory : TEntity
 	{
 		public int Id;
 		public string Name = "";
@@ -24,6 +24,17 @@ namespace GCRM.Domain
 		{
 			Name = Name.ToUpper();
 			Description = Description.ToUpper();
+		}
+
+		public override string GetAsLogString()
+		{
+			StringBuilder log_string = new StringBuilder();
+
+			log_string.AppendLine($"Id:              \t{Id}");
+			log_string.AppendLine($"Name:            \t{Name}");
+			log_string.AppendLine($"Description:     \t{Description}");
+
+			return log_string.ToString();
 		}
 	}
 }
