@@ -45,6 +45,7 @@ namespace GCRM.Domain
 		public string VoterSection;
 
 		public bool AttentionRequired;
+		public string AttentionRequiredReason = "";
 
 		public bool Verified;
 		public DateTime VerifiedAt;
@@ -196,6 +197,7 @@ namespace GCRM.Domain
 			Institution3.Id = reader.GetInt32(Ordinal("institution3_id"));
 			Role3.Id = reader.GetInt32(Ordinal("institution3_role_id"));
 			AttentionRequired = reader.GetBoolean(Ordinal("attention_required"));
+			AttentionRequiredReason = reader.GetString(Ordinal("attention_required_reason"));
 			IsPoliticalActivist = reader.GetBoolean(Ordinal("is_political_activist"));
 			PoliticalRegisterDate = reader.GetDateTime(Ordinal("political_register_date"));
 

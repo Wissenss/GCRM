@@ -86,6 +86,7 @@ namespace GCRM
 			DTInstitutions.Columns.Add("editor_id", typeof(int));
 			DTInstitutions.Columns.Add("editor_name", typeof(string));
 			DTInstitutions.Columns.Add("attention_required", typeof(bool));
+			DTInstitutions.Columns.Add("attention_required_reason", typeof(string));
 			DTInstitutions.Columns.Add("template_id", typeof(int));
 			DTInstitutions.Columns.Add("template_name", typeof(string));
 			DTInstitutions.Columns.Add("edited_date", typeof(DateTime));
@@ -263,6 +264,7 @@ namespace GCRM
 				row["editor_name"] = institution.LastEditor.Name;
 				row["edited_date"] = institution.EditDate;
 				row["attention_required"] = institution.AttentionRequired;
+				row["attention_required_reason"] = institution.AttentionRequiredReason;
 				row["template_id"] = institution.Template.Id;
 				row["template_name"] = institution.Template.Name;
 

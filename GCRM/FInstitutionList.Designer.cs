@@ -30,6 +30,7 @@
         {
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FInstitutionList));
             ToolStrip = new ToolStrip();
@@ -57,6 +58,16 @@
             toolStripSeparator7 = new ToolStripSeparator();
             BAttentionRequired = new ToolStripButton();
             DataGridInstitutions = new DataGridView();
+            SplitContainer = new SplitContainer();
+            TreeView = new TreeView();
+            TextBoxSearch = new TextBox();
+            PanelSearch = new Panel();
+            SaveFileDialog = new SaveFileDialog();
+            StatusStrip = new StatusStrip();
+            TSSLRecordAttentionRequiredCount = new ToolStripStatusLabel();
+            TSSLRecordCount = new ToolStripStatusLabel();
+            TSSLFilters = new ToolStripStatusLabel();
+            TSSLAttentionReason = new ToolStripStatusLabel();
             colTemplateName = new DataGridViewTextBoxColumn();
             colName = new DataGridViewTextBoxColumn();
             colAcronym = new DataGridViewTextBoxColumn();
@@ -64,6 +75,7 @@
             colCategoryName = new DataGridViewTextBoxColumn();
             colDescription = new DataGridViewTextBoxColumn();
             colAttentionRequired = new DataGridViewCheckBoxColumn();
+            colAttentionRequiredReason = new DataGridViewTextBoxColumn();
             colInstitutionParentName = new DataGridViewTextBoxColumn();
             colAuthorName = new DataGridViewTextBoxColumn();
             colCreationDate = new DataGridViewTextBoxColumn();
@@ -76,15 +88,6 @@
             colCategoryId = new DataGridViewTextBoxColumn();
             colAuthorId = new DataGridViewTextBoxColumn();
             colIdEditor = new DataGridViewTextBoxColumn();
-            SplitContainer = new SplitContainer();
-            TreeView = new TreeView();
-            TextBoxSearch = new TextBox();
-            PanelSearch = new Panel();
-            SaveFileDialog = new SaveFileDialog();
-            StatusStrip = new StatusStrip();
-            TSSLRecordAttentionRequiredCount = new ToolStripStatusLabel();
-            TSSLRecordCount = new ToolStripStatusLabel();
-            TSSLFilters = new ToolStripStatusLabel();
             ToolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)DataGridInstitutions).BeginInit();
             ((System.ComponentModel.ISupportInitialize)SplitContainer).BeginInit();
@@ -316,8 +319,8 @@
             BAttentionRequired.ImageScaling = ToolStripItemImageScaling.None;
             BAttentionRequired.ImageTransparentColor = Color.Magenta;
             BAttentionRequired.Name = "BAttentionRequired";
-            BAttentionRequired.Size = new Size(68, 37);
-            BAttentionRequired.Text = "Resal&tar";
+            BAttentionRequired.Size = new Size(121, 37);
+            BAttentionRequired.Text = "Necesita &atención";
             BAttentionRequired.Click += BAttentionRequired_Click;
             // 
             // DataGridInstitutions
@@ -348,15 +351,15 @@
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
             DataGridInstitutions.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             DataGridInstitutions.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            DataGridInstitutions.Columns.AddRange(new DataGridViewColumn[] { colTemplateName, colName, colAcronym, colSocietySectorName, colCategoryName, colDescription, colAttentionRequired, colInstitutionParentName, colAuthorName, colCreationDate, colEditorName, colEditDate, colParentInstitutionId, colId, colSocietySector, colTemplateId, colCategoryId, colAuthorId, colIdEditor });
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = SystemColors.Window;
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle3.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = SystemColors.GradientInactiveCaption;
-            dataGridViewCellStyle3.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
-            DataGridInstitutions.DefaultCellStyle = dataGridViewCellStyle3;
+            DataGridInstitutions.Columns.AddRange(new DataGridViewColumn[] { colTemplateName, colName, colAcronym, colSocietySectorName, colCategoryName, colDescription, colAttentionRequired, colAttentionRequiredReason, colInstitutionParentName, colAuthorName, colCreationDate, colEditorName, colEditDate, colParentInstitutionId, colId, colSocietySector, colTemplateId, colCategoryId, colAuthorId, colIdEditor });
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = SystemColors.Window;
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle4.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = SystemColors.GradientInactiveCaption;
+            dataGridViewCellStyle4.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
+            DataGridInstitutions.DefaultCellStyle = dataGridViewCellStyle4;
             DataGridInstitutions.Dock = DockStyle.Fill;
             DataGridInstitutions.EnableHeadersVisualStyles = false;
             DataGridInstitutions.Location = new Point(0, 0);
@@ -370,7 +373,101 @@
             DataGridInstitutions.StandardTab = true;
             DataGridInstitutions.TabIndex = 3;
             DataGridInstitutions.CellFormatting += DataGridInstitutions_CellFormatting;
+            DataGridInstitutions.SelectionChanged += DataGridInstitutions_SelectionChanged;
             DataGridInstitutions.DoubleClick += DataGridInstitutions_DoubleClick;
+            // 
+            // SplitContainer
+            // 
+            SplitContainer.BackColor = SystemColors.ControlLightLight;
+            SplitContainer.Dock = DockStyle.Fill;
+            SplitContainer.Location = new Point(0, 79);
+            SplitContainer.Name = "SplitContainer";
+            // 
+            // SplitContainer.Panel1
+            // 
+            SplitContainer.Panel1.Controls.Add(DataGridInstitutions);
+            // 
+            // SplitContainer.Panel2
+            // 
+            SplitContainer.Panel2.Controls.Add(TreeView);
+            SplitContainer.Panel2Collapsed = true;
+            SplitContainer.Size = new Size(1239, 602);
+            SplitContainer.SplitterDistance = 506;
+            SplitContainer.SplitterWidth = 5;
+            SplitContainer.TabIndex = 4;
+            // 
+            // TreeView
+            // 
+            TreeView.BackColor = SystemColors.Control;
+            TreeView.BorderStyle = BorderStyle.None;
+            TreeView.Dock = DockStyle.Fill;
+            TreeView.Location = new Point(0, 0);
+            TreeView.Name = "TreeView";
+            TreeView.Size = new Size(96, 100);
+            TreeView.TabIndex = 0;
+            // 
+            // TextBoxSearch
+            // 
+            TextBoxSearch.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            TextBoxSearch.Location = new Point(8, 8);
+            TextBoxSearch.Name = "TextBoxSearch";
+            TextBoxSearch.PlaceholderText = "Ingrese el texto a buscar...";
+            TextBoxSearch.Size = new Size(1224, 23);
+            TextBoxSearch.TabIndex = 1;
+            TextBoxSearch.TextChanged += TextBoxSearch_TextChanged;
+            // 
+            // PanelSearch
+            // 
+            PanelSearch.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            PanelSearch.Controls.Add(TextBoxSearch);
+            PanelSearch.Dock = DockStyle.Top;
+            PanelSearch.Location = new Point(0, 40);
+            PanelSearch.Name = "PanelSearch";
+            PanelSearch.Size = new Size(1239, 39);
+            PanelSearch.TabIndex = 7;
+            PanelSearch.Visible = false;
+            // 
+            // StatusStrip
+            // 
+            StatusStrip.Items.AddRange(new ToolStripItem[] { TSSLRecordAttentionRequiredCount, TSSLRecordCount, TSSLFilters, TSSLAttentionReason });
+            StatusStrip.Location = new Point(0, 681);
+            StatusStrip.Name = "StatusStrip";
+            StatusStrip.Size = new Size(1239, 22);
+            StatusStrip.TabIndex = 4;
+            StatusStrip.Text = "statusStrip1";
+            // 
+            // TSSLRecordAttentionRequiredCount
+            // 
+            TSSLRecordAttentionRequiredCount.Font = new Font("Segoe UI Semibold", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            TSSLRecordAttentionRequiredCount.ForeColor = Color.Red;
+            TSSLRecordAttentionRequiredCount.Margin = new Padding(0, 3, 5, 2);
+            TSSLRecordAttentionRequiredCount.Name = "TSSLRecordAttentionRequiredCount";
+            TSSLRecordAttentionRequiredCount.Size = new Size(115, 17);
+            TSSLRecordAttentionRequiredCount.Text = "Atención requerida: 0";
+            // 
+            // TSSLRecordCount
+            // 
+            TSSLRecordCount.Font = new Font("Segoe UI Variable Small Light", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            TSSLRecordCount.Margin = new Padding(0, 3, 5, 2);
+            TSSLRecordCount.Name = "TSSLRecordCount";
+            TSSLRecordCount.Size = new Size(78, 17);
+            TSSLRecordCount.Text = "Registros: 274";
+            // 
+            // TSSLFilters
+            // 
+            TSSLFilters.Font = new Font("Segoe UI Variable Small Light", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            TSSLFilters.Name = "TSSLFilters";
+            TSSLFilters.Size = new Size(132, 17);
+            TSSLFilters.Text = "Filtros: Sexo = Masculino";
+            // 
+            // TSSLAttentionReason
+            // 
+            TSSLAttentionReason.Font = new Font("Segoe UI Semibold", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            TSSLAttentionReason.ForeColor = Color.Red;
+            TSSLAttentionReason.Margin = new Padding(0, 3, 5, 2);
+            TSSLAttentionReason.Name = "TSSLAttentionReason";
+            TSSLAttentionReason.Size = new Size(0, 17);
+            TSSLAttentionReason.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // colTemplateName
             // 
@@ -432,6 +529,9 @@
             // colAttentionRequired
             // 
             colAttentionRequired.DataPropertyName = "attention_required";
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.NullValue = false;
+            colAttentionRequired.DefaultCellStyle = dataGridViewCellStyle3;
             colAttentionRequired.DividerWidth = 1;
             colAttentionRequired.HeaderText = "Atención requerida";
             colAttentionRequired.Name = "colAttentionRequired";
@@ -439,6 +539,16 @@
             colAttentionRequired.Resizable = DataGridViewTriState.True;
             colAttentionRequired.SortMode = DataGridViewColumnSortMode.Automatic;
             colAttentionRequired.Visible = false;
+            // 
+            // colAttentionRequiredReason
+            // 
+            colAttentionRequiredReason.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            colAttentionRequiredReason.DataPropertyName = "attention_required_reason";
+            colAttentionRequiredReason.DividerWidth = 1;
+            colAttentionRequiredReason.HeaderText = "Motivo atención requerida";
+            colAttentionRequiredReason.Name = "colAttentionRequiredReason";
+            colAttentionRequiredReason.ReadOnly = true;
+            colAttentionRequiredReason.Visible = false;
             // 
             // colInstitutionParentName
             // 
@@ -554,90 +664,6 @@
             colIdEditor.ReadOnly = true;
             colIdEditor.Visible = false;
             // 
-            // SplitContainer
-            // 
-            SplitContainer.BackColor = SystemColors.ControlLightLight;
-            SplitContainer.Dock = DockStyle.Fill;
-            SplitContainer.Location = new Point(0, 79);
-            SplitContainer.Name = "SplitContainer";
-            // 
-            // SplitContainer.Panel1
-            // 
-            SplitContainer.Panel1.Controls.Add(DataGridInstitutions);
-            // 
-            // SplitContainer.Panel2
-            // 
-            SplitContainer.Panel2.Controls.Add(TreeView);
-            SplitContainer.Panel2Collapsed = true;
-            SplitContainer.Size = new Size(1239, 602);
-            SplitContainer.SplitterDistance = 506;
-            SplitContainer.SplitterWidth = 5;
-            SplitContainer.TabIndex = 4;
-            // 
-            // TreeView
-            // 
-            TreeView.BackColor = SystemColors.Control;
-            TreeView.BorderStyle = BorderStyle.None;
-            TreeView.Dock = DockStyle.Fill;
-            TreeView.Location = new Point(0, 0);
-            TreeView.Name = "TreeView";
-            TreeView.Size = new Size(96, 100);
-            TreeView.TabIndex = 0;
-            // 
-            // TextBoxSearch
-            // 
-            TextBoxSearch.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            TextBoxSearch.Location = new Point(8, 8);
-            TextBoxSearch.Name = "TextBoxSearch";
-            TextBoxSearch.PlaceholderText = "Ingrese el texto a buscar...";
-            TextBoxSearch.Size = new Size(1224, 23);
-            TextBoxSearch.TabIndex = 1;
-            TextBoxSearch.TextChanged += TextBoxSearch_TextChanged;
-            // 
-            // PanelSearch
-            // 
-            PanelSearch.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            PanelSearch.Controls.Add(TextBoxSearch);
-            PanelSearch.Dock = DockStyle.Top;
-            PanelSearch.Location = new Point(0, 40);
-            PanelSearch.Name = "PanelSearch";
-            PanelSearch.Size = new Size(1239, 39);
-            PanelSearch.TabIndex = 7;
-            PanelSearch.Visible = false;
-            // 
-            // StatusStrip
-            // 
-            StatusStrip.Items.AddRange(new ToolStripItem[] { TSSLRecordAttentionRequiredCount, TSSLRecordCount, TSSLFilters });
-            StatusStrip.Location = new Point(0, 681);
-            StatusStrip.Name = "StatusStrip";
-            StatusStrip.Size = new Size(1239, 22);
-            StatusStrip.TabIndex = 4;
-            StatusStrip.Text = "statusStrip1";
-            // 
-            // TSSLRecordAttentionRequiredCount
-            // 
-            TSSLRecordAttentionRequiredCount.Font = new Font("Segoe UI Semibold", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            TSSLRecordAttentionRequiredCount.ForeColor = Color.Red;
-            TSSLRecordAttentionRequiredCount.Margin = new Padding(0, 3, 5, 2);
-            TSSLRecordAttentionRequiredCount.Name = "TSSLRecordAttentionRequiredCount";
-            TSSLRecordAttentionRequiredCount.Size = new Size(115, 17);
-            TSSLRecordAttentionRequiredCount.Text = "Atención requerida: 0";
-            // 
-            // TSSLRecordCount
-            // 
-            TSSLRecordCount.Font = new Font("Segoe UI Variable Small Light", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            TSSLRecordCount.Margin = new Padding(0, 3, 5, 2);
-            TSSLRecordCount.Name = "TSSLRecordCount";
-            TSSLRecordCount.Size = new Size(78, 17);
-            TSSLRecordCount.Text = "Registros: 274";
-            // 
-            // TSSLFilters
-            // 
-            TSSLFilters.Font = new Font("Segoe UI Variable Small Light", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            TSSLFilters.Name = "TSSLFilters";
-            TSSLFilters.Size = new Size(132, 17);
-            TSSLFilters.Text = "Filtros: Sexo = Masculino";
-            // 
             // FInstitutionList
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -704,25 +730,27 @@
 		private ToolStripButton BPrint;
 		private ToolStripButton BInstitutionTemplates;
 		private ToolStripStatusLabel TSSLRecordAttentionRequiredCount;
+		private ToolStripStatusLabel TSSLAttentionReason;
 		private ToolStripButton BSelect;
-		private DataGridViewTextBoxColumn colTemplateName;
-		private DataGridViewTextBoxColumn colName;
-		private DataGridViewTextBoxColumn colAcronym;
-		private DataGridViewTextBoxColumn colSocietySectorName;
-		private DataGridViewTextBoxColumn colCategoryName;
-		private DataGridViewTextBoxColumn colDescription;
-		private DataGridViewCheckBoxColumn colAttentionRequired;
-		private DataGridViewTextBoxColumn colInstitutionParentName;
-		private DataGridViewTextBoxColumn colAuthorName;
-		private DataGridViewTextBoxColumn colCreationDate;
-		private DataGridViewTextBoxColumn colEditorName;
-		private DataGridViewTextBoxColumn colEditDate;
-		private DataGridViewTextBoxColumn colParentInstitutionId;
-		private DataGridViewTextBoxColumn colId;
-		private DataGridViewTextBoxColumn colSocietySector;
-		private DataGridViewTextBoxColumn colTemplateId;
-		private DataGridViewTextBoxColumn colCategoryId;
-		private DataGridViewTextBoxColumn colAuthorId;
-		private DataGridViewTextBoxColumn colIdEditor;
-	}
+        private DataGridViewTextBoxColumn colTemplateName;
+        private DataGridViewTextBoxColumn colName;
+        private DataGridViewTextBoxColumn colAcronym;
+        private DataGridViewTextBoxColumn colSocietySectorName;
+        private DataGridViewTextBoxColumn colCategoryName;
+        private DataGridViewTextBoxColumn colDescription;
+        private DataGridViewCheckBoxColumn colAttentionRequired;
+        private DataGridViewTextBoxColumn colAttentionRequiredReason;
+        private DataGridViewTextBoxColumn colInstitutionParentName;
+        private DataGridViewTextBoxColumn colAuthorName;
+        private DataGridViewTextBoxColumn colCreationDate;
+        private DataGridViewTextBoxColumn colEditorName;
+        private DataGridViewTextBoxColumn colEditDate;
+        private DataGridViewTextBoxColumn colParentInstitutionId;
+        private DataGridViewTextBoxColumn colId;
+        private DataGridViewTextBoxColumn colSocietySector;
+        private DataGridViewTextBoxColumn colTemplateId;
+        private DataGridViewTextBoxColumn colCategoryId;
+        private DataGridViewTextBoxColumn colAuthorId;
+        private DataGridViewTextBoxColumn colIdEditor;
+    }
 }

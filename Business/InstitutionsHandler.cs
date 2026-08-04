@@ -219,14 +219,15 @@ namespace Business
 			return 0;
 		}
 
-		public static Error SetInstitutionAttentionRequired(int institution_id, bool attention_required)
+		public static Error SetInstitutionAttentionRequired(int institution_id, bool attention_required, string reason = "")
 		{
 			var conn = ConnectionPool.GetConnection();
 
-			using (var cmd = new NpgsqlCommand("UPDATE institutions SET attention_required = @attention_required WHERE id = @id;", conn))
+			using (var cmd = new NpgsqlCommand("UPDATE institutions SET attention_required = @attention_required, attention_required_reason = @reason WHERE id = @id;", conn))
 			{
 				cmd.Parameters.AddWithValue("@id", institution_id);
 				cmd.Parameters.AddWithValue("@attention_required", attention_required);
+				cmd.Parameters.AddWithValue("@reason", attention_required ? reason : "");
 
 				cmd.ExecuteNonQuery();
 			}
@@ -240,6 +241,8 @@ namespace Business
 			log_message.AppendLine($"entidad: ");
 			log_message.AppendLine($"institución id: \t{institution_id}");
 			log_message.AppendLine($"atención requerida: \t{attention_required}");
+			if (attention_required)
+				log_message.AppendLine($"motivo: \t{reason}");
 			log_message.AppendLine($"==================================================");
 
 			EventLogHandler.AddEventLog(TEventLogType.institution_attention_required, Session.User.Id, institution_id, TEntityType.institution, log_message.ToString(), DateTime.Now);

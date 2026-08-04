@@ -43,6 +43,8 @@ namespace GCRM
         public string CategoryName;
         public bool FilterStatus;
         public int Status;
+        public bool FilterAttentionRequired;
+        public int AttentionRequired;
         public bool FilterVerifiedBy;
         public int VerifiedById;
         public string VerifiedByName;
@@ -58,6 +60,7 @@ namespace GCRM
         DataTable DTMonths;
         DataTable DTDays;
         DataTable DTStatus;
+        DataTable DTAttentionRequired;
         DataTable DTUsersVerifiedBy;
         DataTable DTUsersCreatedBy;
         DataTable DTUsersEditedBy;
@@ -85,6 +88,11 @@ namespace GCRM
             DTStatus.Columns.Add("value", typeof(int));
             DTStatus.Columns.Add("text", typeof(string));
             DSFilters.Tables.Add(DTStatus);
+
+            DTAttentionRequired = new DataTable("DTAttentionRequired");
+            DTAttentionRequired.Columns.Add("value", typeof(int));
+            DTAttentionRequired.Columns.Add("text", typeof(string));
+            DSFilters.Tables.Add(DTAttentionRequired);
 
             DTUsersVerifiedBy = new DataTable("DTUsersVerifiedBy");
             DTUsersVerifiedBy.Columns.Add("id", typeof(int));
@@ -176,6 +184,26 @@ namespace GCRM
             DTStatus.EndLoadData();
 
             ComboBoxStatus.SelectedValue = 1;
+        }
+
+        private void LoadDTAttentionRequired()
+        {
+            DTAttentionRequired.BeginLoadData();
+            DTAttentionRequired.Clear();
+
+            DataRow r1 = DTAttentionRequired.NewRow();
+            r1["value"] = 1;
+            r1["text"] = "Requiere atención";
+            DTAttentionRequired.Rows.Add(r1);
+
+            DataRow r2 = DTAttentionRequired.NewRow();
+            r2["value"] = 2;
+            r2["text"] = "No requiere atención";
+            DTAttentionRequired.Rows.Add(r2);
+
+            DTAttentionRequired.EndLoadData();
+
+            ComboBoxAttentionRequired.SelectedValue = 1;
         }
 
         private void FillDTUsers(DataTable table, List<TUser> users)
@@ -306,6 +334,9 @@ namespace GCRM
             FilterStatus = CheckBoxFilterStatus.Checked;
             Status = (int)ComboBoxStatus.SelectedValue;
 
+            FilterAttentionRequired = CheckBoxFilterAttentionRequired.Checked;
+            AttentionRequired = (int)ComboBoxAttentionRequired.SelectedValue;
+
             FilterVerifiedBy = CheckBoxFilterVerifiedBy.Checked;
             if (ComboBoxVerifiedBy.SelectedValue != null)
                 VerifiedById = (int)ComboBoxVerifiedBy.SelectedValue;
@@ -415,6 +446,7 @@ namespace GCRM
                 LoadDTMonths();
                 LoadDTDays();
                 LoadDTStatus();
+                LoadDTAttentionRequired();
                 LoadDTUsers();
 
                 // bind the comboboxes
@@ -468,6 +500,10 @@ namespace GCRM
                 ComboBoxStatus.ValueMember = "value";
                 ComboBoxStatus.DisplayMember = "text";
 
+                ComboBoxAttentionRequired.DataSource = DTAttentionRequired;
+                ComboBoxAttentionRequired.ValueMember = "value";
+                ComboBoxAttentionRequired.DisplayMember = "text";
+
                 if (Catalogs.DTCitizenCategories.Rows.Count > 0)
                     ComboBoxCategory.SelectedIndex = 0;
 
@@ -497,6 +533,11 @@ namespace GCRM
         private void CheckBoxFilterStatus_CheckedChanged(object sender, EventArgs e)
         {
             ComboBoxStatus.Enabled = CheckBoxFilterStatus.Checked;
+        }
+
+        private void CheckBoxFilterAttentionRequired_CheckedChanged(object sender, EventArgs e)
+        {
+            ComboBoxAttentionRequired.Enabled = CheckBoxFilterAttentionRequired.Checked;
         }
 
         private void CheckBoxFilterVerifiedBy_CheckedChanged(object sender, EventArgs e)

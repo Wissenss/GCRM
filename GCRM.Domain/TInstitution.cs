@@ -23,6 +23,7 @@ namespace GCRM.Domain
 		public DateTime EditDate;
 		public string Acronym = "";
 		public bool AttentionRequired;
+		public string AttentionRequiredReason = "";
 		public TInstitutionTemplate Template = new TInstitutionTemplate();
 		public TAddress Address = new TAddress();
 
@@ -59,6 +60,7 @@ namespace GCRM.Domain
 			AttentionRequired = reader.GetBoolean(11);
 			Template.Id = reader.GetInt32(12);
 			Address.Id = reader.IsDBNull(13) ? 0 : reader.GetInt32(13);
+			AttentionRequiredReason = reader.GetString(14);
 		}
 
 		public void PropertiesToUpper()
@@ -86,6 +88,7 @@ namespace GCRM.Domain
 			log_string.AppendLine($"EditDate:            \t{EditDate}");
 			log_string.AppendLine($"Acronym:             \t{Acronym}");
 			log_string.AppendLine($"AttentionRequired:   \t{AttentionRequired}");
+			log_string.AppendLine($"AttentionRequiredReason: \t{AttentionRequiredReason}");
 			log_string.AppendLine($"Template:            \t{Template.Id}");
 			log_string.AppendLine($"Address:             \t{Address.GetFullAddress()}");
 			log_string.AppendLine($"AddressState:        \t{Address.State}");

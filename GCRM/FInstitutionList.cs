@@ -242,6 +242,18 @@ namespace GCRM
 				filter += $" and society_sector = {(int)FiltersDlg.Sector}";
 			}
 
+			if (FiltersDlg.FilterAttentionRequired)
+			{
+				if (FiltersDlg.AttentionRequired == 1)
+				{
+					filter += $" and attention_required = true";
+				}
+				else if (FiltersDlg.AttentionRequired == 2)
+				{
+					filter += $" and attention_required = false";
+				}
+			}
+
 			Catalogs.DTInstitutions.DefaultView.RowFilter = filter;
 
 			DataGridInstitutions.DataSource = Catalogs.DTInstitutions;
@@ -384,9 +396,35 @@ namespace GCRM
 
 			bool attentionRequired = !(bool)row.Cells["colAttentionRequired"].Value;
 
+			string reason = "";
+
+			if (attentionRequired)
+			{
+				using (FAttentionRequired reason_dlg = new FAttentionRequired())
+				{
+					if (reason_dlg.ShowDialog() != DialogResult.OK)
+					{
+						return;
+					}
+
+					reason = reason_dlg.Reason;
+				}
+			}
+			else
+			{
+				DialogResult confirm_result = Utilities.ShowConfirmDialog(
+					"¿Desea marcar este registro como atendido?\n\nAl confirmar, asume la responsabilidad de haber resuelto el motivo por el cual el registro fue marcado como \"atención requerida\"."
+				);
+
+				if (confirm_result != DialogResult.Yes)
+				{
+					return;
+				}
+			}
+
 			using (new CursorWait())
 			{
-				Error error = InstitutionsHandler.SetInstitutionAttentionRequired(id, attentionRequired);
+				Error error = InstitutionsHandler.SetInstitutionAttentionRequired(id, attentionRequired, reason);
 
 				if (error != 0)
 				{
@@ -397,10 +435,28 @@ namespace GCRM
 
 			// update the data manually as the grid is not updated and doing it may take a long time
 			row.Cells["colAttentionRequired"].Value = attentionRequired;
+			row.Cells["colAttentionRequiredReason"].Value = reason;
 
 			DataGridInstitutions.InvalidateRow(row.Index);
 
 			UpdateStatusStrip();
+			UpdateAttentionRequiredControls();
+		}
+
+		private void DataGridInstitutions_SelectionChanged(object sender, EventArgs e)
+		{
+			UpdateAttentionRequiredControls();
+		}
+
+		private void UpdateAttentionRequiredControls()
+		{
+			DataGridViewRow row = DataGridInstitutions.SelectedRows.Count > 0 ? DataGridInstitutions.SelectedRows[0] : null;
+
+			bool attentionRequired = row?.Cells["colAttentionRequired"].Value is bool value && value;
+
+			BAttentionRequired.Text = attentionRequired ? "&Atendido" : "Necesita &atención";
+
+			TSSLAttentionReason.Text = attentionRequired ? $"Motivo atención: {row.Cells["colAttentionRequiredReason"].Value}" : "";
 		}
 
 		private void DataGridInstitutions_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)

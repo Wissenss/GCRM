@@ -1,4 +1,5 @@
 ﻿using Business;
+using System.Data;
 using GCRM.Domain;
 using GCRM.Domain.Enums;
 using GCRM.Shared;
@@ -12,6 +13,10 @@ namespace GCRM
 		public string CategoryName;
 		public bool FilterSector;
 		public TSocietySector Sector;
+		public bool FilterAttentionRequired;
+		public int AttentionRequired;
+
+		DataTable DTAttentionRequired;
 
 		public FInstitutionListFilters()
 		{
@@ -26,6 +31,25 @@ namespace GCRM
 			ComboBoxSector.DataSource = Catalogs.DTSocietySector;
 			ComboBoxSector.ValueMember = "value";
 			ComboBoxSector.DisplayMember = "text";
+
+			DTAttentionRequired = new DataTable("DTAttentionRequired");
+			DTAttentionRequired.Columns.Add("value", typeof(int));
+			DTAttentionRequired.Columns.Add("text", typeof(string));
+
+			DataRow r1 = DTAttentionRequired.NewRow();
+			r1["value"] = 1;
+			r1["text"] = "Requiere atención";
+			DTAttentionRequired.Rows.Add(r1);
+
+			DataRow r2 = DTAttentionRequired.NewRow();
+			r2["value"] = 2;
+			r2["text"] = "No requiere atención";
+			DTAttentionRequired.Rows.Add(r2);
+
+			ComboBoxAttentionRequired.DataSource = DTAttentionRequired;
+			ComboBoxAttentionRequired.ValueMember = "value";
+			ComboBoxAttentionRequired.DisplayMember = "text";
+			ComboBoxAttentionRequired.SelectedValue = 1;
 		}
 
 		private void BCancel_Click(object sender, EventArgs e)
@@ -54,6 +78,9 @@ namespace GCRM
 			if (ComboBoxSector.SelectedValue != null)
 				Sector = (TSocietySector)ComboBoxSector.SelectedValue;
 
+			FilterAttentionRequired = CheckBoxFilterAttentionRequired.Checked;
+			AttentionRequired = (int)ComboBoxAttentionRequired.SelectedValue;
+
 			DialogResult = DialogResult.OK;
 		}
 
@@ -65,6 +92,11 @@ namespace GCRM
 		private void CheckBoxFilterSector_CheckedChanged(object sender, EventArgs e)
 		{
 			ComboBoxSector.Enabled = CheckBoxFilterSector.Checked;
+		}
+
+		private void CheckBoxFilterAttentionRequired_CheckedChanged(object sender, EventArgs e)
+		{
+			ComboBoxAttentionRequired.Enabled = CheckBoxFilterAttentionRequired.Checked;
 		}
 	}
 }

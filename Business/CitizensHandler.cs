@@ -127,6 +127,7 @@ namespace Business
 					COALESCE(nrir.institution3_id, 0) AS institution3_id,
 					COALESCE(nrir.institution3_role_id, nrir.institution3_template_role_id, 0) AS institution3_role_id,
 					c.attention_required,
+					c.attention_required_reason,
 					c.is_political_activist,
 					c.political_register_date,
 					COALESCE(itr.institution_template_id, 0) AS institution_template_role_id,
@@ -826,14 +827,15 @@ namespace Business
 			return error;
 		}
 
-		public static Error SetCitizenAttentionRequired(int citizen_id, bool attention_required)
+		public static Error SetCitizenAttentionRequired(int citizen_id, bool attention_required, string reason = "")
 		{
 			var conn = ConnectionPool.GetConnection();
 
-			using (var cmd = new NpgsqlCommand("UPDATE citizens SET attention_required = @attention_required WHERE id = @id;", conn))
+			using (var cmd = new NpgsqlCommand("UPDATE citizens SET attention_required = @attention_required, attention_required_reason = @reason WHERE id = @id;", conn))
 			{
 				cmd.Parameters.AddWithValue("@id", citizen_id);
 				cmd.Parameters.AddWithValue("@attention_required", attention_required);
+				cmd.Parameters.AddWithValue("@reason", attention_required ? reason : "");
 
 				cmd.ExecuteNonQuery();
 			}
@@ -847,6 +849,8 @@ namespace Business
 			log_message.AppendLine($"entidad: ");
 			log_message.AppendLine($"ciudadano id: \t{citizen_id}");
 			log_message.AppendLine($"atención requerida: \t{attention_required}");
+			if (attention_required)
+				log_message.AppendLine($"motivo: \t{reason}");
 			log_message.AppendLine($"==================================================");
 
 			EventLogHandler.AddEventLog(TEventLogType.citizen_attention_required, Session.User.Id, citizen_id, TEntityType.citizen, log_message.ToString(), DateTime.Now);
@@ -977,6 +981,7 @@ namespace Business
 					COALESCE(nrir.institution3_id, 0) AS institution3_id,
 					COALESCE(nrir.institution3_role_id, nrir.institution3_template_role_id, 0) AS institution3_role_id,
 					c.attention_required,
+					c.attention_required_reason,
 					c.is_political_activist,
 					c.political_register_date,
 					COALESCE(itr.institution_template_id, 0) AS institution_template_role_id,

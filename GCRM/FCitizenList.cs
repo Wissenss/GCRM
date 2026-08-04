@@ -62,7 +62,8 @@ namespace GCRM
 			DataGridUtilities.AddColumn(DataGridCitizens, "colAssistantPhoneExtension", "Extensión Teléfono Asistente", "assistant_phone_extension", false, display_index++);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colAssistantPhoneAndExtension", "Tel. Asistente", "assistant_phone_full", false, display_index++);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colAssistantCellphone", "Cel. Asistente", "assistant_cellphone", false, display_index++);
-			DataGridUtilities.AddColumn(DataGridCitizens, "colAttentionRequired", "Atención requerida", "attention_required", false, display_index++);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colAttentionRequired", "Atención requerida", "attention_required", false, display_index++, 100, 20, DataGridViewAutoSizeColumnMode.None, DataGridColumnType.CheckBox);
+			DataGridUtilities.AddColumn(DataGridCitizens, "colAttentionRequiredReason", "Motivo atención requerida", "attention_required_reason", false, display_index++);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colPhone2AndExtension", "Teléfono 2", "phone2_full", false, display_index++);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colPhone3AndExtension", "Teléfono 3", "phone3_full", false, display_index++);
 			DataGridUtilities.AddColumn(DataGridCitizens, "colAddressStreet", "Calle", "address_street", false, display_index++);
@@ -199,6 +200,7 @@ namespace GCRM
 			DTCitizens.Columns.Add("category_name", typeof(string));
 
 			DTCitizens.Columns.Add("attention_required", typeof(bool));
+			DTCitizens.Columns.Add("attention_required_reason", typeof(string));
 
 			DSCitizens.Tables.Add(DTCitizens);
 
@@ -383,6 +385,7 @@ namespace GCRM
 					row["category_name"] = citizen.Category.Name;
 
 					row["attention_required"] = citizen.AttentionRequired;
+					row["attention_required_reason"] = citizen.AttentionRequiredReason;
 
 					if (display_upper)
 					{
@@ -615,6 +618,18 @@ namespace GCRM
 			if (FiltersDlg.FilterEditedBy)
 				filter += $" and editor_id = {FiltersDlg.EditedById}";
 
+			if (FiltersDlg.FilterAttentionRequired)
+			{
+				if (FiltersDlg.AttentionRequired == 1)
+				{
+					filter += $" and attention_required = true";
+				}
+				else if (FiltersDlg.AttentionRequired == 2)
+				{
+					filter += $" and attention_required = false";
+				}
+			}
+
 			DTCitizens.DefaultView.RowFilter = filter;
 
 			DataGridCitizens.DataSource = DTCitizens;
@@ -807,9 +822,35 @@ namespace GCRM
 
 			bool attentionRequired = !(bool)row.Cells["colAttentionRequired"].Value;
 
+			string reason = "";
+
+			if (attentionRequired)
+			{
+				using (FAttentionRequired reason_dlg = new FAttentionRequired())
+				{
+					if (reason_dlg.ShowDialog() != DialogResult.OK)
+					{
+						return;
+					}
+
+					reason = reason_dlg.Reason;
+				}
+			}
+			else
+			{
+				DialogResult confirm_result = Utilities.ShowConfirmDialog(
+					"¿Desea marcar este registro como atendido?\n\nAl confirmar, asume la responsabilidad de haber resuelto el motivo por el cual el registro fue marcado como \"atención requerida\"."
+				);
+
+				if (confirm_result != DialogResult.Yes)
+				{
+					return;
+				}
+			}
+
 			using (new CursorWait())
 			{
-				Error error = CitizensHandler.SetCitizenAttentionRequired(id, attentionRequired);
+				Error error = CitizensHandler.SetCitizenAttentionRequired(id, attentionRequired, reason);
 
 				if (error != 0)
 				{
@@ -820,10 +861,12 @@ namespace GCRM
 
 			// update the data manually as the grid is not updated and doing it may take a long time
 			row.Cells["colAttentionRequired"].Value = attentionRequired;
+			row.Cells["colAttentionRequiredReason"].Value = reason;
 
 			DataGridCitizens.InvalidateRow(row.Index);
 
 			UpdateStatusStrip();
+			UpdateAttentionRequiredControls();
 		}
 
 		private void DataGridCitizens_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -838,6 +881,22 @@ namespace GCRM
 				e.CellStyle.BackColor = System.Drawing.Color.FromArgb(255, 200, 200);
 				e.CellStyle.SelectionBackColor = System.Drawing.Color.FromArgb(255, 150, 150);
 			}
+		}
+
+		private void DataGridCitizens_SelectionChanged(object sender, EventArgs e)
+		{
+			UpdateAttentionRequiredControls();
+		}
+
+		private void UpdateAttentionRequiredControls()
+		{
+			DataGridViewRow row = DataGridCitizens.SelectedRows.Count > 0 ? DataGridCitizens.SelectedRows[0] : null;
+
+			bool attentionRequired = row?.Cells["colAttentionRequired"].Value is bool value && value;
+
+			BAttentionRequired.Text = attentionRequired ? "&Atendido" : "Necesita &atención";
+
+			TSSLAttentionReason.Text = attentionRequired ? $"Motivo atención: {row.Cells["colAttentionRequiredReason"].Value}" : "";
 		}
 
 		private void FCitizenList_FormClosing(object sender, FormClosingEventArgs e)

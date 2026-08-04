@@ -59,6 +59,8 @@
             CheckBoxFilterCreatedBy = new CheckBox();
             ComboBoxEditedBy = new ComboBox();
             CheckBoxFilterEditedBy = new CheckBox();
+            CheckBoxFilterAttentionRequired = new CheckBox();
+            ComboBoxAttentionRequired = new ComboBox();
             SuspendLayout();
             // 
             // CheckBoxFilterParty
@@ -86,7 +88,7 @@
             // BCancel
             // 
             BCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            BCancel.Location = new Point(278, 428);
+            BCancel.Location = new Point(278, 457);
             BCancel.Name = "BCancel";
             BCancel.Size = new Size(75, 23);
             BCancel.TabIndex = 3;
@@ -97,7 +99,7 @@
             // BAccept
             // 
             BAccept.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            BAccept.Location = new Point(197, 428);
+            BAccept.Location = new Point(197, 457);
             BAccept.Name = "BAccept";
             BAccept.Size = new Size(75, 23);
             BAccept.TabIndex = 2;
@@ -359,9 +361,9 @@
             CheckBoxFilterVerifiedBy.Text = "Verificado por";
             CheckBoxFilterVerifiedBy.UseVisualStyleBackColor = true;
             CheckBoxFilterVerifiedBy.CheckedChanged += CheckBoxFilterVerifiedBy_CheckedChanged;
-            //
+            // 
             // ComboBoxCreatedBy
-            //
+            // 
             ComboBoxCreatedBy.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             ComboBoxCreatedBy.DropDownStyle = ComboBoxStyle.DropDownList;
             ComboBoxCreatedBy.Enabled = false;
@@ -370,9 +372,9 @@
             ComboBoxCreatedBy.Name = "ComboBoxCreatedBy";
             ComboBoxCreatedBy.Size = new Size(239, 23);
             ComboBoxCreatedBy.TabIndex = 28;
-            //
+            // 
             // CheckBoxFilterCreatedBy
-            //
+            // 
             CheckBoxFilterCreatedBy.AutoSize = true;
             CheckBoxFilterCreatedBy.Location = new Point(12, 360);
             CheckBoxFilterCreatedBy.Name = "CheckBoxFilterCreatedBy";
@@ -381,9 +383,9 @@
             CheckBoxFilterCreatedBy.Text = "Creado por";
             CheckBoxFilterCreatedBy.UseVisualStyleBackColor = true;
             CheckBoxFilterCreatedBy.CheckedChanged += CheckBoxFilterCreatedBy_CheckedChanged;
-            //
+            // 
             // ComboBoxEditedBy
-            //
+            // 
             ComboBoxEditedBy.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             ComboBoxEditedBy.DropDownStyle = ComboBoxStyle.DropDownList;
             ComboBoxEditedBy.Enabled = false;
@@ -392,9 +394,9 @@
             ComboBoxEditedBy.Name = "ComboBoxEditedBy";
             ComboBoxEditedBy.Size = new Size(239, 23);
             ComboBoxEditedBy.TabIndex = 30;
-            //
+            // 
             // CheckBoxFilterEditedBy
-            //
+            // 
             CheckBoxFilterEditedBy.AutoSize = true;
             CheckBoxFilterEditedBy.Location = new Point(12, 389);
             CheckBoxFilterEditedBy.Name = "CheckBoxFilterEditedBy";
@@ -404,12 +406,36 @@
             CheckBoxFilterEditedBy.UseVisualStyleBackColor = true;
             CheckBoxFilterEditedBy.CheckedChanged += CheckBoxFilterEditedBy_CheckedChanged;
             // 
+            // CheckBoxFilterAttentionRequired
+            // 
+            CheckBoxFilterAttentionRequired.AutoSize = true;
+            CheckBoxFilterAttentionRequired.Location = new Point(12, 418);
+            CheckBoxFilterAttentionRequired.Name = "CheckBoxFilterAttentionRequired";
+            CheckBoxFilterAttentionRequired.Size = new Size(74, 19);
+            CheckBoxFilterAttentionRequired.TabIndex = 31;
+            CheckBoxFilterAttentionRequired.Text = "Atención";
+            CheckBoxFilterAttentionRequired.UseVisualStyleBackColor = true;
+            CheckBoxFilterAttentionRequired.CheckedChanged += CheckBoxFilterAttentionRequired_CheckedChanged;
+            // 
+            // ComboBoxAttentionRequired
+            // 
+            ComboBoxAttentionRequired.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            ComboBoxAttentionRequired.DropDownStyle = ComboBoxStyle.DropDownList;
+            ComboBoxAttentionRequired.Enabled = false;
+            ComboBoxAttentionRequired.FormattingEnabled = true;
+            ComboBoxAttentionRequired.Location = new Point(114, 416);
+            ComboBoxAttentionRequired.Name = "ComboBoxAttentionRequired";
+            ComboBoxAttentionRequired.Size = new Size(239, 23);
+            ComboBoxAttentionRequired.TabIndex = 32;
+            // 
             // FCitizenListFilters
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(365, 463);
+            ClientSize = new Size(365, 492);
             ControlBox = false;
+            Controls.Add(ComboBoxAttentionRequired);
+            Controls.Add(CheckBoxFilterAttentionRequired);
             Controls.Add(ComboBoxEditedBy);
             Controls.Add(CheckBoxFilterEditedBy);
             Controls.Add(ComboBoxCreatedBy);
@@ -441,7 +467,7 @@
             Controls.Add(CheckBoxFilterSex);
             Controls.Add(ComboBoxPoliticalParty);
             Controls.Add(CheckBoxFilterParty);
-            MinimumSize = new Size(360, 350);
+            MinimumSize = new Size(360, 379);
             Name = "FCitizenListFilters";
             ShowIcon = false;
             ShowInTaskbar = false;
@@ -487,5 +513,7 @@
         private CheckBox CheckBoxFilterCreatedBy;
         private ComboBox ComboBoxEditedBy;
         private CheckBox CheckBoxFilterEditedBy;
+        private CheckBox CheckBoxFilterAttentionRequired;
+        private ComboBox ComboBoxAttentionRequired;
     }
 }

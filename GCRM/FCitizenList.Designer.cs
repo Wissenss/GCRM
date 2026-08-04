@@ -96,6 +96,7 @@
             TSSLRecordCount = new ToolStripStatusLabel();
             TSSLFilters = new ToolStripStatusLabel();
             TSSLDebug = new ToolStripStatusLabel();
+            TSSLAttentionReason = new ToolStripStatusLabel();
             ToolStrip.SuspendLayout();
             PanelSearch.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)DataGridCitizens).BeginInit();
@@ -590,7 +591,7 @@
             BAttentionRequired.Name = "BAttentionRequired";
             BAttentionRequired.Padding = new Padding(2, 8, 2, 8);
             BAttentionRequired.Size = new Size(72, 36);
-            BAttentionRequired.Text = "Resal&tar";
+            BAttentionRequired.Text = "Necesita &atención";
             BAttentionRequired.Click += BAttentionRequired_Click;
             // 
             // PanelSearch
@@ -667,10 +668,11 @@
             DataGridCitizens.CellDoubleClick += DataGridCitizens_CellDoubleClick;
             DataGridCitizens.CellFormatting += DataGridCitizens_CellFormatting;
             DataGridCitizens.KeyDown += DataGridCitizens_KeyDown;
+            DataGridCitizens.SelectionChanged += DataGridCitizens_SelectionChanged;
             // 
             // statusStrip1
             // 
-            statusStrip1.Items.AddRange(new ToolStripItem[] { TSSLRecordAttentionRequiredCount, TSSLRecordCount, TSSLFilters, TSSLDebug });
+            statusStrip1.Items.AddRange(new ToolStripItem[] { TSSLRecordAttentionRequiredCount, TSSLRecordCount, TSSLFilters, TSSLAttentionReason, TSSLDebug });
             statusStrip1.Location = new Point(2, 601);
             statusStrip1.Name = "statusStrip1";
             statusStrip1.Size = new Size(1179, 22);
@@ -702,7 +704,16 @@
             TSSLFilters.Size = new Size(132, 17);
             TSSLFilters.Text = "Filtros: Sexo = Masculino";
             TSSLFilters.TextAlign = ContentAlignment.MiddleLeft;
-            // 
+            //
+            // TSSLAttentionReason
+            //
+            TSSLAttentionReason.Font = new Font("Segoe UI Semibold", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            TSSLAttentionReason.ForeColor = Color.Red;
+            TSSLAttentionReason.Margin = new Padding(0, 3, 5, 2);
+            TSSLAttentionReason.Name = "TSSLAttentionReason";
+            TSSLAttentionReason.Size = new Size(0, 17);
+            TSSLAttentionReason.TextAlign = ContentAlignment.MiddleLeft;
+            //
             // TSSLDebug
             // 
             TSSLDebug.Name = "TSSLDebug";
@@ -801,5 +812,6 @@
 		private ToolStripStatusLabel TSSLRecordAttentionRequiredCount;
 		private ToolStripButton BExcelImport;
 		private ToolStripStatusLabel TSSLDebug;
+		private ToolStripStatusLabel TSSLAttentionReason;
 	}
 }
