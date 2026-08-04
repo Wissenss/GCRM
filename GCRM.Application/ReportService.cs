@@ -47,6 +47,8 @@ namespace GCRM.Application
 				SELECT
 					c.id AS citizen_id,
 					c.name AS citizen_name,
+					c.paternal_name AS citizen_paternal_name,
+					c.maternal_name AS citizen_maternal_name,
 					i.id AS institution_id,
 					i.name AS institution_name,
 					COALESCE(itr.name, ir.name, '') AS role_name,
@@ -79,19 +81,26 @@ namespace GCRM.Application
 						while (reader.Read())
 						{
 							TCitizen citizen = new TCitizen
-	                        {
-	                            Id = reader.GetInt32(reader.GetOrdinal("citizen_id")),
-	                            Name = reader.GetString(reader.GetOrdinal("citizen_name")),
-	                            Institution = new TInstitution
-	                            {
-	                                Id = reader.GetInt32(reader.GetOrdinal("institution_id")),
-	                                Name = reader.GetString(reader.GetOrdinal("institution_name"))
-	                            },
-	                            Role = new TInstitutionRole
-	                            {
-	                                Name = reader.GetString(reader.GetOrdinal("role_name"))
-	                            }
-	                        };
+							{
+								Id = reader.GetInt32(reader.GetOrdinal("citizen_id")),
+								Name = reader.GetString(reader.GetOrdinal("citizen_name")),
+								PaternalName = reader.GetString(reader.GetOrdinal("citizen_paternal_name")),
+								MaternalName = reader.GetString(reader.GetOrdinal("citizen_maternal_name")),
+								Institution = new TInstitution
+								{
+									Id = reader.GetInt32(reader.GetOrdinal("institution_id")),
+									Name = reader.GetString(reader.GetOrdinal("institution_name"))
+								},
+								Role = new TInstitutionRole
+								{
+									Name = reader.GetString(reader.GetOrdinal("role_name")),
+									IsActive = reader.GetBoolean(reader.GetOrdinal("role_is_active")),
+									IsStartDefined = reader.GetBoolean(reader.GetOrdinal("role_is_start_defined")),
+									StartedAt = reader.IsDBNull(reader.GetOrdinal("role_started_at")) ? default : reader.GetDateTime(reader.GetOrdinal("role_started_at")),
+									IsEndDefined = reader.GetBoolean(reader.GetOrdinal("role_is_end_defined")),
+									EndedAt = reader.IsDBNull(reader.GetOrdinal("role_ended_at")) ? default : reader.GetDateTime(reader.GetOrdinal("role_ended_at"))
+								}
+							};
 
 							model.Citizens.Add(citizen);
 						}

@@ -160,11 +160,14 @@ namespace Reporter
                     {
                         int size = 10;
 
+                        string started_at = item.Role.IsStartDefined ? item.Role.StartedAt.ToString("dd/MM/yyyy") : "-";
+                        string ended_at = item.Role.IsEndDefined ? item.Role.EndedAt.ToString("dd/MM/yyyy") : "-";
+
                         r.RelativeItem().Text(item.FullNameWithFirstCapitals).FontSize(size).FontColor(Colors.Black);
                         r.ConstantItem(200).Text(item.Role.Name).FontSize(size).FontColor(Colors.Black);
-                        r.ConstantItem(50).Text("Sí").AlignCenter().FontSize(size).FontColor(Colors.Black);
-                        r.ConstantItem(50).Text("-").FontSize(size).FontColor(Colors.Black);
-                        r.ConstantItem(50).Text("-").FontSize(size).FontColor(Colors.Black);
+                        r.ConstantItem(50).Text(item.Role.IsActive ? "Sí" : "No").AlignCenter().FontSize(size).FontColor(Colors.Black);
+                        r.ConstantItem(50).Text(started_at).FontSize(size).FontColor(Colors.Black);
+                        r.ConstantItem(50).Text(ended_at).FontSize(size).FontColor(Colors.Black);
 
                     });
                 }

@@ -12,6 +12,12 @@ namespace GCRM.Domain
 		public string Description = "";
 		public int NoCitizensWithThisRole;
 
+		public bool IsActive = true;
+		public bool IsStartDefined;
+		public DateTime StartedAt;
+		public bool IsEndDefined;
+		public DateTime EndedAt;
+
 		public string NameWithFirstCapital
 		{
 			get
