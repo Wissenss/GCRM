@@ -5,6 +5,8 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using GCRM.Domain;
+using GCRM.Domain.Enums;
+using GCRM.Shared;
 
 namespace Business
 {
@@ -50,6 +52,8 @@ namespace Business
 				Session.User.Enabled = true;
 				Session.User.Citizen = new TCitizen();
 
+				trace_login(username);
+
 				return 0;
 			}
 			// --------------------------------------------------
@@ -73,7 +77,24 @@ namespace Business
 				return Error.UserUnauthorized;
 			}
 
+			trace_login(username);
+
 			return 0;
+		}
+
+		private static void trace_login(string username)
+		{
+			StringBuilder log_message = new StringBuilder();
+
+			log_message.AppendLine($"GCRM v{BConstants.GetProductVersion()} ACTION LOG");
+			log_message.AppendLine($"==================================================");
+			log_message.AppendLine($"evento:  {BConstants.GetEventLogTypeName(TEventLogType.user_login)}");
+			log_message.AppendLine($"fecha/hora:   {DateTime.Now}");
+			log_message.AppendLine($"entidad: ");
+			log_message.AppendLine($"usuario: \t{username}");
+			log_message.AppendLine($"==================================================");
+
+			EventLogHandler.AddEventLog(TEventLogType.user_login, Session.User.Id, Session.User.Id, TEntityType.user, log_message.ToString(), DateTime.Now);
 		}
 	}
 }

@@ -277,6 +277,7 @@ namespace GCRM.Shared
 				{ TEventLogType.institution_category_add,       "Añadir categoría de institución" },
 				{ TEventLogType.institution_category_edit,      "Editar categoría de institución" },
 				{ TEventLogType.institution_category_delete,    "Eliminar categoría de institución" },
+				{ TEventLogType.user_login,                     "Inicio de sesión" },
 			};
 
 			return mapping[event_log_type];

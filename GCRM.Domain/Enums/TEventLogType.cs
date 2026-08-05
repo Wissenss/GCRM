@@ -27,5 +27,7 @@ namespace GCRM.Domain.Enums
 		institution_category_add = 2501,
 		institution_category_edit = 2502,
 		institution_category_delete = 2503,
+
+		user_login = 3010
 	}
 }
