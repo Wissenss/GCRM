@@ -155,14 +155,14 @@ namespace Reporter
                     r.ConstantItem(50).Text("Fin").FontSize(10).FontColor(Colors.Black);
                 });
 
-                foreach (var pair in new List<(TInstitution Institution, TInstitutionRole Role)>
+                foreach (TCitizenInstitutionRole institution_role in new List<TCitizenInstitutionRole>
                 {
-                    (Model.Citizen.Institution, Model.Citizen.Role),
-                    (Model.Citizen.Institution2, Model.Citizen.Role2),
-                    (Model.Citizen.Institution3, Model.Citizen.Role3),
+                    Model.Citizen.InstitutionRole,
+                    Model.Citizen.InstitutionRole2,
+                    Model.Citizen.InstitutionRole3,
                 })
                 {
-                    if (pair.Institution.Id == 0)
+                    if (institution_role.Institution.Id == 0)
                         continue;
 
                     c.Item()
@@ -171,11 +171,14 @@ namespace Reporter
                     {
                         int size = 10;
 
-                        r.RelativeItem().Text(pair.Institution.Name).FontSize(size).FontColor(Colors.Black).Light();
-                        r.ConstantItem(150).Text(pair.Role.Name).FontSize(size).FontColor(Colors.Black).Light();
-                        r.ConstantItem(50).Text("Sí").AlignCenter().FontSize(size).FontColor(Colors.Black).Light();
-                        r.ConstantItem(50).Text("-").FontSize(size).FontColor(Colors.Black).Light();
-                        r.ConstantItem(50).Text("-").FontSize(size).FontColor(Colors.Black).Light();
+                        string started_at = institution_role.IsStartDefined ? institution_role.StartedAt.ToString("dd/MM/yyyy") : "-";
+                        string ended_at = institution_role.IsEndDefined ? institution_role.EndedAt.ToString("dd/MM/yyyy") : "-";
+
+                        r.RelativeItem().Text(institution_role.Institution.Name).FontSize(size).FontColor(Colors.Black).Light();
+                        r.ConstantItem(150).Text(institution_role.DisplayName).FontSize(size).FontColor(Colors.Black).Light();
+                        r.ConstantItem(50).Text(institution_role.IsActive ? "Sí" : "No").AlignCenter().FontSize(size).FontColor(Colors.Black).Light();
+                        r.ConstantItem(50).Text(started_at).FontSize(size).FontColor(Colors.Black).Light();
+                        r.ConstantItem(50).Text(ended_at).FontSize(size).FontColor(Colors.Black).Light();
                     });
                 }
             });

@@ -56,13 +56,16 @@ namespace GCRM.Application
 					cir_.is_start_defined AS role_is_start_defined,
 					cir_.started_at AS role_started_at,
 					cir_.is_end_defined AS role_is_end_defined,
-					cir_.ended_at AS role_ended_at
+					cir_.ended_at AS role_ended_at,
+					COALESCE(irv.id, 0) AS variation_id,
+					COALESCE(irv.name, '') AS variation_name
 				FROM
 					citizen_institution_roles cir_
 					JOIN institutions i ON cir_.institution_id = i.id
 					JOIN citizens c ON cir_.citizen_id = c.id
 					LEFT JOIN institution_template_roles itr ON itr.id = cir_.institution_template_role_id
 					LEFT JOIN institution_roles ir ON ir.id = cir_.institution_role_id
+					LEFT JOIN institution_role_variations irv ON irv.id = cir_.institution_role_variation_id
 				WHERE
 					cir_.institution_id IN (SELECT ii.id FROM institution_ids ii) 
 				ORDER BY
@@ -86,14 +89,22 @@ namespace GCRM.Application
 								Name = reader.GetString(reader.GetOrdinal("citizen_name")),
 								PaternalName = reader.GetString(reader.GetOrdinal("citizen_paternal_name")),
 								MaternalName = reader.GetString(reader.GetOrdinal("citizen_maternal_name")),
-								Institution = new TInstitution
+								InstitutionRole = new TCitizenInstitutionRole
 								{
-									Id = reader.GetInt32(reader.GetOrdinal("institution_id")),
-									Name = reader.GetString(reader.GetOrdinal("institution_name"))
-								},
-								Role = new TInstitutionRole
-								{
-									Name = reader.GetString(reader.GetOrdinal("role_name")),
+									Institution = new TInstitution
+									{
+										Id = reader.GetInt32(reader.GetOrdinal("institution_id")),
+										Name = reader.GetString(reader.GetOrdinal("institution_name"))
+									},
+									Role = new TInstitutionRole
+									{
+										Name = reader.GetString(reader.GetOrdinal("role_name"))
+									},
+									Variation = new TInstitutionRoleVariation
+									{
+										Id = reader.GetInt32(reader.GetOrdinal("variation_id")),
+										Name = reader.GetString(reader.GetOrdinal("variation_name"))
+									},
 									IsActive = reader.GetBoolean(reader.GetOrdinal("role_is_active")),
 									IsStartDefined = reader.GetBoolean(reader.GetOrdinal("role_is_start_defined")),
 									StartedAt = reader.IsDBNull(reader.GetOrdinal("role_started_at")) ? default : reader.GetDateTime(reader.GetOrdinal("role_started_at")),

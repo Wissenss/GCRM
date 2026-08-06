@@ -87,11 +87,12 @@ namespace GCRM
 
 						citizen.Name = row.Cell((int)NName.Value).Value.ToString();
 
-						citizen.Institution = new TInstitution();
-						citizen.Institution.Name = row.Cell((int)NInstitutionName.Value).Value.ToString();
+						citizen.InstitutionRole = new TCitizenInstitutionRole() { Position = 1 };
+						citizen.InstitutionRole.Institution = new TInstitution();
+						citizen.InstitutionRole.Institution.Name = row.Cell((int)NInstitutionName.Value).Value.ToString();
 
-						citizen.Role = new TInstitutionRole();
-						citizen.Role.Name = row.Cell((int)NInstitutionRoleName.Value).Value.ToString();
+						citizen.InstitutionRole.Role = new TInstitutionRole();
+						citizen.InstitutionRole.Role.Name = row.Cell((int)NInstitutionRoleName.Value).Value.ToString();
 
 						imported_citizens.Add(citizen);
 					}

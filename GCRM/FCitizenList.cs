@@ -338,25 +338,25 @@ namespace GCRM
 					row["political_party"] = citizen.PoliticalParty;
 					row["political_party_name"] = BConstants.GetPoliticalPartyCommonName(citizen.PoliticalParty);
 
-					row["institution_id"] = citizen.Institution.Id;
-					row["institution_name"] = citizen.Institution.Name;
-					row["institution_category_id"] = citizen.Institution.Category.Id;
-					row["institution_category_name"] = citizen.Institution.Category.Name;
-					row["institution_sector"] = citizen.Institution.Sector;
-					row["institution_sector_name"] = BConstants.GetSocietySectorName(citizen.Institution.Sector);
+					row["institution_id"] = citizen.InstitutionRole.Institution.Id;
+					row["institution_name"] = citizen.InstitutionRole.Institution.Name;
+					row["institution_category_id"] = citizen.InstitutionRole.Institution.Category.Id;
+					row["institution_category_name"] = citizen.InstitutionRole.Institution.Category.Name;
+					row["institution_sector"] = citizen.InstitutionRole.Institution.Sector;
+					row["institution_sector_name"] = BConstants.GetSocietySectorName(citizen.InstitutionRole.Institution.Sector);
 
-					row["institution_role_id"] = citizen.Role.Id;
-					row["institution_role_name"] = citizen.Role.Name;
+					row["institution_role_id"] = citizen.InstitutionRole.Role.Id;
+					row["institution_role_name"] = citizen.InstitutionRole.DisplayName;
 
-					row["institution2_id"] = citizen.Institution2.Id;
-					row["institution2_name"] = citizen.Institution2.Name;
-					row["institution2_role_id"] = citizen.Role2.Id;
-					row["institution2_role_name"] = citizen.Role2.Name;
+					row["institution2_id"] = citizen.InstitutionRole2.Institution.Id;
+					row["institution2_name"] = citizen.InstitutionRole2.Institution.Name;
+					row["institution2_role_id"] = citizen.InstitutionRole2.Role.Id;
+					row["institution2_role_name"] = citizen.InstitutionRole2.DisplayName;
 
-					row["institution3_id"] = citizen.Institution3.Id;
-					row["institution3_name"] = citizen.Institution3.Name;
-					row["institution3_role_id"] = citizen.Role3.Id;
-					row["institution3_role_name"] = citizen.Role3.Name;
+					row["institution3_id"] = citizen.InstitutionRole3.Institution.Id;
+					row["institution3_name"] = citizen.InstitutionRole3.Institution.Name;
+					row["institution3_role_id"] = citizen.InstitutionRole3.Role.Id;
+					row["institution3_role_name"] = citizen.InstitutionRole3.DisplayName;
 
 					row["address_id"] = citizen.Address.Id;
 					row["address_street"] = citizen.Address.Street;

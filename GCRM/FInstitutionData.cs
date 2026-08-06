@@ -34,7 +34,10 @@ namespace GCRM
 			DTInstitutionRoles.Columns.Add("delete", typeof(bool));
 			DTInstitutionRoles.Columns.Add("template_id", typeof(int));
 			DTInstitutionRoles.Columns.Add("citizens_with_role", typeof(int));
+			DTInstitutionRoles.Columns.Add("variations", typeof(object));
 			DSInstitution.Tables.Add(DTInstitutionRoles);
+
+			DataGridInstitutionRoles.AutoGenerateColumns = false;
 
 			int display_index = 0;
 
@@ -208,6 +211,7 @@ namespace GCRM
 				row["delete"] = false;
 				row["template_id"] = role.InstitutionTemplateId;
 				row["citizens_with_role"] = role.NoCitizensWithThisRole;
+				row["variations"] = role.Variation ?? new List<TInstitutionRoleVariation>();
 
 				if (role.IsTemplateRole == true)
 				{
@@ -485,6 +489,7 @@ namespace GCRM
 						Name = (string)row["name"],
 						ParentRoleId = (int)row["parent_role_id"],
 						Description = (string)row["description"],
+						Variation = row["variations"] as List<TInstitutionRoleVariation> ?? new List<TInstitutionRoleVariation>(),
 					};
 
 					institution.Roles.Add(role);
@@ -506,6 +511,8 @@ namespace GCRM
 		{
 			using (FInstitutionRoleData role_dlg = new FInstitutionRoleData())
 			{
+				role_dlg.SetVariations(new List<TInstitutionRoleVariation>());
+
 				if (role_dlg.ShowDialog() == DialogResult.OK)
 				{
 					string name;
@@ -521,6 +528,7 @@ namespace GCRM
 					row["description"] = description;
 					row["delete"] = false;
 					row["template_id"] = 0;
+					row["variations"] = role_dlg.GetVariations();
 
 					DTInstitutionRoles.Rows.Add(row);
 				}
@@ -557,7 +565,11 @@ namespace GCRM
 				string name = (string)selected_row.Cells["colName"].Value;
 				string description = (string)selected_row.Cells["colDescription"].Value;
 
+				DataRowView selected_row_view = (DataRowView)selected_row.DataBoundItem;
+				List<TInstitutionRoleVariation> variations = selected_row_view.Row["variations"] as List<TInstitutionRoleVariation> ?? new List<TInstitutionRoleVariation>();
+
 				role_dlg.SetValues(name, description);
+				role_dlg.SetVariations(variations);
 
 				if (role_dlg.ShowDialog() == DialogResult.OK)
 				{
@@ -571,6 +583,7 @@ namespace GCRM
 
 							row["name"] = name;
 							row["description"] = description;
+							row["variations"] = role_dlg.GetVariations();
 
 							row.EndEdit();
 						}
@@ -613,11 +626,12 @@ namespace GCRM
 				e.CellStyle.SelectionBackColor = Color.FromArgb(255, 150, 150);
 			}
 
-			//if ((int)row.Cells["colTemplateId"].Value > 0)
-			//{
-			//	e.CellStyle.BackColor = Color.FromArgb(224, 224, 224);
-			//	e.CellStyle.SelectionBackColor = Color.FromArgb(200, 200, 200);
-			//}
+			if ((int)row.Cells["colTemplateId"].Value > 0)
+			{
+                e.CellStyle.Font = new Font(DataGridInstitutionRoles.Font, FontStyle.Italic);
+                e.CellStyle.ForeColor = Color.Gray;
+                e.CellStyle.SelectionForeColor = Color.Gray;
+            }
 		}
 
 		private void DataGridInstitutionRoles_SelectionChanged(object sender, EventArgs e)
@@ -630,9 +644,10 @@ namespace GCRM
 			bool delete = (bool)row.Cells["colDelete"].Value;
 			int template_id = (int)row.Cells["colTemplateId"].Value;
 
-			BDeleteRole.Enabled = template_id == 0;
+			BDeleteRole.Enabled = template_id == 0 && AccessMode != FAccessMode.Read;
+			BEditRole.Enabled = template_id == 0 && AccessMode != FAccessMode.Read;
 
-			if (delete)
+            if (delete)
 			{
 				BDeleteRole.Text = "&Restaurar";
 				BDeleteRole.Image = Properties.Resources.Fatcow_Farm_Fresh_Cancel_16;
@@ -691,6 +706,7 @@ namespace GCRM
 					row["description"] = role.Description;
 					row["delete"] = false;
 					row["template_id"] = role.InstitutionTemplateId;
+					row["variations"] = new List<TInstitutionRoleVariation>();
 
 					DTInstitutionRoles.Rows.Add(row);
 				}

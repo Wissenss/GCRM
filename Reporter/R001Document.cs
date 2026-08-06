@@ -71,8 +71,9 @@ namespace Reporter
 
 			container.Page(page =>
 			{
+				page.Size(PageSizes.A4);
 				page.Margin(15);
-				
+
 				page.Header().Element(ComposeHeader);
 				page.Content().Element(ComposeContent);
 				page.Footer().Element(ComposeFooter);
@@ -215,7 +216,7 @@ namespace Reporter
 					table.Cell().Element(CellStyle).Column(column =>
 					{
 						column.Item().Text($"{BConstants.GetCitizenBriefTitle(citizen.Title, citizen.Sex).ToUpper()} {citizen.FullName}").FontSize(row_font_size).SemiBold();
-						column.Item().Text($"{citizen.Role.Name.ToUpper()} - {citizen.Institution.Name.ToUpper()}").FontSize(row_font_size);
+						column.Item().Text($"{citizen.InstitutionRole.DisplayName.ToUpper()} - {citizen.InstitutionRole.Institution.Name.ToUpper()}").FontSize(row_font_size);
 					});
 
 					string contact_str = "";

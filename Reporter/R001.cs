@@ -70,12 +70,12 @@ namespace Reporter
 			foreach (TCitizen citizen in full_citizen_list)
 			{
 				if (
-					InstitutionId != 0 && citizen.Institution.Id != InstitutionId ||
-					InstitutionCategoryId != 0 && citizen.Institution.Category.Id != InstitutionCategoryId ||
+					InstitutionId != 0 && citizen.InstitutionRole.Institution.Id != InstitutionId ||
+					InstitutionCategoryId != 0 && citizen.InstitutionRole.Institution.Category.Id != InstitutionCategoryId ||
 					CitizenTitle != null && citizen.Title != CitizenTitle ||
 					Sex != null && citizen.Sex != Sex ||
 					PoliticalParty != null && citizen.PoliticalParty != PoliticalParty ||
-					SocietySector != null && citizen.Institution.Sector != SocietySector ||
+					SocietySector != null && citizen.InstitutionRole.Institution.Sector != SocietySector ||
 					BirthdayYear != null && citizen.Birthday.Year != BirthdayYear ||
 					BirthdayMonth != null && citizen.Birthday.Month != BirthdayMonth ||
 					BirthdayDay != null && citizen.Birthday.Day != BirthdayDay

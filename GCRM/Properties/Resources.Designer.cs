@@ -193,6 +193,16 @@ namespace GCRM.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Fatcow_Farm_Fresh_Bullet_arrow_down_16 {
+            get {
+                object obj = ResourceManager.GetObject("Fatcow-Farm-Fresh-Bullet-arrow-down.16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Fatcow_Farm_Fresh_Bullet_arrow_left_16 {
             get {
                 object obj = ResourceManager.GetObject("Fatcow-Farm-Fresh-Bullet-arrow-left.16", resourceCulture);
@@ -206,6 +216,16 @@ namespace GCRM.Properties {
         internal static System.Drawing.Bitmap Fatcow_Farm_Fresh_Bullet_arrow_right_16 {
             get {
                 object obj = ResourceManager.GetObject("Fatcow-Farm-Fresh-Bullet-arrow-right.16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Fatcow_Farm_Fresh_Bullet_arrow_up_16 {
+            get {
+                object obj = ResourceManager.GetObject("Fatcow-Farm-Fresh-Bullet-arrow-up.16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

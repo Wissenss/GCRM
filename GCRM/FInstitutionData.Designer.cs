@@ -372,7 +372,7 @@
             // 
             // BDeleteRole
             // 
-            BDeleteRole.Image = Properties.Resources.Fatcow_Farm_Fresh_Cancel_16;
+            BDeleteRole.Image = Properties.Resources.Fatcow_Farm_Fresh_Delete_16;
             BDeleteRole.ImageTransparentColor = Color.Magenta;
             BDeleteRole.Margin = new Padding(1, 2, 1, 2);
             BDeleteRole.Name = "BDeleteRole";

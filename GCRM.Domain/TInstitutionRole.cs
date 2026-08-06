@@ -11,8 +11,9 @@ namespace GCRM.Domain
 		public int ParentRoleId;
 		public string Description = "";
 		public int NoCitizensWithThisRole;
+        public List<TInstitutionRoleVariation> Variation = new List<TInstitutionRoleVariation>();
 
-		public bool IsActive = true;
+        public bool IsActive = true;
 		public bool IsStartDefined;
 		public DateTime StartedAt;
 		public bool IsEndDefined;

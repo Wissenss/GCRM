@@ -28,6 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             BAccept = new Button();
             BCancel = new Button();
             TabControlCitizen = new TabControl();
@@ -129,26 +132,13 @@
             TextBoxStreet = new TextBox();
             LStreet = new Label();
             TabRol = new TabPage();
-            BNuevoCargo3 = new Button();
-            BNuevoCargo2 = new Button();
-            BNuevoCargo1 = new Button();
-            panel2 = new Panel();
-            panel1 = new Panel();
-            LInstitution3SectorAndCategory = new Label();
-            Institution3Role = new ComboBox();
-            LInstitution3Role = new Label();
-            Institution3 = new ComboBox();
-            LInstitution3 = new Label();
-            LInstitution2SectorAndCategory = new Label();
-            Institution2Role = new ComboBox();
-            LInsitution2Role = new Label();
-            Insitution2 = new ComboBox();
-            LInstitution2 = new Label();
-            LInstitutionSectorAndCategory = new Label();
-            ComboBoxInstitutionRole = new ComboBox();
-            LInstitutionRole = new Label();
-            ComboBoxInstitution = new ComboBox();
-            LInstitution = new Label();
+            DataGridRoles = new DataGridView();
+            ToolStripRoles = new ToolStrip();
+            BAddRole = new ToolStripButton();
+            BEditRole = new ToolStripButton();
+            BDeleteRole = new ToolStripButton();
+            BPositionUpRole = new ToolStripButton();
+            BPositionDownRole = new ToolStripButton();
             TabOtros = new TabPage();
             VerificationAuthor = new TextBox();
             LVerificationAuthor = new Label();
@@ -165,6 +155,8 @@
             TabContacto.SuspendLayout();
             TabAddress.SuspendLayout();
             TabRol.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)DataGridRoles).BeginInit();
+            ToolStripRoles.SuspendLayout();
             TabOtros.SuspendLayout();
             SuspendLayout();
             // 
@@ -1207,26 +1199,8 @@
             // 
             // TabRol
             // 
-            TabRol.Controls.Add(BNuevoCargo3);
-            TabRol.Controls.Add(BNuevoCargo2);
-            TabRol.Controls.Add(BNuevoCargo1);
-            TabRol.Controls.Add(panel2);
-            TabRol.Controls.Add(panel1);
-            TabRol.Controls.Add(LInstitution3SectorAndCategory);
-            TabRol.Controls.Add(Institution3Role);
-            TabRol.Controls.Add(LInstitution3Role);
-            TabRol.Controls.Add(Institution3);
-            TabRol.Controls.Add(LInstitution3);
-            TabRol.Controls.Add(LInstitution2SectorAndCategory);
-            TabRol.Controls.Add(Institution2Role);
-            TabRol.Controls.Add(LInsitution2Role);
-            TabRol.Controls.Add(Insitution2);
-            TabRol.Controls.Add(LInstitution2);
-            TabRol.Controls.Add(LInstitutionSectorAndCategory);
-            TabRol.Controls.Add(ComboBoxInstitutionRole);
-            TabRol.Controls.Add(LInstitutionRole);
-            TabRol.Controls.Add(ComboBoxInstitution);
-            TabRol.Controls.Add(LInstitution);
+            TabRol.Controls.Add(DataGridRoles);
+            TabRol.Controls.Add(ToolStripRoles);
             TabRol.Location = new Point(4, 24);
             TabRol.Name = "TabRol";
             TabRol.Padding = new Padding(3);
@@ -1235,213 +1209,127 @@
             TabRol.Text = "Cargos";
             TabRol.UseVisualStyleBackColor = true;
             // 
-            // BNuevoCargo3
+            // DataGridRoles
             // 
-            BNuevoCargo3.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            BNuevoCargo3.Enabled = false;
-            BNuevoCargo3.Location = new Point(433, 261);
-            BNuevoCargo3.Name = "BNuevoCargo3";
-            BNuevoCargo3.Size = new Size(72, 23);
-            BNuevoCargo3.TabIndex = 55;
-            BNuevoCargo3.Text = "Nuevo";
-            BNuevoCargo3.UseVisualStyleBackColor = true;
-            BNuevoCargo3.Click += BNuevoCargo3_Click;
+            DataGridRoles.AllowUserToAddRows = false;
+            DataGridRoles.AllowUserToDeleteRows = false;
+            DataGridRoles.AllowUserToOrderColumns = true;
+            DataGridRoles.AllowUserToResizeRows = false;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = Color.WhiteSmoke;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.GradientInactiveCaption;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.ControlText;
+            DataGridRoles.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            DataGridRoles.BackgroundColor = SystemColors.Control;
+            DataGridRoles.BorderStyle = BorderStyle.None;
+            DataGridRoles.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            DataGridRoles.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
+            DataGridRoles.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.ControlLight;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.ControlLight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            DataGridRoles.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            DataGridRoles.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = SystemColors.Window;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle3.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.GradientInactiveCaption;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
+            DataGridRoles.DefaultCellStyle = dataGridViewCellStyle3;
+            DataGridRoles.Dock = DockStyle.Fill;
+            DataGridRoles.EnableHeadersVisualStyles = false;
+            DataGridRoles.ImeMode = ImeMode.NoControl;
+            DataGridRoles.Location = new Point(3, 28);
+            DataGridRoles.MultiSelect = false;
+            DataGridRoles.Name = "DataGridRoles";
+            DataGridRoles.ReadOnly = true;
+            DataGridRoles.RowHeadersVisible = false;
+            DataGridRoles.RowTemplate.Height = 20;
+            DataGridRoles.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            DataGridRoles.ShowCellToolTips = false;
+            DataGridRoles.Size = new Size(508, 287);
+            DataGridRoles.StandardTab = true;
+            DataGridRoles.TabIndex = 0;
+            DataGridRoles.CellFormatting += DataGridRoles_CellFormatting;
+            DataGridRoles.SelectionChanged += DataGridRoles_SelectionChanged;
             // 
-            // BNuevoCargo2
+            // ToolStripRoles
             // 
-            BNuevoCargo2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            BNuevoCargo2.Enabled = false;
-            BNuevoCargo2.Location = new Point(433, 160);
-            BNuevoCargo2.Name = "BNuevoCargo2";
-            BNuevoCargo2.Size = new Size(72, 23);
-            BNuevoCargo2.TabIndex = 54;
-            BNuevoCargo2.Text = "Nuevo";
-            BNuevoCargo2.UseVisualStyleBackColor = true;
-            BNuevoCargo2.Click += BNuevoCargo2_Click;
+            ToolStripRoles.GripStyle = ToolStripGripStyle.Hidden;
+            ToolStripRoles.Items.AddRange(new ToolStripItem[] { BAddRole, BEditRole, BDeleteRole, BPositionUpRole, BPositionDownRole });
+            ToolStripRoles.Location = new Point(3, 3);
+            ToolStripRoles.Name = "ToolStripRoles";
+            ToolStripRoles.RenderMode = ToolStripRenderMode.System;
+            ToolStripRoles.Size = new Size(508, 25);
+            ToolStripRoles.TabIndex = 1;
+            ToolStripRoles.Text = "ToolStripRoles";
             // 
-            // BNuevoCargo1
+            // BAddRole
             // 
-            BNuevoCargo1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            BNuevoCargo1.Enabled = false;
-            BNuevoCargo1.Location = new Point(433, 58);
-            BNuevoCargo1.Name = "BNuevoCargo1";
-            BNuevoCargo1.Size = new Size(72, 23);
-            BNuevoCargo1.TabIndex = 53;
-            BNuevoCargo1.Text = "Nuevo";
-            BNuevoCargo1.UseVisualStyleBackColor = true;
-            BNuevoCargo1.Click += BNuevoCargo1_Click;
+            BAddRole.Image = Properties.Resources.Fatcow_Farm_Fresh_Add_16;
+            BAddRole.ImageTransparentColor = Color.Magenta;
+            BAddRole.Margin = new Padding(1, 2, 1, 2);
+            BAddRole.Name = "BAddRole";
+            BAddRole.Padding = new Padding(2, 0, 2, 0);
+            BAddRole.Size = new Size(73, 21);
+            BAddRole.Text = "&Agregar";
+            BAddRole.Click += BAddRole_Click;
             // 
-            // panel2
+            // BEditRole
             // 
-            panel2.BackColor = SystemColors.AppWorkspace;
-            panel2.Location = new Point(7, 198);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(495, 1);
-            panel2.TabIndex = 52;
+            BEditRole.Image = Properties.Resources.Fatcow_Farm_Fresh_Pencil_16;
+            BEditRole.ImageTransparentColor = Color.Magenta;
+            BEditRole.Margin = new Padding(1, 2, 1, 2);
+            BEditRole.Name = "BEditRole";
+            BEditRole.Padding = new Padding(2, 0, 2, 0);
+            BEditRole.Size = new Size(61, 21);
+            BEditRole.Text = "&Editar";
+            BEditRole.Click += BEditRole_Click;
             // 
-            // panel1
+            // BDeleteRole
             // 
-            panel1.BackColor = SystemColors.AppWorkspace;
-            panel1.Location = new Point(7, 96);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(495, 1);
-            panel1.TabIndex = 51;
+            BDeleteRole.Image = Properties.Resources.Fatcow_Farm_Fresh_Delete_16;
+            BDeleteRole.ImageTransparentColor = Color.Magenta;
+            BDeleteRole.Margin = new Padding(1, 2, 1, 2);
+            BDeleteRole.Name = "BDeleteRole";
+            BDeleteRole.Padding = new Padding(2, 0, 2, 0);
+            BDeleteRole.Size = new Size(63, 21);
+            BDeleteRole.Text = "&Borrar";
+            BDeleteRole.Click += BDeleteRole_Click;
             // 
-            // LInstitution3SectorAndCategory
+            // BPositionUpRole
             // 
-            LInstitution3SectorAndCategory.AutoSize = true;
-            LInstitution3SectorAndCategory.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            LInstitution3SectorAndCategory.ForeColor = SystemColors.HotTrack;
-            LInstitution3SectorAndCategory.Location = new Point(83, 240);
-            LInstitution3SectorAndCategory.Name = "LInstitution3SectorAndCategory";
-            LInstitution3SectorAndCategory.Size = new Size(143, 15);
-            LInstitution3SectorAndCategory.TabIndex = 50;
-            LInstitution3SectorAndCategory.Text = "Educativo - Universidades";
+            BPositionUpRole.Alignment = ToolStripItemAlignment.Right;
+            BPositionUpRole.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            BPositionUpRole.Image = Properties.Resources.Fatcow_Farm_Fresh_Bullet_arrow_up_16;
+            BPositionUpRole.ImageTransparentColor = Color.Magenta;
+            BPositionUpRole.Margin = new Padding(1, 2, 1, 2);
+            BPositionUpRole.Name = "BPositionUpRole";
+            BPositionUpRole.Padding = new Padding(2, 0, 2, 0);
+            BPositionUpRole.Size = new Size(24, 21);
+            BPositionUpRole.Text = "Bajar posición";
+            BPositionUpRole.Click += BPositionUpRole_Click;
             // 
-            // Institution3Role
+            // BPositionDownRole
             // 
-            Institution3Role.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            Institution3Role.DropDownStyle = ComboBoxStyle.DropDownList;
-            Institution3Role.FormattingEnabled = true;
-            Institution3Role.Location = new Point(83, 261);
-            Institution3Role.Name = "Institution3Role";
-            Institution3Role.Size = new Size(347, 23);
-            Institution3Role.TabIndex = 49;
-            // 
-            // LInstitution3Role
-            // 
-            LInstitution3Role.AutoSize = true;
-            LInstitution3Role.Location = new Point(7, 264);
-            LInstitution3Role.Name = "LInstitution3Role";
-            LInstitution3Role.Size = new Size(48, 15);
-            LInstitution3Role.TabIndex = 48;
-            LInstitution3Role.Text = "Cargo 3";
-            // 
-            // Institution3
-            // 
-            Institution3.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            Institution3.AutoCompleteMode = AutoCompleteMode.Append;
-            Institution3.AutoCompleteSource = AutoCompleteSource.ListItems;
-            Institution3.DropDownStyle = ComboBoxStyle.DropDownList;
-            Institution3.FormattingEnabled = true;
-            Institution3.Location = new Point(83, 211);
-            Institution3.Name = "Institution3";
-            Institution3.Size = new Size(425, 23);
-            Institution3.TabIndex = 47;
-            Institution3.SelectedValueChanged += Institution3_SelectedValueChanged;
-            // 
-            // LInstitution3
-            // 
-            LInstitution3.AutoSize = true;
-            LInstitution3.Location = new Point(5, 214);
-            LInstitution3.Name = "LInstitution3";
-            LInstitution3.Size = new Size(72, 15);
-            LInstitution3.TabIndex = 46;
-            LInstitution3.Text = "Institución 3";
-            // 
-            // LInstitution2SectorAndCategory
-            // 
-            LInstitution2SectorAndCategory.AutoSize = true;
-            LInstitution2SectorAndCategory.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            LInstitution2SectorAndCategory.ForeColor = SystemColors.HotTrack;
-            LInstitution2SectorAndCategory.Location = new Point(83, 139);
-            LInstitution2SectorAndCategory.Name = "LInstitution2SectorAndCategory";
-            LInstitution2SectorAndCategory.Size = new Size(78, 15);
-            LInstitution2SectorAndCategory.TabIndex = 45;
-            LInstitution2SectorAndCategory.Text = "Social - OSCs";
-            // 
-            // Institution2Role
-            // 
-            Institution2Role.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            Institution2Role.DropDownStyle = ComboBoxStyle.DropDownList;
-            Institution2Role.FormattingEnabled = true;
-            Institution2Role.Location = new Point(83, 160);
-            Institution2Role.Name = "Institution2Role";
-            Institution2Role.Size = new Size(347, 23);
-            Institution2Role.TabIndex = 43;
-            // 
-            // LInsitution2Role
-            // 
-            LInsitution2Role.AutoSize = true;
-            LInsitution2Role.Location = new Point(7, 163);
-            LInsitution2Role.Name = "LInsitution2Role";
-            LInsitution2Role.Size = new Size(48, 15);
-            LInsitution2Role.TabIndex = 42;
-            LInsitution2Role.Text = "Cargo 2";
-            // 
-            // Insitution2
-            // 
-            Insitution2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            Insitution2.AutoCompleteMode = AutoCompleteMode.Append;
-            Insitution2.AutoCompleteSource = AutoCompleteSource.ListItems;
-            Insitution2.DropDownStyle = ComboBoxStyle.DropDownList;
-            Insitution2.FormattingEnabled = true;
-            Insitution2.Location = new Point(83, 110);
-            Insitution2.Name = "Insitution2";
-            Insitution2.Size = new Size(425, 23);
-            Insitution2.TabIndex = 41;
-            Insitution2.SelectedValueChanged += Insitution2_SelectedValueChanged;
-            // 
-            // LInstitution2
-            // 
-            LInstitution2.AutoSize = true;
-            LInstitution2.Location = new Point(5, 113);
-            LInstitution2.Name = "LInstitution2";
-            LInstitution2.Size = new Size(72, 15);
-            LInstitution2.TabIndex = 40;
-            LInstitution2.Text = "Institución 2";
-            // 
-            // LInstitutionSectorAndCategory
-            // 
-            LInstitutionSectorAndCategory.AutoSize = true;
-            LInstitutionSectorAndCategory.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            LInstitutionSectorAndCategory.ForeColor = SystemColors.HotTrack;
-            LInstitutionSectorAndCategory.Location = new Point(83, 38);
-            LInstitutionSectorAndCategory.Name = "LInstitutionSectorAndCategory";
-            LInstitutionSectorAndCategory.Size = new Size(157, 15);
-            LInstitutionSectorAndCategory.TabIndex = 39;
-            LInstitutionSectorAndCategory.Text = "Gobierno - Gobierno Federal";
-            // 
-            // ComboBoxInstitutionRole
-            // 
-            ComboBoxInstitutionRole.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            ComboBoxInstitutionRole.DropDownStyle = ComboBoxStyle.DropDownList;
-            ComboBoxInstitutionRole.FormattingEnabled = true;
-            ComboBoxInstitutionRole.Location = new Point(83, 59);
-            ComboBoxInstitutionRole.Name = "ComboBoxInstitutionRole";
-            ComboBoxInstitutionRole.Size = new Size(347, 23);
-            ComboBoxInstitutionRole.TabIndex = 3;
-            // 
-            // LInstitutionRole
-            // 
-            LInstitutionRole.AutoSize = true;
-            LInstitutionRole.Location = new Point(7, 62);
-            LInstitutionRole.Name = "LInstitutionRole";
-            LInstitutionRole.Size = new Size(39, 15);
-            LInstitutionRole.TabIndex = 2;
-            LInstitutionRole.Text = "Cargo";
-            // 
-            // ComboBoxInstitution
-            // 
-            ComboBoxInstitution.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            ComboBoxInstitution.AutoCompleteMode = AutoCompleteMode.Append;
-            ComboBoxInstitution.AutoCompleteSource = AutoCompleteSource.ListItems;
-            ComboBoxInstitution.DropDownStyle = ComboBoxStyle.DropDownList;
-            ComboBoxInstitution.FormattingEnabled = true;
-            ComboBoxInstitution.Location = new Point(83, 9);
-            ComboBoxInstitution.Name = "ComboBoxInstitution";
-            ComboBoxInstitution.Size = new Size(425, 23);
-            ComboBoxInstitution.TabIndex = 1;
-            ComboBoxInstitution.SelectedValueChanged += ComboBoxInstitution_SelectedValueChanged;
-            // 
-            // LInstitution
-            // 
-            LInstitution.AutoSize = true;
-            LInstitution.Location = new Point(5, 12);
-            LInstitution.Name = "LInstitution";
-            LInstitution.Size = new Size(63, 15);
-            LInstitution.TabIndex = 0;
-            LInstitution.Text = "Institución";
+            BPositionDownRole.Alignment = ToolStripItemAlignment.Right;
+            BPositionDownRole.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            BPositionDownRole.Image = Properties.Resources.Fatcow_Farm_Fresh_Bullet_arrow_down_16;
+            BPositionDownRole.ImageTransparentColor = Color.Magenta;
+            BPositionDownRole.Margin = new Padding(1, 2, 1, 2);
+            BPositionDownRole.Name = "BPositionDownRole";
+            BPositionDownRole.Padding = new Padding(2, 0, 2, 0);
+            BPositionDownRole.Size = new Size(24, 21);
+            BPositionDownRole.Text = "Subir posición";
+            BPositionDownRole.Click += BPositionDownRole_Click;
             // 
             // TabOtros
             // 
@@ -1539,6 +1427,9 @@
             TabAddress.PerformLayout();
             TabRol.ResumeLayout(false);
             TabRol.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)DataGridRoles).EndInit();
+            ToolStripRoles.ResumeLayout(false);
+            ToolStripRoles.PerformLayout();
             TabOtros.ResumeLayout(false);
             TabOtros.PerformLayout();
             ResumeLayout(false);
@@ -1595,13 +1486,8 @@
 		private TextBox TextBoxPaternalName;
 		private Label LMaternalName;
 		private TextBox TextBoxMaternalName;
-		private ComboBox ComboBoxInstitution;
-		private Label LInstitution;
-		private ComboBox ComboBoxInstitutionRole;
-		private Label LInstitutionRole;
 		private TextBox TextBoxEmail;
 		private Label LEmail;
-		private Label LInstitutionSectorAndCategory;
 		private MaskedTextBox MaskedTextBoxCURP;
 		private TabPage TabElectoral;
 		private TextBox VoterCode;
@@ -1617,18 +1503,6 @@
 		private Label LDistrict;
 		private ComboBox ComboBoxCategory;
 		private Label LCategory;
-		private Label LInstitution2SectorAndCategory;
-		private ComboBox Institution2Role;
-		private Label LInsitution2Role;
-		private ComboBox Insitution2;
-		private Label LInstitution2;
-		private Label LInstitution3SectorAndCategory;
-		private ComboBox Institution3Role;
-		private Label LInstitution3Role;
-		private ComboBox Institution3;
-		private Label LInstitution3;
-		private Panel panel2;
-		private Panel panel1;
 		private CheckBox IsPoliticalActivist;
 		private DateTimePicker PoliticalRegisterDate;
 		private Button BGenerateCURP;
@@ -1664,14 +1538,18 @@
 		private CheckBox TelSyncEnabled;
 		private NumericUpDown NumPriorityScore;
 		private Label label4;
-        private Button BNuevoCargo1;
-        private Button BNuevoCargo3;
-        private Button BNuevoCargo2;
         private TabPage TabOtros;
         private Label LVerificationDate;
         private DateTimePicker VerificationDate;
         private CheckBox Verified;
         private Label LVerificationAuthor;
         private TextBox VerificationAuthor;
+        private DataGridView DataGridRoles;
+        private ToolStrip ToolStripRoles;
+        private ToolStripButton BAddRole;
+        private ToolStripButton BEditRole;
+        private ToolStripButton BDeleteRole;
+        private ToolStripButton BPositionUpRole;
+        private ToolStripButton BPositionDownRole;
     }
 }

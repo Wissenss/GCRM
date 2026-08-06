@@ -13,12 +13,7 @@ namespace GCRM
     {
         DataSet DSCitizen;
         DataTable DTCitizens;
-        DataTable DTInstitution;
-        DataTable DTInstitution2;
-        DataTable DTInstitution3;
-        DataTable DTInstitutionRole;
-        DataTable DTInstitution2Role;
-        DataTable DTInstitution3Role;
+        DataTable DTCitizenRoles;
         DataTable DTCategories;
         DataTable DTRelationshipRoles;
 
@@ -46,47 +41,46 @@ namespace GCRM
             DTCitizens.Columns.Add("name", typeof(string));
             DSCitizen.Tables.Add(DTCitizens);
 
-            DTInstitution = new DataTable("DTInstitution");
-            DTInstitution.Columns.Add("id", typeof(int));
-            DTInstitution.Columns.Add("name", typeof(string));
-            DSCitizen.Tables.Add(DTInstitution);
+            DTCitizenRoles = new DataTable("DTCitizenRoles");
+            DTCitizenRoles.Columns.Add("position", typeof(int));
+            DTCitizenRoles.Columns.Add("institution_id", typeof(int));
+            DTCitizenRoles.Columns.Add("institution_name", typeof(string));
+            DTCitizenRoles.Columns.Add("role_id", typeof(int));
+            DTCitizenRoles.Columns.Add("role_name", typeof(string));
+            DTCitizenRoles.Columns.Add("role_template_id", typeof(int));
+            DTCitizenRoles.Columns.Add("variation_id", typeof(int));
+            DTCitizenRoles.Columns.Add("variation_name", typeof(string));
+            DTCitizenRoles.Columns.Add("is_active", typeof(bool));
+            DTCitizenRoles.Columns.Add("is_start_defined", typeof(bool));
+            DTCitizenRoles.Columns.Add("started_at", typeof(DateTime));
+            DTCitizenRoles.Columns.Add("is_end_defined", typeof(bool));
+            DTCitizenRoles.Columns.Add("ended_at", typeof(DateTime));
+            DTCitizenRoles.Columns.Add("role_display", typeof(string));
+            DSCitizen.Tables.Add(DTCitizenRoles);
 
-            DTInstitution2 = new DataTable("DTInstitution2");
-            DTInstitution2.Columns.Add("id", typeof(int));
-            DTInstitution2.Columns.Add("name", typeof(string));
-            DSCitizen.Tables.Add(DTInstitution2);
+            DataGridRoles.AutoGenerateColumns = false;
 
-            DTInstitution3 = new DataTable("DTInstitution3");
-            DTInstitution3.Columns.Add("id", typeof(int));
-            DTInstitution3.Columns.Add("name", typeof(string));
-            DSCitizen.Tables.Add(DTInstitution3);
+            int roles_display_index = 0;
 
-            DTInstitutionRole = new DataTable("DTInstitutionRoles");
-            DTInstitutionRole.Columns.Add("id", typeof(int));
-            DTInstitutionRole.Columns.Add("name", typeof(string));
-            DTInstitutionRole.Columns.Add("institution_id", typeof(int));
-            DTInstitutionRole.Columns.Add("template_id", typeof(int));
-            DTInstitutionRole.Columns.Add("is_template_role", typeof(int));
-            DTInstitutionRole.Columns.Add("description", typeof(string));
-            DSCitizen.Tables.Add(DTInstitutionRole);
+            DataGridUtilities.AddColumn(DataGridRoles, "colPosition", "#", "position", true, roles_display_index++, 30, 25, DataGridViewAutoSizeColumnMode.None);
+            DataGridUtilities.AddColumn(DataGridRoles, "colInstitution", "Institución", "institution_name", true, roles_display_index++, 180, 20, DataGridViewAutoSizeColumnMode.None);
+            DataGridUtilities.AddColumn(DataGridRoles, "colRole", "Cargo", "role_display", true, roles_display_index++, 220, 40, DataGridViewAutoSizeColumnMode.None);
+            DataGridUtilities.AddColumn(DataGridRoles, "colActive", "Activo", "is_active", true, roles_display_index++, 50, 20, DataGridViewAutoSizeColumnMode.None, DataGridColumnType.CheckBox);
 
-            DTInstitution2Role = new DataTable("DTInstitution2Roles");
-            DTInstitution2Role.Columns.Add("id", typeof(int));
-            DTInstitution2Role.Columns.Add("name", typeof(string));
-            DTInstitution2Role.Columns.Add("institution_id", typeof(int));
-            DTInstitution2Role.Columns.Add("template_id", typeof(int));
-            DTInstitution2Role.Columns.Add("is_template_role", typeof(int));
-            DTInstitution2Role.Columns.Add("description", typeof(string));
-            DSCitizen.Tables.Add(DTInstitution2Role);
+            DataGridViewColumn start_date_column = DataGridUtilities.AddColumn(DataGridRoles, "colStartedAt", "Inicio", "started_at", true, roles_display_index++, 90, 20, DataGridViewAutoSizeColumnMode.None);
+            start_date_column.DefaultCellStyle.Format = "d";
 
-            DTInstitution3Role = new DataTable("DTInstitution3Roles");
-            DTInstitution3Role.Columns.Add("id", typeof(int));
-            DTInstitution3Role.Columns.Add("name", typeof(string));
-            DTInstitution3Role.Columns.Add("institution_id", typeof(int));
-            DTInstitution3Role.Columns.Add("template_id", typeof(int));
-            DTInstitution3Role.Columns.Add("is_template_role", typeof(int));
-            DTInstitution3Role.Columns.Add("description", typeof(string));
-            DSCitizen.Tables.Add(DTInstitution3Role);
+            DataGridViewColumn end_date_column = DataGridUtilities.AddColumn(DataGridRoles, "colEndedAt", "Fin", "ended_at", true, roles_display_index++, 90, 20, DataGridViewAutoSizeColumnMode.None);
+            end_date_column.DefaultCellStyle.Format = "d";
+
+            //DataGridUtilities.AddColumn(DataGridRoles, "colInstitutionId", "InstitutionId", "institution_id", false);
+            //DataGridUtilities.AddColumn(DataGridRoles, "colRoleId", "RoleId", "role_id", false);
+            //DataGridUtilities.AddColumn(DataGridRoles, "colRoleTemplateId", "RoleTemplateId", "role_template_id", false);
+            //DataGridUtilities.AddColumn(DataGridRoles, "colVariationId", "VariationId", "variation_id", false);
+
+            DataGridRoles.DataSource = DSCitizen;
+            DataGridRoles.DataMember = DTCitizenRoles.TableName;
+            DTCitizenRoles.DefaultView.Sort = "position";
 
             DTCategories = new DataTable("DTCategories");
             DTCategories.Columns.Add("id", typeof(int));
@@ -119,42 +113,13 @@ namespace GCRM
             ComboBoxCountry.ValueMember = "value";
             ComboBoxCountry.DisplayMember = "text";
 
-            ComboBoxInstitution.DataSource = DTInstitution;
-            ComboBoxInstitution.ValueMember = "id";
-            ComboBoxInstitution.DisplayMember = "name";
-            ComboBoxInstitutionRole.DataSource = DTInstitutionRole;
-            ComboBoxInstitutionRole.ValueMember = "id";
-            ComboBoxInstitutionRole.DisplayMember = "name";
-
-            Insitution2.DataSource = DTInstitution2;
-            Insitution2.ValueMember = "id";
-            Insitution2.DisplayMember = "name";
-            Institution2Role.DataSource = DTInstitution2Role;
-            Institution2Role.ValueMember = "id";
-            Institution2Role.DisplayMember = "name";
-
-            Institution3.DataSource = DTInstitution3;
-            Institution3.ValueMember = "id";
-            Institution3.DisplayMember = "name";
-            Institution3Role.DataSource = DTInstitution3Role;
-            Institution3Role.ValueMember = "id";
-            Institution3Role.DisplayMember = "name";
-
             LAssitantName.Text = "";
             LAssistantPhone.Text = "";
             LAssitantCellphone.Text = "";
 
-            LoadDTInstitutions();
-            LoadDTInstitutionRoles(DTInstitutionRole, ComboBoxInstitutionRole, 0, 0);
-            LoadDTInstitutionRoles(DTInstitution2Role, Institution2Role, 0, 0);
-            LoadDTInstitutionRoles(DTInstitution3Role, Institution3Role, 0, 0);
             LoadDTCitizens();
             LoadDTCategories();
             LoadDTRelationshipRoles();
-
-            LInstitutionSectorAndCategory.Text = "";
-            LInstitution2SectorAndCategory.Text = "";
-            LInstitution3SectorAndCategory.Text = "";
 
             LoadPermissions();
             LoadBirthdayFields();
@@ -214,73 +179,6 @@ namespace GCRM
             ComboBoxCategory.DataSource = DTCategories;
             ComboBoxCategory.ValueMember = "id";
             ComboBoxCategory.DisplayMember = "name";
-        }
-
-        private void LoadDTInstitutions()
-        {
-            using (new CursorWait())
-            {
-                List<TInstitution> institutions_list;
-
-                Error error = InstitutionsHandler.GetInstitutions(out institutions_list);
-
-                if (error != 0)
-                {
-                    Utilities.ShowErrorDialog(error);
-                    return;
-                }
-
-                institutions_list.Insert(0, new TInstitution()
-                {
-                    Id = 0,
-                    Name = "Ninguna",
-                    Sector = TSocietySector.None,
-                });
-
-                DTInstitution.BeginLoadData();
-                DTInstitution2.BeginLoadData();
-                DTInstitution3.BeginLoadData();
-                DTInstitution.Clear();
-                DTInstitution2.Clear();
-                DTInstitution3.Clear();
-
-                foreach (TInstitution institution in institutions_list)
-                {
-                    DataRow row = DTInstitution.NewRow();
-                    DataRow row2 = DTInstitution2.NewRow();
-                    DataRow row3 = DTInstitution3.NewRow();
-
-                    row["id"] = institution.Id;
-                    row["name"] = institution.Name;
-                    row2["id"] = institution.Id;
-                    row2["name"] = institution.Name;
-                    row3["id"] = institution.Id;
-                    row3["name"] = institution.Name;
-
-                    DTInstitution.Rows.Add(row);
-                    DTInstitution2.Rows.Add(row2);
-                    DTInstitution3.Rows.Add(row3);
-                }
-
-                DTInstitution.EndLoadData();
-                DTInstitution2.EndLoadData();
-                DTInstitution3.EndLoadData();
-
-                ComboBoxInstitutionRole.DataSource = DTInstitutionRole;
-                ComboBoxInstitutionRole.ValueMember = "id";
-                ComboBoxInstitutionRole.DisplayMember = "name";
-                ComboBoxInstitution.SelectedIndex = 0;
-
-                Insitution2.DataSource = DTInstitution2;
-                Insitution2.ValueMember = "id";
-                Insitution2.DisplayMember = "name";
-                Insitution2.SelectedIndex = 0;
-
-                Institution3.DataSource = DTInstitution3;
-                Institution3.ValueMember = "id";
-                Institution3.DisplayMember = "name";
-                Institution3.SelectedIndex = 0;
-            }
         }
 
         private void LoadDTCitizens()
@@ -400,14 +298,11 @@ namespace GCRM
             ComboBoxCountry.Enabled = AccessMode != FAccessMode.Read;
             TextBoxDistrict.Enabled = AccessMode != FAccessMode.Read;
 
-            ComboBoxInstitution.Enabled = AccessMode != FAccessMode.Read;
-            ComboBoxInstitutionRole.Enabled = AccessMode != FAccessMode.Read;
-
-            Insitution2.Enabled = AccessMode != FAccessMode.Read;
-            Institution2Role.Enabled = AccessMode != FAccessMode.Read;
-
-            Institution3.Enabled = AccessMode != FAccessMode.Read;
-            Institution3Role.Enabled = AccessMode != FAccessMode.Read;
+            DataGridRoles.Enabled = AccessMode != FAccessMode.Read;
+            BAddRole.Enabled = AccessMode != FAccessMode.Read;
+            BPositionUpRole.Enabled = AccessMode != FAccessMode.Read;
+            BPositionDownRole.Enabled = AccessMode != FAccessMode.Read;
+            UpdateRoleButtonsState();
 
             VoterCode.Enabled = AccessMode != FAccessMode.Read;
             VoterOCR.Enabled = AccessMode != FAccessMode.Read;
@@ -510,17 +405,7 @@ namespace GCRM
                 ComboBoxCountry.SelectedValue = citizen.Address.Country;
                 TextBoxDistrict.Text = citizen.Address.District;
 
-                ComboBoxInstitution.SelectedValue = citizen.Institution.Id;
-                //ComboBoxInstitutionRole.SelectedValue = citizen.Role.Id;
-                SelectInstitutionRoleValue(ComboBoxInstitutionRole, DTInstitutionRole, citizen.Role.Id, citizen.Role.InstitutionTemplateId);
-
-                Insitution2.SelectedValue = citizen.Institution2.Id;
-                //Institution2Role.SelectedValue = citizen.Role2.Id;
-                SelectInstitutionRoleValue(Institution2Role, DTInstitution2Role, citizen.Role2.Id, citizen.Role2.InstitutionTemplateId);
-
-                Institution3.SelectedValue = citizen.Institution3.Id;
-                //Institution3Role.SelectedValue = citizen.Role3.Id;
-                SelectInstitutionRoleValue(Institution3Role, DTInstitution3Role, citizen.Role3.Id, citizen.Role3.InstitutionTemplateId);
+                LoadCitizenRoleGrid(citizen);
 
                 ComboBoxCategory.SelectedValue = citizen.Category.Id;
 
@@ -736,12 +621,14 @@ namespace GCRM
 
             // TODO: validate congruence with citizen data #20
 
-            if ((int)ComboBoxInstitution.SelectedValue == 0 && Session.HasPermission("Ciudadanos.NoEspecificarInstitucion") == false)
+            bool has_primary_role = DTCitizenRoles.Rows.Count > 0;
+
+            if (has_primary_role == false && Session.HasPermission("Ciudadanos.NoEspecificarInstitucion") == false)
             {
                 actions_to_authorize.Add(new TUserPermission(312, "Ciudadanos.NoEspecificarInstitucion"));
             }
 
-            if ((int)ComboBoxInstitutionRole.SelectedValue == 0 && Session.HasPermission("Ciudadanos.NoEspecificarCargo") == false)
+            if (has_primary_role == false && Session.HasPermission("Ciudadanos.NoEspecificarCargo") == false)
             {
                 actions_to_authorize.Add(new TUserPermission(313, "Ciudadanos.NoEspecificarCargo"));
             }
@@ -839,26 +726,9 @@ namespace GCRM
                     {
                         Id = (int)ComboBoxCategory.SelectedValue
                     },
-
-                    Institution = new TInstitution()
-                    {
-                        Id = (int)ComboBoxInstitution.SelectedValue
-                    },
-
-                    Institution2 = new TInstitution()
-                    {
-                        Id = (int)Insitution2.SelectedValue
-                    },
-
-                    Institution3 = new TInstitution()
-                    {
-                        Id = (int)Institution3.SelectedValue
-                    },
                 };
 
-                GetSelectedRoleValue(ComboBoxInstitutionRole, DTInstitutionRole, out citizen.Role.Id, out citizen.Role.InstitutionTemplateId);
-                GetSelectedRoleValue(Institution2Role, DTInstitution2Role, out citizen.Role2.Id, out citizen.Role2.InstitutionTemplateId);
-                GetSelectedRoleValue(Institution3Role, DTInstitution3Role, out citizen.Role3.Id, out citizen.Role3.InstitutionTemplateId);
+                FillCitizenInstitutionRoles(citizen);
 
                 citizen.Phone.Id = Phone1Id;
                 citizen.Phone.Number = TextBoxPhone.Text.Trim();
@@ -949,186 +819,282 @@ namespace GCRM
             }
         }
 
-        private void SelectInstitutionRoleValue(ComboBox combobox, DataTable datatable, int role_id, int template_id)
+        private void LoadCitizenRoleGrid(TCitizen citizen)
         {
-            for (int i = 0; i < datatable.Rows.Count; i++)
-            {
-                DataRow row = datatable.Rows[i];
+            DTCitizenRoles.BeginLoadData();
+            DTCitizenRoles.Clear();
 
-                if ((int)row["id"] == role_id && (int)row["template_id"] == template_id)
+            AddCitizenRoleRowIfSet(citizen.InstitutionRole);
+            AddCitizenRoleRowIfSet(citizen.InstitutionRole2);
+            AddCitizenRoleRowIfSet(citizen.InstitutionRole3);
+
+            DTCitizenRoles.EndLoadData();
+
+            UpdateRoleButtonsState();
+        }
+
+        private void AddCitizenRoleRowIfSet(TCitizenInstitutionRole citizen_role)
+        {
+            if (citizen_role.Institution.Id == 0)
+            {
+                return;
+            }
+
+            DataRow row = DTCitizenRoles.NewRow();
+
+            FillCitizenRoleRow(row, citizen_role);
+
+            DTCitizenRoles.Rows.Add(row);
+        }
+
+        private void FillCitizenRoleRow(DataRow row, TCitizenInstitutionRole citizen_role)
+        {
+            row["position"] = citizen_role.Position;
+            row["institution_id"] = citizen_role.Institution.Id;
+            row["institution_name"] = citizen_role.Institution.Name;
+            row["role_id"] = citizen_role.Role.Id;
+            row["role_name"] = citizen_role.Role.Name;
+            row["role_template_id"] = citizen_role.Role.InstitutionTemplateId;
+            row["variation_id"] = citizen_role.Variation.Id;
+            row["variation_name"] = citizen_role.Variation.Name;
+            row["role_display"] = citizen_role.DisplayName;
+            row["is_active"] = citizen_role.IsActive;
+            row["is_start_defined"] = citizen_role.IsStartDefined;
+            row["started_at"] = citizen_role.IsStartDefined ? citizen_role.StartedAt : DateTime.MinValue;
+            row["is_end_defined"] = citizen_role.IsEndDefined;
+            row["ended_at"] = citizen_role.IsEndDefined ? citizen_role.EndedAt : DateTime.MinValue;
+        }
+
+        private TCitizenInstitutionRole RowToCitizenRole(DataRow row)
+        {
+            return new TCitizenInstitutionRole()
+            {
+                Position = (int)row["position"],
+                Institution = new TInstitution()
                 {
-                    combobox.SelectedIndex = i;
+                    Id = (int)row["institution_id"],
+                    Name = (string)row["institution_name"],
+                },
+                Role = new TInstitutionRole()
+                {
+                    Id = (int)row["role_id"],
+                    Name = (string)row["role_name"],
+                    InstitutionTemplateId = (int)row["role_template_id"],
+                },
+                Variation = new TInstitutionRoleVariation()
+                {
+                    Id = (int)row["variation_id"],
+                    Name = (string)row["variation_name"],
+                },
+                IsActive = (bool)row["is_active"],
+                IsStartDefined = (bool)row["is_start_defined"],
+                StartedAt = (DateTime)row["started_at"],
+                IsEndDefined = (bool)row["is_end_defined"],
+                EndedAt = (DateTime)row["ended_at"],
+            };
+        }
+
+        private void FillCitizenInstitutionRoles(TCitizen citizen)
+        {
+            citizen.InstitutionRole = new TCitizenInstitutionRole() { Position = 1 };
+            citizen.InstitutionRole2 = new TCitizenInstitutionRole() { Position = 2 };
+            citizen.InstitutionRole3 = new TCitizenInstitutionRole() { Position = 3 };
+
+            foreach (DataRow row in DTCitizenRoles.Rows)
+            {
+                TCitizenInstitutionRole citizen_role = RowToCitizenRole(row);
+
+                switch (citizen_role.Position)
+                {
+                    case 1:
+                        citizen.InstitutionRole = citizen_role;
+                        break;
+                    case 2:
+                        citizen.InstitutionRole2 = citizen_role;
+                        break;
+                    case 3:
+                        citizen.InstitutionRole3 = citizen_role;
+                        break;
+                }
+            }
+        }
+
+        private void RenumberCitizenRoles()
+        {
+            int position = 1;
+
+            foreach (DataRow row in DTCitizenRoles.Select("", "position"))
+            {
+                row["position"] = position;
+                position++;
+            }
+        }
+
+        private void UpdateRoleButtonsState()
+        {
+            bool has_selection = DataGridRoles.SelectedRows.Count > 0;
+
+            BAddRole.Enabled = DTCitizenRoles.Rows.Count < 3 && AccessMode != FAccessMode.Read;
+            BEditRole.Enabled = has_selection && AccessMode != FAccessMode.Read;
+            BDeleteRole.Enabled = has_selection && AccessMode != FAccessMode.Read;
+
+            bool can_move = has_selection && AccessMode != FAccessMode.Read;
+
+            BPositionUpRole.Enabled = can_move;
+            BPositionDownRole.Enabled = can_move;
+        }
+
+        private void DataGridRoles_SelectionChanged(object sender, EventArgs e)
+        {
+            UpdateRoleButtonsState();
+        }
+
+        private void DataGridRoles_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            DataGridViewColumn column = DataGridRoles.Columns[e.ColumnIndex];
+
+            if ((column.Name == "colStartedAt" || column.Name == "colEndedAt") && e.Value is DateTime date && date == DateTime.MinValue)
+            {
+                e.Value = "";
+                e.FormattingApplied = true;
+            }
+
+            DataGridViewRow row = DataGridRoles.Rows[e.RowIndex];
+
+            if (row.Cells["colActive"].Value is bool is_active && is_active == false)
+            {
+                e.CellStyle.Font = new Font(DataGridRoles.Font, FontStyle.Italic);
+                e.CellStyle.ForeColor = Color.Gray;
+                e.CellStyle.SelectionForeColor = Color.Gray;
+            }
+        }
+
+        private void BAddRole_Click(object sender, EventArgs e)
+        {
+            if (DTCitizenRoles.Rows.Count >= 3)
+            {
+                StringBuilder errors = new StringBuilder();
+
+                errors.AppendLine("Un ciudadano no puede tener más de 3 cargos");
+
+                Utilities.ShowValidationErrorDialog(errors);
+                return;
+            }
+
+            using (FCitizenInstitutionRoleData dlg = new FCitizenInstitutionRoleData())
+            {
+                dlg.SetAccessMode(FAccessMode.Create);
+
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    TCitizenInstitutionRole citizen_role = dlg.GetValues();
+
+                    citizen_role.Position = DTCitizenRoles.Rows.Count + 1;
+
+                    DataRow row = DTCitizenRoles.NewRow();
+
+                    FillCitizenRoleRow(row, citizen_role);
+
+                    DTCitizenRoles.Rows.Add(row);
+
+                    UpdateRoleButtonsState();
+                }
+            }
+        }
+
+        private void BEditRole_Click(object sender, EventArgs e)
+        {
+            if (DataGridRoles.SelectedRows.Count == 0)
+            {
+                return;
+            }
+
+            DataRowView row_view = (DataRowView)DataGridRoles.SelectedRows[0].DataBoundItem;
+
+            TCitizenInstitutionRole citizen_role = RowToCitizenRole(row_view.Row);
+
+            using (FCitizenInstitutionRoleData dlg = new FCitizenInstitutionRoleData())
+            {
+                dlg.SetAccessMode(AccessMode);
+                dlg.SetValues(citizen_role);
+
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    TCitizenInstitutionRole updated_citizen_role = dlg.GetValues();
+
+                    updated_citizen_role.Position = citizen_role.Position;
+
+                    row_view.Row.BeginEdit();
+
+                    FillCitizenRoleRow(row_view.Row, updated_citizen_role);
+
+                    row_view.Row.EndEdit();
+                }
+            }
+        }
+
+        private void BDeleteRole_Click(object sender, EventArgs e)
+        {
+            if (DataGridRoles.SelectedRows.Count == 0)
+            {
+                return;
+            }
+
+            if (Utilities.ShowConfirmDialog("¿Desea eliminar el cargo seleccionado?") != DialogResult.Yes)
+            {
+                return;
+            }
+
+            DataRowView row_view = (DataRowView)DataGridRoles.SelectedRows[0].DataBoundItem;
+
+            row_view.Row.Delete();
+
+            // purge the deleted row now: FillCitizenInstitutionRoles iterates DTCitizenRoles.Rows directly,
+            // which (unlike Select()/DefaultView) still includes rows in the Deleted state
+            DTCitizenRoles.AcceptChanges();
+
+            RenumberCitizenRoles();
+
+            UpdateRoleButtonsState();
+        }
+
+        private void MoveSelectedRole(int direction)
+        {
+            if (DataGridRoles.SelectedRows.Count == 0)
+            {
+                return;
+            }
+
+            DataRowView row_view = (DataRowView)DataGridRoles.SelectedRows[0].DataBoundItem;
+
+            int current_position = (int)row_view.Row["position"];
+            int target_position = current_position + direction;
+
+            if (target_position < 1 || target_position > DTCitizenRoles.Rows.Count)
+            {
+                return;
+            }
+
+            foreach (DataRow row in DTCitizenRoles.Rows)
+            {
+                if ((int)row["position"] == target_position)
+                {
+                    row["position"] = current_position;
                     break;
                 }
             }
+
+            row_view.Row["position"] = target_position;
         }
 
-        private void GetSelectedRoleValue(ComboBox combobox, DataTable datatable, out int role_id, out int template_id)
+        private void BPositionUpRole_Click(object sender, EventArgs e)
         {
-            int index = combobox.SelectedIndex;
-
-            DataRow row = datatable.Rows[index];
-
-            role_id = (int)row["id"];
-            template_id = (int)row["template_id"];
+            MoveSelectedRole(-1);
         }
 
-        private void LoadDTInstitutionRoles(DataTable datatable, ComboBox combobox, int institution_id, int institution_template_id)
+        private void BPositionDownRole_Click(object sender, EventArgs e)
         {
-            using (new CursorWait())
-            {
-                List<TInstitutionRole> role_list = new List<TInstitutionRole>();
-
-                if (institution_id != 0)
-                {
-                    Error error = InstitutionsHandler.GetInstitutionRoles(institution_id, institution_template_id, out role_list);
-
-                    if (error != 0)
-                    {
-                        Utilities.ShowErrorDialog(error);
-                        return;
-                    }
-                }
-
-                role_list.Insert(0, new TInstitutionRole()
-                {
-                    Id = 0,
-                    Name = "Ninguno",
-                    Description = "",
-                });
-
-                datatable.BeginLoadData();
-                datatable.Clear();
-
-                // se agregan los roles de normal 
-                foreach (TInstitutionRole role in role_list)
-                {
-                    DataRow row = datatable.NewRow();
-
-                    row["id"] = role.Id;
-                    row["name"] = role.Name;
-                    row["description"] = role.Description;
-                    row["institution_id"] = role.InstitutionId;
-                    row["template_id"] = role.InstitutionTemplateId;
-                    row["is_template_role"] = role.IsTemplateRole;
-
-                    datatable.Rows.Add(row);
-                }
-
-                datatable.EndLoadData();
-
-                combobox.DataSource = datatable;
-                combobox.ValueMember = "id";
-                combobox.DisplayMember = "name";
-                combobox.SelectedIndex = 0;
-            }
-        }
-
-        private void OnInstitutionSelectedValueChanged(ComboBox combobox_institution, DataTable datatables_roles, ComboBox combobox_roles, Label label)
-        {
-            using (new CursorWait())
-            {
-                int id = 0;
-
-                if (combobox_institution.SelectedValue != null)
-                {
-                    id = (int)combobox_institution.SelectedValue;
-                }
-
-                label.Text = "";
-
-                TInstitution institution = new TInstitution();
-
-                if (id != 0)
-                {
-                    Error error = InstitutionsHandler.GetInstitutionById(id, out institution);
-
-                    if (error != 0)
-                    {
-                        Utilities.ShowErrorDialog(error);
-                        return;
-                    }
-
-                    label.Text = $"{BConstants.GetSocietySectorName(institution.Sector)} - {institution.Category.Name}";
-                }
-
-                LoadDTInstitutionRoles(datatables_roles, combobox_roles, id, institution.Template.Id);
-            }
-        }
-
-        private void ComboBoxInstitution_SelectedValueChanged(object sender, EventArgs e)
-        {
-            ComboBoxInstitutionRole.Enabled = false;
-            BAccept.Enabled = false;
-
-            OnInstitutionSelectedValueChanged(ComboBoxInstitution, DTInstitutionRole, ComboBoxInstitutionRole, LInstitutionSectorAndCategory);
-
-            ComboBoxInstitutionRole.Enabled = true && AccessMode != FAccessMode.Read;
-            BAccept.Enabled = AccessMode != FAccessMode.Read;
-
-            bool institution_selected = false;
-
-            if (ComboBoxInstitution.SelectedValue != null)
-            {
-                int institution_id = (int)ComboBoxInstitution.SelectedValue;
-
-                if (institution_id != 0)
-                {
-                    institution_selected = true;
-                }
-            }
-
-            BNuevoCargo1.Enabled = institution_selected && AccessMode != FAccessMode.Read && Session.HasPermission("Instituciones.Roles.Crear");
-        }
-
-        private void Insitution2_SelectedValueChanged(object sender, EventArgs e)
-        {
-            Institution2Role.Enabled = false;
-            BAccept.Enabled = false;
-
-            OnInstitutionSelectedValueChanged(Insitution2, DTInstitution2Role, Institution2Role, LInstitution2SectorAndCategory);
-
-            Institution2Role.Enabled = AccessMode != FAccessMode.Read;
-            BAccept.Enabled = AccessMode != FAccessMode.Read;
-
-            bool institution_selected = false;
-
-            if (Insitution2.SelectedValue != null)
-            {
-                int institution_id = (int)Insitution2.SelectedValue;
-
-                if (institution_id != 0)
-                {
-                    institution_selected = true;
-                }
-            }
-
-            BNuevoCargo2.Enabled = institution_selected && AccessMode != FAccessMode.Read && Session.HasPermission("Instituciones.Roles.Crear");
-        }
-
-        private void Institution3_SelectedValueChanged(object sender, EventArgs e)
-        {
-            Institution3Role.Enabled = false;
-            BAccept.Enabled = false;
-
-            OnInstitutionSelectedValueChanged(Institution3, DTInstitution3Role, Institution3Role, LInstitution3SectorAndCategory);
-
-            Institution3Role.Enabled = AccessMode != FAccessMode.Read;
-            BAccept.Enabled = AccessMode != FAccessMode.Read;
-
-            bool institution_selected = false;
-
-            if (Institution3.SelectedValue != null)
-            {
-                int institution_id = (int)Institution3.SelectedValue;
-
-                if (institution_id != 0)
-                {
-                    institution_selected = true;
-                }
-            }
-
-            BNuevoCargo3.Enabled = institution_selected && AccessMode != FAccessMode.Read && Session.HasPermission("Instituciones.Roles.Crear");
+            MoveSelectedRole(1);
         }
 
         private void LCURP_Click(object sender, EventArgs e)
@@ -1332,86 +1298,6 @@ namespace GCRM
         private void KnownEndDate_CheckedChanged(object sender, EventArgs e)
         {
             EndDate.Enabled = KnownEndDate.Checked && AccessMode != FAccessMode.Read && RelationshipEnabled.Checked;
-        }
-
-        private Error AddInstitutionRole(int institutionId, out TInstitutionRole role)
-        {
-            FInstitutionRoleData dlg = new FInstitutionRoleData();
-
-            dlg.SetAccessMode(FAccessMode.Create);
-
-            role = null;
-
-            if (dlg.ShowDialog() != DialogResult.OK)
-            {
-                return Error.UserCancelled;
-            }
-
-            role = dlg.GetValues();
-
-            Error error = InstitutionsHandler.SaveInstitutionRole(institutionId, role);
-
-            return error;
-        }
-
-        private void BNuevoCargo1_Click(object sender, EventArgs e)
-        {
-            int institutionId = (int)ComboBoxInstitution.SelectedValue;
-
-            Error error = AddInstitutionRole(institutionId, out TInstitutionRole role);
-
-            if (error == Error.UserCancelled)
-                return;
-
-            if (error != 0)
-            {
-                Utilities.ShowErrorDialog(error);
-                return;
-            }
-
-            OnInstitutionSelectedValueChanged(ComboBoxInstitution, DTInstitutionRole, ComboBoxInstitutionRole, LInstitutionSectorAndCategory);
-
-            SelectInstitutionRoleValue(ComboBoxInstitutionRole, DTInstitutionRole, role.Id, role.InstitutionTemplateId);
-        }
-
-        private void BNuevoCargo2_Click(object sender, EventArgs e)
-        {
-            int institutionId = (int)Insitution2.SelectedValue;
-
-            Error error = AddInstitutionRole(institutionId, out TInstitutionRole role);
-
-            if (error == Error.UserCancelled)
-                return;
-
-            if (error != 0)
-            {
-                Utilities.ShowErrorDialog(error);
-                return;
-            }
-
-            OnInstitutionSelectedValueChanged(Insitution2, DTInstitution2Role, Institution2Role, LInstitution2SectorAndCategory);
-
-            SelectInstitutionRoleValue(Institution2Role, DTInstitution2Role, role.Id, role.InstitutionTemplateId);
-        }
-
-        private void BNuevoCargo3_Click(object sender, EventArgs e)
-        {
-            int institutionId = (int)Institution3.SelectedValue;
-
-            Error error = AddInstitutionRole(institutionId, out TInstitutionRole role);
-
-            if (error == Error.UserCancelled)
-                return;
-
-            if (error != 0)
-            {
-                Utilities.ShowErrorDialog(error);
-                return;
-            }
-
-            OnInstitutionSelectedValueChanged(Institution3, DTInstitution3Role, Institution3Role, LInstitution3SectorAndCategory);
-
-            SelectInstitutionRoleValue(Institution3Role, DTInstitution3Role, role.Id, role.InstitutionTemplateId);
         }
 
         private void Verified_CheckedChanged(object sender, EventArgs e)

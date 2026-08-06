@@ -154,10 +154,10 @@ namespace GCRM
 						vcard.AppendLine($"BDAY:{citizen.Birthday.ToString("yyyyMMdd")}");
 						vcard.AppendLine($"NOTE:Alta: {citizen.Author.Name}\\nEdición: {citizen.LastEditor.Name}\\nSincornización: {DateTime.Now.ToString("dd MMMM yyyy hh:mm:ss")}");
 						vcard.AppendLine($"UID:{uid}");
-						vcard.AppendLine($"ORG:{citizen.Institution.Name}");
-						vcard.AppendLine($"TITLE:{citizen.Role.Name}");
+						vcard.AppendLine($"ORG:{citizen.InstitutionRole.Institution.Name}");
+						vcard.AppendLine($"TITLE:{citizen.InstitutionRole.DisplayName}");
 						vcard.AppendLine($"REV:{citizen.EditDate}");
-						vcard.AppendLine($"CATEGORIES:{citizen.Category.Name},{citizen.Institution.Category.Name}");
+						vcard.AppendLine($"CATEGORIES:{citizen.Category.Name},{citizen.InstitutionRole.Institution.Category.Name}");
 
 						if (citizen.CardDavSyncNumber.CarddavSync == true)
 							vcard.AppendLine($"TEL;TYPE=WORK:{citizen.CardDavSyncNumber.FullNumber}");

@@ -44,6 +44,7 @@ namespace Business
 						cir.institution_role_id,
 						cir.institution_template_role_id,
 						cir.is_institution_template_role,
+						cir.institution_role_variation_id,
 						is_active,
 						is_start_defined,
 						started_at,
@@ -63,14 +64,20 @@ namespace Business
 						MAX(CASE WHEN row_number = 1 THEN institution_role_id END) AS institution_role_id,
 						MAX(CASE WHEN row_number = 1 THEN institution_template_role_id END) AS institution_template_role_id,
 						(SUM(CASE WHEN row_number = 1 AND is_institution_template_role THEN 1 ELSE 0 END) > 0) AS is_institution_template_role,
+						MAX(CASE WHEN row_number = 1 THEN institution_role_variation_id END) AS institution_role_variation_id,
+						BOOL_OR(CASE WHEN row_number = 1 THEN is_active END) AS is_active,
 						MAX(CASE WHEN row_number = 2 THEN institution_id END) AS institution2_id,
 						MAX(CASE WHEN row_number = 2 THEN institution_role_id END) AS institution2_role_id,
 						MAX(CASE WHEN row_number = 2 THEN institution_template_role_id END) AS institution2_template_role_id,
 						(SUM(CASE WHEN row_number = 2 AND is_institution_template_role THEN 1 ELSE 0 END) > 0) AS is_institution2_template_role,
+						MAX(CASE WHEN row_number = 2 THEN institution_role_variation_id END) AS institution2_role_variation_id,
+						BOOL_OR(CASE WHEN row_number = 2 THEN is_active END) AS is_active2,
 						MAX(CASE WHEN row_number = 3 THEN institution_id END) AS institution3_id,
 						MAX(CASE WHEN row_number = 3 THEN institution_role_id END) AS institution3_role_id,
 						MAX(CASE WHEN row_number = 3 THEN institution_template_role_id END) AS institution3_template_role_id,
-						(SUM(CASE WHEN row_number = 3 AND is_institution_template_role THEN 1 ELSE 0 END) > 0) AS is_institution3_template_role
+						(SUM(CASE WHEN row_number = 3 AND is_institution_template_role THEN 1 ELSE 0 END) > 0) AS is_institution3_template_role,
+						MAX(CASE WHEN row_number = 3 THEN institution_role_variation_id END) AS institution3_role_variation_id,
+						BOOL_OR(CASE WHEN row_number = 3 THEN is_active END) AS is_active3
 					FROM ranked_institution_roles
 					GROUP BY citizen_id
 				),
@@ -133,6 +140,18 @@ namespace Business
 					COALESCE(itr.institution_template_id, 0) AS institution_template_role_id,
 					COALESCE(itr2.institution_template_id, 0) AS institution2_template_role_id,
 					COALESCE(itr3.institution_template_id, 0) AS institution3_template_role_id,
+
+				COALESCE(nrir.institution_role_variation_id, 0) AS institution_role_variation_id,
+				COALESCE(irv.name, '') AS institution_role_variation_name,
+				COALESCE(nrir.institution2_role_variation_id, 0) AS institution2_role_variation_id,
+				COALESCE(irv2.name, '') AS institution2_role_variation_name,
+				COALESCE(nrir.institution3_role_variation_id, 0) AS institution3_role_variation_id,
+				COALESCE(irv3.name, '') AS institution3_role_variation_name,
+
+				COALESCE(nrir.is_active, true) AS is_active,
+				COALESCE(nrir.is_active2, true) AS is_active2,
+				COALESCE(nrir.is_active3, true) AS is_active3,
+
 					c.known_birthday,
 					c.known_birthyear,
 					c.known_political_register_date,
@@ -177,6 +196,9 @@ namespace Business
 					LEFT JOIN institution_template_roles itr ON nrir.institution_template_role_id = itr.id
 					LEFT JOIN institution_template_roles itr2 ON nrir.institution2_template_role_id = itr2.id
 					LEFT JOIN institution_template_roles itr3 ON nrir.institution3_template_role_id = itr3.id
+				LEFT JOIN institution_role_variations irv ON nrir.institution_role_variation_id = irv.id
+				LEFT JOIN institution_role_variations irv2 ON nrir.institution2_role_variation_id = irv2.id
+				LEFT JOIN institution_role_variations irv3 ON nrir.institution3_role_variation_id = irv3.id
 				WHERE
 					c.id = @id;
 			";
@@ -225,23 +247,34 @@ namespace Business
 							citizen.Address.District = reader.GetString("address_district");
 						}
 
-						if (error == 0 && citizen.Institution.Id != 0)
-							error = InstitutionsHandler.GetInstitutionById(citizen.Institution.Id, out citizen.Institution);
+						if (error == 0 && citizen.InstitutionRole.Institution.Id != 0)
+							error = InstitutionsHandler.GetInstitutionById(citizen.InstitutionRole.Institution.Id, out citizen.InstitutionRole.Institution);
 
-						if (error == 0 && citizen.Institution2.Id != 0)
-							error = InstitutionsHandler.GetInstitutionById(citizen.Institution2.Id, out citizen.Institution2);
+						if (error == 0 && citizen.InstitutionRole2.Institution.Id != 0)
+							error = InstitutionsHandler.GetInstitutionById(citizen.InstitutionRole2.Institution.Id, out citizen.InstitutionRole2.Institution);
 
-						if (error == 0 && citizen.Institution3.Id != 0)
-							error = InstitutionsHandler.GetInstitutionById(citizen.Institution3.Id, out citizen.Institution3);
+						if (error == 0 && citizen.InstitutionRole3.Institution.Id != 0)
+							error = InstitutionsHandler.GetInstitutionById(citizen.InstitutionRole3.Institution.Id, out citizen.InstitutionRole3.Institution);
 
-						if (error == 0 && citizen.Role.Id != 0)
-							error = InstitutionsHandler.GetInstitutionRoleById(citizen.Role.Id, citizen.Role.IsTemplateRole, out citizen.Role);
+						if (error == 0 && citizen.InstitutionRole.Role.Id != 0)
+							error = InstitutionsHandler.GetInstitutionRoleById(citizen.InstitutionRole.Role.Id, citizen.InstitutionRole.Role.IsTemplateRole, out citizen.InstitutionRole.Role);
 
-						if (error == 0 && citizen.Role2.Id != 0)
-							error = InstitutionsHandler.GetInstitutionRoleById(citizen.Role2.Id, citizen.Role2.IsTemplateRole, out citizen.Role2);
+						if (error == 0 && citizen.InstitutionRole2.Role.Id != 0)
+							error = InstitutionsHandler.GetInstitutionRoleById(citizen.InstitutionRole2.Role.Id, citizen.InstitutionRole2.Role.IsTemplateRole, out citizen.InstitutionRole2.Role);
 
-						if (error == 0 && citizen.Role3.Id != 0)
-							error = InstitutionsHandler.GetInstitutionRoleById(citizen.Role3.Id, citizen.Role3.IsTemplateRole, out citizen.Role3);
+						if (error == 0 && citizen.InstitutionRole3.Role.Id != 0)
+							error = InstitutionsHandler.GetInstitutionRoleById(citizen.InstitutionRole3.Role.Id, citizen.InstitutionRole3.Role.IsTemplateRole, out citizen.InstitutionRole3.Role);
+
+						citizen.InstitutionRole.Variation.Id = reader.GetInt32("institution_role_variation_id");
+						citizen.InstitutionRole.Variation.Name = reader.GetString("institution_role_variation_name");
+						citizen.InstitutionRole2.Variation.Id = reader.GetInt32("institution2_role_variation_id");
+						citizen.InstitutionRole2.Variation.Name = reader.GetString("institution2_role_variation_name");
+						citizen.InstitutionRole3.Variation.Id = reader.GetInt32("institution3_role_variation_id");
+						citizen.InstitutionRole3.Variation.Name = reader.GetString("institution3_role_variation_name");
+
+						citizen.InstitutionRole.IsActive = reader.GetBoolean("is_active");
+						citizen.InstitutionRole2.IsActive = reader.GetBoolean("is_active2");
+						citizen.InstitutionRole3.IsActive = reader.GetBoolean("is_active3");
 
 						if (error == 0 && citizen.VerifiedBy.Id != 0)
 							error = UsersHandler.GetUserById(citizen.VerifiedBy.Id, out citizen.VerifiedBy);
@@ -701,11 +734,7 @@ namespace Business
 
 			if (error == 0)
 			{
-				var institution_roles = new[] {
-					(position: 1, institution: citizen.Institution, role: citizen.Role),
-					(position: 2, institution: citizen.Institution2, role: citizen.Role2),
-					(position: 3, institution: citizen.Institution3, role: citizen.Role3)
-				};
+				var institution_roles = new[] { citizen.InstitutionRole, citizen.InstitutionRole2, citizen.InstitutionRole3 };
 
 				string sql_institution_role = @"
 					INSERT INTO citizen_institution_roles(
@@ -714,32 +743,38 @@ namespace Business
 						institution_id,
 						institution_role_id,
 						institution_template_role_id,
-						is_institution_template_role
+						is_institution_template_role,
+						institution_role_variation_id,
+						is_active
 					) VALUES (
 						@position,
 						@citizen_id,
 						@institution_id,
 						@institution_role_id,
 						@institution_template_role_id,
-						@is_institution_template_role
+						@is_institution_template_role,
+						@institution_role_variation_id,
+						@is_active
 					);
 				";
 
 				using (var batch = conn.CreateBatch())
 				{
-					foreach (var (position, institution, role) in institution_roles)
+					foreach (TCitizenInstitutionRole institution_role in institution_roles)
 					{
-						if (institution.Id == 0)
+						if (institution_role.Institution.Id == 0)
 							continue;
 
 						var cmd = new NpgsqlBatchCommand(sql_institution_role);
 
-						cmd.Parameters.AddWithValue("@position", position);
+						cmd.Parameters.AddWithValue("@position", institution_role.Position);
 						cmd.Parameters.AddWithValue("@citizen_id", citizen.Id);
-						cmd.Parameters.AddWithValue("@institution_id", institution.Id);
-						cmd.Parameters.AddWithValue("@institution_role_id", (!role.IsTemplateRole && role.Id != 0) ? (object)role.Id : DBNull.Value);
-						cmd.Parameters.AddWithValue("@institution_template_role_id", (role.IsTemplateRole && role.Id != 0) ? (object)role.Id : DBNull.Value);
-						cmd.Parameters.AddWithValue("@is_institution_template_role", role.IsTemplateRole);
+						cmd.Parameters.AddWithValue("@institution_id", institution_role.Institution.Id);
+						cmd.Parameters.AddWithValue("@institution_role_id", (!institution_role.Role.IsTemplateRole && institution_role.Role.Id != 0) ? (object)institution_role.Role.Id : DBNull.Value);
+						cmd.Parameters.AddWithValue("@institution_template_role_id", (institution_role.Role.IsTemplateRole && institution_role.Role.Id != 0) ? (object)institution_role.Role.Id : DBNull.Value);
+						cmd.Parameters.AddWithValue("@is_institution_template_role", institution_role.Role.IsTemplateRole);
+						cmd.Parameters.AddWithValue("@institution_role_variation_id", (!institution_role.Role.IsTemplateRole && institution_role.Variation.Id != 0) ? (object)institution_role.Variation.Id : DBNull.Value);
+						cmd.Parameters.AddWithValue("@is_active", institution_role.IsActive);
 
 						batch.BatchCommands.Add(cmd);
 					}
@@ -922,6 +957,7 @@ namespace Business
 						cir.institution_role_id,
 						cir.institution_template_role_id,
 						cir.is_institution_template_role,
+						cir.institution_role_variation_id,
 						is_active,
 						is_start_defined,
 						started_at,
@@ -939,14 +975,20 @@ namespace Business
 						MAX(CASE WHEN row_number = 1 THEN institution_role_id END) AS institution_role_id,
 						MAX(CASE WHEN row_number = 1 THEN institution_template_role_id END) AS institution_template_role_id,
 						(SUM(CASE WHEN row_number = 1 AND is_institution_template_role THEN 1 ELSE 0 END) > 0)AS is_institution_template_role,
+						MAX(CASE WHEN row_number = 1 THEN institution_role_variation_id END) AS institution_role_variation_id,
+						BOOL_OR(CASE WHEN row_number = 1 THEN is_active END) AS is_active,
 						MAX(CASE WHEN row_number = 2 THEN institution_id END) AS institution2_id,
 						MAX(CASE WHEN row_number = 2 THEN institution_role_id END) AS institution2_role_id,
 						MAX(CASE WHEN row_number = 2 THEN institution_template_role_id END) AS institution2_template_role_id,
 						(SUM(CASE WHEN row_number = 2 AND is_institution_template_role THEN 1 ELSE 0 END) > 0) AS is_institution2_template_role,
+						MAX(CASE WHEN row_number = 2 THEN institution_role_variation_id END) AS institution2_role_variation_id,
+						BOOL_OR(CASE WHEN row_number = 2 THEN is_active END) AS is_active2,
 						MAX(CASE WHEN row_number = 3 THEN institution_id END) AS institution3_id,
 						MAX(CASE WHEN row_number = 3 THEN institution_role_id END) AS institution3_role_id,
 						MAX(CASE WHEN row_number = 3 THEN institution_template_role_id END) AS institution3_template_role_id,
-						(SUM(CASE WHEN row_number = 3 AND is_institution_template_role THEN 1 ELSE 0 END) > 0) AS is_institution3_template_role
+						(SUM(CASE WHEN row_number = 3 AND is_institution_template_role THEN 1 ELSE 0 END) > 0) AS is_institution3_template_role,
+						MAX(CASE WHEN row_number = 3 THEN institution_role_variation_id END) AS institution3_role_variation_id,
+						BOOL_OR(CASE WHEN row_number = 3 THEN is_active END) AS is_active3
 					FROM ranked_institution_roles
 					GROUP BY citizen_id
 				)
@@ -1054,8 +1096,19 @@ namespace Business
 					itr2.name as institution2_template_role_name,
 					itr2.description as institution2_template_role_description,
 					itr3.name as institution3_template_role_name,
-					itr3.description as institution3_template_role_description
-				FROM 
+					itr3.description as institution3_template_role_description,
+
+					COALESCE(nrir.institution_role_variation_id, 0) AS institution_role_variation_id,
+					COALESCE(irv.name, '') AS institution_role_variation_name,
+					COALESCE(nrir.institution2_role_variation_id, 0) AS institution2_role_variation_id,
+					COALESCE(irv2.name, '') AS institution2_role_variation_name,
+					COALESCE(nrir.institution3_role_variation_id, 0) AS institution3_role_variation_id,
+					COALESCE(irv3.name, '') AS institution3_role_variation_name,
+
+					COALESCE(nrir.is_active, true) AS is_active,
+					COALESCE(nrir.is_active2, true) AS is_active2,
+					COALESCE(nrir.is_active3, true) AS is_active3
+				FROM
 					citizens c 
 					LEFT JOIN citizen_categories cc ON c.citizen_category_id = cc.id
 					LEFT JOIN citizens c_self ON c.assistant_id = c_self.id
@@ -1082,6 +1135,10 @@ namespace Business
 					LEFT JOIN institution_roles ir3 ON nrir.institution3_role_id = ir3.id
 					LEFT JOIN institution_template_roles itr3 ON nrir.institution3_template_role_id = itr3.id
 
+					LEFT JOIN institution_role_variations irv ON nrir.institution_role_variation_id = irv.id
+					LEFT JOIN institution_role_variations irv2 ON nrir.institution2_role_variation_id = irv2.id
+					LEFT JOIN institution_role_variations irv3 ON nrir.institution3_role_variation_id = irv3.id
+
 					LEFT JOIN addresses a ON c.address_id = a.id
 				WHERE
 					TRUE
@@ -1106,95 +1163,106 @@ namespace Business
 							citizen.Assistant.MaternalName = reader.GetString("assistant_maternal_name");
 						}
 
-						if (citizen.Institution.Id != 0)
+						if (citizen.InstitutionRole.Institution.Id != 0)
 						{
-							citizen.Institution.Name = reader.GetString("institution_name");
-							citizen.Institution.Sector = (TSocietySector)reader.GetInt32("institution_society_sector_type");
-							citizen.Institution.Description = reader.GetString("institution_description");
-							citizen.Institution.Category.Id = reader.GetInt32("institution_category_id");
+							citizen.InstitutionRole.Institution.Name = reader.GetString("institution_name");
+							citizen.InstitutionRole.Institution.Sector = (TSocietySector)reader.GetInt32("institution_society_sector_type");
+							citizen.InstitutionRole.Institution.Description = reader.GetString("institution_description");
+							citizen.InstitutionRole.Institution.Category.Id = reader.GetInt32("institution_category_id");
 
-							if (citizen.Institution.Category.Id != 0)
+							if (citizen.InstitutionRole.Institution.Category.Id != 0)
 							{
-								citizen.Institution.Category.Name = reader.GetString("institution_category_name");
-								citizen.Institution.Category.Description = reader.GetString("institution_category_description");
+								citizen.InstitutionRole.Institution.Category.Name = reader.GetString("institution_category_name");
+								citizen.InstitutionRole.Institution.Category.Description = reader.GetString("institution_category_description");
 							}
 						}
 
-						if (citizen.Role.Id != 0)
+						if (citizen.InstitutionRole.Role.Id != 0)
 						{
-                            citizen.Role.InstitutionId = citizen.Institution.Id;
+                            citizen.InstitutionRole.Role.InstitutionId = citizen.InstitutionRole.Institution.Id;
 
-                            if (citizen.Role.IsTemplateRole)
+                            if (citizen.InstitutionRole.Role.IsTemplateRole)
 							{
-								citizen.Role.Name = reader.GetString("institution_template_role_name");
-								citizen.Role.Description = reader.GetString("institution_template_role_description");
+								citizen.InstitutionRole.Role.Name = reader.GetString("institution_template_role_name");
+								citizen.InstitutionRole.Role.Description = reader.GetString("institution_template_role_description");
 							}
 							else
 							{
-								citizen.Role.Name = reader.GetString("institution_role_name");
-								citizen.Role.Description = reader.GetString("institution_role_description");
+								citizen.InstitutionRole.Role.Name = reader.GetString("institution_role_name");
+								citizen.InstitutionRole.Role.Description = reader.GetString("institution_role_description");
 							}
 						}
 
-						if (citizen.Institution2.Id != 0)
+						if (citizen.InstitutionRole2.Institution.Id != 0)
 						{
-							citizen.Institution2.Name = reader.GetString("institution2_name");
-							citizen.Institution2.Sector = (TSocietySector)reader.GetInt32("institution2_society_sector_type");
-							citizen.Institution2.Description = reader.GetString("institution2_description");
-							citizen.Institution2.Category.Id = reader.GetInt32("institution2_category_id");
+							citizen.InstitutionRole2.Institution.Name = reader.GetString("institution2_name");
+							citizen.InstitutionRole2.Institution.Sector = (TSocietySector)reader.GetInt32("institution2_society_sector_type");
+							citizen.InstitutionRole2.Institution.Description = reader.GetString("institution2_description");
+							citizen.InstitutionRole2.Institution.Category.Id = reader.GetInt32("institution2_category_id");
 
-							if (citizen.Institution2.Category.Id != 0)
+							if (citizen.InstitutionRole2.Institution.Category.Id != 0)
 							{
-								citizen.Institution2.Category.Name = reader.GetString("institution2_category_name");
-								citizen.Institution2.Category.Description = reader.GetString("institution2_category_description");
+								citizen.InstitutionRole2.Institution.Category.Name = reader.GetString("institution2_category_name");
+								citizen.InstitutionRole2.Institution.Category.Description = reader.GetString("institution2_category_description");
 							}
 						}
 
-						if (citizen.Role2.Id != 0)
+						if (citizen.InstitutionRole2.Role.Id != 0)
 						{
-							citizen.Role2.InstitutionId = citizen.Institution2.Id;
+							citizen.InstitutionRole2.Role.InstitutionId = citizen.InstitutionRole2.Institution.Id;
 
-							if (citizen.Role2.IsTemplateRole)
+							if (citizen.InstitutionRole2.Role.IsTemplateRole)
 							{
-								citizen.Role2.Name = reader.GetString("institution2_template_role_name");
-								citizen.Role2.Description = reader.GetString("institution2_template_role_description");
+								citizen.InstitutionRole2.Role.Name = reader.GetString("institution2_template_role_name");
+								citizen.InstitutionRole2.Role.Description = reader.GetString("institution2_template_role_description");
 							}
 							else
 							{
-								citizen.Role2.Name = reader.GetString("institution2_role_name");
-								citizen.Role2.Description = reader.GetString("institution2_role_description");
+								citizen.InstitutionRole2.Role.Name = reader.GetString("institution2_role_name");
+								citizen.InstitutionRole2.Role.Description = reader.GetString("institution2_role_description");
 							}
 						}
 
-						if (citizen.Institution3.Id != 0)
+						if (citizen.InstitutionRole3.Institution.Id != 0)
 						{
-							citizen.Institution3.Name = reader.GetString("institution3_name");
-							citizen.Institution3.Sector = (TSocietySector)reader.GetInt32("institution3_society_sector_type");
-							citizen.Institution3.Description = reader.GetString("institution3_description");
-							citizen.Institution3.Category.Id = reader.GetInt32("institution3_category_id");
+							citizen.InstitutionRole3.Institution.Name = reader.GetString("institution3_name");
+							citizen.InstitutionRole3.Institution.Sector = (TSocietySector)reader.GetInt32("institution3_society_sector_type");
+							citizen.InstitutionRole3.Institution.Description = reader.GetString("institution3_description");
+							citizen.InstitutionRole3.Institution.Category.Id = reader.GetInt32("institution3_category_id");
 
-							if (citizen.Institution3.Category.Id != 0)
+							if (citizen.InstitutionRole3.Institution.Category.Id != 0)
 							{
-								citizen.Institution3.Category.Name = reader.GetString("institution3_category_name");
-								citizen.Institution3.Category.Description = reader.GetString("institution3_category_description");
+								citizen.InstitutionRole3.Institution.Category.Name = reader.GetString("institution3_category_name");
+								citizen.InstitutionRole3.Institution.Category.Description = reader.GetString("institution3_category_description");
 							}
 						}
 
-						if (citizen.Role3.Id != 0)
+						if (citizen.InstitutionRole3.Role.Id != 0)
 						{
-                            citizen.Role3.InstitutionId = citizen.Institution3.Id;
+                            citizen.InstitutionRole3.Role.InstitutionId = citizen.InstitutionRole3.Institution.Id;
 
-                            if (citizen.Role3.IsTemplateRole)
+                            if (citizen.InstitutionRole3.Role.IsTemplateRole)
 							{
-								citizen.Role3.Name = reader.GetString("institution3_template_role_name");
-								citizen.Role3.Description = reader.GetString("institution3_template_role_description");
+								citizen.InstitutionRole3.Role.Name = reader.GetString("institution3_template_role_name");
+								citizen.InstitutionRole3.Role.Description = reader.GetString("institution3_template_role_description");
 							}
 							else
 							{
-								citizen.Role3.Name = reader.GetString("institution3_role_name");
-								citizen.Role3.Description = reader.GetString("institution3_role_description");
+								citizen.InstitutionRole3.Role.Name = reader.GetString("institution3_role_name");
+								citizen.InstitutionRole3.Role.Description = reader.GetString("institution3_role_description");
 							}
 						}
+
+						citizen.InstitutionRole.Variation.Id = reader.GetInt32("institution_role_variation_id");
+						citizen.InstitutionRole.Variation.Name = reader.GetString("institution_role_variation_name");
+						citizen.InstitutionRole2.Variation.Id = reader.GetInt32("institution2_role_variation_id");
+						citizen.InstitutionRole2.Variation.Name = reader.GetString("institution2_role_variation_name");
+						citizen.InstitutionRole3.Variation.Id = reader.GetInt32("institution3_role_variation_id");
+						citizen.InstitutionRole3.Variation.Name = reader.GetString("institution3_role_variation_name");
+
+						citizen.InstitutionRole.IsActive = reader.GetBoolean("is_active");
+						citizen.InstitutionRole2.IsActive = reader.GetBoolean("is_active2");
+						citizen.InstitutionRole3.IsActive = reader.GetBoolean("is_active3");
 
 						if (citizen.Address.Id != 0)
 						{
@@ -1395,11 +1463,11 @@ namespace Business
 					}
 
 					// if institution id == 0, then lookup institution by name, if not found, create it
-					if (citizen.Institution.Id == 0)
+					if (citizen.InstitutionRole.Institution.Id == 0)
 					{
 						using (var cmd = new NpgsqlCommand("SELECT id FROM institutions WHERE name = @name;", conn))
 						{
-							cmd.Parameters.AddWithValue("@name", citizen.Institution.Name);
+							cmd.Parameters.AddWithValue("@name", citizen.InstitutionRole.Institution.Name);
 
 							using (var reader = cmd.ExecuteReader())
 							{
@@ -1407,7 +1475,7 @@ namespace Business
 								{
 									reader.Read();
 
-									citizen.Institution.Id = reader.GetInt32(0);
+									citizen.InstitutionRole.Institution.Id = reader.GetInt32(0);
 								}
 								else
 								{
@@ -1422,23 +1490,23 @@ namespace Business
 											0
 										) RETURNING id;";
 
-									citizen.Institution.Id = (Int32)(Int64)cmd.ExecuteScalar();
+									citizen.InstitutionRole.Institution.Id = (Int32)(Int64)cmd.ExecuteScalar();
 
 									log.AppendLine($"institution created:");
-									log.AppendLine($"  id:   {citizen.Institution.Id}");
-									log.AppendLine($"  name: {citizen.Institution.Name}");
+									log.AppendLine($"  id:   {citizen.InstitutionRole.Institution.Id}");
+									log.AppendLine($"  name: {citizen.InstitutionRole.Institution.Name}");
 								}
 							}
 						}
 					}
 
 					// if role id == 0, then lookup role by name and institution id, if not found, create it within the given institution
-					if (citizen.Role.Id == 0)
+					if (citizen.InstitutionRole.Role.Id == 0)
 					{
 						using (var cmd = new NpgsqlCommand("SELECT id FROM institution_roles WHERE name = @name AND institution_id = @institution_id;", conn))
 						{
-							cmd.Parameters.AddWithValue("@name", citizen.Role.Name);
-							cmd.Parameters.AddWithValue("@institution_id", citizen.Institution.Id);
+							cmd.Parameters.AddWithValue("@name", citizen.InstitutionRole.Role.Name);
+							cmd.Parameters.AddWithValue("@institution_id", citizen.InstitutionRole.Institution.Id);
 
 							using (var reader = cmd.ExecuteReader())
 							{
@@ -1446,7 +1514,7 @@ namespace Business
 								{
 									reader.Read();
 
-									citizen.Role.Id = reader.GetInt32(0);
+									citizen.InstitutionRole.Role.Id = reader.GetInt32(0);
 								}
 								else
 								{
@@ -1455,11 +1523,11 @@ namespace Business
 									cmd.CommandText = "INSERT INTO institution_roles(name, institution_id) VALUES(@name, @institution_id) RETURNING id;";
 
 									log.AppendLine($"institution created:");
-									log.AppendLine($"  id:             {citizen.Role.Id}");
-									log.AppendLine($"  name:           {citizen.Role.Name}");
-									log.AppendLine($"  institution_id: {citizen.Role.InstitutionId}");
+									log.AppendLine($"  id:             {citizen.InstitutionRole.Role.Id}");
+									log.AppendLine($"  name:           {citizen.InstitutionRole.Role.Name}");
+									log.AppendLine($"  institution_id: {citizen.InstitutionRole.Role.InstitutionId}");
 
-									citizen.Role.Id = (Int32)(Int64)cmd.ExecuteScalar();
+									citizen.InstitutionRole.Role.Id = (Int32)(Int64)cmd.ExecuteScalar();
 								}
 							}
 						}
@@ -1530,12 +1598,12 @@ namespace Business
 						log.AppendLine($"citizen created: ");
 						log.AppendLine($"  id:                  {citizen.Id}");
 						log.AppendLine($"  name:                {citizen.Name}");
-						log.AppendLine($"  institution id:      {citizen.Institution.Id}");
-						log.AppendLine($"  institution role id: {citizen.Role.Id}");
+						log.AppendLine($"  institution id:      {citizen.InstitutionRole.Institution.Id}");
+						log.AppendLine($"  institution role id: {citizen.InstitutionRole.Role.Id}");
 					}
 
 					// save the institution/role assignment (position 1) if one was resolved above
-					if (citizen.Institution.Id != 0)
+					if (citizen.InstitutionRole.Institution.Id != 0)
 					{
 						using (var cmd = new NpgsqlCommand(@"
 							INSERT INTO citizen_institution_roles(
@@ -1555,8 +1623,8 @@ namespace Business
 							);", conn))
 						{
 							cmd.Parameters.AddWithValue("@citizen_id", citizen.Id);
-							cmd.Parameters.AddWithValue("@institution_id", citizen.Institution.Id);
-							cmd.Parameters.AddWithValue("@institution_role_id", citizen.Role.Id == 0 ? (object)DBNull.Value : citizen.Role.Id);
+							cmd.Parameters.AddWithValue("@institution_id", citizen.InstitutionRole.Institution.Id);
+							cmd.Parameters.AddWithValue("@institution_role_id", citizen.InstitutionRole.Role.Id == 0 ? (object)DBNull.Value : citizen.InstitutionRole.Role.Id);
 
 							cmd.ExecuteNonQuery();
 						}

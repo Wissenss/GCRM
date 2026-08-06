@@ -131,7 +131,7 @@ namespace Business
 				{
 					if (role.Id == 0)
 					{
-						cmd.CommandText = "INSERT INTO institution_roles(name, institution_id, parent_role_id, description) VALUES(@name, @institution_id, @parent_role_id, @description);";
+						cmd.CommandText = "INSERT INTO institution_roles(name, institution_id, parent_role_id, description) VALUES(@name, @institution_id, @parent_role_id, @description) RETURNING id;";
 					}
 					else
 					{
@@ -145,7 +145,28 @@ namespace Business
 					cmd.Parameters.AddWithValue("@parent_role_id", role.ParentRoleId);
 					cmd.Parameters.AddWithValue("@description", role.Description);
 
-					cmd.ExecuteNonQuery();
+					if (role.Id == 0)
+					{
+						role.Id = (Int32)(Int64)cmd.ExecuteScalar();
+					}
+					else
+					{
+						cmd.ExecuteNonQuery();
+					}
+
+					if (!role.IsTemplateRole)
+					{
+						Error variation_error = SaveInstitutionRoleVariations(role.Id, role.Variation, cmd);
+
+						if (variation_error != 0)
+						{
+							tran.Rollback();
+
+							ConnectionPool.ReleaseConnection(ref conn);
+
+							return variation_error;
+						}
+					}
 				}
 
 				// delete roles that are not in the list
@@ -542,7 +563,7 @@ namespace Business
 			using (var cmd = new NpgsqlCommand(sql, conn))
 			{
 				cmd.Parameters.AddWithValue("@institution_id", institution_id);
-				
+
 				// get the roles
 
 				using (var reader = cmd.ExecuteReader())
@@ -557,6 +578,47 @@ namespace Business
 
 						institution_roles.Add(role);
 					}
+				}
+
+				// get all the variations for these roles in a single query, then group them by role
+
+				Dictionary<int, List<TInstitutionRoleVariation>> variations_by_role = new Dictionary<int, List<TInstitutionRoleVariation>>();
+
+				cmd.CommandText = @"
+					SELECT
+						irv.*
+					FROM
+						institution_role_variations irv
+						JOIN institution_roles ir2 ON irv.institution_role_id = ir2.id
+					WHERE
+						ir2.institution_id = @institution_id
+					ORDER BY
+						irv.name;";
+
+				cmd.Parameters.Clear();
+				cmd.Parameters.AddWithValue("@institution_id", institution_id);
+
+				using (var reader = cmd.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						TInstitutionRoleVariation variation = new TInstitutionRoleVariation();
+
+						variation.FillFromReader(reader);
+
+						if (!variations_by_role.TryGetValue(variation.InstitutionRoleId, out List<TInstitutionRoleVariation> role_variations))
+						{
+							role_variations = new List<TInstitutionRoleVariation>();
+							variations_by_role[variation.InstitutionRoleId] = role_variations;
+						}
+
+						role_variations.Add(variation);
+					}
+				}
+
+				foreach (TInstitutionRole role in institution_roles)
+				{
+					role.Variation = variations_by_role.TryGetValue(role.Id, out List<TInstitutionRoleVariation> found_variations) ? found_variations : new List<TInstitutionRoleVariation>();
 				}
 
 				// get the template roles
@@ -716,6 +778,28 @@ namespace Business
 						else
 						{
 							error = Error.InstitutionRoleNotFound;
+						}
+					}
+				}
+
+				if (error == 0)
+				{
+					role.Variation = new List<TInstitutionRoleVariation>();
+
+					using (var variations_cmd = new NpgsqlCommand("SELECT * FROM institution_role_variations WHERE institution_role_id = @institution_role_id ORDER BY name;", conn))
+					{
+						variations_cmd.Parameters.AddWithValue("@institution_role_id", role.Id);
+
+						using (var variations_reader = variations_cmd.ExecuteReader())
+						{
+							while (variations_reader.Read())
+							{
+								TInstitutionRoleVariation variation = new TInstitutionRoleVariation();
+
+								variation.FillFromReader(variations_reader);
+
+								role.Variation.Add(variation);
+							}
 						}
 					}
 				}
@@ -954,6 +1038,8 @@ namespace Business
 		{
 			var conn = ConnectionPool.GetConnection();
 
+			var tran = conn.BeginTransaction();
+
 			string sql;
 
 			if (role.Id == 0)
@@ -981,9 +1067,163 @@ namespace Business
 				{
 					cmd.ExecuteNonQuery();
 				}
+
+				if (!role.IsTemplateRole)
+				{
+					Error variation_error = SaveInstitutionRoleVariations(role.Id, role.Variation, cmd);
+
+					if (variation_error != 0)
+					{
+						tran.Rollback();
+
+						ConnectionPool.ReleaseConnection(ref conn);
+
+						return variation_error;
+					}
+				}
 			}
 
 			role.InstitutionId = institutionId;
+
+			tran.Commit();
+
+			ConnectionPool.ReleaseConnection(ref conn);
+
+			return 0;
+		}
+
+		// keeps institution_role_variations in sync with role.Variation: inserts new ones (id == 0),
+		// updates existing ones and deletes the ones no longer present in the list
+		private static Error SaveInstitutionRoleVariations(int institutionRoleId, List<TInstitutionRoleVariation> variations, NpgsqlCommand cmd)
+		{
+			variations ??= new List<TInstitutionRoleVariation>();
+
+			foreach (TInstitutionRoleVariation variation in variations)
+			{
+				cmd.CommandText = variation.Id == 0
+					? "INSERT INTO institution_role_variations(institution_role_id, name) VALUES(@institution_role_id, @name) RETURNING id;"
+					: "UPDATE institution_role_variations SET name = @name WHERE id = @id;";
+
+				cmd.Parameters.Clear();
+				cmd.Parameters.AddWithValue("@id", variation.Id);
+				cmd.Parameters.AddWithValue("@institution_role_id", institutionRoleId);
+				cmd.Parameters.AddWithValue("@name", variation.Name);
+
+				if (variation.Id == 0)
+				{
+					variation.Id = (Int32)(Int64)cmd.ExecuteScalar();
+				}
+				else
+				{
+					cmd.ExecuteNonQuery();
+				}
+			}
+
+			List<int> variation_ids = new List<int>();
+
+			foreach (TInstitutionRoleVariation variation in variations)
+			{
+				variation_ids.Add(variation.Id);
+			}
+
+			// find the variations that are no longer present in the submitted list
+			cmd.CommandText = "SELECT id FROM institution_role_variations WHERE institution_role_id = @institution_role_id AND NOT (id = ANY(@ids));";
+
+			cmd.Parameters.Clear();
+			cmd.Parameters.AddWithValue("@institution_role_id", institutionRoleId);
+			cmd.Parameters.AddWithValue("@ids", variation_ids.ToArray());
+
+			List<int> variation_ids_to_delete = new List<int>();
+
+			using (var reader = cmd.ExecuteReader())
+			{
+				while (reader.Read())
+				{
+					variation_ids_to_delete.Add(reader.GetInt32(0));
+				}
+			}
+
+			if (variation_ids_to_delete.Count > 0)
+			{
+				int[] ids_to_delete = variation_ids_to_delete.ToArray();
+
+				// no citizen can have any of these variations assigned
+				cmd.CommandText = "SELECT COUNT(*) FROM citizen_institution_roles WHERE institution_role_variation_id = ANY(@ids);";
+
+				cmd.Parameters.Clear();
+				cmd.Parameters.AddWithValue("@ids", ids_to_delete);
+
+				int citizens_with_variation = (Int32)(Int64)cmd.ExecuteScalar();
+
+				if (citizens_with_variation > 0)
+				{
+					return Error.InstitutionRoleVariationInUse;
+				}
+
+				cmd.CommandText = "DELETE FROM institution_role_variations WHERE id = ANY(@ids);";
+
+				cmd.Parameters.Clear();
+				cmd.Parameters.AddWithValue("@ids", ids_to_delete);
+
+				cmd.ExecuteNonQuery();
+			}
+
+			return 0;
+		}
+
+		public static Error SaveInstitutionRoleVariation(int institutionRoleId, TInstitutionRoleVariation variation)
+		{
+			var conn = ConnectionPool.GetConnection();
+
+			string sql = variation.Id == 0
+				? "INSERT INTO institution_role_variations(institution_role_id, name) VALUES(@institution_role_id, @name) RETURNING id;"
+				: "UPDATE institution_role_variations SET name = @name WHERE id = @id;";
+
+			using (var cmd = new NpgsqlCommand(sql, conn))
+			{
+				cmd.Parameters.AddWithValue("@id", variation.Id);
+				cmd.Parameters.AddWithValue("@institution_role_id", institutionRoleId);
+				cmd.Parameters.AddWithValue("@name", variation.Name);
+
+				if (variation.Id == 0)
+				{
+					variation.Id = (Int32)(Int64)cmd.ExecuteScalar();
+				}
+				else
+				{
+					cmd.ExecuteNonQuery();
+				}
+			}
+
+			variation.InstitutionRoleId = institutionRoleId;
+
+			ConnectionPool.ReleaseConnection(ref conn);
+
+			return 0;
+		}
+
+		public static Error GetInstitutionRoleVariations(int institutionRoleId, out List<TInstitutionRoleVariation> variations)
+		{
+			variations = new List<TInstitutionRoleVariation>();
+
+			var conn = ConnectionPool.GetConnection();
+
+			using (var cmd = new NpgsqlCommand("SELECT * FROM institution_role_variations WHERE institution_role_id = @institution_role_id ORDER BY name;", conn))
+			{
+				cmd.Parameters.AddWithValue("@institution_role_id", institutionRoleId);
+
+				using (var reader = cmd.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						TInstitutionRoleVariation variation = new TInstitutionRoleVariation();
+
+						variation.FillFromReader(reader);
+
+						variations.Add(variation);
+					}
+				}
+			}
 
 			ConnectionPool.ReleaseConnection(ref conn);
 

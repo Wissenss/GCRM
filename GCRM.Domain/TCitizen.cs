@@ -28,12 +28,9 @@ namespace GCRM.Domain
 		public TCitizenContactNumber CardDavSyncNumber = new TCitizenContactNumber();
 		public string Email;
 		public TPoliticalParty PoliticalParty;
-		public TInstitution Institution = new TInstitution();
-		public TInstitution Institution2 = new TInstitution();
-		public TInstitution Institution3 = new TInstitution();
-		public TInstitutionRole Role = new TInstitutionRole();
-		public TInstitutionRole Role2 = new TInstitutionRole();
-		public TInstitutionRole Role3 = new TInstitutionRole();
+		public TCitizenInstitutionRole InstitutionRole = new TCitizenInstitutionRole() { Position = 1 };
+		public TCitizenInstitutionRole InstitutionRole2 = new TCitizenInstitutionRole() { Position = 2 };
+		public TCitizenInstitutionRole InstitutionRole3 = new TCitizenInstitutionRole() { Position = 3 };
 		public TUser Author = new TUser();
 		public DateTime CreatedDate;
 		public TUser LastEditor = new TUser();
@@ -162,7 +159,7 @@ namespace GCRM.Domain
 		public void FillFromReader(DbDataReader reader, string prefix = "")
 		{
 			Assistant = new TCitizen();
-			Institution = new TInstitution();
+			InstitutionRole = new TCitizenInstitutionRole() { Position = 1 };
 			UserRelationship = new TCitizenRelationship();
 			VerifiedBy = new TUser();
 
@@ -180,8 +177,8 @@ namespace GCRM.Domain
 			Address.Id = reader.GetInt32(Ordinal("address_id"));
 			Assistant.Id = reader.GetInt32(Ordinal("assistant_id"));
 			PoliticalParty = (TPoliticalParty)reader.GetInt32(Ordinal("political_party_type"));
-			Institution.Id = reader.GetInt32(Ordinal("institution_id"));
-			Role.Id = reader.GetInt32(Ordinal("institution_role_id"));
+			InstitutionRole.Institution.Id = reader.GetInt32(Ordinal("institution_id"));
+			InstitutionRole.Role.Id = reader.GetInt32(Ordinal("institution_role_id"));
 			Email = reader.GetString(Ordinal("email"));
 			Author.Id = reader.GetInt32(Ordinal("created_by_id"));
 			CreatedDate = reader.GetDateTime(Ordinal("created_date"));
@@ -192,19 +189,19 @@ namespace GCRM.Domain
 			VoterCIC = reader.GetString(Ordinal("voter_cic"));
 			VoterSection = reader.GetString(Ordinal("voter_section"));
 			Category.Id = reader.GetInt32(Ordinal("citizen_category_id"));
-			Institution2.Id = reader.GetInt32(Ordinal("institution2_id"));
-			Role2.Id = reader.GetInt32(Ordinal("institution2_role_id"));
-			Institution3.Id = reader.GetInt32(Ordinal("institution3_id"));
-			Role3.Id = reader.GetInt32(Ordinal("institution3_role_id"));
+			InstitutionRole2.Institution.Id = reader.GetInt32(Ordinal("institution2_id"));
+			InstitutionRole2.Role.Id = reader.GetInt32(Ordinal("institution2_role_id"));
+			InstitutionRole3.Institution.Id = reader.GetInt32(Ordinal("institution3_id"));
+			InstitutionRole3.Role.Id = reader.GetInt32(Ordinal("institution3_role_id"));
 			AttentionRequired = reader.GetBoolean(Ordinal("attention_required"));
 			AttentionRequiredReason = reader.GetString(Ordinal("attention_required_reason"));
 			IsPoliticalActivist = reader.GetBoolean(Ordinal("is_political_activist"));
 			PoliticalRegisterDate = reader.GetDateTime(Ordinal("political_register_date"));
 
 			// if the value of the template is set for the role, then it is a template role
-			Role.InstitutionTemplateId = reader.GetInt32(Ordinal("institution_template_role_id"));
-			Role2.InstitutionTemplateId = reader.GetInt32(Ordinal("institution2_template_role_id"));
-			Role3.InstitutionTemplateId = reader.GetInt32(Ordinal("institution3_template_role_id"));
+			InstitutionRole.Role.InstitutionTemplateId = reader.GetInt32(Ordinal("institution_template_role_id"));
+			InstitutionRole2.Role.InstitutionTemplateId = reader.GetInt32(Ordinal("institution2_template_role_id"));
+			InstitutionRole3.Role.InstitutionTemplateId = reader.GetInt32(Ordinal("institution3_template_role_id"));
 
 			KnownBirthday = reader.GetBoolean(Ordinal("known_birthday"));
 			KnownBirthyear = reader.GetBoolean(Ordinal("known_birthyear"));
@@ -233,12 +230,9 @@ namespace GCRM.Domain
 				Assistant.PaternalName.ToUpper();
 			}
 			Email = Email.ToUpper();
-			Institution.PropertiesToUpper();
-			Institution2.PropertiesToUpper();
-			Institution3.PropertiesToUpper();
-			Role.PropertiesToUpper();
-			Role2.PropertiesToUpper();
-			Role3.PropertiesToUpper();
+			InstitutionRole.PropertiesToUpper();
+			InstitutionRole2.PropertiesToUpper();
+			InstitutionRole3.PropertiesToUpper();
 			VoterCode = VoterCode.ToUpper();
 			VoterOCR = VoterOCR.ToUpper();
 			VoterCIC = VoterCIC.ToUpper();
@@ -272,17 +266,17 @@ namespace GCRM.Domain
 			log_string.AppendLine($"Cellphone:       \t{Cellphone}");
 			log_string.AppendLine($"Email:           \t{Email}");
 			log_string.AppendLine($"Political Party: \t{PoliticalParty}");
-			log_string.AppendLine($"Institution:     \t{Institution.Id}");
-			log_string.AppendLine($"Role:            \t{Role.Id}");
+			log_string.AppendLine($"Institution:     \t{InstitutionRole.Institution.Id}");
+			log_string.AppendLine($"Role:            \t{InstitutionRole.Role.Id}");
 			log_string.AppendLine($"Author:          \t{Author.Id}");
 			log_string.AppendLine($"Created Date:    \t{CreatedDate}");
 			log_string.AppendLine($"Last Editor:     \t{LastEditor.Id}");
 			log_string.AppendLine($"Edit Date:       \t{EditDate}");
 			log_string.AppendLine($"Category:        \t{Category.Id}");
-			log_string.AppendLine($"Institution2:    \t{Institution2.Id}");
-			log_string.AppendLine($"Role2:           \t{Role2.Id}");
-			log_string.AppendLine($"Institution3:    \t{Institution3.Id}");
-			log_string.AppendLine($"Role3:           \t{Role3.Id}");
+			log_string.AppendLine($"Institution2:    \t{InstitutionRole2.Institution.Id}");
+			log_string.AppendLine($"Role2:           \t{InstitutionRole2.Role.Id}");
+			log_string.AppendLine($"Institution3:    \t{InstitutionRole3.Institution.Id}");
+			log_string.AppendLine($"Role3:           \t{InstitutionRole3.Role.Id}");
 
 			log_string.AppendLine($"Attention Required:\t{AttentionRequired}");
 

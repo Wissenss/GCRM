@@ -41,6 +41,7 @@ namespace Reporter
 		{
 			container.Page(page =>
 			{
+				page.Size(PageSizes.A4);
 				page.Margin(15);
 
 				page.Header().Element(ComposeHeader);

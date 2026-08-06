@@ -133,14 +133,14 @@ namespace Reporter
 
                 foreach (var item in Model.Citizens)
                 {
-                    if (Model.Request.IncludeChildInstitutionsInCitizenListing == false && item.Institution.Id != Model.Institution.Id)
+                    if (Model.Request.IncludeChildInstitutionsInCitizenListing == false && item.InstitutionRole.Institution.Id != Model.Institution.Id)
                     {
                         continue;
                     }
 
-                    if (lastInstitutionId != item.Institution.Id)
+                    if (lastInstitutionId != item.InstitutionRole.Institution.Id)
                     {
-                        lastInstitutionId = item.Institution.Id;
+                        lastInstitutionId = item.InstitutionRole.Institution.Id;
 
                         c.Item()
                         .BorderBottom(1)
@@ -150,7 +150,7 @@ namespace Reporter
                         {
                             r.RelativeItem()
                             .PaddingVertical(2)
-                            .Text(item.Institution.Name).FontSize(10).FontColor(Colors.Black);
+                            .Text(item.InstitutionRole.Institution.Name).FontSize(10).FontColor(Colors.Black);
                         });
                     }
 
@@ -160,12 +160,12 @@ namespace Reporter
                     {
                         int size = 10;
 
-                        string started_at = item.Role.IsStartDefined ? item.Role.StartedAt.ToString("dd/MM/yyyy") : "-";
-                        string ended_at = item.Role.IsEndDefined ? item.Role.EndedAt.ToString("dd/MM/yyyy") : "-";
+                        string started_at = item.InstitutionRole.IsStartDefined ? item.InstitutionRole.StartedAt.ToString("dd/MM/yyyy") : "-";
+                        string ended_at = item.InstitutionRole.IsEndDefined ? item.InstitutionRole.EndedAt.ToString("dd/MM/yyyy") : "-";
 
                         r.RelativeItem().Text(item.FullNameWithFirstCapitals).FontSize(size).FontColor(Colors.Black);
-                        r.ConstantItem(200).Text(item.Role.Name).FontSize(size).FontColor(Colors.Black);
-                        r.ConstantItem(50).Text(item.Role.IsActive ? "Sí" : "No").AlignCenter().FontSize(size).FontColor(Colors.Black);
+                        r.ConstantItem(200).Text(item.InstitutionRole.DisplayName).FontSize(size).FontColor(Colors.Black);
+                        r.ConstantItem(50).Text(item.InstitutionRole.IsActive ? "Sí" : "No").AlignCenter().FontSize(size).FontColor(Colors.Black);
                         r.ConstantItem(50).Text(started_at).FontSize(size).FontColor(Colors.Black);
                         r.ConstantItem(50).Text(ended_at).FontSize(size).FontColor(Colors.Black);
 
