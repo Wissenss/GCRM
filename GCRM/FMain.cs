@@ -339,5 +339,13 @@ namespace GCRM
                 report_dlg.ShowDialog();
             }
         }
+
+        private void BFixDuplicates_Click(object sender, EventArgs e)
+        {
+            using (FFixDuplicateRecords fix_duplicates_dlg = new FFixDuplicateRecords())
+            {
+                fix_duplicates_dlg.ShowDialog();
+            }
+        }
     }
 }

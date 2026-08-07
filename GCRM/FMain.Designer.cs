@@ -62,6 +62,8 @@
             toolStripSeparator5 = new ToolStripSeparator();
             BQueries = new ToolStripButton();
             BEventLog = new ToolStripButton();
+            toolStripSeparator8 = new ToolStripSeparator();
+            BFixDuplicates = new ToolStripButton();
             toolStripSeparator6 = new ToolStripSeparator();
             BBackup = new ToolStripButton();
             ListBoxBirhdays = new ListBox();
@@ -308,7 +310,7 @@
             // 
             ToolStripOther.Dock = DockStyle.Fill;
             ToolStripOther.GripStyle = ToolStripGripStyle.Hidden;
-            ToolStripOther.Items.AddRange(new ToolStripItem[] { BSettings, BUsers, BUserGroups, BConnection, BAbout, toolStripSeparator1, BEmails, BSync, toolStripSeparator5, BQueries, BEventLog, toolStripSeparator6, BBackup });
+            ToolStripOther.Items.AddRange(new ToolStripItem[] { BSettings, BUsers, BUserGroups, BConnection, BAbout, toolStripSeparator1, BEmails, BSync, toolStripSeparator5, BQueries, BEventLog, toolStripSeparator8, BFixDuplicates, toolStripSeparator6, BBackup });
             ToolStripOther.Location = new Point(3, 3);
             ToolStripOther.Name = "ToolStripOther";
             ToolStripOther.RenderMode = ToolStripRenderMode.System;
@@ -437,6 +439,23 @@
             BEventLog.Text = "&Bitácora";
             BEventLog.TextImageRelation = TextImageRelation.ImageAboveText;
             BEventLog.Click += BEventLog_Click;
+            // 
+            // toolStripSeparator8
+            // 
+            toolStripSeparator8.Name = "toolStripSeparator8";
+            toolStripSeparator8.Size = new Size(6, 55);
+            // 
+            // BFixDuplicates
+            // 
+            BFixDuplicates.Image = Properties.Resources.Fatcow_Farm_Fresh_Combine_rows_32;
+            BFixDuplicates.ImageScaling = ToolStripItemImageScaling.None;
+            BFixDuplicates.ImageTransparentColor = Color.Magenta;
+            BFixDuplicates.Margin = new Padding(1, 2, 1, 2);
+            BFixDuplicates.Name = "BFixDuplicates";
+            BFixDuplicates.Size = new Size(83, 51);
+            BFixDuplicates.Text = "B. &Duplicados";
+            BFixDuplicates.TextImageRelation = TextImageRelation.ImageAboveText;
+            BFixDuplicates.Click += BFixDuplicates_Click;
             // 
             // toolStripSeparator6
             // 
@@ -733,5 +752,7 @@
         private ListBox ListBoxWarnings;
         private ToolStripSeparator ToolStripSeparator7;
         private ToolStripButton BReportList;
+        private ToolStripButton BFixDuplicates;
+        private ToolStripSeparator toolStripSeparator8;
     }
 }

@@ -273,6 +273,47 @@ namespace Business
 			return 0;
 		}
 
+		public static Error GetDuplicateInstitutions(int threshold, out List<TDuplicateMatch> matches)
+		{
+			matches = new List<TDuplicateMatch>();
+
+			var conn = ConnectionPool.GetConnection();
+
+			string sql = @"
+				SELECT
+					i1.id AS id1, i1.name AS name1, i1.attention_required AS attention_required1, i1.attention_required_reason AS attention_required_reason1,
+					i2.id AS id2, i2.name AS name2, i2.attention_required AS attention_required2, i2.attention_required_reason AS attention_required_reason2,
+					levenshtein(i1.name, i2.name) AS distance
+				FROM
+					institutions i1 JOIN institutions i2 ON i1.id < i2.id
+				WHERE
+					levenshtein(i1.name, i2.name) <= @threshold
+				ORDER BY
+					distance ASC;
+			";
+
+			using (var cmd = new NpgsqlCommand(sql, conn))
+			{
+				cmd.Parameters.AddWithValue("@threshold", threshold);
+
+				using (var reader = cmd.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						TDuplicateMatch match = new TDuplicateMatch();
+
+						match.FillFromReader(reader);
+
+						matches.Add(match);
+					}
+				}
+			}
+
+			ConnectionPool.ReleaseConnection(ref conn);
+
+			return 0;
+		}
+
 		public static Error GetAttentionRequiredInstitutionCount(out int count)
 		{
 			var conn = ConnectionPool.GetConnection();

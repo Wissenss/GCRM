@@ -19,5 +19,9 @@ CREATE TABLE institution_role_variations (
 ALTER TABLE IF EXISTS public.citizen_institution_roles
     ADD COLUMN institution_role_variation_id BIGINT REFERENCES institution_role_variations(id) ON DELETE SET NULL;
 
+-- enable fuzzystrmatch extension
+
+CREATE EXTENSION IF NOT EXISTS fuzzystrmatch;
+
 -- update client version
 UPDATE public.settings SET string_value = '0.1.3.2-alpha' WHERE name = 'client_version';
