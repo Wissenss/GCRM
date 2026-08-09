@@ -1,5 +1,6 @@
 ﻿using Business;
 using GCRM.Domain;
+using GCRM.Domain.Enums;
 
 namespace GCRM
 {

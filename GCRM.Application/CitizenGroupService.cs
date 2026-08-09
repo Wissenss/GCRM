@@ -1,4 +1,5 @@
 ﻿using GCRM.Domain;
+using GCRM.Domain.Enums;
 using GCRM.Infraestructure;
 using Business;
 

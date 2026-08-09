@@ -1,5 +1,4 @@
-﻿using Business;
-using QuestPDF.Fluent;
+﻿using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 using GCRM.Domain;
@@ -14,6 +13,8 @@ namespace Reporter
 		public TSocietySector? SocietySector; 
 
 		public List<TInstitution> Institutions = new List<TInstitution>();
+
+		public string Username;
 	}
 
 	public class R004Document : IDocument
@@ -151,15 +152,7 @@ namespace Reporter
 
 		void ComposeFooter(IContainer container)
 		{
-			float footer_font_size = 6;
-
-			string version = BConstants.GetProductVersion();
-
-			container.Row(row =>
-			{
-				row.RelativeItem().Element(e => e.AlignLeft().Text($"GCRM {version} - Generado por: {Session.User.Name}").FontSize(footer_font_size));
-				row.RelativeItem().Element(e => e.AlignRight().Text($"Fecha: {DateTime.Now.ToString("dd/MM/yyyy")}").FontSize(footer_font_size));
-			});
+			DocumentUtilities.ComposeReportFooter(container, Model.Username);
 		}
 	}
 }

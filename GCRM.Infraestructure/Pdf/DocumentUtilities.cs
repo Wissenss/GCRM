@@ -1,7 +1,6 @@
 ﻿
 using System.Diagnostics;
 using System.Reflection;
-using Business;
 using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
 
@@ -9,7 +8,7 @@ namespace Reporter
 {
     public static class DocumentUtilities
     {
-        public static void ComposeReportFooter(IContainer container)
+        public static void ComposeReportFooter(IContainer container, string username)
         {
             float footer_font_size = 6;
 
@@ -19,7 +18,7 @@ namespace Reporter
 
             container.Row(row =>
             {
-                row.RelativeItem().Element(e => e.AlignLeft().Text($"GCRM {version} - Generado por: {Session.User.Name}").FontSize(footer_font_size));
+                row.RelativeItem().Element(e => e.AlignLeft().Text($"GCRM {version} - Generado por: {username}").FontSize(footer_font_size));
                 row.RelativeItem().Element(e => e.AlignRight().Text($"Fecha: {DateTime.Now.ToString("dd/MM/yyyy")}").FontSize(footer_font_size));
             });
         }

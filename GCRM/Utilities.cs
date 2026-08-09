@@ -73,7 +73,7 @@ namespace GCRM
             return value;
         }
 
-        public static void ShowErrorDialog(Business.Error error)
+        public static void ShowErrorDialog(GCRM.Domain.Enums.Error error)
         {
             MessageBox.Show(Errors.GetErrorDescription(error), $"Error {(int)error:D5}: {error.ToString()}", MessageBoxButtons.OK);
         }

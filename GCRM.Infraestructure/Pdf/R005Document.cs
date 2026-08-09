@@ -22,6 +22,8 @@ namespace Reporter
         public R005DocumentRequest Request;
         public TInstitution Institution;
         public List<TCitizen> Citizens;
+
+        public string Username;
     }
 
     public class R005Document : IDocument
@@ -176,7 +178,7 @@ namespace Reporter
 
         void ComposeFooter(IContainer container)
         {
-            DocumentUtilities.ComposeReportFooter(container);
+            DocumentUtilities.ComposeReportFooter(container, Model.Username);
         }
     }
 }

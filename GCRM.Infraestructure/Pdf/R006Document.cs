@@ -14,6 +14,8 @@ namespace Reporter
     public class R006DocumentModel
     {
         public TCitizen Citizen;
+
+        public string Username;
     }
 
     public class R006Document : IDocument
@@ -186,7 +188,7 @@ namespace Reporter
 
         void ComposeFooter(IContainer container)
         {
-            DocumentUtilities.ComposeReportFooter(container);
+            DocumentUtilities.ComposeReportFooter(container, Model.Username);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Business;
+﻿using GCRM.Domain.Enums;
 
 namespace GCRM.Application
 {

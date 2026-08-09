@@ -1,5 +1,6 @@
 using Business;
 using GCRM.Domain;
+using GCRM.Domain.Enums;
 using QuestPDF.Companion;
 using QuestPDF.Fluent;
 using QuestPDF.Previewer;

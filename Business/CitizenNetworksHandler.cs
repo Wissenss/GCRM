@@ -2,81 +2,10 @@
 using Npgsql;
 using System.Data.Common;
 using GCRM.Domain;
+using GCRM.Domain.Enums;
 
 namespace Business
 {
-	public class TCitizenNetwork
-	{
-		public int Id;
-		public TCitizen LeadCitizen;
-		public int ParentNetworkId;
-		public string Name;
-		public string Description;
-		public List<TCitizenNetworkMember> Members;
-		public List<TCitizenNetworkRole> Roles;
-
-		public TCitizenNetwork()
-		{
-			LeadCitizen = new TCitizen();
-			Members = new List<TCitizenNetworkMember>();
-			Roles = new List<TCitizenNetworkRole>();
-		}
-
-		public void FillFromReader(DbDataReader reader)
-		{
-			Id = reader.GetInt32(0);
-			LeadCitizen.Id = reader.GetInt32(1);
-			ParentNetworkId = reader.GetInt32(2);
-			Name = reader.GetString(3);
-			Description = reader.GetString(4);
-		}
-	}
-
-	public class TCitizenNetworkMember
-	{
-		public int Id;
-		public int CitizenNetworkId;
-		public TCitizen Citizen;
-		public int ParentMemberId;
-		public TCitizenNetworkRole Role;
-
-		public TCitizenNetworkMember()
-		{
-			Citizen = new TCitizen();
-			Role = new TCitizenNetworkRole();
-		}
-
-		public void FillFromReader(DbDataReader reader)
-		{
-			Citizen = new TCitizen();
-			Role = new TCitizenNetworkRole();
-
-			Id = reader.GetInt32(0);
-			CitizenNetworkId = reader.GetInt32(1);
-			Citizen.Id = reader.GetInt32(2);
-			Role.Id = reader.GetInt32(3);
-			ParentMemberId = reader.GetInt32(4);
-		}
-	}
-
-	public class TCitizenNetworkRole
-	{
-		public int Id;
-		public int CitizenNetworkId;	
-		public string Name;	
-		public string Description;
-		public int Level;
-
-		public void FillFromReader(DbDataReader reader)
-		{
-			Id = reader.GetInt32(0);
-			CitizenNetworkId = reader.GetInt32(1);
-			Name = reader.GetString(2);
-			Description = reader.GetString(3);
-			Level = reader.GetInt32(4);
-		}
-	}
-
 	public static class CitizenNetworksHandler
 	{
 		public static Error GetCitizenNetworkById(int id, out TCitizenNetwork citizen_network)

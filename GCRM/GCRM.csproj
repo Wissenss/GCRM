@@ -33,16 +33,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ClosedXML" Version="0.105.0" />
-    <PackageReference Include="NLog" Version="6.0.2" />
+    <PackageReference Include="ClosedXML" Version="0.105.1" />
+    <PackageReference Include="NLog" Version="6.1.4" />
     <PackageReference Include="ObjectListView.Repack.NET6Plus" Version="2.9.5" />
-    <PackageReference Include="QuestPDF" Version="2025.7.0" />
+    <PackageReference Include="QuestPDF" Version="2026.7.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Business\Business.csproj" />
     <ProjectReference Include="..\GCRM.Application\GCRM.Application.csproj" />
-    <ProjectReference Include="..\Reporter\Reporter.csproj" />
   </ItemGroup>
 
   <ItemGroup>

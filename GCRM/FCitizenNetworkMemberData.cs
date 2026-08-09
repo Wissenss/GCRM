@@ -3,6 +3,7 @@ using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using System.Data;
 using System.Text;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using GCRM.Domain;
 
 namespace GCRM
 {

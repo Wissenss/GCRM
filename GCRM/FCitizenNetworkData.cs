@@ -5,6 +5,7 @@ using QuestPDF.Infrastructure;
 using Reporter;
 using System.Data;
 using GCRM.Domain;
+using GCRM.Domain.Enums;
 
 namespace GCRM
 {

@@ -1,5 +1,4 @@
-﻿using Business;
-using QuestPDF.Drawing;
+﻿using QuestPDF.Drawing;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
@@ -18,7 +17,21 @@ namespace Reporter
 		CitizenBirthday,
 	}
 
-	public class R001DocumentModel
+    public class R001DocumentRequest
+    {
+        public int InstitutionId;
+        public int InstitutionCategoryId;
+        public TCitizenTitle? CitizenTitle;
+        public TSex? Sex;
+        public TPoliticalParty? PoliticalParty;
+        public TSocietySector? SocietySector;
+        public int? BirthdayYear;
+        public int? BirthdayMonth;
+        public int? BirthdayDay;
+        public TR001Order Order;
+    }
+
+    public class R001DocumentModel
 	{
 		public TPoliticalParty? PoliticalParty;
 		public TSex? Sex;
@@ -35,6 +48,8 @@ namespace Reporter
 		public TR001Order Order = TR001Order.CitizenName;
 
 		public List<TCitizen> CitizenList = new List<TCitizen>();
+
+		public string Username;
 	}
 
 	public class R001Document : IDocument
@@ -247,17 +262,7 @@ namespace Reporter
 
 		void ComposeFooter(IContainer container)
 		{
-			float footer_font_size = 6;
-
-			Assembly assembly = Assembly.GetExecutingAssembly();
-			FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
-			string version = fileVersionInfo.ProductVersion;
-
-			container.Row(row =>
-			{
-				row.RelativeItem().Element(e => e.AlignLeft().Text($"GCRM {version} - Generado por: {Session.User.Name}").FontSize(footer_font_size));
-				row.RelativeItem().Element(e => e.AlignRight().Text($"Fecha: {DateTime.Now.ToString("dd/MM/yyyy")}").FontSize(footer_font_size));
-			});
+			DocumentUtilities.ComposeReportFooter(container, Model.Username);
 		}
 	}
 }

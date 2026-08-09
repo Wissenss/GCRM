@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Business
+namespace GCRM.Domain.Enums
 {
 	public enum Error
 	{

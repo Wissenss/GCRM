@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.11.35327.3
+# Visual Studio Version 18
+VisualStudioVersion = 18.7.11911.148 stable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GCRM", "GCRM\GCRM.csproj", "{D2CF242C-3E50-436C-8F06-8A2165903A31}"
 EndProject
@@ -18,8 +18,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		publish.cmd = publish.cmd
 		README.md = README.md
 	EndProjectSection
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reporter", "Reporter\Reporter.csproj", "{F377CCFB-79CF-421B-B808-6E32666B5809}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GCRM.Domain", "GCRM.Domain\GCRM.Domain.csproj", "{60A70664-DC2B-4910-83B8-EEBCD4ADE07F}"
 EndProject
@@ -47,10 +45,6 @@ Global
 		{6ED3A5CE-FC3A-4BC7-9024-88E72AEB2F77}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6ED3A5CE-FC3A-4BC7-9024-88E72AEB2F77}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6ED3A5CE-FC3A-4BC7-9024-88E72AEB2F77}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F377CCFB-79CF-421B-B808-6E32666B5809}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F377CCFB-79CF-421B-B808-6E32666B5809}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F377CCFB-79CF-421B-B808-6E32666B5809}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F377CCFB-79CF-421B-B808-6E32666B5809}.Release|Any CPU.Build.0 = Release|Any CPU
 		{60A70664-DC2B-4910-83B8-EEBCD4ADE07F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{60A70664-DC2B-4910-83B8-EEBCD4ADE07F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60A70664-DC2B-4910-83B8-EEBCD4ADE07F}.Release|Any CPU.ActiveCfg = Release|Any CPU

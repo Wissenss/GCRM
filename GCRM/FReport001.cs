@@ -1,8 +1,10 @@
 using Business;
+using GCRM.Application;
 using GCRM.Domain;
 using GCRM.Domain.Enums;
 using GCRM.Shared;
 using QuestPDF.Fluent;
+using QuestPDF.Infrastructure;
 using Reporter;
 using System;
 using System.Collections.Generic;
@@ -267,31 +269,39 @@ namespace GCRM
             BirthdayDay.Enabled = CheckBoxFilterBirthdayDay.Checked;
         }
 
-        private bool TryBuildReport(out R001 report)
+        private bool TryBuildReport(out IDocument document)
         {
-            int? birthday_month = CheckBoxFilterBirthdayMonth.Checked ? (int)BirthdayMonth.SelectedValue : null;
-            int? birthday_day = CheckBoxFilterBirthdayDay.Checked ? (int)BirthdayDay.SelectedValue : null;
-
-            report = new R001()
+            using (var cursor = new CursorWait())
             {
-                InstitutionId = CheckBoxFilterInstitution.Checked ? (int)Institution.SelectedValue : 0,
-                InstitutionCategoryId = CheckBoxFilterInstitutionCategory.Checked ? (int)InstitutionCategory.SelectedValue : 0,
-                CitizenTitle = CheckBoxFilterCitizenTitle.Checked ? (TCitizenTitle)CitizenTitle.SelectedValue : null,
-                Sex = CheckBoxFilterSex.Checked ? (TSex)Sex.SelectedValue : null,
-                PoliticalParty = CheckBoxFilterParty.Checked ? (TPoliticalParty)Party.SelectedValue : null,
-                SocietySector = CheckBoxFilterSector.Checked ? (TSocietySector)Sector.SelectedValue : null,
-                BirthdayYear = CheckBoxFilterBirthdayYear.Checked ? (int)BirthdayYear.SelectedValue : null,
-                BirthdayMonth = birthday_month,
-                BirthdayDay = birthday_day,
-                Order = (birthday_month != null || birthday_day != null) ? TR001Order.CitizenBirthday : TR001Order.CitizenName
-            };
+                document = null;
 
-            Error error = report.PrepareReport();
+                int? birthday_month = CheckBoxFilterBirthdayMonth.Checked ? (int)BirthdayMonth.SelectedValue : null;
+                int? birthday_day = CheckBoxFilterBirthdayDay.Checked ? (int)BirthdayDay.SelectedValue : null;
 
-            if (error != Error.None)
-            {
-                Utilities.ShowErrorDialog(error);
-                return false;
+                R001DocumentRequest request = new R001DocumentRequest()
+                {
+                    InstitutionId = CheckBoxFilterInstitution.Checked ? (int)Institution.SelectedValue : 0,
+                    InstitutionCategoryId = CheckBoxFilterInstitutionCategory.Checked ? (int)InstitutionCategory.SelectedValue : 0,
+                    CitizenTitle = CheckBoxFilterCitizenTitle.Checked ? (TCitizenTitle)CitizenTitle.SelectedValue : null,
+                    Sex = CheckBoxFilterSex.Checked ? (TSex)Sex.SelectedValue : null,
+                    PoliticalParty = CheckBoxFilterParty.Checked ? (TPoliticalParty)Party.SelectedValue : null,
+                    SocietySector = CheckBoxFilterSector.Checked ? (TSocietySector)Sector.SelectedValue : null,
+                    BirthdayYear = CheckBoxFilterBirthdayYear.Checked ? (int)BirthdayYear.SelectedValue : null,
+                    BirthdayMonth = birthday_month,
+                    BirthdayDay = birthday_day,
+                    Order = (birthday_month != null || birthday_day != null) ? TR001Order.CitizenBirthday : TR001Order.CitizenName
+                };
+
+                Error error = ReportService.GetR001DocumentModel(request, out R001DocumentModel model);
+
+                if (error != Error.None)
+                {
+                    Utilities.ShowErrorDialog(error);
+
+                    return false;
+                }
+
+                document = new R001Document(model);
             }
 
             return true;
@@ -304,18 +314,18 @@ namespace GCRM
 
         private void BGenerate_Click(object sender, EventArgs e)
         {
-            if (TryBuildReport(out R001 report))
+            if (TryBuildReport(out IDocument report))
             {
                 if (SettingsUtilities.LoadInstanceConfiguration().UseExternalPDFViewer)
                 {
-                    report.RDocument.GeneratePdfAndShow();
+                    report.GeneratePdfAndShow();
                 }
                 else
                 {
                     using (FDocumentViewer viewer = new FDocumentViewer())
                     {
                         viewer.PrintSettings.Landscape = false;
-                        viewer.LoadDocument(report.RDocument);
+                        viewer.LoadDocument(report);
                         viewer.ShowDialog();
                     }
                 }
@@ -324,7 +334,7 @@ namespace GCRM
 
         private void BSave_Click(object sender, EventArgs e)
         {
-            if (TryBuildReport(out R001 report) == false)
+            if (TryBuildReport(out IDocument report) == false)
                 return;
 
             using SaveFileDialog dialog = new SaveFileDialog()
@@ -334,7 +344,7 @@ namespace GCRM
             };
 
             if (dialog.ShowDialog() == DialogResult.OK)
-                report.RDocument.GeneratePdf(dialog.FileName);
+                report.GeneratePdf(dialog.FileName);
         }
     }
 }

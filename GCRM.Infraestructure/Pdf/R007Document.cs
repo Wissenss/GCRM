@@ -18,7 +18,9 @@ namespace Reporter
 		public DateTime DateFrom;
 		public DateTime DateTo;
 		public List<TEventLog> Logs = new List<TEventLog>();
-	}
+
+		public string Username;
+    }
 
 	public class R007Document : IDocument
 	{
@@ -359,7 +361,7 @@ namespace Reporter
 
 		void ComposeFooter(IContainer container)
 		{
-			DocumentUtilities.ComposeReportFooter(container);
+			DocumentUtilities.ComposeReportFooter(container, Model.Username);
 		}
 	}
 }

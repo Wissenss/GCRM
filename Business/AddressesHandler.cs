@@ -1,6 +1,7 @@
 ﻿using Connection;
 using Npgsql;
 using GCRM.Domain;
+using GCRM.Domain.Enums;
 
 namespace Business
 {

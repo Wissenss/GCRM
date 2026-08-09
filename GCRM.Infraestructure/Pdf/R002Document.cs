@@ -1,22 +1,27 @@
-﻿using Business;
-using QuestPDF.Fluent;
+﻿using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 using System.Diagnostics;
 using System.Reflection;
+using GCRM.Domain;
 
 namespace Reporter
 {
-	public class R003DocumentModel
+	public class R002DocumentModel
 	{
 		public TCitizenNetwork Network;
+		public TCitizenNetworkMember LeadMember;
+		public TCitizenNetworkMember ReferentMember;
+		public List<TCitizenNetworkMember> Members;
+
+		public string Username;
 	}
 
-	public class R003Document : IDocument
+	public class R002Document : IDocument
 	{
-		R003DocumentModel Model;
+		R002DocumentModel Model;
 
-		public R003Document(R003DocumentModel model)
+		public R002Document(R002DocumentModel model)
 		{
 			QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
 
@@ -27,7 +32,7 @@ namespace Reporter
 		{
 			container.Page(page =>
 			{
-				page.Size(PageSizes.A5.Portrait());
+				page.Size(PageSizes.A5.Landscape());
 				page.Margin(15);
 
 				// watermark
@@ -43,10 +48,12 @@ namespace Reporter
 				page.Footer().Element(ComposeFooter);
 			});
 		}
+
 		void ComposeHeader(IContainer container)
 		{
 			container.Row(row =>
 			{
+
 				row.RelativeItem().Column(column =>
 				{
 					column.Item()
@@ -60,6 +67,24 @@ namespace Reporter
 						.Text(Model.Network.Description)
 						.AlignCenter()
 						.FontSize(8).FontColor(Colors.Black);
+
+					column.Item()
+						.PaddingBottom(2)
+						.Text($"Liderazgo: {Model.LeadMember.Citizen.FullName}")
+						.AlignLeft()
+						.FontSize(7);
+
+					column.Item()
+						.PaddingBottom(2)
+						.Text($"Referente: {Model.ReferentMember.Citizen.FullName}")
+						.AlignLeft()
+						.FontSize(7);
+
+					column.Item()
+						.PaddingBottom(5)
+						.Text($"Rol: {Model.ReferentMember.Role.Name}")
+						.AlignLeft()
+						.FontSize(7);
 				});
 			});
 		}
@@ -82,27 +107,29 @@ namespace Reporter
 			{
 				table.ColumnsDefinition(columns =>
 				{
-					columns.ConstantColumn(20); // no
+					columns.ConstantColumn(12); // no
 					columns.RelativeColumn(); // ap pat
 					columns.RelativeColumn(); // ap mat
 					columns.RelativeColumn(); // nombre
-					columns.RelativeColumn(); // clave elec
-					columns.RelativeColumn(); // ocr
+					columns.ConstantColumn(80); // clave elec
+					columns.ConstantColumn(60); // ocr
 					columns.ConstantColumn(32); // seccion
-					columns.ConstantColumn(60); // contac
+					columns.ConstantColumn(150); // direcc
+					columns.ConstantColumn(90); // contac
 				});
 
 				table.Header(header =>
 				{
-					float header_font_size = 7;
+					float header_font_size = 7f;
 
-					header.Cell().Element(CellStyle).Text("No.").FontSize(header_font_size).SemiBold();
+					header.Cell().Element(CellStyle).Text("#").FontSize(header_font_size).SemiBold();
 					header.Cell().Element(CellStyle).Text("Apellido paterno").FontSize(header_font_size).SemiBold();
 					header.Cell().Element(CellStyle).Text("Apellido materno").FontSize(header_font_size).SemiBold();
 					header.Cell().Element(CellStyle).Text("Nombre(s)").FontSize(header_font_size).SemiBold();
 					header.Cell().Element(CellStyle).Text("Clave de elector").FontSize(header_font_size).SemiBold();
 					header.Cell().Element(CellStyle).Text("OCR").FontSize(header_font_size).SemiBold();
 					header.Cell().Element(CellStyle).Text("Sección").FontSize(header_font_size).SemiBold();
+					header.Cell().Element(CellStyle).Text("Direccion").FontSize(header_font_size).SemiBold();
 					header.Cell().Element(CellStyle).Text("Contacto").FontSize(header_font_size).SemiBold();
 
 					static IContainer CellStyle(IContainer container)
@@ -120,42 +147,45 @@ namespace Reporter
 					}
 				});
 
-				for (int i = 0; i < Math.Max(Model.Network.Members.Count, 10); i++)
+				for (int i = 0; i < Math.Max(Model.Members.Count, 10); i++)
 				{
 					TCitizenNetworkMember member;
 
-					if (i < Model.Network.Members.Count)
-						member = Model.Network.Members[i];
+					if (i < Model.Members.Count)
+						member = Model.Members[i];
 					else
 						member = new TCitizenNetworkMember();
 
-					float row_font_size = 7;
-					float row_min_height = 10; // 27
+					float row_font_size = 7f;
+					float row_min_height = 10; 
 
-					table.Cell().MinHeight(row_min_height).Element(CellStyleNo).Text((i + 1).ToString()).FontSize(row_font_size);
+					table.Cell().MinHeight(row_min_height).Element(CellStyle).Text((i + 1).ToString()).FontSize(row_font_size);
 					table.Cell().MinHeight(row_min_height).Element(CellStyle).Text(member.Citizen.PaternalName).FontSize(row_font_size);
 					table.Cell().MinHeight(row_min_height).Element(CellStyle).Text(member.Citizen.MaternalName).FontSize(row_font_size);
 					table.Cell().MinHeight(row_min_height).Element(CellStyle).Text(member.Citizen.Name).FontSize(row_font_size);
 					table.Cell().MinHeight(row_min_height).Element(CellStyle).Text(member.Citizen.VoterCode).FontSize(row_font_size);
 					table.Cell().MinHeight(row_min_height).Element(CellStyle).Text(member.Citizen.VoterOCR).FontSize(row_font_size);
 					table.Cell().MinHeight(row_min_height).Element(CellStyle).Text(member.Citizen.VoterSection).FontSize(row_font_size);
+					table.Cell().MinHeight(row_min_height).Element(CellStyle).Text(member.Citizen.Address.FullAddress).FontSize(row_font_size);
 
 					string contact_str = "";
 
 					if (member.Citizen.Cellphone != null && member.Citizen.Cellphone.FullNumber.Trim().Length > 0)
 						contact_str += $"Cel. {member.Citizen.Cellphone.FullNumber}\n";
 
-					if (member.Citizen.Phone != null && member.Citizen.Phone.Number.Trim().Length > 0)
-						contact_str += $"{member.Citizen.Phone.FullNumberWithPrefix}";
+					if (member.Citizen.Phone != null)
+						if(member.Citizen.Phone.Number.Trim().Length > 0)
+							contact_str += $"{member.Citizen.Phone.FullNumber}";
 
-					if (member.Citizen.Phone2 != null && member.Citizen.Phone2.Number.Trim().Length > 0)
-						contact_str += $"{member.Citizen.Phone2.FullNumberWithPrefix}";
+					if (member.Citizen.Phone2 != null)
+						if (member.Citizen.Phone2.Number.Trim().Length > 0)
+							contact_str += $"{member.Citizen.Phone2.FullNumber}";
 
-					if (member.Citizen.Phone3 != null && member.Citizen.Phone3.Number.Trim().Length > 0)
-						contact_str += $"{member.Citizen.Phone3.FullNumberWithPrefix}";
+					if (member.Citizen.Phone3 != null)
+						if (member.Citizen.Phone3.Number.Trim().Length > 0)
+							contact_str += $"{member.Citizen.Phone3.FullNumber}";
 
-					table.Cell().MinHeight(row_min_height).Element(CellStyle).Text(contact_str).FontSize(row_font_size * 0.7f);
-
+					table.Cell().MinHeight(row_min_height).Element(CellStyle).Text(contact_str).FontSize(row_font_size);
 
 					static IContainer CellStyle(IContainer container)
 					{
@@ -175,17 +205,7 @@ namespace Reporter
 
 		void ComposeFooter(IContainer container)
 		{
-			float footer_font_size = 6;
-
-			Assembly assembly = Assembly.GetExecutingAssembly();
-			FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
-			string version = fileVersionInfo.ProductVersion;
-
-			container.Row(row =>
-			{
-				row.RelativeItem().Element(e => e.AlignLeft().Text($"GCRM {version} - Generado por: {Session.User.Name}").FontSize(footer_font_size));
-				row.RelativeItem().Element(e => e.AlignRight().Text($"Fecha: {DateTime.Now.ToString("dd/MM/yyyy")}").FontSize(footer_font_size));
-			});
+			DocumentUtilities.ComposeReportFooter(container, Model.Username);
 		}
 	}
 }

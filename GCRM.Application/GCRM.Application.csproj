@@ -13,7 +13,6 @@
     <ProjectReference Include="..\GCRM.Domain\GCRM.Domain.csproj" />
     <ProjectReference Include="..\GCRM.Infraestructure\GCRM.Infraestructure.csproj" />
     <ProjectReference Include="..\GCRM.Shared\GCRM.Shared.csproj" />
-    <ProjectReference Include="..\Reporter\Reporter.csproj" />
   </ItemGroup>
 
 </Project>

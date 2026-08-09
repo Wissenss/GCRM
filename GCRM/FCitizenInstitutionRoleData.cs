@@ -1,5 +1,6 @@
 using Business;
 using GCRM.Domain;
+using GCRM.Domain.Enums;
 using GCRM.Shared;
 using System;
 using System.Collections.Generic;
