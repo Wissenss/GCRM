@@ -583,6 +583,7 @@ namespace GCRM
             }
 
             // #39 - citizens with only one last name can't be saved
+            //
             //if (maternal_name.Length == 0)
             //{
             //	errors.AppendLine("Debe especificar el apellido materno");
@@ -621,16 +622,14 @@ namespace GCRM
 
             // TODO: validate congruence with citizen data #20
 
-            bool has_primary_role = DTCitizenRoles.Rows.Count > 0;
+            //if (has_primary_role == false && Session.HasPermission("Ciudadanos.NoEspecificarInstitucion") == false)
+            //{
+            //    actions_to_authorize.Add(new TUserPermission(312, "Ciudadanos.NoEspecificarInstitucion"));
+            //}
 
-            if (has_primary_role == false && Session.HasPermission("Ciudadanos.NoEspecificarInstitucion") == false)
+            if (DTCitizenRoles.Rows.Count == 0 && Session.HasPermission("Ciudadanos.NoEspecificarRolInstitucion") == false)
             {
-                actions_to_authorize.Add(new TUserPermission(312, "Ciudadanos.NoEspecificarInstitucion"));
-            }
-
-            if (has_primary_role == false && Session.HasPermission("Ciudadanos.NoEspecificarCargo") == false)
-            {
-                actions_to_authorize.Add(new TUserPermission(313, "Ciudadanos.NoEspecificarCargo"));
+                actions_to_authorize.Add(new TUserPermission(313, "Ciudadanos.NoEspecificarRolInstitucion"));
             }
 
             if (
@@ -934,9 +933,9 @@ namespace GCRM
         {
             bool has_selection = DataGridRoles.SelectedRows.Count > 0;
 
-            BAddRole.Enabled = DTCitizenRoles.Rows.Count < 3 && AccessMode != FAccessMode.Read;
-            BEditRole.Enabled = has_selection && AccessMode != FAccessMode.Read;
-            BDeleteRole.Enabled = has_selection && AccessMode != FAccessMode.Read;
+            BAddRole.Enabled = DTCitizenRoles.Rows.Count < 3 && AccessMode != FAccessMode.Read && Session.HasPermission("Ciudadanos.RolInstitucion.Crear");
+            BEditRole.Enabled = has_selection && AccessMode != FAccessMode.Read && Session.HasPermission("Ciudadanos.RolInstitucion.Editar");
+            BDeleteRole.Enabled = has_selection && AccessMode != FAccessMode.Read && Session.HasPermission("Ciudadanos.RolInstitucion.Eliminar");
 
             bool can_move = has_selection && AccessMode != FAccessMode.Read;
 

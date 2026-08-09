@@ -47,10 +47,13 @@ namespace Business
 
 			if (IsRootUser)
 			{
-				Session.User.Name = "root";
-				Session.User.Username = "root";
-				Session.User.Enabled = true;
-				Session.User.Citizen = new TCitizen();
+				Session.User = new TUser()
+				{
+					Name = "root",
+					Username = "root",
+					Enabled = true,
+					Citizen = new TCitizen(),
+				};
 
 				trace_login(username);
 

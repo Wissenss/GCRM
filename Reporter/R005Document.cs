@@ -125,8 +125,8 @@ namespace Reporter
                     r.RelativeItem().Text("Nombre").FontSize(10).FontColor(Colors.Black).Bold();
                     r.ConstantItem(200).Text("Cargo").FontSize(10).FontColor(Colors.Black).Bold();
                     r.ConstantItem(50).Text("Activo").AlignCenter().FontSize(10).FontColor(Colors.Black).Bold();
-                    r.ConstantItem(50).Text("Inicio").FontSize(10).FontColor(Colors.Black).Bold();
-                    r.ConstantItem(50).Text("Fin").FontSize(10).FontColor(Colors.Black).Bold();
+                    r.ConstantItem(70).Text("Inicio").FontSize(10).FontColor(Colors.Black).Bold();
+                    r.ConstantItem(70).Text("Fin").FontSize(10).FontColor(Colors.Black).Bold();
                 });
 
                 int lastInstitutionId = -1;
@@ -166,8 +166,8 @@ namespace Reporter
                         r.RelativeItem().Text(item.FullNameWithFirstCapitals).FontSize(size).FontColor(Colors.Black);
                         r.ConstantItem(200).Text(item.InstitutionRole.DisplayName).FontSize(size).FontColor(Colors.Black);
                         r.ConstantItem(50).Text(item.InstitutionRole.IsActive ? "Sí" : "No").AlignCenter().FontSize(size).FontColor(Colors.Black);
-                        r.ConstantItem(50).Text(started_at).FontSize(size).FontColor(Colors.Black);
-                        r.ConstantItem(50).Text(ended_at).FontSize(size).FontColor(Colors.Black);
+                        r.ConstantItem(70).Text(started_at).FontSize(size).FontColor(Colors.Black);
+                        r.ConstantItem(70).Text(ended_at).FontSize(size).FontColor(Colors.Black);
 
                     });
                 }

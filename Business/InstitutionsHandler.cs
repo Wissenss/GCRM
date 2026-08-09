@@ -185,7 +185,7 @@ namespace Business
 
 						foreach (TInstitutionRole role in institution.Roles)
 						{
-							if (role.Id == reader.GetInt32(0) && role.IsTemplateRole == false || role.Id == 0)
+							if ((role.Id == reader.GetInt32(0) && role.IsTemplateRole == false) || role.Id == 0) // role.Id == 0 means a new row to insert
 							{
 								found = true;
 								break;
@@ -292,24 +292,29 @@ namespace Business
 					distance ASC;
 			";
 
-			using (var cmd = new NpgsqlCommand(sql, conn))
+			try
 			{
-				cmd.Parameters.AddWithValue("@threshold", threshold);
-
-				using (var reader = cmd.ExecuteReader())
+				using (var cmd = new NpgsqlCommand(sql, conn))
 				{
-					while (reader.Read())
+					cmd.Parameters.AddWithValue("@threshold", threshold);
+
+					using (var reader = cmd.ExecuteReader())
 					{
-						TDuplicateMatch match = new TDuplicateMatch();
+						while (reader.Read())
+						{
+							TDuplicateMatch match = new TDuplicateMatch();
 
-						match.FillFromReader(reader);
+							match.FillFromReader(reader);
 
-						matches.Add(match);
+							matches.Add(match);
+						}
 					}
 				}
 			}
-
-			ConnectionPool.ReleaseConnection(ref conn);
+			finally
+			{
+				ConnectionPool.ReleaseConnection(ref conn);
+			}
 
 			return 0;
 		}

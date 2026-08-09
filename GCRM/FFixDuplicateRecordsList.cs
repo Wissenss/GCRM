@@ -54,7 +54,9 @@ namespace GCRM
 				}
 			}
 
-			row.Cells["colAttentionRequired1"].Value = true;
+            // TODO: here we are updating the datagrid independently of errors, we should check for errors and show a message if any of the two calls failed
+
+            row.Cells["colAttentionRequired1"].Value = true;
 			row.Cells["colAttentionRequiredReason1"].Value = reason1;
 			row.Cells["colAttentionRequired2"].Value = true;
 			row.Cells["colAttentionRequiredReason2"].Value = reason2;

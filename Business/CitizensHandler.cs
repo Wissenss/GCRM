@@ -60,24 +60,41 @@ namespace Business
 				normalized_ranked_institution_roles AS (
 					SELECT
 						citizen_id,
+						
 						MAX(CASE WHEN row_number = 1 THEN institution_id END) AS institution_id,
 						MAX(CASE WHEN row_number = 1 THEN institution_role_id END) AS institution_role_id,
 						MAX(CASE WHEN row_number = 1 THEN institution_template_role_id END) AS institution_template_role_id,
 						(SUM(CASE WHEN row_number = 1 AND is_institution_template_role THEN 1 ELSE 0 END) > 0) AS is_institution_template_role,
 						MAX(CASE WHEN row_number = 1 THEN institution_role_variation_id END) AS institution_role_variation_id,
-						BOOL_OR(CASE WHEN row_number = 1 THEN is_active END) AS is_active,
+						BOOL_OR(CASE WHEN row_number = 1 THEN is_active END) AS institution_role_is_active,
+						BOOL_OR(CASE WHEN row_number = 1 THEN is_start_defined END) AS institution_role_is_start_defined, 						
+						MAX(CASE WHEN row_number = 1 THEN started_at END) AS institution_role_started_at,						
+						BOOL_OR(CASE WHEN row_number = 1 THEN is_end_defined END) AS institution_role_is_end_defined, 						
+						MAX(CASE WHEN row_number = 1 THEN ended_at END) AS institution_role_ended_at,
+
 						MAX(CASE WHEN row_number = 2 THEN institution_id END) AS institution2_id,
 						MAX(CASE WHEN row_number = 2 THEN institution_role_id END) AS institution2_role_id,
 						MAX(CASE WHEN row_number = 2 THEN institution_template_role_id END) AS institution2_template_role_id,
 						(SUM(CASE WHEN row_number = 2 AND is_institution_template_role THEN 1 ELSE 0 END) > 0) AS is_institution2_template_role,
 						MAX(CASE WHEN row_number = 2 THEN institution_role_variation_id END) AS institution2_role_variation_id,
-						BOOL_OR(CASE WHEN row_number = 2 THEN is_active END) AS is_active2,
+						BOOL_OR(CASE WHEN row_number = 2 THEN is_active END) AS institution2_role_is_active,
+						BOOL_OR(CASE WHEN row_number = 2 THEN is_start_defined END) AS institution2_role_is_start_defined, 						
+						MAX(CASE WHEN row_number = 2 THEN started_at END) AS institution2_role_started_at,						
+						BOOL_OR(CASE WHEN row_number = 2 THEN is_end_defined END) AS institution2_role_is_end_defined, 						
+						MAX(CASE WHEN row_number = 2 THEN ended_at END) AS institution2_role_ended_at,
+
 						MAX(CASE WHEN row_number = 3 THEN institution_id END) AS institution3_id,
 						MAX(CASE WHEN row_number = 3 THEN institution_role_id END) AS institution3_role_id,
 						MAX(CASE WHEN row_number = 3 THEN institution_template_role_id END) AS institution3_template_role_id,
 						(SUM(CASE WHEN row_number = 3 AND is_institution_template_role THEN 1 ELSE 0 END) > 0) AS is_institution3_template_role,
 						MAX(CASE WHEN row_number = 3 THEN institution_role_variation_id END) AS institution3_role_variation_id,
-						BOOL_OR(CASE WHEN row_number = 3 THEN is_active END) AS is_active3
+						BOOL_OR(CASE WHEN row_number = 3 THEN is_active END) AS institution3_role_is_active,
+						BOOL_OR(CASE WHEN row_number = 3 THEN is_start_defined END) AS institution3_role_is_start_defined, 						
+						MAX(CASE WHEN row_number = 3 THEN started_at END) AS institution3_role_started_at,						
+						BOOL_OR(CASE WHEN row_number = 3 THEN is_end_defined END) AS institution3_role_is_end_defined, 						
+						MAX(CASE WHEN row_number = 3 THEN ended_at END) AS institution3_role_ended_at
+
+
 					FROM ranked_institution_roles
 					GROUP BY citizen_id
 				),
@@ -141,16 +158,33 @@ namespace Business
 					COALESCE(itr2.institution_template_id, 0) AS institution2_template_role_id,
 					COALESCE(itr3.institution_template_id, 0) AS institution3_template_role_id,
 
-				COALESCE(nrir.institution_role_variation_id, 0) AS institution_role_variation_id,
-				COALESCE(irv.name, '') AS institution_role_variation_name,
-				COALESCE(nrir.institution2_role_variation_id, 0) AS institution2_role_variation_id,
-				COALESCE(irv2.name, '') AS institution2_role_variation_name,
-				COALESCE(nrir.institution3_role_variation_id, 0) AS institution3_role_variation_id,
-				COALESCE(irv3.name, '') AS institution3_role_variation_name,
-
-				COALESCE(nrir.is_active, true) AS is_active,
-				COALESCE(nrir.is_active2, true) AS is_active2,
-				COALESCE(nrir.is_active3, true) AS is_active3,
+					-- role 1
+					COALESCE(nrir.institution_role_variation_id, 0) AS institution_role_variation_id,
+					COALESCE(irv.name, '') AS institution_role_variation_name,
+					COALESCE(nrir.institution_role_is_active, true) AS institution_role_is_active,
+					COALESCE(nrir.institution_role_is_start_defined, false) AS institution_role_is_start_defined,
+					COALESCE(nrir.institution_role_started_at, CURRENT_DATE) AS institution_role_started_at,
+					COALESCE(nrir.institution_role_is_end_defined, false) AS institution_role_is_end_defined,
+					COALESCE(nrir.institution_role_ended_at, CURRENT_DATE) AS institution_role_ended_at,					
+					
+					-- role 2
+					COALESCE(nrir.institution2_role_variation_id, 0) AS institution2_role_variation_id,
+					COALESCE(irv2.name, '') AS institution2_role_variation_name,
+					COALESCE(nrir.institution2_role_is_active, true) AS institution2_role_is_active,
+					COALESCE(nrir.institution2_role_is_start_defined, false) AS institution2_role_is_start_defined,
+					COALESCE(nrir.institution2_role_started_at, CURRENT_DATE) AS institution2_role_started_at,
+					COALESCE(nrir.institution2_role_is_end_defined, false) AS institution2_role_is_end_defined,
+					COALESCE(nrir.institution2_role_ended_at, CURRENT_DATE) AS institution2_role_ended_at,										
+					
+					-- role 3
+					COALESCE(nrir.institution3_role_variation_id, 0) AS institution3_role_variation_id,
+					COALESCE(irv3.name, '') AS institution3_role_variation_name,
+					COALESCE(nrir.institution3_role_is_active, true) AS institution3_role_is_active,
+					COALESCE(nrir.institution3_role_is_active, true) AS institution3_role_is_active,
+					COALESCE(nrir.institution3_role_is_start_defined, false) AS institution3_role_is_start_defined,
+					COALESCE(nrir.institution3_role_started_at, CURRENT_DATE) AS institution3_role_started_at,
+					COALESCE(nrir.institution3_role_is_end_defined, false) AS institution3_role_is_end_defined,
+					COALESCE(nrir.institution3_role_ended_at, CURRENT_DATE) AS institution3_role_ended_at,										
 
 					c.known_birthday,
 					c.known_birthyear,
@@ -196,9 +230,9 @@ namespace Business
 					LEFT JOIN institution_template_roles itr ON nrir.institution_template_role_id = itr.id
 					LEFT JOIN institution_template_roles itr2 ON nrir.institution2_template_role_id = itr2.id
 					LEFT JOIN institution_template_roles itr3 ON nrir.institution3_template_role_id = itr3.id
-				LEFT JOIN institution_role_variations irv ON nrir.institution_role_variation_id = irv.id
-				LEFT JOIN institution_role_variations irv2 ON nrir.institution2_role_variation_id = irv2.id
-				LEFT JOIN institution_role_variations irv3 ON nrir.institution3_role_variation_id = irv3.id
+					LEFT JOIN institution_role_variations irv ON nrir.institution_role_variation_id = irv.id
+					LEFT JOIN institution_role_variations irv2 ON nrir.institution2_role_variation_id = irv2.id
+					LEFT JOIN institution_role_variations irv3 ON nrir.institution3_role_variation_id = irv3.id
 				WHERE
 					c.id = @id;
 			";
@@ -265,18 +299,36 @@ namespace Business
 						if (error == 0 && citizen.InstitutionRole3.Role.Id != 0)
 							error = InstitutionsHandler.GetInstitutionRoleById(citizen.InstitutionRole3.Role.Id, citizen.InstitutionRole3.Role.IsTemplateRole, out citizen.InstitutionRole3.Role);
 
+						// map role 1
 						citizen.InstitutionRole.Variation.Id = reader.GetInt32("institution_role_variation_id");
 						citizen.InstitutionRole.Variation.Name = reader.GetString("institution_role_variation_name");
+						citizen.InstitutionRole.IsActive = reader.GetBoolean("institution_role_is_active");
+						citizen.InstitutionRole.IsStartDefined = reader.GetBoolean("institution_role_is_start_defined");
+						citizen.InstitutionRole.StartedAt = reader.GetDateTime("institution_role_started_at");
+						citizen.InstitutionRole.IsEndDefined = reader.GetBoolean("institution_role_is_end_defined");
+						citizen.InstitutionRole.EndedAt = reader.GetDateTime("institution_role_ended_at");
+						
+						// map role 2
 						citizen.InstitutionRole2.Variation.Id = reader.GetInt32("institution2_role_variation_id");
 						citizen.InstitutionRole2.Variation.Name = reader.GetString("institution2_role_variation_name");
-						citizen.InstitutionRole3.Variation.Id = reader.GetInt32("institution3_role_variation_id");
+						citizen.InstitutionRole2.IsActive = reader.GetBoolean("institution2_role_is_active");
+                        citizen.InstitutionRole2.IsStartDefined = reader.GetBoolean("institution2_role_is_start_defined");
+                        citizen.InstitutionRole2.StartedAt = reader.GetDateTime("institution2_role_started_at");
+                        citizen.InstitutionRole2.IsEndDefined = reader.GetBoolean("institution2_role_is_end_defined");
+                        citizen.InstitutionRole2.EndedAt = reader.GetDateTime("institution2_role_ended_at");
+
+                        // map role 3
+                        citizen.InstitutionRole3.Variation.Id = reader.GetInt32("institution3_role_variation_id");
 						citizen.InstitutionRole3.Variation.Name = reader.GetString("institution3_role_variation_name");
+                        citizen.InstitutionRole3.IsActive = reader.GetBoolean("institution3_role_is_active");
+                        citizen.InstitutionRole3.IsStartDefined = reader.GetBoolean("institution3_role_is_start_defined");
+                        citizen.InstitutionRole3.StartedAt = reader.GetDateTime("institution3_role_started_at");
+                        citizen.InstitutionRole3.IsEndDefined = reader.GetBoolean("institution3_role_is_end_defined");
+                        citizen.InstitutionRole3.EndedAt = reader.GetDateTime("institution3_role_ended_at");
 
-						citizen.InstitutionRole.IsActive = reader.GetBoolean("is_active");
-						citizen.InstitutionRole2.IsActive = reader.GetBoolean("is_active2");
-						citizen.InstitutionRole3.IsActive = reader.GetBoolean("is_active3");
+						// ... TODO: 1. add a fill from reader for TCitizenInstitutionRole, 2. select all fields in one query to avoid multiple round trips
 
-						if (error == 0 && citizen.VerifiedBy.Id != 0)
+                        if (error == 0 && citizen.VerifiedBy.Id != 0)
 							error = UsersHandler.GetUserById(citizen.VerifiedBy.Id, out citizen.VerifiedBy);
 
 						if (error == 0)
@@ -567,9 +619,6 @@ namespace Business
 								sex_type=@sex,
 								address_id=@address_id,
 								assistant_id=@assistant_id,
-								-- phone=@phone,
-								-- phone_extension=@phone_extension,
-								-- cellphone=@cellphone,
 								political_party_type=@political_party,
 								email=@email,
 								edit_by_id=@edit_by_id,
@@ -581,10 +630,6 @@ namespace Business
 								citizen_category_id = @category_id,
 								is_political_activist = @is_political_activist,
 								political_register_date = @political_register_date,
-								-- phone2 = @phone2,
-								-- phone2_extension = @phone2_extension,
-								-- phone3 = @phone3,
-								-- phone3_extension = @phone3_extension,
 								known_birthday = @known_birthday,
 								known_birthyear = @known_birthyear,
 								known_political_register_date = @known_political_register_date,
@@ -608,9 +653,6 @@ namespace Business
 								sex_type,
 								address_id,
 								assistant_id,
-								-- phone,
-								-- phone_extension,
-								-- cellphone,
 								political_party_type,
 								email,
 								created_by_id,
@@ -625,10 +667,6 @@ namespace Business
 								attention_required,
 								is_political_activist,
 								political_register_date,
-								-- phone2,
-								-- phone2_extension,
-								-- phone3,
-								-- phone3_extension,
 								known_birthday,
 								known_birthyear,
 								verified_by_id,
@@ -646,9 +684,6 @@ namespace Business
 								@sex,
 								@address_id,
 								@assistant_id,
-								-- @phone,
-								-- @phone_extension,
-								-- @cellphone,
 								@political_party,
 								@email,
 								@created_by_id,
@@ -663,10 +698,6 @@ namespace Business
 								@attention_required,
 								@is_political_activist,
 								@political_register_date,
-								-- @phone2,
-								-- @phone2_extension,
-								-- @phone3,
-								-- @phone3_extension,
 								@known_birthday,
 								@known_birthyear,
 								@verified_by_id,
@@ -697,10 +728,9 @@ namespace Business
 					cmd.Parameters.AddWithValue("@voter_ocr", citizen.VoterOCR);
 					cmd.Parameters.AddWithValue("@voter_cic", citizen.VoterCIC);
 					cmd.Parameters.AddWithValue("@voter_section", citizen.VoterSection);
-					cmd.Parameters.AddWithValue("@category_id", citizen.Category.Id);
-					// attention_required is not part of the UPDATE, so editing a citizen never clears it; it is only set on creation and toggled via SetCitizenAttentionRequired
-					cmd.Parameters.AddWithValue("@attention_required", false);
-					cmd.Parameters.AddWithValue("@is_political_activist", citizen.IsPoliticalActivist);
+					cmd.Parameters.AddWithValue("@category_id", citizen.Category.Id);					
+					cmd.Parameters.AddWithValue("@attention_required", false); // attention_required is not part of the update, editing a citizen never clears it; it is only set on creation and toggled via SetCitizenAttentionRequired
+                    cmd.Parameters.AddWithValue("@is_political_activist", citizen.IsPoliticalActivist);
 					cmd.Parameters.AddWithValue("@political_register_date", citizen.PoliticalRegisterDate);
 					cmd.Parameters.AddWithValue("@known_birthday", citizen.KnownBirthday);
 					cmd.Parameters.AddWithValue("@known_birthyear", citizen.KnownBirthyear);
@@ -745,7 +775,11 @@ namespace Business
 						institution_template_role_id,
 						is_institution_template_role,
 						institution_role_variation_id,
-						is_active
+						is_active,
+						is_start_defined,
+						started_at,
+						is_end_defined,
+						ended_at
 					) VALUES (
 						@position,
 						@citizen_id,
@@ -754,7 +788,11 @@ namespace Business
 						@institution_template_role_id,
 						@is_institution_template_role,
 						@institution_role_variation_id,
-						@is_active
+						@is_active,
+						@is_start_defined,
+						@started_at,
+						@is_end_defined,
+						@ended_at
 					);
 				";
 
@@ -775,6 +813,10 @@ namespace Business
 						cmd.Parameters.AddWithValue("@is_institution_template_role", institution_role.Role.IsTemplateRole);
 						cmd.Parameters.AddWithValue("@institution_role_variation_id", (!institution_role.Role.IsTemplateRole && institution_role.Variation.Id != 0) ? (object)institution_role.Variation.Id : DBNull.Value);
 						cmd.Parameters.AddWithValue("@is_active", institution_role.IsActive);
+						cmd.Parameters.AddWithValue("@is_start_defined", institution_role.IsStartDefined);
+						cmd.Parameters.AddWithValue("@started_at", institution_role.StartedAt);
+						cmd.Parameters.AddWithValue("@is_end_defined", institution_role.IsEndDefined);
+						cmd.Parameters.AddWithValue("@ended_at", institution_role.EndedAt);
 
 						batch.BatchCommands.Add(cmd);
 					}
@@ -914,24 +956,29 @@ namespace Business
 					distance ASC;
 			";
 
-			using (var cmd = new NpgsqlCommand(sql, conn))
+			try
 			{
-				cmd.Parameters.AddWithValue("@threshold", threshold);
-
-				using (var reader = cmd.ExecuteReader())
+				using (var cmd = new NpgsqlCommand(sql, conn))
 				{
-					while (reader.Read())
+					cmd.Parameters.AddWithValue("@threshold", threshold);
+
+					using (var reader = cmd.ExecuteReader())
 					{
-						TDuplicateMatch match = new TDuplicateMatch();
+						while (reader.Read())
+						{
+							TDuplicateMatch match = new TDuplicateMatch();
 
-						match.FillFromReader(reader);
+							match.FillFromReader(reader);
 
-						matches.Add(match);
+							matches.Add(match);
+						}
 					}
 				}
 			}
-
-			ConnectionPool.ReleaseConnection(ref conn);
+			finally
+			{
+				ConnectionPool.ReleaseConnection(ref conn);
+			}
 
 			return 0;
 		}
@@ -1018,18 +1065,30 @@ namespace Business
 						(SUM(CASE WHEN row_number = 1 AND is_institution_template_role THEN 1 ELSE 0 END) > 0)AS is_institution_template_role,
 						MAX(CASE WHEN row_number = 1 THEN institution_role_variation_id END) AS institution_role_variation_id,
 						BOOL_OR(CASE WHEN row_number = 1 THEN is_active END) AS is_active,
+						BOOL_OR(CASE WHEN row_number = 1 THEN is_start_defined END) AS is_start_defined,
+						MAX(CASE WHEN row_number = 1 THEN started_at END) AS started_at,
+						BOOL_OR(CASE WHEN row_number = 1 THEN is_end_defined END) AS is_end_defined,
+						MAX(CASE WHEN row_number = 1 THEN ended_at END) AS ended_at,
 						MAX(CASE WHEN row_number = 2 THEN institution_id END) AS institution2_id,
 						MAX(CASE WHEN row_number = 2 THEN institution_role_id END) AS institution2_role_id,
 						MAX(CASE WHEN row_number = 2 THEN institution_template_role_id END) AS institution2_template_role_id,
 						(SUM(CASE WHEN row_number = 2 AND is_institution_template_role THEN 1 ELSE 0 END) > 0) AS is_institution2_template_role,
 						MAX(CASE WHEN row_number = 2 THEN institution_role_variation_id END) AS institution2_role_variation_id,
 						BOOL_OR(CASE WHEN row_number = 2 THEN is_active END) AS is_active2,
+						BOOL_OR(CASE WHEN row_number = 2 THEN is_start_defined END) AS is_start_defined2,
+						MAX(CASE WHEN row_number = 2 THEN started_at END) AS started_at2,
+						BOOL_OR(CASE WHEN row_number = 2 THEN is_end_defined END) AS is_end_defined2,
+						MAX(CASE WHEN row_number = 2 THEN ended_at END) AS ended_at2,
 						MAX(CASE WHEN row_number = 3 THEN institution_id END) AS institution3_id,
 						MAX(CASE WHEN row_number = 3 THEN institution_role_id END) AS institution3_role_id,
 						MAX(CASE WHEN row_number = 3 THEN institution_template_role_id END) AS institution3_template_role_id,
 						(SUM(CASE WHEN row_number = 3 AND is_institution_template_role THEN 1 ELSE 0 END) > 0) AS is_institution3_template_role,
 						MAX(CASE WHEN row_number = 3 THEN institution_role_variation_id END) AS institution3_role_variation_id,
-						BOOL_OR(CASE WHEN row_number = 3 THEN is_active END) AS is_active3
+						BOOL_OR(CASE WHEN row_number = 3 THEN is_active END) AS is_active3,
+						BOOL_OR(CASE WHEN row_number = 3 THEN is_start_defined END) AS is_start_defined3,
+						MAX(CASE WHEN row_number = 3 THEN started_at END) AS started_at3,
+						BOOL_OR(CASE WHEN row_number = 3 THEN is_end_defined END) AS is_end_defined3,
+						MAX(CASE WHEN row_number = 3 THEN ended_at END) AS ended_at3
 					FROM ranked_institution_roles
 					GROUP BY citizen_id
 				)
@@ -1148,7 +1207,22 @@ namespace Business
 
 					COALESCE(nrir.is_active, true) AS is_active,
 					COALESCE(nrir.is_active2, true) AS is_active2,
-					COALESCE(nrir.is_active3, true) AS is_active3
+					COALESCE(nrir.is_active3, true) AS is_active3,
+
+					COALESCE(nrir.is_start_defined, false) AS is_start_defined,
+					COALESCE(nrir.started_at, CURRENT_DATE) AS started_at,
+					COALESCE(nrir.is_end_defined, false) AS is_end_defined,
+					COALESCE(nrir.ended_at, CURRENT_DATE) AS ended_at,
+
+					COALESCE(nrir.is_start_defined2, false) AS is_start_defined2,
+					COALESCE(nrir.started_at2, CURRENT_DATE) AS started_at2,
+					COALESCE(nrir.is_end_defined2, false) AS is_end_defined2,
+					COALESCE(nrir.ended_at2, CURRENT_DATE) AS ended_at2,
+
+					COALESCE(nrir.is_start_defined3, false) AS is_start_defined3,
+					COALESCE(nrir.started_at3, CURRENT_DATE) AS started_at3,
+					COALESCE(nrir.is_end_defined3, false) AS is_end_defined3,
+					COALESCE(nrir.ended_at3, CURRENT_DATE) AS ended_at3
 				FROM
 					citizens c 
 					LEFT JOIN citizen_categories cc ON c.citizen_category_id = cc.id
@@ -1304,6 +1378,21 @@ namespace Business
 						citizen.InstitutionRole.IsActive = reader.GetBoolean("is_active");
 						citizen.InstitutionRole2.IsActive = reader.GetBoolean("is_active2");
 						citizen.InstitutionRole3.IsActive = reader.GetBoolean("is_active3");
+
+						citizen.InstitutionRole.IsStartDefined = reader.GetBoolean("is_start_defined");
+						citizen.InstitutionRole.StartedAt = reader.GetDateTime("started_at");
+						citizen.InstitutionRole.IsEndDefined = reader.GetBoolean("is_end_defined");
+						citizen.InstitutionRole.EndedAt = reader.GetDateTime("ended_at");
+
+						citizen.InstitutionRole2.IsStartDefined = reader.GetBoolean("is_start_defined2");
+						citizen.InstitutionRole2.StartedAt = reader.GetDateTime("started_at2");
+						citizen.InstitutionRole2.IsEndDefined = reader.GetBoolean("is_end_defined2");
+						citizen.InstitutionRole2.EndedAt = reader.GetDateTime("ended_at2");
+
+						citizen.InstitutionRole3.IsStartDefined = reader.GetBoolean("is_start_defined3");
+						citizen.InstitutionRole3.StartedAt = reader.GetDateTime("started_at3");
+						citizen.InstitutionRole3.IsEndDefined = reader.GetBoolean("is_end_defined3");
+						citizen.InstitutionRole3.EndedAt = reader.GetDateTime("ended_at3");
 
 						if (citizen.Address.Id != 0)
 						{

@@ -78,12 +78,18 @@ namespace Business
 				new TUserPermission(305, "Ciudadanos.Excel.Import"),
 
 				new TUserPermission(311, "Ciudadanos.NoEspecificarContacto"),
-				new TUserPermission(312, "Ciudadanos.NoEspecificarInstitucion"),
-				new TUserPermission(313, "Ciudadanos.NoEspecificarCargo"),
+				new TUserPermission(312, "Ciudadanos.NoEspecificarRolInstitucion"), // formerly "Ciudadanos.NoEspecificarInstitucion"
+				//new TUserPermission(313, "Ciudadanos.NoEspecificarCargo"), // deprecated permission, now we have Ciudadanos.RolInstitucion.NoEspecificarRol permissions
 				new TUserPermission(314, "Ciudadanos.NoEspecificarCURP"),
 				new TUserPermission(315, "Ciudadanos.SetAttentionRequired"),
 
-				new TUserPermission(331, "Ciudadanos.Electoral.Consultar"),
+				new TUserPermission(321, "Ciudadanos.RolInstitucion.Editar"),
+                //new TUserPermission(322, "Ciudadanos.RolInstitucion.Consultar"), // its not enforced right now, maybe in the future if requested
+				new TUserPermission(323, "Ciudadanos.RolInstitucion.Eliminar"),
+				new TUserPermission(324, "Ciudadanos.RolInstitucion.Crear"),
+				new TUserPermission(325, "Ciudadanos.RolInstitucion.NoEspecificarRol"),
+
+                new TUserPermission(331, "Ciudadanos.Electoral.Consultar"),
 
 				new TUserPermission(351, "Ciudadanos.Categorias.Editar"),
 				new TUserPermission(352, "Ciudadanos.Categorias.Consultar"),

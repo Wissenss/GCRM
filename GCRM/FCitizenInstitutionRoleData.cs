@@ -330,7 +330,7 @@ namespace GCRM
                 errors.AppendLine("Debe especificar la institución");
             }
 
-            if ((int)ComboBoxRole.SelectedValue == 0)
+            if ((int)ComboBoxRole.SelectedValue == 0 && Session.HasPermission("Ciudadanos.RolInstitucion.NoEspecificarRol") == false)
             {
                 errors.AppendLine("Debe especificar el cargo");
             }
@@ -360,7 +360,16 @@ namespace GCRM
         {
             bool role_selected = ComboBoxRole.SelectedValue is int id && id != 0;
 
-            BAddRoleVariation.Enabled = role_selected && AccessMode != FAccessMode.Read && Session.HasPermission("Instituciones.Roles.Crear");
+            bool is_template_role = false;
+
+            if (role_selected)
+            {
+                GetSelectedRole(out _, out _, out _, out is_template_role);
+            }
+
+            // template roles have no institution_roles row, and institution_role_variations.institution_role_id
+            // is a NOT NULL FK to institution_roles(id), so variations can't be attached to them
+            BAddRoleVariation.Enabled = role_selected && !is_template_role && AccessMode != FAccessMode.Read && Session.HasPermission("Instituciones.Roles.Crear");
         }
 
         private void ComboBoxInstitution_SelectedIndexChanged(object sender, EventArgs e)

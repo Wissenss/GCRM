@@ -23,5 +23,10 @@ ALTER TABLE IF EXISTS public.citizen_institution_roles
 
 CREATE EXTENSION IF NOT EXISTS fuzzystrmatch;
 
+-- migrate to new, more granular permission schema for citizen institution roles
+
+UPDATE user_permissions SET id = 325 WHERE id = 313;  
+UPDATE user_group_permissions SET id = 325 WHERE id = 313;  
+
 -- update client version
 UPDATE public.settings SET string_value = '0.1.3.2-alpha' WHERE name = 'client_version';
