@@ -1,4 +1,4 @@
-﻿using Connection;
+﻿using GCRM.Infraestructure;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Npgsql;
 using Npgsql.Schema;

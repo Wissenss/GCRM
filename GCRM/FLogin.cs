@@ -1,6 +1,6 @@
 ﻿using Business;
 using Business.Business;
-using Connection;
+using GCRM.Infraestructure;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

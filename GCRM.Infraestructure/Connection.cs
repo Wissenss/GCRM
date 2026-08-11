@@ -1,8 +1,10 @@
 ﻿using Npgsql;
 using Npgsql.Replication.PgOutput;
 
-namespace Connection
+namespace GCRM.Infraestructure
 {
+	// todo: npgsql library comes with a connection pool implementation, so this class may not be necessary
+
 	public static class ConnectionPool
 	{
 		private static int __PoolSize;

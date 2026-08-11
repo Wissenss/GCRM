@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Connection\Connection.csproj" />
     <ProjectReference Include="..\GCRM.Domain\GCRM.Domain.csproj" />
     <ProjectReference Include="..\GCRM.Shared\GCRM.Shared.csproj" />
   </ItemGroup>

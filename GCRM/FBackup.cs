@@ -1,4 +1,4 @@
-﻿using Connection;
+﻿using GCRM.Infraestructure;
 using DocumentFormat.OpenXml.Bibliography;
 using System;
 using System.Collections.Generic;

@@ -1,5 +1,5 @@
-﻿using Connection;
-using Npgsql;
+﻿using Npgsql;
+using GCRM.Infraestructure;
 using System;
 using System.Collections.Generic;
 using System.Data;

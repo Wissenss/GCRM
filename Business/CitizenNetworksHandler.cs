@@ -1,8 +1,8 @@
-﻿using Connection;
-using Npgsql;
+﻿using Npgsql;
 using System.Data.Common;
 using GCRM.Domain;
 using GCRM.Domain.Enums;
+using GCRM.Infraestructure;
 
 namespace Business
 {

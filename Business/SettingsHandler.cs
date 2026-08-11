@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System;
 using Npgsql;
-using Connection;
 using GCRM.Domain.Enums;
+using GCRM.Infraestructure;
 using GCRM.Shared;
 
 namespace Business

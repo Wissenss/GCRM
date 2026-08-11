@@ -7,7 +7,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace Connection
+namespace GCRM.Infraestructure
 {
 	public static class ConnectionSettings
 	{

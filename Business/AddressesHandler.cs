@@ -1,5 +1,5 @@
-﻿using Connection;
-using Npgsql;
+﻿using Npgsql;
+using GCRM.Infraestructure;
 using GCRM.Domain;
 using GCRM.Domain.Enums;
 

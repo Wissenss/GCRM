@@ -1,6 +1,6 @@
 ﻿using Business.Business;
 using Business;
-using Connection;
+using GCRM.Infraestructure;
 using System.Diagnostics;
 using System.Text;
 using GCRM;
