@@ -144,6 +144,14 @@ namespace GCRM.Application
                     return error;
             }
 
+            if (request.CitizenCategoryId != 0)
+            {
+                Error error = CitizensHandler.GetCitizenCategoryById(request.CitizenCategoryId, out model.CitizenCategory);
+
+                if (error != 0)
+                    return error;
+            }
+
             // todo: make the request object part of the model, so we dont have to map all properties one by one (again...)
 
             model.CitizenTitle = request.CitizenTitle;
@@ -168,6 +176,7 @@ namespace GCRM.Application
                 if (
                     request.InstitutionId != 0 && citizen.InstitutionRole.Institution.Id != request.InstitutionId ||
                     request.InstitutionCategoryId != 0 && citizen.InstitutionRole.Institution.Category.Id != request.InstitutionCategoryId ||
+                    request.CitizenCategoryId != 0 && citizen.Category.Id != request.CitizenCategoryId ||
                     request.CitizenTitle != null && citizen.Title != request.CitizenTitle ||
                     request.Sex != null && citizen.Sex != request.Sex ||
                     request.PoliticalParty != null && citizen.PoliticalParty != request.PoliticalParty ||

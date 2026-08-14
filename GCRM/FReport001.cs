@@ -27,6 +27,7 @@ namespace GCRM
         DataTable DTParties;
         DataTable DTInstitutions;
         DataTable DTInstitutionCategories;
+        DataTable DTCitizenCategories;
         DataTable DTSectors;
         DataTable DTBirthdayYears;
         DataTable DTBirthdayMonths;
@@ -62,6 +63,11 @@ namespace GCRM
             DTInstitutionCategories.Columns.Add("id", typeof(int));
             DTInstitutionCategories.Columns.Add("name", typeof(string));
             DSFilters.Tables.Add(DTInstitutionCategories);
+
+            DTCitizenCategories = new DataTable();
+            DTCitizenCategories.Columns.Add("id", typeof(int));
+            DTCitizenCategories.Columns.Add("name", typeof(string));
+            DSFilters.Tables.Add(DTCitizenCategories);
 
             DTSectors = new DataTable();
             DTSectors.Columns.Add("value", typeof(int));
@@ -163,6 +169,27 @@ namespace GCRM
                 if (DTInstitutionCategories.Rows.Count > 0)
                     InstitutionCategory.SelectedIndex = 0;
 
+                error = CitizensHandler.GetCitizenCategories(out List<TCitizenCategory> citizen_category_list);
+
+                if (error != Error.None)
+                {
+                    Utilities.ShowErrorDialog(error);
+                    return;
+                }
+
+                DTCitizenCategories.BeginLoadData();
+                DTCitizenCategories.Clear();
+                foreach (TCitizenCategory citizen_category in citizen_category_list)
+                    AddRow(DTCitizenCategories, citizen_category.Id, citizen_category.Name, "id");
+                DTCitizenCategories.EndLoadData();
+
+                CitizenCategory.DataSource = DTCitizenCategories;
+                CitizenCategory.ValueMember = "id";
+                CitizenCategory.DisplayMember = "name";
+
+                if (DTCitizenCategories.Rows.Count > 0)
+                    CitizenCategory.SelectedIndex = 0;
+
                 DTSectors.BeginLoadData();
                 DTSectors.Clear();
                 foreach (TSocietySector sector in Enum.GetValues(typeof(TSocietySector)))
@@ -249,6 +276,11 @@ namespace GCRM
             InstitutionCategory.Enabled = CheckBoxFilterInstitutionCategory.Checked;
         }
 
+        private void CheckBoxFilterCitizenCategory_CheckedChanged(object sender, EventArgs e)
+        {
+            CitizenCategory.Enabled = CheckBoxFilterCitizenCategory.Checked;
+        }
+
         private void CheckBoxFilterSector_CheckedChanged(object sender, EventArgs e)
         {
             Sector.Enabled = CheckBoxFilterSector.Checked;
@@ -282,6 +314,7 @@ namespace GCRM
                 {
                     InstitutionId = CheckBoxFilterInstitution.Checked ? (int)Institution.SelectedValue : 0,
                     InstitutionCategoryId = CheckBoxFilterInstitutionCategory.Checked ? (int)InstitutionCategory.SelectedValue : 0,
+                    CitizenCategoryId = CheckBoxFilterCitizenCategory.Checked ? (int)CitizenCategory.SelectedValue : 0,
                     CitizenTitle = CheckBoxFilterCitizenTitle.Checked ? (TCitizenTitle)CitizenTitle.SelectedValue : null,
                     Sex = CheckBoxFilterSex.Checked ? (TSex)Sex.SelectedValue : null,
                     PoliticalParty = CheckBoxFilterParty.Checked ? (TPoliticalParty)Party.SelectedValue : null,

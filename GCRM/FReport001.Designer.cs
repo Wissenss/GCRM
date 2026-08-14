@@ -41,6 +41,8 @@ namespace GCRM
             CheckBoxFilterInstitution = new CheckBox();
             InstitutionCategory = new ComboBox();
             CheckBoxFilterInstitutionCategory = new CheckBox();
+            CitizenCategory = new ComboBox();
+            CheckBoxFilterCitizenCategory = new CheckBox();
             Sector = new ComboBox();
             CheckBoxFilterSector = new CheckBox();
             BirthdayYear = new ComboBox();
@@ -55,10 +57,10 @@ namespace GCRM
             // BCancel
             // 
             BCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            BCancel.Location = new Point(363, 279);
+            BCancel.Location = new Point(363, 308);
             BCancel.Name = "BCancel";
             BCancel.Size = new Size(75, 23);
-            BCancel.TabIndex = 20;
+            BCancel.TabIndex = 22;
             BCancel.Text = "&Cancelar";
             BCancel.UseVisualStyleBackColor = true;
             BCancel.Click += BCancel_Click;
@@ -66,10 +68,10 @@ namespace GCRM
             // BSave
             //
             BSave.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            BSave.Location = new Point(12, 279);
+            BSave.Location = new Point(12, 308);
             BSave.Name = "BSave";
             BSave.Size = new Size(75, 23);
-            BSave.TabIndex = 18;
+            BSave.TabIndex = 20;
             BSave.Text = "&Guardar";
             BSave.UseVisualStyleBackColor = true;
             BSave.Visible = false;
@@ -184,91 +186,113 @@ namespace GCRM
             CheckBoxFilterInstitutionCategory.Text = "Categoría de institución";
             CheckBoxFilterInstitutionCategory.UseVisualStyleBackColor = true;
             CheckBoxFilterInstitutionCategory.CheckedChanged += CheckBoxFilterInstitutionCategory_CheckedChanged;
-            // 
+            //
+            // CitizenCategory
+            //
+            CitizenCategory.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            CitizenCategory.DropDownStyle = ComboBoxStyle.DropDownList;
+            CitizenCategory.Enabled = false;
+            CitizenCategory.FormattingEnabled = true;
+            CitizenCategory.Location = new Point(180, 157);
+            CitizenCategory.Name = "CitizenCategory";
+            CitizenCategory.Size = new Size(258, 23);
+            CitizenCategory.TabIndex = 10;
+            //
+            // CheckBoxFilterCitizenCategory
+            //
+            CheckBoxFilterCitizenCategory.AutoSize = true;
+            CheckBoxFilterCitizenCategory.Location = new Point(12, 159);
+            CheckBoxFilterCitizenCategory.Name = "CheckBoxFilterCitizenCategory";
+            CheckBoxFilterCitizenCategory.Size = new Size(147, 19);
+            CheckBoxFilterCitizenCategory.TabIndex = 11;
+            CheckBoxFilterCitizenCategory.Text = "Categoría de ciudadano";
+            CheckBoxFilterCitizenCategory.UseVisualStyleBackColor = true;
+            CheckBoxFilterCitizenCategory.CheckedChanged += CheckBoxFilterCitizenCategory_CheckedChanged;
+            //
             // Sector
-            // 
+            //
             Sector.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             Sector.DropDownStyle = ComboBoxStyle.DropDownList;
             Sector.Enabled = false;
             Sector.FormattingEnabled = true;
-            Sector.Location = new Point(180, 157);
+            Sector.Location = new Point(180, 186);
             Sector.Name = "Sector";
             Sector.Size = new Size(258, 23);
-            Sector.TabIndex = 10;
-            // 
+            Sector.TabIndex = 12;
+            //
             // CheckBoxFilterSector
-            // 
+            //
             CheckBoxFilterSector.AutoSize = true;
-            CheckBoxFilterSector.Location = new Point(12, 159);
+            CheckBoxFilterSector.Location = new Point(12, 188);
             CheckBoxFilterSector.Name = "CheckBoxFilterSector";
             CheckBoxFilterSector.Size = new Size(59, 19);
-            CheckBoxFilterSector.TabIndex = 11;
+            CheckBoxFilterSector.TabIndex = 13;
             CheckBoxFilterSector.Text = "Sector";
             CheckBoxFilterSector.UseVisualStyleBackColor = true;
             CheckBoxFilterSector.CheckedChanged += CheckBoxFilterSector_CheckedChanged;
-            // 
+            //
             // BirthdayYear
-            // 
+            //
             BirthdayYear.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             BirthdayYear.DropDownStyle = ComboBoxStyle.DropDownList;
             BirthdayYear.Enabled = false;
             BirthdayYear.FormattingEnabled = true;
-            BirthdayYear.Location = new Point(180, 186);
+            BirthdayYear.Location = new Point(180, 215);
             BirthdayYear.Name = "BirthdayYear";
             BirthdayYear.Size = new Size(258, 23);
-            BirthdayYear.TabIndex = 12;
-            // 
+            BirthdayYear.TabIndex = 14;
+            //
             // CheckBoxFilterBirthdayYear
-            // 
+            //
             CheckBoxFilterBirthdayYear.AutoSize = true;
-            CheckBoxFilterBirthdayYear.Location = new Point(12, 188);
+            CheckBoxFilterBirthdayYear.Location = new Point(12, 217);
             CheckBoxFilterBirthdayYear.Name = "CheckBoxFilterBirthdayYear";
             CheckBoxFilterBirthdayYear.Size = new Size(127, 19);
-            CheckBoxFilterBirthdayYear.TabIndex = 13;
+            CheckBoxFilterBirthdayYear.TabIndex = 15;
             CheckBoxFilterBirthdayYear.Text = "Año de nacimiento";
             CheckBoxFilterBirthdayYear.UseVisualStyleBackColor = true;
             CheckBoxFilterBirthdayYear.CheckedChanged += CheckBoxFilterBirthdayYear_CheckedChanged;
-            // 
+            //
             // BirthdayMonth
-            // 
+            //
             BirthdayMonth.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             BirthdayMonth.DropDownStyle = ComboBoxStyle.DropDownList;
             BirthdayMonth.Enabled = false;
             BirthdayMonth.FormattingEnabled = true;
-            BirthdayMonth.Location = new Point(180, 215);
+            BirthdayMonth.Location = new Point(180, 244);
             BirthdayMonth.Name = "BirthdayMonth";
             BirthdayMonth.Size = new Size(258, 23);
-            BirthdayMonth.TabIndex = 14;
-            // 
+            BirthdayMonth.TabIndex = 16;
+            //
             // CheckBoxFilterBirthdayMonth
-            // 
+            //
             CheckBoxFilterBirthdayMonth.AutoSize = true;
-            CheckBoxFilterBirthdayMonth.Location = new Point(12, 217);
+            CheckBoxFilterBirthdayMonth.Location = new Point(12, 246);
             CheckBoxFilterBirthdayMonth.Name = "CheckBoxFilterBirthdayMonth";
             CheckBoxFilterBirthdayMonth.Size = new Size(127, 19);
-            CheckBoxFilterBirthdayMonth.TabIndex = 15;
+            CheckBoxFilterBirthdayMonth.TabIndex = 17;
             CheckBoxFilterBirthdayMonth.Text = "Mes de nacimiento";
             CheckBoxFilterBirthdayMonth.UseVisualStyleBackColor = true;
             CheckBoxFilterBirthdayMonth.CheckedChanged += CheckBoxFilterBirthdayMonth_CheckedChanged;
-            // 
+            //
             // BirthdayDay
-            // 
+            //
             BirthdayDay.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             BirthdayDay.DropDownStyle = ComboBoxStyle.DropDownList;
             BirthdayDay.Enabled = false;
             BirthdayDay.FormattingEnabled = true;
-            BirthdayDay.Location = new Point(180, 244);
+            BirthdayDay.Location = new Point(180, 273);
             BirthdayDay.Name = "BirthdayDay";
             BirthdayDay.Size = new Size(258, 23);
-            BirthdayDay.TabIndex = 16;
-            // 
+            BirthdayDay.TabIndex = 18;
+            //
             // CheckBoxFilterBirthdayDay
-            // 
+            //
             CheckBoxFilterBirthdayDay.AutoSize = true;
-            CheckBoxFilterBirthdayDay.Location = new Point(12, 246);
+            CheckBoxFilterBirthdayDay.Location = new Point(12, 275);
             CheckBoxFilterBirthdayDay.Name = "CheckBoxFilterBirthdayDay";
             CheckBoxFilterBirthdayDay.Size = new Size(122, 19);
-            CheckBoxFilterBirthdayDay.TabIndex = 17;
+            CheckBoxFilterBirthdayDay.TabIndex = 19;
             CheckBoxFilterBirthdayDay.Text = "Día de nacimiento";
             CheckBoxFilterBirthdayDay.UseVisualStyleBackColor = true;
             CheckBoxFilterBirthdayDay.CheckedChanged += CheckBoxFilterBirthdayDay_CheckedChanged;
@@ -276,19 +300,19 @@ namespace GCRM
             // BGenerate
             //
             BGenerate.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            BGenerate.Location = new Point(282, 279);
+            BGenerate.Location = new Point(282, 308);
             BGenerate.Name = "BGenerate";
             BGenerate.Size = new Size(75, 23);
-            BGenerate.TabIndex = 19;
+            BGenerate.TabIndex = 21;
             BGenerate.Text = "G&enerar";
             BGenerate.UseVisualStyleBackColor = true;
             BGenerate.Click += BGenerate_Click;
             //
             // FReport001
-            // 
+            //
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(450, 314);
+            ClientSize = new Size(450, 343);
             ControlBox = false;
             Controls.Add(CheckBoxFilterBirthdayDay);
             Controls.Add(BirthdayDay);
@@ -298,6 +322,8 @@ namespace GCRM
             Controls.Add(BirthdayYear);
             Controls.Add(CheckBoxFilterSector);
             Controls.Add(Sector);
+            Controls.Add(CheckBoxFilterCitizenCategory);
+            Controls.Add(CitizenCategory);
             Controls.Add(CheckBoxFilterInstitutionCategory);
             Controls.Add(InstitutionCategory);
             Controls.Add(CheckBoxFilterInstitution);
@@ -334,6 +360,8 @@ namespace GCRM
         private CheckBox CheckBoxFilterInstitution;
         private ComboBox InstitutionCategory;
         private CheckBox CheckBoxFilterInstitutionCategory;
+        private ComboBox CitizenCategory;
+        private CheckBox CheckBoxFilterCitizenCategory;
         private ComboBox Sector;
         private CheckBox CheckBoxFilterSector;
         private ComboBox BirthdayYear;
