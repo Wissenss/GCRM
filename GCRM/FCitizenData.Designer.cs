@@ -1222,6 +1222,7 @@
             dataGridViewCellStyle1.SelectionBackColor = SystemColors.GradientInactiveCaption;
             dataGridViewCellStyle1.SelectionForeColor = SystemColors.ControlText;
             DataGridRoles.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            DataGridRoles.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCells;
             DataGridRoles.BackgroundColor = SystemColors.Control;
             DataGridRoles.BorderStyle = BorderStyle.None;
             DataGridRoles.CellBorderStyle = DataGridViewCellBorderStyle.None;

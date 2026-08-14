@@ -296,6 +296,7 @@
             dataGridViewCellStyle1.SelectionForeColor = SystemColors.ControlText;
             DataGridInstitutionRoles.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             DataGridInstitutionRoles.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            DataGridInstitutionRoles.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCells;
             DataGridInstitutionRoles.BackgroundColor = SystemColors.Control;
             DataGridInstitutionRoles.BorderStyle = BorderStyle.None;
             DataGridInstitutionRoles.CellBorderStyle = DataGridViewCellBorderStyle.None;
