@@ -71,8 +71,10 @@ namespace GCRM
 				string host = TextBoxHost.Text.Trim();
 				int port = (int)NumericPort.Value;
 				string database = TextBoxDatabase.Text.Trim();
+				string username = TextBoxUsername.Text.Trim();
+				string password = TextBoxPassword.Text.Trim();
 
-				ConnectionSettings.WriteSettings(host, port, database);
+				ConnectionSettings.WriteSettings(host, port, database, username, password);
 
 				ConnectionPool.Refresh();
 

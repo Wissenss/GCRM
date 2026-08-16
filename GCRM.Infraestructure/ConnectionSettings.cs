@@ -16,7 +16,11 @@ namespace GCRM.Infraestructure
 			public string Host { get; set; }
 			public int Port { get; set; }
 			public string Database { get; set; }
-		}
+			public string Username { get; set; } = "gcrm_client";
+
+            public string Password { get; set; } = "m$!g+38ke~v5NrbXKH'^Zu";
+
+        }
 
 		private static string ConnectionFilePath;
 		private static TFileSettings FileSettings;
@@ -66,7 +70,7 @@ namespace GCRM.Infraestructure
 			File.WriteAllText(ConnectionFilePath, JSON);
 		}
 
-		public static void WriteSettings(string host, int port, string database)
+		public static void WriteSettings(string host, int port, string database, string username, string password)
 		{
 			JSON = File.ReadAllText(ConnectionFilePath);
 			FileSettings = JsonSerializer.Deserialize<TFileSettings>(JSON);
@@ -74,6 +78,8 @@ namespace GCRM.Infraestructure
 			FileSettings.Host = host;
 			FileSettings.Port = port;
 			FileSettings.Database = database;
+			FileSettings.Username = username;
+			FileSettings.Password = password;
 
 			JSON = JsonSerializer.Serialize<TFileSettings>(FileSettings);
 			File.WriteAllText(ConnectionFilePath, JSON);
@@ -82,9 +88,6 @@ namespace GCRM.Infraestructure
 		public static async void LoadSettings()
 		{
 			ConnectionFilePath = Path.Join(AppDomain.CurrentDomain.BaseDirectory, "connection.json");
-
-			Username = "gcrm_client";
-			Password = "m$!g+38ke~v5NrbXKH'^Zu";
 
 			// read the settings from file
 
@@ -109,6 +112,8 @@ namespace GCRM.Infraestructure
 			Host = FileSettings.Host;
 			Port = FileSettings.Port;
 			Database = FileSettings.Database;
+			Username = FileSettings.Username.Trim().Length == 0 ? "gcrm_client" : FileSettings.Username;
+			Password = FileSettings.Password.Trim().Length == 0 ? "m$!g+38ke~v5NrbXKH'^Zu" : FileSettings.Password;
 		}
 	
 		public static async Task<bool> TestSettings(string host, int port, string database)
