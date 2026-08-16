@@ -5,6 +5,9 @@
 - **Primary goal:** Free up social service hours, a requirement for college graduation.
 - **Secondary goal:** Serve as a C#/.NET project to showcase on GitHub.
 
+## Usage
+Click [here](https://wissenss.github.io/GCRM/Docs/Site/index.html) to access the download center, then read [setup.md](/Docs/setup.md) for instructions on getting started.
+
 ## Acknowledgments
 This project utilizes several open-source and free resources, as I currently do not have the budget to purchase commercial solutions. A big thank you to everyone who has contributed their hard work to make these tools available:
 
