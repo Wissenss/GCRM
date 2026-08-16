@@ -11,14 +11,17 @@ namespace GCRM.Infraestructure
 {
 	public static class ConnectionSettings
 	{
-		public class TFileSettings
+		const string default_username = "gcrm_client";
+		const string default_password = "m$!g+38ke~v5NrbXKH'^Zu";
+
+        public class TFileSettings
 		{
 			public string Host { get; set; }
 			public int Port { get; set; }
 			public string Database { get; set; }
-			public string Username { get; set; } = "gcrm_client";
+			public string Username { get; set; } = default_username;
 
-            public string Password { get; set; } = "m$!g+38ke~v5NrbXKH'^Zu";
+            public string Password { get; set; } = default_password;
 
         }
 
@@ -112,17 +115,23 @@ namespace GCRM.Infraestructure
 			Host = FileSettings.Host;
 			Port = FileSettings.Port;
 			Database = FileSettings.Database;
-			Username = FileSettings.Username.Trim().Length == 0 ? "gcrm_client" : FileSettings.Username;
-			Password = FileSettings.Password.Trim().Length == 0 ? "m$!g+38ke~v5NrbXKH'^Zu" : FileSettings.Password;
+			Username = FileSettings.Username.Trim().Length == 0 ? default_username : FileSettings.Username;
+			Password = FileSettings.Password.Trim().Length == 0 ? default_password : FileSettings.Password;
 		}
 	
-		public static async Task<bool> TestSettings(string host, int port, string database)
+		public static async Task<bool> TestSettings(string host, int port, string database, string username, string password)
 		{
 			try
 			{
 				ConnectionSettings.LoadSettings();
 
-				string conn_string = $"Host={host};Port={port};Username={ConnectionSettings.Username};Password={ConnectionSettings.Password};Database={database}";
+				if (username.Trim().Length == 0)
+					username = default_username;
+
+				if (password.Trim().Length == 0)
+					password = default_password;
+
+				string conn_string = $"Host={host};Port={port};Username={username};Password={password};Database={database}";
 
 				NpgsqlDataSourceBuilder builder = new NpgsqlDataSourceBuilder(conn_string);
 
@@ -145,7 +154,7 @@ namespace GCRM.Infraestructure
 
 		public static async Task<bool> TestSettings()
 		{
-			return await TestSettings(Host, Port, Database);
+			return await TestSettings(Host, Port, Database, Username, Password);
 		}
 	}
 }

@@ -147,6 +147,7 @@
             // 
             TextBoxPassword.Location = new Point(78, 128);
             TextBoxPassword.Name = "TextBoxPassword";
+            TextBoxPassword.PasswordChar = '*';
             TextBoxPassword.Size = new Size(174, 23);
             TextBoxPassword.TabIndex = 13;
             // 

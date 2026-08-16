@@ -27,8 +27,10 @@ namespace GCRM
 				string host = TextBoxHost.Text.Trim();
 				int port = (int)NumericPort.Value;
 				string database = TextBoxDatabase.Text.Trim();
+				string username = TextBoxUsername.Text.Trim();
+				string password = TextBoxPassword.Text.Trim();
 
-				return await ConnectionSettings.TestSettings(host, port, database);
+				return await ConnectionSettings.TestSettings(host, port, database, username, password);
 			}
 		}
 
@@ -93,6 +95,8 @@ namespace GCRM
 				TextBoxHost.Text = ConnectionSettings.Host;
 				NumericPort.Value = (decimal)ConnectionSettings.Port;
 				TextBoxDatabase.Text = ConnectionSettings.Database;
+				TextBoxUsername.Text = ConnectionSettings.Username;
+				TextBoxPassword.Text = ConnectionSettings.Password;
 			}
 		}
 
