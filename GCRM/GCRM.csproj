@@ -37,6 +37,7 @@
     <PackageReference Include="NLog" Version="6.1.4" />
     <PackageReference Include="ObjectListView.Repack.NET6Plus" Version="2.9.5" />
     <PackageReference Include="QuestPDF" Version="2026.7.2" />
+    <PackageReference Include="WeCantSpell.Hunspell" Version="7.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -60,6 +61,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Resources\es_MX.dic">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Link>es_MX.dic</Link>
+    </None>
+    <None Update="Resources\es_MX.aff">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Link>es_MX.aff</Link>
+    </None>
     <None Update="Libs\7za.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

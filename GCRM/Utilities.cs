@@ -18,6 +18,7 @@ using System.Text;
 using System.Text.Json;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using WeCantSpell.Hunspell;
 using static GCRM.SettingsUtilities;
 
 namespace GCRM
@@ -1138,6 +1139,35 @@ namespace GCRM
         public static void SetEnumDataSource<T>(ComboBox combobox)
         {
             combobox.DataSource = Enum.GetValues(typeof(T));
+        }
+    }
+
+    public static class SpellUtilities
+    {
+        private static WordList word_list;
+
+        static SpellUtilities()
+        {
+            word_list = WordList.CreateFromFiles(Path.Join(AppDomain.CurrentDomain.BaseDirectory, "es_MX.dic"));
+        }
+
+        public static List<(string Word, SpellCheckResult Result, List<string> Suggestions)> Check(string text)
+        {
+            List<(string Word, SpellCheckResult Result, List<string> Suggestions)> results = new List<(string, SpellCheckResult, List<string>)>();
+
+            string[] words = text.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (string word in words)
+            {
+                SpellCheckResult result = word_list.CheckDetails(word);
+
+                if (result.Correct == false)
+                {
+                    results.Add((word, result, word_list.Suggest(word).ToList()));
+                }
+            }
+
+            return results;
         }
     }
 }
