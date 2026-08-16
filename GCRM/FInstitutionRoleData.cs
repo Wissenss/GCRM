@@ -131,7 +131,8 @@ namespace GCRM
             {
                 List<Control> toCheck = new List<Control>()
                 {
-                    TextBoxName
+                    TextBoxName,
+                    TextBoxDescription
                 };
 
                 if (SpellUtilities.CheckInputWithDialog(toCheck) != DialogResult.OK)

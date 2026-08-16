@@ -7,6 +7,7 @@ using DocumentFormat.OpenXml.Office2010.ExcelAc;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Wordprocessing;
 using GCRM.Domain.Enums;
+using NLog;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing.Printing;
@@ -19,7 +20,6 @@ using System.Text.Json;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using WeCantSpell.Hunspell;
-using static GCRM.SettingsUtilities;
 
 namespace GCRM
 {
@@ -1151,22 +1151,51 @@ namespace GCRM
             public List<string> Suggestions { get; set; } = new List<string>();
         }
 
+        private static bool loaded = false;
         private static WordList word_list;
 
         static SpellUtilities()
         {
-            word_list = WordList.CreateFromFiles(Path.Join(AppDomain.CurrentDomain.BaseDirectory, "es_MX.dic"));
+            TryLoadWordList();
+        }
+
+        public static bool TryLoadWordList()
+        {
+            if (loaded) 
+                return true;
+
+            try
+            {
+                word_list = WordList.CreateFromFiles(Path.Join(AppDomain.CurrentDomain.BaseDirectory, "es_MX.dic"));
+                loaded = true;
+            }
+            catch (Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Error(ex, "Failed to load spell check word list");
+            }
+
+            return loaded;
         }
 
         public static SpellCheckResult CheckWord(string text)
         {
+            if (!loaded) // if the dictionary did not load, we cannot spell check, so we say its all good... 
+            {
+                return new SpellCheckResult()
+                {
+                    Correct = true,
+                    Word = text,
+                    Suggestions = new List<string>()
+                };
+            }
+
             WeCantSpell.Hunspell.SpellCheckResult result = word_list.CheckDetails(text);
 
             return new SpellCheckResult
             {
                 Correct = result.Correct,
                 Word = text,
-                Suggestions = word_list.Suggest(text).ToList()
+                Suggestions = result.Correct ? new List<string>() : word_list.Suggest(text).ToList()
             };
         }
 
@@ -1174,7 +1203,18 @@ namespace GCRM
         {
             List<SpellCheckResult> errors = new List<SpellCheckResult>();
 
-            string[] words = text.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            // clean up special characters
+
+            text = text.Replace('\n', ' ');
+            text = text.Replace('\t', ' ');
+            text = text.Replace('\r', ' ');
+            text = text.Replace('\v', ' ');
+            text = text.Replace('\f', ' ');
+            text = text.Replace('\b', ' ');
+            text = text.Replace('\a', ' ');
+            text = text.Replace('\0', ' ');
+
+            string[] words = text.Split(' ', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);             // TrimeEntires + RemoveEmptyEntries, ensure only whitespace substrings are not return at all
 
             foreach (string word in words)
             {
@@ -1195,7 +1235,7 @@ namespace GCRM
         public static List<SpellCheckResult> CheckInput(List<System.Windows.Forms.Control> inputs)
         {
             List<SpellCheckResult> errors = new List<SpellCheckResult>();
-            
+
             foreach (var input in inputs)
             {
                 errors.AddRange(CheckInput(input));
