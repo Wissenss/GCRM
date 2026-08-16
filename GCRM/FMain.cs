@@ -150,6 +150,8 @@ namespace GCRM
 
             SettingsUtilities.TryLoadTabControlConfiguration(TabControl, "main_tab_control");
             SettingsUtilities.TryLoadFormConfiguration(this, "main_form");
+
+            Session.RefreshUserConfig();
         }
 
         private void LoadPermissions()

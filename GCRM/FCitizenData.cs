@@ -6,7 +6,6 @@ using System.Text.RegularExpressions;
 using GCRM.Domain;
 using GCRM.Domain.Enums;
 using GCRM.Shared;
-using WeCantSpell.Hunspell;
 
 namespace GCRM
 {
@@ -672,32 +671,19 @@ namespace GCRM
             }
 
             // spell check - this is merely a warning, user may choose to ignore it
+            if (Session.SpellCheck)
             {
-                List<(string Word, SpellCheckResult Result, List<string> Suggestions)> spellErrors = new List<(string, SpellCheckResult, List<string>)>();
-
-                spellErrors.AddRange(SpellUtilities.Check(TextBoxName.Text.Trim()));
-                spellErrors.AddRange(SpellUtilities.Check(TextBoxMaternalName.Text.Trim()));
-                spellErrors.AddRange(SpellUtilities.Check(TextBoxPaternalName.Text.Trim()));
-                spellErrors.AddRange(SpellUtilities.Check(TextBoxObservations.Text.Trim()));
-
-                if (spellErrors.Count > 0)
+                List<Control> toCheck = new List<Control>()
                 {
-                    StringBuilder spellErrorsText = new StringBuilder();
+                    TextBoxName,
+                    TextBoxMaternalName,
+                    TextBoxPaternalName,
+                    TextBoxObservations,
+                };
 
-                    spellErrorsText.AppendLine("Se encontraron los siguientes errores de ortografía:");
-
-                    foreach (var spellError in spellErrors)
-                    {
-                        spellErrorsText.AppendLine($"Palabra: {spellError.Word} - Sugerencias: {string.Join(", ", spellError.Suggestions)}");
-                    }
-
-                    spellErrorsText.AppendLine();
-                    spellErrorsText.Append("¿Desea continuar de todas formas?");
-
-                    if (Utilities.ShowConfirmDialog(spellErrorsText.ToString()) != DialogResult.Yes)
-                    {
-                        return false;
-                    }
+                if (SpellUtilities.CheckInputWithDialog(toCheck) != DialogResult.OK)
+                {
+                    return false;
                 }
             }
 

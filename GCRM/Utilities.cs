@@ -1144,6 +1144,13 @@ namespace GCRM
 
     public static class SpellUtilities
     {
+        public class SpellCheckResult
+        {
+            public bool Correct { get; set; }
+            public string Word { get; set; }
+            public List<string> Suggestions { get; set; } = new List<string>();
+        }
+
         private static WordList word_list;
 
         static SpellUtilities()
@@ -1151,23 +1158,80 @@ namespace GCRM
             word_list = WordList.CreateFromFiles(Path.Join(AppDomain.CurrentDomain.BaseDirectory, "es_MX.dic"));
         }
 
-        public static List<(string Word, SpellCheckResult Result, List<string> Suggestions)> Check(string text)
+        public static SpellCheckResult CheckWord(string text)
         {
-            List<(string Word, SpellCheckResult Result, List<string> Suggestions)> results = new List<(string, SpellCheckResult, List<string>)>();
+            WeCantSpell.Hunspell.SpellCheckResult result = word_list.CheckDetails(text);
+
+            return new SpellCheckResult
+            {
+                Correct = result.Correct,
+                Word = text,
+                Suggestions = word_list.Suggest(text).ToList()
+            };
+        }
+
+        public static List<SpellCheckResult> CheckText(string text)
+        {
+            List<SpellCheckResult> errors = new List<SpellCheckResult>();
 
             string[] words = text.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
             foreach (string word in words)
             {
-                SpellCheckResult result = word_list.CheckDetails(word);
+                SpellCheckResult r = CheckWord(word);
 
-                if (result.Correct == false)
-                {
-                    results.Add((word, result, word_list.Suggest(word).ToList()));
-                }
+                if (r.Correct == false)
+                    errors.Add(r);
             }
 
-            return results;
+            return errors;
+        }
+
+        public static List<SpellCheckResult> CheckInput(System.Windows.Forms.Control input)
+        {
+            return CheckText(input.Text.Trim());
+        }
+
+        public static List<SpellCheckResult> CheckInput(List<System.Windows.Forms.Control> inputs)
+        {
+            List<SpellCheckResult> errors = new List<SpellCheckResult>();
+            
+            foreach (var input in inputs)
+            {
+                errors.AddRange(CheckInput(input));
+            }
+            
+            return errors;
+        }
+
+        public static DialogResult CheckInputWithDialog(List<System.Windows.Forms.Control> inputs)
+        {
+            var spellErrors = CheckInput(inputs);
+
+            if (spellErrors.Count > 0)
+            {
+                StringBuilder spellErrorsText = new StringBuilder();
+
+                spellErrorsText.AppendLine("Se identificaron los siguientes errores ortográficos: ");
+                spellErrorsText.AppendLine();
+
+                foreach (var spellError in spellErrors)
+                {
+                    spellErrorsText.AppendLine($"Palabra: {spellError.Word}. Sugerencias: {string.Join(", ", spellError.Suggestions)}");
+                }
+
+                spellErrorsText.AppendLine();
+                spellErrorsText.Append("¿Desea continuar de todas formas?");
+
+                return Utilities.ShowConfirmDialog(spellErrorsText.ToString()) == DialogResult.Yes ? DialogResult.OK : DialogResult.Cancel;
+            }
+
+            return DialogResult.OK;
+        }
+
+        public static DialogResult CheckInputsWithDialog(params System.Windows.Forms.Control[] inputs)
+        {
+            return CheckInputWithDialog(inputs.ToList());
         }
     }
 }
