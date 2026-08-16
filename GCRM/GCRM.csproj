@@ -22,6 +22,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\es_MX.aff" />
+    <None Remove="Resources\es_MX.dic" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="Fatcow-Farm-Fresh-Bookmark.ico" />
   </ItemGroup>
 
@@ -61,14 +66,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Resources\es_MX.dic">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <Link>es_MX.dic</Link>
-    </None>
-    <None Update="Resources\es_MX.aff">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <Link>es_MX.aff</Link>
-    </None>
     <None Update="Libs\7za.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -106,6 +103,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Libs\zlib1.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Dictionaries\es_MX.aff">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Dictionaries\es_MX.dic">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="SQL\create_schema.sql">
@@ -228,6 +231,10 @@
     <None Update="SQL\update_0_1_2_6.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Resources\Dictionaries\" />
   </ItemGroup>
 
 </Project>

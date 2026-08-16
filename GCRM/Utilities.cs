@@ -1166,7 +1166,7 @@ namespace GCRM
 
             try
             {
-                word_list = WordList.CreateFromFiles(Path.Join(AppDomain.CurrentDomain.BaseDirectory, "es_MX.dic"));
+                word_list = WordList.CreateFromFiles(Path.Join(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Dictionaries", "es_MX.dic"));
                 loaded = true;
             }
             catch (Exception ex)
