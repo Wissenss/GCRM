@@ -41,6 +41,8 @@ namespace GCRM
 			TextBoxHost.Enabled = AccessMode == FAccessMode.Update;
 			NumericPort.Enabled = AccessMode == FAccessMode.Update;
 			TextBoxDatabase.Enabled = AccessMode == FAccessMode.Update;	
+			TextBoxUsername.Enabled = AccessMode == FAccessMode.Update;
+			TextBoxPassword.Enabled = AccessMode == FAccessMode.Update;
 
 			BTest.Visible = AccessMode == FAccessMode.Update;
 			BAccept.Visible = AccessMode == FAccessMode.Update;

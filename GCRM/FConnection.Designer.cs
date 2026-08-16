@@ -181,7 +181,7 @@
             Controls.Add(LHost);
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximumSize = new Size(280, 240);
-            MinimumSize = new Size(280, 190);
+            MinimumSize = new Size(280, 240);
             Name = "FConnection";
             ShowIcon = false;
             SizeGripStyle = SizeGripStyle.Hide;

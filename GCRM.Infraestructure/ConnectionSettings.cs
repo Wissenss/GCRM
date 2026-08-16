@@ -16,9 +16,9 @@ namespace GCRM.Infraestructure
 
         public class TFileSettings
 		{
-			public string Host { get; set; }
-			public int Port { get; set; }
-			public string Database { get; set; }
+			public string Host { get; set; } = "localhost";
+			public int Port { get; set; } = 5432;
+			public string Database { get; set; } = "gcrm";
 			public string Username { get; set; } = default_username;
 
             public string Password { get; set; } = default_password;
@@ -75,7 +75,13 @@ namespace GCRM.Infraestructure
 
 		public static void WriteSettings(string host, int port, string database, string username, string password)
 		{
-			JSON = File.ReadAllText(ConnectionFilePath);
+            if (username.Trim().Length == 0)
+                username = default_username;
+
+            if (password.Trim().Length == 0)
+                password = default_password;
+
+            JSON = File.ReadAllText(ConnectionFilePath);
 			FileSettings = JsonSerializer.Deserialize<TFileSettings>(JSON);
 
 			FileSettings.Host = host;
@@ -96,12 +102,7 @@ namespace GCRM.Infraestructure
 
 			if (Path.Exists(ConnectionFilePath) == false) // ensure the file exists
 			{
-				FileSettings = new TFileSettings()
-				{
-					Host = "localhost",
-					Port = 5432,
-					Database = "gcrm",
-				};
+				FileSettings = new TFileSettings();
 
 				JSON = JsonSerializer.Serialize<TFileSettings>(FileSettings);
 
@@ -111,6 +112,11 @@ namespace GCRM.Infraestructure
 			JSON = File.ReadAllText(ConnectionFilePath);
 
 			FileSettings = JsonSerializer.Deserialize<TFileSettings>(JSON);
+
+			if (FileSettings == null)
+			{
+				FileSettings = new TFileSettings();
+			}
 
 			Host = FileSettings.Host;
 			Port = FileSettings.Port;
