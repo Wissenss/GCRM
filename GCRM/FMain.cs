@@ -1,13 +1,11 @@
 using Business;
 using Business.Business;
-using GCRM.Infraestructure;
-using Microsoft.VisualBasic;
-using System.Diagnostics;
-using System.Reflection;
 using GCRM.Domain;
 using GCRM.Domain.Enums;
-using GCRM.Shared;
+using GCRM.Infraestructure;
+using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 
 namespace GCRM
 {
@@ -16,9 +14,6 @@ namespace GCRM
         public FMain()
         {
             InitializeComponent();
-
-            LoadBirhdayList();
-            LoadWarningList();
         }
 
         private void BUsers_Click(object sender, EventArgs e)
@@ -82,7 +77,11 @@ namespace GCRM
                     ListBoxBirhdays.Items.Add($" - {citizen.Name} {citizen.PaternalName} {citizen.MaternalName}");
                 }
 
-                BirthdayPanelContent.MinimumSize = new Size(0, ListBoxBirhdays.ItemHeight * citizens_on_birthday.Count + 10);
+                MessageBox.Show($"scaling factor: {Utilities.GetScalingFactor()}");
+
+                double scalingFactor = Utilities.GetScalingFactor();
+
+                BirthdayPanelContent.MinimumSize = new Size((int)(BirthdayPanelContent.Width * scalingFactor), (int)((ListBoxBirhdays.ItemHeight * citizens_on_birthday.Count + 10) * scalingFactor));
 
                 BirthdayPanel.Refresh();
             }
@@ -118,7 +117,9 @@ namespace GCRM
                     else
                         ListBoxWarnings.Items.Add($" - {institution_count} instituciónes requieren atención");
 
-                WarningPanelContent.MinimumSize = new Size(0, ListBoxWarnings.ItemHeight * ListBoxWarnings.Items.Count + 10);
+                double scalingFactor = Utilities.GetScalingFactor();
+
+                WarningPanelContent.MinimumSize = new Size((int)(WarningPanelContent.Width * scalingFactor), (int)((ListBoxWarnings.ItemHeight * ListBoxWarnings.Items.Count + 10) * scalingFactor));
 
                 WarningPanel.Refresh();
             }
@@ -133,6 +134,11 @@ namespace GCRM
             LoadPermissions();
 
             LoadSettings();
+
+            LoadBirhdayList();
+            LoadWarningList();
+
+            NotificationsPanel.Width = WarningPanelContent.MinimumSize.Width;
         }
 
         private void LoadSettings()
