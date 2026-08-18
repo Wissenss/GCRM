@@ -11,12 +11,19 @@ namespace GCRM.Infraestructure
 {
 	public static class ConnectionSettings
 	{
-		public class TFileSettings
+		const string default_username = "gcrm_client";
+		const string default_password = "m$!g+38ke~v5NrbXKH'^Zu";
+
+        public class TFileSettings
 		{
-			public string Host { get; set; }
-			public int Port { get; set; }
-			public string Database { get; set; }
-		}
+			public string Host { get; set; } = "localhost";
+			public int Port { get; set; } = 5432;
+			public string Database { get; set; } = "gcrm";
+			public string Username { get; set; } = default_username;
+
+            public string Password { get; set; } = default_password;
+
+        }
 
 		private static string ConnectionFilePath;
 		private static TFileSettings FileSettings;
@@ -66,14 +73,22 @@ namespace GCRM.Infraestructure
 			File.WriteAllText(ConnectionFilePath, JSON);
 		}
 
-		public static void WriteSettings(string host, int port, string database)
+		public static void WriteSettings(string host, int port, string database, string username, string password)
 		{
-			JSON = File.ReadAllText(ConnectionFilePath);
+            if (username.Trim().Length == 0)
+                username = default_username;
+
+            if (password.Trim().Length == 0)
+                password = default_password;
+
+            JSON = File.ReadAllText(ConnectionFilePath);
 			FileSettings = JsonSerializer.Deserialize<TFileSettings>(JSON);
 
 			FileSettings.Host = host;
 			FileSettings.Port = port;
 			FileSettings.Database = database;
+			FileSettings.Username = username;
+			FileSettings.Password = password;
 
 			JSON = JsonSerializer.Serialize<TFileSettings>(FileSettings);
 			File.WriteAllText(ConnectionFilePath, JSON);
@@ -83,19 +98,11 @@ namespace GCRM.Infraestructure
 		{
 			ConnectionFilePath = Path.Join(AppDomain.CurrentDomain.BaseDirectory, "connection.json");
 
-			Username = "gcrm_client";
-			Password = "m$!g+38ke~v5NrbXKH'^Zu";
-
 			// read the settings from file
 
 			if (Path.Exists(ConnectionFilePath) == false) // ensure the file exists
 			{
-				FileSettings = new TFileSettings()
-				{
-					Host = "localhost",
-					Port = 5432,
-					Database = "gcrm",
-				};
+				FileSettings = new TFileSettings();
 
 				JSON = JsonSerializer.Serialize<TFileSettings>(FileSettings);
 
@@ -106,18 +113,31 @@ namespace GCRM.Infraestructure
 
 			FileSettings = JsonSerializer.Deserialize<TFileSettings>(JSON);
 
+			if (FileSettings == null)
+			{
+				FileSettings = new TFileSettings();
+			}
+
 			Host = FileSettings.Host;
 			Port = FileSettings.Port;
 			Database = FileSettings.Database;
+			Username = FileSettings.Username.Trim().Length == 0 ? default_username : FileSettings.Username;
+			Password = FileSettings.Password.Trim().Length == 0 ? default_password : FileSettings.Password;
 		}
 	
-		public static async Task<bool> TestSettings(string host, int port, string database)
+		public static async Task<bool> TestSettings(string host, int port, string database, string username, string password)
 		{
 			try
 			{
 				ConnectionSettings.LoadSettings();
 
-				string conn_string = $"Host={host};Port={port};Username={ConnectionSettings.Username};Password={ConnectionSettings.Password};Database={database}";
+				if (username.Trim().Length == 0)
+					username = default_username;
+
+				if (password.Trim().Length == 0)
+					password = default_password;
+
+				string conn_string = $"Host={host};Port={port};Username={username};Password={password};Database={database}";
 
 				NpgsqlDataSourceBuilder builder = new NpgsqlDataSourceBuilder(conn_string);
 
@@ -140,7 +160,7 @@ namespace GCRM.Infraestructure
 
 		public static async Task<bool> TestSettings()
 		{
-			return await TestSettings(Host, Port, Database);
+			return await TestSettings(Host, Port, Database, Username, Password);
 		}
 	}
 }

@@ -46,6 +46,23 @@ namespace Business
 
 		private static bool valid_root_login(string username, string password)
 		{
+			/* --------------------------------------------------
+             * 
+             * default root credentials are:
+			 *
+             * username: root
+             * password: trafficJam32
+             *
+			 * this are only valid if setting "RootLogin.Enabled" is true
+             * sysadmin should set it to false once the admin user is created
+			 * 
+			 * -------------------------------------------------- */
+
+			if (SettingsHandler.GetSetting<bool>("RootLogin.Enabled", true, 0, true) == false)
+			{
+				return false;
+			}
+
 			string hash = UsersHandler.GetPasswordHash(username, password);
 
 			return username.Equals("root") && hash.Equals("531761501921173663562461785925019011192679781351239240713687102152101773780247");
@@ -53,8 +70,6 @@ namespace Business
 
 		public static Error Login(string username, string password)
 		{
-			// not a good practice what so ever!!!
-			// --------------------------------------------------
 			IsRootUser = valid_root_login(username, password);
 
 			if (IsRootUser)
@@ -71,8 +86,7 @@ namespace Business
 
 				return 0;
 			}
-			// --------------------------------------------------
-
+			
 			Error error = UsersHandler.GetUserByUsername(username, out Session.User);
 
 			if (error == Error.UserNotFound)
