@@ -12,13 +12,14 @@
     <Copyright>Leonardo Merino</Copyright>
     <StartupObject>GCRM.Program</StartupObject>
     <Description>Gobernment Citizen Relationship Manager</Description>
-    <UseWPF>False</UseWPF>
+    <UseWPF>True</UseWPF>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-		<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
-		<Authors>$(AssemblyName), Leonardo Merino Garfias</Authors>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<RepositoryUrl>https://github.com/Wissenss/GCRM</RepositoryUrl>
-		<RepositoryType>git</RepositoryType>
+	<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+	<Authors>$(AssemblyName), Leonardo Merino Garfias</Authors>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
+	<RepositoryUrl>https://github.com/Wissenss/GCRM</RepositoryUrl>
+	<RepositoryType>git</RepositoryType>
+
   </PropertyGroup>
 
   <ItemGroup>

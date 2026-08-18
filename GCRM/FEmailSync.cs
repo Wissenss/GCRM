@@ -5,6 +5,7 @@ using System.Xml;
 using GCRM.Domain;
 using GCRM.Domain.Enums;
 using GCRM.Shared;
+using System.Net.Http;
 
 namespace GCRM
 {

@@ -19,6 +19,8 @@ using System.Text;
 using System.Text.Json;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using System.Net.Http;
+using System.IO;
 using WeCantSpell.Hunspell;
 
 namespace GCRM
