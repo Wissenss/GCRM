@@ -77,8 +77,6 @@ namespace GCRM
                     ListBoxBirhdays.Items.Add($" - {citizen.Name} {citizen.PaternalName} {citizen.MaternalName}");
                 }
 
-                MessageBox.Show($"scaling factor: {Utilities.GetScalingFactor()}");
-
                 double scalingFactor = Utilities.GetScalingFactor();
 
                 BirthdayPanelContent.MinimumSize = new Size((int)(BirthdayPanelContent.Width * scalingFactor), (int)((ListBoxBirhdays.ItemHeight * citizens_on_birthday.Count + 10) * scalingFactor));
