@@ -38,7 +38,7 @@ namespace GCRM
 
 					System.Windows.Forms.Application.EnableVisualStyles();
 					System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
-					System.Windows.Forms.Application.SetHighDpiMode(HighDpiMode.SystemAware);
+					System.Windows.Forms.Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
 
 					CultureInfo ci = new CultureInfo("es-MX");
 					Thread.CurrentThread.CurrentCulture = ci;
