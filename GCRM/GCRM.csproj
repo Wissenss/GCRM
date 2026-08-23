@@ -22,6 +22,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\es_MX.aff" />
+    <None Remove="Resources\es_MX.dic" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="Fatcow-Farm-Fresh-Bookmark.ico" />
   </ItemGroup>
 
@@ -37,6 +42,7 @@
     <PackageReference Include="NLog" Version="6.1.4" />
     <PackageReference Include="ObjectListView.Repack.NET6Plus" Version="2.9.5" />
     <PackageReference Include="QuestPDF" Version="2026.7.2" />
+    <PackageReference Include="WeCantSpell.Hunspell" Version="7.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -97,6 +103,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Libs\zlib1.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Dictionaries\es_MX.aff">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Dictionaries\es_MX.dic">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="SQL\create_schema.sql">
@@ -219,6 +231,10 @@
     <None Update="SQL\update_0_1_2_6.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Resources\Dictionaries\" />
   </ItemGroup>
 
 </Project>

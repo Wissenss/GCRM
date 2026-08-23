@@ -670,6 +670,23 @@ namespace GCRM
                 }
             }
 
+            // spell check - this is merely a warning, user may choose to ignore it
+            if (Session.SpellCheck)
+            {
+                List<Control> toCheck = new List<Control>()
+                {
+                    TextBoxName,
+                    TextBoxMaternalName,
+                    TextBoxPaternalName,
+                    TextBoxObservations,
+                };
+
+                if (SpellUtilities.CheckInputWithDialog(toCheck) != DialogResult.OK)
+                {
+                    return false;
+                }
+            }
+
             return true;
         }
 

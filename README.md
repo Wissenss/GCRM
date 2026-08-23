@@ -19,6 +19,8 @@ This project utilizes several open-source and free resources, as I currently do 
 - [Postgress](https://www.postgresql.org/)
 - [Npgsql](https://github.com/npgsql/npgsql)
 - [Farm Fresh Icons Pack](https://www.iconarchive.com/show/farm-fresh-icons-by-fatcow.1.html)
+- [WeCantSpell.Hunspell](https://github.com/aarondandy/WeCantSpell.Hunspell)
+- [RLA-ES](https://github.com/sbosio/rla-es)
 
 ## Special Thanks to Contributors
 A special thanks to the following individuals who have contributed to this project:

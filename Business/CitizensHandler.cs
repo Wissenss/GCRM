@@ -945,8 +945,8 @@ namespace Business
 
 			string sql = @"
 				SELECT
-					c1.id AS id1, c1.name AS name1, c1.attention_required AS attention_required1, c1.attention_required_reason AS attention_required_reason1,
-					c2.id AS id2, c2.name AS name2, c2.attention_required AS attention_required2, c2.attention_required_reason AS attention_required_reason2,
+					c1.id AS id1, (c1.name || ' ' || c1.maternal_name || ' ' || c1.paternal_name) AS name1, c1.attention_required AS attention_required1, c1.attention_required_reason AS attention_required_reason1,
+					c2.id AS id2, (c2.name || ' ' || c2.maternal_name || ' ' || c2.paternal_name) AS name2, c2.attention_required AS attention_required2, c2.attention_required_reason AS attention_required_reason2,
 					levenshtein(c1.name || c1.maternal_name || c1.paternal_name, c2.name || c2.maternal_name || c2.paternal_name) AS distance
 				FROM
 					citizens c1 JOIN citizens c2 ON c1.id < c2.id

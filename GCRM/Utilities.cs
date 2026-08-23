@@ -7,6 +7,7 @@ using DocumentFormat.OpenXml.Office2010.ExcelAc;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Wordprocessing;
 using GCRM.Domain.Enums;
+using NLog;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing.Printing;
@@ -18,7 +19,7 @@ using System.Text;
 using System.Text.Json;
 using System.Windows.Forms;
 using System.Xml.Serialization;
-using static GCRM.SettingsUtilities;
+using WeCantSpell.Hunspell;
 
 namespace GCRM
 {
@@ -1138,6 +1139,139 @@ namespace GCRM
         public static void SetEnumDataSource<T>(ComboBox combobox)
         {
             combobox.DataSource = Enum.GetValues(typeof(T));
+        }
+    }
+
+    public static class SpellUtilities
+    {
+        public class SpellCheckResult
+        {
+            public bool Correct { get; set; }
+            public string Word { get; set; }
+            public List<string> Suggestions { get; set; } = new List<string>();
+        }
+
+        private static bool loaded = false;
+        private static WordList word_list;
+
+        static SpellUtilities()
+        {
+            TryLoadWordList();
+        }
+
+        public static bool TryLoadWordList()
+        {
+            if (loaded) 
+                return true;
+
+            try
+            {
+                word_list = WordList.CreateFromFiles(Path.Join(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Dictionaries", "es_MX.dic"));
+                loaded = true;
+            }
+            catch (Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Error(ex, "Failed to load spell check word list");
+            }
+
+            return loaded;
+        }
+
+        public static SpellCheckResult CheckWord(string text)
+        {
+            if (!loaded) // if the dictionary did not load, we cannot spell check, so we say its all good... 
+            {
+                return new SpellCheckResult()
+                {
+                    Correct = true,
+                    Word = text,
+                    Suggestions = new List<string>()
+                };
+            }
+
+            WeCantSpell.Hunspell.SpellCheckResult result = word_list.CheckDetails(text);
+
+            return new SpellCheckResult
+            {
+                Correct = result.Correct,
+                Word = text,
+                Suggestions = result.Correct ? new List<string>() : word_list.Suggest(text).ToList()
+            };
+        }
+
+        public static List<SpellCheckResult> CheckText(string text)
+        {
+            List<SpellCheckResult> errors = new List<SpellCheckResult>();
+
+            // clean up special characters
+
+            text = text.Replace('\n', ' ');
+            text = text.Replace('\t', ' ');
+            text = text.Replace('\r', ' ');
+            text = text.Replace('\v', ' ');
+            text = text.Replace('\f', ' ');
+            text = text.Replace('\b', ' ');
+            text = text.Replace('\a', ' ');
+            text = text.Replace('\0', ' ');
+
+            string[] words = text.Split(' ', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);             // TrimeEntires + RemoveEmptyEntries, ensure only whitespace substrings are not return at all
+
+            foreach (string word in words)
+            {
+                SpellCheckResult r = CheckWord(word);
+
+                if (r.Correct == false)
+                    errors.Add(r);
+            }
+
+            return errors;
+        }
+
+        public static List<SpellCheckResult> CheckInput(System.Windows.Forms.Control input)
+        {
+            return CheckText(input.Text.Trim());
+        }
+
+        public static List<SpellCheckResult> CheckInput(List<System.Windows.Forms.Control> inputs)
+        {
+            List<SpellCheckResult> errors = new List<SpellCheckResult>();
+
+            foreach (var input in inputs)
+            {
+                errors.AddRange(CheckInput(input));
+            }
+            
+            return errors;
+        }
+
+        public static DialogResult CheckInputWithDialog(List<System.Windows.Forms.Control> inputs)
+        {
+            var spellErrors = CheckInput(inputs);
+
+            if (spellErrors.Count > 0)
+            {
+                StringBuilder spellErrorsText = new StringBuilder();
+
+                spellErrorsText.AppendLine("Se identificaron los siguientes errores ortográficos: ");
+                spellErrorsText.AppendLine();
+
+                foreach (var spellError in spellErrors)
+                {
+                    spellErrorsText.AppendLine($"Palabra: {spellError.Word}. Sugerencias: {string.Join(", ", spellError.Suggestions)}");
+                }
+
+                spellErrorsText.AppendLine();
+                spellErrorsText.Append("¿Desea continuar de todas formas?");
+
+                return Utilities.ShowConfirmDialog(spellErrorsText.ToString()) == DialogResult.Yes ? DialogResult.OK : DialogResult.Cancel;
+            }
+
+            return DialogResult.OK;
+        }
+
+        public static DialogResult CheckInputsWithDialog(params System.Windows.Forms.Control[] inputs)
+        {
+            return CheckInputWithDialog(inputs.ToList());
         }
     }
 }

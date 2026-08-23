@@ -1,20 +1,21 @@
-﻿using System;
+﻿using Business.Business;
+using GCRM.Domain;
+using GCRM.Domain.Enums;
+using GCRM.Shared;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using Business.Business;
-using GCRM.Domain;
-using GCRM.Domain.Enums;
-using GCRM.Shared;
 
 namespace Business
 {
 	public static class Session
 	{
 		public static TUser User = new TUser();
-		private static bool IsRootUser = false; 
+		private static bool IsRootUser = false;
+		public static bool SpellCheck = true;
 
 		public static bool HasPermission(string permission_name)
 		{
@@ -30,7 +31,17 @@ namespace Business
 		{
 			Error error = UsersHandler.GetUserById(User.Id, out User);
 
-			return error;
+			if (error != Error.None)
+				return error;
+
+			RefreshUserConfig();
+
+            return Error.None;
+		}
+
+		public static void RefreshUserConfig()
+		{
+            SpellCheck = SettingsHandler.GetSetting<bool>("SpellCheck.Enabled", true, Session.User.Id);
 		}
 
 		private static bool valid_root_login(string username, string password)
