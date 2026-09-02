@@ -19,6 +19,8 @@ using System.Text;
 using System.Text.Json;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using System.Net.Http;
+using System.IO;
 using WeCantSpell.Hunspell;
 
 namespace GCRM
@@ -159,6 +161,14 @@ namespace GCRM
             string version = fileVersionInfo.ProductVersion;
 
             return version;
+        }
+    
+        public static double GetScalingFactor()
+        {
+            using (Form form = new Form())
+            {
+                return form.DeviceDpi / 96.0; // 96 is the baseline dpi (100%)
+            }
         }
     }
 
