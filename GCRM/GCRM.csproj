@@ -40,9 +40,9 @@
 
   <ItemGroup>
     <PackageReference Include="ClosedXML" Version="0.105.1" />
-    <PackageReference Include="NLog" Version="6.1.4" />
+    <PackageReference Include="NLog" Version="6.2.0" />
     <PackageReference Include="ObjectListView.Repack.NET6Plus" Version="2.9.5" />
-    <PackageReference Include="QuestPDF" Version="2026.7.2" />
+    <PackageReference Include="QuestPDF" Version="2026.8.0" />
     <PackageReference Include="WeCantSpell.Hunspell" Version="7.0.1" />
   </ItemGroup>
 
@@ -209,6 +209,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="SQL\update_0_1_2_1.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="SQL\update_0_1_3_3.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="SQL\update_0_1_3_2.sql">
