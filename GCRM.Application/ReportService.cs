@@ -19,6 +19,7 @@ namespace GCRM.Application
             model = new R005DocumentModel();
             model.Request = request;
             model.Citizens = new List<TCitizen>();
+            model.Username = Session.User.Name;
 
             Error error = InstitutionsHandler.GetInstitutionById(request.InstitutionId, out model.Institution);
 
@@ -127,6 +128,7 @@ namespace GCRM.Application
         public static Error GetR001DocumentModel(R001DocumentRequest request, out R001DocumentModel model)
         {
             model = new R001DocumentModel();
+            model.Username = Session.User.Name;
 
             if (request.InstitutionId != 0)
             {
@@ -169,7 +171,10 @@ namespace GCRM.Application
 
             List<TCitizen> full_citizen_list;
 
-            Error erro = CitizensHandler.GetCitizens(out full_citizen_list);
+            Error citizens_error = CitizensHandler.GetCitizens(out full_citizen_list);
+
+            if (citizens_error != Error.None)
+                return citizens_error;
 
             foreach (TCitizen citizen in full_citizen_list)
             {

@@ -124,6 +124,8 @@ namespace GCRM
 
             R004DocumentModel model = new R004DocumentModel();
 
+            model.Username = Session.User.Name;
+
             int category_id = 0;
             TSocietySector? sector = null;
 

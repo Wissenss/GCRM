@@ -753,6 +753,7 @@ namespace GCRM
 
 			R002DocumentModel model = new R002DocumentModel()
 			{
+				Username = Session.User.Name,
 				Network = new TCitizenNetwork()
 				{
 					Name = TextBoxName.Text.Trim(),
