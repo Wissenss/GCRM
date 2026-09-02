@@ -129,6 +129,11 @@ namespace GCRM
 			BCancel.Text = AccessMode != FAccessMode.Read ? "&Cancelar" : "&Cerrar";
 		}
 
+		public int GetId()
+		{
+			return Id;
+		}
+
 		public void SetId(int id)
 		{
 			using (new CursorWait())
@@ -517,6 +522,8 @@ namespace GCRM
 					Utilities.ShowErrorDialog(error);
 					return;
 				}
+
+				Id = institution.Id;
 
 				DialogResult = DialogResult.OK;
 			}

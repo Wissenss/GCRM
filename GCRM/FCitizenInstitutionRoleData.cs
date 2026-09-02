@@ -69,6 +69,7 @@ namespace GCRM
             DateTimePickerStart.Enabled = AccessMode != FAccessMode.Read && CheckBoxStartDefined.Checked;
             DateTimePickerEnd.Enabled = AccessMode != FAccessMode.Read && CheckBoxEndDefined.Checked;
 
+            UpdateNewInstitutionButtonState();
             UpdateNewRoleButtonState();
             UpdateNewRoleVariationButtonState();
         }
@@ -350,6 +351,11 @@ namespace GCRM
             return true;
         }
 
+        private void UpdateNewInstitutionButtonState()
+        {
+            BAddInstitution.Enabled = AccessMode != FAccessMode.Read && Session.HasPermission("Instituciones.Crear");
+        }
+
         private void UpdateNewRoleButtonState()
         {
             bool institution_selected = ComboBoxInstitution.SelectedValue is int id && id != 0;
@@ -469,6 +475,23 @@ namespace GCRM
                 LoadVariations();
 
                 SelectVariation(variation.Id);
+            }
+        }
+
+        private void BAddInstitution_Click(object sender, EventArgs e)
+        {
+            using (FInstitutionData institution_dlg = new FInstitutionData())
+            {
+                institution_dlg.SetAccessMode(FAccessMode.Create);
+
+                if (institution_dlg.ShowDialog() != DialogResult.OK)
+                {
+                    return;
+                }
+
+                LoadInstitutions();
+
+                ComboBoxInstitution.SelectedValue = institution_dlg.GetId();
             }
         }
     }

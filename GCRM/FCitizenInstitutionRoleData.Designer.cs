@@ -44,6 +44,7 @@ namespace GCRM
             BAddRole = new Button();
             BAddRoleVariation = new Button();
             LRoleVariant = new Label();
+            BAddInstitution = new Button();
             SuspendLayout();
             // 
             // BCancel
@@ -84,7 +85,7 @@ namespace GCRM
             ComboBoxInstitution.FormattingEnabled = true;
             ComboBoxInstitution.Location = new Point(79, 37);
             ComboBoxInstitution.Name = "ComboBoxInstitution";
-            ComboBoxInstitution.Size = new Size(422, 23);
+            ComboBoxInstitution.Size = new Size(344, 23);
             ComboBoxInstitution.TabIndex = 0;
             ComboBoxInstitution.SelectedIndexChanged += ComboBoxInstitution_SelectedIndexChanged;
             // 
@@ -214,12 +215,25 @@ namespace GCRM
             LRoleVariant.TabIndex = 57;
             LRoleVariant.Text = "Variante";
             // 
+            // BAddInstitution
+            // 
+            BAddInstitution.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            BAddInstitution.Enabled = false;
+            BAddInstitution.Location = new Point(429, 36);
+            BAddInstitution.Name = "BAddInstitution";
+            BAddInstitution.Size = new Size(72, 23);
+            BAddInstitution.TabIndex = 58;
+            BAddInstitution.Text = "Nueva";
+            BAddInstitution.UseVisualStyleBackColor = true;
+            BAddInstitution.Click += BAddInstitution_Click;
+            // 
             // FCitizenInstitutionRoleData
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(513, 258);
             ControlBox = false;
+            Controls.Add(BAddInstitution);
             Controls.Add(LRoleVariant);
             Controls.Add(BAddRoleVariation);
             Controls.Add(BAddRole);
@@ -263,5 +277,6 @@ namespace GCRM
         private Button BAddRole;
         private Button BAddRoleVariation;
         private Label LRoleVariant;
+        private Button BAddInstitution;
     }
 }
