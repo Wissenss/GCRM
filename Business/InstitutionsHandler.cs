@@ -319,6 +319,174 @@ namespace Business
 			return 0;
 		}
 
+		public static Error GetInstitutionsByName(string name, int similarity_threshold, out List<TInstitution> institution_list)
+		{
+			institution_list = new List<TInstitution>();
+
+			var conn = ConnectionPool.GetConnection();
+
+			string sql = @"
+				SELECT id
+				FROM institutions
+				WHERE levenshtein(name, @name) <= @threshold
+				ORDER BY levenshtein(name, @name) ASC;
+			";
+
+			List<int> ids = new List<int>();
+
+			using (var cmd = new NpgsqlCommand(sql, conn))
+			{
+				cmd.Parameters.AddWithValue("@name", name);
+				cmd.Parameters.AddWithValue("@threshold", similarity_threshold);
+
+				using (var reader = cmd.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						ids.Add(reader.GetInt32(0));
+					}
+				}
+			}
+
+			ConnectionPool.ReleaseConnection(ref conn);
+
+			Error error = 0;
+
+			foreach (int id in ids)
+			{
+				error = GetInstitutionById(id, out TInstitution institution);
+
+				if (error != 0)
+					return error;
+
+				institution_list.Add(institution);
+			}
+
+			return error;
+		}
+
+		public static Error GetInstitutionRoleByName(int institution_id, string name, int similarity_threshold, out List<TInstitutionRole> role_list)
+		{
+			role_list = new List<TInstitutionRole>();
+
+			var conn = ConnectionPool.GetConnection();
+
+			string sql = @"
+				SELECT id
+				FROM institution_roles
+				WHERE institution_id = @institution_id AND levenshtein(name, @name) <= @threshold
+				ORDER BY levenshtein(name, @name) ASC;
+			";
+
+			List<int> ids = new List<int>();
+
+			using (var cmd = new NpgsqlCommand(sql, conn))
+			{
+				cmd.Parameters.AddWithValue("@institution_id", institution_id);
+				cmd.Parameters.AddWithValue("@name", name);
+				cmd.Parameters.AddWithValue("@threshold", similarity_threshold);
+
+				using (var reader = cmd.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						ids.Add(reader.GetInt32(0));
+					}
+				}
+			}
+
+			ConnectionPool.ReleaseConnection(ref conn);
+
+			Error error = 0;
+
+			foreach (int id in ids)
+			{
+				error = GetInstitutionRoleById(id, false, out TInstitutionRole role);
+
+				if (error != 0)
+					return error;
+
+				role_list.Add(role);
+			}
+
+			return error;
+		}
+
+		public static Error GetInstitutionByName(string name, out TInstitution institution)
+		{
+			institution = new TInstitution();
+
+			var conn = ConnectionPool.GetConnection();
+
+			Error error = 0;
+
+			int id = 0;
+
+			using (var cmd = new NpgsqlCommand("SELECT id FROM institutions WHERE name = @name;", conn))
+			{
+				cmd.Parameters.AddWithValue("@name", name);
+
+				using (var reader = cmd.ExecuteReader())
+				{
+					if (reader.HasRows)
+					{
+						reader.Read();
+
+						id = reader.GetInt32(0);
+					}
+					else
+					{
+						error = Error.InstitutionNotFound;
+					}
+				}
+			}
+
+			ConnectionPool.ReleaseConnection(ref conn);
+
+			if (error == 0)
+				error = GetInstitutionById(id, out institution);
+
+			return error;
+		}
+
+		public static Error GetInstitutionRoleByName(int institution_id, string name, out TInstitutionRole role)
+		{
+			role = new TInstitutionRole();
+
+			var conn = ConnectionPool.GetConnection();
+
+			Error error = 0;
+
+			int id = 0;
+
+			using (var cmd = new NpgsqlCommand("SELECT id FROM institution_roles WHERE institution_id = @institution_id AND name = @name;", conn))
+			{
+				cmd.Parameters.AddWithValue("@institution_id", institution_id);
+				cmd.Parameters.AddWithValue("@name", name);
+
+				using (var reader = cmd.ExecuteReader())
+				{
+					if (reader.HasRows)
+					{
+						reader.Read();
+
+						id = reader.GetInt32(0);
+					}
+					else
+					{
+						error = Error.InstitutionRoleNotFound;
+					}
+				}
+			}
+
+			ConnectionPool.ReleaseConnection(ref conn);
+
+			if (error == 0)
+				error = GetInstitutionRoleById(id, false, out role);
+
+			return error;
+		}
+
 		public static Error GetAttentionRequiredInstitutionCount(out int count)
 		{
 			var conn = ConnectionPool.GetConnection();

@@ -354,5 +354,12 @@ namespace GCRM
                 fix_duplicates_dlg.ShowDialog();
             }
         }
+
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            FExcelImportCitizens dlg = new FExcelImportCitizens();
+            
+            dlg.ShowDialog();
+        }
     }
 }

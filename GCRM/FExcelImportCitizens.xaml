@@ -1,0 +1,417 @@
+﻿<Window x:Name="FExcelImportCitizensWindow" x:Class="GCRM.FExcelImportCitizens"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GCRM"
+        mc:Ignorable="d"
+        Title="Importación de Ciudadanos" Height="443" Width="723" Closing="FExcelImportCitizensWindow_Closing">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Row="0" Grid.Column="0">
+            <!--<Label Content="Titulo Acción"/>-->
+        </StackPanel>
+
+        <TabControl x:Name="TabCtrl" Grid.Row="1" Grid.Column="0">
+            <TabItem x:Name="TabOrigin" Header="Configuración" Visibility="Collapsed">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="5"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="5"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="6" Margin="0, 0, 0, 5">
+                        <StackPanel.Background>
+                            <SolidColorBrush Color="Gray" Opacity="0.2"/>
+                        </StackPanel.Background>
+
+                        <Label Content="Configuración de la importación"/>
+
+                    </StackPanel>
+
+
+                    <!-- file selection -->
+                    <Label Content="Archivo" Grid.Row="1" Grid.Column="0"/>
+                    <TextBox Text="" x:Name="TbFilePath" IsReadOnly="True" VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.ColumnSpan="2" Grid.Row="1" Grid.Column="2"/>
+                    <Button Content="Seleccionar archivo" x:Name="BSelectFile" Click="OnClick_SelectFile" Grid.Row="1" Grid.Column="5"/>
+
+                    <!-- row configuration-->
+                    <GroupBox Header="Filas" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="6" Margin="0, 0, 0, 0">
+                        <Grid Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="5"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="115"/>
+                                <ColumnDefinition Width="5"/>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="5"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="5"/>
+                                <ColumnDefinition Width="50"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!--row 1-->
+                            <CheckBox x:Name="SelStartRow" Checked="OnChecked_SelStartRow" Unchecked="OnChecked_SelStartRow" Content="Fila inicial" Grid.Column="0" Grid.Row="0"/>
+                            <xctk:IntegerUpDown Minimum="0" x:Name="UpDownStartRow" IsEnabled="False" Maximum="100" Value="0" Grid.Row="0" Grid.Column="2"/>
+
+                            <CheckBox x:Name="SelEndRow" Checked="OnChecked_SelEndRow" Unchecked="OnChecked_SelEndRow" Content="Fila final" Grid.Column="0" Grid.Row="2"/>
+                            <xctk:IntegerUpDown Minimum="0" x:Name="UpDownEndRow" IsEnabled="False" Maximum="100" Value="0" Grid.Row="2" Grid.Column="2"/>
+
+                        </Grid>
+                    </GroupBox>
+
+                    <!--column configuration-->
+                    <GroupBox Header="Columnas" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="6" Margin="0, 0, 0, 0">
+                        <Grid Margin="05">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="5"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="5"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="50"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!--col 1-->
+                            <CheckBox x:Name="SelColName" Checked="OnChecked_SelColName" Unchecked="OnChecked_SelColName" Content="Nombre" Grid.Row="0" Grid.Column="0"/>
+                            <xctk:IntegerUpDown x:Name="UpDownName" IsEnabled="False" Minimum="0" Maximum="100" Value="0" Grid.Row="0" Grid.Column="2"/>
+                            <CheckBox x:Name="SelColPaternalName" Checked="OnChecked_SelColPaternalName" Unchecked="OnChecked_SelColPaternalName" Content="Apellido paterno" Grid.Row="2" Grid.Column="0"/>
+                            <xctk:IntegerUpDown x:Name="UpDownPaternalName" IsEnabled="False" Minimum="0" Maximum="100" Value="1" Grid.Row="2" Grid.Column="2"/>
+                            <CheckBox x:Name="SelColMaternalName" Checked="OnChecked_SelColMaternalName" Unchecked="OnChecked_SelColMaternalName" Content="Apellido materno" Grid.Row="4" Grid.Column="0"/>
+                            <xctk:IntegerUpDown x:Name="UpDownMaternalName" IsEnabled="False" Minimum="0" Maximum="100" Value="2" Grid.Row="4" Grid.Column="2"/>
+
+                            <!--col 2-->
+                            <CheckBox x:Name="SelColTelephone" Checked="OnChecked_SelColTelephone" Unchecked="OnChecked_SelColTelephone" Content="Teléfono" Grid.Row="0" Grid.Column="4"/>
+                            <xctk:IntegerUpDown x:Name="UpDownTelephone" IsEnabled="False" Minimum="0" Maximum="100" Value="3" Grid.Row="0" Grid.Column="6"/>
+                            <CheckBox x:Name="SelColTelephoneExt" Checked="OnChecked_SelColTelephoneExt" Unchecked="OnChecked_SelColTelephoneExt" Content="Ext. Teléfono" Grid.Row="2" Grid.Column="4"/>
+                            <xctk:IntegerUpDown x:Name="UpDownTelephoneExt" IsEnabled="False" Minimum="0" Maximum="100" Value="4" Grid.Row="2" Grid.Column="6"/>
+                            <CheckBox x:Name="SelColCellPhone" Checked="OnChecked_SelColCellPhone" Unchecked="OnChecked_SelColCellPhone" Content="Celular" Grid.Row="4" Grid.Column="4"/>
+                            <xctk:IntegerUpDown x:Name="UpDownCellPhone" IsEnabled="False" Minimum="0" Maximum="100" Value="5" Grid.Row="4" Grid.Column="6"/>
+
+                            <!--col 3-->
+                            <CheckBox x:Name="SelColInstitution" Checked="OnChecked_SelColInstitution" Unchecked="OnChecked_SelColInstitution" Content="Institución" Grid.Row="0" Grid.Column="8"/>
+                            <xctk:IntegerUpDown x:Name="UpDownInstitution" IsEnabled="False" Minimum="0" Maximum="100" Value="6" Grid.Row="0" Grid.Column="10"/>
+                            <CheckBox x:Name="SelColInstitutionRole" Checked="OnChecked_SelColInstitutionRole" Unchecked="OnChecked_SelColInstitutionRole" Content="Cargo" Grid.Row="2" Grid.Column="8"/>
+                            <xctk:IntegerUpDown x:Name="UpDownInstitutionRole" IsEnabled="False" Minimum="0" Maximum="100" Value="7" Grid.Row="2" Grid.Column="10"/>
+                            <CheckBox x:Name="SelColSex" Checked="OnChecked_SelColSex" Unchecked="OnChecked_SelColSex" Content="Sexo" Grid.Row="4" Grid.Column="8"/>
+                            <xctk:IntegerUpDown x:Name="UpDownSex" IsEnabled="False" Minimum="0" Maximum="100" Value="8" Grid.Row="4" Grid.Column="10"/>
+
+                        </Grid>
+                    </GroupBox>
+
+                    <GroupBox Header="Proceso" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="6" Margin="0, 0, 0, 0" >
+                        <Grid Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="5"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="5"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="5"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <CheckBox x:Name="ReviewRecordsIndividualy" Content="Revisar registros individualmente" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" IsChecked="True" IsEnabled="False"/>
+                            <Label Content="Umbral de similitud contra registros existentes" Grid.Row="2" Grid.Column="0"/>
+                            <xctk:IntegerUpDown x:Name="UpDownSimilarityThreshold" Grid.Row="2" Grid.Column="2" Minimum="0" Maximum="50" Value="5"/>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+
+            <TabItem x:Name="TabReviewInput" Header="Revisión" Visibility="Collapsed">
+
+                <Grid Margin="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Row="0" Grid.Column="0">
+                        <StackPanel.Background>
+                            <SolidColorBrush Color="Gray" Opacity="0.2"/>
+                        </StackPanel.Background>
+
+                        <Label Content="Se encontraron 15 registros registros. Asegurese que la información sea correcta y las columnas correspondan antes de continuar..."  x:Name="LblTotalRecords" FontSize="12" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left"/>
+
+                    </StackPanel>
+
+                    <DataGrid x:Name="DataGridInput" IsReadOnly="True" AutoGenerateColumns="False" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Margin="0, 5, 0, 0">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn x:Name="ColName" Header="Nombre" Width="120" Binding="{Binding Name}"/>
+                            <DataGridTextColumn x:Name="ColPaternalName" Header="Apellido Paterno" Width="120" Binding="{Binding PaternalName}"/>
+                            <DataGridTextColumn x:Name="ColMaternalName" Header="Apellido Materno" Width="120" Binding="{Binding MaternalName}"/>
+                            <DataGridTextColumn x:Name="ColPhone" Header="Teléfono" Width="100" Binding="{Binding Phone}"/>
+                            <DataGridTextColumn x:Name="ColPhoneExtension" Header="Ext. Teléfono" Width="100" Binding="{Binding PhoneExtension}"/>
+                            <DataGridTextColumn x:Name="ColCellphone" Header="Celular" Width="100" Binding="{Binding Cellphone}"/>
+                            <DataGridTextColumn x:Name="ColInstitutionName" Header="Institución" Width="140" Binding="{Binding InstitutionName}"/>
+                            <DataGridTextColumn x:Name="ColInstitutionRoleName" Header="Cargo" Width="140" Binding="{Binding InstitutionRoleName}"/>
+                            <DataGridTextColumn x:Name="ColSex" Header="Sexo" Width="80" Binding="{Binding Sex}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                </Grid>
+            </TabItem>
+
+            <TabItem x:Name="TabAddCitizen" Header="Alta de Ciudadano" Visibility="Collapsed">
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+
+                    <StackPanel Grid.Row="0" Grid.Column="0">
+                        <StackPanel.Background>
+                            <SolidColorBrush Color="Gray" Opacity="0.2"/>
+                        </StackPanel.Background>
+
+                        <Label x:Name="LblCitizenInfo" Content="Información del Ciudadano - Registro 24 / 181"/>
+
+                    </StackPanel>
+
+                    <Grid Grid.Row="1" Grid.Column="0" Margin="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <GroupBox Header="General" Grid.Row="0" Grid.Column="0">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="110"/>
+                                    <ColumnDefinition Width="5"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="5"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="5"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="5"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <Label Content="Nombre" Grid.Row="0" Grid.Column="0"/>
+                                <TextBox x:Name="TbName" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Stretch"/>
+                                <Label Content="Apellido paterno" Grid.Row="2" Grid.Column="0"/>
+                                <TextBox x:Name="TbPaternalName" Grid.Row="2" Grid.Column="2" HorizontalAlignment="Stretch"/>
+                                <Label Content="Apellido materno" Grid.Row="4" Grid.Column="0"/>
+                                <TextBox x:Name="TbMaternalName" Grid.Row="4" Grid.Column="2" HorizontalAlignment="Stretch"/>
+                                <Label Content="Sexo" Grid.Row="6" Grid.Column="0"/>
+                                <ComboBox x:Name="CmbSex" Grid.Row="6" Grid.Column="2" HorizontalAlignment="Stretch"/>
+
+                            </Grid>
+                        </GroupBox>
+
+                        <GroupBox Header="Contacto" Grid.Row="1" Grid.Column="0">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="110"/>
+                                    <ColumnDefinition Width="5"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="5"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="5"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="5"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="5"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="5"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="5"/>
+                                </Grid.RowDefinitions>
+                                
+                                <Label Content="Teléfono" Grid.Row="0" Grid.Column="0"/>
+                                <TextBox x:Name="TbPhone" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Stretch"/>
+                                <Label Content="Ext." Grid.Row="0" Grid.Column="4"/>
+                                <TextBox x:Name="TbPhoneExtension" Grid.Row="0" Grid.Column="6" Width="100"/>
+                                <Label Content="Celular" Grid.Row="2" Grid.Column="0"/>
+                                <TextBox x:Name="TbCellPhone" Grid.Row="2" Grid.Column="2" HorizontalAlignment="Stretch"/>
+                            </Grid>
+                        </GroupBox>
+
+                        <GroupBox Header="Cargo" Grid.Row="2" Grid.Column="0">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="110"/>
+                                    <ColumnDefinition Width="5"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="5"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="5"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="5"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="5"/>
+                                </Grid.RowDefinitions>
+
+                                <Label Grid.Row="0" Grid.Column="0" Content="Institución"/>
+                                <ComboBox x:Name="CmbInstitution" Grid.Row="0" Grid.Column="2" SelectionChanged="CmbInstitution_SelectionChanged"/>
+                                <Button x:Name="BAddInstitution" Grid.Row="0" Grid.Column="4" Content="Nueva" Click="BAddInstitution_Click"/>
+                                <Label Grid.Row="2" Grid.Column="0" Content="Cargo"/>
+                                <ComboBox x:Name="CmbInstitutionRole" Grid.Row="2" Grid.Column="2"/>
+                                <Button x:Name="BAddInstitutionRole" Grid.Row="2" Grid.Column="4" Content="Nuevo" Click="BAddInstitutionRole_Click"/>
+
+                            </Grid>
+                            
+                        </GroupBox>
+                    </Grid>
+                </Grid>
+            </TabItem>
+
+            <TabItem x:Name="TabReviewOutput" Header="Revisión de Salida" Visibility="Collapsed">
+                <Grid Margin="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Row="0" Grid.Column="0">
+                        <StackPanel.Background>
+                            <SolidColorBrush Color="Gray" Opacity="0.2"/>
+                        </StackPanel.Background>
+
+                        <Label Content="Se validaron 15 registros en total. De click en siguiente para iniciar la importación..."  x:Name="LblFinalRecords" FontSize="12" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left"/>
+
+                    </StackPanel>
+
+                    <DataGrid x:Name="DataGridOutput" IsReadOnly="True" AutoGenerateColumns="False" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Margin="0, 5, 0, 0">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn x:Name="ColFinalName" Header="Nombre" Width="120" Binding="{Binding Name}"/>
+                            <DataGridTextColumn x:Name="ColFinalPaternalName" Header="Apellido Paterno" Width="120" Binding="{Binding PaternalName}"/>
+                            <DataGridTextColumn x:Name="ColFinalMaternalName" Header="Apellido Materno" Width="120" Binding="{Binding MaternalName}"/>
+                            <DataGridTextColumn x:Name="ColFinalPhone" Header="Teléfono" Width="100" Binding="{Binding Phone}"/>
+                            <DataGridTextColumn x:Name="ColFinalPhoneExtension" Header="Ext. Teléfono" Width="100" Binding="{Binding PhoneExtension}"/>
+                            <DataGridTextColumn x:Name="ColFinalCellphone" Header="Celular" Width="100" Binding="{Binding Cellphone}"/>
+                            <DataGridTextColumn x:Name="ColFinalInstitutionName" Header="Institución" Width="140" Binding="{Binding InstitutionName}"/>
+                            <DataGridTextColumn x:Name="ColFinalInstitutionRoleName" Header="Cargo" Width="140" Binding="{Binding InstitutionRoleName}"/>
+                            <DataGridTextColumn x:Name="ColFinalSex" Header="Sexo" Width="80" Binding="{Binding Sex}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+            <TabItem x:Name="TabImport" Visibility="Collapsed">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Content="Importando registros..." Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <ProgressBar x:Name="PbImport" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="20"/>
+                    <Label Content="0 / 0" x:Name="LblImportProgress" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Grid>
+
+            </TabItem>
+        </TabControl>
+
+        <!--bottom controls-->
+
+        <Grid Grid.Row="2" Grid.Column="0" Margin="0, 5, 0, 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Content="Abortar" Grid.Row="1" x:Name="BtnAbort" Grid.Column="0" Click="BtnAbort_Click"/>
+            <Button Content="Anterior" IsEnabled="False" Grid.Row="1" x:Name="BtnBack" Click="OnClick_BtnBack" Grid.Column="2"/>
+            <Button Content="Siguente" Grid.Row="1" x:Name="BtnNext" Click="OnClick_BtnNext" Grid.Column="4"/>
+            <Button Content="Finalizar" IsEnabled="False" Grid.Row="1" x:Name="BtnFinish" Grid.Column="6" Click="BtnFinish_Click"/>
+        </Grid>
+    </Grid>
+</Window>

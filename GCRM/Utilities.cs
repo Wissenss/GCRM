@@ -2,8 +2,10 @@
 using Business;
 using Business.Business;
 using ClosedXML.Excel;
+using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Office.CoverPageProps;
 using DocumentFormat.OpenXml.Office2010.ExcelAc;
+using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Wordprocessing;
 using GCRM.Domain.Enums;
@@ -11,7 +13,9 @@ using NLog;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing.Printing;
+using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -19,8 +23,6 @@ using System.Text;
 using System.Text.Json;
 using System.Windows.Forms;
 using System.Xml.Serialization;
-using System.Net.Http;
-using System.IO;
 using WeCantSpell.Hunspell;
 
 namespace GCRM
@@ -676,6 +678,28 @@ namespace GCRM
             worksheet.Cell(row, col).Style.Border.LeftBorderColor = XLColor.Black;
             worksheet.Cell(row, col).Style.Border.TopBorderColor = XLColor.Black;
             worksheet.Cell(row, col).Style.Border.BottomBorderColor = XLColor.Black;
+        }
+    
+        public static string GetCellValueAsString(Cell cell, WorkbookPart workbookPart)
+        {
+            string value = "";
+
+            if (cell.CellValue != null)
+            {
+                value = cell.CellValue.InnerText;
+            }
+
+            // excel holds a shared string table, so if the cell is a shared string, we need to look up the actual value in the shared string table
+
+            if (cell.DataType != null && cell.DataType.Value == CellValues.SharedString)
+            {
+                OpenXmlElement element = workbookPart.SharedStringTablePart!.SharedStringTable.ElementAt(int.Parse(value));
+
+                if (element != null)
+                    value = element.InnerText;
+            }
+
+            return value;
         }
     }
 

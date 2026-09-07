@@ -66,6 +66,7 @@
             BFixDuplicates = new ToolStripButton();
             toolStripSeparator6 = new ToolStripSeparator();
             BBackup = new ToolStripButton();
+            toolStripButton2 = new ToolStripButton();
             ListBoxBirhdays = new ListBox();
             LBirthdayList = new Label();
             PictureBoxBirthdayList = new PictureBox();
@@ -102,10 +103,12 @@
             // 
             // statusStrip1
             // 
+            statusStrip1.ImageScalingSize = new Size(20, 20);
             statusStrip1.Items.AddRange(new ToolStripItem[] { LToolStripUsername, LToolStripServer, LToolstripVersion });
-            statusStrip1.Location = new Point(0, 391);
+            statusStrip1.Location = new Point(0, 526);
             statusStrip1.Name = "statusStrip1";
-            statusStrip1.Size = new Size(801, 22);
+            statusStrip1.Padding = new Padding(1, 0, 16, 0);
+            statusStrip1.Size = new Size(915, 25);
             statusStrip1.TabIndex = 0;
             statusStrip1.Text = "statusStrip1";
             // 
@@ -113,7 +116,7 @@
             // 
             LToolStripUsername.Font = new Font("Segoe UI Variable Small Light", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             LToolStripUsername.Name = "LToolStripUsername";
-            LToolStripUsername.Size = new Size(262, 17);
+            LToolStripUsername.Size = new Size(299, 19);
             LToolStripUsername.Spring = true;
             LToolStripUsername.Text = "Usuario: ausuario - agroup";
             LToolStripUsername.TextAlign = ContentAlignment.MiddleLeft;
@@ -122,7 +125,7 @@
             // 
             LToolStripServer.Font = new Font("Segoe UI Variable Small Light", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             LToolStripServer.Name = "LToolStripServer";
-            LToolStripServer.Size = new Size(262, 17);
+            LToolStripServer.Size = new Size(299, 19);
             LToolStripServer.Spring = true;
             LToolStripServer.Text = "Server - tcp://localhost:8095";
             LToolStripServer.TextAlign = ContentAlignment.MiddleRight;
@@ -132,7 +135,7 @@
             LToolstripVersion.Font = new Font("Segoe UI Variable Small Light", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             LToolstripVersion.ForeColor = SystemColors.InfoText;
             LToolstripVersion.Name = "LToolstripVersion";
-            LToolstripVersion.Size = new Size(262, 17);
+            LToolstripVersion.Size = new Size(299, 19);
             LToolstripVersion.Spring = true;
             LToolstripVersion.Text = "Versión - 0.0.0.1 - alpha";
             LToolstripVersion.TextAlign = ContentAlignment.MiddleRight;
@@ -141,11 +144,12 @@
             // 
             toolStrip1.Dock = DockStyle.Fill;
             toolStrip1.GripStyle = ToolStripGripStyle.Hidden;
+            toolStrip1.ImageScalingSize = new Size(20, 20);
             toolStrip1.Items.AddRange(new ToolStripItem[] { BCitizens, ToolStripSeparator4, BCitizenGroups, BRelationships, ToolStripSeparator2, BInstitutions, ToolStripSeparator7, BReportList });
-            toolStrip1.Location = new Point(3, 3);
+            toolStrip1.Location = new Point(3, 4);
             toolStrip1.Name = "toolStrip1";
             toolStrip1.RenderMode = ToolStripRenderMode.System;
-            toolStrip1.Size = new Size(787, 55);
+            toolStrip1.Size = new Size(901, 78);
             toolStrip1.TabIndex = 0;
             toolStrip1.Text = "ToolStripCatalogos";
             // 
@@ -155,7 +159,7 @@
             BCitizens.ImageScaling = ToolStripItemImageScaling.None;
             BCitizens.ImageTransparentColor = Color.Magenta;
             BCitizens.Name = "BCitizens";
-            BCitizens.Size = new Size(74, 52);
+            BCitizens.Size = new Size(91, 75);
             BCitizens.Text = "&Ciudadanos";
             BCitizens.TextImageRelation = TextImageRelation.ImageAboveText;
             BCitizens.Click += BCitizens_Click;
@@ -163,7 +167,7 @@
             // ToolStripSeparator4
             // 
             ToolStripSeparator4.Name = "ToolStripSeparator4";
-            ToolStripSeparator4.Size = new Size(6, 55);
+            ToolStripSeparator4.Size = new Size(6, 78);
             // 
             // BCitizenGroups
             // 
@@ -172,7 +176,7 @@
             BCitizenGroups.ImageTransparentColor = Color.Magenta;
             BCitizenGroups.Name = "BCitizenGroups";
             BCitizenGroups.Padding = new Padding(10, 0, 10, 0);
-            BCitizenGroups.Size = new Size(69, 52);
+            BCitizenGroups.Size = new Size(80, 75);
             BCitizenGroups.Text = "&Grupos";
             BCitizenGroups.TextImageRelation = TextImageRelation.ImageAboveText;
             BCitizenGroups.Visible = false;
@@ -185,7 +189,7 @@
             BRelationships.ImageTransparentColor = Color.Magenta;
             BRelationships.Name = "BRelationships";
             BRelationships.Padding = new Padding(5, 0, 5, 0);
-            BRelationships.Size = new Size(77, 52);
+            BRelationships.Size = new Size(94, 75);
             BRelationships.Text = "&Relaciones";
             BRelationships.TextImageRelation = TextImageRelation.ImageAboveText;
             BRelationships.Click += BRelationships_Click;
@@ -193,7 +197,7 @@
             // ToolStripSeparator2
             // 
             ToolStripSeparator2.Name = "ToolStripSeparator2";
-            ToolStripSeparator2.Size = new Size(6, 55);
+            ToolStripSeparator2.Size = new Size(6, 78);
             // 
             // BInstitutions
             // 
@@ -201,7 +205,7 @@
             BInstitutions.ImageScaling = ToolStripItemImageScaling.None;
             BInstitutions.ImageTransparentColor = Color.Magenta;
             BInstitutions.Name = "BInstitutions";
-            BInstitutions.Size = new Size(78, 52);
+            BInstitutions.Size = new Size(95, 75);
             BInstitutions.Text = "&Instituciones";
             BInstitutions.TextImageRelation = TextImageRelation.ImageAboveText;
             BInstitutions.Click += BInstitutions_Click;
@@ -209,7 +213,7 @@
             // ToolStripSeparator7
             // 
             ToolStripSeparator7.Name = "ToolStripSeparator7";
-            ToolStripSeparator7.Size = new Size(6, 55);
+            ToolStripSeparator7.Size = new Size(6, 78);
             // 
             // BReportList
             // 
@@ -217,7 +221,7 @@
             BReportList.ImageScaling = ToolStripItemImageScaling.None;
             BReportList.ImageTransparentColor = Color.Magenta;
             BReportList.Name = "BReportList";
-            BReportList.Size = new Size(57, 52);
+            BReportList.Size = new Size(72, 75);
             BReportList.Text = "R&eportes";
             BReportList.TextImageRelation = TextImageRelation.ImageAboveText;
             BReportList.Click += BReportList_Click;
@@ -229,18 +233,20 @@
             TabControl.Controls.Add(TabOthers);
             TabControl.Dock = DockStyle.Top;
             TabControl.Location = new Point(0, 0);
+            TabControl.Margin = new Padding(3, 4, 3, 4);
             TabControl.Name = "TabControl";
             TabControl.SelectedIndex = 0;
-            TabControl.Size = new Size(801, 89);
+            TabControl.Size = new Size(915, 119);
             TabControl.TabIndex = 1;
             // 
             // TabPageCatalogs
             // 
             TabPageCatalogs.Controls.Add(toolStrip1);
-            TabPageCatalogs.Location = new Point(4, 24);
+            TabPageCatalogs.Location = new Point(4, 29);
+            TabPageCatalogs.Margin = new Padding(3, 4, 3, 4);
             TabPageCatalogs.Name = "TabPageCatalogs";
-            TabPageCatalogs.Padding = new Padding(3);
-            TabPageCatalogs.Size = new Size(793, 61);
+            TabPageCatalogs.Padding = new Padding(3, 4, 3, 4);
+            TabPageCatalogs.Size = new Size(907, 86);
             TabPageCatalogs.TabIndex = 0;
             TabPageCatalogs.Text = "General";
             TabPageCatalogs.UseVisualStyleBackColor = true;
@@ -248,10 +254,11 @@
             // TabElectoral
             // 
             TabElectoral.Controls.Add(toolStrip3);
-            TabElectoral.Location = new Point(4, 24);
+            TabElectoral.Location = new Point(4, 29);
+            TabElectoral.Margin = new Padding(3, 4, 3, 4);
             TabElectoral.Name = "TabElectoral";
-            TabElectoral.Padding = new Padding(3);
-            TabElectoral.Size = new Size(793, 61);
+            TabElectoral.Padding = new Padding(3, 4, 3, 4);
+            TabElectoral.Size = new Size(907, 86);
             TabElectoral.TabIndex = 2;
             TabElectoral.Text = "Electoral";
             TabElectoral.UseVisualStyleBackColor = true;
@@ -260,11 +267,12 @@
             // 
             toolStrip3.Dock = DockStyle.Fill;
             toolStrip3.GripStyle = ToolStripGripStyle.Hidden;
+            toolStrip3.ImageScalingSize = new Size(20, 20);
             toolStrip3.Items.AddRange(new ToolStripItem[] { BCitizenNetworks, toolStripSeparator3, toolStripButton1 });
-            toolStrip3.Location = new Point(3, 3);
+            toolStrip3.Location = new Point(3, 4);
             toolStrip3.Name = "toolStrip3";
             toolStrip3.RenderMode = ToolStripRenderMode.System;
-            toolStrip3.Size = new Size(787, 55);
+            toolStrip3.Size = new Size(901, 78);
             toolStrip3.TabIndex = 1;
             toolStrip3.Text = "ToolStripCatalogos";
             // 
@@ -274,7 +282,7 @@
             BCitizenNetworks.ImageScaling = ToolStripItemImageScaling.None;
             BCitizenNetworks.ImageTransparentColor = Color.Magenta;
             BCitizenNetworks.Name = "BCitizenNetworks";
-            BCitizenNetworks.Size = new Size(69, 52);
+            BCitizenNetworks.Size = new Size(84, 75);
             BCitizenNetworks.Text = "Estructuras";
             BCitizenNetworks.TextImageRelation = TextImageRelation.ImageAboveText;
             BCitizenNetworks.Click += BCitizenNetworks_Click;
@@ -282,7 +290,7 @@
             // toolStripSeparator3
             // 
             toolStripSeparator3.Name = "toolStripSeparator3";
-            toolStripSeparator3.Size = new Size(6, 55);
+            toolStripSeparator3.Size = new Size(6, 78);
             // 
             // toolStripButton1
             // 
@@ -290,7 +298,7 @@
             toolStripButton1.ImageScaling = ToolStripItemImageScaling.None;
             toolStripButton1.ImageTransparentColor = Color.Magenta;
             toolStripButton1.Name = "toolStripButton1";
-            toolStripButton1.Size = new Size(63, 52);
+            toolStripButton1.Size = new Size(77, 75);
             toolStripButton1.Text = "&Encuestas";
             toolStripButton1.TextImageRelation = TextImageRelation.ImageAboveText;
             toolStripButton1.Visible = false;
@@ -298,10 +306,11 @@
             // TabOthers
             // 
             TabOthers.Controls.Add(ToolStripOther);
-            TabOthers.Location = new Point(4, 24);
+            TabOthers.Location = new Point(4, 29);
+            TabOthers.Margin = new Padding(3, 4, 3, 4);
             TabOthers.Name = "TabOthers";
-            TabOthers.Padding = new Padding(3);
-            TabOthers.Size = new Size(793, 61);
+            TabOthers.Padding = new Padding(3, 4, 3, 4);
+            TabOthers.Size = new Size(907, 86);
             TabOthers.TabIndex = 1;
             TabOthers.Text = "Otros";
             TabOthers.UseVisualStyleBackColor = true;
@@ -310,11 +319,12 @@
             // 
             ToolStripOther.Dock = DockStyle.Fill;
             ToolStripOther.GripStyle = ToolStripGripStyle.Hidden;
-            ToolStripOther.Items.AddRange(new ToolStripItem[] { BSettings, BUsers, BUserGroups, BConnection, BAbout, toolStripSeparator1, BEmails, BSync, toolStripSeparator5, BQueries, BEventLog, toolStripSeparator8, BFixDuplicates, toolStripSeparator6, BBackup });
-            ToolStripOther.Location = new Point(3, 3);
+            ToolStripOther.ImageScalingSize = new Size(20, 20);
+            ToolStripOther.Items.AddRange(new ToolStripItem[] { BSettings, BUsers, BUserGroups, BConnection, BAbout, toolStripSeparator1, BEmails, BSync, toolStripSeparator5, BQueries, BEventLog, toolStripSeparator8, BFixDuplicates, toolStripSeparator6, BBackup, toolStripButton2 });
+            ToolStripOther.Location = new Point(3, 4);
             ToolStripOther.Name = "ToolStripOther";
             ToolStripOther.RenderMode = ToolStripRenderMode.System;
-            ToolStripOther.Size = new Size(787, 55);
+            ToolStripOther.Size = new Size(901, 78);
             ToolStripOther.TabIndex = 0;
             ToolStripOther.Text = "toolStrip2";
             // 
@@ -325,7 +335,7 @@
             BSettings.ImageScaling = ToolStripItemImageScaling.None;
             BSettings.ImageTransparentColor = Color.Magenta;
             BSettings.Name = "BSettings";
-            BSettings.Size = new Size(49, 52);
+            BSettings.Size = new Size(60, 75);
             BSettings.Text = "&Ajustes";
             BSettings.TextImageRelation = TextImageRelation.ImageAboveText;
             BSettings.Click += BSettings_Click;
@@ -337,7 +347,7 @@
             BUsers.ImageTransparentColor = Color.Magenta;
             BUsers.Margin = new Padding(1, 2, 1, 2);
             BUsers.Name = "BUsers";
-            BUsers.Size = new Size(56, 51);
+            BUsers.Size = new Size(69, 74);
             BUsers.Text = "&Usuarios";
             BUsers.TextImageRelation = TextImageRelation.ImageAboveText;
             BUsers.Click += BUsers_Click;
@@ -349,7 +359,7 @@
             BUserGroups.ImageTransparentColor = Color.Magenta;
             BUserGroups.Margin = new Padding(1, 2, 1, 2);
             BUserGroups.Name = "BUserGroups";
-            BUserGroups.Size = new Size(49, 51);
+            BUserGroups.Size = new Size(60, 74);
             BUserGroups.Text = "&Grupos";
             BUserGroups.TextImageRelation = TextImageRelation.ImageAboveText;
             BUserGroups.Click += BUserGroups_Click;
@@ -362,7 +372,7 @@
             BConnection.ImageTransparentColor = Color.Magenta;
             BConnection.Margin = new Padding(1, 2, 1, 2);
             BConnection.Name = "BConnection";
-            BConnection.Size = new Size(61, 51);
+            BConnection.Size = new Size(75, 74);
             BConnection.Text = "&Conexión";
             BConnection.TextImageRelation = TextImageRelation.ImageAboveText;
             BConnection.Click += BConnection_Click;
@@ -375,7 +385,7 @@
             BAbout.ImageTransparentColor = Color.Magenta;
             BAbout.Margin = new Padding(1, 2, 1, 2);
             BAbout.Name = "BAbout";
-            BAbout.Size = new Size(63, 51);
+            BAbout.Size = new Size(79, 74);
             BAbout.Text = "&Acerca de";
             BAbout.TextImageRelation = TextImageRelation.ImageAboveText;
             BAbout.ToolTipText = "Acerca de";
@@ -385,7 +395,7 @@
             // 
             toolStripSeparator1.Margin = new Padding(1, 2, 1, 2);
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(6, 51);
+            toolStripSeparator1.Size = new Size(6, 74);
             // 
             // BEmails
             // 
@@ -394,7 +404,7 @@
             BEmails.ImageTransparentColor = Color.Magenta;
             BEmails.Margin = new Padding(1, 2, 1, 2);
             BEmails.Name = "BEmails";
-            BEmails.Size = new Size(45, 51);
+            BEmails.Size = new Size(56, 74);
             BEmails.Text = "&Emails";
             BEmails.TextImageRelation = TextImageRelation.ImageAboveText;
             BEmails.Click += BEmails_Click;
@@ -406,7 +416,7 @@
             BSync.ImageTransparentColor = Color.Magenta;
             BSync.Margin = new Padding(1, 2, 1, 2);
             BSync.Name = "BSync";
-            BSync.Size = new Size(69, 51);
+            BSync.Size = new Size(86, 74);
             BSync.Text = "&Sincronizar";
             BSync.TextImageRelation = TextImageRelation.ImageAboveText;
             BSync.Click += BSync_Click;
@@ -414,7 +424,7 @@
             // toolStripSeparator5
             // 
             toolStripSeparator5.Name = "toolStripSeparator5";
-            toolStripSeparator5.Size = new Size(6, 55);
+            toolStripSeparator5.Size = new Size(6, 78);
             // 
             // BQueries
             // 
@@ -423,7 +433,7 @@
             BQueries.ImageTransparentColor = Color.Magenta;
             BQueries.Margin = new Padding(1, 2, 1, 2);
             BQueries.Name = "BQueries";
-            BQueries.Size = new Size(63, 51);
+            BQueries.Size = new Size(76, 74);
             BQueries.Text = "&Consultas";
             BQueries.TextImageRelation = TextImageRelation.ImageAboveText;
             BQueries.Click += BQueries_Click;
@@ -435,7 +445,7 @@
             BEventLog.ImageTransparentColor = Color.Magenta;
             BEventLog.Margin = new Padding(1, 2, 1, 2);
             BEventLog.Name = "BEventLog";
-            BEventLog.Size = new Size(54, 51);
+            BEventLog.Size = new Size(68, 74);
             BEventLog.Text = "&Bitácora";
             BEventLog.TextImageRelation = TextImageRelation.ImageAboveText;
             BEventLog.Click += BEventLog_Click;
@@ -443,7 +453,7 @@
             // toolStripSeparator8
             // 
             toolStripSeparator8.Name = "toolStripSeparator8";
-            toolStripSeparator8.Size = new Size(6, 55);
+            toolStripSeparator8.Size = new Size(6, 78);
             // 
             // BFixDuplicates
             // 
@@ -452,7 +462,7 @@
             BFixDuplicates.ImageTransparentColor = Color.Magenta;
             BFixDuplicates.Margin = new Padding(1, 2, 1, 2);
             BFixDuplicates.Name = "BFixDuplicates";
-            BFixDuplicates.Size = new Size(83, 51);
+            BFixDuplicates.Size = new Size(104, 74);
             BFixDuplicates.Text = "B. &Duplicados";
             BFixDuplicates.TextImageRelation = TextImageRelation.ImageAboveText;
             BFixDuplicates.Click += BFixDuplicates_Click;
@@ -461,7 +471,7 @@
             // 
             toolStripSeparator6.Alignment = ToolStripItemAlignment.Right;
             toolStripSeparator6.Name = "toolStripSeparator6";
-            toolStripSeparator6.Size = new Size(6, 55);
+            toolStripSeparator6.Size = new Size(6, 78);
             // 
             // BBackup
             // 
@@ -471,11 +481,21 @@
             BBackup.ImageTransparentColor = Color.Magenta;
             BBackup.Margin = new Padding(1, 2, 1, 2);
             BBackup.Name = "BBackup";
-            BBackup.Size = new Size(62, 51);
+            BBackup.Size = new Size(79, 74);
             BBackup.Text = "&Respaldar";
             BBackup.TextImageRelation = TextImageRelation.ImageAboveText;
             BBackup.ToolTipText = "Respaldar";
             BBackup.Click += BBackup_Click;
+            // 
+            // toolStripButton2
+            // 
+            toolStripButton2.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            toolStripButton2.Image = (Image)resources.GetObject("toolStripButton2.Image");
+            toolStripButton2.ImageTransparentColor = Color.Magenta;
+            toolStripButton2.Name = "toolStripButton2";
+            toolStripButton2.Size = new Size(29, 24);
+            toolStripButton2.Text = "toolStripButton2";
+            toolStripButton2.Click += toolStripButton2_Click;
             // 
             // ListBoxBirhdays
             // 
@@ -484,12 +504,11 @@
             ListBoxBirhdays.Dock = DockStyle.Fill;
             ListBoxBirhdays.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             ListBoxBirhdays.FormattingEnabled = true;
-            ListBoxBirhdays.ItemHeight = 15;
-            ListBoxBirhdays.Location = new Point(5, 5);
-            ListBoxBirhdays.Margin = new Padding(5, 20, 5, 5);
+            ListBoxBirhdays.Location = new Point(6, 7);
+            ListBoxBirhdays.Margin = new Padding(6, 27, 6, 7);
             ListBoxBirhdays.Name = "ListBoxBirhdays";
             ListBoxBirhdays.SelectionMode = SelectionMode.None;
-            ListBoxBirhdays.Size = new Size(313, 0);
+            ListBoxBirhdays.Size = new Size(358, 0);
             ListBoxBirhdays.TabIndex = 2;
             // 
             // LBirthdayList
@@ -498,9 +517,9 @@
             LBirthdayList.Dock = DockStyle.Fill;
             LBirthdayList.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             LBirthdayList.ForeColor = SystemColors.ControlText;
-            LBirthdayList.Location = new Point(23, 5);
+            LBirthdayList.Location = new Point(27, 7);
             LBirthdayList.Name = "LBirthdayList";
-            LBirthdayList.Size = new Size(143, 15);
+            LBirthdayList.Size = new Size(185, 20);
             LBirthdayList.TabIndex = 3;
             LBirthdayList.Text = "Cumpleaños el día de hoy";
             // 
@@ -508,9 +527,10 @@
             // 
             PictureBoxBirthdayList.Dock = DockStyle.Left;
             PictureBoxBirthdayList.Image = Properties.Resources.Fatcow_Farm_Fresh_Cake_16;
-            PictureBoxBirthdayList.Location = new Point(5, 5);
+            PictureBoxBirthdayList.Location = new Point(6, 7);
+            PictureBoxBirthdayList.Margin = new Padding(3, 4, 3, 4);
             PictureBoxBirthdayList.Name = "PictureBoxBirthdayList";
-            PictureBoxBirthdayList.Size = new Size(18, 15);
+            PictureBoxBirthdayList.Size = new Size(21, 20);
             PictureBoxBirthdayList.TabIndex = 4;
             PictureBoxBirthdayList.TabStop = false;
             // 
@@ -518,9 +538,10 @@
             // 
             BackgroundImage.BackColor = Color.Transparent;
             BackgroundImage.Dock = DockStyle.Fill;
-            BackgroundImage.Location = new Point(0, 89);
+            BackgroundImage.Location = new Point(0, 119);
+            BackgroundImage.Margin = new Padding(3, 4, 3, 4);
             BackgroundImage.Name = "BackgroundImage";
-            BackgroundImage.Size = new Size(801, 302);
+            BackgroundImage.Size = new Size(915, 407);
             BackgroundImage.SizeMode = PictureBoxSizeMode.CenterImage;
             BackgroundImage.TabIndex = 5;
             BackgroundImage.TabStop = false;
@@ -534,8 +555,9 @@
             BirthdayPanel.Controls.Add(BirthdayPanelTopBar);
             BirthdayPanel.Dock = DockStyle.Top;
             BirthdayPanel.Location = new Point(0, 0);
+            BirthdayPanel.Margin = new Padding(3, 4, 3, 4);
             BirthdayPanel.Name = "BirthdayPanel";
-            BirthdayPanel.Size = new Size(321, 37);
+            BirthdayPanel.Size = new Size(367, 50);
             BirthdayPanel.TabIndex = 6;
             // 
             // BirthdayPanelContent
@@ -543,11 +565,12 @@
             BirthdayPanelContent.AutoSize = true;
             BirthdayPanelContent.Controls.Add(ListBoxBirhdays);
             BirthdayPanelContent.Dock = DockStyle.Fill;
-            BirthdayPanelContent.Location = new Point(0, 25);
-            BirthdayPanelContent.MinimumSize = new Size(200, 0);
+            BirthdayPanelContent.Location = new Point(0, 34);
+            BirthdayPanelContent.Margin = new Padding(3, 4, 3, 4);
+            BirthdayPanelContent.MinimumSize = new Size(229, 0);
             BirthdayPanelContent.Name = "BirthdayPanelContent";
-            BirthdayPanelContent.Padding = new Padding(5, 5, 1, 5);
-            BirthdayPanelContent.Size = new Size(319, 10);
+            BirthdayPanelContent.Padding = new Padding(6, 7, 1, 7);
+            BirthdayPanelContent.Size = new Size(365, 14);
             BirthdayPanelContent.TabIndex = 6;
             // 
             // BirthdayPanelTopBar
@@ -558,11 +581,11 @@
             BirthdayPanelTopBar.Controls.Add(PictureBoxBirthdayList);
             BirthdayPanelTopBar.Dock = DockStyle.Top;
             BirthdayPanelTopBar.Location = new Point(0, 0);
-            BirthdayPanelTopBar.Margin = new Padding(3, 3, 3, 10);
-            BirthdayPanelTopBar.MinimumSize = new Size(200, 0);
+            BirthdayPanelTopBar.Margin = new Padding(3, 4, 3, 13);
+            BirthdayPanelTopBar.MinimumSize = new Size(229, 0);
             BirthdayPanelTopBar.Name = "BirthdayPanelTopBar";
-            BirthdayPanelTopBar.Padding = new Padding(5);
-            BirthdayPanelTopBar.Size = new Size(319, 25);
+            BirthdayPanelTopBar.Padding = new Padding(6, 7, 6, 7);
+            BirthdayPanelTopBar.Size = new Size(365, 34);
             BirthdayPanelTopBar.TabIndex = 5;
             // 
             // NotificationsPanel
@@ -570,9 +593,10 @@
             NotificationsPanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             NotificationsPanel.Controls.Add(WarningPanel);
             NotificationsPanel.Controls.Add(BirthdayPanel);
-            NotificationsPanel.Location = new Point(7, 95);
+            NotificationsPanel.Location = new Point(8, 127);
+            NotificationsPanel.Margin = new Padding(3, 4, 3, 4);
             NotificationsPanel.Name = "NotificationsPanel";
-            NotificationsPanel.Size = new Size(321, 290);
+            NotificationsPanel.Size = new Size(367, 387);
             NotificationsPanel.TabIndex = 7;
             // 
             // WarningPanel
@@ -582,9 +606,10 @@
             WarningPanel.Controls.Add(WarningPanelContent);
             WarningPanel.Controls.Add(WarningPanelTopBar);
             WarningPanel.Dock = DockStyle.Top;
-            WarningPanel.Location = new Point(0, 37);
+            WarningPanel.Location = new Point(0, 50);
+            WarningPanel.Margin = new Padding(3, 4, 3, 4);
             WarningPanel.Name = "WarningPanel";
-            WarningPanel.Size = new Size(321, 37);
+            WarningPanel.Size = new Size(367, 50);
             WarningPanel.TabIndex = 7;
             // 
             // WarningPanelContent
@@ -593,11 +618,12 @@
             WarningPanelContent.BackColor = Color.MistyRose;
             WarningPanelContent.Controls.Add(ListBoxWarnings);
             WarningPanelContent.Dock = DockStyle.Fill;
-            WarningPanelContent.Location = new Point(0, 25);
-            WarningPanelContent.MinimumSize = new Size(200, 0);
+            WarningPanelContent.Location = new Point(0, 34);
+            WarningPanelContent.Margin = new Padding(3, 4, 3, 4);
+            WarningPanelContent.MinimumSize = new Size(229, 0);
             WarningPanelContent.Name = "WarningPanelContent";
-            WarningPanelContent.Padding = new Padding(5, 5, 1, 5);
-            WarningPanelContent.Size = new Size(319, 10);
+            WarningPanelContent.Padding = new Padding(6, 7, 1, 7);
+            WarningPanelContent.Size = new Size(365, 14);
             WarningPanelContent.TabIndex = 8;
             // 
             // ListBoxWarnings
@@ -607,12 +633,11 @@
             ListBoxWarnings.Dock = DockStyle.Fill;
             ListBoxWarnings.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             ListBoxWarnings.FormattingEnabled = true;
-            ListBoxWarnings.ItemHeight = 15;
-            ListBoxWarnings.Location = new Point(5, 5);
-            ListBoxWarnings.Margin = new Padding(5, 20, 5, 5);
+            ListBoxWarnings.Location = new Point(6, 7);
+            ListBoxWarnings.Margin = new Padding(6, 27, 6, 7);
             ListBoxWarnings.Name = "ListBoxWarnings";
             ListBoxWarnings.SelectionMode = SelectionMode.None;
-            ListBoxWarnings.Size = new Size(313, 0);
+            ListBoxWarnings.Size = new Size(358, 0);
             ListBoxWarnings.TabIndex = 0;
             // 
             // WarningPanelTopBar
@@ -623,11 +648,11 @@
             WarningPanelTopBar.Controls.Add(PictureBoxWarning);
             WarningPanelTopBar.Dock = DockStyle.Top;
             WarningPanelTopBar.Location = new Point(0, 0);
-            WarningPanelTopBar.Margin = new Padding(3, 3, 3, 10);
-            WarningPanelTopBar.MinimumSize = new Size(200, 0);
+            WarningPanelTopBar.Margin = new Padding(3, 4, 3, 13);
+            WarningPanelTopBar.MinimumSize = new Size(229, 0);
             WarningPanelTopBar.Name = "WarningPanelTopBar";
-            WarningPanelTopBar.Padding = new Padding(5);
-            WarningPanelTopBar.Size = new Size(319, 25);
+            WarningPanelTopBar.Padding = new Padding(6, 7, 6, 7);
+            WarningPanelTopBar.Size = new Size(365, 34);
             WarningPanelTopBar.TabIndex = 0;
             // 
             // label1
@@ -635,9 +660,9 @@
             label1.AutoSize = true;
             label1.Dock = DockStyle.Fill;
             label1.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(23, 5);
+            label1.Location = new Point(27, 7);
             label1.Name = "label1";
-            label1.Size = new Size(280, 15);
+            label1.Size = new Size(360, 20);
             label1.TabIndex = 1;
             label1.Text = "Existen los siguientes problemas con la información";
             // 
@@ -645,23 +670,25 @@
             // 
             PictureBoxWarning.Dock = DockStyle.Left;
             PictureBoxWarning.Image = Properties.Resources.Fatcow_Farm_Fresh_Error_16;
-            PictureBoxWarning.Location = new Point(5, 5);
+            PictureBoxWarning.Location = new Point(6, 7);
+            PictureBoxWarning.Margin = new Padding(3, 4, 3, 4);
             PictureBoxWarning.Name = "PictureBoxWarning";
-            PictureBoxWarning.Size = new Size(18, 15);
+            PictureBoxWarning.Size = new Size(21, 20);
             PictureBoxWarning.TabIndex = 0;
             PictureBoxWarning.TabStop = false;
             // 
             // FMain
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(801, 413);
+            ClientSize = new Size(915, 551);
             Controls.Add(NotificationsPanel);
             Controls.Add(BackgroundImage);
             Controls.Add(TabControl);
             Controls.Add(statusStrip1);
             Icon = (Icon)resources.GetObject("$this.Icon");
-            MinimumSize = new Size(600, 400);
+            Margin = new Padding(3, 4, 3, 4);
+            MinimumSize = new Size(683, 518);
             Name = "FMain";
             Text = "GCRM";
             FormClosing += FMain_FormClosing;
@@ -754,5 +781,6 @@
         private ToolStripButton BReportList;
         private ToolStripButton BFixDuplicates;
         private ToolStripSeparator toolStripSeparator8;
+        private ToolStripButton toolStripButton2;
     }
 }
