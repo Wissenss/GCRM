@@ -32,8 +32,6 @@ namespace GCRM
         DataTable DTInstitutions = new DataTable("DTInstitutions");
         DataTable DTInstitutionRoles = new DataTable("DTInstitutionRoles");
 
-        List<TInstitutionRole> InstitutionRoleList = new List<TInstitutionRole>();
-
         int RecordIndex = 0;
 
         public FExcelImportCitizens()
@@ -247,40 +245,75 @@ namespace GCRM
 
                 // at this point the records have been reviewed individually, so they are ready to be created in the database
 
-                List<TCitizen> citizensToImport = new List<TCitizen>();
+                int recordCount = CitizensTable.Rows.Count;
+                int importErrorCount = 0;
+                int importExceptionCount = 0;
+                int importSuccessCount = 0;
 
-                foreach (DataRow row in CitizensTable.Rows)
-                {
-                    TCitizen citizen = new TCitizen()
-                    {
-                        Name = row["Name"].ToString(),
-                        PaternalName = row["PaternalName"].ToString(),
-                        MaternalName = row["MaternalName"].ToString(),
-                    };
-
-                    citizen.InstitutionRole.Institution.Id = (int)row["InstitutionId"];
-                    citizen.InstitutionRole.Institution.Name = row["InstitutionName"].ToString();
-                    citizen.InstitutionRole.Role.Id = (int)row["InstitutionRoleId"];
-                    citizen.InstitutionRole.Role.Name = row["InstitutionRoleName"].ToString();
-
-                    citizensToImport.Add(citizen);
-                }
-
-                PbImport.Maximum = citizensToImport.Count;
+                PbImport.Maximum = recordCount;
                 PbImport.Value = 0;
 
-                Error error = CitizensHandler.ImportCitizens(citizensToImport, out string importLog, index =>
-                {
-                    PbImport.Value = index + 1;
-                    LblImportProgress.Content = $"{index + 1} / {citizensToImport.Count}";
-                });
+                StringBuilder importLog = new StringBuilder();
 
-                if (error != 0)
+                for (int i = 0; i < recordCount; i++)
                 {
-                    Utilities.ShowErrorDialog(error);
+                    try
+                    {
+
+                        DataRow row = CitizensTable.Rows[i];
+
+                        TCitizen citizen = new TCitizen()
+                        {
+                            Name = row["Name"].ToString(),
+                            PaternalName = row["PaternalName"].ToString(),
+                            MaternalName = row["MaternalName"].ToString(),
+                            Sex = (TSex)CmbSex.SelectedValue,
+                            Phone = new TCitizenContactNumber(TContactNumberType.personal_home, false)
+                            {
+                                Number = row["Phone"].ToString(),
+                                Extension = row["PhoneExtension"].ToString()
+                            },
+                            Cellphone = new TCitizenContactNumber(TContactNumberType.personal_mobile, false)
+                            {
+                                Number = row["Cellphone"].ToString()
+                            },
+                            InstitutionRole = new TCitizenInstitutionRole()
+                            {
+                                Id = 0,
+                                Institution = new TInstitution() { Id = (int)row["InstitutionId"] },
+                                Role = new TInstitutionRole() { Id = (int)row["InstitutionRoleId"] }
+                            }
+                        };
+
+                        Error error = CitizensHandler.SaveCitizen(citizen, false);
+
+                        if (error != 0)
+                        {
+                            importLog.AppendLine($"[Error] (Record: {i}) Error {error}: ({Errors.GetErrorDescription(error)})");
+                            
+                            importErrorCount++;
+                        }
+                        else
+                        {
+                            importSuccessCount++;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        importLog.AppendLine($"[Exception] (Record: {i}) Unhandled exception: {ex.Message}");
+                        
+                        importExceptionCount++;
+                    }
+
+                    PbImport.Value = i + 1;
+                    LblImportProgress.Content = $"{i + 1} / {recordCount}";
+                    LblImportCaseCounter.Content = $"Exitos: {importSuccessCount}, Errores: {importErrorCount}, Excepciones: {importExceptionCount}";
                 }
 
-                System.Windows.Forms.MessageBox.Show(importLog, "Log de importación", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.None);
+                if (importLog.Length > 0)
+                {
+                    Utilities.ShowErrorDialog(importLog.ToString());
+                }
 
                 BtnFinish.IsEnabled = true;
             }
@@ -416,7 +449,7 @@ namespace GCRM
 
         private void LoadInstitutionRoles(int institution_id)
         {
-            InstitutionRoleList = new List<TInstitutionRole>();
+            List<TInstitutionRole> institution_role_list = new List<TInstitutionRole>();
 
             if (institution_id != 0)
             {
@@ -428,7 +461,7 @@ namespace GCRM
                     return;
                 }
 
-                error = InstitutionsHandler.GetInstitutionRoles(institution_id, institution.Template.Id, out InstitutionRoleList);
+                error = InstitutionsHandler.GetInstitutionRoles(institution_id, institution.Template.Id, out institution_role_list);
 
                 if (error != 0)
                 {
@@ -437,7 +470,7 @@ namespace GCRM
                 }
             }
 
-            InstitutionRoleList.Insert(0, new TInstitutionRole()
+            institution_role_list.Insert(0, new TInstitutionRole()
             {
                 Id = 0,
                 Name = "Ninguno",
@@ -446,7 +479,7 @@ namespace GCRM
             DTInstitutionRoles.BeginLoadData();
             DTInstitutionRoles.Clear();
 
-            foreach (TInstitutionRole role in InstitutionRoleList)
+            foreach (TInstitutionRole role in institution_role_list)
             {
                 DataRow row = DTInstitutionRoles.NewRow();
 

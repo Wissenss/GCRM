@@ -385,11 +385,14 @@
                         <RowDefinition Height="5"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <!--<RowDefinition Height="5"/>-->
                     </Grid.RowDefinitions>
 
                     <Label Content="Importando registros..." Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <ProgressBar x:Name="PbImport" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="20"/>
                     <Label Content="0 / 0" x:Name="LblImportProgress" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Label Content="Exitos: 0, Errores: 0, Excepciones: 0" FontStyle="Italic" Foreground="Gray" x:Name="LblImportCaseCounter" Grid.Column="0" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Grid>
 
             </TabItem>
