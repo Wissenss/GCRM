@@ -3,6 +3,7 @@ using DocumentFormat.OpenXml.Spreadsheet;
 using Npgsql;
 using Npgsql.Schema;
 using System.Data;
+using System.IO;
 
 namespace GCRM
 {

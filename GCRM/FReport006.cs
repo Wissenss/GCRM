@@ -81,6 +81,8 @@ namespace GCRM
 
             R006DocumentModel model = new R006DocumentModel();
 
+            model.Username = Session.User.Name;
+
             Error error = CitizensHandler.GetCitizenById((int)Citizen.SelectedValue, out model.Citizen);
 
             if (error != Error.None)

@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
             BAccept = new Button();
             BCancel = new Button();
             TabControlCitizen = new TabControl();
@@ -102,11 +102,7 @@
             LPhone2 = new Label();
             TextBoxEmail = new TextBox();
             LEmail = new Label();
-            LAssitantCellphone = new Label();
-            LAssistantPhone = new Label();
-            LAssitantName = new Label();
             LAssistent = new Label();
-            ComboBoxAssistant = new ComboBox();
             TextBoxCellphone = new TextBox();
             LCellphone = new Label();
             TextBoxPhoneExtension = new TextBox();
@@ -145,6 +141,7 @@
             LVerificationDate = new Label();
             VerificationDate = new DateTimePicker();
             Verified = new CheckBox();
+            TextBoxAssistant = new TextBox();
             TabControlCitizen.SuspendLayout();
             TabGeneral.SuspendLayout();
             TabRelationships.SuspendLayout();
@@ -754,6 +751,7 @@
             // 
             // TabContacto
             // 
+            TabContacto.Controls.Add(TextBoxAssistant);
             TabContacto.Controls.Add(PhoneSyncExtension);
             TabContacto.Controls.Add(label3);
             TabContacto.Controls.Add(PhoneSync);
@@ -769,11 +767,7 @@
             TabContacto.Controls.Add(LPhone2);
             TabContacto.Controls.Add(TextBoxEmail);
             TabContacto.Controls.Add(LEmail);
-            TabContacto.Controls.Add(LAssitantCellphone);
-            TabContacto.Controls.Add(LAssistantPhone);
-            TabContacto.Controls.Add(LAssitantName);
             TabContacto.Controls.Add(LAssistent);
-            TabContacto.Controls.Add(ComboBoxAssistant);
             TabContacto.Controls.Add(TextBoxCellphone);
             TabContacto.Controls.Add(LCellphone);
             TabContacto.Controls.Add(TextBoxPhoneExtension);
@@ -920,39 +914,6 @@
             LEmail.TabIndex = 40;
             LEmail.Text = "E-mail";
             // 
-            // LAssitantCellphone
-            // 
-            LAssitantCellphone.AutoSize = true;
-            LAssitantCellphone.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            LAssitantCellphone.ForeColor = SystemColors.HotTrack;
-            LAssitantCellphone.Location = new Point(97, 221);
-            LAssitantCellphone.Name = "LAssitantCellphone";
-            LAssitantCellphone.Size = new Size(105, 15);
-            LAssitantCellphone.TabIndex = 38;
-            LAssitantCellphone.Text = "Cel. 446 843 2332";
-            // 
-            // LAssistantPhone
-            // 
-            LAssistantPhone.AutoSize = true;
-            LAssistantPhone.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            LAssistantPhone.ForeColor = SystemColors.HotTrack;
-            LAssistantPhone.Location = new Point(97, 203);
-            LAssistantPhone.Name = "LAssistantPhone";
-            LAssistantPhone.Size = new Size(157, 15);
-            LAssistantPhone.TabIndex = 37;
-            LAssistantPhone.Text = "Tel. 449 253 2334 Ext. 2932";
-            // 
-            // LAssitantName
-            // 
-            LAssitantName.AutoSize = true;
-            LAssitantName.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            LAssitantName.ForeColor = SystemColors.HotTrack;
-            LAssitantName.Location = new Point(97, 185);
-            LAssitantName.Name = "LAssitantName";
-            LAssitantName.Size = new Size(149, 15);
-            LAssitantName.TabIndex = 36;
-            LAssitantName.Text = "Nombre Asistente Apellido";
-            // 
             // LAssistent
             // 
             LAssistent.AutoSize = true;
@@ -961,17 +922,6 @@
             LAssistent.Size = new Size(55, 15);
             LAssistent.TabIndex = 21;
             LAssistent.Text = "Asistente";
-            // 
-            // ComboBoxAssistant
-            // 
-            ComboBoxAssistant.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            ComboBoxAssistant.DropDownStyle = ComboBoxStyle.DropDownList;
-            ComboBoxAssistant.FormattingEnabled = true;
-            ComboBoxAssistant.Location = new Point(97, 154);
-            ComboBoxAssistant.Name = "ComboBoxAssistant";
-            ComboBoxAssistant.Size = new Size(411, 23);
-            ComboBoxAssistant.TabIndex = 4;
-            ComboBoxAssistant.SelectedIndexChanged += ComboBoxAssistant_SelectedIndexChanged;
             // 
             // TextBoxCellphone
             // 
@@ -1215,35 +1165,36 @@
             DataGridRoles.AllowUserToDeleteRows = false;
             DataGridRoles.AllowUserToOrderColumns = true;
             DataGridRoles.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = Color.WhiteSmoke;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle1.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.GradientInactiveCaption;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.ControlText;
-            DataGridRoles.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = Color.WhiteSmoke;
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle4.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = SystemColors.GradientInactiveCaption;
+            dataGridViewCellStyle4.SelectionForeColor = SystemColors.ControlText;
+            DataGridRoles.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+            DataGridRoles.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCells;
             DataGridRoles.BackgroundColor = SystemColors.Control;
             DataGridRoles.BorderStyle = BorderStyle.None;
             DataGridRoles.CellBorderStyle = DataGridViewCellBorderStyle.None;
             DataGridRoles.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
             DataGridRoles.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = SystemColors.ControlLight;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.ControlLight;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            DataGridRoles.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = SystemColors.ControlLight;
+            dataGridViewCellStyle5.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle5.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle5.SelectionBackColor = SystemColors.ControlLight;
+            dataGridViewCellStyle5.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
+            DataGridRoles.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             DataGridRoles.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = SystemColors.Window;
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle3.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = SystemColors.GradientInactiveCaption;
-            dataGridViewCellStyle3.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
-            DataGridRoles.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = SystemColors.Window;
+            dataGridViewCellStyle6.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle6.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = SystemColors.GradientInactiveCaption;
+            dataGridViewCellStyle6.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
+            DataGridRoles.DefaultCellStyle = dataGridViewCellStyle6;
             DataGridRoles.Dock = DockStyle.Fill;
             DataGridRoles.EnableHeadersVisualStyles = false;
             DataGridRoles.ImeMode = ImeMode.NoControl;
@@ -1392,6 +1343,14 @@
             Verified.UseVisualStyleBackColor = true;
             Verified.CheckedChanged += Verified_CheckedChanged;
             // 
+            // TextBoxAssistant
+            // 
+            TextBoxAssistant.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            TextBoxAssistant.Location = new Point(97, 154);
+            TextBoxAssistant.Name = "TextBoxAssistant";
+            TextBoxAssistant.Size = new Size(408, 23);
+            TextBoxAssistant.TabIndex = 54;
+            // 
             // FCitizenData
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -1474,11 +1433,7 @@
 		private Label LPhoneExtension;
 		private TextBox TextBoxCellphone;
 		private Label LCellphone;
-		private ComboBox ComboBoxAssistant;
 		private Label LAssistent;
-		private Label LAssitantName;
-		private Label LAssistantPhone;
-		private Label LAssitantCellphone;
 		private Label LCountry;
 		private ComboBox ComboBoxCountry;
 		private Label LCountryFullName;
@@ -1551,5 +1506,6 @@
         private ToolStripButton BDeleteRole;
         private ToolStripButton BPositionUpRole;
         private ToolStripButton BPositionDownRole;
+        private TextBox TextBoxAssistant;
     }
 }

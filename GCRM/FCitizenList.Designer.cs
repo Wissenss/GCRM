@@ -95,8 +95,8 @@
             TSSLRecordAttentionRequiredCount = new ToolStripStatusLabel();
             TSSLRecordCount = new ToolStripStatusLabel();
             TSSLFilters = new ToolStripStatusLabel();
-            TSSLDebug = new ToolStripStatusLabel();
             TSSLAttentionReason = new ToolStripStatusLabel();
+            TSSLDebug = new ToolStripStatusLabel();
             ToolStrip.SuspendLayout();
             PanelSearch.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)DataGridCitizens).BeginInit();
@@ -590,7 +590,7 @@
             BAttentionRequired.Margin = new Padding(1, 2, 1, 2);
             BAttentionRequired.Name = "BAttentionRequired";
             BAttentionRequired.Padding = new Padding(2, 8, 2, 8);
-            BAttentionRequired.Size = new Size(72, 36);
+            BAttentionRequired.Size = new Size(125, 36);
             BAttentionRequired.Text = "Necesita &atención";
             BAttentionRequired.Click += BAttentionRequired_Click;
             // 
@@ -629,6 +629,7 @@
             dataGridViewCellStyle1.SelectionForeColor = SystemColors.ControlText;
             DataGridCitizens.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             DataGridCitizens.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            DataGridCitizens.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCells;
             DataGridCitizens.BackgroundColor = SystemColors.Control;
             DataGridCitizens.BorderStyle = BorderStyle.None;
             DataGridCitizens.CellBorderStyle = DataGridViewCellBorderStyle.None;
@@ -667,8 +668,8 @@
             DataGridCitizens.TabIndex = 7;
             DataGridCitizens.CellDoubleClick += DataGridCitizens_CellDoubleClick;
             DataGridCitizens.CellFormatting += DataGridCitizens_CellFormatting;
-            DataGridCitizens.KeyDown += DataGridCitizens_KeyDown;
             DataGridCitizens.SelectionChanged += DataGridCitizens_SelectionChanged;
+            DataGridCitizens.KeyDown += DataGridCitizens_KeyDown;
             // 
             // statusStrip1
             // 
@@ -704,16 +705,16 @@
             TSSLFilters.Size = new Size(132, 17);
             TSSLFilters.Text = "Filtros: Sexo = Masculino";
             TSSLFilters.TextAlign = ContentAlignment.MiddleLeft;
-            //
+            // 
             // TSSLAttentionReason
-            //
+            // 
             TSSLAttentionReason.Font = new Font("Segoe UI Semibold", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             TSSLAttentionReason.ForeColor = Color.Red;
             TSSLAttentionReason.Margin = new Padding(0, 3, 5, 2);
             TSSLAttentionReason.Name = "TSSLAttentionReason";
             TSSLAttentionReason.Size = new Size(0, 17);
             TSSLAttentionReason.TextAlign = ContentAlignment.MiddleLeft;
-            //
+            // 
             // TSSLDebug
             // 
             TSSLDebug.Name = "TSSLDebug";

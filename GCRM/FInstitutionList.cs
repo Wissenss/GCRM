@@ -485,6 +485,8 @@ namespace GCRM
 			{
 				R004DocumentModel model = new R004DocumentModel();
 
+				model.Username = Session.User.Name;
+
 				// filters
 				if (FiltersDlg.FilterCategory)
 					model.Category = new TInstitutionCategory() { Id = FiltersDlg.CategoryId, Name = FiltersDlg.CategoryName };

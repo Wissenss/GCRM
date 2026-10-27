@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.IO;
 
 namespace GCRM
 {
@@ -37,7 +38,7 @@ namespace GCRM
 
 					System.Windows.Forms.Application.EnableVisualStyles();
 					System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
-					System.Windows.Forms.Application.SetHighDpiMode(HighDpiMode.SystemAware);
+					System.Windows.Forms.Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
 
 					CultureInfo ci = new CultureInfo("es-MX");
 					Thread.CurrentThread.CurrentCulture = ci;

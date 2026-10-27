@@ -54,10 +54,10 @@ namespace Business
 
 				switch (setting_datatype)
 				{
-					case TSettingDatatype.String: sql = "UPDATE settings SET string_value = @value, datatype = 'string', user_id = @user_id WHERE name = @name;"; break;
-					case TSettingDatatype.Boolean: sql = "UPDATE settings SET boolean_value = @value, datatype = 'boolean', user_id = @user_id WHERE name = @name;"; break;
-					case TSettingDatatype.Numeric: sql = "UPDATE settings SET numeric_value = @value, datatype = 'numeric', user_id = @user_id WHERE name = @name;"; break;
-					case TSettingDatatype.Blob: sql = "UPDATE settings SET blob_value = @value, datatype = 'blob', user_id = @user_id WHERE name = @name;"; break;
+					case TSettingDatatype.String: sql = "UPDATE settings SET string_value = @value, datatype = 'string' WHERE name = @name AND user_id = @user_id;"; break;
+					case TSettingDatatype.Boolean: sql = "UPDATE settings SET boolean_value = @value, datatype = 'boolean' WHERE name = @name AND user_id = @user_id;"; break;
+					case TSettingDatatype.Numeric: sql = "UPDATE settings SET numeric_value = @value, datatype = 'numeric' WHERE name = @name AND user_id = @user_id;"; break;
+					case TSettingDatatype.Blob: sql = "UPDATE settings SET blob_value = @value, datatype = 'blob' WHERE name = @name AND user_id = @user_id;"; break;
 				}
 
 				var conn = ConnectionPool.GetConnection();
@@ -109,11 +109,12 @@ namespace Business
 
 				value = _default;
 
-				string sql = "SELECT * FROM settings WHERE name = @name;";
+				string sql = "SELECT * FROM settings WHERE name = @name AND user_id = @user_id;";
 
 				using (var cmd = new NpgsqlCommand(sql, conn))
 				{
 					cmd.Parameters.AddWithValue("@name", name);
+					cmd.Parameters.AddWithValue("@user_id", user_id);
 
 					using (var reader = cmd.ExecuteReader())
 					{
@@ -187,7 +188,7 @@ namespace Business
 
 			public static void SetSetting<T>(string name, T value, int user_id = 0, bool add_if_non_existent = true)
 			{
-				Error error = SettingExists(name);
+				Error error = SettingExists(name, user_id);
 
 				if (error == 0)
 				{

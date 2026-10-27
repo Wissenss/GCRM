@@ -236,6 +236,7 @@ namespace GCRM
 
 			R003DocumentModel model = new R003DocumentModel();
 
+			model.Username = Session.User.Name;
 			model.Network = network;
 
 			R003Document document = new R003Document(model);

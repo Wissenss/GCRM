@@ -1,0 +1,298 @@
+:root {
+  --ink-950: #0a0a0c;
+  --ink-900: #141417;
+  --ink-800: #222227;
+  --ink-700: #34343b;
+  --bg: #f5f7f9;
+  --surface: #ffffff;
+  --surface-alt: #eef2f6;
+  --text: #17181c;
+  --text-muted: #5c6470;
+  --text-inverse: #f2f5f8;
+  --blue: #4da3e0;
+  --blue-dark: #2f7fb8;
+  --blue-darker: #1f628f;
+  --blue-tint: #e5f1fa;
+  --border: #dbe0e6;
+  --error: #a3391f;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* Top bar */
+.topbar {
+  background: var(--ink-950);
+  border-bottom: 3px solid var(--blue);
+}
+
+.topbar-content {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0.85rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.wordmark {
+  color: var(--text-inverse);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  font-size: 0.95rem;
+}
+
+.logo-mark {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.logo-mark-lg {
+  width: 56px;
+  height: 56px;
+}
+
+.topbar-link {
+  color: #b7bec7;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.35rem 0.9rem;
+  border-radius: 0;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.topbar-link:hover {
+  border-color: var(--blue);
+  color: var(--text-inverse);
+}
+
+/* Hero banner */
+.banner {
+  background: linear-gradient(180deg, var(--ink-900), var(--ink-800));
+  padding: 4.5rem 1.5rem 4rem;
+  text-align: center;
+  border-bottom: 1px solid var(--ink-700);
+}
+
+.banner-content {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 2.25rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--text-inverse);
+}
+
+.tagline {
+  color: var(--text-inverse);
+  margin: 1.5rem 0 1.25rem;
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+.subtext {
+  color: #a9b0b9;
+  margin: 0 0 2rem;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.cta-button {
+  display: inline-block;
+  background: var(--blue);
+  color: #ffffff;
+  text-decoration: none;
+  padding: 0.75rem 2rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  border-radius: 0;
+  transition: background 0.15s ease;
+}
+
+.cta-button:hover {
+  background: var(--blue-dark);
+}
+
+.cta-button[hidden] {
+  display: none;
+}
+
+/* Downloads section */
+.downloads-section {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 3.5rem 1.5rem 4.5rem;
+}
+
+.section-heading {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.section-heading h2 {
+  margin: 0 0 0.4rem;
+  font-size: 1.5rem;
+  color: var(--ink-950);
+}
+
+.section-subtitle {
+  color: var(--text-muted);
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.status {
+  text-align: center;
+  color: var(--text-muted);
+  min-height: 1.5rem;
+}
+
+.status.error {
+  color: var(--error);
+}
+
+.status a {
+  color: var(--blue-darker);
+  font-weight: 600;
+}
+
+.table-wrapper {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0;
+  overflow-x: auto;
+}
+
+.releases-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.releases-table th {
+  text-align: left;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  padding: 0.75rem 1.25rem;
+  background: var(--surface-alt);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.releases-table td {
+  padding: 0.85rem 1.25rem;
+  border-bottom: 1px solid var(--surface-alt);
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.releases-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.releases-table tr.latest-row {
+  background: var(--blue-tint);
+  box-shadow: inset 3px 0 0 var(--blue);
+}
+
+.release-version {
+  font-size: 0.95rem;
+  font-weight: 700;
+  font-family: "Consolas", "Courier New", monospace;
+  color: var(--ink-950);
+  margin-right: 0.5rem;
+}
+
+.badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 0.2rem 0.55rem;
+  border-radius: 0;
+  letter-spacing: 0.06em;
+}
+
+.badge.latest {
+  background: var(--blue);
+  color: #ffffff;
+  font-size: 0.7rem;
+  padding: 0.25rem 0.65rem;
+}
+
+.badge.prerelease {
+  background: var(--surface);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  margin-left: 0.4rem;
+}
+
+.release-date {
+  color: var(--text-muted);
+}
+
+.asset-link {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  color: var(--blue-dark);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.asset-link:hover {
+  color: var(--blue-darker);
+  text-decoration: underline;
+}
+
+.asset-size {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-weight: 400;
+}
+
+.asset-none {
+  color: var(--text-muted);
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1.5rem 1.5rem 3rem;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  border-top: 1px solid var(--border);
+}
+
+.footer a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.footer a:hover {
+  color: var(--blue-darker);
+}

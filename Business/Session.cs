@@ -1,19 +1,21 @@
-﻿using System;
+﻿using Business.Business;
+using GCRM.Domain;
+using GCRM.Domain.Enums;
+using GCRM.Shared;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using GCRM.Domain;
-using GCRM.Domain.Enums;
-using GCRM.Shared;
 
 namespace Business
 {
 	public static class Session
 	{
 		public static TUser User = new TUser();
-		private static bool IsRootUser = false; 
+		private static bool IsRootUser = false;
+		public static bool SpellCheck = true;
 
 		public static bool HasPermission(string permission_name)
 		{
@@ -29,11 +31,38 @@ namespace Business
 		{
 			Error error = UsersHandler.GetUserById(User.Id, out User);
 
-			return error;
+			if (error != Error.None)
+				return error;
+
+			RefreshUserConfig();
+
+            return Error.None;
+		}
+
+		public static void RefreshUserConfig()
+		{
+            SpellCheck = SettingsHandler.GetSetting<bool>("SpellCheck.Enabled", true, Session.User.Id);
 		}
 
 		private static bool valid_root_login(string username, string password)
 		{
+			/* --------------------------------------------------
+             * 
+             * default root credentials are:
+			 *
+             * username: root
+             * password: trafficJam32
+             *
+			 * this are only valid if setting "RootLogin.Enabled" is true
+             * sysadmin should set it to false once the admin user is created
+			 * 
+			 * -------------------------------------------------- */
+
+			if (SettingsHandler.GetSetting<bool>("RootLogin.Enabled", true, 0, true) == false)
+			{
+				return false;
+			}
+
 			string hash = UsersHandler.GetPasswordHash(username, password);
 
 			return username.Equals("root") && hash.Equals("531761501921173663562461785925019011192679781351239240713687102152101773780247");
@@ -41,8 +70,6 @@ namespace Business
 
 		public static Error Login(string username, string password)
 		{
-			// not a good practice what so ever!!!
-			// --------------------------------------------------
 			IsRootUser = valid_root_login(username, password);
 
 			if (IsRootUser)
@@ -59,8 +86,7 @@ namespace Business
 
 				return 0;
 			}
-			// --------------------------------------------------
-
+			
 			Error error = UsersHandler.GetUserByUsername(username, out Session.User);
 
 			if (error == Error.UserNotFound)

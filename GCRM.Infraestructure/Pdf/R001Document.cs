@@ -21,6 +21,7 @@ namespace Reporter
     {
         public int InstitutionId;
         public int InstitutionCategoryId;
+        public int CitizenCategoryId;
         public TCitizenTitle? CitizenTitle;
         public TSex? Sex;
         public TPoliticalParty? PoliticalParty;
@@ -40,6 +41,7 @@ namespace Reporter
 		
 		public TInstitution? Institution;
 		public TInstitutionCategory? InstitutionCategory;
+		public TCitizenCategory? CitizenCategory;
 
 		public int? BirthdayYear;
 		public int? BirthdayMonth;
@@ -120,6 +122,7 @@ namespace Reporter
 			string str_institution = "Institución: Cualquiera";
 			string str_sector = "Sector: Cualquiera";
 			string str_category = "Categoría: Cualquiera";
+			string str_citizen_category = "Categoría de ciudadano: Cualquiera";
 
 			string str_birthday_year = "Año de nacimiento: Cualquiera";
 			string str_birthday_month = "Mes de nacimiento: Cualquiera";
@@ -163,6 +166,12 @@ namespace Reporter
 				{
 					str_category = $"Categoría: {Model.InstitutionCategory.Name}";
 					column.Item().PaddingLeft(1).Text(str_category).FontSize(filter_font_size);
+				}
+
+				if (Model.CitizenCategory != null)
+				{
+					str_citizen_category = $"Categoría de ciudadano: {Model.CitizenCategory.Name}";
+					column.Item().PaddingLeft(1).Text(str_citizen_category).FontSize(filter_font_size);
 				}
 
 				if (Model.BirthdayYear != null)

@@ -69,7 +69,22 @@ namespace GCRM
 				return false;
 			}
 
-			return true;
+            // spell check - this is merely a warning, user may choose to ignore it
+            if (Session.SpellCheck)
+            {
+                List<Control> toCheck = new List<Control>()
+                {
+                    TextBoxName,
+                    TextBoxDescription
+                };
+
+                if (SpellUtilities.CheckInputWithDialog(toCheck) != DialogResult.OK)
+                {
+                    return false;
+                }
+            }
+
+            return true;
 		}
 
 		private void BAccept_Click(object sender, EventArgs e)

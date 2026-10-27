@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             BCancel = new Button();
             BAccept = new Button();
             LName = new Label();
@@ -56,7 +56,7 @@
             // BCancel
             // 
             BCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            BCancel.Location = new Point(318, 193);
+            BCancel.Location = new Point(318, 209);
             BCancel.Name = "BCancel";
             BCancel.Size = new Size(75, 23);
             BCancel.TabIndex = 5;
@@ -67,7 +67,7 @@
             // BAccept
             // 
             BAccept.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            BAccept.Location = new Point(237, 193);
+            BAccept.Location = new Point(237, 209);
             BAccept.Name = "BAccept";
             BAccept.Size = new Size(75, 23);
             BAccept.TabIndex = 4;
@@ -98,7 +98,7 @@
             TextBoxDescription.Location = new Point(82, 35);
             TextBoxDescription.Multiline = true;
             TextBoxDescription.Name = "TextBoxDescription";
-            TextBoxDescription.Size = new Size(299, 116);
+            TextBoxDescription.Size = new Size(299, 135);
             TextBoxDescription.TabIndex = 1;
             // 
             // LDescription
@@ -116,36 +116,37 @@
             DataGridVariations.AllowUserToDeleteRows = false;
             DataGridVariations.AllowUserToOrderColumns = true;
             DataGridVariations.AllowUserToResizeRows = false;
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = Color.WhiteSmoke;
-            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle4.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = SystemColors.GradientInactiveCaption;
-            dataGridViewCellStyle4.SelectionForeColor = SystemColors.ControlText;
-            DataGridVariations.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = Color.WhiteSmoke;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.GradientInactiveCaption;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.ControlText;
+            DataGridVariations.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             DataGridVariations.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            DataGridVariations.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCells;
             DataGridVariations.BackgroundColor = SystemColors.Control;
             DataGridVariations.BorderStyle = BorderStyle.None;
             DataGridVariations.CellBorderStyle = DataGridViewCellBorderStyle.None;
             DataGridVariations.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
             DataGridVariations.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = SystemColors.ControlLight;
-            dataGridViewCellStyle5.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle5.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle5.SelectionBackColor = SystemColors.ControlLight;
-            dataGridViewCellStyle5.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
-            DataGridVariations.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.ControlLight;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.ControlLight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            DataGridVariations.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             DataGridVariations.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = SystemColors.Window;
-            dataGridViewCellStyle6.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle6.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle6.SelectionBackColor = SystemColors.GradientInactiveCaption;
-            dataGridViewCellStyle6.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
-            DataGridVariations.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = SystemColors.Window;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle3.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.GradientInactiveCaption;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
+            DataGridVariations.DefaultCellStyle = dataGridViewCellStyle3;
             DataGridVariations.Dock = DockStyle.Fill;
             DataGridVariations.EnableHeadersVisualStyles = false;
             DataGridVariations.ImeMode = ImeMode.NoControl;
@@ -158,7 +159,7 @@
             DataGridVariations.RowTemplate.Height = 20;
             DataGridVariations.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             DataGridVariations.ShowCellToolTips = false;
-            DataGridVariations.Size = new Size(382, 126);
+            DataGridVariations.Size = new Size(382, 145);
             DataGridVariations.StandardTab = true;
             DataGridVariations.TabIndex = 3;
             // 
@@ -171,7 +172,7 @@
             TabControl.Margin = new Padding(1);
             TabControl.Name = "TabControl";
             TabControl.SelectedIndex = 0;
-            TabControl.Size = new Size(396, 185);
+            TabControl.Size = new Size(396, 204);
             TabControl.TabIndex = 10;
             TabControl.SelectedIndexChanged += TabControl_SelectedIndexChanged;
             // 
@@ -184,7 +185,7 @@
             TabGeneral.Location = new Point(4, 24);
             TabGeneral.Name = "TabGeneral";
             TabGeneral.Padding = new Padding(3);
-            TabGeneral.Size = new Size(388, 157);
+            TabGeneral.Size = new Size(388, 176);
             TabGeneral.TabIndex = 0;
             TabGeneral.Text = "General";
             TabGeneral.UseVisualStyleBackColor = true;
@@ -196,7 +197,7 @@
             TabVariaciones.Location = new Point(4, 24);
             TabVariaciones.Name = "TabVariaciones";
             TabVariaciones.Padding = new Padding(3);
-            TabVariaciones.Size = new Size(388, 157);
+            TabVariaciones.Size = new Size(388, 176);
             TabVariaciones.TabIndex = 1;
             TabVariaciones.Text = "Variaciones";
             TabVariaciones.UseVisualStyleBackColor = true;
@@ -244,7 +245,7 @@
             LAnnotation.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             LAnnotation.Font = new Font("Segoe UI Semibold", 8.25F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
             LAnnotation.ForeColor = SystemColors.HotTrack;
-            LAnnotation.Location = new Point(5, 190);
+            LAnnotation.Location = new Point(5, 206);
             LAnnotation.Name = "LAnnotation";
             LAnnotation.Size = new Size(226, 26);
             LAnnotation.TabIndex = 11;
@@ -255,7 +256,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(398, 225);
+            ClientSize = new Size(398, 244);
             ControlBox = false;
             Controls.Add(LAnnotation);
             Controls.Add(TabControl);

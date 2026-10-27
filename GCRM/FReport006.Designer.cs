@@ -35,9 +35,9 @@ namespace GCRM
             LCitizen = new Label();
             BGenerate = new Button();
             SuspendLayout();
-            //
+            // 
             // BCancel
-            //
+            // 
             BCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             BCancel.Location = new Point(298, 49);
             BCancel.Name = "BCancel";
@@ -46,9 +46,9 @@ namespace GCRM
             BCancel.Text = "&Cancelar";
             BCancel.UseVisualStyleBackColor = true;
             BCancel.Click += BCancel_Click;
-            //
+            // 
             // BSave
-            //
+            // 
             BSave.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             BSave.Location = new Point(12, 49);
             BSave.Name = "BSave";
@@ -58,9 +58,9 @@ namespace GCRM
             BSave.UseVisualStyleBackColor = true;
             BSave.Visible = false;
             BSave.Click += BSave_Click;
-            //
+            // 
             // Citizen
-            //
+            // 
             Citizen.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             Citizen.DropDownStyle = ComboBoxStyle.DropDownList;
             Citizen.FormattingEnabled = true;
@@ -68,18 +68,18 @@ namespace GCRM
             Citizen.Name = "Citizen";
             Citizen.Size = new Size(292, 23);
             Citizen.TabIndex = 10;
-            //
+            // 
             // LCitizen
-            //
+            // 
             LCitizen.AutoSize = true;
             LCitizen.Location = new Point(12, 15);
             LCitizen.Name = "LCitizen";
             LCitizen.Size = new Size(65, 15);
             LCitizen.TabIndex = 11;
             LCitizen.Text = "Ciudadano";
-            //
+            // 
             // BGenerate
-            //
+            // 
             BGenerate.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             BGenerate.Location = new Point(217, 49);
             BGenerate.Name = "BGenerate";
@@ -88,11 +88,13 @@ namespace GCRM
             BGenerate.Text = "G&enerar";
             BGenerate.UseVisualStyleBackColor = true;
             BGenerate.Click += BGenerate_Click;
-            //
+            // 
             // FReport006
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleDimensions = new SizeF(96F, 96F);
+            AutoScaleMode = AutoScaleMode.Dpi;
+            AutoSize = true;
+            AutoSizeMode = AutoSizeMode.GrowAndShrink;
             ClientSize = new Size(385, 84);
             ControlBox = false;
             Controls.Add(LCitizen);

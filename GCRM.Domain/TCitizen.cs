@@ -176,6 +176,7 @@ namespace GCRM.Domain
 			Sex = (TSex)reader.GetInt32(Ordinal("sex_type"));
 			Address.Id = reader.GetInt32(Ordinal("address_id"));
 			Assistant.Id = reader.GetInt32(Ordinal("assistant_id"));
+			Assistant.Name = reader.GetString(Ordinal("assistant_name"));
 			PoliticalParty = (TPoliticalParty)reader.GetInt32(Ordinal("political_party_type"));
 			InstitutionRole.Institution.Id = reader.GetInt32(Ordinal("institution_id"));
 			InstitutionRole.Role.Id = reader.GetInt32(Ordinal("institution_role_id"));

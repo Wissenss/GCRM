@@ -59,6 +59,7 @@
             dataGridViewCellStyle1.SelectionBackColor = SystemColors.GradientInactiveCaption;
             dataGridViewCellStyle1.SelectionForeColor = SystemColors.ControlText;
             DataGridReports.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            DataGridReports.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCells;
             DataGridReports.BackgroundColor = SystemColors.Control;
             DataGridReports.BorderStyle = BorderStyle.None;
             DataGridReports.CellBorderStyle = DataGridViewCellBorderStyle.None;

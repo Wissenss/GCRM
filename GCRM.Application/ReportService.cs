@@ -19,6 +19,7 @@ namespace GCRM.Application
             model = new R005DocumentModel();
             model.Request = request;
             model.Citizens = new List<TCitizen>();
+            model.Username = Session.User.Name;
 
             Error error = InstitutionsHandler.GetInstitutionById(request.InstitutionId, out model.Institution);
 
@@ -127,6 +128,7 @@ namespace GCRM.Application
         public static Error GetR001DocumentModel(R001DocumentRequest request, out R001DocumentModel model)
         {
             model = new R001DocumentModel();
+            model.Username = Session.User.Name;
 
             if (request.InstitutionId != 0)
             {
@@ -139,6 +141,14 @@ namespace GCRM.Application
             if (request.InstitutionCategoryId != 0)
             {
                 Error error = InstitutionsHandler.GetInstitutionCategoryById(request.InstitutionCategoryId, out model.InstitutionCategory);
+
+                if (error != 0)
+                    return error;
+            }
+
+            if (request.CitizenCategoryId != 0)
+            {
+                Error error = CitizensHandler.GetCitizenCategoryById(request.CitizenCategoryId, out model.CitizenCategory);
 
                 if (error != 0)
                     return error;
@@ -161,13 +171,17 @@ namespace GCRM.Application
 
             List<TCitizen> full_citizen_list;
 
-            Error erro = CitizensHandler.GetCitizens(out full_citizen_list);
+            Error citizens_error = CitizensHandler.GetCitizens(out full_citizen_list);
+
+            if (citizens_error != Error.None)
+                return citizens_error;
 
             foreach (TCitizen citizen in full_citizen_list)
             {
                 if (
                     request.InstitutionId != 0 && citizen.InstitutionRole.Institution.Id != request.InstitutionId ||
                     request.InstitutionCategoryId != 0 && citizen.InstitutionRole.Institution.Category.Id != request.InstitutionCategoryId ||
+                    request.CitizenCategoryId != 0 && citizen.Category.Id != request.CitizenCategoryId ||
                     request.CitizenTitle != null && citizen.Title != request.CitizenTitle ||
                     request.Sex != null && citizen.Sex != request.Sex ||
                     request.PoliticalParty != null && citizen.PoliticalParty != request.PoliticalParty ||

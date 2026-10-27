@@ -133,6 +133,7 @@ namespace Business
 					c.sex_type,
 					c.address_id,
 					c.assistant_id,
+					c.assistant_name,
 					c.political_party_type,
 					COALESCE(nrir.institution_id, 0) AS institution_id,
 					COALESCE(nrir.institution_role_id, nrir.institution_template_role_id, 0) AS institution_role_id,
@@ -619,6 +620,7 @@ namespace Business
 								sex_type=@sex,
 								address_id=@address_id,
 								assistant_id=@assistant_id,
+								assistant_name=@assistant_name,
 								political_party_type=@political_party,
 								email=@email,
 								edit_by_id=@edit_by_id,
@@ -653,6 +655,7 @@ namespace Business
 								sex_type,
 								address_id,
 								assistant_id,
+								assistant_name,
 								political_party_type,
 								email,
 								created_by_id,
@@ -684,6 +687,7 @@ namespace Business
 								@sex,
 								@address_id,
 								@assistant_id,
+								@assistant_name,
 								@political_party,
 								@email,
 								@created_by_id,
@@ -718,6 +722,7 @@ namespace Business
 					cmd.Parameters.AddWithValue("@sex", (int)citizen.Sex);
 					cmd.Parameters.AddWithValue("@address_id", citizen.Address.Id);
 					cmd.Parameters.AddWithValue("@assistant_id", citizen.Assistant.Id);
+					cmd.Parameters.AddWithValue("@assistant_name", citizen.Assistant.Name);
 					cmd.Parameters.AddWithValue("@political_party", (int)citizen.PoliticalParty);
 					cmd.Parameters.AddWithValue("@email", citizen.Email);
 					cmd.Parameters.AddWithValue("@created_by_id", citizen.Author.Id);
@@ -945,8 +950,8 @@ namespace Business
 
 			string sql = @"
 				SELECT
-					c1.id AS id1, c1.name AS name1, c1.attention_required AS attention_required1, c1.attention_required_reason AS attention_required_reason1,
-					c2.id AS id2, c2.name AS name2, c2.attention_required AS attention_required2, c2.attention_required_reason AS attention_required_reason2,
+					c1.id AS id1, (c1.name || ' ' || c1.maternal_name || ' ' || c1.paternal_name) AS name1, c1.attention_required AS attention_required1, c1.attention_required_reason AS attention_required_reason1,
+					c2.id AS id2, (c2.name || ' ' || c2.maternal_name || ' ' || c2.paternal_name) AS name2, c2.attention_required AS attention_required2, c2.attention_required_reason AS attention_required_reason2,
 					levenshtein(c1.name || c1.maternal_name || c1.paternal_name, c2.name || c2.maternal_name || c2.paternal_name) AS distance
 				FROM
 					citizens c1 JOIN citizens c2 ON c1.id < c2.id
@@ -1105,6 +1110,7 @@ namespace Business
 					c.sex_type,
 					c.address_id,
 					c.assistant_id,
+					c.assistant_name,
 					c.political_party_type,
 					COALESCE(nrir.institution_id, 0) AS institution_id,
 					COALESCE(nrir.institution_role_id, nrir.institution_template_role_id, 0) AS institution_role_id,
@@ -1271,12 +1277,12 @@ namespace Business
 						
 						citizen.FillFromReader(reader);
 						
-						if (citizen.Assistant.Id != 0)
-						{
-							citizen.Assistant.Name = reader.GetString("assistant_name");
-							citizen.Assistant.PaternalName = reader.GetString("assistant_paternal_name");
-							citizen.Assistant.MaternalName = reader.GetString("assistant_maternal_name");
-						}
+						//if (citizen.Assistant.Id != 0)
+						//{
+						//	citizen.Assistant.Name = reader.GetString("assistant_name");
+						//	citizen.Assistant.PaternalName = reader.GetString("assistant_paternal_name");
+						//	citizen.Assistant.MaternalName = reader.GetString("assistant_maternal_name");
+						//}
 
 						if (citizen.InstitutionRole.Institution.Id != 0)
 						{

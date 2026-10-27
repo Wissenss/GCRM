@@ -164,6 +164,8 @@ namespace GCRM
 
             R007DocumentModel model = new R007DocumentModel();
 
+            model.Username = Session.User.Name;
+
             model.DateFrom = FechaInicial.Value.Date;
             model.DateTo = FechaFinal.Value.Date;
 

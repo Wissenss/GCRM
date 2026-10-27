@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace GCRM
 {
@@ -55,6 +56,8 @@ namespace GCRM
 					DisplayUppercase.Checked = SettingsHandler.GetSetting<bool>("UI.DisplayUppercase", false);
 				}
 
+				CheckBoxSpellCheck.Checked = SettingsHandler.GetSetting<bool>("SpellCheck.Enabled", true, Session.User.Id);
+
 				SettingsUtilities.InstanceConfiguration instance_configuration = SettingsUtilities.LoadInstanceConfiguration();
 
 				CheckBoxUseExternalPDFViewer.Checked = instance_configuration.UseExternalPDFViewer;
@@ -85,6 +88,8 @@ namespace GCRM
 
 					SettingsHandler.SetSetting("UI.DisplayUppercase", DisplayUppercase.Checked);
 				}
+
+				SettingsHandler.SetSetting("SpellCheck.Enabled", CheckBoxSpellCheck.Checked, Session.User.Id);
 
 				SettingsUtilities.InstanceConfiguration instance_configuration = new SettingsUtilities.InstanceConfiguration()
 				{

@@ -27,8 +27,10 @@ namespace GCRM
 				string host = TextBoxHost.Text.Trim();
 				int port = (int)NumericPort.Value;
 				string database = TextBoxDatabase.Text.Trim();
+				string username = TextBoxUsername.Text.Trim();
+				string password = TextBoxPassword.Text.Trim();
 
-				return await ConnectionSettings.TestSettings(host, port, database);
+				return await ConnectionSettings.TestSettings(host, port, database, username, password);
 			}
 		}
 
@@ -39,6 +41,8 @@ namespace GCRM
 			TextBoxHost.Enabled = AccessMode == FAccessMode.Update;
 			NumericPort.Enabled = AccessMode == FAccessMode.Update;
 			TextBoxDatabase.Enabled = AccessMode == FAccessMode.Update;	
+			TextBoxUsername.Enabled = AccessMode == FAccessMode.Update;
+			TextBoxPassword.Enabled = AccessMode == FAccessMode.Update;
 
 			BTest.Visible = AccessMode == FAccessMode.Update;
 			BAccept.Visible = AccessMode == FAccessMode.Update;
@@ -71,8 +75,10 @@ namespace GCRM
 				string host = TextBoxHost.Text.Trim();
 				int port = (int)NumericPort.Value;
 				string database = TextBoxDatabase.Text.Trim();
+				string username = TextBoxUsername.Text.Trim();
+				string password = TextBoxPassword.Text.Trim();
 
-				ConnectionSettings.WriteSettings(host, port, database);
+				ConnectionSettings.WriteSettings(host, port, database, username, password);
 
 				ConnectionPool.Refresh();
 
@@ -91,6 +97,8 @@ namespace GCRM
 				TextBoxHost.Text = ConnectionSettings.Host;
 				NumericPort.Value = (decimal)ConnectionSettings.Port;
 				TextBoxDatabase.Text = ConnectionSettings.Database;
+				TextBoxUsername.Text = ConnectionSettings.Username;
+				TextBoxPassword.Text = ConnectionSettings.Password;
 			}
 		}
 

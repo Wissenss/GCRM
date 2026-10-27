@@ -93,9 +93,9 @@ namespace GCRM
             DTRelationshipRoles.Columns.Add("name", typeof(string));
             DSCitizen.Tables.Add(DTRelationshipRoles);
 
-            ComboBoxAssistant.DataSource = DTCitizens;
-            ComboBoxAssistant.ValueMember = "id";
-            ComboBoxAssistant.DisplayMember = "name";
+            //ComboBoxAssistant.DataSource = DTCitizens;
+            //ComboBoxAssistant.ValueMember = "id";
+            //ComboBoxAssistant.DisplayMember = "name";
 
             ComboBoxTitle.DataSource = Catalogs.DTCitizenTitles;
             ComboBoxTitle.ValueMember = "value";
@@ -113,11 +113,11 @@ namespace GCRM
             ComboBoxCountry.ValueMember = "value";
             ComboBoxCountry.DisplayMember = "text";
 
-            LAssitantName.Text = "";
-            LAssistantPhone.Text = "";
-            LAssitantCellphone.Text = "";
+            //LAssitantName.Text = "";
+            //LAssistantPhone.Text = "";
+            //LAssitantCellphone.Text = "";
 
-            LoadDTCitizens();
+            //LoadDTCitizens();
             LoadDTCategories();
             LoadDTRelationshipRoles();
 
@@ -287,7 +287,8 @@ namespace GCRM
 
             TextBoxCellphone.Enabled = AccessMode != FAccessMode.Read;
             TextBoxEmail.Enabled = AccessMode != FAccessMode.Read;
-            ComboBoxAssistant.Enabled = AccessMode != FAccessMode.Read;
+            //ComboBoxAssistant.Enabled = AccessMode != FAccessMode.Read;
+            TextBoxAssistant.Enabled = AccessMode != FAccessMode.Read;
 
             TextBoxStreet.Enabled = AccessMode != FAccessMode.Read;
             TextBoxNumber.Enabled = AccessMode != FAccessMode.Read;
@@ -392,7 +393,8 @@ namespace GCRM
                 PhoneSyncExtension.Text = citizen.CardDavSyncNumber.Extension;
                 TelSyncEnabled.Checked = citizen.CardDavSyncNumber.CarddavSync;
 
-                ComboBoxAssistant.SelectedValue = citizen.Assistant.Id;
+                //ComboBoxAssistant.SelectedValue = citizen.Assistant.Id;
+                TextBoxAssistant.Text = citizen.Assistant.Name;
                 TextBoxEmail.Text = citizen.Email;
 
                 AddressId = citizen.Address.Id;
@@ -508,33 +510,33 @@ namespace GCRM
             }
         }
 
-        private void ComboBoxAssistant_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            int id = (int)ComboBoxAssistant.SelectedValue;
+        //private void ComboBoxAssistant_SelectedIndexChanged(object sender, EventArgs e)
+        //{
+        //    int id = (int)ComboBoxAssistant.SelectedValue;
 
-            if (id == 0)
-            {
-                LAssitantName.Text = "";
-                LAssistantPhone.Text = "";
-                LAssitantCellphone.Text = "";
-            }
-            else
-            {
-                TCitizen assistant;
+        //    if (id == 0)
+        //    {
+        //        LAssitantName.Text = "";
+        //        LAssistantPhone.Text = "";
+        //        LAssitantCellphone.Text = "";
+        //    }
+        //    else
+        //    {
+        //        TCitizen assistant;
 
-                Error error = CitizensHandler.GetCitizenAssistantById(id, out assistant);
+        //        Error error = CitizensHandler.GetCitizenAssistantById(id, out assistant);
 
-                if (error != 0)
-                {
-                    Utilities.ShowErrorDialog(error);
-                    return;
-                }
+        //        if (error != 0)
+        //        {
+        //            Utilities.ShowErrorDialog(error);
+        //            return;
+        //        }
 
-                LAssitantName.Text = $"{assistant.FullName}";
-                LAssistantPhone.Text = $"{assistant.Phone.FullNumberWithPrefix}";
-                LAssitantCellphone.Text = $"Cel. {assistant.Cellphone.FullNumber}";
-            }
-        }
+        //        LAssitantName.Text = $"{assistant.FullName}";
+        //        LAssistantPhone.Text = $"{assistant.Phone.FullNumberWithPrefix}";
+        //        LAssitantCellphone.Text = $"Cel. {assistant.Cellphone.FullNumber}";
+        //    }
+        //}
 
         private void ComboBoxCountry_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -670,6 +672,23 @@ namespace GCRM
                 }
             }
 
+            // spell check - this is merely a warning, user may choose to ignore it
+            if (Session.SpellCheck)
+            {
+                List<Control> toCheck = new List<Control>()
+                {
+                    TextBoxName,
+                    TextBoxMaternalName,
+                    TextBoxPaternalName,
+                    TextBoxObservations,
+                };
+
+                if (SpellUtilities.CheckInputWithDialog(toCheck) != DialogResult.OK)
+                {
+                    return false;
+                }
+            }
+
             return true;
         }
 
@@ -761,11 +780,11 @@ namespace GCRM
                 };
 
                 citizen.Assistant = new TCitizen();
-
-                if (ComboBoxAssistant.SelectedValue != null)
-                {
-                    citizen.Assistant.Id = (int)ComboBoxAssistant.SelectedValue;
-                }
+                citizen.Assistant.Name = TextBoxAssistant.Text.Trim();
+                //if (ComboBoxAssistant.SelectedValue != null)
+                //{
+                //    citizen.Assistant.Id = (int)ComboBoxAssistant.SelectedValue;
+                //}
 
                 citizen.Address = new TAddress()
                 {
