@@ -181,19 +181,24 @@ namespace GCRM
             DialogResult = DialogResult.Cancel;
         }
 
-        private void DataGridPermissions_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void TextBoxPermisionFilter_TextChanged(object sender, EventArgs e)
         {
-
-        }
-
-        private void TBName_TextChanged(object sender, EventArgs e)
-        {
-            if (BSPermissions == null)
+            if (BSPermissions == null) 
             {
                 return;
             }
 
-            string search = TBName.Text.Trim().Replace("'", "''");
+            string search = "";
+
+            // we have to santize the string so the filter does not break
+            
+            foreach (char s_c in TextBoxPermisionFilter.Text.Trim())
+            {
+                if (Char.IsLetter(s_c) || s_c == '.')
+                {
+                    search += s_c;
+                }
+            }
 
             if (search.Length == 0)
             {
