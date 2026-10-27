@@ -38,6 +38,7 @@
             TBName = new TextBox();
             LName = new Label();
             TabPermissions = new TabPage();
+            TextBoxPermisionFilter = new TextBox();
             DataGridPermissions = new DataGridView();
             colId = new DataGridViewTextBoxColumn();
             colName = new DataGridViewTextBoxColumn();
@@ -56,9 +57,10 @@
             TabControlUserGroup.Controls.Add(TabGeneral);
             TabControlUserGroup.Controls.Add(TabPermissions);
             TabControlUserGroup.Location = new Point(1, 1);
+            TabControlUserGroup.Margin = new Padding(0);
             TabControlUserGroup.Name = "TabControlUserGroup";
             TabControlUserGroup.SelectedIndex = 0;
-            TabControlUserGroup.Size = new Size(357, 195);
+            TabControlUserGroup.Size = new Size(357, 194);
             TabControlUserGroup.TabIndex = 15;
             // 
             // TabGeneral
@@ -69,7 +71,7 @@
             TabGeneral.Location = new Point(4, 24);
             TabGeneral.Name = "TabGeneral";
             TabGeneral.Padding = new Padding(3);
-            TabGeneral.Size = new Size(349, 167);
+            TabGeneral.Size = new Size(349, 166);
             TabGeneral.TabIndex = 0;
             TabGeneral.Text = "General";
             TabGeneral.UseVisualStyleBackColor = true;
@@ -101,14 +103,26 @@
             // 
             // TabPermissions
             // 
+            TabPermissions.Controls.Add(TextBoxPermisionFilter);
             TabPermissions.Controls.Add(DataGridPermissions);
             TabPermissions.Location = new Point(4, 24);
             TabPermissions.Name = "TabPermissions";
             TabPermissions.Padding = new Padding(3);
-            TabPermissions.Size = new Size(349, 167);
+            TabPermissions.Size = new Size(349, 166);
             TabPermissions.TabIndex = 1;
             TabPermissions.Text = "Permisos";
             TabPermissions.UseVisualStyleBackColor = true;
+            // 
+            // TextBoxPermisionFilter
+            // 
+            TextBoxPermisionFilter.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            TextBoxPermisionFilter.Location = new Point(7, 5);
+            TextBoxPermisionFilter.Margin = new Padding(3, 2, 3, 2);
+            TextBoxPermisionFilter.Name = "TextBoxPermisionFilter";
+            TextBoxPermisionFilter.PlaceholderText = "Ingrese el texto para filtrar los permisos...";
+            TextBoxPermisionFilter.Size = new Size(336, 23);
+            TextBoxPermisionFilter.TabIndex = 10;
+            TextBoxPermisionFilter.TextChanged += TextBoxPermisionFilter_TextChanged;
             // 
             // DataGridPermissions
             // 
@@ -122,8 +136,8 @@
             dataGridViewCellStyle1.SelectionBackColor = SystemColors.GradientInactiveCaption;
             dataGridViewCellStyle1.SelectionForeColor = SystemColors.ControlText;
             DataGridPermissions.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            DataGridPermissions.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             DataGridPermissions.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            DataGridPermissions.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCells;
             DataGridPermissions.BackgroundColor = SystemColors.Control;
             DataGridPermissions.BorderStyle = BorderStyle.None;
             DataGridPermissions.CellBorderStyle = DataGridViewCellBorderStyle.None;
@@ -147,17 +161,17 @@
             dataGridViewCellStyle4.SelectionForeColor = SystemColors.ControlText;
             dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
             DataGridPermissions.DefaultCellStyle = dataGridViewCellStyle4;
-            DataGridPermissions.Dock = DockStyle.Fill;
             DataGridPermissions.EditMode = DataGridViewEditMode.EditOnEnter;
             DataGridPermissions.EnableHeadersVisualStyles = false;
-            DataGridPermissions.Location = new Point(3, 3);
+            DataGridPermissions.Location = new Point(6, 33);
             DataGridPermissions.MultiSelect = false;
             DataGridPermissions.Name = "DataGridPermissions";
             DataGridPermissions.RowHeadersVisible = false;
+            DataGridPermissions.RowHeadersWidth = 51;
             DataGridPermissions.RowTemplate.Height = 20;
             DataGridPermissions.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             DataGridPermissions.ShowCellToolTips = false;
-            DataGridPermissions.Size = new Size(343, 161);
+            DataGridPermissions.Size = new Size(337, 127);
             DataGridPermissions.StandardTab = true;
             DataGridPermissions.TabIndex = 9;
             // 
@@ -166,6 +180,7 @@
             colId.DataPropertyName = "id";
             colId.FillWeight = 23.2558136F;
             colId.HeaderText = "Id";
+            colId.MinimumWidth = 6;
             colId.Name = "colId";
             colId.ReadOnly = true;
             // 
@@ -175,6 +190,7 @@
             colName.DataPropertyName = "name";
             colName.FillWeight = 176.744186F;
             colName.HeaderText = "Permiso";
+            colName.MinimumWidth = 6;
             colName.Name = "colName";
             colName.ReadOnly = true;
             // 
@@ -229,6 +245,7 @@
             TabGeneral.ResumeLayout(false);
             TabGeneral.PerformLayout();
             TabPermissions.ResumeLayout(false);
+            TabPermissions.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)DataGridPermissions).EndInit();
             ResumeLayout(false);
         }
@@ -247,5 +264,6 @@
 		private DataGridViewTextBoxColumn colId;
 		private DataGridViewTextBoxColumn colName;
 		private DataGridViewCheckBoxColumn colPermitted;
-	}
+        private TextBox TextBoxPermisionFilter;
+    }
 }
